@@ -1,0 +1,43 @@
+{
+    "logs": [
+        {
+            "outputFile": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-2:/values-h480dp-land-v13/values-h480dp-land-v13.xml",
+            "map": [
+                {
+                    "source": "C:\\Repositories\\IGM-Modded\\app\\src\\main\\res\\values-h480dp-land\\dimens.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7",
+                        "startColumns": "4,4,4,4,4,4",
+                        "startOffsets": "57,120,180,240,299,372",
+                        "endColumns": "61,58,58,57,71,71",
+                        "endOffsets": "114,174,234,293,366,439"
+                    },
+                    "to": {
+                        "startLines": "2,3,4,7,9,10",
+                        "startColumns": "4,4,4,4,4,4",
+                        "startOffsets": "55,117,176,367,490,562",
+                        "endColumns": "61,58,58,57,71,71",
+                        "endOffsets": "112,171,230,420,557,629"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Admin\\.gradle\\caches\\8.9\\transforms\\d43f65daf7e20aa9ebd67395a581b86d\\transformed\\material-1.12.0\\res\\values-h480dp-land-v13\\values-h480dp-land-v13.xml",
+                    "from": {
+                        "startLines": "5,6,8",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "226,293,413",
+                        "endColumns": "66,64,64",
+                        "endOffsets": "288,353,473"
+                    },
+                    "to": {
+                        "startLines": "5,6,8",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "235,302,425",
+                        "endColumns": "66,64,64",
+                        "endOffsets": "297,362,485"
+                    }
+                }
+            ]
+        }
+    ]
+}

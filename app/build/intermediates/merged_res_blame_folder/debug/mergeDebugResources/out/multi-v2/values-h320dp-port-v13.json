@@ -1,0 +1,36 @@
+{
+    "logs": [
+        {
+            "outputFile": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-2:/values-h320dp-port-v13/values-h320dp-port-v13.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\Admin\\.gradle\\caches\\8.9\\transforms\\d43f65daf7e20aa9ebd67395a581b86d\\transformed\\material-1.12.0\\res\\values-h320dp-port-v13\\values-h320dp-port-v13.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "63",
+                        "endOffsets": "114"
+                    }
+                },
+                {
+                    "source": "C:\\Repositories\\IGM-Modded\\app\\src\\main\\res\\values-h320dp-port\\dimens.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "57",
+                        "endColumns": "78",
+                        "endOffsets": "131"
+                    },
+                    "to": {
+                        "startLines": "3",
+                        "startColumns": "4",
+                        "startOffsets": "119",
+                        "endColumns": "78",
+                        "endOffsets": "193"
+                    }
+                }
+            ]
+        }
+    ]
+}

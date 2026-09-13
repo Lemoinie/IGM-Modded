@@ -1,0 +1,16 @@
+package it.paranoidsquirrels.idleguildmaster.storage.data.items.instances;
+
+import it.paranoidsquirrels.idleguildmaster.R;
+import it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Bow;
+
+/* JADX INFO: loaded from: classes3.dex */
+public class TrainingBow extends Bow {
+    @Override // it.paranoidsquirrels.idleguildmaster.storage.data.items.Item
+    protected void configureProperties() {
+        this.idName = R.string.weapon_bow_training_bow_name;
+        this.idDescription = R.string.weapon_bow_training_bow_description;
+        this.idImage = R.drawable.training_bow;
+        this.price = 0L;
+        this.dexterity = 1;
+    }
+}

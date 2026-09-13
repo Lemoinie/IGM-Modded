@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:id="@id/group0" android:checkableBehavior="none">
+        <item android:icon="@drawable/shop" android:id="@id/shop" android:title="@string/drawer_shop_title" />
+    </group>
+    <group android:id="@id/group1" android:checkableBehavior="none">
+        <item android:icon="@drawable/drawer_icon_settings" android:id="@id/settings" android:title="@string/drawer_settings_title" />
+    </group>
+    <group android:id="@id/group2" android:checkableBehavior="none">
+        <item android:icon="@drawable/drawer_icon_recall_adventurers" android:id="@id/dismissed_adventurers" android:title="@string/drawer_recall_adventurers_title" />
+    </group>
+    <group android:id="@id/group3" android:checkableBehavior="none">
+        <item android:icon="@drawable/drawer_icon_king_message" android:id="@id/messages_received" android:title="@string/drawer_messages_received_title" />
+    </group>
+    <group android:id="@id/group4" android:checkableBehavior="none">
+        <item android:icon="@drawable/drawer_icon_faq" android:id="@id/faq" android:title="@string/drawer_faq_title" />
+    </group>
+    <group android:id="@id/group5" android:checkableBehavior="none">
+        <item android:icon="@drawable/drawer_icon_bestiary" android:id="@id/bestiary" android:title="@string/drawer_bestiary_title" />
+    </group>
+    <group android:id="@id/group6" android:checkableBehavior="none">
+        <item android:icon="@drawable/drawer_icon_achievements" android:id="@id/achievements" android:title="@string/drawer_achievements_title" />
+    </group>
+    <group android:id="@id/group7" android:checkableBehavior="none">
+        <item android:icon="@drawable/drawer_icon_cloud" android:id="@id/cloud" android:title="@string/drawer_cloud_title" />
+    </group>
+    <group android:id="@id/group8" android:checkableBehavior="none">
+        <item android:icon="@drawable/drawer_icon_redeem_code" android:id="@id/redeem_code" android:title="@string/drawer_redeem_code_title" />
+    </group>
+    <group android:id="@id/group9" android:checkableBehavior="none">
+        <item android:icon="@drawable/drawer_icon_reddit" android:id="@id/reddit" android:title="@string/drawer_reddit_title" />
+    </group>
+    <group android:id="@id/group10" android:checkableBehavior="none">
+        <item android:icon="@drawable/drawer_icon_cafe_naver" android:id="@id/cafe_naver" android:title="@string/drawer_cafe_naver_title" />
+    </group>
+</menu>

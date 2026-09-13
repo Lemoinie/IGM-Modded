@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:paddingLeft="24.0dip" android:paddingTop="8.0dip" android:paddingRight="24.0dip" android:paddingBottom="12.0dip" android:visibility="visible" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView android:textStyle="bold" android:textColor="@color/dim_white" android:id="@id/exit" android:padding="8.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/close" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toBottomOf="@id/promotion_possibilities" />
+    <LinearLayout android:orientation="vertical" android:id="@id/promotion_possibilities" android:layout_width="fill_parent" android:layout_height="wrap_content" android:divider="@drawable/object_empty_space_8dp" android:showDividers="middle" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
