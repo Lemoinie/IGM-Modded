@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:visibility="visible" android:layout_width="40.0dip" android:layout_height="40.0dip" android:layout_marginStart="8.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView android:id="@id/adventurer_image" android:background="@drawable/object_border_dim_white" android:padding="4.0dip" android:layout_width="0.0dip" android:layout_height="0.0dip" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent" />
+    <ProgressBar android:id="@id/hp_bar" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginBottom="-4.0dip" android:layout_marginStart="6.0dip" android:layout_marginEnd="6.0dip" android:progressTint="@color/hp_bar_summary" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" style="?android:progressBarStyleHorizontal" />
+</androidx.constraintlayout.widget.ConstraintLayout>

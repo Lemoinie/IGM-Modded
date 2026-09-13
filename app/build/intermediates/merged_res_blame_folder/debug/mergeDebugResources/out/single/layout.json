@@ -1,0 +1,330 @@
+[
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/fragment_raids.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/fragment_raids.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/dialog_consume_intercession.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/dialog_consume_intercession.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/layout_entity_fighting.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/layout_entity_fighting.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/layout_craft_big.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/layout_craft_big.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/dialog_quests.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/dialog_quests.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/offline_ads_dialog.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/offline_ads_dialog.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/dialog_storage.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/dialog_storage.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/layout_adventurer_change_trait.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/layout_adventurer_change_trait.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/dialog_workshop.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/dialog_workshop.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/layout_doctrine.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/layout_doctrine.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/dialog_collect_drops.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/dialog_collect_drops.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/layout_bestiary_enemy.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/layout_bestiary_enemy.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/layout_adventurer_potions.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/layout_adventurer_potions.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/layout_quest.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/layout_quest.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/dialog_settings.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/dialog_settings.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/dialog_promotion_choices.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/dialog_promotion_choices.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/layout_king_message.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/layout_king_message.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/dialog_choose_pet.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/dialog_choose_pet.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/dialog_messages_received.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/dialog_messages_received.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/dialog_consume_evo23.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/dialog_consume_evo23.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/dialog_consume_food.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/dialog_consume_food.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/dialog_doctrine_reset.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/dialog_doctrine_reset.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/dialog_choose_adventurer.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/dialog_choose_adventurer.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/layout_dungeon.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/layout_dungeon.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/dialog_pet_detail.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/dialog_pet_detail.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/dialog_market.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/dialog_market.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/layout_workshop_item.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/layout_workshop_item.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/dialog_faq.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/dialog_faq.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/layout_craft.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/layout_craft.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/fragment_dungeons.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/fragment_dungeons.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/layout_adventurer_promotion.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/layout_adventurer_promotion.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/layout_money.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/layout_money.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/layout_doctrine_ability.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/layout_doctrine_ability.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/dialog_quarters.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/dialog_quarters.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/dialog_select_equipment.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/dialog_select_equipment.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/dialog_refresh_quests.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/dialog_refresh_quests.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/activity_main.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/activity_main.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/dialog_change_trait_rare.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/dialog_change_trait_rare.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/dialog_dungeon_detail.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/dialog_dungeon_detail.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/dialog_shelter.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/dialog_shelter.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/layout_bestiary_element.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/layout_bestiary_element.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/layout_tavern_adventurer.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/layout_tavern_adventurer.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/dialog_send_team.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/dialog_send_team.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/layout_adventurer_summary_no_margin.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/layout_adventurer_summary_no_margin.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/dialog_tavern.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/dialog_tavern.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/support_simple_spinner_dropdown_item.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/support_simple_spinner_dropdown_item.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/dialog_recipes.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/dialog_recipes.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/dialog_craft.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/dialog_craft.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/dialog_item_detail.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/dialog_item_detail.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/dialog_merge_pet.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/dialog_merge_pet.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/layout_adventurer.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/layout_adventurer.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/layout_select_equipment.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/layout_select_equipment.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/dialog_entity_detail.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/dialog_entity_detail.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/layout_item_big.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/layout_item_big.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/dialog_redeem_code.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/dialog_redeem_code.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/admob_empty_layout.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/admob_empty_layout.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/fragment_adventurers.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/fragment_adventurers.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/layout_market_item.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/layout_market_item.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/layout_craft_named.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/layout_craft_named.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/dialog_bestiary.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/dialog_bestiary.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/dialog_report.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/dialog_report.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/dialog_consume_potion_of_clumsiness.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/dialog_consume_potion_of_clumsiness.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/dialog_idle_progress.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/dialog_idle_progress.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/dialog_choose_doctrine.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/dialog_choose_doctrine.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/custom_dialog.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/custom_dialog.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/dialog_shop.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/dialog_shop.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/dialog_recall_adventurers.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/dialog_recall_adventurers.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/layout_pet_grid.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/layout_pet_grid.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/layout_trait.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/layout_trait.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/dialog_merchant.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/dialog_merchant.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/layout_item_big_grid.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/layout_item_big_grid.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/layout_pet_feeding.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/layout_pet_feeding.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/layout_adventurer_summary.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/layout_adventurer_summary.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/dialog_refill_raid_try.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/dialog_refill_raid_try.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/fragment_headquarters.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/fragment_headquarters.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/dialog_sell.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/dialog_sell.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/dialog_doctrine.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/dialog_doctrine.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/layout_item.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/layout_item.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/dialog_buy_from_merchant.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/dialog_buy_from_merchant.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/dialog_consume_potion.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/dialog_consume_potion.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/dialog_consume_potion_of_rejuvenation.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/dialog_consume_potion_of_rejuvenation.xml"
+    },
+    {
+        "merged": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-3:/layout/layout_promote_adventurer.xml",
+        "source": "it.paranoidsquirrels.idleguildmaster.app-main-6:/layout/layout_promote_adventurer.xml"
+    }
+]

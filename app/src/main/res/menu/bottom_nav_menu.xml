@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:icon="@drawable/bottom_nav_castle" android:id="@id/navigation_headquarters" android:title="@string/fragment_name_headquarters" />
+    <item android:icon="@drawable/bottom_nav_adventurers" android:id="@id/navigation_adventurers" android:title="@string/fragment_name_adventurers" />
+    <item android:icon="@drawable/bottom_nav_dungeons" android:id="@id/navigation_dungeons" android:title="@string/fragment_name_dungeons" />
+    <item android:icon="@drawable/bottom_nav_raids" android:id="@id/navigation_raids" android:title="@string/fragment_name_raids" />
+</menu>

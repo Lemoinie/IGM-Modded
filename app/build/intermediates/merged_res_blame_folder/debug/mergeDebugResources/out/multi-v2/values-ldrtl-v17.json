@@ -1,0 +1,26 @@
+{
+    "logs": [
+        {
+            "outputFile": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-2:/values-ldrtl-v17/values-ldrtl-v17.xml",
+            "map": [
+                {
+                    "source": "C:\\Repositories\\IGM-Modded\\app\\src\\main\\res\\values-ldrtl\\drawables.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "57,194",
+                        "endColumns": "135,140",
+                        "endOffsets": "188,330"
+                    },
+                    "to": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,191",
+                        "endColumns": "135,140",
+                        "endOffsets": "186,327"
+                    }
+                }
+            ]
+        }
+    ]
+}

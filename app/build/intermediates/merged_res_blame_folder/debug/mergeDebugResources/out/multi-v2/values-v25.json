@@ -1,0 +1,26 @@
+{
+    "logs": [
+        {
+            "outputFile": "it.paranoidsquirrels.idleguildmaster.app-mergeDebugResources-2:/values-v25/values-v25.xml",
+            "map": [
+                {
+                    "source": "C:\\Repositories\\IGM-Modded\\app\\src\\main\\res\\values-v25\\styles.xml",
+                    "from": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "57,137,229,325",
+                        "endColumns": "78,90,94,106",
+                        "endOffsets": "131,223,319,427"
+                    },
+                    "to": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,133,223,317",
+                        "endColumns": "77,89,93,105",
+                        "endOffsets": "128,218,312,418"
+                    }
+                }
+            ]
+        }
+    ]
+}
