@@ -51,7 +51,7 @@ public class DialogRefillRaidTry extends CustomDialog {
         this.binding.amountGems.setText(String.valueOf(this.cost));
         this.binding.error.setTextColor(getResources().getColor(UIUtils.getFailureColor(), getContext().getTheme()));
         this.binding.error.setVisibility(8);
-        this.binding.shop.setVisibility(MainActivity.IAPWrapper.initialized ? 0 : 8);
+        this.binding.shop.setVisibility(8); // Temporary disabled in UI per configuration
     }
 
     @Override // it.paranoidsquirrels.idleguildmaster.ui.dialogs.CustomDialog

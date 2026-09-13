@@ -53,10 +53,8 @@ public class DialogBuyFromMerchant extends CustomDialog {
         this.binding.containerMoney.setVisibility(this.offer.isGems() ? 8 : 0);
         this.binding.containerGems.setVisibility(this.offer.isGems() ? 0 : 8);
         TextView textView = this.binding.shop;
-        if (this.offer.isGems() && MainActivity.IAPWrapper.initialized) {
-            i = 0;
-        }
-        textView.setVisibility(i);
+        // Temporary disabled in UI per configuration (implemented but hidden)
+        textView.setVisibility(8);
         if (this.offer.isGems()) {
             this.binding.amountGems.setText(String.valueOf(this.offer.getPrice()));
         } else {
