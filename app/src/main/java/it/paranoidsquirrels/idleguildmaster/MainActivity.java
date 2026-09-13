@@ -383,10 +383,11 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         int i = 8;
-        activityMainBinding.ad.setVisibility((data.isStarterPackPurchased() || this.rewardedAd == null || data.getAdsWatched() >= 5) ? 8 : 0);
-        this.binding.adfree.setVisibility((!data.isStarterPackPurchased() || data.getAdsWatched() >= 5) ? 8 : 0);
-        this.binding.shop.setVisibility(IAPWrapper.initialized ? 0 : 8);
-        this.binding.navViewDrawer.getMenu().findItem(R.id.shop).setVisible(IAPWrapper.initialized);
+        // Temporary disabled in UI per configuration (implemented but hidden)
+        activityMainBinding.ad.setVisibility(8);
+        this.binding.adfree.setVisibility(8);
+        this.binding.shop.setVisibility(8);
+        this.binding.navViewDrawer.getMenu().findItem(R.id.shop).setVisible(false);
         this.binding.navViewDrawer.getMenu().findItem(R.id.cafe_naver).setVisible("ko".equals(data.getSettingsLanguage()));
         this.binding.newItems.setVisibility(data.isNewMerchantRegularItems() ? 0 : 8);
         boolean z = data.getKingsQuests().isEmpty() && data.getAfflictionQuests().isEmpty() && data.getControlQuests().isEmpty() && data.getFortitudeQuests().isEmpty() && data.getGraceQuests().isEmpty() && data.getIllusionQuests().isEmpty() && data.getKnowledgeQuests().isEmpty() && data.getRuinQuests().isEmpty() && data.getWarQuests().isEmpty();
