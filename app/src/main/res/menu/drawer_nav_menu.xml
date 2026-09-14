@@ -34,4 +34,7 @@
     <group android:id="@id/group10" android:checkableBehavior="none">
         <item android:icon="@drawable/drawer_icon_cafe_naver" android:id="@id/cafe_naver" android:title="@string/drawer_cafe_naver_title" />
     </group>
+    <group android:id="@+id/group11" android:checkableBehavior="none">
+        <item android:icon="@drawable/drawer_icon_mod_about" android:id="@+id/mod_about" android:title="@string/drawer_mod_about_title" />
+    </group>
 </menu>

@@ -233,5 +233,8 @@ enum class Skills(
     PASSIVE_INSCRUTABLE(R.string.passive_inscrutable_name, R.string.passive_inscrutable_description),
     PASSIVE_BEND_REALITY(R.string.passive_bend_reality_name, R.string.passive_bend_reality_description),
     PASSIVE_INITIATIVE(R.string.passive_initiative_i_name, R.string.passive_initiative_i_description),
-    PASSIVE_INITIATIVE_II(R.string.passive_initiative_ii_name, R.string.passive_initiative_ii_description);
+    PASSIVE_INITIATIVE_II(R.string.passive_initiative_ii_name, R.string.passive_initiative_ii_description),
+    PASSIVE_ARMORED(R.string.passive_armored_name, R.string.passive_armored_description),
+    PASSIVE_IMPERIAL_AUTHORITY(R.string.passive_imperial_authority_name, R.string.passive_imperial_authority_description),
+    ACTIVE_EXECUTION_ORDER(R.string.active_execution_order_name, R.string.active_execution_order_description);
 }

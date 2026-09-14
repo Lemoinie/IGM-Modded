@@ -35,11 +35,11 @@ abstract class Item {
     @JvmField @Transient protected var idDescription: Int = 0
     @JvmField @Transient protected var idEffect: Int = 0
     @JvmField @Transient protected var idImage: Int = 0
-    @JvmField @Transient protected var idName: Int = 0
+    @JvmField @Transient var idName: Int = 0
     @JvmField @Transient protected var price: Long = 0L
     @JvmField @Transient protected var rarity: Int = 0
     @JvmField @Transient protected var source: MutableList<Int> = LinkedList()
-    @JvmField protected var stack: Int = 0
+    @JvmField var stack: Int = 0
     @JvmField protected var trueClass: String? = null
     @JvmField @Transient protected var uniqueOrigin: String? = null
     @JvmField @Transient protected var notSellable: Boolean = false

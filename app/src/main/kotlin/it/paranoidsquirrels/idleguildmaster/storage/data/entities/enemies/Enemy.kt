@@ -13,6 +13,7 @@ abstract class Enemy : Entity() {
 
         @JvmStatic
         fun getInstance(str: String): Enemy? {
+            if (str.startsWith("Elite_")) return EliteEnemy.forTrueClass(str)
             return try {
                 val clazz = Class.forName(String.format(CLASS_PATH, str))
                 val enemy = clazz.getConstructor().newInstance() as Enemy

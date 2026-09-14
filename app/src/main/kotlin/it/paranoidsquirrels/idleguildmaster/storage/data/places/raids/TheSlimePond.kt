@@ -39,8 +39,10 @@ class TheSlimePond : Area() {
         val list = CopyOnWriteArrayList<Enemy>()
         for (i3 in 0 until i2) {
             val dRandom = Utils.random()
-            if (dRandom < 0.695) {
+            if (dRandom < 0.60) {
                 Enemy.getInstance("Slime")?.let { list.add(it) }
+            } else if (dRandom < 0.695) {
+                Enemy.getInstance("KnightSlime")?.let { list.add(it) }
             } else if (dRandom < 0.795) {
                 Enemy.getInstance("FireSlime")?.let { list.add(it) }
             } else if (dRandom < 0.895) {
@@ -101,7 +103,8 @@ class TheSlimePond : Area() {
             Enemy.getInstance("ElectricSlime"),
             Enemy.getInstance("FrozenSlime"),
             Enemy.getInstance("VoidSlime"),
-            Enemy.getInstance("SlimeKing")
+            Enemy.getInstance("SlimeKing"),
+            Enemy.getInstance("KnightSlime")
         )
     }
 }

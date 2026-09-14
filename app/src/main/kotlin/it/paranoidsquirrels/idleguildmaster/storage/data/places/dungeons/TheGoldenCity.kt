@@ -12,6 +12,7 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.items.Item
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.Area
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.Event
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.Logger
+import it.paranoidsquirrels.idleguildmaster.mod.ModManager
 import it.paranoidsquirrels.idleguildmaster.storage.data.quests.QuestsManager
 import java.util.LinkedHashMap
 import java.util.concurrent.CopyOnWriteArrayList
@@ -31,6 +32,9 @@ class TheGoldenCity : Area() {
     override fun getLayout(): LayoutDungeonBinding = MainActivity.dungeonsFragment.binding!!.theGoldenCity
 
     override fun rollEnemies(): MutableList<Enemy> {
+        if (ModManager.shouldSpawnImperialCaptain()) {
+            return CopyOnWriteArrayList(listOfNotNull(Enemy.getInstance("ImperialCaptain")))
+        }
         val dRandom = Utils.random() * 1000.0
         val key = event?.key ?: 0
         if (key == 0 || key == 1) {
@@ -229,6 +233,9 @@ class TheGoldenCity : Area() {
             }
             "kill_InsaneCitizen" -> {
                 QuestsManager.increment(QuestsManager.psychiatrist, 1L)
+            }
+            "kill_ImperialGuard" -> {
+                ModManager.onEnemyKilled("ImperialGuard", null)
             }
             "respawn" -> {
                 event = null

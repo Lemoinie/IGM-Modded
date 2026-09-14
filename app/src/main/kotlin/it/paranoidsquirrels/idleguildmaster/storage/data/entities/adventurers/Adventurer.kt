@@ -249,12 +249,7 @@ abstract class Adventurer : Entity() {
     }
 
     override fun calculateFlatDamageReduction(): Int {
-        val iCalculateFlatDamageReduction = super.calculateFlatDamageReduction()
-        if (traitRare != Trait.DRAGON_BLOOD) {
-            return iCalculateFlatDamageReduction
-        }
-        val i = iCalculateFlatDamageReduction + (maxLevel / 5)
-        return if (ascended) i + 9 else i
+        return super.calculateFlatDamageReduction()
     }
 
     override fun calculateTotalConstitution(): Int = calculateTotalStat(0)
@@ -287,7 +282,7 @@ abstract class Adventurer : Entity() {
                 ls += acc.getLifestealWithMinion()
             }
         }
-        return baseLifesteal + ls + (if (traitRare == Trait.CURSED) 15 else 0) + (doctrine?.bonusLifesteal() ?: 0)
+        return baseLifesteal + ls + (if (traitRare == Trait.CURSED) 20 else 0) + (doctrine?.bonusLifesteal() ?: 0)
     }
 
     override fun calculateTotalDarknessDamageAmplification(): Double {
@@ -298,7 +293,7 @@ abstract class Adventurer : Entity() {
         if (a != null) dda += a.getDarknessDamageAmplification()
         val acc = accessory
         if (acc != null) dda += acc.getDarknessDamageAmplification()
-        if (traitRare == Trait.NOCTURNAL) dda += 0.005
+        if (traitRare == Trait.NOCTURNAL) dda += 0.01
         return dda + ((doctrine?.darknessDamageIncrease() ?: 0).toDouble() * 0.001)
     }
 
@@ -310,7 +305,7 @@ abstract class Adventurer : Entity() {
         if (a != null) dr += a.getDarknessReduction()
         val acc = accessory
         if (acc != null) dr += acc.getDarknessReduction()
-        return if (traitRare == Trait.BLESSED) dr + 8 else dr
+        return if (traitRare == Trait.BLESSED) dr + 15 else dr
     }
 
     open fun experienceMultiplier(): Double {
@@ -385,8 +380,9 @@ abstract class Adventurer : Entity() {
         if (traitRare != Trait.TROLL_BLOOD) {
             return regen
         }
-        val i = regen + (maxLevel / 5)
-        return if (ascended) i + 9 else i
+        val tier = maxLevel / 5
+        val bonus = (calculateTotalMaxHp() * tier + 100) / 200
+        return regen + bonus
     }
 
     override fun calculateTotalFlatDodgeChance(): Double {
@@ -397,7 +393,7 @@ abstract class Adventurer : Entity() {
         if (a != null) dc += a.getFlatDodgeChance()
         val acc = accessory
         if (acc != null) dc += acc.getFlatDodgeChance()
-        if (traitRare == Trait.NIMBLE) dc += 0.08
+        if (traitRare == Trait.NIMBLE) dc += 0.15
         return dc + ((doctrine?.bonusDodgeChance() ?: 0).toDouble() * 0.01)
     }
 
@@ -410,7 +406,11 @@ abstract class Adventurer : Entity() {
         val acc = accessory
         if (acc != null) cd += acc.getCriticalDamage()
         val dBonus = cd + ((doctrine?.bonusCritDamage() ?: 0).toDouble() * 0.01)
-        return if (traitRare == Trait.RUTHLESS) dBonus * 1.2 else dBonus
+        return when (traitRare) {
+            Trait.RUTHLESS -> dBonus * 1.2
+            Trait.RUTHLESS_PLUS -> dBonus * 1.3
+            else -> dBonus
+        }
     }
 
     override fun calculateCriticalChance(): Double {
@@ -443,7 +443,7 @@ abstract class Adventurer : Entity() {
             d = Math.max(1.0, d + (totalMaxHp.toDouble() * 0.25))
         }
         if (traitRare == Trait.CURSED) {
-            d = Math.max(1.0, d + (totalMaxHp.toDouble() * 0.04))
+            d = Math.max(1.0, d + (totalMaxHp.toDouble() * 0.02))
         }
         return Utils.round(d)
     }
@@ -641,15 +641,15 @@ abstract class Adventurer : Entity() {
                 Trait.FERAL -> if (i == 2) d = 1.15
                 Trait.BRUTE -> if (i == 1) d = 1.15
                 Trait.BOOKWORM_PLUS -> {
-                    if (i == 0) d = 1.1
+                    if (i == 0) d = 1.2
                     else if (i == 1 || i == 2) d = 0.95
                 }
                 Trait.FERAL_PLUS -> {
-                    if (i == 2) d = 1.1
+                    if (i == 2) d = 1.2
                     else if (i == 0 || i == 1) d = 0.95
                 }
                 Trait.BRUTE_PLUS -> {
-                    if (i == 1) d = 1.1
+                    if (i == 1) d = 1.2
                     else if (i == 0 || i == 2) d = 0.95
                 }
                 else -> {}
