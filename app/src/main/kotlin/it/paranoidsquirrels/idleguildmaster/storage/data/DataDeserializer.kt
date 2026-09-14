@@ -472,19 +472,19 @@ class DataDeserializer : JsonDeserializer<Data> {
             try {
                 val asJsonArray = asJsonObject.get("adventurersExploringIds").asJsonArray
                 for (elem in asJsonArray) {
-                    tNewInstance.getAdventurersExploringIds().add(elem.asInt)
+                    tNewInstance.adventurersExploringIds.add(elem.asInt)
                 }
                 for (elem in asJsonObject.get("savedAdventurersIds").asJsonArray) {
-                    tNewInstance.getSavedAdventurersIds().add(elem.asInt)
+                    tNewInstance.savedAdventurersIds.add(elem.asInt)
                 }
                 tNewInstance.petExploringId = if (asJsonObject.has("petExploringId")) asJsonObject.get("petExploringId").asInt else null
                 tNewInstance.savedPetId = if (asJsonObject.has("savedPetId")) asJsonObject.get("savedPetId").asInt else null
                 for (elem in asJsonObject.get("drops").asJsonArray) {
-                    getItem(elem.asJsonObject)?.let { tNewInstance.getDrops().add(it) }
+                    getItem(elem.asJsonObject)?.let { tNewInstance.drops.add(it) }
                 }
                 tNewInstance.progress = asJsonObject.get("progress").asInt
                 tNewInstance.maxProgress = asJsonObject.get("maxProgress").asInt
-                tNewInstance.isUnlocked = asJsonObject.get("unlocked").asBoolean
+                tNewInstance.isUnlocked = if (asJsonObject.has("unlocked")) asJsonObject.get("unlocked").asBoolean else if (asJsonObject.has("isUnlocked")) asJsonObject.get("isUnlocked").asBoolean else false
                 tNewInstance.triesAvailable = asJsonObject.get("triesAvailable").asBoolean
                 val adventureRecap = AdventureRecap()
                 if (asJsonObject.has("adventureRecap")) {
@@ -503,10 +503,10 @@ class DataDeserializer : JsonDeserializer<Data> {
                 tNewInstance.adventureRecap = adventureRecap
                 if (asJsonArray.size() > 0) {
                     for (elem in asJsonObject.get("enemies").asJsonArray) {
-                        getEnemy(elem.asJsonObject)?.let { tNewInstance.getEnemies().add(it) }
+                        getEnemy(elem.asJsonObject)?.let { tNewInstance.enemies.add(it) }
                     }
                     for (elem in asJsonObject.get("corpses").asJsonArray) {
-                        getEnemy(elem.asJsonObject)?.let { tNewInstance.getCorpses().add(it) }
+                        getEnemy(elem.asJsonObject)?.let { tNewInstance.corpses.add(it) }
                     }
                     val asJsonObject3 = asJsonObject.get("action").asJsonObject
                     val action = Action(asJsonObject3.get("type").asInt)
@@ -517,7 +517,7 @@ class DataDeserializer : JsonDeserializer<Data> {
                         numValueOf = asJsonObject.get("savedActingEntity").asInt
                     }
                     tNewInstance.savedActingEntity = numValueOf
-                    tNewInstance.setTurnsFighting(asJsonObject.get("turnsFighting").asInt)
+                    tNewInstance.turnsFighting = asJsonObject.get("turnsFighting").asInt
                     if (asJsonObject.has(NotificationCompat.CATEGORY_EVENT)) {
                         val asJsonObject4 = asJsonObject.get(NotificationCompat.CATEGORY_EVENT).asJsonObject
                         val event = Event()

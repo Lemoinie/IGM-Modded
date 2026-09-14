@@ -49,16 +49,16 @@ class RaidsFragment : Fragment() {
         var hasRaid = false
         var hasEpicRaid = false
         for (area in Utils.compileRaidList()) {
-            hasRaid = hasRaid || (area.isUnlocked && area.areaType == 1)
-            hasEpicRaid = hasEpicRaid || (area.isUnlocked && area.areaType == 2)
-            val layout = area.layout
+            hasRaid = hasRaid || (area.isUnlocked && area.getAreaType() == 1)
+            hasEpicRaid = hasEpicRaid || (area.isUnlocked && area.getAreaType() == 2)
+            val layout = area.getLayout()
             layout.dungeonImage.setImageDrawable(
-                ResourcesCompat.getDrawable(resources, area.summaryDrawable, requireContext().theme)
+                ResourcesCompat.getDrawable(resources, area.getSummaryDrawable(), requireContext().theme)
             )
-            layout.dungeonTitle.setText(area.name)
+            layout.dungeonTitle.setText(area.getName())
             layout.root.visibility = if (!area.isUnlocked || area.completed()) View.INVISIBLE else View.VISIBLE
             layout.raidTryAvailable.visibility = View.VISIBLE
-            layout.epicRaid.visibility = if (area.areaType == 2) View.VISIBLE else View.GONE
+            layout.epicRaid.visibility = if (area.getAreaType() == 2) View.VISIBLE else View.GONE
             area.refreshAdventurers()
             area.refreshLoot()
             area.refreshActionDisplayed()
@@ -71,9 +71,9 @@ class RaidsFragment : Fragment() {
         var hasRaid = false
         var hasEpicRaid = false
         for (area in Utils.compileRaidList()) {
-            hasRaid = hasRaid || (area.isUnlocked && area.areaType == 1)
-            hasEpicRaid = hasEpicRaid || (area.isUnlocked && area.areaType == 2)
-            area.layout.root.visibility = if (!area.isUnlocked || area.completed()) View.GONE else View.VISIBLE
+            hasRaid = hasRaid || (area.isUnlocked && area.getAreaType() == 1)
+            hasEpicRaid = hasEpicRaid || (area.isUnlocked && area.getAreaType() == 2)
+            area.getLayout().root.visibility = if (!area.isUnlocked || area.completed()) View.GONE else View.VISIBLE
         }
         showRaidHelpDialog(hasRaid, hasEpicRaid)
     }
@@ -102,13 +102,13 @@ class RaidsFragment : Fragment() {
 
     fun attachListeners() {
         for (area in Utils.compileRaidList()) {
-            area.layout.root.setOnClickListener {
+            area.getLayout().root.setOnClickListener {
                 UIUtils.clickArea(this, area)
             }
-            area.layout.dungeonAdventurersExploring.setOnClickListener {
+            area.getLayout().dungeonAdventurersExploring.setOnClickListener {
                 UIUtils.clickArea(this, area)
             }
-            area.layout.lootImage.setOnClickListener {
+            area.getLayout().lootImage.setOnClickListener {
                 if (MainActivity.shownDialogCollectDrops == null) {
                     Utils.collectDrops(this, area)
                 }

@@ -38,11 +38,11 @@ class DungeonsFragment : Fragment() {
 
     fun refresh() {
         for (area in Utils.compileDungeonList()) {
-            val layout = area.layout
+            val layout = area.getLayout()
             layout.dungeonImage.setImageDrawable(
-                ResourcesCompat.getDrawable(resources, area.summaryDrawable, requireContext().theme)
+                ResourcesCompat.getDrawable(resources, area.getSummaryDrawable(), requireContext().theme)
             )
-            layout.dungeonTitle.setText(area.name)
+            layout.dungeonTitle.setText(area.getName())
             layout.raidTryAvailable.visibility = View.GONE
             layout.epicRaid.visibility = View.GONE
             area.refreshAdventurers()
@@ -53,19 +53,19 @@ class DungeonsFragment : Fragment() {
 
     fun refreshDungeonVisibility() {
         for (area in Utils.compileDungeonList()) {
-            area.layout.root.visibility = if (area.isUnlocked) View.VISIBLE else View.GONE
+            area.getLayout().root.visibility = if (area.isUnlocked) View.VISIBLE else View.GONE
         }
     }
 
     fun attachListeners() {
         for (area in Utils.compileDungeonList()) {
-            area.layout.root.setOnClickListener {
+            area.getLayout().root.setOnClickListener {
                 UIUtils.clickArea(this, area)
             }
-            area.layout.dungeonAdventurersExploring.setOnClickListener {
+            area.getLayout().dungeonAdventurersExploring.setOnClickListener {
                 UIUtils.clickArea(this, area)
             }
-            area.layout.lootImage.setOnClickListener {
+            area.getLayout().lootImage.setOnClickListener {
                 if (MainActivity.shownDialogCollectDrops == null) {
                     Utils.collectDrops(this, area)
                 }

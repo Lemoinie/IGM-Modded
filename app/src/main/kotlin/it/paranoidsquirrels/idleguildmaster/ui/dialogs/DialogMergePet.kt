@@ -79,7 +79,7 @@ class DialogMergePet : CustomDialog() {
         }
         var msg = String.format(getString(R.string.pet_merge_body), getString(sel.idName), getString(pet.idName))
         if (activeArea != null) {
-            msg += "\n\n" + String.format(getString(R.string.dismiss_dialog_dungeon_pet), getString(activeArea.name))
+            msg += "\n\n" + String.format(getString(R.string.dismiss_dialog_dungeon_pet), getString(activeArea.getName()))
         }
         val actionDialog = UIUtils.getActionDialog(
             context,
