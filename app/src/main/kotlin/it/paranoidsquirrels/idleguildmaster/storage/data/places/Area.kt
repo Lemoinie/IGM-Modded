@@ -1008,7 +1008,7 @@ abstract class Area {
                 hitChance -= (this.localDarkness.toDouble() * 0.01) * (hitChance - isNightVision)
             }
             if (!entityIsEnemy && (entity as Adventurer).traitRare == Trait.FOCUSED) {
-                hitChance += 0.15
+                hitChance += 0.25
             }
             dMax = Math.max(EFFECT_PROBABILITY, hitChance - entity2.calculateTotalFlatDodgeChance())
         }
@@ -1354,6 +1354,7 @@ abstract class Area {
             Skills.ACTIVE_TABULA_RASA -> skill.setTargetSelectionMode("all_enemies").setDamageAmplification(0.5).setStatusEffect(StatusEffect(StatusEffectType.ABLAZE, entity, 2, 1.0)).execute()
             Skills.ACTIVE_BOUNCE -> skill.setTargetSelectionMode("10").setDamageAmplification(0.5).setStatusEffect(StatusEffect(StatusEffectType.STUN, entity, 4, 1.0)).execute()
             Skills.ACTIVE_DEVOUR_SPIRIT -> skill.setTargetSelectionMode("all_enemies").setDamageAmplification(0.2).setStatusEffect(StatusEffect(StatusEffectType.TERRIFY, entity, 1, 1.0)).execute()
+            Skills.ACTIVE_EXECUTION_ORDER -> skill.setTargetSelectionMode("lowest_relative_enemy").setExecutionThreshold(0.5).execute()
             else -> null
         }
     }

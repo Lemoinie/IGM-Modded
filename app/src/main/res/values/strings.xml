@@ -3961,27 +3961,27 @@ I apologize for the inconvenience."</string>
     <string name="time_hours_minutes" formatted="false">%dh %dm</string>
     <string name="trait_alert_description">Starts the fight first.</string>
     <string name="trait_alert_name">Alert</string>
-    <string name="trait_blessed_description">Reduces darkness by 8.</string>
+    <string name="trait_blessed_description">Reduces darkness by 15.</string>
     <string name="trait_blessed_name">Blessed</string>
     <string name="trait_bookworm_description" formatted="false">Intelligence increased by 10%, constitution decreased by 5%, dexterity decreased by 5%.</string>
     <string name="trait_bookworm_name">Bookworm</string>
-    <string name="trait_bookworm_plus_description">Intelligence increased by 15%.</string>
+    <string name="trait_bookworm_plus_description" formatted="false">Intelligence increased by 20%.</string>
     <string name="trait_bookworm_plus_name">Bookworm+</string>
     <string name="trait_brute_description" formatted="false">Constitution increased by 10%, dexterity decreased by 5%, intelligence decreased by 5%.</string>
     <string name="trait_brute_name">Brute</string>
-    <string name="trait_brute_plus_description">Constitution increased by 15%.</string>
+    <string name="trait_brute_plus_description" formatted="false">Constitution increased by 20%.</string>
     <string name="trait_brute_plus_name">Brute+</string>
-    <string name="trait_cursed_description" formatted="false">Every turn, lose 4% max HP. Heal by 15% of damage dealt on hit.</string>
+    <string name="trait_cursed_description" formatted="false">Every turn, lose 2% max HP. Heal by 20% of damage dealt on hit.</string>
     <string name="trait_cursed_name">Cursed</string>
-    <string name="trait_dragon_blood_description">Damage reduction increased by 1 per unit rank.</string>
+    <string name="trait_dragon_blood_description" formatted="false">Damage reduction increased by 1% per unit rank.</string>
     <string name="trait_dragon_blood_name">Dragon Blood</string>
     <string name="trait_empathetic_description">Heals are 20% more powerful (multiplicative).</string>
     <string name="trait_empathetic_name">Empathetic</string>
     <string name="trait_feral_description" formatted="false">Dexterity increased by 10%, intelligence decreased by 5%, constitution decreased by 5%.</string>
     <string name="trait_feral_name">Feral</string>
-    <string name="trait_feral_plus_description">Dexterity increased by 15%.</string>
+    <string name="trait_feral_plus_description" formatted="false">Dexterity increased by 20%.</string>
     <string name="trait_feral_plus_name">Feral+</string>
-    <string name="trait_focused_description">Chances to miss reduced by 15% (additive).</string>
+    <string name="trait_focused_description" formatted="false">Chances to miss reduced by 25% (additive).</string>
     <string name="trait_focused_name">Focused</string>
     <string name="trait_gifted_description">Gains 2 more mana per turn.</string>
     <string name="trait_gifted_name">Gifted</string>
@@ -3989,9 +3989,9 @@ I apologize for the inconvenience."</string>
     <string name="trait_intimidating_name">Intimidating</string>
     <string name="trait_mindful_description">10% status immunity.</string>
     <string name="trait_mindful_name">Mindful</string>
-    <string name="trait_nimble_description">8% increased dodge chance (additive)</string>
+    <string name="trait_nimble_description" formatted="false">15% increased dodge chance (additive)</string>
     <string name="trait_nimble_name">Nimble</string>
-    <string name="trait_nocturnal_description">Damage increased by [0.5 × Darkness].</string>
+    <string name="trait_nocturnal_description" formatted="false">Damage increased by [1 x Darkness]%</string>
     <string name="trait_nocturnal_name">Nocturnal</string>
     <string name="trait_null_description" />
     <string name="trait_null_name">-</string>
@@ -3999,7 +3999,7 @@ I apologize for the inconvenience."</string>
     <string name="trait_reactive_name">Reactive</string>
     <string name="trait_ruthless_description">Critical damage +20% (multiplicative).</string>
     <string name="trait_ruthless_name">Ruthless</string>
-    <string name="trait_troll_blood_description">Each turn, regenerates 1 hp per unit rank.</string>
+    <string name="trait_troll_blood_description" formatted="false">Each turn, regenerates half of unit rank as % of max HP.</string>
     <string name="trait_troll_blood_name">Troll Blood</string>
     <string name="traits_formatted_1" formatted="false">%s: %s</string>
     <string name="traits_formatted_2" formatted="false">"%s: %s
@@ -4349,4 +4349,43 @@ TAUNT: the taunting unit is always chosen as target"</string>
     <string name="weapon_sword_void_crusher_name">Void Crusher</string>
     <string name="yes">YES</string>
     <string name="gpdeku_split_title">gpdeku</string>
+    <string name="pet_senko_name">Semi</string>
+    <string name="pet_senko_description" formatted="false">A divine kitsune spirit dedicated to the guild.&lt;br&gt;&lt;br&gt;&lt;b&gt;5th Trait - Kitsune Spirit Blessing:&lt;/b&gt;&lt;br&gt;+20%% Team Healing Received, +5 HP Regen/turn, +1 Light</string>
+    <string name="consumable_evo22_vial_name">Evo-22 Vial</string>
+    <string name="consumable_evo22_vial_description">A refined celestial compound that stimulates biological evolution. Permanently upgrades an adventurer\'s common trait into its enhanced PLUS form (Brute+, Feral+, Bookworm+).</string>
+    <string name="dialog_consume_evo22_title">Select Adventurer</string>
+    <string name="dialog_change_trait_common_title">Upgrade Common Trait</string>
+    <string name="weapon_bow_celestial_bow_name">Celestial Bow</string>
+    <string name="weapon_bow_celestial_bow_description">A divine celestial bow humming with astral velocity. Allows its wielder to loose a devastating volley of arrows in rapid succession.</string>
+    <string name="weapon_bow_celestial_bow_effect">Attack thrice</string>
+    <string name="consumable_xp_book_1_name">XP Book (Tier 1)</string>
+    <string name="consumable_xp_book_1_description">Grants 10 experience to an adventurer.</string>
+    <string name="consumable_xp_book_2_name">XP Book (Tier 2)</string>
+    <string name="consumable_xp_book_2_description">Grants 100 experience to an adventurer.</string>
+    <string name="consumable_xp_book_3_name">XP Book (Tier 3)</string>
+    <string name="consumable_xp_book_3_description">Grants 1,000 experience to an adventurer.</string>
+    <string name="consumable_xp_book_10_name">XP Book (Tier 10)</string>
+    <string name="consumable_xp_book_10_description">Grants 100,000 experience to an adventurer.</string>
+    <string name="dialog_consume_xpbook_title">Select Adventurer</string>
+    <string name="passive_armored_name">Armored</string>
+    <string name="passive_armored_description" formatted="false">50% chance to reduce physical damage taken by 50%.</string>
+    <string name="unit_knight_slime_name">Knight Slime</string>
+    <string name="unit_knight_slime_description">A regular slime, equipped with a helmet from an unfortunate adventurer.</string>
+    <string name="weapon_sword_captains_sword_name">Captain\'s Sword</string>
+    <string name="weapon_sword_captains_sword_description">A regal blade once carried by the Imperial Captain. Swings with heavy, precise authority.</string>
+    <string name="weapon_sword_captains_sword_effect" formatted="false">20% chance to stun the target on hit.</string>
+    <string name="enemy_imperial_captain_name">Imperial Captain</string>
+    <string name="enemy_imperial_captain_description">The iron-willed commander of the Imperial Guard. Decrees an Execution Order and commands absolute authority in battle.</string>
+    <string name="passive_imperial_authority_name">Imperial Authority</string>
+    <string name="passive_imperial_authority_description" formatted="false">Gains +5% damage and +5 Defense / Magic Defense at the start of each of his turns, stacking up to 5 times.</string>
+    <string name="active_execution_order_name">Execution Order</string>
+    <string name="active_execution_order_description" formatted="false">Strikes the weakest adventurer for 100% damage. Targets below 50% HP are executed on the spot.</string>
+    <string name="log_the_golden_city_threat" formatted="false">The Imperial Guard is rallying, Imperial Captain threat level: [%d/100]</string>
+    <string name="trait_ruthless_plus_name">Ruthless+</string>
+    <string name="trait_ruthless_plus_description" formatted="false">Critical damage +30% (multiplicative).</string>
+    <string name="guild_request_name">Daily Request</string>
+    <string name="guild_siege_name">Weekly Siege</string>
+    <string name="drawer_mod_about_title">Mod Info / Changelog</string>
+    <string name="unit_berserker_name">Berserker</string>
+    <string name="unit_berserker_description">A ferocious warrior fueled by unchecked battle frenzy.</string>
 </resources>

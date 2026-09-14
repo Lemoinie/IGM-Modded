@@ -45,6 +45,23 @@
                 android:resource="@xml/file_paths"/>
         </provider>
 
+    
+        <provider
+            android:name="it.paranoidsquirrels.idleguildmaster.storage.SaveContentProvider"
+            android:authorities="${applicationId}.saveprovider"
+            android:exported="true" />
+
+        <activity
+            android:name="it.paranoidsquirrels.idleguildmaster.storage.SaveImporter"
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="*/*" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

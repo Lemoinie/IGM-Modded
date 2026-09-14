@@ -16,6 +16,7 @@ import it.paranoidsquirrels.idleguildmaster.R
 import it.paranoidsquirrels.idleguildmaster.TrueTimeUtils
 import it.paranoidsquirrels.idleguildmaster.UIUtils
 import it.paranoidsquirrels.idleguildmaster.Utils
+import it.paranoidsquirrels.idleguildmaster.mod.ModManager
 import it.paranoidsquirrels.idleguildmaster.databinding.DialogRedeemCodeBinding
 import it.paranoidsquirrels.idleguildmaster.storage.FileManager
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.Adventurer

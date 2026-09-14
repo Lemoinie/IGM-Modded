@@ -2,6 +2,7 @@ package it.paranoidsquirrels.idleguildmaster.storage.data.entities
 
 import it.paranoidsquirrels.idleguildmaster.Utils
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.Adventurer
+import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.Trait
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.Enemy
 import it.paranoidsquirrels.idleguildmaster.storage.data.quests.QuestsManager
 import java.util.ArrayList
@@ -182,7 +183,11 @@ abstract class Entity {
         }
         val maxDef = if (z) calculateTotalMagicDefense() else calculateTotalDefense()
         val armorFactor = Math.min(1.0, (1.0 - d2) * 0.01 * maxDef.toDouble())
-        val damageAfterArmor = (1.0 - armorFactor) * d
+        var damageAfterArmor = (1.0 - armorFactor) * d
+        if (this is Adventurer && traitRare == Trait.DRAGON_BLOOD) {
+            val tier = maxLevel / 5
+            damageAfterArmor *= Math.max(0.0, 1.0 - (tier.toDouble() * 0.01))
+        }
         val totalReduction = calculateFlatDamageReduction().toDouble() + flatReduction.toDouble()
         val iRound = Utils.round(Math.max(1.0, damageAfterArmor - totalReduction))
 

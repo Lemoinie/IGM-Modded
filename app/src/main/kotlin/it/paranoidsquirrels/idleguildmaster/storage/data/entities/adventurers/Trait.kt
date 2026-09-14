@@ -26,7 +26,8 @@ enum class Trait(
     NIMBLE(R.string.trait_nimble_name, R.string.trait_nimble_description),
     RUTHLESS(R.string.trait_ruthless_name, R.string.trait_ruthless_description),
     BLESSED(R.string.trait_blessed_name, R.string.trait_blessed_description),
-    ALERT(R.string.trait_alert_name, R.string.trait_alert_description);
+    ALERT(R.string.trait_alert_name, R.string.trait_alert_description),
+    RUTHLESS_PLUS(R.string.trait_ruthless_plus_name, R.string.trait_ruthless_plus_description);
 
     companion object {
         @JvmStatic

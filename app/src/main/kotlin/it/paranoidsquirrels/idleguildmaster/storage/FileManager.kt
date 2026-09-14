@@ -28,7 +28,16 @@ object FileManager {
     private var saveToggle = false
     private var writeToCloud = false
 
-    private fun initGson() {
+    @JvmStatic
+    fun getGson(): Gson {
+        if (gson == null) {
+            initGson()
+        }
+        return gson!!
+    }
+
+    @JvmStatic
+    fun initGson() {
         if (gson == null) {
             gson = GsonBuilder()
                 .setPrettyPrinting()

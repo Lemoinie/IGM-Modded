@@ -13,6 +13,7 @@ import it.paranoidsquirrels.idleguildmaster.MainActivity
 import it.paranoidsquirrels.idleguildmaster.R
 import it.paranoidsquirrels.idleguildmaster.UIUtils
 import it.paranoidsquirrels.idleguildmaster.Utils
+import it.paranoidsquirrels.idleguildmaster.mod.ModManager
 import it.paranoidsquirrels.idleguildmaster.databinding.DialogItemDetailBinding
 import it.paranoidsquirrels.idleguildmaster.databinding.LayoutCraftBinding
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.Item
@@ -232,6 +233,7 @@ class DialogItemDetail : CustomDialog() {
             val index = MainActivity.data.items.indexOf(items[0])
             val item = if (index == -1) Item.getInstance(items[0].getTrueClass() ?: "", 0) else MainActivity.data.items[index]
             if (item == null) return@setOnClickListener
+            if (ModManager.onItemConsume(item)) return@setOnClickListener
 
             if (item is Potion) {
                 if (MainActivity.shownDialogConsumePotion != null) return@setOnClickListener
