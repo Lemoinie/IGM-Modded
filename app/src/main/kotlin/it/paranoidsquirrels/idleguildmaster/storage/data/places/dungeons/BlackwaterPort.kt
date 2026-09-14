@@ -28,7 +28,7 @@ class BlackwaterPort : Area() {
 
     override fun getDetailDrawable(): Int = R.drawable.area_blackwater_port
 
-    override fun getLayout(): LayoutDungeonBinding = MainActivity.dungeonsFragment.binding.blackwaterPort
+    override fun getLayout(): LayoutDungeonBinding = MainActivity.dungeonsFragment.binding!!.blackwaterPort
 
     override fun rollEnemies(): MutableList<Enemy> {
         val dRandom = Utils.random() * 1000.0

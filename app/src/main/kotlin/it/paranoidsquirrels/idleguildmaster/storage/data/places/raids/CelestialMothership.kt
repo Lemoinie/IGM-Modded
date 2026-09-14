@@ -25,7 +25,7 @@ class CelestialMothership : Area() {
 
     override fun getDetailDrawable(): Int = R.drawable.area_celestial_mothership
 
-    override fun getLayout(): LayoutDungeonBinding = MainActivity.raidsFragment.binding.celestialMothership
+    override fun getLayout(): LayoutDungeonBinding = MainActivity.raidsFragment.binding!!.celestialMothership
 
     override fun rollEnemies(): MutableList<Enemy> {
         if (progress < maxProgress) {

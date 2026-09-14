@@ -907,7 +907,7 @@
     <string name="all_ads_watched_dialog_body">"今日の広告を全て視聴しました。
 プレゼントとして、追加の10個の宝石を差し上げます！"</string>
     <string name="all_ads_watched_dialog_title">全ての広告を視聴しました</string>
-    <string name="app_name">ギルドマスタ</string>
+    <string name="app_name">IGM Modded</string>
     <string name="armor_heavy_absolute_zero_description">"これまでに鍛造された中で最も冷たい素材で作られた鎧は、非常に耐久性があるだけでなく、接触した敵を凍らせる。
 凍結：このユニットは回避できず、毎ターン10の物理ダメージを受ける。"</string>
     <string name="armor_heavy_absolute_zero_effect">近接攻撃者を凍結</string>

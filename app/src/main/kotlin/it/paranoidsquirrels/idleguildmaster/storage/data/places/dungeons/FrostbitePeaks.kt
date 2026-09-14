@@ -25,7 +25,7 @@ class FrostbitePeaks : Area() {
 
     override fun getDetailDrawable(): Int = R.drawable.area_frostbite_peaks
 
-    override fun getLayout(): LayoutDungeonBinding = MainActivity.dungeonsFragment.binding.frostbitePeaks
+    override fun getLayout(): LayoutDungeonBinding = MainActivity.dungeonsFragment.binding!!.frostbitePeaks
 
     override fun rollEnemies(): MutableList<Enemy> {
         val dRandom = Utils.random() * 1000.0

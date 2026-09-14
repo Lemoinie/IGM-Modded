@@ -16,3 +16,7 @@ local.properties
 app/build/
 *.apk
 *.aab
+
+save.json
+save.json.tmp
+backups/

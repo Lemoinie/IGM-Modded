@@ -28,7 +28,7 @@ class TheGoldenCity : Area() {
 
     override fun getDetailDrawable(): Int = R.drawable.area_the_golden_city
 
-    override fun getLayout(): LayoutDungeonBinding = MainActivity.dungeonsFragment.binding.theGoldenCity
+    override fun getLayout(): LayoutDungeonBinding = MainActivity.dungeonsFragment.binding!!.theGoldenCity
 
     override fun rollEnemies(): MutableList<Enemy> {
         val dRandom = Utils.random() * 1000.0

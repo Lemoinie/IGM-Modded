@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Idle Guild Master — Save Editor</title>
+<style>
+  :root {
+    --bg:        #0f1117;
+    --surface:   #1a1d27;
+    --surface2:  #22263a;
+    --border:    #2e3350;
+    --accent:    #6c63ff;
+    --accent2:   #a89cff;
+    --gold:      #f5c542;
+    --gem:       #4fc3f7;
+    --danger:    #ef5350;
+    --success:   #66bb6a;
+    --text:      #e8eaf6;
+    --muted:     #7986cb;
+    --asc:       #ffd54f;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 14px;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  header h1 { font-size: 17px; font-weight: 600; letter-spacing: .3px; }
+  header h1 span { color: var(--accent2); }
+
+  .header-actions { display: flex; gap: 10px; margin-left: auto; }
+
+  /* ── BUTTONS ── */
+  button {
+    cursor: pointer;
+    border: none;
+    border-radius: 6px;
+    padding: 7px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    transition: filter .15s, opacity .15s;
+  }
+  button:hover:not(:disabled) { filter: brightness(1.15); }
+  button:disabled { opacity: .45; cursor: not-allowed; }
+
+  .btn-primary   { background: var(--accent);  color: #fff; }
+  .btn-success   { background: var(--success); color: #000; }
+  .btn-danger    { background: var(--danger);  color: #fff; }
+  .btn-ghost     { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+  .btn-sm        { padding: 4px 11px; font-size: 12px; }
+
+  /* ── DROP ZONE ── */
+  #drop-zone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    height: calc(100vh - 57px);
+    text-align: center;
+    padding: 24px;
+  }
+  #drop-zone svg { opacity: .35; }
+  #drop-zone p   { color: var(--muted); max-width: 420px; line-height: 1.6; }
+  #drop-zone strong { color: var(--text); }
+
+  .drop-box {
+    border: 2px dashed var(--border);
+    border-radius: 16px;
+    padding: 40px 60px;
+    transition: border-color .2s, background .2s;
+  }
+  .drop-box.drag-over { border-color: var(--accent); background: rgba(108,99,255,.06); }
+
+  /* ── LAYOUT ── */
+  #editor {
+    display: none;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 24px;
+    gap: 24px;
+    flex-direction: column;
+  }
+  #editor.visible { display: flex; }
+
+  /* ── TABS ── */
+  .tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
+  .tab {
+    padding: 8px 20px;
+    border-radius: 6px 6px 0 0;
+    background: none;
+    color: var(--muted);
+    border: 1px solid transparent;
+    border-bottom: none;
+    font-size: 13px;
+    cursor: pointer;
+    transition: color .15s, background .15s;
+  }
+  .tab.active { background: var(--surface); color: var(--text); border-color: var(--border); margin-bottom: -1px; }
+  .tab:hover:not(.active) { color: var(--text); }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* ── CARD ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+  }
+  .card h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .8px; color: var(--muted); margin-bottom: 16px; }
+
+  /* ── RESOURCES ROW ── */
+  .resources-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+  }
+  .resource-field label {
+    display: block;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+  }
+  .resource-field input {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 14px;
+    transition: border-color .15s;
+  }
+  .resource-field input:focus { outline: none; border-color: var(--accent); }
+
+  /* ── GOLD / GEMS ICONS ── */
+  .gold-label::before { content: '🪙 '; }
+  .gems-label::before { content: '💎 '; }
+
+  /* ── ADVENTURER LIST ── */
+  .adv-list { display: flex; flex-direction: column; gap: 12px; }
+
+  .adv-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .adv-card.ascended { border-color: var(--asc); }
+
+  .adv-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .adv-header:hover { background: rgba(255,255,255,.03); }
+
+  .adv-class {
+    font-weight: 600;
+    font-size: 14px;
+    flex: 1;
+  }
+  .adv-level { color: var(--muted); font-size: 13px; }
+  .adv-asc-badge {
+    background: var(--asc);
+    color: #000;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 99px;
+    letter-spacing: .5px;
+  }
+  .adv-chevron { color: var(--muted); transition: transform .2s; }
+  .adv-card.open .adv-chevron { transform: rotate(180deg); }
+
+  .adv-body {
+    display: none;
+    padding: 16px;
+    border-top: 1px solid var(--border);
+  }
+  .adv-card.open .adv-body { display: block; }
+
+  .adv-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 12px;
+  }
+
+  .field label {
+    display: block;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    color: var(--muted);
+    margin-bottom: 5px;
+  }
+  .field input, .field select {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 6px;
+    padding: 7px 10px;
+    font-size: 13px;
+  }
+  .field input:focus, .field select:focus { outline: none; border-color: var(--accent); }
+  .field select option { background: var(--surface); }
+
+  .adv-equip-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 12px;
+    margin-top: 14px;
+  }
+
+  .adv-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    gap: 8px;
+  }
+
+  /* ── ITEMS TABLE ── */
+  .items-toolbar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .items-toolbar input {
+    flex: 1;
+    min-width: 180px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 6px;
+    padding: 7px 12px;
+    font-size: 13px;
+  }
+  .items-toolbar input:focus { outline: none; border-color: var(--accent); }
+
+  .items-table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; }
+  thead th {
+    text-align: left;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    color: var(--muted);
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  tbody tr { border-bottom: 1px solid var(--border); }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: rgba(255,255,255,.02); }
+  tbody td { padding: 8px 12px; }
+
+  .item-name { font-weight: 500; color: var(--text); }
+  .item-stack-input {
+    width: 90px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 5px;
+    padding: 5px 8px;
+    font-size: 13px;
+    text-align: right;
+  }
+  .item-stack-input:focus { outline: none; border-color: var(--accent); }
+
+  .item-actions { display: flex; gap: 6px; justify-content: flex-end; }
+
+  /* add-item form */
+  .add-item-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+    align-items: flex-end;
+  }
+  .add-item-row input {
+    flex: 1;
+    min-width: 180px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 6px;
+    padding: 7px 12px;
+    font-size: 13px;
+  }
+  .add-item-row input:focus { outline: none; border-color: var(--accent); }
+  .add-item-row input[type=number] { max-width: 110px; text-align: right; }
+
+  /* ── FLAGS ── */
+  .flags-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 10px;
+  }
+  .flag-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 14px;
+  }
+  .flag-row label { flex: 1; font-size: 13px; cursor: pointer; }
+  .toggle {
+    position: relative;
+    width: 38px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+  .toggle input { opacity: 0; width: 0; height: 0; }
+  .toggle-slider {
+    position: absolute;
+    inset: 0;
+    background: var(--border);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background .2s;
+  }
+  .toggle-slider::before {
+    content: '';
+    position: absolute;
+    height: 14px; width: 14px;
+    left: 3px; bottom: 3px;
+    background: #fff;
+    border-radius: 50%;
+    transition: transform .2s;
+  }
+  .toggle input:checked + .toggle-slider { background: var(--accent); }
+  .toggle input:checked + .toggle-slider::before { transform: translateX(18px); }
+
+  /* ── TOAST ── */
+  #toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(60px);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 10px 22px;
+    border-radius: 8px;
+    font-size: 13px;
+    z-index: 999;
+    transition: transform .25s;
+    pointer-events: none;
+  }
+  #toast.show { transform: translateX(-50%) translateY(0); }
+  #toast.success { border-color: var(--success); color: var(--success); }
+  #toast.error   { border-color: var(--danger);  color: var(--danger);  }
+
+  /* ── MISC ── */
+  .section-note { font-size: 12px; color: var(--muted); margin-bottom: 14px; }
+  .empty-state { text-align: center; padding: 32px; color: var(--muted); }
+
+  .adv-count {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 99px;
+    padding: 2px 9px;
+    font-size: 12px;
+    color: var(--muted);
+    margin-left: 6px;
+  }
+
+  .scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+  .scrollbar::-webkit-scrollbar-track { background: transparent; }
+  .scrollbar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <h1>Idle Guild Master <span>Save Editor</span></h1>
+  <div class="header-actions">
+    <button class="btn-ghost" id="btn-load-new" style="display:none">📂 Load new file</button>
+    <button class="btn-success" id="btn-export" style="display:none" disabled>💾 Export save</button>
+  </div>
+</header>
+
+<!-- DROP ZONE -->
+<div id="drop-zone">
+  <div class="drop-box" id="drop-box">
+    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+      <polyline points="17 8 12 3 7 8"/>
+      <line x1="12" y1="3" x2="12" y2="15"/>
+    </svg>
+    <p style="margin-top:12px"><strong>Drop your save file here</strong></p>
+    <p>or <label style="color:var(--accent);cursor:pointer;text-decoration:underline">
+      browse<input type="file" id="file-input" accept=".json,.txt" style="display:none">
+    </label></p>
+    <p style="margin-top:8px;font-size:12px">Accepts the raw .json or the UTF-16 .txt exported by the companion app</p>
+  </div>
+</div>
+
+<!-- EDITOR -->
+<div id="editor">
+
+  <div class="tabs">
+    <button class="tab active" data-tab="resources">💰 Resources</button>
+    <button class="tab" data-tab="adventurers">⚔️ Adventurers <span class="adv-count" id="adv-count">0</span></button>
+    <button class="tab" data-tab="items">🎒 Items</button>
+    <button class="tab" data-tab="flags">🏷️ Flags</button>
+  </div>
+
+  <!-- ── RESOURCES TAB ── -->
+  <div class="tab-content active" id="tab-resources">
+    <div class="card">
+      <h2>Currency</h2>
+      <div class="resources-grid">
+        <div class="resource-field">
+          <label class="gold-label">Gold</label>
+          <input type="number" id="field-money" min="0" step="1000">
+        </div>
+        <div class="resource-field">
+          <label class="gems-label">Gems</label>
+          <input type="number" id="field-gems" min="0" step="10">
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <h2>Building Levels</h2>
+      <div class="resources-grid" id="buildings-grid"></div>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <h2>Building Upgrades</h2>
+      <div class="resources-grid" id="upgrades-grid"></div>
+    </div>
+  </div>
+
+  <!-- ── ADVENTURERS TAB ── -->
+  <div class="tab-content" id="tab-adventurers">
+    <div style="display:flex; gap:10px; margin-bottom:14px; flex-wrap:wrap; align-items:center">
+      <input type="text" id="adv-search" placeholder="Filter by class or trait…"
+             style="flex:1;min-width:200px;background:var(--surface2);border:1px solid var(--border);
+                    color:var(--text);border-radius:6px;padding:7px 12px;font-size:13px">
+      <button class="btn-ghost btn-sm" id="btn-expand-all">Expand all</button>
+      <button class="btn-ghost btn-sm" id="btn-collapse-all">Collapse all</button>
+    </div>
+    <div class="adv-list" id="adv-list"></div>
+
+    <!-- ADD ADVENTURER FORM -->
+    <div class="card" style="margin-top:16px">
+      <h2>Add adventurer</h2>
+      <div class="adv-grid" id="add-adv-grid">
+        <div class="field">
+          <label>Class name</label>
+          <input type="text" id="new-adv-class" placeholder="e.g. NightLament">
+        </div>
+        <div class="field">
+          <label>Level</label>
+          <input type="number" id="new-adv-level" value="1" min="1" max="50">
+        </div>
+        <div class="field">
+          <label>Common trait</label>
+          <select id="new-adv-trait-common"></select>
+        </div>
+        <div class="field">
+          <label>Rare trait</label>
+          <select id="new-adv-trait-rare"></select>
+        </div>
+        <div class="field">
+          <label>Weapon</label>
+          <input type="text" id="new-adv-weapon" placeholder="e.g. Mottiphobia">
+        </div>
+        <div class="field">
+          <label>Armor</label>
+          <input type="text" id="new-adv-armor" placeholder="e.g. ScarletShroud">
+        </div>
+        <div class="field">
+          <label>Accessory</label>
+          <input type="text" id="new-adv-accessory" placeholder="e.g. DiamondAmulet">
+        </div>
+        <div class="field" style="display:flex;align-items:flex-end;padding-bottom:2px">
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;color:var(--asc)">
+            <input type="checkbox" id="new-adv-ascended">
+            Ascended
+          </label>
+        </div>
+      </div>
+      <div style="margin-top:14px">
+        <button class="btn-primary btn-sm" id="btn-add-adv">＋ Add adventurer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── ITEMS TAB ── -->
+  <div class="tab-content" id="tab-items">
+    <div class="card">
+      <div class="items-toolbar">
+        <input type="text" id="item-search" placeholder="Filter items…">
+        <button class="btn-ghost btn-sm" id="btn-max-all-items">Max all stacks (999)</button>
+      </div>
+      <div class="items-table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Item class</th>
+              <th style="text-align:right">Stack</th>
+              <th style="text-align:right;width:80px">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="items-tbody"></tbody>
+        </table>
+      </div>
+      <div class="add-item-row">
+        <input type="text" id="new-item-class" placeholder="Item class name (e.g. CopperOre)">
+        <input type="number" id="new-item-stack" value="1" min="1" max="99999" placeholder="Qty">
+        <button class="btn-primary btn-sm" id="btn-add-item">＋ Add item</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── FLAGS TAB ── -->
+  <div class="tab-content" id="tab-flags">
+    <div class="card">
+      <h2>Pack purchases</h2>
+      <p class="section-note">These unlock bonus adventurers and features in-game.</p>
+      <div class="flags-grid" id="flags-packs"></div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <h2>Settings &amp; misc</h2>
+      <div class="flags-grid" id="flags-misc"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<script>
+'use strict';
+
+// ─── CONSTANTS ───────────────────────────────────────────────────────────────
+
+const COMMON_TRAITS = [
+  '', 'BRUTE', 'BRUTE_PLUS', 'FERAL', 'FERAL_PLUS', 'BOOKWORM', 'BOOKWORM_PLUS'
+];
+
+const RARE_TRAITS = [
+  '', 'EMPATHETIC', 'GIFTED', 'INTIMIDATING', 'FOCUSED', 'DRAGON_BLOOD',
+  'CURSED', 'REACTIVE', 'NOCTURNAL', 'MINDFUL', 'TROLL_BLOOD', 'RUTHLESS',
+  'BLESSED', 'ALERT', 'NIMBLE', 'BRAVE', 'CHARISMATIC', 'CLEVER'
+];
+
+const BUILDING_LEVELS = [
+  { key: 'levelQuarters',        label: 'Quarters' },
+  { key: 'levelTavernCapacity',  label: 'Tavern Capacity' },
+  { key: 'levelTavernTime',      label: 'Tavern Time' },
+  { key: 'levelStorage',         label: 'Storage' },
+  { key: 'levelMarketListings',  label: 'Market Listings' },
+  { key: 'levelMarketTime',      label: 'Market Time' },
+  { key: 'levelWorkshopQueue',   label: 'Workshop Queue' },
+  { key: 'levelWorkshopTime',    label: 'Workshop Time' },
+  { key: 'levelShelter',         label: 'Shelter' },
+  { key: 'levelShelterAutofeed', label: 'Shelter Autofeed' },
+];
+
+const BUILDING_UPGRADES = [
+  { key: 'upgradeMarketQueue',    label: 'Market Queue Upgrade' },
+  { key: 'upgradeMarketTime',     label: 'Market Time Upgrade' },
+  { key: 'upgradeQuarters',       label: 'Quarters Upgrade' },
+  { key: 'upgradeShelter',        label: 'Shelter Upgrade' },
+  { key: 'upgradeStorage',        label: 'Storage Upgrade' },
+  { key: 'upgradeTavernCapacity', label: 'Tavern Capacity Upgrade' },
+  { key: 'upgradeTavernTime',     label: 'Tavern Time Upgrade' },
+  { key: 'upgradeWorkshopQueue',  label: 'Workshop Queue Upgrade' },
+  { key: 'upgradeWorkshopTime',   label: 'Workshop Time Upgrade' },
+];
+
+const PACK_FLAGS = [
+  { key: 'starterPackPurchased',        label: 'Starter Pack' },
+  { key: 'adventurerPackPurchased',     label: 'Adventurer Pack' },
+  { key: 'merchantPackPurchased',       label: 'Merchant Pack' },
+  { key: 'imperialVanguardPurchased',   label: 'Imperial Vanguard' },
+  { key: 'unholyCrusadePurchased',      label: 'Unholy Crusade' },
+];
+
+const MISC_FLAGS = [
+  { key: 'settingVerboseLogs',           label: 'Verbose Logs' },
+  { key: 'settingAutoOpenDungeonDetail', label: 'Auto-open Dungeon Detail' },
+  { key: 'settingColorblindMode',        label: 'Colorblind Mode' },
+  { key: 'settingConfirmUpgrade',        label: 'Confirm Upgrade' },
+  { key: 'settingConfirmRetreat',        label: 'Confirm Retreat' },
+  { key: 'settingConfirmSwap',           label: 'Confirm Swap' },
+  { key: 'settingCraftMaxAmount',        label: 'Craft Max Amount' },
+  { key: 'settingSellMaxAmount',         label: 'Sell Max Amount' },
+  { key: 'everAscended',                 label: 'Ever Ascended' },
+  { key: 'doctrineMaxed',                label: 'Doctrine Maxed' },
+  { key: 'potsMaxed',                    label: 'Potions Maxed' },
+  { key: 'questsSeen',                   label: 'Quests Seen' },
+  { key: 'questsRefreshed',              label: 'Quests Refreshed' },
+  { key: 't4Pet',                        label: 'T4 Pet Unlocked' },
+  { key: 'intercessionsRetroactivelyGranted', label: 'Intercessions Granted' },
+  { key: 'vial2RetGrant',                label: 'Vial2 Retro Grant' },
+];
+
+// ─── STATE ───────────────────────────────────────────────────────────────────
+
+let saveData = null;        // parsed JSON object
+let originalBytes = null;   // original ArrayBuffer (to detect encoding)
+
+// ─── ENCODING HELPERS ────────────────────────────────────────────────────────
+
+function decodeBuffer(buffer) {
+  const bytes = new Uint8Array(buffer);
+  // UTF-16 LE BOM: FF FE
+  if (bytes[0] === 0xFF && bytes[1] === 0xFE) {
+    return new TextDecoder('utf-16le').decode(buffer);
+  }
+  // UTF-16 BE BOM: FE FF
+  if (bytes[0] === 0xFE && bytes[1] === 0xFF) {
+    return new TextDecoder('utf-16be').decode(buffer);
+  }
+  // UTF-8 BOM: EF BB BF
+  if (bytes[0] === 0xEF && bytes[1] === 0xBB && bytes[2] === 0xBF) {
+    return new TextDecoder('utf-8').decode(buffer.slice(3));
+  }
+  // Default UTF-8
+  return new TextDecoder('utf-8').decode(buffer);
+}
+
+// Detect if original was UTF-16 LE
+function wasUtf16LE(buffer) {
+  const bytes = new Uint8Array(buffer);
+  return bytes[0] === 0xFF && bytes[1] === 0xFE;
+}
+
+// Re-encode as UTF-16 LE with BOM
+function encodeUtf16LE(str) {
+  const utf16 = new TextEncoder(); // we'll do it manually
+  const buf = new ArrayBuffer(2 + str.length * 2);
+  const view = new DataView(buf);
+  view.setUint8(0, 0xFF);
+  view.setUint8(1, 0xFE);
+  for (let i = 0; i < str.length; i++) {
+    view.setUint16(2 + i * 2, str.charCodeAt(i), true /* LE */);
+  }
+  return buf;
+}
+
+// ─── FILE LOADING ────────────────────────────────────────────────────────────
+
+function loadFile(file) {
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      originalBytes = e.target.result;
+      const text = decodeBuffer(originalBytes);
+      // Strip any leading BOM character that might have made it through
+      const clean = text.replace(/^\uFEFF/, '').trim();
+      saveData = JSON.parse(clean);
+      renderEditor();
+      toast('Save loaded successfully', 'success');
+    } catch (err) {
+      toast('Failed to parse save file: ' + err.message, 'error');
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+// ─── RENDER ──────────────────────────────────────────────────────────────────
+
+function renderEditor() {
+  document.getElementById('drop-zone').style.display = 'none';
+  const editor = document.getElementById('editor');
+  editor.classList.add('visible');
+  document.getElementById('btn-load-new').style.display = '';
+  document.getElementById('btn-export').style.display = '';
+  document.getElementById('btn-export').disabled = false;
+
+  renderResources();
+  renderAdventurers();
+  renderItems();
+  renderFlags();
+}
+
+// ── Resources ──
+
+function renderResources() {
+  numField('field-money', 'money');
+  numField('field-gems',  'gems');
+
+  const bGrid = document.getElementById('buildings-grid');
+  bGrid.innerHTML = '';
+  for (const { key, label } of BUILDING_LEVELS) {
+    bGrid.appendChild(makeNumField(key, label));
+  }
+
+  const uGrid = document.getElementById('upgrades-grid');
+  uGrid.innerHTML = '';
+  for (const { key, label } of BUILDING_UPGRADES) {
+    uGrid.appendChild(makeNumField(key, label));
+  }
+}
+
+function numField(inputId, key) {
+  const el = document.getElementById(inputId);
+  if (!el) return;
+  el.value = saveData[key] ?? 0;
+  el.addEventListener('input', () => {
+    saveData[key] = Number(el.value) || 0;
+  });
+}
+
+function makeNumField(key, label) {
+  const div = document.createElement('div');
+  div.className = 'resource-field';
+  const id = 'dyn-' + key;
+  div.innerHTML = `<label for="${id}">${label}</label>
+    <input type="number" id="${id}" min="0" value="${saveData[key] ?? 0}">`;
+  div.querySelector('input').addEventListener('input', (e) => {
+    saveData[key] = Number(e.target.value) || 0;
+  });
+  return div;
+}
+
+// ── Adventurers ──
+
+function renderAdventurers(filter = '') {
+  const list = document.getElementById('adv-list');
+  list.innerHTML = '';
+
+  const advs = saveData.adventurers || [];
+  const fLower = filter.toLowerCase();
+
+  const visible = advs.filter(a => {
+    if (!fLower) return true;
+    return (a.trueClass || '').toLowerCase().includes(fLower)
+        || (a.traitCommon || '').toLowerCase().includes(fLower)
+        || (a.traitRare   || '').toLowerCase().includes(fLower);
+  });
+
+  document.getElementById('adv-count').textContent = advs.length;
+
+  if (visible.length === 0) {
+    list.innerHTML = '<div class="empty-state">No adventurers match.</div>';
+    return;
+  }
+
+  visible.forEach((adv, idx) => {
+    const realIdx = advs.indexOf(adv);
+    list.appendChild(makeAdvCard(adv, realIdx));
+  });
+}
+
+function makeAdvCard(adv, idx) {
+  const card = document.createElement('div');
+  card.className = 'adv-card' + (adv.ascended ? ' ascended' : '');
+  card.dataset.idx = idx;
+
+  // ── header ──
+  const header = document.createElement('div');
+  header.className = 'adv-header';
+  header.innerHTML = `
+    <div class="adv-class">${adv.trueClass || '(unknown)'}</div>
+    <div class="adv-level">Lv. ${adv.level ?? '?'}</div>
+    ${adv.ascended ? '<span class="adv-asc-badge">ASC</span>' : ''}
+    <svg class="adv-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="2">
+      <polyline points="6 9 12 15 18 9"/>
+    </svg>`;
+  header.addEventListener('click', () => card.classList.toggle('open'));
+  card.appendChild(header);
+
+  // ── body ──
+  const body = document.createElement('div');
+  body.className = 'adv-body';
+
+  // core stats
+  const grid = document.createElement('div');
+  grid.className = 'adv-grid';
+
+  grid.appendChild(makeField('Level', 'number', adv.level ?? 1, v => {
+    adv.level = Number(v) || 1;
+    header.querySelector('.adv-level').textContent = 'Lv. ' + adv.level;
+  }));
+  grid.appendChild(makeField('Experience', 'number', adv.experience ?? 0, v => {
+    adv.experience = Number(v) || 0;
+  }));
+  grid.appendChild(makeSelectField('Common Trait', COMMON_TRAITS, adv.traitCommon || '', v => {
+    adv.traitCommon = v || undefined;
+    if (!v) delete adv.traitCommon;
+  }));
+  grid.appendChild(makeSelectField('Rare Trait', RARE_TRAITS, adv.traitRare || '', v => {
+    adv.traitRare = v || undefined;
+    if (!v) delete adv.traitRare;
+  }));
+
+  body.appendChild(grid);
+
+  // equipment
+  const equipRow = document.createElement('div');
+  equipRow.className = 'adv-equip-row';
+  equipRow.appendChild(makeEquipField('Weapon', adv, 'weapon'));
+  equipRow.appendChild(makeEquipField('Armor', adv, 'armor'));
+  equipRow.appendChild(makeEquipField('Accessory', adv, 'accessory'));
+  body.appendChild(equipRow);
+
+  // footer
+  const footer = document.createElement('div');
+  footer.className = 'adv-footer';
+
+  // ascend toggle
+  const ascLabel = document.createElement('label');
+  ascLabel.style.cssText = 'display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;color:var(--asc)';
+  const ascCb = document.createElement('input');
+  ascCb.type = 'checkbox';
+  ascCb.checked = !!adv.ascended;
+  ascCb.addEventListener('change', () => {
+    adv.ascended = ascCb.checked;
+    card.classList.toggle('ascended', adv.ascended);
+    const badge = header.querySelector('.adv-asc-badge');
+    if (adv.ascended && !badge) {
+      header.insertBefore(Object.assign(document.createElement('span'), {
+        className: 'adv-asc-badge', textContent: 'ASC'
+      }), header.querySelector('.adv-chevron'));
+    } else if (!adv.ascended && badge) {
+      badge.remove();
+    }
+  });
+  ascLabel.appendChild(ascCb);
+  ascLabel.appendChild(document.createTextNode('Ascended'));
+  footer.appendChild(ascLabel);
+
+  // max level button
+  const btnMax = document.createElement('button');
+  btnMax.className = 'btn-ghost btn-sm';
+  btnMax.textContent = 'Max level (45)';
+  btnMax.addEventListener('click', () => {
+    adv.level = 45;
+    adv.experience = 0;
+    body.querySelector('input[data-key="level"]').value = 45;
+    body.querySelector('input[data-key="experience"]').value = 0;
+    header.querySelector('.adv-level').textContent = 'Lv. 45';
+    toast('Level set to 45');
+  });
+  footer.appendChild(btnMax);
+
+  // delete button
+  const btnDel = document.createElement('button');
+  btnDel.className = 'btn-danger btn-sm';
+  btnDel.textContent = 'Remove';
+  btnDel.addEventListener('click', () => {
+    if (!confirm(`Remove ${adv.trueClass}?`)) return;
+    const advs = saveData.adventurers;
+    advs.splice(advs.indexOf(adv), 1);
+    card.remove();
+    document.getElementById('adv-count').textContent = advs.length;
+    toast(`Removed ${adv.trueClass}`);
+  });
+  footer.appendChild(btnDel);
+
+  body.appendChild(footer);
+  card.appendChild(body);
+  return card;
+}
+
+function makeField(label, type, value, onChange) {
+  const div = document.createElement('div');
+  div.className = 'field';
+  const input = document.createElement('input');
+  input.type = type;
+  input.value = value;
+  input.dataset.key = label.toLowerCase();
+  if (type === 'number') { input.min = 0; }
+  input.addEventListener('input', () => onChange(input.value));
+  const lbl = document.createElement('label');
+  lbl.textContent = label;
+  div.appendChild(lbl);
+  div.appendChild(input);
+  return div;
+}
+
+function makeSelectField(label, options, current, onChange) {
+  const div = document.createElement('div');
+  div.className = 'field';
+  const sel = document.createElement('select');
+  options.forEach(opt => {
+    const o = document.createElement('option');
+    o.value = opt;
+    o.textContent = opt || '— none —';
+    if (opt === current) o.selected = true;
+    sel.appendChild(o);
+  });
+  sel.addEventListener('change', () => onChange(sel.value));
+  const lbl = document.createElement('label');
+  lbl.textContent = label;
+  div.appendChild(lbl);
+  div.appendChild(sel);
+  return div;
+}
+
+function makeEquipField(label, adv, slotKey) {
+  const div = document.createElement('div');
+  div.className = 'field';
+  const lbl = document.createElement('label');
+  lbl.textContent = label;
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.placeholder = '— none —';
+  input.value = adv[slotKey]?.trueClass || '';
+  input.addEventListener('input', () => {
+    const v = input.value.trim();
+    if (v) {
+      adv[slotKey] = { stack: 1, trueClass: v };
+    } else {
+      delete adv[slotKey];
+    }
+  });
+  div.appendChild(lbl);
+  div.appendChild(input);
+  return div;
+}
+
+// ── Items ──
+
+function renderItems(filter = '') {
+  const tbody = document.getElementById('items-tbody');
+  tbody.innerHTML = '';
+
+  const items = saveData.items || [];
+  const fLower = filter.toLowerCase();
+
+  items.forEach((item, idx) => {
+    if (fLower && !(item.trueClass || '').toLowerCase().includes(fLower)) return;
+
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="item-name">${item.trueClass || '?'}</td>
+      <td style="text-align:right">
+        <input class="item-stack-input" type="number" min="0" max="99999"
+               value="${item.stack ?? 1}" data-idx="${idx}">
+      </td>
+      <td>
+        <div class="item-actions">
+          <button class="btn-ghost btn-sm btn-del-item" data-idx="${idx}">✕</button>
+        </div>
+      </td>`;
+
+    tr.querySelector('.item-stack-input').addEventListener('input', (e) => {
+      items[idx].stack = Math.max(0, Number(e.target.value) || 0);
+    });
+    tr.querySelector('.btn-del-item').addEventListener('click', () => {
+      if (!confirm(`Remove ${item.trueClass}?`)) return;
+      items.splice(idx, 1);
+      renderItems(filter);
+      toast(`Removed ${item.trueClass}`);
+    });
+
+    tbody.appendChild(tr);
+  });
+
+  if (tbody.children.length === 0) {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td colspan="3" class="empty-state">No items found.</td>`;
+    tbody.appendChild(tr);
+  }
+}
+
+// ── Flags ──
+
+function renderFlags() {
+  renderFlagGroup('flags-packs', PACK_FLAGS);
+  renderFlagGroup('flags-misc',  MISC_FLAGS);
+}
+
+function renderFlagGroup(containerId, flags) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = '';
+  flags.forEach(({ key, label }) => {
+    const row = document.createElement('div');
+    row.className = 'flag-row';
+    const id = 'flag-' + key;
+    row.innerHTML = `
+      <label for="${id}">${label}</label>
+      <label class="toggle">
+        <input type="checkbox" id="${id}" ${saveData[key] ? 'checked' : ''}>
+        <span class="toggle-slider"></span>
+      </label>`;
+    row.querySelector('input').addEventListener('change', (e) => {
+      saveData[key] = e.target.checked;
+    });
+    container.appendChild(row);
+  });
+}
+
+// ─── ADVENTURER HELPERS ──────────────────────────────────────────────────────
+
+function EMPTY_POTIONS_DRANK() {
+  return {
+    potionOfAgilityDrank: 0, potionOfConstitutionDrank: 0,
+    potionOfDarknessDrank: 0, potionOfDefenseDrank: 0,
+    potionOfDexterityDrank: 0, potionOfHealthDrank: 0,
+    potionOfImmunityDrank: 0, potionOfIntelligenceDrank: 0,
+    potionOfMagicDefenseDrank: 0, potionOfPrecisionDrank: 0,
+    potionOfViciousnessDrank: 0
+  };
+}
+
+function EMPTY_DOCTRINE() {
+  return { l1: 0, l2: 0, l3: 0, l4: 0, l5: 0, l6: 0, trueClass: 'EmptyDoctrine' };
+}
+
+function nextAdvId() {
+  // Use the lowest negative ID minus 1 (same convention as ModManager.createCustomAdventurer)
+  const advs = saveData.adventurers || [];
+  let min = 0;
+  for (const a of advs) {
+    if (typeof a.id === 'number' && a.id < min) min = a.id;
+  }
+  return min - 1;
+}
+
+function buildAdventurer(cls, level, traitCommon, traitRare, weapon, armor, accessory, ascended) {
+  const adv = {
+    trueClass: cls,
+    id: nextAdvId(),
+    level: Math.max(1, Number(level) || 1),
+    experience: 0,
+    ascended: !!ascended,
+    seen: false,
+    timeWhenDismissed: 0,
+    potionsDrank: EMPTY_POTIONS_DRANK(),
+    doctrine: EMPTY_DOCTRINE(),
+    currentHp: 100,
+    currentMana: 100,
+    currentShield: 0,
+    negativeStatusEffects: [],
+    positiveStatusEffects: [],
+  };
+  if (traitCommon) adv.traitCommon = traitCommon;
+  if (traitRare)   adv.traitRare   = traitRare;
+  if (weapon)      adv.weapon      = { stack: 1, trueClass: weapon };
+  if (armor)       adv.armor       = { stack: 1, trueClass: armor };
+  if (accessory)   adv.accessory   = { stack: 1, trueClass: accessory };
+  return adv;
+}
+
+// Populate add-adventurer trait selects
+function initAddAdvForm() {
+  const commonSel = document.getElementById('new-adv-trait-common');
+  const rareSel   = document.getElementById('new-adv-trait-rare');
+  COMMON_TRAITS.forEach(t => {
+    const o = document.createElement('option');
+    o.value = t; o.textContent = t || '— none —';
+    commonSel.appendChild(o);
+  });
+  RARE_TRAITS.forEach(t => {
+    const o = document.createElement('option');
+    o.value = t; o.textContent = t || '— none —';
+    rareSel.appendChild(o);
+  });
+}
+initAddAdvForm();
+
+// ─── EXPORT ──────────────────────────────────────────────────────────────────
+
+function exportSave() {
+  // Patch any newly added adventurers missing required fields
+  (saveData.adventurers || []).forEach(adv => {
+    if (!adv.currentHp || adv.currentHp <= 0) adv.currentHp = 100;
+    if (adv.currentMana === undefined) adv.currentMana = 100;
+    if (adv.currentShield === undefined) adv.currentShield = 0;
+    if (!adv.negativeStatusEffects) adv.negativeStatusEffects = [];
+    if (!adv.positiveStatusEffects) adv.positiveStatusEffects = [];
+    if (!adv.potionsDrank) adv.potionsDrank = EMPTY_POTIONS_DRANK();
+    if (!adv.doctrine) adv.doctrine = EMPTY_DOCTRINE();
+    if (adv.seen === undefined) adv.seen = false;
+    if (adv.timeWhenDismissed === undefined) adv.timeWhenDismissed = 0;
+  });
+
+  const jsonStr = JSON.stringify(saveData, null, 4);
+
+  // Always export as UTF-16 LE .txt — that is what the companion app expects.
+  // If the source was already UTF-16 LE we match it exactly.
+  // If the source was plain JSON we still output UTF-16 LE so the companion app can import it.
+  const encoded = encodeUtf16LE(jsonStr);
+  const blob = new Blob([encoded], { type: 'application/octet-stream' });
+  const filename = 'save_edited.txt';
+
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('Exported as ' + filename + ' (UTF-16 LE, companion app ready)', 'success');
+}
+
+// ─── TOAST ───────────────────────────────────────────────────────────────────
+
+let toastTimer = null;
+function toast(msg, type = '') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'show ' + type;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { el.className = ''; }, 2800);
+}
+
+// ─── EVENT WIRING ─────────────────────────────────────────────────────────────
+
+// Drag & drop
+const dropBox = document.getElementById('drop-box');
+const dropZone = document.getElementById('drop-zone');
+
+dropZone.addEventListener('dragover', (e) => {
+  e.preventDefault();
+  dropBox.classList.add('drag-over');
+});
+dropZone.addEventListener('dragleave', () => dropBox.classList.remove('drag-over'));
+dropZone.addEventListener('drop', (e) => {
+  e.preventDefault();
+  dropBox.classList.remove('drag-over');
+  const file = e.dataTransfer.files[0];
+  if (file) loadFile(file);
+});
+
+// File input browse
+document.getElementById('file-input').addEventListener('change', (e) => {
+  if (e.target.files[0]) loadFile(e.target.files[0]);
+});
+
+// Load new file button
+document.getElementById('btn-load-new').addEventListener('click', () => {
+  document.getElementById('file-input').click();
+});
+
+// Export button
+document.getElementById('btn-export').addEventListener('click', exportSave);
+
+// Tabs
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+  });
+});
+
+// Resources — direct bindings
+['field-money', 'field-gems'].forEach(id => {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.addEventListener('input', () => {
+    const key = id.replace('field-', '');
+    if (saveData) saveData[key] = Number(el.value) || 0;
+  });
+});
+
+// Adventurer search
+document.getElementById('adv-search').addEventListener('input', (e) => {
+  renderAdventurers(e.target.value);
+});
+
+// Expand / collapse all
+document.getElementById('btn-expand-all').addEventListener('click', () => {
+  document.querySelectorAll('.adv-card').forEach(c => c.classList.add('open'));
+});
+document.getElementById('btn-collapse-all').addEventListener('click', () => {
+  document.querySelectorAll('.adv-card').forEach(c => c.classList.remove('open'));
+});
+
+// Item search
+document.getElementById('item-search').addEventListener('input', (e) => {
+  renderItems(e.target.value);
+});
+
+// Max all items
+document.getElementById('btn-max-all-items').addEventListener('click', () => {
+  if (!saveData || !saveData.items) return;
+  saveData.items.forEach(item => { item.stack = 999; });
+  renderItems(document.getElementById('item-search').value);
+  toast('All item stacks set to 999');
+});
+
+// Add item
+document.getElementById('btn-add-item').addEventListener('click', () => {
+  const cls = document.getElementById('new-item-class').value.trim();
+  const qty = Math.max(1, parseInt(document.getElementById('new-item-stack').value) || 1);
+  if (!cls) { toast('Enter an item class name', 'error'); return; }
+  if (!saveData.items) saveData.items = [];
+  const existing = saveData.items.find(i => i.trueClass === cls);
+  if (existing) {
+    existing.stack += qty;
+    toast(`Updated ${cls} → ${existing.stack}`);
+  } else {
+    saveData.items.push({ stack: qty, trueClass: cls });
+    toast(`Added ${qty}x ${cls}`, 'success');
+  }
+  document.getElementById('new-item-class').value = '';
+  document.getElementById('new-item-stack').value = '1';
+  renderItems(document.getElementById('item-search').value);
+});
+
+// Add adventurer
+document.getElementById('btn-add-adv').addEventListener('click', () => {
+  const cls       = document.getElementById('new-adv-class').value.trim();
+  const level     = document.getElementById('new-adv-level').value;
+  const tCommon   = document.getElementById('new-adv-trait-common').value;
+  const tRare     = document.getElementById('new-adv-trait-rare').value;
+  const weapon    = document.getElementById('new-adv-weapon').value.trim();
+  const armor     = document.getElementById('new-adv-armor').value.trim();
+  const accessory = document.getElementById('new-adv-accessory').value.trim();
+  const ascended  = document.getElementById('new-adv-ascended').checked;
+
+  if (!cls) { toast('Enter a class name', 'error'); return; }
+
+  if (!saveData.adventurers) saveData.adventurers = [];
+  const adv = buildAdventurer(cls, level, tCommon, tRare, weapon, armor, accessory, ascended);
+  saveData.adventurers.push(adv);
+
+  // Reset form
+  document.getElementById('new-adv-class').value = '';
+  document.getElementById('new-adv-level').value = '1';
+  document.getElementById('new-adv-trait-common').value = '';
+  document.getElementById('new-adv-trait-rare').value = '';
+  document.getElementById('new-adv-weapon').value = '';
+  document.getElementById('new-adv-armor').value = '';
+  document.getElementById('new-adv-accessory').value = '';
+  document.getElementById('new-adv-ascended').checked = false;
+
+  // Re-render and open the new card
+  renderAdventurers(document.getElementById('adv-search').value);
+  const cards = document.querySelectorAll('.adv-card');
+  if (cards.length) cards[cards.length - 1].classList.add('open');
+
+  toast(`Added ${cls} (Lv. ${adv.level})`, 'success');
+});
+
+// Enter on class input triggers add
+document.getElementById('new-adv-class').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') document.getElementById('btn-add-adv').click();
+});
+
+// Enter key on add-item inputs
+['new-item-class', 'new-item-stack'].forEach(id => {
+  document.getElementById(id).addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') document.getElementById('btn-add-item').click();
+  });
+});
+
+// Auto-load from file input when page opens if query param provided
+// (not needed but nice for future extension)
+
+</script>
+</body>
+</html>

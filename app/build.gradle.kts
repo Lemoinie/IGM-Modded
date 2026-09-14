@@ -3,6 +3,10 @@ plugins {
     id("org.jetbrains.kotlin.android")
 }
 
+val gameName = "IdleGuildMaster"
+val gameVersion = "2.148"
+val modVersion = "1.3.0.0"
+
 android {
     namespace = "it.paranoidsquirrels.idleguildmaster"
     compileSdk = 34
@@ -12,7 +16,7 @@ android {
         minSdk = 26
         targetSdk = 34
         versionCode = 159
-        versionName = "2.148-rebuilt"
+        versionName = "$gameVersion-mod-$modVersion"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -55,6 +59,13 @@ android {
         getByName("main") {
             java.srcDirs("src/main/java")
             kotlin.srcDirs("src/main/kotlin")
+        }
+    }
+
+    applicationVariants.all {
+        outputs.all {
+            (this as? com.android.build.gradle.internal.api.BaseVariantOutputImpl)?.outputFileName =
+                "${gameName}_v${gameVersion}_mod_v${modVersion}.apk"
         }
     }
 }

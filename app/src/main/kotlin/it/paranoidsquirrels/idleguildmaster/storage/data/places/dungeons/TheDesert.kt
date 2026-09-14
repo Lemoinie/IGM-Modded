@@ -28,7 +28,7 @@ class TheDesert : Area() {
 
     override fun getDetailDrawable(): Int = R.drawable.area_the_desert
 
-    override fun getLayout(): LayoutDungeonBinding = MainActivity.dungeonsFragment.binding.theDesert
+    override fun getLayout(): LayoutDungeonBinding = MainActivity.dungeonsFragment.binding!!.theDesert
 
     override fun rollEnemies(): MutableList<Enemy> {
         val dRandom = Utils.random() * 1000.0

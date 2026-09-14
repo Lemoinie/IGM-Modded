@@ -23,7 +23,7 @@ class ObsidianMines : Area() {
 
     override fun getDetailDrawable(): Int = R.drawable.area_obsidian_mines
 
-    override fun getLayout(): LayoutDungeonBinding = MainActivity.dungeonsFragment.binding.obsidianMines
+    override fun getLayout(): LayoutDungeonBinding = MainActivity.dungeonsFragment.binding!!.obsidianMines
 
     override fun rollEnemies(): MutableList<Enemy> {
         val ev = event

@@ -25,7 +25,7 @@ class DivineArcheology : Area() {
 
     override fun getDetailDrawable(): Int = R.drawable.area_divine_archeology
 
-    override fun getLayout(): LayoutDungeonBinding = MainActivity.raidsFragment.binding.divineArcheology
+    override fun getLayout(): LayoutDungeonBinding = MainActivity.raidsFragment.binding!!.divineArcheology
 
     override fun rollEnemies(): MutableList<Enemy> {
         if (progress < maxProgress) {

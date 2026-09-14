@@ -25,7 +25,7 @@ class TheSlimePond : Area() {
 
     override fun getDetailDrawable(): Int = R.drawable.area_the_slime_pond
 
-    override fun getLayout(): LayoutDungeonBinding = MainActivity.raidsFragment.binding.theSlimePond
+    override fun getLayout(): LayoutDungeonBinding = MainActivity.raidsFragment.binding!!.theSlimePond
 
     override fun rollEnemies(): MutableList<Enemy> {
         val i = progress

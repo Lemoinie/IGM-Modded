@@ -24,7 +24,7 @@ class EternalBattlefield : Area() {
 
     override fun getDetailDrawable(): Int = R.drawable.area_eternal_battlefield
 
-    override fun getLayout(): LayoutDungeonBinding = MainActivity.dungeonsFragment.binding.eternalBattlefield
+    override fun getLayout(): LayoutDungeonBinding = MainActivity.dungeonsFragment.binding!!.eternalBattlefield
 
     override fun rollEnemies(): MutableList<Enemy> {
         val dRandom = Utils.random() * 1000.0
