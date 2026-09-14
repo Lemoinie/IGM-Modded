@@ -18,7 +18,6 @@ import kotlin.math.max
 
 class DialogSell : CustomDialog() {
     private var binding: DialogSellBinding? = null
-    @JvmField
     var item: Item? = null
     private var maxAmount: Int = 0
     private var slotsAvailable: Boolean = false

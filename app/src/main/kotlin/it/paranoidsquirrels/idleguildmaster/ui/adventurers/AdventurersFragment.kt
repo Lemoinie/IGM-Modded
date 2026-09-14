@@ -176,7 +176,7 @@ class AdventurersFragment : Fragment() {
         }
         var body = String.format(getString(R.string.dismiss_dialog_body), getString(adventurer.idName))
         if (foundArea != null) {
-            body = body + "\n\n" + String.format(getString(R.string.dismiss_dialog_dungeon), getString(foundArea.name))
+            body = body + "\n\n" + String.format(getString(R.string.dismiss_dialog_dungeon), getString(foundArea.getName()))
         }
         val dialog = UIUtils.getActionDialog(
             context,
@@ -215,16 +215,17 @@ class AdventurersFragment : Fragment() {
             if (MainActivity.shownDialogFullStorage != null) {
                 return
             }
-            MainActivity.shownDialogFullStorage = UIUtils.getInfoDialog(
+            val dialog = UIUtils.getInfoDialog(
                 context,
                 R.string.no_storage_space_title,
                 String.format(getString(R.string.no_storage_space_body_dismiss), requiredSpace - storageSpaces),
                 false
             )
-            MainActivity.shownDialogFullStorage.setOnDismissListener {
+            MainActivity.shownDialogFullStorage = dialog
+            dialog.setOnDismissListener {
                 MainActivity.shownDialogFullStorage = null
             }
-            MainActivity.shownDialogFullStorage.show()
+            dialog.show()
             return
         }
         if (area != null) {
