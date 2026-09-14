@@ -23,7 +23,7 @@ import kotlin.system.exitProcess
 
 class AdventurersFragment : Fragment() {
     private var _binding: FragmentAdventurersBinding? = null
-    val binding get() = _binding!!
+    val binding: FragmentAdventurersBinding? get() = _binding
 
 
     private var dismissDialog: AlertDialog? = null
@@ -35,13 +35,13 @@ class AdventurersFragment : Fragment() {
     ): View {
         val b = FragmentAdventurersBinding.inflate(inflater, container, false)
         _binding = b
-        binding.slider.post {
+        b.slider.post {
             try {
-                binding.imageArrow.tag = "compressed"
-                binding.imageArrow.setImageDrawable(
+                b.imageArrow.tag = "compressed"
+                b.imageArrow.setImageDrawable(
                     ResourcesCompat.getDrawable(resources, R.drawable.menu_lift, requireContext().theme)
                 )
-                binding.slider.y = binding.menuCommands.height.toFloat()
+                b.slider.y = b.menuCommands.height.toFloat()
             } catch (_: Exception) {
                 activity?.finish()
                 exitProcess(0)
@@ -58,9 +58,10 @@ class AdventurersFragment : Fragment() {
     }
 
     fun refresh() {
-        binding.adventurersList.removeAllViews()
+        val b = _binding ?: return
+        b.adventurersList.removeAllViews()
         for (next in MainActivity.data.adventurers) {
-            val itemBinding = LayoutAdventurerBinding.inflate(layoutInflater, binding.adventurersList, false)
+            val itemBinding = LayoutAdventurerBinding.inflate(layoutInflater, b.adventurersList, false)
             if (next.isAscended()) {
                 UIUtils.applyAscendedPalette(itemBinding)
             }
@@ -96,7 +97,7 @@ class AdventurersFragment : Fragment() {
             itemBinding.root.setOnClickListener {
                 UIUtils.getAdventurerDetailDialog(parentFragmentManager, next, true, false)
             }
-            binding.adventurersList.addView(itemBinding.root)
+            b.adventurersList.addView(itemBinding.root)
         }
         switchMode(0)
     }
@@ -112,30 +113,32 @@ class AdventurersFragment : Fragment() {
     }
 
     fun attachListeners() {
-        binding.menuArrow.setOnClickListener {
-            val isExpanded = binding.imageArrow.tag == "expanded"
-            binding.imageArrow.tag = if (isExpanded) "compressed" else "expanded"
-            binding.imageArrow.setImageDrawable(
+        val b = _binding ?: return
+        b.menuArrow.setOnClickListener {
+            val isExpanded = b.imageArrow.tag == "expanded"
+            b.imageArrow.tag = if (isExpanded) "compressed" else "expanded"
+            b.imageArrow.setImageDrawable(
                 ResourcesCompat.getDrawable(
                     resources,
                     if (isExpanded) R.drawable.menu_lift else R.drawable.menu_drop,
                     requireContext().theme
                 )
             )
-            binding.slider.animate().y(if (isExpanded) binding.menuCommands.height.toFloat() else 0.0f).start()
+            b.slider.animate().y(if (isExpanded) b.menuCommands.height.toFloat() else 0.0f).start()
         }
-        binding.order.setOnClickListener { switchMode(1) }
-        binding.dismiss.setOnClickListener { switchMode(2) }
-        binding.done.setOnClickListener { switchMode(0) }
+        b.order.setOnClickListener { switchMode(1) }
+        b.dismiss.setOnClickListener { switchMode(2) }
+        b.done.setOnClickListener { switchMode(0) }
     }
 
     fun switchMode(mode: Int) {
-        binding.order.visibility = if (mode == 0) View.VISIBLE else View.INVISIBLE
-        binding.dismiss.visibility = if (mode == 0) View.VISIBLE else View.INVISIBLE
-        binding.done.visibility = if (mode == 0) View.INVISIBLE else View.VISIBLE
-        val childCount = binding.adventurersList.childCount
+        val b = _binding ?: return
+        b.order.visibility = if (mode == 0) View.VISIBLE else View.INVISIBLE
+        b.dismiss.visibility = if (mode == 0) View.VISIBLE else View.INVISIBLE
+        b.done.visibility = if (mode == 0) View.INVISIBLE else View.VISIBLE
+        val childCount = b.adventurersList.childCount
         for (i in 0 until childCount) {
-            val childAt = binding.adventurersList.getChildAt(i)
+            val childAt = b.adventurersList.getChildAt(i)
             childAt.findViewWithTag<View>("weapon")?.visibility = if (mode == 0) View.VISIBLE else View.INVISIBLE
             childAt.findViewWithTag<View>("armor")?.visibility = if (mode == 0) View.VISIBLE else View.INVISIBLE
             childAt.findViewWithTag<View>("accessory")?.visibility = if (mode == 0) View.VISIBLE else View.INVISIBLE
@@ -146,18 +149,19 @@ class AdventurersFragment : Fragment() {
     }
 
     private fun moveAdventurer(adventurer: Adventurer, up: Boolean) {
+        val b = _binding ?: return
         val index = MainActivity.data.adventurers.indexOf(adventurer)
         MainActivity.data.adventurers.remove(adventurer)
         val newIndex = index + if (up) -1 else 1
         MainActivity.data.adventurers.add(newIndex, adventurer)
-        val childAt = binding.adventurersList.getChildAt(index)
-        binding.adventurersList.removeViewAt(index)
-        binding.adventurersList.addView(childAt, newIndex)
-        binding.adventurersList.getChildAt(0)?.findViewWithTag<View>("arrow_up")?.visibility = View.INVISIBLE
-        binding.adventurersList.getChildAt(1)?.findViewWithTag<View>("arrow_up")?.visibility = View.VISIBLE
-        val last = binding.adventurersList.childCount - 1
-        binding.adventurersList.getChildAt(last)?.findViewWithTag<View>("arrow_down")?.visibility = View.INVISIBLE
-        binding.adventurersList.getChildAt(last - 1)?.findViewWithTag<View>("arrow_down")?.visibility = View.VISIBLE
+        val childAt = b.adventurersList.getChildAt(index)
+        b.adventurersList.removeViewAt(index)
+        b.adventurersList.addView(childAt, newIndex)
+        b.adventurersList.getChildAt(0)?.findViewWithTag<View>("arrow_up")?.visibility = View.INVISIBLE
+        b.adventurersList.getChildAt(1)?.findViewWithTag<View>("arrow_up")?.visibility = View.VISIBLE
+        val last = b.adventurersList.childCount - 1
+        b.adventurersList.getChildAt(last)?.findViewWithTag<View>("arrow_down")?.visibility = View.INVISIBLE
+        b.adventurersList.getChildAt(last - 1)?.findViewWithTag<View>("arrow_down")?.visibility = View.VISIBLE
     }
 
     private fun dismissAdventurer(adventurer: Adventurer) {
@@ -236,7 +240,7 @@ class AdventurersFragment : Fragment() {
         }
         val idx = MainActivity.data.adventurers.indexOf(adventurer)
         MainActivity.data.adventurers.remove(adventurer)
-        binding.adventurersList.removeViewAt(idx)
+        _binding?.adventurersList?.removeViewAt(idx)
         if (!hasDefaultWeapon && adventurer.weapon != null) {
             Utils.collectItem(adventurer.weapon!!, MainActivity.data.items)
             adventurer.weapon = defaultWeapon

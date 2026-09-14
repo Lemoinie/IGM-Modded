@@ -25,7 +25,7 @@ class EnchantedForest : Area() {
 
     override fun getDetailDrawable(): Int = R.drawable.area_enchanted_forest
 
-    override fun getLayout(): LayoutDungeonBinding = MainActivity.dungeonsFragment.binding.enchantedForest
+    override fun getLayout(): LayoutDungeonBinding = MainActivity.dungeonsFragment.binding!!.enchantedForest
 
     override fun rollEnemies(): MutableList<Enemy> {
         val dRandom = Utils.random() * 1000.0

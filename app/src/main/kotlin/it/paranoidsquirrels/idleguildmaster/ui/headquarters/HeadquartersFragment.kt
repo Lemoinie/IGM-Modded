@@ -20,7 +20,7 @@ import it.paranoidsquirrels.idleguildmaster.ui.dialogs.DialogWorkshop
 
 class HeadquartersFragment : Fragment() {
     private var _binding: FragmentHeadquartersBinding? = null
-    val binding get() = _binding!!
+    val binding: FragmentHeadquartersBinding? get() = _binding
 
 
     override fun onCreateView(
@@ -41,44 +41,45 @@ class HeadquartersFragment : Fragment() {
     }
 
     fun refresh() {
+        val b = _binding ?: return
         val data = MainActivity.data
-        binding.quartersDescription.text = String.format(
+        b.quartersDescription.text = String.format(
             getString(R.string.headquarters_quarters_description_short),
             data.adventurers.size,
             Formulas.getQuartersCapacity()
         )
-        binding.tavernDescription.text = String.format(
+        b.tavernDescription.text = String.format(
             getString(R.string.headquarters_tavern_description_short),
             data.tavernGuests.size,
             Formulas.getTavernCapacity()
         )
         val hasUnseenGuest = data.tavernGuests.isNotEmpty() && !data.tavernGuests[0].isSeen()
-        binding.tavernDot.visibility = if (hasUnseenGuest) View.VISIBLE else View.GONE
-        binding.tavernNew.visibility = if (hasUnseenGuest) View.VISIBLE else View.GONE
+        b.tavernDot.visibility = if (hasUnseenGuest) View.VISIBLE else View.GONE
+        b.tavernNew.visibility = if (hasUnseenGuest) View.VISIBLE else View.GONE
 
-        binding.storageDescription.text = String.format(
+        b.storageDescription.text = String.format(
             getString(R.string.headquarters_storage_description_short),
             data.items.size,
             Formulas.storageSpaces()
         )
-        binding.shelterDescription.text = String.format(
+        b.shelterDescription.text = String.format(
             getString(R.string.headquarters_shelter_description_short),
             data.pets.size,
             Formulas.shelterCapacity()
         )
         val marketCount = data.soldMarketItems.size + data.marketListings.size
-        binding.marketDescription.text = if (marketCount == 0) "" else String.format(
+        b.marketDescription.text = if (marketCount == 0) "" else String.format(
             getString(R.string.headquarters_market_description_short),
             data.soldMarketItems.size,
             marketCount
         )
         val workshopCount = data.completedWorkshopItems.size + data.workshopQueue.size
-        binding.workshopDescription.text = if (workshopCount == 0) "" else String.format(
+        b.workshopDescription.text = if (workshopCount == 0) "" else String.format(
             getString(R.string.headquarters_workshop_description_short),
             data.completedWorkshopItems.size,
             workshopCount
         )
-        binding.tavernDescription.setTextColor(
+        b.tavernDescription.setTextColor(
             resources.getColor(
                 if (data.isTavernLocked) UIUtils.getFailureColor() else R.color.dim_white,
                 requireContext().theme
@@ -87,32 +88,33 @@ class HeadquartersFragment : Fragment() {
     }
 
     fun attachListeners() {
-        binding.quartersContainer.setOnClickListener {
+        val b = _binding ?: return
+        b.quartersContainer.setOnClickListener {
             if (MainActivity.shownDialogQuarters == null) {
                 DialogQuarters().show(parentFragmentManager, "dialog_quarters")
             }
         }
-        binding.tavernContainer.setOnClickListener {
+        b.tavernContainer.setOnClickListener {
             if (MainActivity.shownDialogTavern == null) {
                 DialogTavern().show(parentFragmentManager, "dialog_tavern")
             }
         }
-        binding.storageContainer.setOnClickListener {
+        b.storageContainer.setOnClickListener {
             if (MainActivity.shownDialogStorage == null) {
                 DialogStorage().show(parentFragmentManager, "dialog_storage")
             }
         }
-        binding.marketContainer.setOnClickListener {
+        b.marketContainer.setOnClickListener {
             if (MainActivity.shownDialogMarket == null) {
                 DialogMarket().show(parentFragmentManager, "dialog_market")
             }
         }
-        binding.workshopContainer.setOnClickListener {
+        b.workshopContainer.setOnClickListener {
             if (MainActivity.shownDialogWorkshop == null) {
                 DialogWorkshop().show(parentFragmentManager, "dialog_storage")
             }
         }
-        binding.shelterContainer.setOnClickListener {
+        b.shelterContainer.setOnClickListener {
             if (MainActivity.shownDialogShelter == null) {
                 DialogShelter().show(parentFragmentManager, "dialog_shelter")
             }

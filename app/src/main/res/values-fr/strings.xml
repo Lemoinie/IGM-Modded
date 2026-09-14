@@ -906,7 +906,7 @@ Après l'ascension, ils redeviendront un(e) %s et nécessiteront le double d'exp
     <string name="all_ads_watched_dialog_body">"Vous avez regardé toutes les publicités pour aujourd'hui.
 En cadeau, voici 10 gemmes supplémentaires !"</string>
     <string name="all_ads_watched_dialog_title">Toutes les publicités ont été regardées</string>
-    <string name="app_name">Maître de Guilde</string>
+    <string name="app_name">IGM Modded</string>
     <string name="armor_heavy_absolute_zero_description">"Le matériau le plus froid jamais forgé compose une armure non seulement incroyablement résistante, mais qui GELERA les ennemis au contact.
 GEL : Cette unité ne peut pas esquiver et subit 10 dégâts physiques à chaque tour."</string>
     <string name="armor_heavy_absolute_zero_effect">GÈLE les attaquants au corps à corps</string>

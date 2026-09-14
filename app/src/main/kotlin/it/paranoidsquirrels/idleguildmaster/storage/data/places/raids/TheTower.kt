@@ -24,7 +24,7 @@ class TheTower : Area() {
 
     override fun getDetailDrawable(): Int = R.drawable.area_the_tower
 
-    override fun getLayout(): LayoutDungeonBinding = MainActivity.raidsFragment.binding.theTower
+    override fun getLayout(): LayoutDungeonBinding = MainActivity.raidsFragment.binding!!.theTower
 
     override fun rollEnemies(): MutableList<Enemy> {
         return when (progress) {

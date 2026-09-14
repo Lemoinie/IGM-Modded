@@ -25,7 +25,7 @@ class SleepingPlanet : Area() {
 
     override fun getDetailDrawable(): Int = R.drawable.area_sleeping_planet
 
-    override fun getLayout(): LayoutDungeonBinding = MainActivity.raidsFragment.binding.sleepingPlanet
+    override fun getLayout(): LayoutDungeonBinding = MainActivity.raidsFragment.binding!!.sleepingPlanet
 
     override fun rollEnemies(): MutableList<Enemy> {
         return when (progress) {

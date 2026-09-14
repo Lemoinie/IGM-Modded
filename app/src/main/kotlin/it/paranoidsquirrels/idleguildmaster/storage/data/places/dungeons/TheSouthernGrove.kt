@@ -30,7 +30,7 @@ class TheSouthernGrove : Area() {
 
     override fun getDetailDrawable(): Int = R.drawable.area_the_southern_grove
 
-    override fun getLayout(): LayoutDungeonBinding = MainActivity.dungeonsFragment.binding.theSouthernGrove
+    override fun getLayout(): LayoutDungeonBinding = MainActivity.dungeonsFragment.binding!!.theSouthernGrove
 
     override fun rollEnemies(): MutableList<Enemy> {
         val ev = event

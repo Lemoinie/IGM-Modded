@@ -906,7 +906,7 @@ Después de la ascensión, volverán a ser un(a) %s y requerirán el doble de ex
     <string name="all_ads_watched_dialog_body">"Has visto todos los anuncios de hoy.
 Como regalo, ¡aquí tienes 10 Gemas extras!"</string>
     <string name="all_ads_watched_dialog_title">Todos los anuncios vistos</string>
-    <string name="app_name">Guild Master</string>
+    <string name="app_name">IGM Modded</string>
     <string name="armor_heavy_absolute_zero_description">"El material más frío jamás forjado forma una armadura que no solo es increíblemente resistente, sino que CONGELA a los enemigos al contacto.
 CONGELAR: Esta unidad no puede esquivar y recibe 10 de daño físico cada turno."</string>
     <string name="armor_heavy_absolute_zero_effect">CONGELA a atacantes cuerpo a cuerpo</string>

@@ -24,7 +24,7 @@ class RaidsFragment : Fragment() {
     }
 
     private var _binding: FragmentRaidsBinding? = null
-    val binding get() = _binding!!
+    val binding: FragmentRaidsBinding? get() = _binding
 
 
     override fun onCreateView(
@@ -46,6 +46,7 @@ class RaidsFragment : Fragment() {
     }
 
     fun refresh() {
+        if (_binding == null) return
         var hasRaid = false
         var hasEpicRaid = false
         for (area in Utils.compileRaidList()) {
@@ -68,6 +69,7 @@ class RaidsFragment : Fragment() {
     }
 
     fun refreshRaidVisibility() {
+        if (_binding == null) return
         var hasRaid = false
         var hasEpicRaid = false
         for (area in Utils.compileRaidList()) {
@@ -101,6 +103,7 @@ class RaidsFragment : Fragment() {
     }
 
     fun attachListeners() {
+        if (_binding == null) return
         for (area in Utils.compileRaidList()) {
             area.getLayout().root.setOnClickListener {
                 UIUtils.clickArea(this, area)

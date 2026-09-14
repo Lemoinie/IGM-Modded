@@ -23,7 +23,7 @@ class AncientGraveDigging : Area() {
 
     override fun getDetailDrawable(): Int = R.drawable.area_ancient_grave_digging
 
-    override fun getLayout(): LayoutDungeonBinding = MainActivity.raidsFragment.binding.ancientGraveDigging
+    override fun getLayout(): LayoutDungeonBinding = MainActivity.raidsFragment.binding!!.ancientGraveDigging
 
     override fun rollEnemies(): MutableList<Enemy> {
         return when (progress) {

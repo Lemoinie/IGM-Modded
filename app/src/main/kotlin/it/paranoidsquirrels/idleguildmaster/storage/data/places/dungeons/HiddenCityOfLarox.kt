@@ -27,7 +27,7 @@ class HiddenCityOfLarox : Area() {
 
     override fun getDetailDrawable(): Int = R.drawable.area_hidden_city_of_larox
 
-    override fun getLayout(): LayoutDungeonBinding = MainActivity.dungeonsFragment.binding.hiddenCityOfLarox
+    override fun getLayout(): LayoutDungeonBinding = MainActivity.dungeonsFragment.binding!!.hiddenCityOfLarox
 
     override fun rollEnemies(): MutableList<Enemy> {
         val dRandom = Utils.random() * 1000.0

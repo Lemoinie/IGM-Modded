@@ -24,7 +24,7 @@ class LostLands : Area() {
 
     override fun getDetailDrawable(): Int = R.drawable.area_lost_lands
 
-    override fun getLayout(): LayoutDungeonBinding = MainActivity.dungeonsFragment.binding.lostLands
+    override fun getLayout(): LayoutDungeonBinding = MainActivity.dungeonsFragment.binding!!.lostLands
 
     override fun rollEnemies(): MutableList<Enemy> {
         val ev = event

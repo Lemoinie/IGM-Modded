@@ -25,7 +25,7 @@ class Kaunis : Area() {
 
     override fun getDetailDrawable(): Int = R.drawable.area_kaunis
 
-    override fun getLayout(): LayoutDungeonBinding = MainActivity.raidsFragment.binding.kaunis
+    override fun getLayout(): LayoutDungeonBinding = MainActivity.raidsFragment.binding!!.kaunis
 
     override fun rollEnemies(): MutableList<Enemy> {
         return when (progress) {

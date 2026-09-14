@@ -27,7 +27,7 @@ class TheCultistRebels : Area() {
 
     override fun getDetailDrawable(): Int = R.drawable.area_the_cultist_rebels
 
-    override fun getLayout(): LayoutDungeonBinding = MainActivity.raidsFragment.binding.theCultistRebels
+    override fun getLayout(): LayoutDungeonBinding = MainActivity.raidsFragment.binding!!.theCultistRebels
 
     override fun rollEnemies(): MutableList<Enemy> {
         val ev = event ?: return CopyOnWriteArrayList()

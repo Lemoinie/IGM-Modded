@@ -26,7 +26,7 @@ class ImperialRescue : Area() {
 
     override fun getDetailDrawable(): Int = R.drawable.area_imperial_rescue
 
-    override fun getLayout(): LayoutDungeonBinding = MainActivity.raidsFragment.binding.imperialRescue
+    override fun getLayout(): LayoutDungeonBinding = MainActivity.raidsFragment.binding!!.imperialRescue
 
     override fun rollEnemies(): MutableList<Enemy> {
         if (progress < maxProgress) {

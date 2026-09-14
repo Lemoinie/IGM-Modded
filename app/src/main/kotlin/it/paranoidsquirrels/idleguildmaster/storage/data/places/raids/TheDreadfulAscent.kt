@@ -24,7 +24,7 @@ class TheDreadfulAscent : Area() {
 
     override fun getDetailDrawable(): Int = R.drawable.area_the_dreadful_ascent
 
-    override fun getLayout(): LayoutDungeonBinding = MainActivity.raidsFragment.binding.theDreadfulAscent
+    override fun getLayout(): LayoutDungeonBinding = MainActivity.raidsFragment.binding!!.theDreadfulAscent
 
     override fun rollEnemies(): MutableList<Enemy> {
         if (progress < maxProgress) {

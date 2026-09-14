@@ -16,7 +16,7 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.places.Area
 
 class DungeonsFragment : Fragment() {
     private var _binding: FragmentDungeonsBinding? = null
-    val binding get() = _binding!!
+    val binding: FragmentDungeonsBinding? get() = _binding
 
 
     override fun onCreateView(
@@ -37,6 +37,7 @@ class DungeonsFragment : Fragment() {
     }
 
     fun refresh() {
+        if (_binding == null) return
         for (area in Utils.compileDungeonList()) {
             val layout = area.getLayout()
             layout.dungeonImage.setImageDrawable(
@@ -52,12 +53,14 @@ class DungeonsFragment : Fragment() {
     }
 
     fun refreshDungeonVisibility() {
+        if (_binding == null) return
         for (area in Utils.compileDungeonList()) {
             area.getLayout().root.visibility = if (area.isUnlocked) View.VISIBLE else View.GONE
         }
     }
 
     fun attachListeners() {
+        if (_binding == null) return
         for (area in Utils.compileDungeonList()) {
             area.getLayout().root.setOnClickListener {
                 UIUtils.clickArea(this, area)

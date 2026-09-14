@@ -24,7 +24,7 @@ class TheDireDescent : Area() {
 
     override fun getDetailDrawable(): Int = R.drawable.area_the_dire_descent
 
-    override fun getLayout(): LayoutDungeonBinding = MainActivity.raidsFragment.binding.theDireDescent
+    override fun getLayout(): LayoutDungeonBinding = MainActivity.raidsFragment.binding!!.theDireDescent
 
     override fun rollEnemies(): MutableList<Enemy> {
         if (progress < maxProgress) {

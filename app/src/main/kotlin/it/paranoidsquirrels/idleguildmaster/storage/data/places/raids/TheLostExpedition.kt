@@ -32,7 +32,7 @@ class TheLostExpedition : Area() {
 
     override fun getDetailDrawable(): Int = R.drawable.area_the_lost_expedition
 
-    override fun getLayout(): LayoutDungeonBinding = MainActivity.raidsFragment.binding.theLostExpedition
+    override fun getLayout(): LayoutDungeonBinding = MainActivity.raidsFragment.binding!!.theLostExpedition
 
     override fun rollEnemies(): MutableList<Enemy> {
         val ev = event
