@@ -392,7 +392,7 @@ public class Logger {
                                 break;
                             case 29:
                                 Entity entity16 = (Entity) objArr[0];
-                                String str5 = String.format(RESOURCES.getString(R.string.log_skill), RESOURCES.getString(entity16.getIdName()), RESOURCES.getString(entity16.getActiveSkill().name));
+                                String str5 = String.format(RESOURCES.getString(R.string.log_skill), RESOURCES.getString(entity16.getIdName()), RESOURCES.getString(entity16.getActiveSkill().nameRes));
                                 if (entity16 instanceof Enemy) {
                                     red5 = getRed();
                                 }
@@ -671,7 +671,7 @@ public class Logger {
                                                 break;
                                             case BOTCHED_OFFERING /* 115 */:
                                                 Entity entity33 = (Entity) objArr[0];
-                                                strWrap = wrap(String.format(RESOURCES.getString(R.string.log_the_dire_descent_event_1), RESOURCES.getString(entity33.getIdName()), RESOURCES.getString(entity33.getActiveSkill().name)), getRed());
+                                                strWrap = wrap(String.format(RESOURCES.getString(R.string.log_the_dire_descent_event_1), RESOURCES.getString(entity33.getIdName()), RESOURCES.getString(entity33.getActiveSkill().nameRes)), getRed());
                                                 break;
                                             case ARCANE_SUPPRESSION /* 116 */:
                                                 boolean zEquals3 = "ko".equals(RESOURCES.getString(R.string.language_code));

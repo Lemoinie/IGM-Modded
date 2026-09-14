@@ -701,8 +701,8 @@ public class DialogEntityDetail extends CustomDialog {
         }
         this.binding.eightDpFromDoctrine.setVisibility(this.entity.canPickDoctrine() ? 0 : 8);
         this.binding.detailImage.setImageDrawable(ResourcesCompat.getDrawable(getResources(), this.entity.getImageId(), getContext().getTheme()));
-        this.binding.namePassive.setText(getString(this.entity.getPassiveSkill().name));
-        this.binding.nameActive.setText(getString(this.entity.getActiveSkill().name));
+        this.binding.namePassive.setText(getString(this.entity.getPassiveSkill().nameRes));
+        this.binding.nameActive.setText(getString(this.entity.getActiveSkill().nameRes));
         this.binding.detailAttackDamage.setText(String.format(getString(R.string.attack_formatted), Integer.valueOf(this.entity.calculateMinAttackDamage()), Integer.valueOf(this.entity.calculateMaxAttackDamage())));
         this.binding.detailAttackType.setText(String.format(getString(R.string.attack_type), getString(this.entity.isRanged() ? R.string.ranged : R.string.melee), getString(this.entity.isMagic() ? R.string.magic : R.string.physical)));
         this.binding.detailHp.setText(String.format(getString(R.string.hp_formatted), Integer.valueOf(this.entity.calculateTotalMaxHp())));

@@ -225,12 +225,12 @@ public class UIUtils {
             return "";
         }
         if (traitCommon != null && traitRare != null) {
-            return resources.getString(traitCommon.name) + ", " + resources.getString(traitRare.name);
+            return resources.getString(traitCommon.nameRes) + ", " + resources.getString(traitRare.nameRes);
         }
         if (traitCommon != null) {
-            return resources.getString(traitCommon.name);
+            return resources.getString(traitCommon.nameRes);
         }
-        return resources.getString(traitRare.name);
+        return resources.getString(traitRare.nameRes);
     }
 
     public static String traitsToLongString(Adventurer adventurer, Resources resources) {
@@ -240,12 +240,12 @@ public class UIUtils {
             return "";
         }
         if (traitCommon != null && traitRare != null) {
-            return String.format(resources.getString(R.string.traits_formatted_2), resources.getString(traitCommon.name), resources.getString(traitCommon.description), resources.getString(traitRare.name), resources.getString(traitRare.description));
+            return String.format(resources.getString(R.string.traits_formatted_2), resources.getString(traitCommon.nameRes), resources.getString(traitCommon.description), resources.getString(traitRare.nameRes), resources.getString(traitRare.description));
         }
         if (traitCommon != null) {
-            return String.format(resources.getString(R.string.traits_formatted_1), resources.getString(traitCommon.name), resources.getString(traitCommon.description));
+            return String.format(resources.getString(R.string.traits_formatted_1), resources.getString(traitCommon.nameRes), resources.getString(traitCommon.description));
         }
-        return String.format(resources.getString(R.string.traits_formatted_1), resources.getString(traitRare.name), resources.getString(traitRare.description));
+        return String.format(resources.getString(R.string.traits_formatted_1), resources.getString(traitRare.nameRes), resources.getString(traitRare.description));
     }
 
     public static void hideUI(Window window) {

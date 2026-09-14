@@ -39,6 +39,12 @@ android {
         jvmTarget = "21"
     }
 
+    testOptions {
+        unitTests {
+            isReturnDefaultValues = true
+        }
+    }
+
     buildFeatures {
         dataBinding = true
         viewBinding = true
@@ -92,5 +98,8 @@ dependencies {
 
     // Lifecycle KTX
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.4")
+
+    // Testing
+    testImplementation("junit:junit:4.13.2")
 
 }
