@@ -51,7 +51,7 @@ public class DialogChangeTraitRare extends CustomDialog {
 
     @Override // it.paranoidsquirrels.idleguildmaster.ui.dialogs.CustomDialog
     protected void initialize(Bundle bundle) {
-        this.binding.current.name.setText(getString(this.adventurer.getTraitRare() == null ? R.string.trait_null_name : this.adventurer.getTraitRare().name));
+        this.binding.current.name.setText(getString(this.adventurer.getTraitRare() == null ? R.string.trait_null_name : this.adventurer.getTraitRare().nameRes));
         this.binding.current.description.setText(getString(this.adventurer.getTraitRare() == null ? R.string.trait_null_description : this.adventurer.getTraitRare().description));
         ArrayList arrayList = new ArrayList(Arrays.asList(Trait.EMPATHETIC, Trait.GIFTED, Trait.INTIMIDATING, Trait.FOCUSED, Trait.DRAGON_BLOOD, Trait.CURSED, Trait.REACTIVE, Trait.NOCTURNAL, Trait.MINDFUL, Trait.TROLL_BLOOD, Trait.NIMBLE, Trait.RUTHLESS, Trait.BLESSED, Trait.ALERT));
         if (this.adventurer.getTraitRare() != null) {
@@ -81,7 +81,7 @@ public class DialogChangeTraitRare extends CustomDialog {
 
     private void addTraitToList(final Trait trait) {
         LayoutTraitBinding layoutTraitBindingInflate = LayoutTraitBinding.inflate(getLayoutInflater(), this.binding.list, false);
-        layoutTraitBindingInflate.name.setText(getString(trait.name));
+        layoutTraitBindingInflate.name.setText(getString(trait.nameRes));
         layoutTraitBindingInflate.description.setText(getString(trait.description));
         layoutTraitBindingInflate.getRoot().setOnClickListener(new View.OnClickListener() { // from class: it.paranoidsquirrels.idleguildmaster.ui.dialogs.DialogChangeTraitRare$$ExternalSyntheticLambda0
             @Override // android.view.View.OnClickListener
@@ -97,7 +97,7 @@ public class DialogChangeTraitRare extends CustomDialog {
         if (this.confirm != null) {
             return;
         }
-        AlertDialog actionDialog = UIUtils.getActionDialog(getContext(), Integer.valueOf(R.string.dialog_change_trait_confirm_title), String.format(getString(R.string.dialog_change_trait_confirm_body), getString(this.adventurer.getIdName()), getString(this.adventurer.getTraitRare() == null ? R.string.trait_null_name : this.adventurer.getTraitRare().name), getString(trait.name)), R.string.yes, new DialogInterface.OnClickListener() { // from class: it.paranoidsquirrels.idleguildmaster.ui.dialogs.DialogChangeTraitRare$$ExternalSyntheticLambda2
+        AlertDialog actionDialog = UIUtils.getActionDialog(getContext(), Integer.valueOf(R.string.dialog_change_trait_confirm_title), String.format(getString(R.string.dialog_change_trait_confirm_body), getString(this.adventurer.getIdName()), getString(this.adventurer.getTraitRare() == null ? R.string.trait_null_name : this.adventurer.getTraitRare().nameRes), getString(trait.nameRes)), R.string.yes, new DialogInterface.OnClickListener() { // from class: it.paranoidsquirrels.idleguildmaster.ui.dialogs.DialogChangeTraitRare$$ExternalSyntheticLambda2
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
                 DialogChangeTraitRare.this.m229x91a3e1a6(trait, dialogInterface, i);

@@ -155,7 +155,7 @@ public class DialogDoctrine extends CustomDialog {
         String str4;
         this.binding.name.setVisibility(0);
         this.binding.cost.setVisibility(0);
-        this.binding.name.setText(String.format(getString(R.string.dialog_doctrine_name_level_formatted), getString(doctrineAbility.getType().name), Integer.valueOf(doctrineAbility.getLevel()), Integer.valueOf(doctrineAbility.getType().maxLevel)));
+        this.binding.name.setText(String.format(getString(R.string.dialog_doctrine_name_level_formatted), getString(doctrineAbility.getType().nameRes), Integer.valueOf(doctrineAbility.getLevel()), Integer.valueOf(doctrineAbility.getType().maxLevel)));
         this.binding.cost.setText(String.valueOf(doctrineAbility.getType().cost));
         int i = doctrineAbility.getType().formatMode;
         if (i != 0) {
