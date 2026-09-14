@@ -1,0 +1,14 @@
+package it.paranoidsquirrels.idleguildmaster.storage.data.items.instances
+
+import it.paranoidsquirrels.idleguildmaster.R
+import it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Accessory
+
+class CopperHelmet : Accessory() {
+    override fun configureProperties() {
+        idName = R.string.accessory_copper_helmet_name
+        idDescription = R.string.accessory_copper_helmet_description
+        idImage = R.drawable.copper_helmet
+        price = 24L
+        maxHp = 20
+    }
+}

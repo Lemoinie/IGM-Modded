@@ -12,7 +12,7 @@ class AdventureRecap {
 
     fun addEnemyKilled(enemy: Enemy?) {
         if (enemy == null) return
-        val trueClass = enemy.trueClass ?: return
+        val trueClass = enemy.getTrueClass() ?: return
         for (counter in enemiesKilled) {
             if (trueClass == counter.enemy) {
                 counter.timesSlain++
