@@ -501,8 +501,8 @@ object ModManager {
         "- Restored custom Berserker sprite art and updated app icon to Sha." +
         "\n" +
         "1.3.0.2 (15/9/2026):\n" +
-        "- Fixed Celestial Bow only attacking twice instead of attacking thrice."
-
+        "- Fixed Celestial Bow only attacking twice instead of attacking thrice. \n" +
+        "- Fixed Berserker sprite art." 
     @JvmField
     var shownModAboutDialog: AlertDialog? = null
     @JvmField

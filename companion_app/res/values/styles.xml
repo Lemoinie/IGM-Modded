@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Companion" parent="@android:style/Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@color/bg_dark</item>
+        <item name="android:colorPrimary">@color/gold</item>
+        <item name="android:colorPrimaryDark">#000000</item>
+        <item name="android:colorAccent">@color/gold</item>
+        <item name="android:textColorPrimary">@color/text_white</item>
+        <item name="android:textColorSecondary">@color/text_gray</item>
+    </style>
+</resources>
