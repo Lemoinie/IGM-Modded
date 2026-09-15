@@ -7,6 +7,9 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.items.ItemWrapper
 import java.util.LinkedHashMap
 
 class KnightSlime : Enemy() {
+    init {
+        trueClass = "KnightSlime"
+    }
     override fun configureStatistics() {
         baseMaxHp = 400
         baseDefense = 60

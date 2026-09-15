@@ -16,5 +16,6 @@ class CelestialBow : Bow() {
         criticalChance = 0.10
         criticalDamage = 0.10
         endOfTurnAction = EndOfTurnAction.EXTRA_ATTACK
+        endOfTurnActionRepeats = 2
     }
 }

@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.text.Html
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
 import androidx.viewbinding.ViewBinding
@@ -65,34 +66,60 @@ class DialogPetDetail : CustomDialog() {
         b.detailExperienceBar.progress = if (nextLvlFood > 0) ((p.food * 100.0) / nextLvlFood).toInt() else 0
         b.description.text = getString(p.idDescription)
 
-        b.ability1Name.text = String.format(getString(R.string.pet_ability_name_unlocked), getString(p.petAbility1.nameRes), p.level)
-        b.ability2Name.text = if (p.level > 20) {
-            String.format(getString(R.string.pet_ability_name_unlocked), getString(p.petAbility2.nameRes), p.level - 20)
+        val isSenko = (p.trueClass.equals("Senko", ignoreCase = true) || p.trueClass.equals("Semi", ignoreCase = true) || p is it.paranoidsquirrels.idleguildmaster.storage.data.pets.instances.Senko)
+        if (isSenko) {
+            // Unlock all traits at level 1 with full power
+            b.ability1Name.text = String.format(getString(R.string.pet_ability_name_unlocked), getString(p.petAbility1.nameRes), p.level)
+            b.ability2Name.text = String.format(getString(R.string.pet_ability_name_unlocked), getString(p.petAbility2.nameRes), p.level)
+            b.ability3Name.text = String.format(getString(R.string.pet_ability_name_unlocked), getString(p.petAbility3.nameRes), p.level)
+            b.ability4Name.text = String.format(getString(R.string.pet_ability_name_unlocked), getString(p.petAbility4.nameRes), p.level)
+
+            b.lockAbility2.visibility = View.GONE
+            b.lockAbility3.visibility = View.GONE
+            b.lockAbility4.visibility = View.GONE
+
+            b.containerAbility3.visibility = View.VISIBLE
+            b.containerAbility4.visibility = View.VISIBLE
+
+            // Redesigned 5th Trait Display Card
+            b.containerAbility5.visibility = View.VISIBLE
+            b.ability5Name.text = "Kitsune Spirit Blessing (5th Trait)"
+            b.ability5Description.text = Html.fromHtml("<font color=#FFDB7F><b>+20%</b></font> Team Healing &nbsp;•&nbsp; <font color=#7FFF7F><b>+5</b></font> HP Regen/Turn &nbsp;•&nbsp; <font color=#FFFFA0><b>+1</b></font> Light", 0)
+            b.detailTraits.visibility = View.VISIBLE
+            b.detailTraits.text = "5 Traits (All Unlocked)"
         } else {
-            String.format(getString(R.string.pet_ability_name_locked), getString(p.petAbility2.nameRes), 21)
-        }
-        b.ability3Name.text = if (p.level > 40) {
-            String.format(getString(R.string.pet_ability_name_unlocked), getString(p.petAbility3.nameRes), p.level - 40)
-        } else {
-            String.format(getString(R.string.pet_ability_name_locked), getString(p.petAbility3.nameRes), 41)
-        }
-        b.ability4Name.text = if (p.level > 60) {
-            String.format(getString(R.string.pet_ability_name_unlocked), getString(p.petAbility4.nameRes), p.level - 60)
-        } else {
-            String.format(getString(R.string.pet_ability_name_locked), getString(p.petAbility4.nameRes), 61)
+            b.ability1Name.text = String.format(getString(R.string.pet_ability_name_unlocked), getString(p.petAbility1.nameRes), p.level)
+            b.ability2Name.text = if (p.level > 20) {
+                String.format(getString(R.string.pet_ability_name_unlocked), getString(p.petAbility2.nameRes), p.level - 20)
+            } else {
+                String.format(getString(R.string.pet_ability_name_locked), getString(p.petAbility2.nameRes), 21)
+            }
+            b.ability3Name.text = if (p.level > 40) {
+                String.format(getString(R.string.pet_ability_name_unlocked), getString(p.petAbility3.nameRes), p.level - 40)
+            } else {
+                String.format(getString(R.string.pet_ability_name_locked), getString(p.petAbility3.nameRes), 41)
+            }
+            b.ability4Name.text = if (p.level > 60) {
+                String.format(getString(R.string.pet_ability_name_unlocked), getString(p.petAbility4.nameRes), p.level - 60)
+            } else {
+                String.format(getString(R.string.pet_ability_name_locked), getString(p.petAbility4.nameRes), 61)
+            }
+
+            b.lockAbility2.visibility = if (p.level > 20) View.GONE else View.VISIBLE
+            b.lockAbility3.visibility = if (p.level > 40) View.GONE else View.VISIBLE
+            b.lockAbility4.visibility = if (p.level > 60) View.GONE else View.VISIBLE
+
+            b.containerAbility3.visibility = if (p.abilityNumber > 2) View.VISIBLE else View.GONE
+            b.containerAbility4.visibility = if (p.abilityNumber <= 3) View.GONE else View.VISIBLE
+
+            b.containerAbility5.visibility = View.GONE
+            b.detailTraits.visibility = View.GONE
         }
 
         b.ability1Description.text = Html.fromHtml(formatPetAbilityDescription(p.petAbility1), 0)
         b.ability2Description.text = Html.fromHtml(formatPetAbilityDescription(p.petAbility2), 0)
         b.ability3Description.text = Html.fromHtml(formatPetAbilityDescription(p.petAbility3), 0)
         b.ability4Description.text = Html.fromHtml(formatPetAbilityDescription(p.petAbility4), 0)
-
-        b.lockAbility2.visibility = if (p.level > 20) 8 else 0
-        b.lockAbility3.visibility = if (p.level > 40) 8 else 0
-        b.lockAbility4.visibility = if (p.level > 60) 8 else 0
-
-        b.containerAbility3.visibility = if (p.abilityNumber > 2) 0 else 8
-        b.containerAbility4.visibility = if (p.abilityNumber <= 3) 8 else 0
 
         b.dismiss.setText(if ((p.level > 1 || p.food > 0) && MainActivity.data.pets.size > 1) R.string.pet_merge else R.string.pet_set_free)
     }

@@ -17,6 +17,10 @@ produced by Gson from the `storage.data.Data` class.
   defaults. This tolerance is what keeps old saves loadable.
 - **There is no `save_version` field** in the on-disk JSON despite earlier notes.
   Forward/backward compatibility is achieved purely by the tolerant loader.
+- **File encoding**: the canonical encoding is **UTF-8 without a BOM** (that is what
+  `FileManager.overwriteFile` writes and what the app expects). For robustness with
+  external tools, `FileManager.loadFile` also accepts UTF-8 with a BOM and UTF-16
+  LE/BE with a BOM (auto-detected, stripped on read).
 
 > The name "save.json" in this repository is a **local working copy** used by the
 > dev workflow (`scripts/save/save_manager.ps1`, `save_editor/`), not the file the

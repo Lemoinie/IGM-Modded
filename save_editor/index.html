@@ -659,23 +659,11 @@ function decodeBuffer(buffer) {
   return new TextDecoder('utf-8').decode(buffer);
 }
 
-// Detect if original was UTF-16 LE
-function wasUtf16LE(buffer) {
-  const bytes = new Uint8Array(buffer);
-  return bytes[0] === 0xFF && bytes[1] === 0xFE;
-}
-
-// Re-encode as UTF-16 LE with BOM
-function encodeUtf16LE(str) {
-  const utf16 = new TextEncoder(); // we'll do it manually
-  const buf = new ArrayBuffer(2 + str.length * 2);
-  const view = new DataView(buf);
-  view.setUint8(0, 0xFF);
-  view.setUint8(1, 0xFE);
-  for (let i = 0; i < str.length; i++) {
-    view.setUint16(2 + i * 2, str.charCodeAt(i), true /* LE */);
-  }
-  return buf;
+// Encode as UTF-8 without BOM — the format the game's FileManager reads/writes.
+// The decode path above still accepts UTF-16 LE/BE and UTF-8+BOM inputs for
+// convenience with other tools, but the canonical export is UTF-8 no BOM.
+function encodeUtf8(str) {
+  return new TextEncoder().encode(str);
 }
 
 // ─── FILE LOADING ────────────────────────────────────────────────────────────
@@ -1111,11 +1099,11 @@ function exportSave() {
 
   const jsonStr = JSON.stringify(saveData, null, 4);
 
-  // Always export as UTF-16 LE .txt — that is what the companion app expects.
-  // If the source was already UTF-16 LE we match it exactly.
-  // If the source was plain JSON we still output UTF-16 LE so the companion app can import it.
-  const encoded = encodeUtf16LE(jsonStr);
-  const blob = new Blob([encoded], { type: 'application/octet-stream' });
+  // Export as UTF-8 without BOM — the save format the game's FileManager reads.
+  // (UTF-16 exports previously wiped the save: the app reads saves as UTF-8, so a
+  // UTF-16 LE file was unparsable and the game fell back to a fresh save.)
+  const encoded = encodeUtf8(jsonStr);
+  const blob = new Blob([encoded], { type: 'application/json' });
   const filename = 'save_edited.txt';
 
   const url = URL.createObjectURL(blob);
@@ -1124,7 +1112,7 @@ function exportSave() {
   a.download = filename;
   a.click();
   URL.revokeObjectURL(url);
-  toast('Exported as ' + filename + ' (UTF-16 LE, companion app ready)', 'success');
+  toast('Exported as ' + filename + ' (UTF-8, game-ready)', 'success');
 }
 
 // ─── TOAST ───────────────────────────────────────────────────────────────────

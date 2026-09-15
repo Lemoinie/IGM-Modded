@@ -1,0 +1,2965 @@
+{
+    "adsWatched": 0,
+    "adventurerPackPurchased": true,
+    "adventurers": [
+        {
+            "accessory": {
+                "stack": 1,
+                "trueClass": "DiamondAmulet"
+            },
+            "armor": {
+                "stack": 1,
+                "trueClass": "PatricianArmor"
+            },
+            "ascended": false,
+            "doctrine": {
+                "l1": 0,
+                "l2": 0,
+                "l3": 0,
+                "l4": 0,
+                "l5": 0,
+                "l6": 0,
+                "trueClass": "EmptyDoctrine"
+            },
+            "experience": 770,
+            "id": 0,
+            "level": 13,
+            "potionsDrank": {
+                "potionOfAgilityDrank": 0,
+                "potionOfConstitutionDrank": 0,
+                "potionOfDarknessDrank": 0,
+                "potionOfDefenseDrank": 0,
+                "potionOfDexterityDrank": 0,
+                "potionOfHealthDrank": 0,
+                "potionOfImmunityDrank": 0,
+                "potionOfIntelligenceDrank": 0,
+                "potionOfMagicDefenseDrank": 0,
+                "potionOfPrecisionDrank": 0,
+                "potionOfViciousnessDrank": 0
+            },
+            "seen": false,
+            "timeWhenDismissed": 0,
+            "traitRare": "INTIMIDATING",
+            "weapon": {
+                "stack": 1,
+                "trueClass": "Aegis"
+            },
+            "currentHp": 537,
+            "currentMana": 33,
+            "currentShield": 0,
+            "negativeStatusEffects": [],
+            "positiveStatusEffects": [],
+            "trueClass": "IronDefender"
+        },
+        {
+            "accessory": {
+                "stack": 1,
+                "trueClass": "DiamondAmulet"
+            },
+            "armor": {
+                "stack": 1,
+                "trueClass": "GhostRabbitCloak"
+            },
+            "ascended": false,
+            "doctrine": {
+                "l1": 0,
+                "l2": 0,
+                "l3": 0,
+                "l4": 0,
+                "l5": 0,
+                "l6": 0,
+                "trueClass": "EmptyDoctrine"
+            },
+            "experience": 770,
+            "id": 2,
+            "level": 13,
+            "potionsDrank": {
+                "potionOfAgilityDrank": 0,
+                "potionOfConstitutionDrank": 0,
+                "potionOfDarknessDrank": 0,
+                "potionOfDefenseDrank": 0,
+                "potionOfDexterityDrank": 0,
+                "potionOfHealthDrank": 0,
+                "potionOfImmunityDrank": 0,
+                "potionOfIntelligenceDrank": 0,
+                "potionOfMagicDefenseDrank": 0,
+                "potionOfPrecisionDrank": 0,
+                "potionOfViciousnessDrank": 0
+            },
+            "seen": false,
+            "timeWhenDismissed": 0,
+            "traitCommon": "BOOKWORM_PLUS",
+            "traitRare": "ALERT",
+            "weapon": {
+                "stack": 1,
+                "trueClass": "Cane"
+            },
+            "currentHp": 287,
+            "currentMana": 56,
+            "currentShield": 0,
+            "negativeStatusEffects": [],
+            "positiveStatusEffects": [],
+            "trueClass": "WhiteArchmage"
+        },
+        {
+            "accessory": {
+                "stack": 1,
+                "trueClass": "DiamondAmulet"
+            },
+            "armor": {
+                "stack": 1,
+                "trueClass": "CottontailJacket"
+            },
+            "ascended": false,
+            "doctrine": {
+                "l1": 0,
+                "l2": 0,
+                "l3": 0,
+                "l4": 0,
+                "l5": 0,
+                "l6": 0,
+                "trueClass": "EmptyDoctrine"
+            },
+            "experience": 18117,
+            "id": 3,
+            "level": 25,
+            "potionsDrank": {
+                "potionOfAgilityDrank": 0,
+                "potionOfConstitutionDrank": 0,
+                "potionOfDarknessDrank": 0,
+                "potionOfDefenseDrank": 0,
+                "potionOfDexterityDrank": 0,
+                "potionOfHealthDrank": 0,
+                "potionOfImmunityDrank": 0,
+                "potionOfIntelligenceDrank": 0,
+                "potionOfMagicDefenseDrank": 0,
+                "potionOfPrecisionDrank": 0,
+                "potionOfViciousnessDrank": 0
+            },
+            "seen": false,
+            "timeWhenDismissed": 0,
+            "traitCommon": "FERAL_PLUS",
+            "traitRare": "RUTHLESS",
+            "weapon": {
+                "stack": 1,
+                "trueClass": "CelestialBow"
+            },
+            "currentHp": 374,
+            "currentMana": 60,
+            "currentShield": 0,
+            "negativeStatusEffects": [],
+            "positiveStatusEffects": [],
+            "trueClass": "Hailstorm"
+        },
+        {
+            "accessory": {
+                "stack": 1,
+                "trueClass": "DiamondAmulet"
+            },
+            "armor": {
+                "stack": 1,
+                "trueClass": "CottontailJacket"
+            },
+            "ascended": false,
+            "doctrine": {
+                "l1": 0,
+                "l2": 0,
+                "l3": 0,
+                "l4": 0,
+                "l5": 0,
+                "l6": 0,
+                "trueClass": "EmptyDoctrine"
+            },
+            "experience": 16821,
+            "id": 4,
+            "level": 26,
+            "potionsDrank": {
+                "potionOfAgilityDrank": 0,
+                "potionOfConstitutionDrank": 0,
+                "potionOfDarknessDrank": 0,
+                "potionOfDefenseDrank": 0,
+                "potionOfDexterityDrank": 0,
+                "potionOfHealthDrank": 0,
+                "potionOfImmunityDrank": 0,
+                "potionOfIntelligenceDrank": 0,
+                "potionOfMagicDefenseDrank": 0,
+                "potionOfPrecisionDrank": 0,
+                "potionOfViciousnessDrank": 0
+            },
+            "seen": false,
+            "timeWhenDismissed": 0,
+            "traitCommon": "FERAL_PLUS",
+            "traitRare": "RUTHLESS",
+            "weapon": {
+                "stack": 1,
+                "trueClass": "DryadsCurse"
+            },
+            "currentHp": 375,
+            "currentMana": 91,
+            "currentShield": 0,
+            "negativeStatusEffects": [],
+            "positiveStatusEffects": [],
+            "trueClass": "NightSpecter"
+        },
+        {
+            "accessory": {
+                "stack": 1,
+                "trueClass": "DiamondAmulet"
+            },
+            "armor": {
+                "stack": 1,
+                "trueClass": "CottontailJacket"
+            },
+            "ascended": false,
+            "doctrine": {
+                "l1": 0,
+                "l2": 0,
+                "l3": 0,
+                "l4": 0,
+                "l5": 0,
+                "l6": 0,
+                "trueClass": "EmptyDoctrine"
+            },
+            "experience": 798,
+            "id": 5,
+            "level": 24,
+            "potionsDrank": {
+                "potionOfAgilityDrank": 0,
+                "potionOfConstitutionDrank": 0,
+                "potionOfDarknessDrank": 0,
+                "potionOfDefenseDrank": 0,
+                "potionOfDexterityDrank": 0,
+                "potionOfHealthDrank": 0,
+                "potionOfImmunityDrank": 0,
+                "potionOfIntelligenceDrank": 0,
+                "potionOfMagicDefenseDrank": 0,
+                "potionOfPrecisionDrank": 0,
+                "potionOfViciousnessDrank": 0
+            },
+            "seen": false,
+            "timeWhenDismissed": 0,
+            "traitCommon": "FERAL",
+            "traitRare": "RUTHLESS",
+            "weapon": {
+                "stack": 1,
+                "trueClass": "CelestialBow"
+            },
+            "currentHp": 338,
+            "currentMana": 48,
+            "currentShield": 0,
+            "negativeStatusEffects": [],
+            "positiveStatusEffects": [],
+            "trueClass": "Fury"
+        },
+        {
+            "accessory": {
+                "stack": 1,
+                "trueClass": "DiamondAmulet"
+            },
+            "armor": {
+                "stack": 1,
+                "trueClass": "PatricianArmor"
+            },
+            "ascended": true,
+            "doctrine": {
+                "l1": 2,
+                "l2": 3,
+                "l3": 3,
+                "l4": 0,
+                "l5": 0,
+                "l6": 1,
+                "trueClass": "DoctrineOfRuin"
+            },
+            "experience": 0,
+            "id": 6,
+            "level": 45,
+            "potionsDrank": {
+                "potionOfAgilityDrank": 0,
+                "potionOfConstitutionDrank": 0,
+                "potionOfDarknessDrank": 0,
+                "potionOfDefenseDrank": 0,
+                "potionOfDexterityDrank": 0,
+                "potionOfHealthDrank": 0,
+                "potionOfImmunityDrank": 0,
+                "potionOfIntelligenceDrank": 0,
+                "potionOfMagicDefenseDrank": 0,
+                "potionOfPrecisionDrank": 0,
+                "potionOfViciousnessDrank": 0
+            },
+            "seen": false,
+            "timeWhenDismissed": 0,
+            "traitCommon": "BRUTE_PLUS",
+            "traitRare": "RUTHLESS",
+            "weapon": {
+                "stack": 1,
+                "trueClass": "Aegis"
+            },
+            "currentHp": 952,
+            "currentMana": 39,
+            "currentShield": 0,
+            "negativeStatusEffects": [
+                {
+                    "turnsLeft": 1,
+                    "type": "TAUNT"
+                }
+            ],
+            "positiveStatusEffects": [],
+            "trueClass": "Berserker"
+        },
+        {
+            "accessory": {
+                "stack": 1,
+                "trueClass": "SPIDER"
+            },
+            "armor": {
+                "stack": 1,
+                "trueClass": "ScarletShroud"
+            },
+            "ascended": true,
+            "doctrine": {
+                "l1": 2,
+                "l2": 3,
+                "l3": 3,
+                "l4": 0,
+                "l5": 0,
+                "l6": 1,
+                "trueClass": "DoctrineOfRuin"
+            },
+            "experience": 0,
+            "id": -1,
+            "level": 45,
+            "potionsDrank": {
+                "potionOfAgilityDrank": 0,
+                "potionOfConstitutionDrank": 0,
+                "potionOfDarknessDrank": 0,
+                "potionOfDefenseDrank": 0,
+                "potionOfDexterityDrank": 0,
+                "potionOfHealthDrank": 0,
+                "potionOfImmunityDrank": 0,
+                "potionOfIntelligenceDrank": 0,
+                "potionOfMagicDefenseDrank": 0,
+                "potionOfPrecisionDrank": 0,
+                "potionOfViciousnessDrank": 0
+            },
+            "seen": false,
+            "timeWhenDismissed": 0,
+            "traitCommon": "FERAL_PLUS",
+            "traitRare": "RUTHLESS",
+            "weapon": {
+                "stack": 1,
+                "trueClass": "InfernalChakram"
+            },
+            "currentHp": 821,
+            "currentMana": 22,
+            "currentShield": 0,
+            "negativeStatusEffects": [],
+            "positiveStatusEffects": [],
+            "trueClass": "NightLament"
+        },
+        {
+            "accessory": {
+                "stack": 1,
+                "trueClass": "VoltaicShock"
+            },
+            "armor": {
+                "stack": 1,
+                "trueClass": "ScarletShroud"
+            },
+            "ascended": true,
+            "doctrine": {
+                "l1": 2,
+                "l2": 3,
+                "l3": 3,
+                "l4": 0,
+                "l5": 0,
+                "l6": 1,
+                "trueClass": "DoctrineOfRuin"
+            },
+            "experience": 0,
+            "id": -2,
+            "level": 45,
+            "potionsDrank": {
+                "potionOfAgilityDrank": 0,
+                "potionOfConstitutionDrank": 0,
+                "potionOfDarknessDrank": 0,
+                "potionOfDefenseDrank": 0,
+                "potionOfDexterityDrank": 0,
+                "potionOfHealthDrank": 0,
+                "potionOfImmunityDrank": 0,
+                "potionOfIntelligenceDrank": 0,
+                "potionOfMagicDefenseDrank": 0,
+                "potionOfPrecisionDrank": 0,
+                "potionOfViciousnessDrank": 0
+            },
+            "seen": false,
+            "timeWhenDismissed": 0,
+            "traitCommon": "FERAL_PLUS",
+            "traitRare": "RUTHLESS",
+            "weapon": {
+                "stack": 1,
+                "trueClass": "CelestialBow"
+            },
+            "currentHp": 801,
+            "currentMana": 60,
+            "currentShield": 0,
+            "negativeStatusEffects": [],
+            "positiveStatusEffects": [],
+            "trueClass": "CelestialRain"
+        },
+        {
+            "accessory": {
+                "stack": 1,
+                "trueClass": "SpikedPrimevalShield"
+            },
+            "armor": {
+                "stack": 1,
+                "trueClass": "ChampionArmor"
+            },
+            "ascended": true,
+            "doctrine": {
+                "l1": 5,
+                "l2": 0,
+                "l3": 0,
+                "l4": 2,
+                "l5": 1,
+                "l6": 0,
+                "trueClass": "DoctrineOfWar"
+            },
+            "experience": 0,
+            "id": 25,
+            "level": 45,
+            "potionsDrank": {
+                "potionOfAgilityDrank": 0,
+                "potionOfConstitutionDrank": 0,
+                "potionOfDarknessDrank": 0,
+                "potionOfDefenseDrank": 0,
+                "potionOfDexterityDrank": 0,
+                "potionOfHealthDrank": 0,
+                "potionOfImmunityDrank": 0,
+                "potionOfIntelligenceDrank": 0,
+                "potionOfMagicDefenseDrank": 0,
+                "potionOfPrecisionDrank": 0,
+                "potionOfViciousnessDrank": 0
+            },
+            "seen": false,
+            "timeWhenDismissed": 0,
+            "traitCommon": "BRUTE",
+            "traitRare": "FOCUSED",
+            "weapon": {
+                "stack": 1,
+                "trueClass": "Scimitar"
+            },
+            "currentHp": 756,
+            "currentMana": 99,
+            "currentShield": 0,
+            "negativeStatusEffects": [],
+            "positiveStatusEffects": [
+                {
+                    "turnsLeft": 995,
+                    "type": "DEFENSIVE_STANCE"
+                }
+            ],
+            "trueClass": "DivineChampion"
+        },
+        {
+            "trueClass": "Archangel",
+            "id": -3,
+            "level": 45,
+            "experience": 0,
+            "ascended": true,
+            "seen": false,
+            "timeWhenDismissed": 0,
+            "potionsDrank": {
+                "potionOfAgilityDrank": 0,
+                "potionOfConstitutionDrank": 0,
+                "potionOfDarknessDrank": 0,
+                "potionOfDefenseDrank": 0,
+                "potionOfDexterityDrank": 0,
+                "potionOfHealthDrank": 0,
+                "potionOfImmunityDrank": 0,
+                "potionOfIntelligenceDrank": 0,
+                "potionOfMagicDefenseDrank": 0,
+                "potionOfPrecisionDrank": 0,
+                "potionOfViciousnessDrank": 0
+            },
+            "doctrine": {
+                "l1": 0,
+                "l2": 0,
+                "l3": 0,
+                "l4": 0,
+                "l5": 0,
+                "l6": 0,
+                "trueClass": "EmptyDoctrine"
+            },
+            "currentHp": 100,
+            "currentMana": 100,
+            "currentShield": 0,
+            "negativeStatusEffects": [],
+            "positiveStatusEffects": [],
+            "traitCommon": "BOOKWORM_PLUS",
+            "traitRare": "ALERT",
+            "weapon": {
+                "stack": 1,
+                "trueClass": "SylvanBlessing"
+            },
+            "armor": {
+                "stack": 1,
+                "trueClass": "DreamwroughtRobe"
+            },
+            "accessory": {
+                "stack": 1,
+                "trueClass": "InfinityHat"
+            }
+        },
+        {
+            "trueClass": "Archangel",
+            "id": -4,
+            "level": 45,
+            "experience": 0,
+            "ascended": true,
+            "seen": false,
+            "timeWhenDismissed": 0,
+            "potionsDrank": {
+                "potionOfAgilityDrank": 0,
+                "potionOfConstitutionDrank": 0,
+                "potionOfDarknessDrank": 0,
+                "potionOfDefenseDrank": 0,
+                "potionOfDexterityDrank": 0,
+                "potionOfHealthDrank": 0,
+                "potionOfImmunityDrank": 0,
+                "potionOfIntelligenceDrank": 0,
+                "potionOfMagicDefenseDrank": 0,
+                "potionOfPrecisionDrank": 0,
+                "potionOfViciousnessDrank": 0
+            },
+            "doctrine": {
+                "l1": 0,
+                "l2": 0,
+                "l3": 0,
+                "l4": 0,
+                "l5": 0,
+                "l6": 0,
+                "trueClass": "EmptyDoctrine"
+            },
+            "currentHp": 100,
+            "currentMana": 100,
+            "currentShield": 0,
+            "negativeStatusEffects": [],
+            "positiveStatusEffects": [],
+            "traitCommon": "BOOKWORM_PLUS",
+            "traitRare": "ALERT",
+            "weapon": {
+                "stack": 1,
+                "trueClass": "SylvanBlessing"
+            },
+            "armor": {
+                "stack": 1,
+                "trueClass": "DreamwroughtRobe"
+            },
+            "accessory": {
+                "stack": 1,
+                "trueClass": "InfinityHat"
+            }
+        },
+        {
+            "trueClass": "BlackRegent",
+            "id": -5,
+            "level": 45,
+            "experience": 0,
+            "ascended": true,
+            "seen": false,
+            "timeWhenDismissed": 0,
+            "potionsDrank": {
+                "potionOfAgilityDrank": 0,
+                "potionOfConstitutionDrank": 0,
+                "potionOfDarknessDrank": 0,
+                "potionOfDefenseDrank": 0,
+                "potionOfDexterityDrank": 0,
+                "potionOfHealthDrank": 0,
+                "potionOfImmunityDrank": 0,
+                "potionOfIntelligenceDrank": 0,
+                "potionOfMagicDefenseDrank": 0,
+                "potionOfPrecisionDrank": 0,
+                "potionOfViciousnessDrank": 0
+            },
+            "doctrine": {
+                "l1": 0,
+                "l2": 0,
+                "l3": 0,
+                "l4": 0,
+                "l5": 0,
+                "l6": 0,
+                "trueClass": "EmptyDoctrine"
+            },
+            "currentHp": 100,
+            "currentMana": 100,
+            "currentShield": 0,
+            "negativeStatusEffects": [],
+            "positiveStatusEffects": [],
+            "traitCommon": "BRUTE_PLUS",
+            "traitRare": "ALERT",
+            "weapon": {
+                "stack": 1,
+                "trueClass": "VoidCrusher"
+            },
+            "armor": {
+                "stack": 1,
+                "trueClass": "SwarmkeeperArmor"
+            },
+            "accessory": {
+                "stack": 1,
+                "trueClass": "BurningEffigy"
+            }
+        },
+        {
+            "trueClass": "NightLament",
+            "id": -6,
+            "level": 45,
+            "experience": 0,
+            "ascended": true,
+            "seen": false,
+            "timeWhenDismissed": 0,
+            "potionsDrank": {
+                "potionOfAgilityDrank": 0,
+                "potionOfConstitutionDrank": 0,
+                "potionOfDarknessDrank": 0,
+                "potionOfDefenseDrank": 0,
+                "potionOfDexterityDrank": 0,
+                "potionOfHealthDrank": 0,
+                "potionOfImmunityDrank": 0,
+                "potionOfIntelligenceDrank": 0,
+                "potionOfMagicDefenseDrank": 0,
+                "potionOfPrecisionDrank": 0,
+                "potionOfViciousnessDrank": 0
+            },
+            "doctrine": {
+                "l1": 0,
+                "l2": 0,
+                "l3": 0,
+                "l4": 0,
+                "l5": 0,
+                "l6": 0,
+                "trueClass": "EmptyDoctrine"
+            },
+            "currentHp": 100,
+            "currentMana": 100,
+            "currentShield": 0,
+            "negativeStatusEffects": [],
+            "positiveStatusEffects": [],
+            "traitCommon": "BRUTE_PLUS",
+            "traitRare": "RUTHLESS",
+            "weapon": {
+                "stack": 1,
+                "trueClass": "Mottiphobia"
+            },
+            "armor": {
+                "stack": 1,
+                "trueClass": "ScarletShroud"
+            },
+            "accessory": {
+                "stack": 1,
+                "trueClass": "Starvation"
+            }
+        },
+        {
+            "trueClass": "CorrosiveWraith",
+            "id": -7,
+            "level": 45,
+            "experience": 0,
+            "ascended": true,
+            "seen": false,
+            "timeWhenDismissed": 0,
+            "potionsDrank": {
+                "potionOfAgilityDrank": 0,
+                "potionOfConstitutionDrank": 0,
+                "potionOfDarknessDrank": 0,
+                "potionOfDefenseDrank": 0,
+                "potionOfDexterityDrank": 0,
+                "potionOfHealthDrank": 0,
+                "potionOfImmunityDrank": 0,
+                "potionOfIntelligenceDrank": 0,
+                "potionOfMagicDefenseDrank": 0,
+                "potionOfPrecisionDrank": 0,
+                "potionOfViciousnessDrank": 0
+            },
+            "doctrine": {
+                "l1": 0,
+                "l2": 0,
+                "l3": 0,
+                "l4": 0,
+                "l5": 0,
+                "l6": 0,
+                "trueClass": "EmptyDoctrine"
+            },
+            "currentHp": 100,
+            "currentMana": 100,
+            "currentShield": 0,
+            "negativeStatusEffects": [],
+            "positiveStatusEffects": [],
+            "traitCommon": "FERAL_PLUS",
+            "traitRare": "ALERT",
+            "weapon": {
+                "stack": 1,
+                "trueClass": "CelestialBow"
+            },
+            "armor": {
+                "stack": 1,
+                "trueClass": "ScarletVeil"
+            },
+            "accessory": {
+                "stack": 1,
+                "trueClass": "PirateKingTricorn"
+            }
+        },
+        {
+            "trueClass": "EldritchAlchemist",
+            "id": -8,
+            "level": 45,
+            "experience": 0,
+            "ascended": true,
+            "seen": false,
+            "timeWhenDismissed": 0,
+            "potionsDrank": {
+                "potionOfAgilityDrank": 0,
+                "potionOfConstitutionDrank": 0,
+                "potionOfDarknessDrank": 0,
+                "potionOfDefenseDrank": 0,
+                "potionOfDexterityDrank": 0,
+                "potionOfHealthDrank": 0,
+                "potionOfImmunityDrank": 0,
+                "potionOfIntelligenceDrank": 0,
+                "potionOfMagicDefenseDrank": 0,
+                "potionOfPrecisionDrank": 0,
+                "potionOfViciousnessDrank": 0
+            },
+            "doctrine": {
+                "l1": 0,
+                "l2": 0,
+                "l3": 0,
+                "l4": 0,
+                "l5": 0,
+                "l6": 0,
+                "trueClass": "EmptyDoctrine"
+            },
+            "currentHp": 100,
+            "currentMana": 100,
+            "currentShield": 0,
+            "negativeStatusEffects": [],
+            "positiveStatusEffects": [],
+            "traitCommon": "FERAL_PLUS",
+            "traitRare": "ALERT",
+            "weapon": {
+                "stack": 1,
+                "trueClass": "CelestialBow"
+            },
+            "armor": {
+                "stack": 1,
+                "trueClass": "ScarletVeil"
+            },
+            "accessory": {
+                "stack": 1,
+                "trueClass": "PirateKingTricorn"
+            }
+        },
+        {
+            "trueClass": "EldritchAlchemist",
+            "id": -9,
+            "level": 45,
+            "experience": 0,
+            "ascended": true,
+            "seen": false,
+            "timeWhenDismissed": 0,
+            "potionsDrank": {
+                "potionOfAgilityDrank": 0,
+                "potionOfConstitutionDrank": 0,
+                "potionOfDarknessDrank": 0,
+                "potionOfDefenseDrank": 0,
+                "potionOfDexterityDrank": 0,
+                "potionOfHealthDrank": 0,
+                "potionOfImmunityDrank": 0,
+                "potionOfIntelligenceDrank": 0,
+                "potionOfMagicDefenseDrank": 0,
+                "potionOfPrecisionDrank": 0,
+                "potionOfViciousnessDrank": 0
+            },
+            "doctrine": {
+                "l1": 0,
+                "l2": 0,
+                "l3": 0,
+                "l4": 0,
+                "l5": 0,
+                "l6": 0,
+                "trueClass": "EmptyDoctrine"
+            },
+            "currentHp": 100,
+            "currentMana": 100,
+            "currentShield": 0,
+            "negativeStatusEffects": [],
+            "positiveStatusEffects": [],
+            "traitCommon": "FERAL_PLUS",
+            "traitRare": "ALERT",
+            "weapon": {
+                "stack": 1,
+                "trueClass": "CelestialBow"
+            },
+            "armor": {
+                "stack": 1,
+                "trueClass": "ScarletVeil"
+            },
+            "accessory": {
+                "stack": 1,
+                "trueClass": "PirateKingTricorn"
+            }
+        }
+    ],
+    "afflictionLevel": 0,
+    "afflictionProgress": 0,
+    "afflictionQuests": [],
+    "amountOfPurchases": 0,
+    "ancientGraveDigging": {
+        "adventureRecap": {
+            "areasCleared": 0,
+            "enemiesKilled": [],
+            "expEarned": 0,
+            "expLost": 0,
+            "secondsPassed": 0,
+            "wiped": 0
+        },
+        "adventurersExploringIds": [],
+        "collectedExperienceIn24Hours": 0,
+        "corpses": [],
+        "drops": [],
+        "enemies": [],
+        "maxProgress": 0,
+        "progress": 0,
+        "savedAdventurersIds": [],
+        "triesAvailable": true,
+        "turnsFighting": 0,
+        "unlocked": true
+    },
+    "barrenWastelands": {
+        "adventureRecap": {
+            "areasCleared": 0,
+            "enemiesKilled": [],
+            "expEarned": 0,
+            "expLost": 0,
+            "secondsPassed": 0,
+            "wiped": 0
+        },
+        "adventurersExploringIds": [],
+        "collectedExperienceIn24Hours": 0,
+        "corpses": [],
+        "drops": [],
+        "enemies": [],
+        "maxProgress": 0,
+        "progress": 0,
+        "savedAdventurersIds": [],
+        "triesAvailable": false,
+        "turnsFighting": 0,
+        "unlocked": false
+    },
+    "blackwaterPort": {
+        "action": {
+            "turnsPassed": 2,
+            "type": 1
+        },
+        "adventureRecap": {
+            "areasCleared": 6,
+            "enemiesKilled": [
+                {
+                    "enemy": "Pirate",
+                    "timesSlain": 5
+                }
+            ],
+            "expEarned": 233,
+            "expLost": 0,
+            "secondsPassed": 78,
+            "wiped": 0
+        },
+        "adventurersExploringIds": [
+            25
+        ],
+        "collectedExperienceIn24Hours": 0,
+        "corpses": [],
+        "drops": [
+            {
+                "stack": 3,
+                "trueClass": "BlackIronScraps"
+            },
+            {
+                "stack": 1,
+                "trueClass": "GhostwoodStump"
+            },
+            {
+                "stack": 1,
+                "trueClass": "Pearl"
+            }
+        ],
+        "enemies": [],
+        "event": {
+            "key": 1,
+            "progress": 3
+        },
+        "maxProgress": 250,
+        "petExploringId": 5,
+        "progress": 250,
+        "savedActingEntity": 0,
+        "savedAdventurersIds": [],
+        "triesAvailable": false,
+        "turnsFighting": 7,
+        "unlocked": true
+    },
+    "celestialMothership": {
+        "adventureRecap": {
+            "areasCleared": 0,
+            "enemiesKilled": [],
+            "expEarned": 0,
+            "expLost": 0,
+            "secondsPassed": 0,
+            "wiped": 0
+        },
+        "adventurersExploringIds": [],
+        "collectedExperienceIn24Hours": 0,
+        "corpses": [],
+        "drops": [],
+        "enemies": [],
+        "maxProgress": 0,
+        "progress": 0,
+        "savedAdventurersIds": [],
+        "triesAvailable": true,
+        "turnsFighting": 0,
+        "unlocked": false
+    },
+    "completedWorkshopItems": [],
+    "controlLevel": 0,
+    "controlProgress": 0,
+    "controlQuests": [],
+    "dismissedAdventurers": [],
+    "divineArcheology": {
+        "adventureRecap": {
+            "areasCleared": 0,
+            "enemiesKilled": [],
+            "expEarned": 0,
+            "expLost": 0,
+            "secondsPassed": 0,
+            "wiped": 0
+        },
+        "adventurersExploringIds": [],
+        "collectedExperienceIn24Hours": 0,
+        "corpses": [],
+        "drops": [],
+        "enemies": [],
+        "maxProgress": 0,
+        "progress": 0,
+        "savedAdventurersIds": [],
+        "triesAvailable": true,
+        "turnsFighting": 0,
+        "unlocked": true
+    },
+    "doctrineMaxed": false,
+    "enchantedForest": {
+        "action": {
+            "turnsPassed": 2,
+            "type": 4
+        },
+        "adventureRecap": {
+            "areasCleared": 5,
+            "enemiesKilled": [
+                {
+                    "enemy": "Wolf",
+                    "timesSlain": 3
+                },
+                {
+                    "enemy": "Boar",
+                    "timesSlain": 1
+                },
+                {
+                    "enemy": "Ent",
+                    "timesSlain": 1
+                }
+            ],
+            "expEarned": 429,
+            "expLost": 0,
+            "secondsPassed": 98,
+            "wiped": 0
+        },
+        "adventurersExploringIds": [
+            0,
+            2,
+            -1
+        ],
+        "collectedExperienceIn24Hours": 0,
+        "corpses": [],
+        "drops": [
+            {
+                "stack": 1,
+                "trueClass": "PlantFiber"
+            },
+            {
+                "stack": 5,
+                "trueClass": "BeastPelt"
+            },
+            {
+                "stack": 3,
+                "trueClass": "Wood"
+            }
+        ],
+        "enemies": [],
+        "maxProgress": 250,
+        "petExploringId": 0,
+        "progress": 250,
+        "savedActingEntity": 1,
+        "savedAdventurersIds": [
+            6
+        ],
+        "savedPetId": 6,
+        "triesAvailable": false,
+        "turnsFighting": 1,
+        "unlocked": true
+    },
+    "eternalBattlefield": {
+        "action": {
+            "turnsPassed": 1,
+            "type": 2
+        },
+        "adventureRecap": {
+            "areasCleared": 3,
+            "enemiesKilled": [
+                {
+                    "enemy": "Undead",
+                    "timesSlain": 1
+                },
+                {
+                    "enemy": "UndeadWarlord",
+                    "timesSlain": 1
+                },
+                {
+                    "enemy": "UndeadArcher",
+                    "timesSlain": 1
+                },
+                {
+                    "enemy": "DeathHound",
+                    "timesSlain": 2
+                }
+            ],
+            "expEarned": 427,
+            "expLost": 0,
+            "secondsPassed": 92,
+            "wiped": 0
+        },
+        "adventurersExploringIds": [
+            4
+        ],
+        "collectedExperienceIn24Hours": 0,
+        "corpses": [
+            {
+                "currentHp": 0,
+                "currentMana": 0,
+                "currentShield": 0,
+                "negativeStatusEffects": [],
+                "positiveStatusEffects": [],
+                "trueClass": "DeathHound"
+            },
+            {
+                "currentHp": 0,
+                "currentMana": 0,
+                "currentShield": 0,
+                "negativeStatusEffects": [],
+                "positiveStatusEffects": [],
+                "trueClass": "DeathHound"
+            }
+        ],
+        "drops": [
+            {
+                "stack": 1,
+                "trueClass": "BoneFragment"
+            }
+        ],
+        "enemies": [
+            {
+                "currentHp": 220,
+                "currentMana": 0,
+                "currentShield": 0,
+                "negativeStatusEffects": [],
+                "positiveStatusEffects": [],
+                "trueClass": "UndeadWarlord"
+            }
+        ],
+        "event": {
+            "key": 1,
+            "progress": 45
+        },
+        "maxProgress": 250,
+        "petExploringId": 1,
+        "progress": 250,
+        "savedActingEntity": 1,
+        "savedAdventurersIds": [
+            4,
+            -1
+        ],
+        "savedPetId": 1,
+        "triesAvailable": false,
+        "turnsFighting": 5,
+        "unlocked": true
+    },
+    "everAscended": true,
+    "fortitudeLevel": 0,
+    "fortitudeProgress": 0,
+    "fortitudeQuests": [],
+    "frostbitePeaks": {
+        "adventureRecap": {
+            "areasCleared": 0,
+            "enemiesKilled": [],
+            "expEarned": 0,
+            "expLost": 0,
+            "secondsPassed": 0,
+            "wiped": 0
+        },
+        "adventurersExploringIds": [],
+        "collectedExperienceIn24Hours": 0,
+        "corpses": [],
+        "drops": [],
+        "enemies": [],
+        "maxProgress": 0,
+        "progress": 0,
+        "savedAdventurersIds": [],
+        "triesAvailable": true,
+        "turnsFighting": 0,
+        "unlocked": true
+    },
+    "gems": 18000,
+    "graceLevel": 0,
+    "graceProgress": 0,
+    "graceQuests": [],
+    "hiddenCityOfLarox": {
+        "adventureRecap": {
+            "areasCleared": 0,
+            "enemiesKilled": [],
+            "expEarned": 0,
+            "expLost": 0,
+            "secondsPassed": 0,
+            "wiped": 0
+        },
+        "adventurersExploringIds": [],
+        "collectedExperienceIn24Hours": 0,
+        "corpses": [],
+        "drops": [],
+        "enemies": [],
+        "maxProgress": 0,
+        "progress": 0,
+        "savedAdventurersIds": [],
+        "triesAvailable": false,
+        "turnsFighting": 0,
+        "unlocked": false
+    },
+    "illusionLevel": 0,
+    "illusionProgress": 0,
+    "illusionQuests": [],
+    "imperialRescue": {
+        "adventureRecap": {
+            "areasCleared": 0,
+            "enemiesKilled": [],
+            "expEarned": 0,
+            "expLost": 0,
+            "secondsPassed": 0,
+            "wiped": 0
+        },
+        "adventurersExploringIds": [],
+        "collectedExperienceIn24Hours": 0,
+        "corpses": [],
+        "drops": [],
+        "enemies": [],
+        "maxProgress": 0,
+        "progress": 0,
+        "savedAdventurersIds": [],
+        "triesAvailable": true,
+        "turnsFighting": 0,
+        "unlocked": true
+    },
+    "imperialVanguardPurchased": false,
+    "intercessionsRetroactivelyGranted": true,
+    "items": [
+        {
+            "stack": 416,
+            "trueClass": "WildEgg"
+        },
+        {
+            "stack": 798,
+            "trueClass": "AlphaWolfFang"
+        },
+        {
+            "stack": 13,
+            "trueClass": "DiamondAmulet"
+        },
+        {
+            "stack": 7,
+            "trueClass": "CottontailJacket"
+        },
+        {
+            "stack": 5,
+            "trueClass": "GhostRabbitCloak"
+        },
+        {
+            "stack": 303,
+            "trueClass": "PotionOfConstitution"
+        },
+        {
+            "stack": 303,
+            "trueClass": "PotionOfDexterity"
+        },
+        {
+            "stack": 303,
+            "trueClass": "PotionOfIntelligence"
+        },
+        {
+            "stack": 300,
+            "trueClass": "PotionOfHealth"
+        },
+        {
+            "stack": 300,
+            "trueClass": "PotionOfDefense"
+        },
+        {
+            "stack": 300,
+            "trueClass": "PotionOfMagicDefense"
+        },
+        {
+            "stack": 311,
+            "trueClass": "PotionOfPrecision"
+        },
+        {
+            "stack": 300,
+            "trueClass": "PotionOfViciousness"
+        },
+        {
+            "stack": 300,
+            "trueClass": "PotionOfDarkness"
+        },
+        {
+            "stack": 305,
+            "trueClass": "PotionOfImmunity"
+        },
+        {
+            "stack": 300,
+            "trueClass": "PotionOfAgility"
+        },
+        {
+            "stack": 6334,
+            "trueClass": "Wood"
+        },
+        {
+            "stack": 2067,
+            "trueClass": "BoarTusk"
+        },
+        {
+            "stack": 2791,
+            "trueClass": "CopperOre"
+        },
+        {
+            "stack": 35,
+            "trueClass": "AncientSeed"
+        },
+        {
+            "stack": 6,
+            "trueClass": "WoodenEgg"
+        },
+        {
+            "stack": 50,
+            "trueClass": "Geode"
+        },
+        {
+            "stack": 31,
+            "trueClass": "LivingSap"
+        },
+        {
+            "stack": 1107,
+            "trueClass": "WurmBlood"
+        },
+        {
+            "stack": 1508,
+            "trueClass": "Feather"
+        },
+        {
+            "stack": 246,
+            "trueClass": "RecurveBlade"
+        },
+        {
+            "stack": 1089,
+            "trueClass": "WurmScale"
+        },
+        {
+            "stack": 358,
+            "trueClass": "Quartz"
+        },
+        {
+            "stack": 3094,
+            "trueClass": "MetamorphicSand"
+        },
+        {
+            "stack": 478,
+            "trueClass": "Sandstone"
+        },
+        {
+            "stack": 242,
+            "trueClass": "ShahuriBowFrame"
+        },
+        {
+            "stack": 17,
+            "trueClass": "WerewolfFang"
+        },
+        {
+            "stack": 13,
+            "trueClass": "BottledSandSpirit"
+        },
+        {
+            "stack": 2277,
+            "trueClass": "PlantFiber"
+        },
+        {
+            "stack": 6572,
+            "trueClass": "BeastPelt"
+        },
+        {
+            "stack": 9207,
+            "trueClass": "ScrapMetal"
+        },
+        {
+            "stack": 3,
+            "trueClass": "InsectEgg"
+        },
+        {
+            "stack": 383,
+            "trueClass": "IronIngot"
+        },
+        {
+            "stack": 295,
+            "trueClass": "Cloth"
+        },
+        {
+            "stack": 1869,
+            "trueClass": "Leather"
+        },
+        {
+            "stack": 11750,
+            "trueClass": "BoneFragment"
+        },
+        {
+            "stack": 2156,
+            "trueClass": "TatteredHide"
+        },
+        {
+            "stack": 26,
+            "trueClass": "SpiritCandle"
+        },
+        {
+            "stack": 119,
+            "trueClass": "ElongatedBone"
+        },
+        {
+            "stack": 141,
+            "trueClass": "SharpRib"
+        },
+        {
+            "stack": 40,
+            "trueClass": "SoulShard"
+        },
+        {
+            "stack": 670,
+            "trueClass": "SpectralCloth"
+        },
+        {
+            "stack": 10,
+            "trueClass": "Evo23Vial"
+        },
+        {
+            "stack": 2,
+            "trueClass": "AvianEgg"
+        },
+        {
+            "stack": 2,
+            "trueClass": "ShahuriBow"
+        },
+        {
+            "stack": 1,
+            "trueClass": "Scimitar"
+        },
+        {
+            "stack": 6,
+            "trueClass": "Evo22Vial"
+        },
+        {
+            "stack": 2,
+            "trueClass": "CursedBow"
+        },
+        {
+            "stack": 65,
+            "trueClass": "InfectedBlood"
+        },
+        {
+            "stack": 46,
+            "trueClass": "WarlordSkull"
+        },
+        {
+            "stack": 13,
+            "trueClass": "SpiritTome"
+        },
+        {
+            "stack": 278,
+            "trueClass": "GreenSlime"
+        },
+        {
+            "stack": 3,
+            "trueClass": "SunfireCore"
+        },
+        {
+            "stack": 5,
+            "trueClass": "StaticCore"
+        },
+        {
+            "stack": 3,
+            "trueClass": "PermafrostCore"
+        },
+        {
+            "stack": 2,
+            "trueClass": "EsotericEgg"
+        },
+        {
+            "stack": 34,
+            "trueClass": "PrimordialEssence"
+        },
+        {
+            "stack": 40,
+            "trueClass": "CottontailFur"
+        },
+        {
+            "stack": 1717,
+            "trueClass": "SilkThread"
+        },
+        {
+            "stack": 62,
+            "trueClass": "Ivory"
+        },
+        {
+            "stack": 871,
+            "trueClass": "GoldScraps"
+        },
+        {
+            "stack": 217,
+            "trueClass": "WardenBelt"
+        },
+        {
+            "stack": 432,
+            "trueClass": "Redwood"
+        },
+        {
+            "stack": 17,
+            "trueClass": "SilverRing"
+        },
+        {
+            "stack": 5,
+            "trueClass": "Emerald"
+        },
+        {
+            "stack": 4,
+            "trueClass": "Ruby"
+        },
+        {
+            "stack": 1,
+            "trueClass": "Flute"
+        },
+        {
+            "stack": 35,
+            "trueClass": "BlackOoze"
+        },
+        {
+            "stack": 1,
+            "trueClass": "FullmoonDagger"
+        },
+        {
+            "stack": 2,
+            "trueClass": "EternalHunger"
+        },
+        {
+            "stack": 1,
+            "trueClass": "SeekingGlass"
+        },
+        {
+            "stack": 2,
+            "trueClass": "ScarletVeil"
+        },
+        {
+            "stack": 1,
+            "trueClass": "ReassemblingJacket"
+        },
+        {
+            "stack": 1,
+            "trueClass": "CorruptedStaff"
+        },
+        {
+            "stack": 2,
+            "trueClass": "CorruptedShield"
+        },
+        {
+            "stack": 1297,
+            "trueClass": "MonkeyHide"
+        },
+        {
+            "stack": 2951,
+            "trueClass": "GhostwoodStump"
+        },
+        {
+            "stack": 1871,
+            "trueClass": "BlackIronScraps"
+        },
+        {
+            "stack": 338,
+            "trueClass": "ExoticVelvet"
+        },
+        {
+            "stack": 45,
+            "trueClass": "MysteriousAppendage"
+        },
+        {
+            "stack": 337,
+            "trueClass": "Pearl"
+        },
+        {
+            "stack": 920,
+            "trueClass": "AbyssalSeashell"
+        },
+        {
+            "stack": 559,
+            "trueClass": "MissingPage"
+        },
+        {
+            "stack": 22,
+            "trueClass": "EyeOfTheAbyss"
+        },
+        {
+            "stack": 3,
+            "trueClass": "CoinPurse"
+        },
+        {
+            "stack": 2,
+            "trueClass": "OrbOfEctoplasm"
+        },
+        {
+            "stack": 1,
+            "trueClass": "Sha"
+        }
+    ],
+    "itemsCrafted": 1,
+    "itemsSold": 0,
+    "kaunis": {
+        "adventureRecap": {
+            "areasCleared": 0,
+            "enemiesKilled": [],
+            "expEarned": 0,
+            "expLost": 0,
+            "secondsPassed": 0,
+            "wiped": 0
+        },
+        "adventurersExploringIds": [],
+        "collectedExperienceIn24Hours": 0,
+        "corpses": [],
+        "drops": [],
+        "enemies": [],
+        "maxProgress": 0,
+        "progress": 0,
+        "savedAdventurersIds": [],
+        "triesAvailable": true,
+        "turnsFighting": 0,
+        "unlocked": false
+    },
+    "kingsQuests": [
+        {
+            "progress": 0,
+            "rarity": 2,
+            "targetProgress": 5,
+            "trueClass": "AndStayDead"
+        },
+        {
+            "progress": 0,
+            "rarity": 1,
+            "targetProgress": 5,
+            "trueClass": "MasterCrafter"
+        },
+        {
+            "progress": 0,
+            "rarity": 1,
+            "targetProgress": 150,
+            "trueClass": "Shocking"
+        },
+        {
+            "progress": 395,
+            "rarity": 1,
+            "targetProgress": 24564,
+            "trueClass": "VampiricThirst"
+        },
+        {
+            "progress": 3,
+            "rarity": 1,
+            "targetProgress": 300,
+            "trueClass": "LuckyRoll"
+        }
+    ],
+    "knowledgeLevel": 0,
+    "knowledgeProgress": 0,
+    "knowledgeQuests": [],
+    "knownRecipes": [
+        "Leather",
+        "FangDagger",
+        "PatricianArmor",
+        "SageArmor",
+        "DiamondAmulet",
+        "CottontailJacket",
+        "SageJacket",
+        "GhostRabbitCloak",
+        "SageCloak",
+        "FullmoonDagger",
+        "EnchantedStaff",
+        "CopperSword",
+        "WoodenBow",
+        "WoodenBuckler",
+        "Scimitar",
+        "CopperIngot",
+        "TuskNecklace",
+        "IceCatalyst",
+        "LeatherJacket",
+        "CopperArmor",
+        "LeatherBoots",
+        "LeatherGloves",
+        "CopperHelmet",
+        "IronHelm",
+        "AegisMechanica",
+        "ScarletVeil",
+        "Cloth",
+        "ShahuriBow",
+        "PrismaticPendant",
+        "IronIngot",
+        "ThaumaturgicBlood",
+        "InfusedNecklace",
+        "FireCatalyst",
+        "FeatherRobe",
+        "WurmscalesGloves",
+        "WurmscalesJacket",
+        "WurmscalesBoots",
+        "ElectricCatalyst",
+        "WurmscalesShield",
+        "IronChainmail",
+        "GlassKnife",
+        "MetamorphicShield",
+        "MetamorphicArmor",
+        "PotionOfRejuvenation",
+        "Glass",
+        "AscendedBow",
+        "LivingScimitar",
+        "DjinnTonic",
+        "DivineEmbryo",
+        "MoltenStaff",
+        "UndeadShield",
+        "BurningCenser",
+        "SunStaff",
+        "ClothRobe",
+        "AmuletOfTheSwordsman",
+        "ScarletShroud",
+        "UndeadGreaves",
+        "UndeadHelm",
+        "UndeadGloves",
+        "UndeadStaff",
+        "UndeadSword",
+        "UndeadJacket",
+        "UndeadCuirass",
+        "GhastlyCuirass",
+        "UndeadKnife",
+        "SkullCandle",
+        "ContainmentOrb",
+        "SpectralRobe",
+        "DryadsCurse",
+        "SylvanMandate",
+        "CursedBow",
+        "InfernalBow",
+        "SlimeArmor",
+        "SlimeJacket",
+        "SlimeRobe",
+        "SunfireEssence",
+        "StaticEssence",
+        "PermafrostEssence",
+        "SinisterStabilizer",
+        "EssenceOfCorruption",
+        "RedwoodBow",
+        "SilkFabric",
+        "IvoryJacket",
+        "GoldIngot",
+        "BeltJacket",
+        "CrimsonLeech",
+        "RubyRing",
+        "EmeraldRing",
+        "ShadowRing",
+        "JeweledCrown",
+        "InfernalChakram",
+        "VoltaicShock",
+        "ChampionArmor",
+        "SpikedPrimevalShield",
+        "Starvation",
+        "ReassemblingJacket",
+        "ImperialStaff",
+        "ImperialShield",
+        "CorsairLeather",
+        "GhostwoodBoard",
+        "BlackIronIngot",
+        "ExoticRobe",
+        "ExoticBoots",
+        "GhostwoodBow",
+        "DeepSeaVelvet",
+        "MonkeyHideJacket",
+        "PirateKingTricorn",
+        "AbyssalGoo",
+        "DeepSeaJacket",
+        "AbyssalCompendium",
+        "GhastlyScimitar",
+        "GhastlyShield"
+    ],
+    "last24Triggered": 1789146000473,
+    "lastAccess": 1789188774570,
+    "lastHourTriggered": 1789185600473,
+    "lastWeekTriggered": 1788627600473,
+    "levelMarketListings": 6,
+    "levelMarketTime": 21,
+    "levelQuarters": 15,
+    "levelShelter": 5,
+    "levelShelterAutofeed": 1,
+    "levelStorage": 43,
+    "levelTavernCapacity": 6,
+    "levelTavernTime": 16,
+    "levelWorkshopQueue": 6,
+    "levelWorkshopTime": 21,
+    "lostLands": {
+        "adventureRecap": {
+            "areasCleared": 0,
+            "enemiesKilled": [],
+            "expEarned": 0,
+            "expLost": 0,
+            "secondsPassed": 0,
+            "wiped": 0
+        },
+        "adventurersExploringIds": [],
+        "collectedExperienceIn24Hours": 0,
+        "corpses": [],
+        "drops": [],
+        "enemies": [],
+        "maxProgress": 0,
+        "progress": 0,
+        "savedAdventurersIds": [],
+        "triesAvailable": false,
+        "turnsFighting": 0,
+        "unlocked": false
+    },
+    "marketListings": [],
+    "maxAdventurerTier": 6,
+    "maxAdventurersOwned": 5,
+    "maxWealth": 1204898,
+    "merchantPackPurchased": true,
+    "merchantRegularStockItems": [
+        {
+            "gems": false,
+            "item": {
+                "stack": 1,
+                "trueClass": "ElongatedBone"
+            },
+            "price": 60
+        },
+        {
+            "gems": false,
+            "item": {
+                "stack": 1,
+                "trueClass": "Ivory"
+            },
+            "price": 280
+        },
+        {
+            "gems": false,
+            "item": {
+                "stack": 2,
+                "trueClass": "ExoticVelvet"
+            },
+            "price": 600
+        },
+        {
+            "gems": false,
+            "item": {
+                "stack": 6,
+                "trueClass": "IceFiber"
+            },
+            "price": 180
+        }
+    ],
+    "merchantSpecialReserve": [
+        {
+            "gems": true,
+            "item": {
+                "stack": 1,
+                "trueClass": "FrostmetalDagger"
+            },
+            "price": 80
+        },
+        {
+            "gems": true,
+            "item": {
+                "stack": 1,
+                "trueClass": "Aegis"
+            },
+            "price": 1000
+        },
+        {
+            "gems": true,
+            "item": {
+                "stack": 1,
+                "trueClass": "ScarletStrand"
+            },
+            "price": 650
+        },
+        {
+            "gems": true,
+            "item": {
+                "stack": 1,
+                "trueClass": "PotionOfDarkness"
+            },
+            "price": 80
+        },
+        {
+            "gems": true,
+            "item": {
+                "stack": 1,
+                "trueClass": "PotionOfHealth"
+            },
+            "price": 80
+        },
+        {
+            "gems": true,
+            "item": {
+                "stack": 1,
+                "trueClass": "PotionOfViciousness"
+            },
+            "price": 80
+        },
+        {
+            "gems": true,
+            "item": {
+                "stack": 1,
+                "trueClass": "GourmetIcecream"
+            },
+            "price": 100
+        },
+        {
+            "gems": true,
+            "item": {
+                "stack": 1,
+                "trueClass": "Maxxiburger"
+            },
+            "price": 200
+        },
+        {
+            "gems": true,
+            "item": {
+                "stack": 1,
+                "trueClass": "Ambrosia"
+            },
+            "price": 800
+        },
+        {
+            "gems": true,
+            "item": {
+                "stack": 1,
+                "trueClass": "UpgradeStorage"
+            },
+            "price": 80
+        },
+        {
+            "gems": true,
+            "item": {
+                "stack": 1,
+                "trueClass": "UpgradeQuarters"
+            },
+            "price": 500
+        },
+        {
+            "gems": true,
+            "item": {
+                "stack": 1,
+                "trueClass": "UpgradeShelter"
+            },
+            "price": 500
+        }
+    ],
+    "messagesGotten": [
+        "MESSAGE_1",
+        "MESSAGE_2",
+        "MESSAGE_3",
+        "MESSAGE_4",
+        "MESSAGE_5",
+        "MESSAGE_6"
+    ],
+    "messagesToShow": [],
+    "money": 86296,
+    "newMerchantRegularItems": false,
+    "newMerchantSpecialItems": false,
+    "nextTavernVisit": 4403,
+    "obsidianMines": {
+        "adventureRecap": {
+            "areasCleared": 0,
+            "enemiesKilled": [],
+            "expEarned": 0,
+            "expLost": 0,
+            "secondsPassed": 0,
+            "wiped": 0
+        },
+        "adventurersExploringIds": [],
+        "collectedExperienceIn24Hours": 0,
+        "corpses": [],
+        "drops": [],
+        "enemies": [],
+        "maxProgress": 0,
+        "progress": 0,
+        "savedAdventurersIds": [],
+        "triesAvailable": false,
+        "turnsFighting": 0,
+        "unlocked": false
+    },
+    "pets": [
+        {
+            "favourite": false,
+            "food": 16672,
+            "id": 0,
+            "level": 82,
+            "petAbility1": "EXPERIENCE",
+            "petAbility2": "HEALER",
+            "petAbility3": "DROPS",
+            "petAbility4": "OPPORTUNIST",
+            "trueClass": "Senko"
+        },
+        {
+            "favourite": true,
+            "food": 273632641,
+            "id": 1,
+            "level": 201,
+            "petAbility1": "DROPS",
+            "petAbility2": "HEALER",
+            "petAbility3": "SAVAGE",
+            "petAbility4": "EXPERIENCE",
+            "trueClass": "Senko"
+        },
+        {
+            "favourite": false,
+            "food": 292363,
+            "id": 5,
+            "level": 139,
+            "petAbility1": "EXPERIENCE",
+            "petAbility2": "REGENERATION",
+            "petAbility3": "LIFESTEAL",
+            "petAbility4": "COUNTERATTACK",
+            "trueClass": "Senko"
+        },
+        {
+            "favourite": true,
+            "food": 296295,
+            "id": 6,
+            "level": 139,
+            "petAbility1": "DROPS",
+            "petAbility2": "BARRIER",
+            "petAbility3": "EXPERIENCE",
+            "petAbility4": "FIGHTER",
+            "trueClass": "Senko"
+        }
+    ],
+    "potsMaxed": false,
+    "questsCompleted": 6,
+    "questsRefreshed": false,
+    "questsSeen": true,
+    "redeem_f1r39h15": true,
+    "redeem_g73mfkf4": false,
+    "redeem_m975nfu5": 1073797120,
+    "redeem_potionsRefund1": true,
+    "redeemed_e44opo7z": true,
+    "redeemed_f8hf3045": false,
+    "redeemed_fj9rf8hh": false,
+    "redeemed_g294ps91": false,
+    "redeemed_vre8983y": false,
+    "redeemed_vrw74ync": false,
+    "reviewShown": false,
+    "reviewTrigger": false,
+    "ruinLevel": 0,
+    "ruinProgress": 1,
+    "ruinQuests": [
+        {
+            "progress": 0,
+            "rarity": 4,
+            "targetProgress": 5,
+            "trueClass": "Thalassophobia"
+        },
+        {
+            "progress": 17,
+            "rarity": 1,
+            "targetProgress": 7500,
+            "trueClass": "CriticalHit"
+        },
+        {
+            "progress": 17021,
+            "rarity": 1,
+            "targetProgress": 55000,
+            "trueClass": "SmartFighter"
+        },
+        {
+            "progress": 2062,
+            "rarity": 1,
+            "targetProgress": 37968,
+            "trueClass": "Student"
+        }
+    ],
+    "seenEnemies": [
+        "TutorialWolf",
+        "Wolf",
+        "Treant",
+        "Centaur",
+        "Boar",
+        "ShahuriWarrior",
+        "ShahuriArcher",
+        "ShahuriMage",
+        "SandVulture",
+        "Ent",
+        "GoldenRabbit",
+        "Djinn",
+        "Wurm",
+        "SandStatue",
+        "Undead",
+        "UndeadArcher",
+        "Ghoul",
+        "UndeadWarlord",
+        "DeathHound",
+        "WillOWisp",
+        "Abomination",
+        "ElectricSlime",
+        "Slime",
+        "FrozenSlime",
+        "FireSlime",
+        "KnightSlime",
+        "SlimeKing",
+        "VoidSlime",
+        "CityWarden",
+        "InsaneCitizen",
+        "ImperialMage",
+        "ArcaneAssassin",
+        "InsanePriest",
+        "InsaneMerchant",
+        "ImperialGuard",
+        "ForestSpirit",
+        "Deckhand",
+        "Pirate",
+        "PirateLieutenant",
+        "MysteriousTentacle",
+        "PirateCaptain",
+        "Mimic",
+        "ImperialCaptain"
+    ],
+    "seenItems": [
+        "ScarletStrand",
+        "Intercession",
+        "Dreamcatcher",
+        "UpgradeMarketQueue",
+        "UpgradeMarketTime",
+        "UpgradeQuarters",
+        "UpgradeShelter",
+        "UpgradeStorage",
+        "UpgradeTavernCapacity",
+        "UpgradeTavernTime",
+        "UpgradeWorkshopQueue",
+        "UpgradeWorkshopTime",
+        "Evo23Vial2",
+        "WildEgg",
+        "BeastPelt",
+        "AlphaWolfFang",
+        "Wood",
+        "PatricianArmor",
+        "DiamondAmulet",
+        "CottontailJacket",
+        "GhostRabbitCloak",
+        "CeremonialCake",
+        "PotionOfConstitution",
+        "PotionOfDexterity",
+        "PotionOfIntelligence",
+        "PotionOfHealth",
+        "PotionOfDefense",
+        "PotionOfMagicDefense",
+        "PotionOfPrecision",
+        "PotionOfViciousness",
+        "PotionOfDarkness",
+        "PotionOfImmunity",
+        "PotionOfAgility",
+        "CopperOre",
+        "PlantFiber",
+        "BoarTusk",
+        "Leather",
+        "CopperIngot",
+        "Aegis",
+        "CopperArmor",
+        "ScrapMetal",
+        "CopperSword",
+        "Apple",
+        "Tomato",
+        "Cheese",
+        "LivingSap",
+        "MeatChop",
+        "WerewolfFang",
+        "AncientSeed",
+        "WoodenEgg",
+        "Geode",
+        "WurmBlood",
+        "Feather",
+        "RecurveBlade",
+        "WurmScale",
+        "Egg",
+        "Quartz",
+        "MetamorphicSand",
+        "Pineapple",
+        "Sandstone",
+        "ShahuriBowFrame",
+        "ShahuriBow",
+        "FullmoonDagger",
+        "BottledSandSpirit",
+        "InsectEgg",
+        "IronIngot",
+        "Cloth",
+        "Scimitar",
+        "BoneFragment",
+        "TatteredHide",
+        "SpiritCandle",
+        "AvianEgg",
+        "ElongatedBone",
+        "SharpRib",
+        "SoulShard",
+        "SpectralCloth",
+        "ScarletShroud",
+        "DryadsCurse",
+        "Spade",
+        "InfectedBlood",
+        "Evo23Vial",
+        "SPIDER",
+        "CursedBow",
+        "WarlordSkull",
+        "Evo22Vial",
+        "SpiritTome",
+        "CelestialBow",
+        "EsotericEgg",
+        "XPBook10",
+        "XPBook1",
+        "XPBook2",
+        "XPBook3",
+        "GreenSlime",
+        "SunfireCore",
+        "StaticCore",
+        "PermafrostCore",
+        "IronHelm",
+        "SilkThread",
+        "Ivory",
+        "GoldScraps",
+        "WardenBelt",
+        "Potato",
+        "PrimordialEssence",
+        "Redwood",
+        "SilverRing",
+        "CottontailFur",
+        "Chocolate",
+        "Emerald",
+        "Ruby",
+        "Flute",
+        "BlackOoze",
+        "InfernalChakram",
+        "VoltaicShock",
+        "ChampionArmor",
+        "SpikedPrimevalShield",
+        "EternalHunger",
+        "SeekingGlass",
+        "ScarletVeil",
+        "ReassemblingJacket",
+        "CorruptedStaff",
+        "MonkeyHide",
+        "GhostwoodStump",
+        "BlackIronScraps",
+        "ExoticVelvet",
+        "MysteriousAppendage",
+        "Pearl",
+        "AbyssalSeashell",
+        "MissingPage",
+        "FreshSalmon",
+        "Banana",
+        "EyeOfTheAbyss",
+        "FreshTuna",
+        "CorruptedShield",
+        "CoinPurse",
+        "OrbOfEctoplasm"
+    ],
+    "settingAutoOpenDungeonDetail": true,
+    "settingColorblindMode": false,
+    "settingConfirmRetreat": true,
+    "settingConfirmSwap": true,
+    "settingConfirmUpgrade": false,
+    "settingCraftMaxAmount": false,
+    "settingSellMaxAmount": false,
+    "settingVerboseLogs": true,
+    "settingsLanguage": "",
+    "shownDialogEpicRaid": true,
+    "shownDialogRaid": true,
+    "sleepingPlanet": {
+        "adventureRecap": {
+            "areasCleared": 0,
+            "enemiesKilled": [],
+            "expEarned": 0,
+            "expLost": 0,
+            "secondsPassed": 0,
+            "wiped": 0
+        },
+        "adventurersExploringIds": [],
+        "collectedExperienceIn24Hours": 0,
+        "corpses": [],
+        "drops": [],
+        "enemies": [],
+        "maxProgress": 0,
+        "progress": 0,
+        "savedAdventurersIds": [],
+        "triesAvailable": true,
+        "turnsFighting": 0,
+        "unlocked": false
+    },
+    "soldMarketItems": [],
+    "starterPackPurchased": true,
+    "t4Pet": true,
+    "tavernGuests": [
+        {
+            "ascended": false,
+            "doctrine": {
+                "l1": 0,
+                "l2": 0,
+                "l3": 0,
+                "l4": 0,
+                "l5": 0,
+                "l6": 0,
+                "trueClass": "EmptyDoctrine"
+            },
+            "experience": 0,
+            "id": -1,
+            "level": 1,
+            "potionsDrank": {
+                "potionOfAgilityDrank": 0,
+                "potionOfConstitutionDrank": 0,
+                "potionOfDarknessDrank": 0,
+                "potionOfDefenseDrank": 0,
+                "potionOfDexterityDrank": 0,
+                "potionOfHealthDrank": 0,
+                "potionOfImmunityDrank": 0,
+                "potionOfIntelligenceDrank": 0,
+                "potionOfMagicDefenseDrank": 0,
+                "potionOfPrecisionDrank": 0,
+                "potionOfViciousnessDrank": 0
+            },
+            "seen": true,
+            "timeWhenDismissed": 0,
+            "weapon": {
+                "stack": 1,
+                "trueClass": "Spade"
+            },
+            "currentHp": 0,
+            "currentMana": 0,
+            "currentShield": 0,
+            "negativeStatusEffects": [],
+            "positiveStatusEffects": [],
+            "trueClass": "Footman"
+        },
+        {
+            "ascended": false,
+            "doctrine": {
+                "l1": 0,
+                "l2": 0,
+                "l3": 0,
+                "l4": 0,
+                "l5": 0,
+                "l6": 0,
+                "trueClass": "EmptyDoctrine"
+            },
+            "experience": 0,
+            "id": -1,
+            "level": 1,
+            "potionsDrank": {
+                "potionOfAgilityDrank": 0,
+                "potionOfConstitutionDrank": 0,
+                "potionOfDarknessDrank": 0,
+                "potionOfDefenseDrank": 0,
+                "potionOfDexterityDrank": 0,
+                "potionOfHealthDrank": 0,
+                "potionOfImmunityDrank": 0,
+                "potionOfIntelligenceDrank": 0,
+                "potionOfMagicDefenseDrank": 0,
+                "potionOfPrecisionDrank": 0,
+                "potionOfViciousnessDrank": 0
+            },
+            "seen": true,
+            "timeWhenDismissed": 0,
+            "weapon": {
+                "stack": 1,
+                "trueClass": "Cane"
+            },
+            "currentHp": 0,
+            "currentMana": 0,
+            "currentShield": 0,
+            "negativeStatusEffects": [],
+            "positiveStatusEffects": [],
+            "trueClass": "Apprentice"
+        },
+        {
+            "ascended": false,
+            "doctrine": {
+                "l1": 0,
+                "l2": 0,
+                "l3": 0,
+                "l4": 0,
+                "l5": 0,
+                "l6": 0,
+                "trueClass": "EmptyDoctrine"
+            },
+            "experience": 0,
+            "id": -1,
+            "level": 1,
+            "potionsDrank": {
+                "potionOfAgilityDrank": 0,
+                "potionOfConstitutionDrank": 0,
+                "potionOfDarknessDrank": 0,
+                "potionOfDefenseDrank": 0,
+                "potionOfDexterityDrank": 0,
+                "potionOfHealthDrank": 0,
+                "potionOfImmunityDrank": 0,
+                "potionOfIntelligenceDrank": 0,
+                "potionOfMagicDefenseDrank": 0,
+                "potionOfPrecisionDrank": 0,
+                "potionOfViciousnessDrank": 0
+            },
+            "seen": true,
+            "timeWhenDismissed": 0,
+            "traitCommon": "BRUTE",
+            "weapon": {
+                "stack": 1,
+                "trueClass": "Cane"
+            },
+            "currentHp": 0,
+            "currentMana": 0,
+            "currentShield": 0,
+            "negativeStatusEffects": [],
+            "positiveStatusEffects": [],
+            "trueClass": "Apprentice"
+        },
+        {
+            "ascended": false,
+            "doctrine": {
+                "l1": 0,
+                "l2": 0,
+                "l3": 0,
+                "l4": 0,
+                "l5": 0,
+                "l6": 0,
+                "trueClass": "EmptyDoctrine"
+            },
+            "experience": 0,
+            "id": -1,
+            "level": 1,
+            "potionsDrank": {
+                "potionOfAgilityDrank": 0,
+                "potionOfConstitutionDrank": 0,
+                "potionOfDarknessDrank": 0,
+                "potionOfDefenseDrank": 0,
+                "potionOfDexterityDrank": 0,
+                "potionOfHealthDrank": 0,
+                "potionOfImmunityDrank": 0,
+                "potionOfIntelligenceDrank": 0,
+                "potionOfMagicDefenseDrank": 0,
+                "potionOfPrecisionDrank": 0,
+                "potionOfViciousnessDrank": 0
+            },
+            "seen": true,
+            "timeWhenDismissed": 0,
+            "traitCommon": "BOOKWORM",
+            "weapon": {
+                "stack": 1,
+                "trueClass": "TrainingBow"
+            },
+            "currentHp": 0,
+            "currentMana": 0,
+            "currentShield": 0,
+            "negativeStatusEffects": [],
+            "positiveStatusEffects": [],
+            "trueClass": "Archer"
+        },
+        {
+            "ascended": false,
+            "doctrine": {
+                "l1": 0,
+                "l2": 0,
+                "l3": 0,
+                "l4": 0,
+                "l5": 0,
+                "l6": 0,
+                "trueClass": "EmptyDoctrine"
+            },
+            "experience": 0,
+            "id": -1,
+            "level": 1,
+            "potionsDrank": {
+                "potionOfAgilityDrank": 0,
+                "potionOfConstitutionDrank": 0,
+                "potionOfDarknessDrank": 0,
+                "potionOfDefenseDrank": 0,
+                "potionOfDexterityDrank": 0,
+                "potionOfHealthDrank": 0,
+                "potionOfImmunityDrank": 0,
+                "potionOfIntelligenceDrank": 0,
+                "potionOfMagicDefenseDrank": 0,
+                "potionOfPrecisionDrank": 0,
+                "potionOfViciousnessDrank": 0
+            },
+            "seen": true,
+            "timeWhenDismissed": 0,
+            "weapon": {
+                "stack": 1,
+                "trueClass": "Cane"
+            },
+            "currentHp": 0,
+            "currentMana": 0,
+            "currentShield": 0,
+            "negativeStatusEffects": [],
+            "positiveStatusEffects": [],
+            "trueClass": "Apprentice"
+        },
+        {
+            "ascended": false,
+            "doctrine": {
+                "l1": 0,
+                "l2": 0,
+                "l3": 0,
+                "l4": 0,
+                "l5": 0,
+                "l6": 0,
+                "trueClass": "EmptyDoctrine"
+            },
+            "experience": 0,
+            "id": -1,
+            "level": 1,
+            "potionsDrank": {
+                "potionOfAgilityDrank": 0,
+                "potionOfConstitutionDrank": 0,
+                "potionOfDarknessDrank": 0,
+                "potionOfDefenseDrank": 0,
+                "potionOfDexterityDrank": 0,
+                "potionOfHealthDrank": 0,
+                "potionOfImmunityDrank": 0,
+                "potionOfIntelligenceDrank": 0,
+                "potionOfMagicDefenseDrank": 0,
+                "potionOfPrecisionDrank": 0,
+                "potionOfViciousnessDrank": 0
+            },
+            "seen": true,
+            "timeWhenDismissed": 0,
+            "traitCommon": "BRUTE",
+            "weapon": {
+                "stack": 1,
+                "trueClass": "Cane"
+            },
+            "currentHp": 0,
+            "currentMana": 0,
+            "currentShield": 0,
+            "negativeStatusEffects": [],
+            "positiveStatusEffects": [],
+            "trueClass": "Apprentice"
+        },
+        {
+            "ascended": false,
+            "doctrine": {
+                "l1": 0,
+                "l2": 0,
+                "l3": 0,
+                "l4": 0,
+                "l5": 0,
+                "l6": 0,
+                "trueClass": "EmptyDoctrine"
+            },
+            "experience": 0,
+            "id": -1,
+            "level": 1,
+            "potionsDrank": {
+                "potionOfAgilityDrank": 0,
+                "potionOfConstitutionDrank": 0,
+                "potionOfDarknessDrank": 0,
+                "potionOfDefenseDrank": 0,
+                "potionOfDexterityDrank": 0,
+                "potionOfHealthDrank": 0,
+                "potionOfImmunityDrank": 0,
+                "potionOfIntelligenceDrank": 0,
+                "potionOfMagicDefenseDrank": 0,
+                "potionOfPrecisionDrank": 0,
+                "potionOfViciousnessDrank": 0
+            },
+            "seen": true,
+            "timeWhenDismissed": 0,
+            "weapon": {
+                "stack": 1,
+                "trueClass": "Spade"
+            },
+            "currentHp": 0,
+            "currentMana": 0,
+            "currentShield": 0,
+            "negativeStatusEffects": [],
+            "positiveStatusEffects": [],
+            "trueClass": "Footman"
+        },
+        {
+            "ascended": false,
+            "doctrine": {
+                "l1": 0,
+                "l2": 0,
+                "l3": 0,
+                "l4": 0,
+                "l5": 0,
+                "l6": 0,
+                "trueClass": "EmptyDoctrine"
+            },
+            "experience": 0,
+            "id": -1,
+            "level": 1,
+            "potionsDrank": {
+                "potionOfAgilityDrank": 0,
+                "potionOfConstitutionDrank": 0,
+                "potionOfDarknessDrank": 0,
+                "potionOfDefenseDrank": 0,
+                "potionOfDexterityDrank": 0,
+                "potionOfHealthDrank": 0,
+                "potionOfImmunityDrank": 0,
+                "potionOfIntelligenceDrank": 0,
+                "potionOfMagicDefenseDrank": 0,
+                "potionOfPrecisionDrank": 0,
+                "potionOfViciousnessDrank": 0
+            },
+            "seen": true,
+            "timeWhenDismissed": 0,
+            "weapon": {
+                "stack": 1,
+                "trueClass": "Sickle"
+            },
+            "currentHp": 0,
+            "currentMana": 0,
+            "currentShield": 0,
+            "negativeStatusEffects": [],
+            "positiveStatusEffects": [],
+            "trueClass": "Rogue"
+        },
+        {
+            "ascended": false,
+            "doctrine": {
+                "l1": 0,
+                "l2": 0,
+                "l3": 0,
+                "l4": 0,
+                "l5": 0,
+                "l6": 0,
+                "trueClass": "EmptyDoctrine"
+            },
+            "experience": 0,
+            "id": -1,
+            "level": 1,
+            "potionsDrank": {
+                "potionOfAgilityDrank": 0,
+                "potionOfConstitutionDrank": 0,
+                "potionOfDarknessDrank": 0,
+                "potionOfDefenseDrank": 0,
+                "potionOfDexterityDrank": 0,
+                "potionOfHealthDrank": 0,
+                "potionOfImmunityDrank": 0,
+                "potionOfIntelligenceDrank": 0,
+                "potionOfMagicDefenseDrank": 0,
+                "potionOfPrecisionDrank": 0,
+                "potionOfViciousnessDrank": 0
+            },
+            "seen": true,
+            "timeWhenDismissed": 0,
+            "weapon": {
+                "stack": 1,
+                "trueClass": "Sickle"
+            },
+            "currentHp": 0,
+            "currentMana": 0,
+            "currentShield": 0,
+            "negativeStatusEffects": [],
+            "positiveStatusEffects": [],
+            "trueClass": "Rogue"
+        },
+        {
+            "ascended": false,
+            "doctrine": {
+                "l1": 0,
+                "l2": 0,
+                "l3": 0,
+                "l4": 0,
+                "l5": 0,
+                "l6": 0,
+                "trueClass": "EmptyDoctrine"
+            },
+            "experience": 0,
+            "id": -1,
+            "level": 1,
+            "potionsDrank": {
+                "potionOfAgilityDrank": 0,
+                "potionOfConstitutionDrank": 0,
+                "potionOfDarknessDrank": 0,
+                "potionOfDefenseDrank": 0,
+                "potionOfDexterityDrank": 0,
+                "potionOfHealthDrank": 0,
+                "potionOfImmunityDrank": 0,
+                "potionOfIntelligenceDrank": 0,
+                "potionOfMagicDefenseDrank": 0,
+                "potionOfPrecisionDrank": 0,
+                "potionOfViciousnessDrank": 0
+            },
+            "seen": true,
+            "timeWhenDismissed": 0,
+            "traitCommon": "BRUTE",
+            "weapon": {
+                "stack": 1,
+                "trueClass": "Spade"
+            },
+            "currentHp": 0,
+            "currentMana": 0,
+            "currentShield": 0,
+            "negativeStatusEffects": [],
+            "positiveStatusEffects": [],
+            "trueClass": "Footman"
+        }
+    ],
+    "tavernLocked": false,
+    "theCultistRebels": {
+        "adventureRecap": {
+            "areasCleared": 0,
+            "enemiesKilled": [],
+            "expEarned": 0,
+            "expLost": 0,
+            "secondsPassed": 0,
+            "wiped": 0
+        },
+        "adventurersExploringIds": [],
+        "collectedExperienceIn24Hours": 0,
+        "corpses": [],
+        "drops": [],
+        "enemies": [],
+        "maxProgress": 0,
+        "progress": 0,
+        "savedAdventurersIds": [],
+        "triesAvailable": true,
+        "turnsFighting": 0,
+        "unlocked": false
+    },
+    "theDesert": {
+        "action": {
+            "turnsPassed": 2,
+            "type": 1
+        },
+        "adventureRecap": {
+            "areasCleared": 8,
+            "enemiesKilled": [
+                {
+                    "enemy": "ShahuriArcher",
+                    "timesSlain": 1
+                }
+            ],
+            "expEarned": 130,
+            "expLost": 0,
+            "secondsPassed": 93,
+            "wiped": 0
+        },
+        "adventurersExploringIds": [
+            -2,
+            5,
+            3
+        ],
+        "collectedExperienceIn24Hours": 0,
+        "corpses": [],
+        "drops": [
+            {
+                "stack": 2,
+                "trueClass": "ScrapMetal"
+            }
+        ],
+        "enemies": [],
+        "event": {
+            "key": 1,
+            "progress": 44
+        },
+        "maxProgress": 250,
+        "petExploringId": 6,
+        "progress": 250,
+        "savedActingEntity": 0,
+        "savedAdventurersIds": [
+            0,
+            3,
+            5,
+            2
+        ],
+        "savedPetId": 0,
+        "triesAvailable": false,
+        "turnsFighting": 0,
+        "unlocked": true
+    },
+    "theDireDescent": {
+        "adventureRecap": {
+            "areasCleared": 0,
+            "enemiesKilled": [],
+            "expEarned": 0,
+            "expLost": 0,
+            "secondsPassed": 0,
+            "wiped": 0
+        },
+        "adventurersExploringIds": [],
+        "collectedExperienceIn24Hours": 0,
+        "corpses": [],
+        "drops": [],
+        "enemies": [],
+        "maxProgress": 0,
+        "progress": 0,
+        "savedAdventurersIds": [],
+        "triesAvailable": true,
+        "turnsFighting": 0,
+        "unlocked": false
+    },
+    "theDreadfulAscent": {
+        "adventureRecap": {
+            "areasCleared": 0,
+            "enemiesKilled": [],
+            "expEarned": 0,
+            "expLost": 0,
+            "secondsPassed": 0,
+            "wiped": 0
+        },
+        "adventurersExploringIds": [],
+        "collectedExperienceIn24Hours": 0,
+        "corpses": [],
+        "drops": [],
+        "enemies": [],
+        "maxProgress": 0,
+        "progress": 0,
+        "savedAdventurersIds": [],
+        "triesAvailable": true,
+        "turnsFighting": 0,
+        "unlocked": false
+    },
+    "theGoldenCity": {
+        "action": {
+            "turnsPassed": 0,
+            "type": 2
+        },
+        "adventureRecap": {
+            "areasCleared": 2,
+            "enemiesKilled": [
+                {
+                    "enemy": "InsaneCitizen",
+                    "timesSlain": 2
+                },
+                {
+                    "enemy": "CityWarden",
+                    "timesSlain": 2
+                },
+                {
+                    "enemy": "ImperialMage",
+                    "timesSlain": 1
+                }
+            ],
+            "expEarned": 380,
+            "expLost": 0,
+            "secondsPassed": 89,
+            "wiped": 0
+        },
+        "adventurersExploringIds": [
+            6
+        ],
+        "collectedExperienceIn24Hours": 0,
+        "corpses": [],
+        "drops": [
+            {
+                "stack": 1,
+                "trueClass": "SilkThread"
+            }
+        ],
+        "enemies": [
+            {
+                "currentHp": 300,
+                "currentMana": 10,
+                "currentShield": 0,
+                "negativeStatusEffects": [],
+                "positiveStatusEffects": [],
+                "trueClass": "CityWarden"
+            },
+            {
+                "currentHp": 200,
+                "currentMana": 0,
+                "currentShield": 0,
+                "negativeStatusEffects": [],
+                "positiveStatusEffects": [],
+                "trueClass": "InsaneCitizen"
+            },
+            {
+                "currentHp": 465,
+                "currentMana": 0,
+                "currentShield": 0,
+                "negativeStatusEffects": [
+                    {
+                        "turnsLeft": 2,
+                        "type": "TAUNT"
+                    }
+                ],
+                "positiveStatusEffects": [],
+                "trueClass": "ImperialGuard"
+            },
+            {
+                "currentHp": 200,
+                "currentMana": 0,
+                "currentShield": 0,
+                "negativeStatusEffects": [],
+                "positiveStatusEffects": [],
+                "trueClass": "InsaneCitizen"
+            },
+            {
+                "currentHp": 300,
+                "currentMana": 10,
+                "currentShield": 0,
+                "negativeStatusEffects": [],
+                "positiveStatusEffects": [],
+                "trueClass": "CityWarden"
+            }
+        ],
+        "maxProgress": 250,
+        "progress": 250,
+        "savedActingEntity": 4,
+        "savedAdventurersIds": [],
+        "triesAvailable": false,
+        "turnsFighting": 4,
+        "unlocked": true
+    },
+    "theLostExpedition": {
+        "adventureRecap": {
+            "areasCleared": 0,
+            "enemiesKilled": [],
+            "expEarned": 0,
+            "expLost": 0,
+            "secondsPassed": 0,
+            "wiped": 0
+        },
+        "adventurersExploringIds": [],
+        "collectedExperienceIn24Hours": 0,
+        "corpses": [],
+        "drops": [],
+        "enemies": [],
+        "maxProgress": 0,
+        "progress": 0,
+        "savedAdventurersIds": [],
+        "triesAvailable": true,
+        "turnsFighting": 0,
+        "unlocked": false
+    },
+    "theSlimePond": {
+        "adventureRecap": {
+            "areasCleared": 0,
+            "enemiesKilled": [],
+            "expEarned": 0,
+            "expLost": 0,
+            "secondsPassed": 0,
+            "wiped": 0
+        },
+        "adventurersExploringIds": [],
+        "collectedExperienceIn24Hours": 0,
+        "corpses": [],
+        "drops": [],
+        "enemies": [],
+        "maxProgress": 7,
+        "progress": 0,
+        "savedAdventurersIds": [
+            -1,
+            6,
+            5,
+            3,
+            0
+        ],
+        "savedPetId": 1,
+        "triesAvailable": true,
+        "turnsFighting": 0,
+        "unlocked": true
+    },
+    "theSouthernGrove": {
+        "adventureRecap": {
+            "areasCleared": 0,
+            "enemiesKilled": [],
+            "expEarned": 0,
+            "expLost": 0,
+            "secondsPassed": 0,
+            "wiped": 0
+        },
+        "adventurersExploringIds": [],
+        "collectedExperienceIn24Hours": 0,
+        "corpses": [],
+        "drops": [],
+        "enemies": [],
+        "maxProgress": 0,
+        "progress": 0,
+        "savedAdventurersIds": [],
+        "triesAvailable": false,
+        "turnsFighting": 0,
+        "unlocked": false
+    },
+    "theTower": {
+        "adventureRecap": {
+            "areasCleared": 0,
+            "enemiesKilled": [],
+            "expEarned": 0,
+            "expLost": 0,
+            "secondsPassed": 0,
+            "wiped": 0
+        },
+        "adventurersExploringIds": [],
+        "collectedExperienceIn24Hours": 0,
+        "corpses": [],
+        "drops": [],
+        "enemies": [],
+        "maxProgress": 0,
+        "progress": 0,
+        "savedAdventurersIds": [],
+        "triesAvailable": true,
+        "turnsFighting": 0,
+        "unlocked": false
+    },
+    "totalGemsPurchased": 0,
+    "tutorialStep": 8,
+    "unholyCrusadePurchased": false,
+    "uniqueItemsLost": [],
+    "upgradeMarketQueue": 0,
+    "upgradeMarketTime": 0,
+    "upgradeQuarters": 0,
+    "upgradeShelter": 0,
+    "upgradeStorage": 0,
+    "upgradeTavernCapacity": 0,
+    "upgradeTavernTime": 0,
+    "upgradeWorkshopQueue": 0,
+    "upgradeWorkshopTime": 0,
+    "vial2RetGrant": true,
+    "warLevel": 0,
+    "warProgress": 0,
+    "warQuests": [
+        {
+            "progress": 59,
+            "rarity": 1,
+            "targetProgress": 30000,
+            "trueClass": "Warrior"
+        }
+    ],
+    "workshopQueue": []
+}

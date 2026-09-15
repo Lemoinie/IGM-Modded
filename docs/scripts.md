@@ -116,7 +116,10 @@ backups/       Timestamped snapshots of save.json (gitignored)
   traits, weapons, potions, doctrines), items (stacks, max-all), quests, and export
   the result — all in memory, nothing uploaded.
 - **Inputs**: a save JSON dropped onto the page (e.g. `save.json` from a pull).
-- **Outputs**: an exported JSON file via the in-page export button.
+  UTF-8, UTF-8 with BOM, and UTF-16 (LE/BE) with BOM inputs are all accepted.
+- **Outputs**: an exported **UTF-8 (no BOM)** JSON file via the in-page export
+  button — the encoding the game's `FileManager` expects. (Older versions exported
+  UTF-16, which the game could not parse and silently replaced with a fresh save.)
 - **Required for development**: optional — an alternative to
   `save_manager.ps1`/`update_save.py` for manual editing.
 - **Modifies source?** No. **Generates files?** Only the user-triggered export.

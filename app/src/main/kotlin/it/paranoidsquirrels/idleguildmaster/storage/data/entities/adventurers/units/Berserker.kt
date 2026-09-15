@@ -10,9 +10,9 @@ class Berserker : Adventurer() {
     override fun configureStatistics() {
         maxLevel = 45
         baseMaxHp = 380
-        baseConstitution = 40
+        baseConstitution = 55
         baseIntelligence = 20
-        baseDexterity = 12
+        baseDexterity = 22
         baseDefense = 30
         baseMagicDefense = 0
         threat = 5

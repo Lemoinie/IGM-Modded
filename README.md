@@ -51,7 +51,7 @@ Originally developed as bytecode and smali injections, this repository represent
 * **Captain's Sword (`CaptainsSword`)**:
   * Tier sword granting +25 Constitution, +8 Dexterity, and a 20% chance to Stun on hit.
 * **Celestial Bow (`CelestialBow`)**:
-  * Endgame bow granting +40 Dexterity, +15 Intelligence, +10% Critical Chance, +10% Critical Damage, and multiple extra attacks per turn.
+  * Endgame bow granting +40 Dexterity, +15 Intelligence, +10% Critical Chance, +10% Critical Damage, and 2 extra attacks per turn (attacks 3 times per turn).
 
 ### Custom Consumables & Dialogs
 * **Experience Tomes (`XPBook1`, `XPBook2`, `XPBook3`, `XPBook10`)**:
@@ -109,9 +109,13 @@ The in-game Redeem Code dialog (`DialogRedeemCode`) includes a command dispatche
 
 ## UI & Quality of Life
 
-* **Mod Info / Changelog Dialog**: Added to the navigation drawer menu (`@id/mod_about`). Displays release notes and changelogs across all mod versions.
+* **Mod Info / Changelog Dialog (`v1.3.0.2`)**: Restored the original two-dialog FAQ list and version detail dialog layout from `Idle Guild Master`. Features full changelogs from `1.0.0.0` through `1.3.0.2 (15/9/2026)`.
+* **Bestiary Entries**: Added Imperial Captain to The Golden City and enforced `trueClass` tracking for Knight Slime and Imperial Captain in the Bestiary.
+* **Pet Battle Log Interactions**: Tapping the pet avatar in Dungeon and Raid battle logs (`DialogDungeonDetail`) opens the pet's detail dialog.
+* **Imperial Captain Kill Count Reset**: Killing the Imperial Captain or wiping against him resets the Imperial Guard kill counter cleanly to 0 upon round completion.
+* **Pet Senko/Semi 5th Trait Redesign**: Unlocked all 4 traits at Level 1 with no level requirements (normally unlocked at Lv 1, 21, 41, 61), and added a dedicated golden ascended card for the 5th trait (*Kitsune Spirit Blessing*).
 * **Start New Game Reset**: Added to the Settings dialog (`DialogSettings`). Safely resets all local save data and restarts the game fresh upon two-step confirmation.
-* **Modern App Identity**: Renamed application to **IGM Modded** with custom unit icon.
+* **Modern App Identity**: Renamed application to **IGM Modded** with Sha unit launcher icon and custom Berserker sprite art.
 
 ---
 

@@ -8,6 +8,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.content.res.Configuration
 import android.net.Uri
+import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -60,6 +61,8 @@ import java.util.Locale
 class MainActivity : AppCompatActivity() {
 
     companion object {
+        @JvmField
+        var context: Context? = null
         const val SAVE_FILE_NAME = "game_saved"
 
         @JvmField
@@ -266,6 +269,7 @@ class MainActivity : AppCompatActivity() {
     private fun getThis(): MainActivity = this
 
     override fun onCreate(bundle: Bundle?) {
+        context = this
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         super.onCreate(bundle)
         UIUtils.hideUI(window)
@@ -641,6 +645,11 @@ class MainActivity : AppCompatActivity() {
         applicationPaused.value = false
         SaveManager.inhibitSave = false
         initializeThreads()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        context = null
     }
 
     override fun onPause() {

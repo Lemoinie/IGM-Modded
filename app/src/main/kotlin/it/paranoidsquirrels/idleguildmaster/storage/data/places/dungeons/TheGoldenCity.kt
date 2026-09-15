@@ -237,7 +237,12 @@ class TheGoldenCity : Area() {
             "kill_ImperialGuard" -> {
                 ModManager.onEnemyKilled("ImperialGuard", null)
             }
+            "kill_ImperialCaptain" -> {
+                ModManager.onImperialCaptainDefeated(MainActivity.context)
+                Logger.log(this, 100, R.string.log_the_golden_city_threat)
+            }
             "respawn" -> {
+                ModManager.onTeamWipe(MainActivity.context)
                 event = null
             }
             "enter_dungeon" -> {
@@ -261,7 +266,8 @@ class TheGoldenCity : Area() {
             Enemy.getInstance("CityWarden"),
             Enemy.getInstance("ImperialGuard"),
             Enemy.getInstance("ImperialMage"),
-            Enemy.getInstance("ArcaneAssassin")
+            Enemy.getInstance("ArcaneAssassin"),
+            Enemy.getInstance("ImperialCaptain")
         )
     }
 
