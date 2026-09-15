@@ -47,6 +47,8 @@ it.paranoidsquirrels.idleguildmaster/
 ├── DebugToggles.kt          ★ MOD layer: compile-time cheat/feature flags
 ├── IAPWrapper.kt            In-app-purchase wrapper (stubbed, hidden from UI)
 ├── Faq.kt / KingMessage.kt  Resource-backed enums (title/body string ids)
+├── mod/
+│   └── ModManager.kt        ★ MOD layer: mod menu, save management, redeem codes
 │
 ├── storage/
 │   ├── FileManager.kt       Low-level save file I/O (data.txt / databackup.txt)
@@ -174,6 +176,11 @@ seconds without an Android device. Run with
 - **DebugToggles.kt** — compile-time boolean flags (`ALWAYS_GRANT_MAX_IDLE_HOURS`,
   `MULTIPLY_ADVENTURERS_STATS_BY_50`, `INSTANT_LEVEL_UP`, `CLEAN_SAVE_ON_START`,
   `DISABLE_SHOP`, etc.). Game logic reads these flags where the toggled behavior lives.
+- **Gameplay content mods** — mod additions (extra adventurer classes/enemies/items,
+  bonus traits such as `RUTHLESS_PLUS`, extra pets such as `SenkoSemi`, doctrine
+  rebalances, redeem codes via `mod/ModManager.kt`) are implemented as normal Kotlin
+  classes inside the vanilla trees and are protected by the `ModFeaturesTest` JVM
+  tests (app/src/test/kotlin).
 - **Branding** — `app/build.gradle.kts` (`modVersion = "1.3.0.0"`,
   `versionName = "$gameVersion-mod-$modVersion"`, custom APK name),
   `app/src/main/AndroidManifest.xml` (launcher icon = `@drawable/unit_balrog`),

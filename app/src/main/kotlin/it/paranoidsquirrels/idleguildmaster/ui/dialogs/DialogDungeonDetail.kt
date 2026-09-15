@@ -1,4 +1,5 @@
 package it.paranoidsquirrels.idleguildmaster.ui.dialogs
+import it.paranoidsquirrels.idleguildmaster.ui.dialogs.DialogPetDetail
 
 import android.animation.ObjectAnimator
 import android.app.AlertDialog
@@ -134,6 +135,13 @@ class DialogDungeonDetail : CustomDialog() {
         val pet = a.petExploring
         if (pet != null) {
             b.pet.setImageDrawable(ResourcesCompat.getDrawable(resources, pet.idImage, context?.theme))
+            b.pet.setOnClickListener {
+                if (MainActivity.shownDialogPetDetail != null) return@setOnClickListener
+                val dialog = DialogPetDetail()
+                MainActivity.shownDialogPetDetail = dialog
+                dialog.pet = pet
+                dialog.show(parentFragmentManager, "pet_detail")
+            }
         }
         b.pet.visibility = if (pet == null) 4 else 0
     }

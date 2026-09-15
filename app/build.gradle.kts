@@ -5,7 +5,7 @@ plugins {
 
 val gameName = "IdleGuildMaster"
 val gameVersion = "2.148"
-val modVersion = "1.3.0.0"
+val modVersion = "1.3.0.2"
 
 android {
     namespace = "it.paranoidsquirrels.idleguildmaster"

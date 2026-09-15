@@ -583,15 +583,24 @@ abstract class Adventurer : Entity() {
         }
         val w = weapon
         if (w != null && w.getEndOfTurnAction() != null) {
-            arrayList.add(w.getEndOfTurnAction()!!)
+            val wAction = w.getEndOfTurnAction()!!
+            for (i in 0 until w.getEndOfTurnActionRepeats()) {
+                arrayList.add(wAction)
+            }
         }
         val a = armor
         if (a != null && a.getEndOfTurnAction() != null) {
-            arrayList.add(a.getEndOfTurnAction()!!)
+            val aAction = a.getEndOfTurnAction()!!
+            for (i in 0 until a.getEndOfTurnActionRepeats()) {
+                arrayList.add(aAction)
+            }
         }
         val acc = accessory
         if (acc != null && acc.getEndOfTurnAction() != null) {
-            arrayList.add(acc.getEndOfTurnAction()!!)
+            val accAction = acc.getEndOfTurnAction()!!
+            for (i in 0 until acc.getEndOfTurnActionRepeats()) {
+                arrayList.add(accAction)
+            }
         }
         val doc = doctrine
         if (doc != null) {

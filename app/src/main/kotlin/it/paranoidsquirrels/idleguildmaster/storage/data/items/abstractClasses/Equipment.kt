@@ -9,6 +9,7 @@ abstract class Equipment : Item() {
     @JvmField @Transient protected var defense: Int = 0
     @JvmField @Transient protected var dexterity: Int = 0
     @JvmField @Transient protected var endOfTurnAction: EndOfTurnAction? = null
+    @JvmField @Transient protected var endOfTurnActionRepeats: Int = 1
     @JvmField @Transient protected var intelligence: Int = 0
     @JvmField @Transient protected var magicDefense: Int = 0
     @JvmField @Transient protected var maxHp: Int = 0
@@ -56,6 +57,7 @@ abstract class Equipment : Item() {
     open fun getOnSelfHit(): StatusEffect? = onSelfHit
     open fun setOnSelfHit(statusEffect: StatusEffect?) { onSelfHit = statusEffect }
     open fun getEndOfTurnAction(): EndOfTurnAction? = endOfTurnAction
+    open fun getEndOfTurnActionRepeats(): Int = if (endOfTurnActionRepeats > 0) endOfTurnActionRepeats else 1
     open fun getLifesteal(): Int = lifesteal
     open fun getLifestealWithMinion(): Int = lifestealWithMinion
     open fun getThreat(): Int = threat

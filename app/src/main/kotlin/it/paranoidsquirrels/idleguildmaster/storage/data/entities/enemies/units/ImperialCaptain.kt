@@ -10,6 +10,9 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.items.ItemWrapper
 import java.util.LinkedHashMap
 
 class ImperialCaptain : Enemy() {
+    init {
+        trueClass = "ImperialCaptain"
+    }
     var authorityStacks: Int = 0
 
     override fun configureStatistics() {

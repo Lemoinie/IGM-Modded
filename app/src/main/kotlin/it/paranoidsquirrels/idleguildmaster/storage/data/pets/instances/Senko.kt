@@ -5,6 +5,9 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.pets.PetAbility
 import it.paranoidsquirrels.idleguildmaster.storage.data.pets.abstractClasses.Wild
 
 class Senko : Wild() {
+    init {
+        trueClass = "Senko"
+    }
     override fun configureStatistics() {
         idImage = R.drawable.pet_senko
         idName = R.string.pet_senko_name

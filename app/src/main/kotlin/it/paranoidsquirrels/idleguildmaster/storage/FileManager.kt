@@ -105,17 +105,8 @@ object FileManager {
     @JvmStatic
     @Throws(IOException::class)
     fun loadFile(context: Context, str: String): Data {
-        val fis = context.openFileInput(str)
-        val isr = InputStreamReader(fis, StandardCharsets.UTF_8)
-        val sb = StringBuilder()
-        BufferedReader(isr).use { reader ->
-            var line: String? = reader.readLine()
-            while (line != null) {
-                sb.append(line)
-                line = reader.readLine()
-            }
-        }
-        val strContent = sb.toString()
+        val bytes = context.openFileInput(str).use { it.readBytes() }
+        val strContent = decodeSaveText(bytes)
         if (strContent.isEmpty()) {
             return Data()
         }
@@ -123,6 +114,37 @@ object FileManager {
             initGson()
         }
         return gson!!.fromJson(strContent, Data::class.java)
+    }
+
+    /**
+     * Decodes raw save bytes, auto-detecting a byte-order mark (BOM).
+     *
+     * The canonical on-disk format is UTF-8 *without* a BOM (see [overwriteFile],
+     * which writes `str.toByteArray()`). For robustness with external save tools
+     * (e.g. the browser save editor in `save_editor/`) a leading UTF-16 LE/BE BOM or
+     * UTF-8 BOM is also accepted and stripped.
+     *
+     * A BOM-less UTF-16 file is not detectable and is treated as UTF-8; the caller
+     * (`load`) falls back to a fresh `Data()` in that case, as before.
+     */
+    internal fun decodeSaveText(bytes: ByteArray): String {
+        if (bytes.size >= 2) {
+            val b0 = bytes[0].toInt() and 0xFF
+            val b1 = bytes[1].toInt() and 0xFF
+            if (b0 == 0xFF && b1 == 0xFE) {
+                // UTF-16 LE with BOM
+                return String(bytes, 2, bytes.size - 2, StandardCharsets.UTF_16LE)
+            }
+            if (b0 == 0xFE && b1 == 0xFF) {
+                // UTF-16 BE with BOM
+                return String(bytes, 2, bytes.size - 2, StandardCharsets.UTF_16BE)
+            }
+            if (bytes.size >= 3 && b0 == 0xEF && b1 == 0xBB && (bytes[2].toInt() and 0xFF) == 0xBF) {
+                // UTF-8 with BOM
+                return String(bytes, 3, bytes.size - 3, StandardCharsets.UTF_8)
+            }
+        }
+        return String(bytes, StandardCharsets.UTF_8)
     }
 
     @JvmStatic

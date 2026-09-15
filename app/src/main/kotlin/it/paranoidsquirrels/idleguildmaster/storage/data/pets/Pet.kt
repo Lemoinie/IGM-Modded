@@ -20,10 +20,11 @@ abstract class Pet {
             petAbility4: PetAbility
         ): Pet? {
             return try {
-                val clazz = Class.forName(String.format(CLASS_PATH, str))
+                val resolved = if (str.equals("Semi", ignoreCase = true)) "Senko" else str
+                val clazz = Class.forName(String.format(CLASS_PATH, resolved))
                 val pet = clazz.getConstructor().newInstance() as Pet
                 pet.configureStatistics()
-                pet.trueClass = str
+                pet.trueClass = resolved
                 pet.level = level
                 pet.food = food
                 pet.id = id
@@ -42,10 +43,11 @@ abstract class Pet {
         @JvmStatic
         fun getInstance(str: String, id: Int): Pet? {
             return try {
-                val clazz = Class.forName(String.format(CLASS_PATH, str))
+                val resolved = if (str.equals("Semi", ignoreCase = true)) "Senko" else str
+                val clazz = Class.forName(String.format(CLASS_PATH, resolved))
                 val pet = clazz.getConstructor().newInstance() as Pet
                 pet.configureStatistics()
-                pet.trueClass = str
+                pet.trueClass = resolved
                 pet.level = 1
                 pet.food = 0
                 pet.id = id
@@ -134,10 +136,19 @@ abstract class Pet {
     }
 
     private fun configureAbilities() {
-        configureAbility(this.petAbility1, this.level)
-        configureAbility(this.petAbility2, this.level - 20)
-        configureAbility(this.petAbility3, this.level - 40)
-        configureAbility(this.petAbility4, this.level - 60)
+        val isSenko = (trueClass.equals("Senko", ignoreCase = true) || trueClass.equals("Semi", ignoreCase = true) || this is it.paranoidsquirrels.idleguildmaster.storage.data.pets.instances.Senko)
+        if (isSenko) {
+            // Senko/Semi unlocks all traits at Level 1
+            configureAbility(this.petAbility1, this.level)
+            configureAbility(this.petAbility2, this.level)
+            configureAbility(this.petAbility3, this.level)
+            configureAbility(this.petAbility4, this.level)
+        } else {
+            configureAbility(this.petAbility1, this.level)
+            configureAbility(this.petAbility2, this.level - 20)
+            configureAbility(this.petAbility3, this.level - 40)
+            configureAbility(this.petAbility4, this.level - 60)
+        }
     }
 
     protected open fun configureAbility(petAbility: PetAbility, level: Int) {

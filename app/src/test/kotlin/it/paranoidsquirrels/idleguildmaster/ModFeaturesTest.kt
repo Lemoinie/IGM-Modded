@@ -2,6 +2,7 @@ package it.paranoidsquirrels.idleguildmaster
 
 import it.paranoidsquirrels.idleguildmaster.mod.ModManager
 import it.paranoidsquirrels.idleguildmaster.storage.data.Data
+import it.paranoidsquirrels.idleguildmaster.storage.data.entities.EndOfTurnAction
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.Skills
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.Adventurer
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.PotionsDrank
@@ -61,6 +62,21 @@ class ModFeaturesTest {
         val xp10 = Item.getInstance("XPBook10", 1) as? XPBook10
         assertNotNull(xp10)
         assertEquals(100000, xp10?.getXpToGive())
+    }
+
+    @Test
+    fun testCelestialBowAttackThrice() {
+        val bow = Item.getInstance("CelestialBow", 1) as? CelestialBow
+        assertNotNull(bow)
+        val hero = Adventurer.getInstance("Footman", 1, 1, 0, bow, null, null, null, null, PotionsDrank(), null, false)
+        assertNotNull(hero)
+        val actions = hero?.endOfTurnActions() ?: emptyList()
+        val extraAttacks = actions.count { it == EndOfTurnAction.EXTRA_ATTACK }
+        assertEquals(
+            "Celestial Bow must grant 2 extra attacks (base + 2 = attack thrice)",
+            2,
+            extraAttacks
+        )
     }
 
     @Test
@@ -132,5 +148,51 @@ class ModFeaturesTest {
         val pet = MainActivity.data.pets.find { it.trueClass == "Senko" }
         assertNotNull(pet)
         assertEquals(5, pet?.level)
+    }
+    @Test
+    fun testModAboutChangelogEntries() {
+        val entries = ModManager.parseVersionEntries()
+        assertTrue(entries.isNotEmpty())
+        assertTrue("Top entry must be 1.3.0.1", entries[0].title.startsWith("1.3.0.1"))
+        assertTrue("Bottom entry must be 1.0.0.0", entries.last().title.startsWith("1.0.0.0"))
+    }
+
+    @Test
+    fun testBestiaryEntriesContainCaptainAndKnightSlime() {
+        val goldenCity = it.paranoidsquirrels.idleguildmaster.storage.data.places.dungeons.TheGoldenCity()
+        val gcEnemies = goldenCity.listEnemies()
+        assertTrue("TheGoldenCity must include ImperialCaptain in Bestiary", gcEnemies.any { it.getTrueClass() == "ImperialCaptain" })
+
+        val slimePond = it.paranoidsquirrels.idleguildmaster.storage.data.places.raids.TheSlimePond()
+        val spEnemies = slimePond.listEnemies()
+        assertTrue("TheSlimePond must include KnightSlime in Bestiary", spEnemies.any { it.getTrueClass() == "KnightSlime" })
+    }
+
+    @Test
+    fun testImperialCaptainKillReset() {
+        ModManager.setImperialKills(100, null)
+        assertEquals(100, ModManager.getImperialKills())
+
+        ModManager.onImperialCaptainDefeated(null)
+        assertEquals("Kill count must reset to 0 upon defeat", 0, ModManager.getImperialKills())
+
+        ModManager.setImperialKills(100, null)
+        assertEquals(100, ModManager.getImperialKills())
+
+        ModManager.onTeamWipe(null)
+        assertEquals("Kill count must reset to 0 upon team wipe", 0, ModManager.getImperialKills())
+    }
+
+    @Test
+    fun testSenkoSemiPetFeatures() {
+        val semi = Pet.getInstance("Semi", 1)
+        assertNotNull(semi)
+        assertEquals("Senko", semi?.getTrueClass())
+        assertEquals(1, semi?.level)
+
+        // At level 1, Senko's abilities are unlocked and configureAbilities applies them
+        val senko = Pet.getInstance("Senko", 1)
+        assertNotNull(senko)
+        assertEquals(1, senko?.level)
     }
 }
