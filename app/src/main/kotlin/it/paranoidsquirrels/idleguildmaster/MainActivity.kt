@@ -1,5 +1,7 @@
 package it.paranoidsquirrels.idleguildmaster
 
+import it.paranoidsquirrels.idleguildmaster.mod.ModManager
+
 import android.app.AlertDialog
 import android.content.ActivityNotFoundException
 import android.content.DialogInterface
@@ -527,6 +529,10 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
+        binding.navViewDrawer.menu.findItem(R.id.mod_about)?.setOnMenuItemClickListener {
+            ModManager.showModAbout(this)
+            true
+        }
         binding.navViewDrawer.menu.findItem(R.id.cafe_naver)?.setOnMenuItemClickListener {
             try {
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://cafe.naver.com/idleguildmaster/")))

@@ -137,11 +137,12 @@ class DialogStorage : CustomDialog() {
         }
 
         b.itemGrid.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
-            UIUtils.openItemDetail(items[position])
+            val item = adapter?.getItem(position) ?: items.getOrNull(position) ?: return@OnItemClickListener
+            UIUtils.openItemDetail(item)
         }
 
         b.itemGrid.onItemLongClickListener = AdapterView.OnItemLongClickListener { _, _, position, _ ->
-            val item = items[position]
+            val item = adapter?.getItem(position) ?: items.getOrNull(position) ?: return@OnItemLongClickListener true
             UIUtils.vibrate(context)
             if (item.isNotSellable()) {
                 if (cantSell != null) return@OnItemLongClickListener true

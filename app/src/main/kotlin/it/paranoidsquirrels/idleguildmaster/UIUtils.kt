@@ -487,18 +487,20 @@ object UIUtils {
     }
 
     @JvmStatic
+    @Suppress("UNCHECKED_CAST")
     fun getItemsGridAdapter(context: Context?, list: List<Item?>?): ArrayAdapter<Item> {
-        val context = context!!
-        val filtered = list?.filterNotNull() ?: emptyList()
-        return GridAdapter(context, R.layout.layout_item_big_grid, filtered)
+        val ctx = context!!
+        val itemList = (list as? List<Item>) ?: emptyList()
+        return GridAdapter(ctx, R.layout.layout_item_big_grid, itemList)
     }
 
     private class GridAdapter(
         context: Context,
         private val resource: Int,
         private val items: List<Item>
-    ) : ArrayAdapter<Item>(context, resource) {
+    ) : ArrayAdapter<Item>(context, resource, items) {
         override fun getCount(): Int = items.size
+        override fun getItem(position: Int): Item? = items.getOrNull(position)
 
         override fun getView(i: Int, convertView: View?, parent: ViewGroup): View {
             val view = convertView ?: LayoutInflater.from(context).inflate(resource, parent, false)

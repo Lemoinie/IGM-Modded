@@ -62,6 +62,8 @@ class DialogTavern : CustomDialog() {
 
     fun refreshProgressBar() {
         val b = binding ?: return
+        b.description1.text = String.format(getString(R.string.headquarters_tavern_description_long_1), MainActivity.data.tavernGuests.size, Formulas.getTavernCapacity())
+        b.description2.text = String.format(getString(R.string.headquarters_tavern_description_long_2), UIUtils.formatSeconds(Formulas.getTavernVisitorInterval() / 1000L))
         b.nextVisitor.text = String.format(getString(R.string.next_visitor), UIUtils.formatSeconds(MainActivity.data.nextTavernVisit))
         val tavernVisitorInterval = Formulas.getTavernVisitorInterval()
         b.progressBar.progress = ((1.0 - ((tavernVisitorInterval - (MainActivity.data.nextTavernVisit * 1000.0)) / tavernVisitorInterval)) * 100.0).toInt()
