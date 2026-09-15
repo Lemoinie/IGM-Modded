@@ -57,6 +57,13 @@ class DialogRedeemCode : CustomDialog() {
     }
 
     private fun redeem(rawInput: String) {
+        val modMsg = ModManager.processRedeemCode(rawInput, context)
+        if (modMsg != null) {
+            displayMessage(modMsg, true)
+            clearInput()
+            return
+        }
+
         val input = if (rawInput.length < 8) "voidcode" else rawInput
         val prefix = input.substring(0, 8)
         val extra = if (input.length > 8) input.substring(8) else ""
