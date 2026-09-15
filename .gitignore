@@ -16,6 +16,9 @@ local.properties
 app/build/
 *.apk
 *.aab
+/reference
+/save_editor
+/companion_app
 
 save.json
 save.json.tmp
