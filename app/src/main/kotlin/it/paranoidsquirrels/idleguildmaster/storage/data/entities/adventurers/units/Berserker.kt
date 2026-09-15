@@ -15,9 +15,9 @@ class Berserker : Adventurer() {
         baseDexterity = 22
         baseDefense = 30
         baseMagicDefense = 0
-        threat = 5
+        threat = 6
         baseLifesteal = 20
-        imageId = R.drawable.unit_berserker
+        imageId = R.drawable.unit_hero_berserker
         idName = R.string.unit_berserker_name
         idDescription = R.string.unit_berserker_description
         passiveSkill = Skills.PASSIVE_BERSERKER_RAGE

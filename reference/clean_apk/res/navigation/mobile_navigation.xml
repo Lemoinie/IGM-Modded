@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation android:id="@id/mobile_navigation" app:startDestination="@id/navigation_headquarters"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <fragment android:name="it.paranoidsquirrels.idleguildmaster.ui.headquarters.HeadquartersFragment" android:id="@id/navigation_headquarters" />
+    <fragment android:name="it.paranoidsquirrels.idleguildmaster.ui.adventurers.AdventurersFragment" android:id="@id/navigation_adventurers" />
+    <fragment android:name="it.paranoidsquirrels.idleguildmaster.ui.dungeons.DungeonsFragment" android:id="@id/navigation_dungeons" />
+    <fragment android:name="it.paranoidsquirrels.idleguildmaster.ui.raids.RaidsFragment" android:id="@id/navigation_raids" />
+</navigation>
