@@ -11,7 +11,7 @@ import it.paranoidsquirrels.idleguildmaster.MainActivity
 import it.paranoidsquirrels.idleguildmaster.R
 import it.paranoidsquirrels.idleguildmaster.databinding.DialogConsumeEvo23Binding
 import it.paranoidsquirrels.idleguildmaster.databinding.LayoutAdventurerChangeTraitBinding
-import it.paranoidsquirrels.idleguildmaster.mod.ModManager
+import it.paranoidsquirrels.idleguildmaster.storage.FileManager
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.Adventurer
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Consumable
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.instances.*
@@ -83,7 +83,7 @@ class DialogConsumeXPBook : CustomDialog() {
                 }
             }
             context?.let { ctx ->
-                ModManager.saveGameSynchronous(ctx)
+                FileManager.saveNow(ctx)
                 Toast.makeText(ctx, "Gained $xpToGive XP!", Toast.LENGTH_SHORT).show()
             }
             MainActivity.shownDialogItemDetail?.initialize(null)

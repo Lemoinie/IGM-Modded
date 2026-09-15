@@ -8,6 +8,7 @@ import com.google.android.gms.games.snapshot.SnapshotMetadataChange
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import it.paranoidsquirrels.idleguildmaster.MainActivity
+import it.paranoidsquirrels.idleguildmaster.TrueTimeUtils
 import it.paranoidsquirrels.idleguildmaster.Utils
 import it.paranoidsquirrels.idleguildmaster.storage.data.Data
 import it.paranoidsquirrels.idleguildmaster.storage.data.DataDeserializer
@@ -27,6 +28,24 @@ object FileManager {
     private var gson: Gson? = null
     private var saveToggle = false
     private var writeToCloud = false
+
+    /**
+     * Synchronously persists the current game state to disk, stamping lastAccess
+     * with the current TrueTime timestamp (so offline/idle time is measured from
+     * now). Safely no-ops while an idle tick thread is still finishing.
+     */
+    @JvmStatic
+    fun saveNow(context: Context?) {
+        if (context == null || MainActivity.data == null) return
+        try {
+            MainActivity.data.lastAccess = TrueTimeUtils.millis()
+            if (!SaveManager.inhibitSave && (MainActivity.IDLE_THREAD_FINISHED == null || MainActivity.IDLE_THREAD_FINISHED.value)) {
+                save(context)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
 
     @JvmStatic
     fun getGson(): Gson {

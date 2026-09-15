@@ -1,7 +1,5 @@
 package it.paranoidsquirrels.idleguildmaster
 
-import it.paranoidsquirrels.idleguildmaster.mod.ModManager
-
 import android.app.AlertDialog
 import android.content.ActivityNotFoundException
 import android.content.DialogInterface
@@ -534,7 +532,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.navViewDrawer.menu.findItem(R.id.mod_about)?.setOnMenuItemClickListener {
-            ModManager.showModAbout(this)
+            DialogModAbout.show(this)
             true
         }
         binding.navViewDrawer.menu.findItem(R.id.cafe_naver)?.setOnMenuItemClickListener {
@@ -672,7 +670,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initializeThreads() {
-        val iMin = (Math.min(4, 4) + 8) * Utils.ONE_HOUR_IN_SECONDS
+        // Offline idle is capped at 12 hours by vanilla purchases ("iMin"); the mod's
+        // idleTimeCapHours override (12..168, 0 = unset) extends that cap when set.
+        val idleCapHours = data.idleTimeCapHours
+        val vanillaCap = (Math.min(4, 4) + 8) * Utils.ONE_HOUR_IN_SECONDS
+        val iMin = if (idleCapHours in 12..168) idleCapHours * Utils.ONE_HOUR_IN_SECONDS else vanillaCap
         val lastAccess = data.lastAccess
         val jMillis = TrueTimeUtils.millis()
         val jMax = if (lastAccess != 0L) Math.max(1L, Math.min(iMin.toLong(), Math.round((jMillis - lastAccess) / 1000.0))) else 1L

@@ -40,6 +40,15 @@ The JSON root is a flat object with ~100 keys. Categories (representative keys):
 | Areas (12 raids)    | `theSlimePond`, `divineArcheology`, `ancientGraveDigging`, `imperialRescue`, `theCultistRebels`, `theDreadfulAscent`, `theLostExpedition`, `celestialMothership`, `theDireDescent`, `sleepingPlanet`, `kaunis`, `theTower` |
 | Items / market      | `items[]`, `knownRecipes`, `marketListings[]`, `soldMarketItems[]`, `merchantRegularStockItems[]`, `merchantSpecialReserve`, `newMerchantRegularItems`, `newMerchantSpecialItems`, `completedWorkshopItems[]`, `workshopQueue[]` |
 | Pets                | `pets[]`, `t4Pet`                                                   |
+| Quests              | `kingsQuests`, `afflictionQuests`, `controlQuests`, `fortitudeQuests`, `graceQuests`, `illusionQuests`, `knowledgeQuests`, `ruinQuests`, `warQuests`, `questsCompleted`, `questsRefreshed`, `questsSeen` |
+| Doctrine levels     | `afflictionLevel/Progress`, `controlLevel/Progress`, `fortitudeLevel/Progress`, `graceLevel/Progress`, `illusionLevel/Progress`, `knowledgeLevel/Progress`, `ruinLevel/Progress`, `warLevel/Progress` |
+| Messages            | `messagesGotten[]`, `messagesToShow[]` (KingMessage identifiers)     |
+| Collection          | `seenEnemies[]`, `seenItems[]`, `uniqueItemsLost[]`                  |
+| Timers              | `lastAccess`, `last24Triggered`, `lastHourTriggered`, `lastWeekTriggered`, `nextTavernVisit` |
+| Settings            | `settingsLanguage`, `settingConfirmRetreat`, `settingConfirmSwap`, `settingConfirmUpgrade`, `settingCraftMaxAmount`, `settingSellMaxAmount`, `settingVerboseLogs`, `settingAutoOpenDungeonDetail`, `settingColorblindMode`, `shownDialogRaid`, `shownDialogEpicRaid` |
+| Mod progression     | `imperialKills`, `idleTimeCapHours`, `lootCap` (0 = unset). Legacy saves are migrated by unpacking the old packed `redeem_m975nfu5` int (bits 0-9 kills / 10-17 idle hours / 18-31 loot cap) |
+| Legacy/redeem keys  | `redeem_f1r39h15`, `redeem_g73mfkf4`, `redeem_potionsRefund1`, `redeemed_*`, `redeem_m975nfu5` (kept for save compatibility) |
+
 ## Nested Structures
 
 **Item** (storage item, equipment slot value):
@@ -128,10 +137,3 @@ See [scripts.md](scripts.md) for details.
 - Real example save: `app/src/main/assets/manual_load.txt` (used by
   `DebugToggles.LOAD_FROM_TEST_FILE`).
 - Local live save: `save.json` (current working copy).
-| Quests              | `kingsQuests`, `afflictionQuests`, `controlQuests`, `fortitudeQuests`, `graceQuests`, `illusionQuests`, `knowledgeQuests`, `ruinQuests`, `warQuests`, `questsCompleted`, `questsRefreshed`, `questsSeen` |
-| Doctrine levels     | `afflictionLevel/Progress`, `controlLevel/Progress`, `fortitudeLevel/Progress`, `graceLevel/Progress`, `illusionLevel/Progress`, `knowledgeLevel/Progress`, `ruinLevel/Progress`, `warLevel/Progress` |
-| Messages            | `messagesGotten[]`, `messagesToShow[]` (KingMessage identifiers)     |
-| Collection          | `seenEnemies[]`, `seenItems[]`, `uniqueItemsLost[]`                  |
-| Timers              | `lastAccess`, `last24Triggered`, `lastHourTriggered`, `lastWeekTriggered`, `nextTavernVisit` |
-| Settings            | `settingsLanguage`, `settingConfirmRetreat`, `settingConfirmSwap`, `settingConfirmUpgrade`, `settingCraftMaxAmount`, `settingSellMaxAmount`, `settingVerboseLogs`, `settingAutoOpenDungeonDetail`, `settingColorblindMode`, `shownDialogRaid`, `shownDialogEpicRaid` |
-| Legacy/redeem keys  | `redeem_f1r39h15`, `redeem_g73mfkf4`, `redeem_potionsRefund1`, `redeemed_*`, `redeem_m975nfu5` |

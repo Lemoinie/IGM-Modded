@@ -10,9 +10,9 @@ import it.paranoidsquirrels.idleguildmaster.MainActivity
 import it.paranoidsquirrels.idleguildmaster.R
 import it.paranoidsquirrels.idleguildmaster.UIUtils
 import it.paranoidsquirrels.idleguildmaster.Utils
+import it.paranoidsquirrels.idleguildmaster.storage.FileManager
 import it.paranoidsquirrels.idleguildmaster.databinding.DialogChangeTraitRareBinding
 import it.paranoidsquirrels.idleguildmaster.databinding.LayoutTraitBinding
-import it.paranoidsquirrels.idleguildmaster.mod.ModManager
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.Adventurer
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.Trait
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.Item
@@ -98,7 +98,7 @@ class DialogChangeTraitCommon : CustomDialog() {
 
     private fun applyTraitChange(targetTrait: Trait) {
         val adv = adventurer ?: return
-        ModManager.setAdventurerCommonTrait(adv, targetTrait)
+        adv.traitCommon = targetTrait
         Item.getInstance("Evo22Vial", 1)?.let { Utils.removeItemFromStorage(it) }
 
         MainActivity.shownDialogItemDetail?.initialize(null)
@@ -109,7 +109,7 @@ class DialogChangeTraitCommon : CustomDialog() {
 
         DialogConsumeEvo22.currentDialog?.dismiss()
         dismiss()
-        context?.let { ModManager.saveGameSynchronous(it) }
+        context?.let { FileManager.saveNow(it) }
     }
 
     override fun attachListeners() {

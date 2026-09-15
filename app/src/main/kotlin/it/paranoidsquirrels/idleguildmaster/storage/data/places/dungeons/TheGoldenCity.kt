@@ -12,13 +12,30 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.items.Item
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.Area
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.Event
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.Logger
-import it.paranoidsquirrels.idleguildmaster.mod.ModManager
+import it.paranoidsquirrels.idleguildmaster.storage.FileManager
 import it.paranoidsquirrels.idleguildmaster.storage.data.quests.QuestsManager
 import java.util.LinkedHashMap
 import java.util.concurrent.CopyOnWriteArrayList
 import kotlin.math.max
 
 class TheGoldenCity : Area() {
+    companion object {
+        /** Imperial Guard kills required before the Imperial Captain can appear. */
+        const val IMPERIAL_CAPTAIN_KILL_THRESHOLD: Int = 100
+    }
+
+    /** Resets the Imperial Guard kill counter after the Imperial Captain is defeated. */
+    fun onImperialCaptainDefeated() {
+        MainActivity.data.imperialKills = 0
+        FileManager.saveNow(MainActivity.context)
+    }
+
+    /** Resets the Imperial Guard kill counter after a team wipe (respawn). */
+    fun onTeamWipe() {
+        MainActivity.data.imperialKills = 0
+        FileManager.saveNow(MainActivity.context)
+    }
+
     override fun getAreaType(): Int = 0
 
     override fun getDarkness(): Int = 0
@@ -32,7 +49,8 @@ class TheGoldenCity : Area() {
     override fun getLayout(): LayoutDungeonBinding = MainActivity.dungeonsFragment.binding!!.theGoldenCity
 
     override fun rollEnemies(): MutableList<Enemy> {
-        if (ModManager.shouldSpawnImperialCaptain()) {
+        val kills = MainActivity.data.imperialKills
+        if (kills >= IMPERIAL_CAPTAIN_KILL_THRESHOLD && Math.random() < 0.5) {
             return CopyOnWriteArrayList(listOfNotNull(Enemy.getInstance("ImperialCaptain")))
         }
         val dRandom = Utils.random() * 1000.0
@@ -235,14 +253,14 @@ class TheGoldenCity : Area() {
                 QuestsManager.increment(QuestsManager.psychiatrist, 1L)
             }
             "kill_ImperialGuard" -> {
-                ModManager.onEnemyKilled("ImperialGuard", null)
+                MainActivity.data.imperialKills = (MainActivity.data.imperialKills + 1).coerceIn(0, 1023)
             }
             "kill_ImperialCaptain" -> {
-                ModManager.onImperialCaptainDefeated(MainActivity.context)
+                onImperialCaptainDefeated()
                 Logger.log(this, 100, R.string.log_the_golden_city_threat)
             }
             "respawn" -> {
-                ModManager.onTeamWipe(MainActivity.context)
+                onTeamWipe()
                 event = null
             }
             "enter_dungeon" -> {

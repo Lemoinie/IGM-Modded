@@ -89,7 +89,7 @@ Originally developed as bytecode and smali injections, this repository represent
 
 ## Redeem Code Engine
 
-The in-game Redeem Code dialog (`DialogRedeemCode`) includes a command dispatcher managed by `ModManager`:
+The in-game Redeem Code dialog (`DialogRedeemCode`) includes a command dispatcher backed by the native `game.redeem.RedeemCodes` service:
 
 | Code Syntax | Effect |
 | :--- | :--- |
@@ -109,7 +109,7 @@ The in-game Redeem Code dialog (`DialogRedeemCode`) includes a command dispatche
 
 ## UI & Quality of Life
 
-* **Mod Info / Changelog Dialog (`v1.3.0.2`)**: Restored the original two-dialog FAQ list and version detail dialog layout from `Idle Guild Master`. Features full changelogs from `1.0.0.0` through `1.3.0.2 (15/9/2026)`.
+* **Mod Info / Changelog Dialog (`v1.3.0.3`)**: Restored the original two-dialog FAQ list and version detail dialog layout from `Idle Guild Master`. Features full changelogs from `1.0.0.0` through `1.3.0.3 (15/9/2026)`.
 * **Bestiary Entries**: Added Imperial Captain to The Golden City and enforced `trueClass` tracking for Knight Slime and Imperial Captain in the Bestiary.
 * **Pet Battle Log Interactions**: Tapping the pet avatar in Dungeon and Raid battle logs (`DialogDungeonDetail`) opens the pet's detail dialog.
 * **Imperial Captain Kill Count Reset**: Killing the Imperial Captain or wiping against him resets the Imperial Guard kill counter cleanly to 0 upon round completion.
@@ -177,7 +177,7 @@ powershell -ExecutionPolicy Bypass -File .\save_manager.ps1 push
 │   ├── src/
 │   │   ├── main/
 │   │   │   ├── kotlin/.../idleguildmaster/
-│   │   │   │   ├── mod/                      # ModManager & core mod controllers
+│   │   │   │   ├── game/redeem/              # RedeemCodes console (native service)
 │   │   │   │   ├── storage/
 │   │   │   │   │   ├── data/entities/        # Units, traits, skills, balance hooks
 │   │   │   │   │   ├── data/items/           # Weapons, armor, custom consumables

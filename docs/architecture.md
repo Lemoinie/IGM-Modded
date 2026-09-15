@@ -47,8 +47,10 @@ it.paranoidsquirrels.idleguildmaster/
 ├── DebugToggles.kt          ★ MOD layer: compile-time cheat/feature flags
 ├── IAPWrapper.kt            In-app-purchase wrapper (stubbed, hidden from UI)
 ├── Faq.kt / KingMessage.kt  Resource-backed enums (title/body string ids)
-├── mod/
-│   └── ModManager.kt        ★ MOD layer: mod menu, save management, redeem codes
+│
+├── game/
+│   └── redeem/
+│       └── RedeemCodes.kt   Native redeem-code console (items/heroes/pets, caps, toggles)
 │
 ├── storage/
 │   ├── FileManager.kt       Low-level save file I/O (data.txt / databackup.txt)
@@ -73,6 +75,15 @@ it.paranoidsquirrels.idleguildmaster/
 │       │   └── raids/       12 raid subclasses
 │       └── quests/          QuestsManager.kt + instances/
 │
+└── ui/                      View-layer (AndroidX DataBinding fragments/dialogs)
+    ├── adventurers/  AdventurersFragment.kt (+ per-adventurer item layouts)
+    ├── headquarters/ HeadquartersFragment.kt
+    ├── dungeons/     DungeonsFragment.kt
+    ├── raids/        RaidsFragment.kt
+    ├── components/   Shared/custom views
+    └── dialogs/      Dialog*.kt (~40 dialogs), plus DialogModAbout + ModChangelog
+```
+
 ## Major Systems
 
 ### 1. MainActivity — global hub
@@ -133,7 +144,36 @@ The view layer is AndroidX Fragment/Activity + DataBinding:
 
 ## Mod-Specific Code
 
-The mod layer is intentionally thin and clearly separated:
+Mod features are implemented as **native game code** in the source tree rather than
+injected patches. The remaining "mod-specific" surface is thin and clearly located:
+
+- **Redeem-code console** — `game/redeem/RedeemCodes.kt` services the in-game
+  Redeem Code dialog (`ui/dialogs/DialogRedeemCode.kt`) with `GOLD`, `STORAGE`,
+  `IDLETIME`, `LOOTCAP`, `SHOP`, `QUEST`, `KILLS`, `SETKILLS`, `ITEM`, `HERO`, and
+  `PET` commands; each command mutates live `Data` and persists via
+  `FileManager.saveNow(...)`.
+- **Progression overrides** — `Data` carries the mod's persisted tuning knobs
+  (`imperialKills`, `idleTimeCapHours`, `lootCap`) which are consumed by normal game
+  systems: `TheGoldenCity` (Imperial Captain spawn/kill counter), `MainActivity`
+  (offline idle cap), and `Area.fullChest()` (dungeon loot cap).
+- **DebugToggles.kt** — compile-time boolean flags (`ALWAYS_GRANT_MAX_IDLE_HOURS`,
+  `MULTIPLY_ADVENTURERS_STATS_BY_50`, `INSTANT_LEVEL_UP`, `CLEAN_SAVE_ON_START`,
+  `DISABLE_SHOP`, etc.). Game logic reads these flags where the toggled behavior lives.
+- **Gameplay content mods** — extra adventurer classes/enemies/items (e.g.
+  `Berserker`, `ImperialCaptain`, `CaptainsSword`, `CelestialBow`, `Evo22Vial`,
+  `XPBook*`), bonus traits (`RUTHLESS_PLUS`), extra pets (`Senko`/`Semi`), and
+  doctrine rebalances are implemented as normal Kotlin classes inside the vanilla
+  trees and are protected by the `ModFeaturesTest` JVM tests (app/src/test/kotlin).
+- **Changelog / info UI** — `ui/dialogs/ModChangelog.kt` (version entries) and
+  `ui/dialogs/DialogModAbout.kt` (info + version detail dialogs, reachable from the
+  nav drawer `R.id.mod_about`).
+- **Branding** — `app/build.gradle.kts` (`modVersion`, `versionName = "$gameVersion-mod-$modVersion"`,
+  custom APK name), `app/src/main/AndroidManifest.xml` (launcher icon =
+  `@drawable/unit_balrog`), `app/src/main/res/values*/strings.xml` (`app_name` = "IGM Modded").
+- **Ads/IAP stubs** — Google Play billing/Ads SDKs are wired so code compiles, but
+  the UI hides them (see [known-uncertainties.md](known-uncertainties.md), item 2).
+- **Save tooling** — `scripts/save/`, `save_editor/`, `scripts/build/` operate on
+  save files outside the app (see [scripts.md](scripts.md)).
 
 ## Testing
 
@@ -173,27 +213,3 @@ seconds without an Android device. Run with
 - Build & tasks / generated output: [build-system.md](build-system.md)
 - Day-to-day development guide: [development.md](development.md)
 - Tooling inventory: [scripts.md](scripts.md)
-- **DebugToggles.kt** — compile-time boolean flags (`ALWAYS_GRANT_MAX_IDLE_HOURS`,
-  `MULTIPLY_ADVENTURERS_STATS_BY_50`, `INSTANT_LEVEL_UP`, `CLEAN_SAVE_ON_START`,
-  `DISABLE_SHOP`, etc.). Game logic reads these flags where the toggled behavior lives.
-- **Gameplay content mods** — mod additions (extra adventurer classes/enemies/items,
-  bonus traits such as `RUTHLESS_PLUS`, extra pets such as `SenkoSemi`, doctrine
-  rebalances, redeem codes via `mod/ModManager.kt`) are implemented as normal Kotlin
-  classes inside the vanilla trees and are protected by the `ModFeaturesTest` JVM
-  tests (app/src/test/kotlin).
-- **Branding** — `app/build.gradle.kts` (`modVersion = "1.3.0.0"`,
-  `versionName = "$gameVersion-mod-$modVersion"`, custom APK name),
-  `app/src/main/AndroidManifest.xml` (launcher icon = `@drawable/unit_balrog`),
-  `app/src/main/res/values*/strings.xml` (`app_name` = "IGM Modded").
-- **Ads/IAP stubs** — Google Play billing/Ads SDKs are wired so code compiles, but
-  the UI hides them (see [known-uncertainties.md](known-uncertainties.md), item 2).
-- **Save tooling** — `scripts/save/`, `save_editor/`, `scripts/build/` (see
-  [scripts.md](scripts.md)).
-└── ui/                      View-layer (AndroidX DataBinding fragments/dialogs)
-    ├── adventurers/  AdventurersFragment.kt (+ per-adventurer item layouts)
-    ├── headquarters/ HeadquartersFragment.kt
-    ├── dungeons/     DungeonsFragment.kt
-    ├── raids/        RaidsFragment.kt
-    ├── components/   Shared/custom views
-    └── dialogs/      Dialog*.kt (~40 dialogs: Tavern, Quarters, Storage, Shop, ...)
-```
