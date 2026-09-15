@@ -16,7 +16,7 @@ import it.paranoidsquirrels.idleguildmaster.R
 import it.paranoidsquirrels.idleguildmaster.TrueTimeUtils
 import it.paranoidsquirrels.idleguildmaster.UIUtils
 import it.paranoidsquirrels.idleguildmaster.Utils
-import it.paranoidsquirrels.idleguildmaster.mod.ModManager
+import it.paranoidsquirrels.idleguildmaster.game.redeem.RedeemCodes
 import it.paranoidsquirrels.idleguildmaster.databinding.DialogRedeemCodeBinding
 import it.paranoidsquirrels.idleguildmaster.storage.FileManager
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.Adventurer
@@ -57,7 +57,7 @@ class DialogRedeemCode : CustomDialog() {
     }
 
     private fun redeem(rawInput: String) {
-        val modMsg = ModManager.processRedeemCode(rawInput, context)
+        val modMsg = RedeemCodes.process(rawInput, context)
         if (modMsg != null) {
             displayMessage(modMsg, true)
             clearInput()

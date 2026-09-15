@@ -877,7 +877,7 @@
     <string name="all_ads_watched_dialog_body">"你已经观看了今天的所有广告。
 作为礼物，这里赠送给你额外的10颗宝石！"</string>
     <string name="all_ads_watched_dialog_title">所有广告已观看完毕</string>
-    <string name="app_name">IGM Modded</string>
+    <string name="app_name">IGM+</string>
     <string name="armor_heavy_absolute_zero_description">"有史以来锻造的最寒冷材料制成的盔甲，不仅极其坚韧，还会在接触时冻结敌人。
 冻结：该单位无法闪避，每回合受到10点物理伤害。"</string>
     <string name="armor_heavy_absolute_zero_effect">冻结近战攻击者</string>

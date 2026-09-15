@@ -13,7 +13,6 @@ import it.paranoidsquirrels.idleguildmaster.MainActivity
 import it.paranoidsquirrels.idleguildmaster.R
 import it.paranoidsquirrels.idleguildmaster.UIUtils
 import it.paranoidsquirrels.idleguildmaster.Utils
-import it.paranoidsquirrels.idleguildmaster.mod.ModManager
 import it.paranoidsquirrels.idleguildmaster.databinding.DialogItemDetailBinding
 import it.paranoidsquirrels.idleguildmaster.databinding.LayoutCraftBinding
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.Item
@@ -23,11 +22,16 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.E
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Equipment
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Food
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Potion
+import it.paranoidsquirrels.idleguildmaster.storage.data.items.instances.Evo22Vial
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.instances.Evo23Vial
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.instances.Evo23Vial2
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.instances.Intercession
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.instances.PotionOfClumsiness
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.instances.PotionOfRejuvenation
+import it.paranoidsquirrels.idleguildmaster.storage.data.items.instances.XPBook1
+import it.paranoidsquirrels.idleguildmaster.storage.data.items.instances.XPBook10
+import it.paranoidsquirrels.idleguildmaster.storage.data.items.instances.XPBook2
+import it.paranoidsquirrels.idleguildmaster.storage.data.items.instances.XPBook3
 import it.paranoidsquirrels.idleguildmaster.storage.data.pets.Pet
 import it.paranoidsquirrels.idleguildmaster.storage.data.quests.QuestsManager
 import java.util.ArrayList
@@ -233,7 +237,21 @@ class DialogItemDetail : CustomDialog() {
             val index = MainActivity.data.items.indexOf(items[0])
             val item = if (index == -1) Item.getInstance(items[0].getTrueClass() ?: "", 0) else MainActivity.data.items[index]
             if (item == null) return@setOnClickListener
-            if (ModManager.onItemConsume(item)) return@setOnClickListener
+
+            if (item is XPBook1 || item is XPBook2 || item is XPBook3 || item is XPBook10) {
+                if (item.stack > 0) {
+                    val dialog = DialogConsumeXPBook()
+                    dialog.selectedBook = item as Consumable
+                    dialog.show(MainActivity.headquartersFragment.parentFragmentManager, "dialog_consume_xpbook")
+                }
+                return@setOnClickListener
+            } else if (item is Evo22Vial) {
+                if (item.stack > 0) {
+                    val dialog = DialogConsumeEvo22()
+                    dialog.show(MainActivity.headquartersFragment.parentFragmentManager, "dialog_consume_evo22")
+                }
+                return@setOnClickListener
+            }
 
             if (item is Potion) {
                 if (MainActivity.shownDialogConsumePotion != null) return@setOnClickListener

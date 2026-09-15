@@ -287,6 +287,12 @@ class Data {
     var isRedeem_f1r39h15: Boolean = false
     @SerializedName("redeem_m975nfu5")
     var redeem_m975nfu5: Int = 0
+    @SerializedName("imperialKills")
+    var imperialKills: Int = 0
+    @SerializedName("idleTimeCapHours")
+    var idleTimeCapHours: Int = 0
+    @SerializedName("lootCap")
+    var lootCap: Int = 0
     @SerializedName("redeem_g73mfkf4")
     var isRedeem_g73mfkf4: Boolean = false
     @SerializedName("redeemed_fj9rf8hh")

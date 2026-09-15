@@ -12,7 +12,6 @@ import it.paranoidsquirrels.idleguildmaster.BuildConfig
 import it.paranoidsquirrels.idleguildmaster.MainActivity
 import it.paranoidsquirrels.idleguildmaster.R
 import it.paranoidsquirrels.idleguildmaster.Utils
-import it.paranoidsquirrels.idleguildmaster.mod.ModManager
 import it.paranoidsquirrels.idleguildmaster.storage.SaveResetter
 import it.paranoidsquirrels.idleguildmaster.databinding.DialogSettingsBinding
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.Logger
@@ -111,7 +110,6 @@ class DialogSettings : CustomDialog() {
 
     override fun attachListeners() {
         val b = binding ?: return
-        ModManager.wireSettingsReset(this)
         b.reset.setOnClickListener {
             context?.let { ctx ->
                 SaveResetter.showResetConfirmation(ctx, activity)

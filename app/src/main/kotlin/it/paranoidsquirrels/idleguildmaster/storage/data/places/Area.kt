@@ -570,7 +570,10 @@ abstract class Area {
         for (item in this.drops) {
             stack += item.getStack()
         }
-        return stack >= (if (MainActivity.data.isMerchantPackPurchased) 3000 else 2000)
+        // Vanilla hardcap is 2,000 (3,000 with Merchant Pack); the mod's lootCap
+        // override (0 = unset) replaces it entirely when configured.
+        val lootCap = MainActivity.data.lootCap
+        return stack >= (if (lootCap > 0) lootCap else if (MainActivity.data.isMerchantPackPurchased) 3000 else 2000)
     }
 
     private fun adventurersAlive(): Int {

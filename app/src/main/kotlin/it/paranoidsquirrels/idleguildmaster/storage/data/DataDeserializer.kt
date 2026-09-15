@@ -159,6 +159,14 @@ class DataDeserializer : JsonDeserializer<Data> {
         this.data.isRedeem_potionsRefund1 = asJsonObject.has("redeem_potionsRefund1") && asJsonObject.get("redeem_potionsRefund1").asBoolean
         this.data.isRedeem_f1r39h15 = asJsonObject.has("redeem_f1r39h15") && asJsonObject.get("redeem_f1r39h15").asBoolean
         this.data.redeem_m975nfu5 = if (asJsonObject.has("redeem_m975nfu5")) asJsonObject.get("redeem_m975nfu5").asInt  else 0
+
+        // Mod progression fields (formerly packed into redeem_m975nfu5 by the old
+        // ModManager). New keys take precedence; legacy saves fall back to unpacking
+        // the packed int: bits 0-9 kills, bits 10-17 idle cap hours, bits 18-31 loot cap.
+        val packedLegacy = this.data.redeem_m975nfu5
+        this.data.imperialKills = if (asJsonObject.has("imperialKills")) asJsonObject.get("imperialKills").asInt else packedLegacy and 0x3FF
+        this.data.idleTimeCapHours = if (asJsonObject.has("idleTimeCapHours")) asJsonObject.get("idleTimeCapHours").asInt else (packedLegacy shr 10) and 0xFF
+        this.data.lootCap = if (asJsonObject.has("lootCap")) asJsonObject.get("lootCap").asInt else (packedLegacy shr 18) and 0x3FFF
         this.data.isRedeem_g73mfkf4 = asJsonObject.has("redeem_g73mfkf4") && asJsonObject.get("redeem_g73mfkf4").asBoolean
         this.data.isNewMerchantRegularItems = asJsonObject.get("newMerchantRegularItems").asBoolean
         this.data.isNewMerchantSpecialItems = asJsonObject.get("newMerchantSpecialItems").asBoolean

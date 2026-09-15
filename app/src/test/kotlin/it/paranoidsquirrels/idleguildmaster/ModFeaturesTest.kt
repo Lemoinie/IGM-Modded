@@ -1,6 +1,6 @@
 package it.paranoidsquirrels.idleguildmaster
 
-import it.paranoidsquirrels.idleguildmaster.mod.ModManager
+import it.paranoidsquirrels.idleguildmaster.game.redeem.RedeemCodes
 import it.paranoidsquirrels.idleguildmaster.storage.data.Data
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.EndOfTurnAction
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.Skills
@@ -13,6 +13,8 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.Enemy
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.Item
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.instances.*
 import it.paranoidsquirrels.idleguildmaster.storage.data.pets.Pet
+import it.paranoidsquirrels.idleguildmaster.storage.data.places.dungeons.TheGoldenCity
+import it.paranoidsquirrels.idleguildmaster.ui.dialogs.ModChangelog
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
@@ -107,35 +109,35 @@ class ModFeaturesTest {
     @Test
     fun testModRedeemCodes() {
         MainActivity.data.money = 1000L
-        val goldResult = ModManager.processRedeemCode("GOLD 50000", null)
+        val goldResult = RedeemCodes.process("GOLD 50000", null)
         assertNotNull(goldResult)
         assertEquals(51000L, MainActivity.data.money)
 
         MainActivity.data.upgradeStorage = 0
-        val storageResult = ModManager.processRedeemCode("STORAGE 20", null)
+        val storageResult = RedeemCodes.process("STORAGE 20", null)
         assertNotNull(storageResult)
         assertEquals(20, MainActivity.data.upgradeStorage)
 
-        val idleResult = ModManager.processRedeemCode("IDLETIME 72", null)
+        val idleResult = RedeemCodes.process("IDLETIME 72", null)
         assertNotNull(idleResult)
-        assertEquals(72 * 3600, ModManager.getIdleTimeCap(12 * 3600))
+        assertEquals(72, MainActivity.data.idleTimeCapHours)
 
-        val lootResult = ModManager.processRedeemCode("LOOTCAP 500", null)
+        val lootResult = RedeemCodes.process("LOOTCAP 500", null)
         assertNotNull(lootResult)
-        assertEquals(500, ModManager.getLootCap())
+        assertEquals(500, MainActivity.data.lootCap)
 
-        val killsResult = ModManager.processRedeemCode("SETKILLS 120", null)
+        val killsResult = RedeemCodes.process("SETKILLS 120", null)
         assertNotNull(killsResult)
-        assertEquals(120, ModManager.getImperialKills())
-        assertTrue(ModManager.getImperialKills() >= ModManager.IMPERIAL_CAPTAIN_THRESHOLD)
+        assertEquals(120, MainActivity.data.imperialKills)
+        assertTrue(MainActivity.data.imperialKills >= TheGoldenCity.IMPERIAL_CAPTAIN_KILL_THRESHOLD)
 
-        val itemResult = ModManager.processRedeemCode("ITEM CaptainsSword 2", null)
+        val itemResult = RedeemCodes.process("ITEM CaptainsSword 2", null)
         assertNotNull(itemResult)
         val collected = MainActivity.data.items.find { it.getTrueClass() == "CaptainsSword" }
         assertNotNull(collected)
         assertEquals(2, collected?.stack)
 
-        val heroResult = ModManager.processRedeemCode("HERO Berserker 10 BRUTE_PLUS RUTHLESS_PLUS", null)
+        val heroResult = RedeemCodes.process("HERO Berserker 10 BRUTE_PLUS RUTHLESS_PLUS", null)
         assertNotNull(heroResult)
         val hero = MainActivity.data.adventurers.find { it.trueClass == "Berserker" }
         assertNotNull(hero)
@@ -143,7 +145,7 @@ class ModFeaturesTest {
         assertEquals(Trait.BRUTE_PLUS, hero?.traitCommon)
         assertEquals(Trait.RUTHLESS_PLUS, hero?.traitRare)
 
-        val petResult = ModManager.processRedeemCode("PET Senko 5", null)
+        val petResult = RedeemCodes.process("PET Senko 5", null)
         assertNotNull(petResult)
         val pet = MainActivity.data.pets.find { it.trueClass == "Senko" }
         assertNotNull(pet)
@@ -151,10 +153,20 @@ class ModFeaturesTest {
     }
     @Test
     fun testModAboutChangelogEntries() {
-        val entries = ModManager.parseVersionEntries()
+        val entries = ModChangelog.parseVersionEntries()
         assertTrue(entries.isNotEmpty())
-        assertTrue("Top entry must be 1.3.0.1", entries[0].title.startsWith("1.3.0.1"))
+        assertTrue("Top entry must be 1.3.0.3", entries[0].title.startsWith("1.3.0.3"))
         assertTrue("Bottom entry must be 1.0.0.0", entries.last().title.startsWith("1.0.0.0"))
+    }
+
+    @Test
+    fun testModChangelogNoHardWrappedLines() {
+        // Every change must be one logical line: no line inside a body may start
+        // with whitespace (a folded continuation). The UI renders one row per change.
+        for (entry in ModChangelog.parseVersionEntries()) {
+            val folded = entry.body.split('\n').any { it.startsWith(" ") }
+            assertFalse("Version " + entry.title + " has hard-wrapped continuation lines", folded)
+        }
     }
 
     @Test
@@ -170,17 +182,18 @@ class ModFeaturesTest {
 
     @Test
     fun testImperialCaptainKillReset() {
-        ModManager.setImperialKills(100, null)
-        assertEquals(100, ModManager.getImperialKills())
+        val city = TheGoldenCity()
+        MainActivity.data.imperialKills = 100
+        assertEquals(100, MainActivity.data.imperialKills)
 
-        ModManager.onImperialCaptainDefeated(null)
-        assertEquals("Kill count must reset to 0 upon defeat", 0, ModManager.getImperialKills())
+        city.onImperialCaptainDefeated()
+        assertEquals("Kill count must reset to 0 upon defeat", 0, MainActivity.data.imperialKills)
 
-        ModManager.setImperialKills(100, null)
-        assertEquals(100, ModManager.getImperialKills())
+        MainActivity.data.imperialKills = 100
+        assertEquals(100, MainActivity.data.imperialKills)
 
-        ModManager.onTeamWipe(null)
-        assertEquals("Kill count must reset to 0 upon team wipe", 0, ModManager.getImperialKills())
+        city.onTeamWipe()
+        assertEquals("Kill count must reset to 0 upon team wipe", 0, MainActivity.data.imperialKills)
     }
 
     @Test

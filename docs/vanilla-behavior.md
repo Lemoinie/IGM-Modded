@@ -62,11 +62,17 @@ behavior (see "Mod Interface" below).
 
 ## Mod Interface
 
-Intentional deviations from vanilla are concentrated in a few places:
+Intentional deviations from vanilla are implemented as **native game code** in the
+source tree (no injected patches). They are concentrated in a few places:
 
 - `DebugToggles.kt` — compile-time flags (`MULTIPLY_ADVENTURERS_STATS_BY_50`,
   `ALWAYS_GRANT_MAX_IDLE_HOURS`, `INSTANT_LEVEL_UP`, `DISABLE_SHOP`,
   `CLEAN_SAVE_ON_START`, ...). Game logic branches on these.
+- `game/redeem/RedeemCodes.kt` — the redeem-code console (GOLD/STORAGE/IDLETIME/
+  LOOTCAP/SHOP/QUEST/KILLS/SETKILLS/ITEM/HERO/PET), served by `DialogRedeemCode`.
+- `Data` progression knobs — `imperialKills`, `idleTimeCapHours`, `lootCap` are
+  consumed by `TheGoldenCity`, `MainActivity.initializeThreads()`, and
+  `Area.fullChest()` respectively (0 = vanilla behavior).
 - Branding: `app_name` = "IGM Modded", launcher icon `@drawable/unit_balrog`,
   `versionName`/APK name from `app/build.gradle.kts`.
 - Ads/IAP are stubbed and hidden from the UI (see

@@ -906,7 +906,7 @@
     <string name="all_ads_watched_dialog_body">"Вы посмотрели все рекламы на сегодня.
 В качестве подарка, вот еще 10 дополнительных драгоценных камней!"</string>
     <string name="all_ads_watched_dialog_title">Все рекламы просмотрены</string>
-    <string name="app_name">IGM Modded</string>
+    <string name="app_name">IGM+</string>
     <string name="armor_heavy_absolute_zero_description">"Самый холодный материал, когда-либо выкованный, создает броню, которая не только невероятно устойчива, но и ЗАМОРАЖИВАЕТ врагов при контакте.
 ЗАМОРАЖИВАНИЕ: Этот юнит не может уклоняться и получает 10 физического урона каждый ход."</string>
     <string name="armor_heavy_absolute_zero_effect">ЗАМОРАЖИВАЕТ ближних атакующих</string>

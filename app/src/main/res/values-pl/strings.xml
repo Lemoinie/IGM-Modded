@@ -906,7 +906,7 @@ Po wyniesieniu powrócą do %s i będą wymagać podwójnego doświadczenia do z
     <string name="all_ads_watched_dialog_body">"Obejrzałeś wszystkie reklamy na dzisiaj.
 Jako prezent, oto 10 dodatkowych klejnotów!"</string>
     <string name="all_ads_watched_dialog_title">Wszystkie reklamy obejrzane</string>
-    <string name="app_name">IGM Modded</string>
+    <string name="app_name">IGM+</string>
     <string name="armor_heavy_absolute_zero_description">"Najzimniejszy materiał, jaki kiedykolwiek wykuto, tworzy zbroję, która jest nie tylko niesamowicie odporna, ale również ZAMRAŻA wrogów przy kontakcie.
 ZAMROŻENIE: Jednostka ta nie może unikać i otrzymuje 10 obrażeń fizycznych co turę."</string>
     <string name="armor_heavy_absolute_zero_effect">ZAMRAŻA atakujących w zwarciu</string>
