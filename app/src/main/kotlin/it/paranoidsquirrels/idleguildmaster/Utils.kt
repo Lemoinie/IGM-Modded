@@ -1,5 +1,7 @@
 package it.paranoidsquirrels.idleguildmaster
 
+import it.paranoidsquirrels.idleguildmaster.game.activities.GuildActivitiesManager
+
 import android.content.Context
 import android.content.DialogInterface
 import android.graphics.drawable.Drawable
@@ -526,6 +528,7 @@ object Utils {
         calendar.set(Calendar.MINUTE, 0)
         calendar.set(Calendar.SECOND, 0)
         MainActivity.data.last24Triggered = calendar.time.time
+        GuildActivitiesManager.ensureRequest(j)
         for (area in compileRaidList()) {
             val areaType = area.getAreaType()
             if (areaType == 1 || areaType == 2) {
@@ -566,6 +569,7 @@ object Utils {
         calendar.set(Calendar.MINUTE, 0)
         calendar.set(Calendar.SECOND, 0)
         MainActivity.data.lastWeekTriggered = calendar.time.time
+        GuildActivitiesManager.ensureSiege(j)
         QuestsManager.extractQuests()
         QuestsManager.QUEST_NOTIFICATION = true
         (MainActivity.dungeonsFragment?.activity as? MainActivity)?.refreshIcons()
@@ -682,6 +686,7 @@ object Utils {
 
     @JvmStatic
     fun refreshCooldowns(j: Long) {
+        GuildActivitiesManager.ensureActivities(j)
         val lastWeekTriggered = (604800000L - (j - MainActivity.data.lastWeekTriggered)) / 60000L
         val i = (lastWeekTriggered / 1440L).toInt()
         val j2 = lastWeekTriggered % 1440L
@@ -1074,7 +1079,9 @@ object Utils {
                 MainActivity.data.theDireDescent,
                 MainActivity.data.sleepingPlanet,
                 MainActivity.data.kaunis,
-                MainActivity.data.theTower
+                MainActivity.data.theTower,
+                MainActivity.data.guildRequest,
+                MainActivity.data.guildSiege
             )
         }
         return raidsList!!

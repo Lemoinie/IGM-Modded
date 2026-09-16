@@ -4389,4 +4389,7 @@ TAUNT: the taunting unit is always chosen as target"</string>
     <string name="unit_berserker_name">Berserker</string>
     <string name="unit_berserker_description">A ferocious warrior fueled by unchecked battle frenzy.</string>
     <string name="drawer_settings_reset">START NEW GAME</string>
+    <string name="enemy_shadow_name">Shadow</string>
+    <string name="enemy_shadow_description">A mysterious and deadly manifestation of darkness.</string>
+    <string name="fragment_name_other">Other</string>
 </resources>

@@ -265,7 +265,8 @@ class DialogItemDetail : CustomDialog() {
                 if (item.getStack() <= 0) return@setOnClickListener
                 var gemsGained = 0
                 for (i in 0 until item.getStack()) {
-                    gemsGained += if (Utils.random() < 0.01) 100 else 1
+                    val preset = item.getGemValue()
+                    gemsGained += if (preset != null) preset else if (Utils.random() < 0.01) 100 else 1
                 }
                 QuestsManager.increment(QuestsManager.paleontologist, item.getStack().toLong())
                 Utils.removeItemFromStorage(item)

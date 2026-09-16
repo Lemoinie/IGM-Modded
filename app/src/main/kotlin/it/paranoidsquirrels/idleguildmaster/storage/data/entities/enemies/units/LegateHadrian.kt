@@ -3,6 +3,7 @@ package it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.units
 import it.paranoidsquirrels.idleguildmaster.R
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.Skills
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.Enemy
+import it.paranoidsquirrels.idleguildmaster.Utils
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.ItemWrapper
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.Logger
 import java.util.LinkedHashMap
@@ -41,7 +42,10 @@ class LegateHadrian : Enemy() {
 
     override fun listDrops(i: Int): LinkedHashMap<ItemWrapper, Int> {
         val linkedHashMap = LinkedHashMap<ItemWrapper, Int>()
-        linkedHashMap.put(ItemWrapper.getInstance("Evo23Vial", 3), 1000)
+        val count23 = 1 + (Utils.random() * 3).toInt()
+        val count22 = 1 + (Utils.random() * 3).toInt()
+        linkedHashMap.put(ItemWrapper.getInstance("Evo23Vial", count23), 100)
+        linkedHashMap.put(ItemWrapper.getInstance("Evo22Vial", count22), 100)
         return linkedHashMap
     }
     override fun calculateFlatDamageReduction(): Int = super.calculateFlatDamageReduction() + 15

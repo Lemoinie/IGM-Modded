@@ -980,4 +980,8 @@
     <item type="id" name="workshop_text_merchant_pack" />
     <item type="id" name="workshop_text_starter_pack" />
     <item type="id" name="zero_corner_chip" />
+    <item type="id" name="guild_request" />
+    <item type="id" name="guild_siege" />
+    <item type="id" name="radiobutton_other" />
+    <item type="id" name="other_bestiary_list" />
 </resources>

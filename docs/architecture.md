@@ -152,6 +152,11 @@ injected patches. The remaining "mod-specific" surface is thin and clearly locat
   `IDLETIME`, `LOOTCAP`, `SHOP`, `QUEST`, `KILLS`, `SETKILLS`, `ITEM`, `HERO`, and
   `PET` commands; each command mutates live `Data` and persists via
   `FileManager.saveNow(...)`.
+- **Guild Activities** — Daily Request (`GuildRequestArea`) and Weekly Siege
+  (`GuildSiegeArea`) are real raid areas under `storage/data/places/raids/`, driven
+  by `game/activities/GuildActivitiesManager.kt` + `GuildActivitiesState.kt`
+  (boundaries/status/rewards, hooked into `Utils.tick24Hours/tickWeek/refreshCooldowns`).
+  Shadow's loot drops a Geode with a preset gem yield (10%/20%/70% → 100/50/20).
 - **Progression overrides** — `Data` carries the mod's persisted tuning knobs
   (`imperialKills`, `idleTimeCapHours`, `lootCap`) which are consumed by normal game
   systems: `TheGoldenCity` (Imperial Captain spawn/kill counter), `MainActivity`
