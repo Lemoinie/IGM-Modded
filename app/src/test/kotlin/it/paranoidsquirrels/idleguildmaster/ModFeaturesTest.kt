@@ -155,7 +155,7 @@ class ModFeaturesTest {
     fun testModAboutChangelogEntries() {
         val entries = ModChangelog.parseVersionEntries()
         assertTrue(entries.isNotEmpty())
-        assertTrue("Top entry must be 1.3.0.3", entries[0].title.startsWith("1.3.0.3"))
+        assertTrue("Top entry must be 1.3.0.4", entries[0].title.startsWith("1.3.0.4"))
         assertTrue("Bottom entry must be 1.0.0.0", entries.last().title.startsWith("1.0.0.0"))
     }
 
@@ -207,5 +207,65 @@ class ModFeaturesTest {
         val senko = Pet.getInstance("Senko", 1)
         assertNotNull(senko)
         assertEquals(1, senko?.level)
+    }
+    @Test
+    fun testCelestialMothershipNormalRaidAndDrops() {
+        val mothership = it.paranoidsquirrels.idleguildmaster.storage.data.places.raids.CelestialMothership()
+        assertEquals("Celestial Mothership must be TYPE_RAID (1)", 1, mothership.getAreaType())
+        assertFalse("Celestial Mothership must never be marked completed", mothership.completed())
+
+        // Room 17 spawns Legate Hadrian regardless of seenItems
+        MainActivity.data.seenItems.add("Evo23Vial")
+        mothership.progress = 17
+        mothership.maxProgress = 17
+        val enemies17 = mothership.rollEnemies()
+        assertEquals(1, enemies17.size)
+        assertEquals("LegateHadrian", enemies17[0].getTrueClass())
+
+        // Room 19 resets maxProgress to 0 so the raid can be replayed
+        mothership.progress = 19
+        mothership.maxProgress = 19
+        mothership.triggerEvent("enter_room")
+        assertEquals("maxProgress must reset to 0 upon completion", 0, mothership.maxProgress)
+        assertTrue("terminationRequested must be set", mothership.terminationRequested)
+
+        // Legate Hadrian drops
+        val legate = it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.units.LegateHadrian()
+        val drops = legate.listDrops(0)
+        assertEquals(2, drops.size)
+        val evo23Entry = drops.entries.find { it.key.item?.getTrueClass() == "Evo23Vial" }
+        val evo22Entry = drops.entries.find { it.key.item?.getTrueClass() == "Evo22Vial" }
+        assertNotNull("Evo23Vial must be in drop table", evo23Entry)
+        assertNotNull("Evo22Vial must be in drop table", evo22Entry)
+        assertEquals("Evo23Vial drop rate must be 10% (weight 100)", 100, evo23Entry?.value)
+        assertEquals("Evo22Vial drop rate must be 10% (weight 100)", 100, evo22Entry?.value)
+        assertTrue("Evo23 stack must be 1..3", (evo23Entry?.key?.item?.getStack() ?: 0) in 1..3)
+        assertTrue("Evo22 stack must be 1..3", (evo22Entry?.key?.item?.getStack() ?: 0) in 1..3)
+    }
+
+    @Test
+    fun testBarrageRetargetsLivingEnemiesWhenTargetDies() {
+        val area = TheGoldenCity()
+        val archer = Adventurer.getInstance("Archer", 10, 20, 0, null, null, null, Trait.FERAL, null, PotionsDrank(), null, false)!!
+        archer.activeSkill = Skills.ACTIVE_BARRAGE_III // 4 arrows
+        area.adventurersExploring.add(archer)
+
+        val e1 = Enemy.getInstance("Slime")!!
+        e1.currentHp = 1
+        e1.baseDefense = 0
+        e1.baseMagicDefense = 0
+        val e2 = Enemy.getInstance("Slime")!!
+        e2.currentHp = 5000
+        e2.baseDefense = 0
+        e2.baseMagicDefense = 0
+
+        area.enemies.add(e1)
+        area.enemies.add(e2)
+
+        val initialHpE2 = e2.currentHp
+        area.cast(archer)
+
+        assertEquals("E1 must be dead after hit 1", 0, e1.currentHp)
+        assertTrue("E2 must take damage from remaining arrows", e2.currentHp < initialHpE2)
     }
 }

@@ -1,5 +1,7 @@
 package it.paranoidsquirrels.idleguildmaster.storage.data
 
+import it.paranoidsquirrels.idleguildmaster.game.activities.GuildActivitiesState
+
 import androidx.core.app.NotificationCompat
 import com.google.gson.JsonArray
 import com.google.gson.JsonDeserializationContext
@@ -331,7 +333,31 @@ class DataDeserializer : JsonDeserializer<Data> {
         this.data.theDireDescent = getArea(TheDireDescent::class.java, asJsonObject, "theDireDescent")
         this.data.sleepingPlanet = getArea(SleepingPlanet::class.java, asJsonObject, "sleepingPlanet")
         this.data.kaunis = getArea(Kaunis::class.java, asJsonObject, "kaunis")
-        this.data.theTower = getArea(TheTower::class.java, asJsonObject, "theTower")
+this.data.theTower = getArea(TheTower::class.java, asJsonObject, "theTower")
+        this.data.guildRequest = getArea(GuildRequestArea::class.java, asJsonObject, "guildRequest")
+        if (this.data.guildRequest == null) {
+            this.data.guildRequest = GuildRequestArea()
+        }
+        this.data.guildRequest?.isUnlocked = true
+
+        this.data.guildSiege = getArea(GuildSiegeArea::class.java, asJsonObject, "guildSiege")
+        if (this.data.guildSiege == null) {
+            this.data.guildSiege = GuildSiegeArea()
+        }
+        this.data.guildSiege?.isUnlocked = true
+
+        if (asJsonObject.has("guildActivitiesState") && !asJsonObject.get("guildActivitiesState").isJsonNull) {
+            try {
+                this.data.guildActivitiesState = jsonDeserializationContext.deserialize<GuildActivitiesState>(
+                    asJsonObject.get("guildActivitiesState"),
+                    GuildActivitiesState::class.java
+                )
+            } catch (e: Exception) {
+                this.data.guildActivitiesState = GuildActivitiesState()
+            }
+        } else {
+            this.data.guildActivitiesState = GuildActivitiesState()
+        }
         return this.data
     }
 
@@ -399,7 +425,11 @@ class DataDeserializer : JsonDeserializer<Data> {
     }
 
     private fun getItem(jsonObject: JsonObject): Item? {
-        return Item.getInstance(jsonObject.get("trueClass").asString, Math.max(jsonObject.get("stack").asInt, 1))
+        val item = Item.getInstance(jsonObject.get("trueClass").asString, Math.max(jsonObject.get("stack").asInt, 1)) ?: return null
+        if (jsonObject.has("gemValue") && !jsonObject.get("gemValue").isJsonNull) {
+            item.setGemValue(jsonObject.get("gemValue").asInt)
+        }
+        return item
     }
 
     private fun getPotionsDrank(jsonObject: JsonObject): PotionsDrank {

@@ -15,7 +15,7 @@ import java.util.concurrent.CopyOnWriteArrayList
 class CelestialMothership : Area() {
     override fun adventurersNumber(): Int = 8
 
-    override fun getAreaType(): Int = 2
+    override fun getAreaType(): Int = 1
 
     override fun getDarkness(): Int = 0
 
@@ -27,7 +27,7 @@ class CelestialMothership : Area() {
 
     override fun getLayout(): LayoutDungeonBinding = MainActivity.raidsFragment.binding!!.celestialMothership
 
-    override fun rollEnemies(): MutableList<Enemy> {
+    public override fun rollEnemies(): MutableList<Enemy> {
         if (progress < maxProgress) {
             return CopyOnWriteArrayList()
         }
@@ -81,14 +81,14 @@ class CelestialMothership : Area() {
         if (i != 17) {
             return CopyOnWriteArrayList()
         }
-        return if (Utils.gotUniqueDrop("Evo23Vial", this)) CopyOnWriteArrayList() else CopyOnWriteArrayList(listOfNotNull(Enemy.getInstance("LegateHadrian")))
+        return CopyOnWriteArrayList(listOfNotNull(Enemy.getInstance("LegateHadrian")))
     }
 
     override fun searchRoom() {
         Logger.log(this, 41)
     }
 
-    override fun triggerEvent(str: String) {
+    public override fun triggerEvent(str: String) {
         when (str) {
             "kill_ReinforcedDoor" -> {
                 for (enemy in enemies) {
@@ -122,6 +122,7 @@ class CelestialMothership : Area() {
                     19 -> {
                         Logger.log(this, Logger.EVENT_SIGNIFICANT, R.string.log_celestial_mothership_room_19)
                         terminationRequested = true
+                        maxProgress = 0
                     }
                 }
             }
@@ -163,7 +164,5 @@ class CelestialMothership : Area() {
         )
     }
 
-    override fun completed(): Boolean {
-        return maxProgress >= 18 && drops.isEmpty()
-    }
+    override fun completed(): Boolean = false
 }

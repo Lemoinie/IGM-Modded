@@ -164,7 +164,15 @@ object ModChangelog {
         "- Renamed the app to IGM+.\n" +
         "- Fixed corrupted status text (\"Fighting…\", \"Looting items…\", \"Searching…\", \"New guest…\") that displayed mojibake due to an encoding regression in the localized strings.xml files.\n" +
         "- Upgraded the Mod About/Changelog dialog: version rows now show their change count, and long changelogs open in a scrollable per-change list.\n" +
-        "- Integrated all mod features natively into the game source; removed the old mod/ModManager inject layer (redeem codes, Imperial Captain, idle/loot caps, changelog UI, and consumables now live in their proper game systems)."
+        "- Integrated all mod features natively into the game source; removed the old mod/ModManager inject layer (redeem codes, Imperial Captain, idle/loot caps, changelog UI, and consumables now live in their proper game systems). \n" +
+        "- Added Archer Barrage Dynamic Retargeting.\n" +
+        "- Made Celestial Mothership Normal Raid & Loot Rebalance.\n" +
+        "\n" +
+        "1.3.0.4 (15/9/2026):\n" +
+        "- Fixed the Weekly Siege freezing and crashing the game (infinite recursion in the siege wave spawner was building the eligible enemy pool from itself).\n" +
+        "- Removed the Reputation stat and its penalties; the Daily Request now awards 100 gems on completion.\n" +
+        "- Shadow now drops a Geode in its loot pool: 10% -> 100 gems, 20% -> 50 gems, 70% -> 20 gems.\n" +
+        "- Daily Request wave order changed to [Void Slime, Shadow, Void Slime]." 
 
     private val MOD_VERSION_LIST: List<VersionEntry> by lazy { parseVersionEntries() }
 

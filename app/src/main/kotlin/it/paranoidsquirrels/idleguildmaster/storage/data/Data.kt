@@ -1,5 +1,7 @@
 package it.paranoidsquirrels.idleguildmaster.storage.data
 
+import it.paranoidsquirrels.idleguildmaster.game.activities.GuildActivitiesState
+
 import com.google.gson.annotations.SerializedName
 import it.paranoidsquirrels.idleguildmaster.KingMessage
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.Adventurer
@@ -181,6 +183,15 @@ class Data {
     var theSlimePond: TheSlimePond? = TheSlimePond()
     @SerializedName("theSouthernGrove")
     var theSouthernGrove: TheSouthernGrove? = TheSouthernGrove()
+    @SerializedName("guildRequest")
+    var guildRequest: GuildRequestArea? = GuildRequestArea()
+
+    @SerializedName("guildSiege")
+    var guildSiege: GuildSiegeArea? = GuildSiegeArea()
+
+    @SerializedName("guildActivitiesState")
+    var guildActivitiesState: GuildActivitiesState = GuildActivitiesState()
+
     @SerializedName("theTower")
     var theTower: TheTower? = TheTower()
     @SerializedName("totalGemsPurchased")
@@ -336,6 +347,12 @@ class Data {
         sleepingPlanet = SleepingPlanet()
         kaunis = Kaunis()
         theTower = TheTower()
+        guildRequest = GuildRequestArea()
+        guildSiege = GuildSiegeArea()
+        guildActivitiesState = GuildActivitiesState()
+        guildRequest?.isUnlocked = true
+        guildSiege?.isUnlocked = true
+
         enchantedForest?.isUnlocked = true
         seenItems.add("ScarletStrand")
         seenItems.add("Intercession")

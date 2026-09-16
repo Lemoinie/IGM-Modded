@@ -44,6 +44,12 @@ abstract class Item {
     @JvmField @Transient protected var uniqueOrigin: String? = null
     @JvmField @Transient protected var notSellable: Boolean = false
     @JvmField @Transient protected var consumable: Boolean = false
+    /**
+     * Optional preset gem yield for this item instance (used by Shadow-dropped
+     * Geodes: 10% -> 100, 20% -> 50, 70% -> 20). Null = vanilla behavior.
+     * Not @Transient: Gson omits the key unless set, so it survives save/load.
+     */
+    @JvmField var gemValue: Int? = null
 
     protected abstract fun configureProperties()
 
@@ -98,6 +104,9 @@ abstract class Item {
 
     open fun getUniqueOrigin(): String? = uniqueOrigin
     open fun setUniqueOrigin(str: String?) { uniqueOrigin = str }
+
+    open fun getGemValue(): Int? = gemValue
+    open fun setGemValue(value: Int?) { gemValue = value }
 
     open fun isNotSellable(): Boolean = notSellable
     open fun setNotSellable(z: Boolean) { notSellable = z }

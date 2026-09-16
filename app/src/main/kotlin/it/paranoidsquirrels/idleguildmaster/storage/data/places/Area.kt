@@ -1439,26 +1439,35 @@ abstract class Area {
                 Logger.log(this@Area, 29, this.caster)
             }
             for (entity in listSelectTargets) {
+                var target: Entity? = entity
                 val bonusResurrectChance = this.reviveProbability + (this.caster.bonusResurrectChance.toDouble() * 0.01)
-                if (this.healing && entity.currentHp <= 0 && Utils.random() < bonusResurrectChance) {
-                    entity.currentHp = 1
+                if (this.healing && target != null && target.currentHp <= 0 && Utils.random() < bonusResurrectChance) {
+                    target.currentHp = 1
                     if (this.caster is Adventurer) {
                         QuestsManager.increment(QuestsManager.miracle, 1L)
                     }
-                    Logger.log(this@Area, 30, entity, this.caster)
+                    Logger.log(this@Area, 30, target, this.caster)
                 }
-                if (entity.currentHp > 0) {
-                    if (this.applyEffectOnDodge) {
-                        applyStatus(entity, this.statusEffect, this.caster.calculateIgnoreImmunityToStatus() * 0.01)
-                    }
-                    if (this.healing) {
-                        heal(this.caster, entity, this)
+                if (!this.healing && target != null && target.currentHp <= 0) {
+                    target = selectEnemyTarget(this.caster)
+                }
+                if (target == null || target.currentHp <= 0) {
+                    if (!this.healing) {
+                        break
                     } else {
-                        dealDamage(this.caster, entity, this, null)
+                        continue
                     }
-                    if (this.recastOnKill && entity.currentHp <= 0 && this.caster.currentHp > 0) {
-                        cast(this.caster)
-                    }
+                }
+                if (this.applyEffectOnDodge) {
+                    applyStatus(target, this.statusEffect, this.caster.calculateIgnoreImmunityToStatus() * 0.01)
+                }
+                if (this.healing) {
+                    heal(this.caster, target, this)
+                } else {
+                    dealDamage(this.caster, target, this, null)
+                }
+                if (this.recastOnKill && target.currentHp <= 0 && this.caster.currentHp > 0) {
+                    cast(this.caster)
                 }
             }
             return listSelectTargets
