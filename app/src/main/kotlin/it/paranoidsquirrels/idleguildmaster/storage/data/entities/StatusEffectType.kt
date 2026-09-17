@@ -36,5 +36,6 @@ enum class StatusEffectType(
     PETRIFY(R.string.status_effect_petrify, R.string.status_effect_petrify_description, R.drawable.icon_effect_petrify, true, true),
     FALSE_LIFE(R.string.status_effect_false_life, R.string.status_effect_false_life_description, R.drawable.icon_effect_false_life, false, true),
     TERRIFY(R.string.status_effect_terrify, R.string.status_effect_terrify_description, R.drawable.icon_effect_terrify, true, true),
-    FROZEN(R.string.status_effect_freeze, R.string.status_effect_freeze_description, R.drawable.icon_effect_freeze, true, true)
+    FROZEN(R.string.status_effect_freeze, R.string.status_effect_freeze_description, R.drawable.icon_effect_freeze, true, true),
+    RADIANT_BLESSING(R.string.status_effect_radiant_blessing, R.string.status_effect_radiant_blessing_description, R.drawable.icon_effect_radiant_blessing, false, false)
 }

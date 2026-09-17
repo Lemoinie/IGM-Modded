@@ -61,4 +61,5 @@ class EliteEnemy private constructor(val base: Enemy) : Enemy() {
     override fun listDrops(rarity: Int): LinkedHashMap<ItemWrapper, Int> = base.listDrops(rarity)
     override fun isRanged(): Boolean = base.isRanged()
     override fun isMagic(): Boolean = base.isMagic()
+    override fun getEnemyType(): EnemyType = base.getEnemyType()
 }

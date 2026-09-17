@@ -236,5 +236,17 @@ enum class Skills(
     PASSIVE_INITIATIVE_II(R.string.passive_initiative_ii_name, R.string.passive_initiative_ii_description),
     PASSIVE_ARMORED(R.string.passive_armored_name, R.string.passive_armored_description),
     PASSIVE_IMPERIAL_AUTHORITY(R.string.passive_imperial_authority_name, R.string.passive_imperial_authority_description),
-    ACTIVE_EXECUTION_ORDER(R.string.active_execution_order_name, R.string.active_execution_order_description);
+    ACTIVE_EXECUTION_ORDER(R.string.active_execution_order_name, R.string.active_execution_order_description),
+    ACTIVE_HOLY_SMITE_I(R.string.active_holy_smite_i_name, R.string.active_holy_smite_i_description),
+    ACTIVE_HOLY_SMITE_II(R.string.active_holy_smite_ii_name, R.string.active_holy_smite_ii_description),
+    ACTIVE_RADIANT_JUDGMENT_I(R.string.active_radiant_judgment_i_name, R.string.active_radiant_judgment_i_description),
+    ACTIVE_RADIANT_JUDGMENT_II(R.string.active_radiant_judgment_ii_name, R.string.active_radiant_judgment_ii_description),
+    ACTIVE_WRATH_OF_HEAVEN_I(R.string.active_wrath_of_heaven_i_name, R.string.active_wrath_of_heaven_i_description),
+    ACTIVE_WRATH_OF_HEAVEN_II(R.string.active_wrath_of_heaven_ii_name, R.string.active_wrath_of_heaven_ii_description),
+    PASSIVE_AURA_OF_LIGHT_I(R.string.passive_aura_of_light_i_name, R.string.passive_aura_of_light_i_description),
+    PASSIVE_AURA_OF_LIGHT_II(R.string.passive_aura_of_light_ii_name, R.string.passive_aura_of_light_ii_description),
+    PASSIVE_AURA_OF_DEVOTION_I(R.string.passive_aura_of_devotion_i_name, R.string.passive_aura_of_devotion_i_description),
+    PASSIVE_AURA_OF_DEVOTION_II(R.string.passive_aura_of_devotion_ii_name, R.string.passive_aura_of_devotion_ii_description),
+    PASSIVE_AURA_OF_SANCTITY(R.string.passive_aura_of_sanctity_name, R.string.passive_aura_of_sanctity_description),
+    PASSIVE_AURA_OF_THE_SERAPHIM(R.string.passive_aura_of_the_seraphim_name, R.string.passive_aura_of_the_seraphim_description);
 }

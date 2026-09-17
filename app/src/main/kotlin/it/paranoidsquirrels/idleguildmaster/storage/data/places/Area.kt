@@ -20,6 +20,7 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.Ad
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.PotionsDrank
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.Trait
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.Enemy
+import it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.EnemyType
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.units.ChiefScientistAva
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.Item
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.ItemWrapper
@@ -461,6 +462,82 @@ abstract class Area {
         this.corpses = CopyOnWriteArrayList()
         this.fightRarity = UIUtils.getFightRarity(this.enemies)
         this.fightingGroup = ArrayList()
+        applyRadiantBlessing()
+    }
+
+    /** Holy Knight-branch units radiate Radiant Blessing to the whole party at battle start. */
+    private fun applyRadiantBlessing() {
+        // The aura lasts only 1 turn and is renewed every turn by renewRadiantBlessing()
+        // while a Holy-branch unit is alive, so it cannot outlive a dead buffer.
+        renewRadiantBlessing()
+    }
+
+    /** Renews the party Radiant Blessing (1 turn) or strips it when no aura-bearer is alive. */
+    private fun renewRadiantBlessing() {
+        var immunity = 0.0
+        var flatDr = 0
+        var regenPct = 0.0
+        var undeadBonus = 0.0
+        for (adventurer in this.adventurersExploring) {
+            if (adventurer.currentHp <= 0) continue // dead bearers cannot sustain the aura
+            when (adventurer.passiveSkill) {
+                Skills.PASSIVE_AURA_OF_LIGHT_I -> {
+                    immunity = maxOf(immunity, 0.10); undeadBonus = maxOf(undeadBonus, 0.05)
+                }
+                Skills.PASSIVE_AURA_OF_LIGHT_II -> {
+                    immunity = maxOf(immunity, 0.15); undeadBonus = maxOf(undeadBonus, 0.10)
+                }
+                Skills.PASSIVE_AURA_OF_DEVOTION_I -> {
+                    immunity = maxOf(immunity, 0.20); undeadBonus = maxOf(undeadBonus, 0.15); flatDr = maxOf(flatDr, 5)
+                }
+                Skills.PASSIVE_AURA_OF_DEVOTION_II -> {
+                    immunity = maxOf(immunity, 0.30); undeadBonus = maxOf(undeadBonus, 0.20); flatDr = maxOf(flatDr, 8)
+                }
+                Skills.PASSIVE_AURA_OF_SANCTITY -> {
+                    immunity = maxOf(immunity, 0.40); undeadBonus = maxOf(undeadBonus, 0.25); flatDr = maxOf(flatDr, 10); regenPct = maxOf(regenPct, 0.03)
+                }
+                Skills.PASSIVE_AURA_OF_THE_SERAPHIM -> {
+                    immunity = maxOf(immunity, 0.50); undeadBonus = maxOf(undeadBonus, 0.30); flatDr = maxOf(flatDr, 15); regenPct = maxOf(regenPct, 0.05)
+                }
+                else -> {}
+            }
+        }
+        for (adventurer in this.adventurersExploring) {
+            adventurer.positiveStatusEffects.removeAll { it.type == StatusEffectType.RADIANT_BLESSING }
+        }
+        if (immunity <= 0.0 && flatDr <= 0 && regenPct <= 0.0 && undeadBonus <= 0.0) {
+            return // no living aura-bearer: the buff expires
+        }
+        val blessing = StatusEffect(StatusEffectType.RADIANT_BLESSING, null, 1, 1.0, immunity, flatDr, regenPct, undeadBonus)
+        for (adventurer in this.adventurersExploring) {
+            adventurer.positiveStatusEffects.add(
+                StatusEffect(blessing.type, blessing.cause, blessing.turnsLeft, blessing.probability, blessing.immunity, blessing.flatDr, blessing.regenPct, blessing.undeadDamageBonus)
+            )
+        }
+    }
+
+    /** Turn-start aura renewal + cleanses from Aura of Sanctity and Aura of the Seraphim. */
+    private fun radiantBlessingCleanses() {
+        renewRadiantBlessing()
+        for (adventurer in this.adventurersExploring) {
+            if (adventurer.currentHp <= 0) continue
+            when (adventurer.passiveSkill) {
+                Skills.PASSIVE_AURA_OF_SANCTITY -> {
+                    val mostDebuffed = this.adventurersExploring.filter { it.currentHp > 0 }.maxByOrNull { it.negativeStatusEffects.size }
+                    if (mostDebuffed != null) {
+                        cleanseOneNegative(mostDebuffed)
+                    }
+                }
+                Skills.PASSIVE_AURA_OF_THE_SERAPHIM -> {
+                    for (ally in this.adventurersExploring) {
+                        if (ally.currentHp > 0) {
+                            cleanseAllNegative(ally)
+                        }
+                    }
+                }
+                else -> {}
+            }
+        }
     }
 
     private fun decideTurnsOrder() {
@@ -594,6 +671,7 @@ abstract class Area {
     private fun fightTurn() {
         this.turnEndRequested = false
         this.turnsFighting++
+        radiantBlessingCleanses()
         selectNextActing()
         val curActing = this.acting ?: return
         val iResolveStatus = resolveStatus(curActing)
@@ -901,13 +979,14 @@ abstract class Area {
                         // Same burn as Ablaze but without the on-fire bonus: exactly 5% of max HP
                         // as magic damage at the start of the unit's turn, boosted by the
                         // Bloodflame damage bonus of the unit that inflicted it.
+                        // The bonus multiplies the 5% burn (e.g. +50% => 5% * 1.5 = 7.5% max HP).
                         val causeBloodflame = statusEffect.cause
                         val bloodflameDamageBonus = if (causeBloodflame != null) causeBloodflame.getBloodflameDamageBonus().toDouble() * 0.01 else 0.0
                         val dMagicDamageAmplificationBlood = magicDamageAmplification()
                         val petBloodflame = this.petExploring
                         val barrierBloodflame = if (petBloodflame == null || !z3) 0 else petBloodflame.barrier
                         val iBloodflameDamage = entity.applyDamage(
-                            Utils.round((0.05 + bloodflameDamageBonus) * iCalculateTotalMaxHp.toDouble() * dMagicDamageAmplificationBlood).toDouble(),
+                            Utils.round(0.05 * (1.0 + bloodflameDamageBonus) * iCalculateTotalMaxHp.toDouble() * dMagicDamageAmplificationBlood).toDouble(),
                             true,
                             barrierBloodflame,
                             0.0
@@ -932,6 +1011,12 @@ abstract class Area {
                             val cause3 = statusEffect.cause
                             val regenBonus = if (cause3 != null) 0.06 + (cause3.regenerationBonus.toDouble() * 0.01) else 0.06
                             iRound += Utils.round(regenBonus * iCalculateTotalMaxHp.toDouble())
+                            Logger.log(this, 18, entity, statusEffect)
+                        }
+                    }
+                    StatusEffectType.RADIANT_BLESSING -> {
+                        if (statusEffect.regenPct > 0.0) {
+                            iRound += Utils.round(statusEffect.regenPct * iCalculateTotalMaxHp.toDouble())
                             Logger.log(this, 18, entity, statusEffect)
                         }
                     }
@@ -1135,6 +1220,98 @@ abstract class Area {
         return dCalculateCriticalDamage
     }
 
+    /** Holy Smite: strikes one enemy and heals the lowest-HP ally for a % of the damage dealt. */
+    private fun holySmite(entity: Entity, amp: Double, healPct: Double): List<Entity>? {
+        val targets = selectTargets(entity, TARGET_RANDOM_ENEMY) ?: return null
+        val target = targets[0]
+        if (target.currentHp <= 0) return targets
+        Logger.log(this, 29, entity)
+        val hpBefore = target.currentHp + target.currentShield
+        dealDamage(entity, target, Skill(entity).setDamageAmplification(amp), null)
+        val dealt = hpBefore - (target.currentHp + target.currentShield)
+        if (dealt > 0 && healPct > 0) {
+            radiantHealLowest(entity, Utils.round(dealt * healPct))
+        }
+        return targets
+    }
+
+    /** Heals the ally with the lowest HP by `amount`; the Seraphim aura converts overheal into a holy shield. */
+    private fun radiantHealLowest(healer: Entity, amount: Int) {
+        if (amount <= 0) return
+        val lowest = selectTargets(healer, TARGET_LOWEST_RELATIVE_ALLY)?.firstOrNull() ?: return
+        if (lowest.currentHp <= 0 || lowest.hasBloodflame() || lowest.currentHp >= lowest.calculateTotalMaxHp()) return
+        val maxHp = lowest.calculateTotalMaxHp()
+        val before = lowest.currentHp
+        lowest.currentHp = Math.min(maxHp, before + amount)
+        val healed = lowest.currentHp - before
+        if (healed > 0) {
+            if (healer is Adventurer) {
+                QuestsManager.increment(QuestsManager.medic, healed.toLong())
+            }
+            Logger.log(this, 24, 0, healer, lowest, healed)
+        }
+        if (healer.passiveSkill == Skills.PASSIVE_AURA_OF_THE_SERAPHIM && lowest.currentHp >= maxHp) {
+            val overheal = Math.max(0, amount - (maxHp - before))
+            if (overheal > 0) {
+                val shieldCap = Utils.round(maxHp.toDouble() * 0.25)
+                lowest.currentShield = Math.min(shieldCap, lowest.currentShield + overheal)
+            }
+        }
+    }
+
+    /** Removes the (longest) negative status effect with one application. */
+    private fun cleanseOneNegative(target: Entity) {
+        var toRemove: StatusEffect? = null
+        for (se in target.negativeStatusEffects) {
+            if (toRemove == null || toRemove.turnsLeft < se.turnsLeft) {
+                toRemove = se
+            }
+        }
+        if (toRemove != null) {
+            target.negativeStatusEffects.remove(toRemove)
+            Logger.log(this, 10, target, toRemove.type)
+        }
+    }
+
+    /** Removes every negative status effect from the target. */
+    private fun cleanseAllNegative(target: Entity) {
+        if (target.negativeStatusEffects.isEmpty()) return
+        for (se in target.negativeStatusEffects) {
+            Logger.log(this, 10, target, se.type)
+        }
+        target.negativeStatusEffects.clear()
+    }
+
+    /** Grants every living ally a holy shield worth `pct` of their Max HP. */
+    private fun shieldAlliesByMaxHpPct(pct: Double) {
+        for (adventurer in this.adventurersExploring) {
+            if (adventurer.currentHp <= 0) continue
+            val cap = Utils.round(adventurer.calculateTotalMaxHp().toDouble() * pct)
+            if (adventurer.currentShield < cap) {
+                adventurer.currentShield = cap
+            }
+        }
+    }
+
+    /** Heals every living, un-bloodflamed ally for `pct` of their own Max HP. */
+    private fun healAlliesByMaxHpPct(healer: Entity, pct: Double) {
+        for (adventurer in this.adventurersExploring) {
+            if (adventurer.currentHp <= 0 || adventurer.hasBloodflame()) continue
+            val maxHp = adventurer.calculateTotalMaxHp()
+            val amount = Utils.round(maxHp.toDouble() * pct)
+            if (amount <= 0) continue
+            val before = adventurer.currentHp
+            adventurer.currentHp = Math.min(maxHp, before + amount)
+            val healed = adventurer.currentHp - before
+            if (healed > 0) {
+                if (healer is Adventurer) {
+                    QuestsManager.increment(QuestsManager.medic, healed.toLong())
+                }
+                Logger.log(this, 24, 0, healer, adventurer, healed)
+            }
+        }
+    }
+
     open fun applyStatus(entity: Entity?, statusEffect: StatusEffect?, d: Double) {
         if (statusEffect == null || entity == null) {
             return
@@ -1260,6 +1437,40 @@ abstract class Area {
             Skills.ACTIVE_CONDEMN -> skill.setStatusEffect(StatusEffect(StatusEffectType.SILENCE, entity, 1, 1.0)).applyEffectOnDodge().setDamageAmplification(2.5).execute()
             Skills.ACTIVE_CONDEMN_ALL_I -> skill.setTargetSelectionMode("all_enemies").setStatusEffect(StatusEffect(StatusEffectType.SILENCE, entity, 1, 1.0)).applyEffectOnDodge().setDamageAmplification(2.5).execute()
             Skills.ACTIVE_CONDEMN_ALL_II -> skill.setTargetSelectionMode("all_enemies").setStatusEffect(StatusEffect(StatusEffectType.SILENCE, entity, 2, 1.0)).applyEffectOnDodge().setDamageAmplification(2.5).execute()
+            Skills.ACTIVE_HOLY_SMITE_I -> holySmite(entity, 2.0, 0.50)
+            Skills.ACTIVE_HOLY_SMITE_II -> holySmite(entity, 2.2, 0.60)
+            Skills.ACTIVE_RADIANT_JUDGMENT_I -> {
+                val targets = skill.setTargetSelectionMode("all_enemies").setDamageAmplification(2.2).setForceMagic(true).setUndeadDamageMultiplier(1.5).execute()
+                for (ally in this.adventurersExploring) {
+                    if (ally.currentHp > 0) cleanseOneNegative(ally)
+                }
+                healAlliesByMaxHpPct(entity, 0.15)
+                targets
+            }
+            Skills.ACTIVE_RADIANT_JUDGMENT_II -> {
+                val targets = skill.setTargetSelectionMode("all_enemies").setStatusEffect(StatusEffect(StatusEffectType.SILENCE, entity, 1, 1.0)).applyEffectOnDodge().setDamageAmplification(2.4).setForceMagic(true).setUndeadDamageMultiplier(1.5).execute()
+                for (ally in this.adventurersExploring) {
+                    if (ally.currentHp > 0) cleanseOneNegative(ally)
+                }
+                shieldAlliesByMaxHpPct(0.15)
+                targets
+            }
+            Skills.ACTIVE_WRATH_OF_HEAVEN_I -> {
+                val targets = skill.setTargetSelectionMode("all_enemies").setStatusEffect(StatusEffect(StatusEffectType.SILENCE, entity, 1, 1.0)).applyEffectOnDodge().setDamageAmplification(2.5).setForceMagic(true).setUndeadDamageMultiplier(1.5).execute()
+                for (ally in this.adventurersExploring) {
+                    if (ally.currentHp > 0) cleanseAllNegative(ally)
+                }
+                shieldAlliesByMaxHpPct(0.20)
+                targets
+            }
+            Skills.ACTIVE_WRATH_OF_HEAVEN_II -> {
+                val targets = skill.setTargetSelectionMode("all_enemies").setStatusEffect(StatusEffect(StatusEffectType.SILENCE, entity, 2, 1.0)).applyEffectOnDodge().setDamageAmplification(2.8).setForceMagic(true).setUndeadDamageMultiplier(1.5).execute()
+                for (ally in this.adventurersExploring) {
+                    if (ally.currentHp > 0) cleanseAllNegative(ally)
+                }
+                shieldAlliesByMaxHpPct(0.25)
+                targets
+            }
             Skills.ACTIVE_BARRAGE_I -> skill.setTargetSelectionMode("2").execute()
             Skills.ACTIVE_BARRAGE_II -> {
                 var hasFeebleTether = false
@@ -1425,6 +1636,8 @@ abstract class Area {
         var applyEffectOnDodge: Boolean = false
         var damageAmplification: Double = 1.0
         var forceRange: Boolean? = null
+        var forceMagic: Boolean? = null
+        var undeadDamageMultiplier: Double = 1.0
         var executionThreshold: Double = 0.0
         var recastOnKill: Boolean = false
         var noLog: Boolean = false
@@ -1462,6 +1675,16 @@ abstract class Area {
 
         fun setForceRange(bool: Boolean?): Skill {
             this.forceRange = bool
+            return this
+        }
+
+        fun setForceMagic(bool: Boolean?): Skill {
+            this.forceMagic = bool
+            return this
+        }
+
+        fun setUndeadDamageMultiplier(mult: Double): Skill {
+            this.undeadDamageMultiplier = mult
             return this
         }
 
@@ -1586,6 +1809,10 @@ abstract class Area {
         if (entity2.isMoreDamageDealtAndTaken()) {
             livingCompanionBonusDamage *= 1.35
         }
+        // Radiant skills deal +50% bonus damage against Undead (T6-T9 actives).
+        if (skill != null && entity2 is Enemy && entity2.getEnemyType() == EnemyType.UNDEAD) {
+            livingCompanionBonusDamage *= skill.undeadDamageMultiplier
+        }
 
         var dCalculateCriticalMultiplier = if (flatDamage) 1.0 else calculateCriticalMultiplier(entity, skill, entity2.criticalReduction)
         val pet2 = this.petExploring
@@ -1602,6 +1829,12 @@ abstract class Area {
                 StatusEffectType.DELIRIUM, StatusEffectType.SKELETON_KEY -> statusDamageMultiplier *= 2.0
                 StatusEffectType.FRENZY -> statusDamageMultiplier *= 1.3
                 StatusEffectType.ANOINTED, StatusEffectType.INSPIRE, StatusEffectType.EXALT -> statusDamageMultiplier *= 1.25
+                // Radiant Blessing: all party attacks deal +% damage against Undead.
+                StatusEffectType.RADIANT_BLESSING -> {
+                    if (entity2 is Enemy && entity2.getEnemyType() == EnemyType.UNDEAD) {
+                        statusDamageMultiplier *= (1.0 + statusEffect2.undeadDamageBonus)
+                    }
+                }
                 else -> {}
             }
         }
@@ -1613,7 +1846,7 @@ abstract class Area {
             }
         }
 
-        val zIsMagic = endOfTurnAction?.forceMagic ?: entity.isMagic()
+        val zIsMagic = skill?.forceMagic ?: endOfTurnAction?.forceMagic ?: entity.isMagic()
         val dMagicDamageAmplification = if (zIsMagic) magicDamageAmplification() else 1.0
 
         var dRollAttackDamage = if (flatDamage) endOfTurnAction!!.damage.toDouble() else entity.rollAttackDamage()
@@ -1711,6 +1944,21 @@ abstract class Area {
                 Skills.PASSIVE_SUBJUGATE_I -> applyStatus(entity2, StatusEffect(StatusEffectType.BLOODFLAME, entity, 1, 1.0), entity.calculateIgnoreImmunityToStatus() * 0.01)
                 Skills.PASSIVE_SUBJUGATE_II -> applyStatus(entity2, StatusEffect(StatusEffectType.BLOODFLAME, entity, 2, 1.0), entity.calculateIgnoreImmunityToStatus() * 0.01)
                 else -> {}
+            }
+            // Radiant branch (Paladin -> Angel of War): basic attacks heal the ally with the
+            // lowest HP for a % of the damage dealt (Seraphim converts overheal into a shield).
+            if (entity is Adventurer && iApplyDamage > 0) {
+                val pct = when (entity.passiveSkill) {
+                    Skills.PASSIVE_AURA_OF_LIGHT_II -> 0.25
+                    Skills.PASSIVE_AURA_OF_DEVOTION_I -> 0.30
+                    Skills.PASSIVE_AURA_OF_DEVOTION_II -> 0.35
+                    Skills.PASSIVE_AURA_OF_SANCTITY -> 0.40
+                    Skills.PASSIVE_AURA_OF_THE_SERAPHIM -> 0.50
+                    else -> 0.0
+                }
+                if (pct > 0.0) {
+                    radiantHealLowest(entity, Utils.round(iApplyDamage * pct))
+                }
             }
         }
 

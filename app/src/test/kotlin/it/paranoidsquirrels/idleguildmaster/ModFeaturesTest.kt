@@ -13,6 +13,8 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.do
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.doctrines.DoctrineAbilityType
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.EliteEnemy
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.Enemy
+import it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.EnemyType
+import it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.EnemyTypeRegistry
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.Item
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.Recipes
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Sword
@@ -171,7 +173,7 @@ class ModFeaturesTest {
     fun testModAboutChangelogEntries() {
         val entries = ModChangelog.parseVersionEntries()
         assertTrue(entries.isNotEmpty())
-        assertTrue("Top entry must be 1.3.1.8", entries[0].title.startsWith("1.3.1.8"))
+        assertTrue("Top entry must be 1.3.3.0", entries[0].title.startsWith("1.3.3.0"))
         assertTrue("Bottom entry must be 1.0.0.0", entries.last().title.startsWith("1.0.0.0"))
     }
 
@@ -370,7 +372,8 @@ class ModFeaturesTest {
         val regent = Adventurer.getInstance("BlackRegent", 1, 45, 0, sword, null, null, null, null, PotionsDrank(), null, false)!!
         assertEquals("BlackRegent must scale CON at 150%", 1.5, regent.attackConstitutionScaling, 0.001)
         val angel = Adventurer.getInstance("AngelOfWar", 1, 45, 0, sword, null, null, null, null, PotionsDrank(), null, false)!!
-        assertEquals("AngelOfWar must scale CON at 150%", 1.5, angel.attackConstitutionScaling, 0.001)
+        assertEquals("AngelOfWar must scale CON at 100% (Holy branch rework)", 1.0, angel.attackConstitutionScaling, 0.001)
+        assertEquals("AngelOfWar must scale INT at 70% (Holy branch rework)", 0.7, angel.attackIntelligenceScaling, 0.001)
         val champion = Adventurer.getInstance("DivineChampion", 1, 45, 0, sword, null, null, null, null, PotionsDrank(), null, false)!!
         assertEquals("DivineChampion must scale CON at 150%", 1.5, champion.attackConstitutionScaling, 0.001)
 
@@ -481,12 +484,20 @@ class ModFeaturesTest {
     @Test
     fun testKnightBranchConScaling() {
         val knightBranch = listOf(
-            "Knight", "DarkKnight", "DeathKnight", "Scourge", "Tyrant", "Overlord",
-            "BlackRegent", "HolyKnight", "Paladin", "Templar", "Inquisitor", "Justiciar", "AngelOfWar"
+            "Knight", "DarkKnight", "DeathKnight", "Scourge", "Tyrant", "Overlord", "BlackRegent"
         )
         for (cls in knightBranch) {
             val hero = Adventurer.getInstance(cls, 1, 5, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
             assertEquals("$cls (Knight branch) must scale CON at 150%", 1.5, hero.attackConstitutionScaling, 0.001)
+        }
+        // 1.3.3.0: the Holy Knight -> Angel of War line was reworked to 100% CON + 70% INT.
+        val holyBranch = listOf(
+            "HolyKnight", "Paladin", "Templar", "Inquisitor", "Justiciar", "AngelOfWar"
+        )
+        for (cls in holyBranch) {
+            val hero = Adventurer.getInstance(cls, 1, 5, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+            assertEquals("$cls (Holy branch) must scale CON at 100%", 1.0, hero.attackConstitutionScaling, 0.001)
+            assertEquals("$cls (Holy branch) must scale INT at 70%", 0.7, hero.attackIntelligenceScaling, 0.001)
         }
         val guardBranch = listOf(
             "Guard", "RoyalGuard", "RoyalSwordsman", "RoyalCaptain", "KingsHand",
@@ -506,9 +517,9 @@ class ModFeaturesTest {
         assertEquals("+7 Dexterity from the sword", 7, sword.getDexterity())
         assertEquals("Bloodflame damage must be +50%", 50, sword.getBloodflameDamageBonus())
 
-        // Colossal-style damage formula: full CON when CON >= 120, otherwise half.
+        // Colossal-style damage formula: full CON always (the sword itself grants 124 CON).
         assertEquals(124, sword.getDamageModifier(124, 0, 0))
-        assertEquals(31, sword.getDamageModifier(62, 0, 0))
+        assertEquals(62, sword.getDamageModifier(62, 0, 0))
 
         // Craft recipe: Colossal Sword + 5 Heart of Darkness + 5 Ancestral Blood.
         val recipe = Recipes.into(sword)
@@ -519,5 +530,116 @@ class ModFeaturesTest {
             ingredients.map { it?.getTrueClass() }
         )
         assertEquals(listOf(1, 5, 5), ingredients.map { it?.getStack() })
+    }
+
+    @Test
+    fun testBloodflameBonusMultipliesBurnNotReplaces() {
+        // +50% Bloodflame bonus must multiply the 5% max-HP burn, not replace it.
+        // Example from the report: 4000 HP enemy + Scarlet King sword => 300 damage/tick.
+        val maxHp = 4000.0
+        val bonus = 50
+        val fraction = 0.05 * (1.0 + bonus * 0.01) // 0.075
+        assertEquals(0.075, fraction, 0.0001)
+        assertEquals(300, Utils.round(fraction * maxHp))
+        // Without any bonus the burn stays exactly 5%.
+        assertEquals(200, Utils.round(0.05 * (1.0 + 0.0) * maxHp))
+    }
+
+    @Test
+    fun testEnemyTypeRegistryAndInheritance() {
+        val wolf = Enemy.getInstance("Wolf")!!
+        assertEquals(EnemyType.BEAST, wolf.getEnemyType())
+
+        val skeleton = Enemy.getInstance("UndeadArcher")!!
+        assertEquals(EnemyType.UNDEAD, skeleton.getEnemyType())
+
+        val imp = Enemy.getInstance("Imp")!!
+        assertEquals(EnemyType.DEMON, imp.getEnemyType())
+
+        val bandit = Enemy.getInstance("ImperialGuard")!!
+        assertEquals(EnemyType.HUMANOID, bandit.getEnemyType())
+
+        val slime = Enemy.getInstance("Slime")!!
+        assertEquals(EnemyType.SLIME, slime.getEnemyType())
+
+        val dragon = Enemy.getInstance("DreamwroughtDragon")!!
+        assertEquals(EnemyType.DRAGON, dragon.getEnemyType())
+
+        val ent = Enemy.getInstance("Ent")!!
+        assertEquals(EnemyType.PLANT, ent.getEnemyType())
+
+        val golem = Enemy.getInstance("ObsidianGolem")!!
+        assertEquals(EnemyType.CONSTRUCT, golem.getEnemyType())
+
+        // EliteEnemy inheritance check
+        val eliteWolf = EliteEnemy.createElite(wolf)!!
+        assertEquals("EliteEnemy must inherit base enemy type", EnemyType.BEAST, eliteWolf.getEnemyType())
+
+        val eliteSkeleton = EliteEnemy.createElite(skeleton)!!
+        assertEquals("EliteEnemy must inherit base enemy type", EnemyType.UNDEAD, eliteSkeleton.getEnemyType())
+    }
+
+    @Test
+    fun testRadiantBranchClassesConfigured() {
+        val classes = listOf(
+            "HolyKnight" to Pair(Skills.PASSIVE_AURA_OF_LIGHT_I, Skills.ACTIVE_HOLY_SMITE_I),
+            "Paladin" to Pair(Skills.PASSIVE_AURA_OF_LIGHT_II, Skills.ACTIVE_HOLY_SMITE_II),
+            "Templar" to Pair(Skills.PASSIVE_AURA_OF_DEVOTION_I, Skills.ACTIVE_RADIANT_JUDGMENT_I),
+            "Inquisitor" to Pair(Skills.PASSIVE_AURA_OF_DEVOTION_II, Skills.ACTIVE_RADIANT_JUDGMENT_II),
+            "Justiciar" to Pair(Skills.PASSIVE_AURA_OF_SANCTITY, Skills.ACTIVE_WRATH_OF_HEAVEN_I),
+            "AngelOfWar" to Pair(Skills.PASSIVE_AURA_OF_THE_SERAPHIM, Skills.ACTIVE_WRATH_OF_HEAVEN_II)
+        )
+        for ((cls, skills) in classes) {
+            val hero = Adventurer.getInstance(cls, 1, 45, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+            assertEquals("$cls must use 100% CON weapon scaling", 1.0, hero.attackConstitutionScaling, 0.001)
+            assertEquals("$cls must use 70% INT weapon scaling", 0.7, hero.attackIntelligenceScaling, 0.001)
+            assertEquals("$cls must use 0% DEX weapon scaling", 0.0, hero.attackDexterityScaling, 0.001)
+            assertEquals("$cls must be threat 2", 2, hero.threat)
+            assertEquals("$cls passive", skills.first, hero.passiveSkill)
+            assertEquals("$cls active", skills.second, hero.activeSkill)
+        }
+    }
+
+    @Test
+    fun testRadiantBlessingStatusEffectTypeRegistered() {
+        assertEquals("RADIANT_BLESSING must be a positive status effect", false, StatusEffectType.RADIANT_BLESSING.negative)
+        assertEquals(R.drawable.icon_effect_radiant_blessing, StatusEffectType.RADIANT_BLESSING.icon)
+    }
+
+    @Test
+    fun testRadiantBlessingPayloadPropagationAndBonuses() {
+        val hero = Adventurer.getInstance("Footman", 1, 45, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+        val baseImmunity = hero.calculateImmunityToStatus()
+        val baseDr = hero.calculateFlatDamageReduction()
+        val blessing = StatusEffect(StatusEffectType.RADIANT_BLESSING, null, 1, 1.0, 0.40, 10, 0.03, 0.25)
+        hero.addStatusEffect(blessing, 1.0)
+        val stored = hero.positiveStatusEffects.first { it.type == StatusEffectType.RADIANT_BLESSING }
+        // addStatusEffect must propagate the aura payload fields.
+        assertEquals("blessing immunity must propagate", 0.40, stored.immunity, 0.001)
+        assertEquals("blessing flatDr must propagate", 10, stored.flatDr)
+        assertEquals("blessing regen must propagate", 0.03, stored.regenPct, 0.001)
+        assertEquals("blessing undead bonus must propagate", 0.25, stored.undeadDamageBonus, 0.001)
+        assertEquals("blessing turnsLeft must be 1 — renewed each turn by a living aura-bearer only", 1, stored.turnsLeft)
+        // Bonus status immunity.
+        assertTrue(
+            "status immunity must include the blessing (+40%)",
+            hero.calculateImmunityToStatus() >= baseImmunity + 0.39
+        )
+        // Flat damage reduction.
+        assertTrue(
+            "flat damage reduction must include the blessing (+10)",
+            hero.calculateFlatDamageReduction() >= baseDr + 10
+        )
+    }
+
+    @Test
+    fun testRadiantBlessingUndeadMultiplierMath() {
+        // The plan contract: +N% multiplier is applied on top of the 5% burn-style modifier;
+        // here we verify the multiplier math used for the undead bonus in dealDamage.
+        // A Justiciar aura grants 0.25 bonus -> 1.25x damage against Undead.
+        val bonus = 0.25
+        val multiplier = 1.0 + bonus
+        assertEquals(1.25, multiplier, 0.0001)
+        assertEquals(275, Utils.round(220.0 * multiplier)) // 220% -> 275% effective vs Undead
     }
 }

@@ -23,7 +23,7 @@ Before implementing a feature, fixing a bug, or creating tooling:
 3. Read relevant files under `docs/` — at minimum read `architecture.md`,
    `build-system.md`, `development.md`, and `scripts.md` before touching source,
    build configuration, or tooling.
-4. Read `implementation_plan.md` when working on planned features.
+4. Read the relevant plan under `plans/<feature-name>/` when working on planned features. Implementation plans must be stored in a dedicated folder named after the feature (e.g. `plans/<feature-name>/`), never as a loose `implementation_plan.md` in the root.
 5. Inspect the existing Kotlin architecture before creating new classes.
 6. Search the repository for existing implementations before creating new utilities, scripts, helpers, or abstractions.
 7. Determine where the new code/artifact belongs **before creating it**.
@@ -72,10 +72,13 @@ The repository should follow this general organization:
 ├── backups/                 LOCAL save snapshots — gitignored, never committed
 ├── save.json                LOCAL working save — gitignored, never committed
 │
+├── plans/                   Feature implementation plans (each in plans/<feature-name>/)
+│   ├── endgame-progression/
+│   └── angel-of-war-rebalance/
+│
 ├── build.gradle.kts
 ├── settings.gradle.kts
 ├── gradle.properties
-├── implementation_plan.md
 ├── README.md
 └── ...
 ```
@@ -95,7 +98,6 @@ The root should contain only project-level files such as:
 
 * `README.md`
 * `LICENSE`
-* `implementation_plan.md`
 * Gradle configuration
 * repository configuration
 * other files that genuinely belong at project level
@@ -117,6 +119,10 @@ test_script.py
 ```
 
 If a file does not clearly belong in the root, it does not belong in the root.
+
+
+### Implementation Plans
+Implementation plans must never be stored as loose files in the repository root (e.g. `implementation_plan.md`). Instead, each plan must be placed in its own dedicated folder under `plans/<feature-name>/` named after the feature that the plan is ready to implement.
 
 ### Every new file needs a home
 

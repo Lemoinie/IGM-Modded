@@ -30,6 +30,10 @@ or open the project in Android Studio once so it generates one.
 | Save editor (browser tool)         | `save_editor/`                                   |
 | Documentation                      | `docs/`                                          |
 
+## Feature Implementation Plans
+All implementation plans must be organized into dedicated folders named after the feature under `plans/<feature-name>/` (e.g. `plans/endgame-progression/implementation_plan.md`, `plans/angel-of-war-rebalance/implementation_plan.md`).
+Never create or commit loose `implementation_plan.md` files directly in the repository root.
+
 ## How to Add a New Feature
 
 Follow the AGENTS.md "every new file needs a home" rule and reuse existing patterns.

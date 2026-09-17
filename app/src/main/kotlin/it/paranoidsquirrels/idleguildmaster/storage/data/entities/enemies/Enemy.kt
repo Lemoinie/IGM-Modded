@@ -28,6 +28,16 @@ abstract class Enemy : Entity() {
         }
     }
 
+    @JvmField @Transient var enemyType: EnemyType? = null
+
+    open fun getEnemyType(): EnemyType {
+        val explicit = enemyType
+        if (explicit != null) return explicit
+        val t = EnemyTypeRegistry.getTypeForClass(trueClass ?: this::class.java.simpleName)
+        enemyType = t
+        return t
+    }
+
     @JvmField @Transient protected var expGiven: Int = 0
     @JvmField @Transient protected var rarity: Int = 0
 

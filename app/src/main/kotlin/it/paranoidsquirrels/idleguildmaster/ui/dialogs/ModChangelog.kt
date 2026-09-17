@@ -225,7 +225,23 @@ object ModChangelog {
         "\n" +
         "1.3.1.8 (17/9/2026):\n" +
         "- New Sword: Colossal Sword of Scarlet King (+124 CON, +7 DEX, Bloodflame damage +50%, half damage below 120 CON). Crafted from Colossal Sword + 5 Heart of Darkness + 5 Ancestral Blood.\n" +
-        "- Added the Bloodflame damage bonus stat to gear: equipment can now amplify the Bloodflame burn it inflicts (the Scarlet King sword grants +50%)." 
+        "- Added the Bloodflame damage bonus stat to gear: equipment can now amplify the Bloodflame burn it inflicts (the Scarlet King sword grants +50%).\n" +
+        "\n" +
+        "1.3.1.9 (17/9/2026):\n" +
+        "- Colossal Sword of Scarlet King: removed the half-damage rule below 120 CON — it now always uses the full Constitution for weapon damage (the sword itself grants 124 CON), and its description no longer mentions the old rule.\n" +
+        "- Fixed the Bloodflame damage bonus: +N% now multiplies the 5% max-HP burn (5% x 1.5 = 7.5% with the Scarlet King sword, e.g. 300 damage on a 4000 HP enemy) instead of replacing that 5% entirely (was 55%).\n" +
+        "\n" +
+        "1.3.2.0 (17/9/2026):\n" +
+        "- Added the Enemy Type System: all 124 enemies and elite variants across Dungeons, Raids, and special encounters are now classified into 10 RPG types (Humanoid, Beast, Undead, Demon, Dragon, Slime, Elemental, Plant, Construct, Aberration).\n" +
+        "- Enemy details now display the enemy type next to the damage characteristics (e.g. Melee, Physical, Beast or Ranged, Magic, Dragon).\n" +
+        "- Tapping the attack type row in enemy details explains attack and damage mechanics alongside the enemy type lore.\n" +
+        "\n" +
+        "1.3.3.0 (17/9/2026):\n" +
+        "- Holy Knight -> Angel of War evolution line fully reworked into a Frontline Auramancer (threat 2): weapon scaling is now 100% CON + 70% INT.\n" +
+        "- New Radiant Blessing party aura (new status effect + icon): at battle start grants all allies status immunity, flat damage reduction, HP regeneration and bonus damage against Undead (scaling +10%->+50%, +5->+15 flat DR, up to +5% HP regen and +30% vs Undead by tier).\n" +
+        "- Holy Knight (Holy Smite I) & Paladin (Holy Smite II): physical strikes that heal the lowest-HP ally for 50%/60% of the damage dealt; Paladin and above also heal for 25-50% of damage dealt on every basic attack.\n" +
+        "- Templar & Inquisitor (Radiant Judgment I/II), Justiciar (Wrath of Heaven I) and Angel of War (Wrath of Heaven II): magic-damage strikes (+50% extra damage vs Undead) with Silence, party cleansing, and party holy shields or heals.\n" +
+        "- Aura passives replace the old silence/darkness kit: darkness reduction now scales 15 -> 50 by tier." 
 
     private val MOD_VERSION_LIST: List<VersionEntry> by lazy { parseVersionEntries() }
 

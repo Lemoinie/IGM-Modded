@@ -27,8 +27,10 @@ toggles, and save tooling on top.
 ├── save_editor/            Standalone browser-based save-file editor
 ├── build.gradle.kts        Root Gradle (plugin versions)
 ├── settings.gradle.kts     Gradle multi-module setup
+├── plans/                  Feature implementation plans (each in plans/<feature-name>/)
+│   ├── endgame-progression/
+│   └── angel-of-war-rebalance/
 ├── gradle.properties       Gradle/Android configuration
-├── implementation_plan.md  Migration/feature plan
 └── README.md
 ```
 
@@ -183,6 +185,18 @@ injected patches. The remaining "mod-specific" surface is thin and clearly locat
   `XPBook*`), bonus traits (`RUTHLESS_PLUS`), extra pets (`Senko`/`Semi`), and
   doctrine rebalances are implemented as normal Kotlin classes inside the vanilla
   trees and are protected by the `ModFeaturesTest` JVM tests (app/src/test/kotlin).
+- **Holy Knight -> Angel of War rebalance** — the whole evolution line
+  (`HolyKnight`/`Paladin`/`Templar`/`Inquisitor`/`Justiciar`/`AngelOfWar`) is a
+  Frontline Auramancer: weapon scaling 100% CON + 70% INT (threat 2), with per-tier
+  aura passives (`PASSIVE_AURA_OF_LIGHT_I` → `PASSIVE_AURA_OF_THE_SERAPHIM`) that
+  cast **Radiant Blessing** (`StatusEffectType.RADIANT_BLESSING`, payload fields on
+  `StatusEffect`: `immunity`/`flatDr`/`regenPct`/`undeadDamageBonus`) on the whole
+  party at battle start (see `Area.applyRadiantBlessing()`), turn-start cleanses, and
+  basic-attack heals. New active skills (Holy Smite I/II, Radiant Judgment I/II,
+  Wrath of Heaven I/II) deal magic damage via `Skill.setForceMagic(true)` and bonus
+  vs-Undead via `Skill.setUndeadDamageMultiplier(1.5)`; `Area.dealDamage` applies
+  both the skill undead multiplier and the aura's undead bonus (checked against
+  `Enemy.getEnemyType()`).
 - **Changelog / info UI** — `ui/dialogs/ModChangelog.kt` (version entries) and
   `ui/dialogs/DialogModAbout.kt` (info + version detail dialogs, reachable from the
   nav drawer `R.id.mod_about`).
