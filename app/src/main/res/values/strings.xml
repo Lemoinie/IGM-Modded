@@ -420,17 +420,20 @@ ABHORRENT CURSE: When the unit dies, a Bone Hydra spawns and fights for the summ
     <string name="active_daze_description">"Deals 10% magic damage to all enemies and STUNS them for 2 turns.
 STUN: the unit skips its turn"</string>
     <string name="active_daze_name">Daze</string>
-    <string name="active_decimate_i_description" formatted="false">"Strikes all enemies for 300% damage. Then, each has 70% chance of being BLOODBLAZED for 1 turn.
+    <string name="active_decimate_i_description" formatted="false">"Strikes all enemies for 300% damage. Then, each has 70% chance of being STUNNED and BLOODFLAMED for 1 turn.
 
-BLOODBLAZE: burns for 5% max HP each turn (magic damage) and prevents all healing."</string>
+BLOODFLAME: burns for 5% max HP each turn (magic damage) and prevents all healing.
+STUN: the unit skips its turn."</string>
     <string name="active_decimate_i_name">Decimate</string>
-    <string name="active_decimate_ii_description">"Strikes all enemies for 300% damage, then BLOODBLAZES them for 1 turn.
+    <string name="active_decimate_ii_description">"Strikes all enemies for 300% damage, then STUNS them and afflicts BLOODFLAME for 1 turn.
 
-BLOODBLAZE: burns for 5% max HP each turn (magic damage) and prevents all healing."</string>
+BLOODFLAME: burns for 5% max HP each turn (magic damage) and prevents all healing.
+STUN: the unit skips its turn."</string>
     <string name="active_decimate_ii_name">Decimate II</string>
-    <string name="active_decimate_iii_description">"Strikes all enemies for 400% damage, then BLOODBLAZES them for 1 turn.
+    <string name="active_decimate_iii_description">"Strikes all enemies for 400% damage, then STUNS them and afflicts BLOODFLAME for 1 turn.
 
-BLOODBLAZE: burns for 5% max HP each turn (magic damage) and prevents all healing."</string>
+BLOODFLAME: burns for 5% max HP each turn (magic damage) and prevents all healing.
+STUN: the unit skips its turn."</string>
     <string name="active_decimate_iii_name">Decimate III</string>
     <string name="active_desert_judgement_description">Attacks 4 random enemies, with each attack doing 150% damage</string>
     <string name="active_desert_judgement_name">Desert Judgement</string>
@@ -3473,15 +3476,15 @@ STUN: the unit skips its turn."</string>
 
 FREEZE: This unit can't dodge and takes 10 physical damage each turn."</string>
     <string name="passive_sub_zero_name">Sub Zero</string>
-    <string name="passive_subjugate_i_description">"This unit has a 2× chance of being targeted by enemies. If the target HP is lower than this unit's HP, 50% STUN chance on hit. Basic attacks BLOODBLAZE the target for 1 turn.
+    <string name="passive_subjugate_i_description">"This unit has a 2× chance of being targeted by enemies. If the target HP is lower than this unit's HP, 50% STUN chance on hit. Basic attacks BLOODFLAME the target for 1 turn.
 
 STUN: the unit skips its turn
-BLOODBLAZE: burns for 5% max HP each turn (magic damage) and prevents all healing."</string>
+BLOODFLAME: burns for 5% max HP each turn (magic damage) and prevents all healing."</string>
     <string name="passive_subjugate_i_name">Subjugate</string>
-    <string name="passive_subjugate_ii_description">"This unit has a 2× chance of being targeted by enemies. If the target HP is lower than this unit's HP, STUNS on hit. Basic attacks BLOODBLAZE the target for 2 turns.
+    <string name="passive_subjugate_ii_description">"This unit has a 2× chance of being targeted by enemies. If the target HP is lower than this unit's HP, STUNS on hit. Basic attacks BLOODFLAME the target for 2 turns.
 
 STUN: the unit skips its turn
-BLOODBLAZE: burns for 5% max HP each turn (magic damage) and prevents all healing."</string>
+BLOODFLAME: burns for 5% max HP each turn (magic damage) and prevents all healing."</string>
     <string name="passive_subjugate_ii_name">Subjugate II</string>
     <string name="passive_swarm_description">Immune to BLEED, STUN, PETRIFY. Reduces all damage to 1. Attacks once per HP point.</string>
     <string name="passive_swarm_name">Swarm</string>
@@ -3894,8 +3897,10 @@ I apologize for the inconvenience."</string>
     <string name="status_effect_abhorrent_curse_description">cursed</string>
     <string name="status_effect_ablaze">Ablaze</string>
     <string name="status_effect_ablaze_description">ablaze</string>
-    <string name="status_effect_bloodblaze">Bloodblaze</string>
-    <string name="status_effect_bloodblaze_description">Burns the target for 5% of its max Health each turn as magic damage, and prevents all healing.</string>
+    <string name="status_effect_bloodflame">Bloodflame</string>
+    <string name="status_effect_bloodflame_description">Burns the target for 5% of its max Health each turn as magic damage, and prevents all healing.</string>
+    <string name="status_effect_bloodflame_damage_log" formatted="false">%s suffers %s damage from bloodflame.</string>
+    <string name="status_effect_bloodflame_log_description">cursed and rotten by bloodflame</string>
     <string name="status_effect_anointed">Anointed</string>
     <string name="status_effect_anointed_description">anointed</string>
     <string name="status_effect_bleed">Bleed</string>
@@ -4302,6 +4307,9 @@ TAUNT: the taunting unit is always chosen as target"</string>
     <string name="weapon_sword_colossal_sword_description">The sword of a colossal titan, too heavy to be held by a common human.</string>
     <string name="weapon_sword_colossal_sword_effect">Half dmg if CON &lt; 120</string>
     <string name="weapon_sword_colossal_sword_name">Colossal Sword</string>
+    <string name="weapon_sword_colossal_sword_of_scarlet_king_name">Colossal Sword of Scarlet King</string>
+    <string name="weapon_sword_colossal_sword_of_scarlet_king_description">A colossal blade steeped in the flesh of the Formless Mother. Bloodflame yet clings to its edge, burning within wounds that refuse to close.</string>
+    <string name="weapon_sword_colossal_sword_of_scarlet_king_effect">Bloodflame damage +50%. Half dmg if CON &lt; 120</string>
     <string name="weapon_sword_copper_sword_description">A standard iron sword commonly used throughout the Realms.</string>
     <string name="weapon_sword_copper_sword_name">Iron Sword</string>
     <string name="weapon_sword_decomposed_limb_description">The rotting limb of an undead creature</string>

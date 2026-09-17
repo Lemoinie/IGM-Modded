@@ -207,21 +207,25 @@ object ModChangelog {
         "- Retreating from The Siege or The Hunt now consumes that period's try (the card becomes unavailable immediately after sending a team, like other raids).\n" +
         "- Added \"NEW HUNT IN / NEXT SIEGE IN\" countdown timers to the Guild Activities tab.\n" +
         "\n" +
-        "1.3.1.5 (16/9/2026):\n" +
+        "1.3.1.5 (17/9/2026):\n" +
         "- Fixed pet trait Savage never activating: the PET redeem code set the pet's level after its abilities were configured, so traits kept their level-1/zero magnitude (e.g. a level-2000 Semi with Savage stayed at 0). Pet abilities are now recomputed whenever the level changes.\n" +
         "- Fixed defense penetration (Doctrine of War's Tactical Knowledge)\u00A0ignoring far less armor than intended \u2014 combat read the raw armorIgnored field instead of the getter, so the doctrine's 40% armor ignore never applied.\n" +
         "- Fixed Healing Nova (Doctrine of Grace) not healing on kill \u2014 the heal-on-death total came from the raw field instead of the getter, so the doctrine contribution was lost.\n" +
         "- Fixed Overheal (Doctrine of Grace) not applying a shield \u2014 the shield block read the raw maxOverheal field (always 0) instead of the getter that includes the doctrine value.\n" +
         "\n" +
-        "1.3.1.6 (16/9/2026):\n" +
+        "1.3.1.6 (17/9/2026):\n" +
         "- Added per-class attack stat scaling: Adventurers now have attackConstitutionScaling/attackIntelligenceScaling/attackDexterityScaling (default 1.0) applied to their stats before the weapon damage modifier.\n" +
         "- Black Regent, Angel of War, and Divine Champion now scale Constitution at 150% for weapon damage (1.5x CON), making their heavy CON builds hit noticeably harder.\n" +
         "\n" +
-        "1.3.1.7 (16/9/2026):\n" +
-        "- Added the new status effect Bloodblaze (new icon): burns for 5% of max Health each turn as magic damage at the start of the turn, and prevents the affected unit from healing in any way (direct heals, lifesteal, regeneration, healing nova). Like Ablaze, it does not stack (only a longer duration refreshes).\n" +
-        "- Subjugate and Subjugate II now set Bloodblaze on basic-attack hits (1 turn for Subjugate, 2 turns for Subjugate II); their descriptions explain the effect.\n" +
-        "- Decimate / Decimate II / Decimate III now set Bloodblaze on all hit enemies for 1 turn (replacing the old STUN); their descriptions explain the effect.\n" +
-        "- Extended the 150% CON weapon scaling to the whole Knight branch: Knight, Dark Knight, Death Knight, Scourge, Tyrant, Overlord, Holy Knight, Paladin, Templar, Inquisitor, and Justiciar (Angel of War, Black Regent, and Divine Champion were already scaled). The Guard branch is untouched." 
+        "1.3.1.7 (17/9/2026):\n" +
+        "- Added the new status effect Bloodflame (new icon): burns for 5% of max Health each turn as magic damage at the start of the turn, and prevents the affected unit from healing in any way (direct heals, lifesteal, regeneration, healing nova). Like Ablaze, it does not stack (only a longer duration refreshes). Its combat logs read \"cursed and rotten by bloodflame\" and the per-turn tick reports the damage suffered.\n" +
+        "- Subjugate and Subjugate II now set Bloodflame on basic-attack hits (1 turn for Subjugate, 2 turns for Subjugate II); their descriptions explain the effect.\n" +
+        "- Decimate / Decimate II / Decimate III now apply BOTH effects on all hit enemies: STUN (unchanged from the original) plus Bloodflame for 1 turn; their descriptions explain both.\n" +
+        "- Extended the 150% CON weapon scaling to the whole Knight branch: Knight, Dark Knight, Death Knight, Scourge, Tyrant, Overlord, Holy Knight, Paladin, Templar, Inquisitor, and Justiciar (Angel of War, Black Regent, and Divine Champion were already scaled). The Guard branch is untouched.\n" +
+        "\n" +
+        "1.3.1.8 (17/9/2026):\n" +
+        "- New Sword: Colossal Sword of Scarlet King (+124 CON, +7 DEX, Bloodflame damage +50%, half damage below 120 CON). Crafted from Colossal Sword + 5 Heart of Darkness + 5 Ancestral Blood.\n" +
+        "- Added the Bloodflame damage bonus stat to gear: equipment can now amplify the Bloodflame burn it inflicts (the Scarlet King sword grants +50%)." 
 
     private val MOD_VERSION_LIST: List<VersionEntry> by lazy { parseVersionEntries() }
 

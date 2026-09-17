@@ -34,6 +34,7 @@ abstract class Equipment : Item() {
     @JvmField @Transient protected var onFireBonusDamage: Int = 0
     @JvmField @Transient protected var freezeBonusDamage: Int = 0
     @JvmField @Transient protected var poisonBonus: Int = 0
+    @JvmField @Transient protected var bloodflameDamageBonus: Int = 0
     @JvmField @Transient protected var livingCompanionBonusDamage: Int = 0
     @JvmField @Transient protected var regenerationBonus: Int = 0
     @JvmField @Transient protected var flatDodgeChance: Double = 0.0
@@ -78,6 +79,7 @@ abstract class Equipment : Item() {
     open fun getOnFireBonusDamage(): Int = onFireBonusDamage
     open fun getFreezeBonusDamage(): Int = freezeBonusDamage
     open fun getPoisonBonus(): Int = poisonBonus
+    open fun getBloodflameDamageBonus(): Int = bloodflameDamageBonus
     open fun getLivingCompanionBonusDamage(): Int = livingCompanionBonusDamage
     open fun getRegenerationBonus(): Int = regenerationBonus
     open fun getFlatDodgeChance(): Double = flatDodgeChance
