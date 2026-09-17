@@ -17,7 +17,7 @@ enum class StatusEffectType(
     STUN_NOT_CLEANSABLE(R.string.status_effect_stun, R.string.status_effect_stun_description, R.drawable.icon_effect_stun, false, true),
     SILENCE(R.string.status_effect_silence, R.string.status_effect_silence_description, R.drawable.icon_effect_silence, true, true),
     ABLAZE(R.string.status_effect_ablaze, R.string.status_effect_ablaze_description, R.drawable.icon_effect_ablaze, true, true),
-    BLOODBLAZE(R.string.status_effect_bloodblaze, R.string.status_effect_bloodblaze_description, R.drawable.icon_effect_bloodblaze, true, true),
+    BLOODFLAME(R.string.status_effect_bloodflame, R.string.status_effect_bloodflame_log_description, R.drawable.icon_effect_bloodflame, true, true),
     POISON(R.string.status_effect_poison, R.string.status_effect_poison_description, R.drawable.icon_effect_poison, true, true),
     REGENERATION(R.string.status_effect_regeneration, R.string.status_effect_regeneration_description, R.drawable.icon_effect_regeneration, false, true),
     LESSER_CURSE(R.string.status_effect_lesser_curse, R.string.status_effect_lesser_curse_description, R.drawable.icon_effect_curse, true, false),

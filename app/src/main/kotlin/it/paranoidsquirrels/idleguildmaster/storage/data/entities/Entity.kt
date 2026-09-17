@@ -51,6 +51,7 @@ abstract class Entity {
     @JvmField @Transient var onFireBonusDamage: Int = 0
     @JvmField @Transient var freezeBonusDamage: Int = 0
     @JvmField @Transient var poisonBonus: Int = 0
+    @JvmField @Transient var bloodflameDamageBonus: Int = 0
     @JvmField @Transient var livingCompanionBonusDamage: Int = 0
     @JvmField @Transient var regenerationBonus: Int = 0
     @JvmField @Transient var flatDodgeChance: Double = 0.0
@@ -124,6 +125,7 @@ abstract class Entity {
     open fun getOnFireBonusDamage(): Int = onFireBonusDamage
     open fun getFreezeBonusDamage(): Int = freezeBonusDamage
     open fun getPoisonBonus(): Int = poisonBonus
+    open fun getBloodflameDamageBonus(): Int = bloodflameDamageBonus
     open fun getLivingCompanionBonusDamage(): Int = livingCompanionBonusDamage
     open fun getRegenerationBonus(): Int = regenerationBonus
     open fun getFlatDodgeChance(): Double = flatDodgeChance
@@ -146,8 +148,8 @@ abstract class Entity {
     open fun getNegativeStatusEffects(): List<StatusEffect> = negativeStatusEffects
     open fun setNegativeStatusEffects(list: MutableList<StatusEffect>) { negativeStatusEffects = list }
 
-    /** True when this unit carries Bloodblaze: burns each turn and cannot benefit from healing. */
-    open fun hasBloodblaze(): Boolean = negativeStatusEffects.any { it.type == StatusEffectType.BLOODBLAZE }
+    /** True when this unit carries Bloodflame: burns each turn and cannot benefit from healing. */
+    open fun hasBloodflame(): Boolean = negativeStatusEffects.any { it.type == StatusEffectType.BLOODFLAME }
     open fun getPositiveStatusEffects(): List<StatusEffect> = positiveStatusEffects
     open fun setPositiveStatusEffects(list: MutableList<StatusEffect>) { positiveStatusEffects = list }
     open fun calculateOnDeathEffectsOnEnemies(): List<StatusEffect> = onDeathEffectsOnEnemies

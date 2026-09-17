@@ -479,6 +479,16 @@ abstract class Adventurer : Entity() {
         return if (acc != null) dmg + acc.getOnFireBonusDamage() else dmg
     }
 
+    override fun getBloodflameDamageBonus(): Int {
+        var bonus = bloodflameDamageBonus
+        val w = weapon
+        if (w != null) bonus += w.getBloodflameDamageBonus()
+        val a = armor
+        if (a != null) bonus += a.getBloodflameDamageBonus()
+        val acc = accessory
+        return if (acc != null) bonus + acc.getBloodflameDamageBonus() else bonus
+    }
+
     override fun getFreezeBonusDamage(): Int {
         var dmg = freezeBonusDamage
         val w = weapon

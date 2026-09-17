@@ -14,6 +14,7 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.do
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.EliteEnemy
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.Enemy
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.Item
+import it.paranoidsquirrels.idleguildmaster.storage.data.items.Recipes
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Sword
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.instances.*
 import it.paranoidsquirrels.idleguildmaster.storage.data.pets.Pet
@@ -170,7 +171,7 @@ class ModFeaturesTest {
     fun testModAboutChangelogEntries() {
         val entries = ModChangelog.parseVersionEntries()
         assertTrue(entries.isNotEmpty())
-        assertTrue("Top entry must be 1.3.1.7", entries[0].title.startsWith("1.3.1.7"))
+        assertTrue("Top entry must be 1.3.1.8", entries[0].title.startsWith("1.3.1.8"))
         assertTrue("Bottom entry must be 1.0.0.0", entries.last().title.startsWith("1.0.0.0"))
     }
 
@@ -263,16 +264,21 @@ class ModFeaturesTest {
         val area = TheGoldenCity()
         val archer = Adventurer.getInstance("Archer", 10, 20, 0, null, null, null, Trait.FERAL, null, PotionsDrank(), null, false)!!
         archer.activeSkill = Skills.ACTIVE_BARRAGE_III // 4 arrows
+        archer.alwaysHits = true // deterministic: arrows never dodge
         area.adventurersExploring.add(archer)
 
         val e1 = Enemy.getInstance("Slime")!!
         e1.currentHp = 1
         e1.baseDefense = 0
         e1.baseMagicDefense = 0
+        // Weight target selection toward E1 (weightedSelection scales by threat), so the first
+        // arrow almost always kills E1 and the remaining arrows re-target the living E2.
+        e1.threat = 1000000
         val e2 = Enemy.getInstance("Slime")!!
         e2.currentHp = 5000
         e2.baseDefense = 0
         e2.baseMagicDefense = 0
+        e2.threat = 1
 
         area.enemies.add(e1)
         area.enemies.add(e2)
@@ -280,8 +286,8 @@ class ModFeaturesTest {
         val initialHpE2 = e2.currentHp
         area.cast(archer)
 
-        assertEquals("E1 must be dead after hit 1", 0, e1.currentHp)
-        assertTrue("E2 must take damage from remaining arrows", e2.currentHp < initialHpE2)
+        assertEquals("E1 must be dead after the barrage", 0, e1.currentHp)
+        assertTrue("E2 must take damage from remaining arrows (retargeting)", e2.currentHp < initialHpE2)
     }
 
     @Test
@@ -380,47 +386,47 @@ class ModFeaturesTest {
     }
 
     @Test
-    fun testBloodblazeStatusEffectAndNoStacking() {
+    fun testBloodflameStatusEffectAndNoStacking() {
         val enemy = Enemy.getInstance("Wolf")!!
-        enemy.addStatusEffect(StatusEffect(StatusEffectType.BLOODBLAZE, enemy, 3, 1.0), 1.0)
-        val bb = enemy.negativeStatusEffects.firstOrNull { it.type == StatusEffectType.BLOODBLAZE }
-        assertNotNull("Bloodblaze must be applied", bb)
+        enemy.addStatusEffect(StatusEffect(StatusEffectType.BLOODFLAME, enemy, 3, 1.0), 1.0)
+        val bb = enemy.negativeStatusEffects.firstOrNull { it.type == StatusEffectType.BLOODFLAME }
+        assertNotNull("Bloodflame must be applied", bb)
         assertEquals(3, bb?.turnsLeft)
-        assertTrue("hasBloodblaze() must report true", enemy.hasBloodblaze())
+        assertTrue("hasBloodflame() must report true", enemy.hasBloodflame())
 
         // Same as Ablaze: a shorter application must NOT stack / refresh.
-        assertEquals(0, enemy.addStatusEffect(StatusEffect(StatusEffectType.BLOODBLAZE, enemy, 1, 1.0), 1.0))
-        assertEquals(3, enemy.negativeStatusEffects.first { it.type == StatusEffectType.BLOODBLAZE }.turnsLeft)
+        assertEquals(0, enemy.addStatusEffect(StatusEffect(StatusEffectType.BLOODFLAME, enemy, 1, 1.0), 1.0))
+        assertEquals(3, enemy.negativeStatusEffects.first { it.type == StatusEffectType.BLOODFLAME }.turnsLeft)
 
         // A longer application replaces (refreshes upward).
-        enemy.addStatusEffect(StatusEffect(StatusEffectType.BLOODBLAZE, enemy, 5, 1.0), 1.0)
-        assertEquals(5, enemy.negativeStatusEffects.first { it.type == StatusEffectType.BLOODBLAZE }.turnsLeft)
-        assertEquals(1, enemy.negativeStatusEffects.count { it.type == StatusEffectType.BLOODBLAZE })
+        enemy.addStatusEffect(StatusEffect(StatusEffectType.BLOODFLAME, enemy, 5, 1.0), 1.0)
+        assertEquals(5, enemy.negativeStatusEffects.first { it.type == StatusEffectType.BLOODFLAME }.turnsLeft)
+        assertEquals(1, enemy.negativeStatusEffects.count { it.type == StatusEffectType.BLOODFLAME })
     }
 
     @Test
-    fun testBloodblazeBlocksHealing() {
+    fun testBloodflameBlocksHealing() {
         val area = MainActivity.data.enchantedForest!!
         val healer = Adventurer.getInstance("Paladin", 1, 45, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
         val target = Adventurer.getInstance("Footman", 2, 5, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
         val maxHp = target.calculateTotalMaxHp()
         target.currentHp = maxHp - 10
 
-        // Without Bloodblaze healing works.
+        // Without Bloodflame healing works.
         area.heal(healer, target, null)
         assertTrue("Normal heal must restore HP", target.currentHp > maxHp - 10)
 
-        // With Bloodblaze healing is fully blocked.
+        // With Bloodflame healing is fully blocked.
         target.currentHp = maxHp - 10
-        target.addStatusEffect(StatusEffect(StatusEffectType.BLOODBLAZE, healer, 5, 1.0), 1.0)
-        assertTrue(target.hasBloodblaze())
+        target.addStatusEffect(StatusEffect(StatusEffectType.BLOODFLAME, healer, 5, 1.0), 1.0)
+        assertTrue(target.hasBloodflame())
         val before = target.currentHp
         area.heal(healer, target, null)
-        assertEquals("Bloodblaze must block all healing", before, target.currentHp)
+        assertEquals("Bloodflame must block all healing", before, target.currentHp)
     }
 
     @Test
-    fun testDecimateAppliesBloodblaze() {
+    fun testDecimateAppliesStunAndBloodflame() {
         val area = TheGoldenCity()
         val overlord = Adventurer.getInstance("Overlord", 1, 40, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
         overlord.activeSkill = Skills.ACTIVE_DECIMATE_II
@@ -434,16 +440,20 @@ class ModFeaturesTest {
 
         area.cast(overlord)
 
-        val bb = wolf.negativeStatusEffects.firstOrNull { it.type == StatusEffectType.BLOODBLAZE }
-        assertNotNull("Decimate must afflict hit targets with Bloodblaze", bb)
-        assertEquals("Decimate must set Bloodblaze for 1 turn", 1, bb?.turnsLeft)
+        val bf = wolf.negativeStatusEffects.firstOrNull { it.type == StatusEffectType.BLOODFLAME }
+        assertNotNull("Decimate must afflict hit targets with Bloodflame", bf)
+        assertEquals("Decimate must set Bloodflame for 1 turn", 1, bf?.turnsLeft)
+        assertTrue(
+            "Decimate must also STUN its targets (STUN + Bloodflame)",
+            wolf.negativeStatusEffects.any { it.type == StatusEffectType.STUN }
+        )
     }
 
     @Test
-    fun testSubjugatePassivesApplyBloodblaze() {
+    fun testSubjugatePassivesApplyBloodflame() {
         val area = TheGoldenCity()
 
-        // Subjugate I (Overlord): bloodblaze for 1 turn on basic hits.
+        // Subjugate I (Overlord): bloodflame for 1 turn on basic hits.
         val overlord = Adventurer.getInstance("Overlord", 1, 40, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
         overlord.alwaysHits = true
         val wolf1 = Enemy.getInstance("Wolf")!!
@@ -451,11 +461,11 @@ class ModFeaturesTest {
         wolf1.baseMagicDefense = 0
         wolf1.currentHp = 999999
         area.dealDamage(overlord, wolf1, null, null)
-        val bb1 = wolf1.negativeStatusEffects.firstOrNull { it.type == StatusEffectType.BLOODBLAZE }
-        assertNotNull("Subjugate I must afflict Bloodblaze on hit", bb1)
+        val bb1 = wolf1.negativeStatusEffects.firstOrNull { it.type == StatusEffectType.BLOODFLAME }
+        assertNotNull("Subjugate I must afflict Bloodflame on hit", bb1)
         assertEquals(1, bb1?.turnsLeft)
 
-        // Subjugate II (BlackRegent): bloodblaze for 2 turns on basic hits.
+        // Subjugate II (BlackRegent): bloodflame for 2 turns on basic hits.
         val regent = Adventurer.getInstance("BlackRegent", 1, 45, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
         regent.alwaysHits = true
         val wolf2 = Enemy.getInstance("Wolf")!!
@@ -463,8 +473,8 @@ class ModFeaturesTest {
         wolf2.baseMagicDefense = 0
         wolf2.currentHp = 999999
         area.dealDamage(regent, wolf2, null, null)
-        val bb2 = wolf2.negativeStatusEffects.firstOrNull { it.type == StatusEffectType.BLOODBLAZE }
-        assertNotNull("Subjugate II must afflict Bloodblaze on hit", bb2)
+        val bb2 = wolf2.negativeStatusEffects.firstOrNull { it.type == StatusEffectType.BLOODFLAME }
+        assertNotNull("Subjugate II must afflict Bloodflame on hit", bb2)
         assertEquals(2, bb2?.turnsLeft)
     }
 
@@ -487,5 +497,27 @@ class ModFeaturesTest {
             val hero = Adventurer.getInstance(cls, 1, 5, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
             assertEquals("$cls (Guard branch) must keep default 100% CON scaling", 1.0, hero.attackConstitutionScaling, 0.001)
         }
+    }
+
+    @Test
+    fun testColossalSwordOfScarletKing() {
+        val sword = (Item.getInstance("ColossalSwordOfScarletKing", 1) as? ColossalSwordOfScarletKing)!!
+        assertEquals("+124 Constitution from the sword", 124, sword.getConstitution())
+        assertEquals("+7 Dexterity from the sword", 7, sword.getDexterity())
+        assertEquals("Bloodflame damage must be +50%", 50, sword.getBloodflameDamageBonus())
+
+        // Colossal-style damage formula: full CON when CON >= 120, otherwise half.
+        assertEquals(124, sword.getDamageModifier(124, 0, 0))
+        assertEquals(31, sword.getDamageModifier(62, 0, 0))
+
+        // Craft recipe: Colossal Sword + 5 Heart of Darkness + 5 Ancestral Blood.
+        val recipe = Recipes.into(sword)
+        assertNotNull("A craft recipe must exist for the sword", recipe)
+        val ingredients = recipe?.getIngredients() ?: emptyList()
+        assertEquals(
+            listOf("ColossalSword", "HeartOfDarkness", "AncestralBlood"),
+            ingredients.map { it?.getTrueClass() }
+        )
+        assertEquals(listOf(1, 5, 5), ingredients.map { it?.getStack() })
     }
 }

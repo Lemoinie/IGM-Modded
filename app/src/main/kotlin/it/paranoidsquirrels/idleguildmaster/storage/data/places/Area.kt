@@ -897,22 +897,25 @@ abstract class Area {
                         Logger.log(this, 17, entity, statusEffect, iApplyDamage2)
                         z4 = true
                     }
-                    StatusEffectType.BLOODBLAZE -> {
+                    StatusEffectType.BLOODFLAME -> {
                         // Same burn as Ablaze but without the on-fire bonus: exactly 5% of max HP
-                        // as magic damage at the start of the unit's turn.
+                        // as magic damage at the start of the unit's turn, boosted by the
+                        // Bloodflame damage bonus of the unit that inflicted it.
+                        val causeBloodflame = statusEffect.cause
+                        val bloodflameDamageBonus = if (causeBloodflame != null) causeBloodflame.getBloodflameDamageBonus().toDouble() * 0.01 else 0.0
                         val dMagicDamageAmplificationBlood = magicDamageAmplification()
-                        val petBloodblaze = this.petExploring
-                        val barrierBloodblaze = if (petBloodblaze == null || !z3) 0 else petBloodblaze.barrier
-                        val iBloodblazeDamage = entity.applyDamage(
-                            Utils.round(0.05 * iCalculateTotalMaxHp.toDouble() * dMagicDamageAmplificationBlood).toDouble(),
+                        val petBloodflame = this.petExploring
+                        val barrierBloodflame = if (petBloodflame == null || !z3) 0 else petBloodflame.barrier
+                        val iBloodflameDamage = entity.applyDamage(
+                            Utils.round((0.05 + bloodflameDamageBonus) * iCalculateTotalMaxHp.toDouble() * dMagicDamageAmplificationBlood).toDouble(),
                             true,
-                            barrierBloodblaze,
+                            barrierBloodflame,
                             0.0
                         )
                         if (!z3) {
-                            QuestsManager.increment(QuestsManager.slowBurn, iBloodblazeDamage.toLong())
+                            QuestsManager.increment(QuestsManager.slowBurn, iBloodflameDamage.toLong())
                         }
-                        Logger.log(this, Logger.STATUS_BLOODBLAZE, entity, statusEffect, iBloodblazeDamage)
+                        Logger.log(this, Logger.STATUS_BLOODFLAME, entity, statusEffect, iBloodflameDamage)
                         z4 = true
                     }
                     StatusEffectType.TERRIFY -> {
@@ -925,7 +928,7 @@ abstract class Area {
                         i4 = 2
                     }
                     StatusEffectType.REGENERATION -> {
-                        if (!entity.hasBloodblaze()) {
+                        if (!entity.hasBloodflame()) {
                             val cause3 = statusEffect.cause
                             val regenBonus = if (cause3 != null) 0.06 + (cause3.regenerationBonus.toDouble() * 0.01) else 0.06
                             iRound += Utils.round(regenBonus * iCalculateTotalMaxHp.toDouble())
@@ -982,7 +985,7 @@ abstract class Area {
             z = z4
         }
 
-        if (!entity.hasBloodblaze() && iRound > 0 && entity.currentHp > 0 && entity.currentHp < iCalculateTotalMaxHp) {
+        if (!entity.hasBloodflame() && iRound > 0 && entity.currentHp > 0 && entity.currentHp < iCalculateTotalMaxHp) {
             val currentHp = entity.currentHp
             val iMin = Math.min(iCalculateTotalMaxHp, currentHp + iRound)
             entity.currentHp = iMin
@@ -1070,7 +1073,7 @@ abstract class Area {
         val iMax = Math.max(1, Utils.round(entity.rollAttackDamage() * dCalculateCriticalMultiplier * dCalculateHealingModifier * 0.5))
         val currentHp = entity2.currentHp
         val iCalculateTotalMaxHp = entity2.calculateTotalMaxHp()
-        if (!entity2.hasBloodblaze()) {
+        if (!entity2.hasBloodflame()) {
             val iMin = Math.min(iCalculateTotalMaxHp, currentHp + iMax)
             entity2.currentHp = iMin
             if (z2) {
@@ -1226,9 +1229,34 @@ abstract class Area {
                 skill.setDamageAmplification(2.0).execute()
             }
             Skills.ACTIVE_OVERWHELM -> skill.setStatusEffect(StatusEffect(StatusEffectType.STUN, entity, 1, 0.7)).setDamageAmplification(3.0).execute()
-            Skills.ACTIVE_DECIMATE_I -> skill.setTargetSelectionMode("all_enemies").setStatusEffect(StatusEffect(StatusEffectType.BLOODBLAZE, entity, 1, 0.7)).setDamageAmplification(3.0).execute()
-            Skills.ACTIVE_DECIMATE_II -> skill.setTargetSelectionMode("all_enemies").setStatusEffect(StatusEffect(StatusEffectType.BLOODBLAZE, entity, 1, 1.0)).setDamageAmplification(3.0).execute()
-            Skills.ACTIVE_DECIMATE_III -> skill.setTargetSelectionMode("all_enemies").setStatusEffect(StatusEffect(StatusEffectType.BLOODBLAZE, entity, 1, 1.0)).setDamageAmplification(4.0).execute()
+            Skills.ACTIVE_DECIMATE_I -> {
+                // Deals damage + STUN (70%) via the skill status, then afflicts Bloodflame for 1 turn.
+                val targets = skill.setTargetSelectionMode("all_enemies").setStatusEffect(StatusEffect(StatusEffectType.STUN, entity, 1, 0.7)).setDamageAmplification(3.0).execute()
+                if (targets != null) {
+                    for (target in targets) {
+                        applyStatus(target, StatusEffect(StatusEffectType.BLOODFLAME, entity, 1, 1.0), entity.calculateIgnoreImmunityToStatus() * 0.01)
+                    }
+                }
+                targets
+            }
+            Skills.ACTIVE_DECIMATE_II -> {
+                val targets = skill.setTargetSelectionMode("all_enemies").setStatusEffect(StatusEffect(StatusEffectType.STUN, entity, 1, 1.0)).setDamageAmplification(3.0).execute()
+                if (targets != null) {
+                    for (target in targets) {
+                        applyStatus(target, StatusEffect(StatusEffectType.BLOODFLAME, entity, 1, 1.0), entity.calculateIgnoreImmunityToStatus() * 0.01)
+                    }
+                }
+                targets
+            }
+            Skills.ACTIVE_DECIMATE_III -> {
+                val targets = skill.setTargetSelectionMode("all_enemies").setStatusEffect(StatusEffect(StatusEffectType.STUN, entity, 1, 1.0)).setDamageAmplification(4.0).execute()
+                if (targets != null) {
+                    for (target in targets) {
+                        applyStatus(target, StatusEffect(StatusEffectType.BLOODFLAME, entity, 1, 1.0), entity.calculateIgnoreImmunityToStatus() * 0.01)
+                    }
+                }
+                targets
+            }
             Skills.ACTIVE_CONDEMN -> skill.setStatusEffect(StatusEffect(StatusEffectType.SILENCE, entity, 1, 1.0)).applyEffectOnDodge().setDamageAmplification(2.5).execute()
             Skills.ACTIVE_CONDEMN_ALL_I -> skill.setTargetSelectionMode("all_enemies").setStatusEffect(StatusEffect(StatusEffectType.SILENCE, entity, 1, 1.0)).applyEffectOnDodge().setDamageAmplification(2.5).execute()
             Skills.ACTIVE_CONDEMN_ALL_II -> skill.setTargetSelectionMode("all_enemies").setStatusEffect(StatusEffect(StatusEffectType.SILENCE, entity, 2, 1.0)).applyEffectOnDodge().setDamageAmplification(2.5).execute()
@@ -1650,7 +1678,7 @@ abstract class Area {
         if (skill != null && entity.activeSkill == Skills.ACTIVE_FRAGMENTATION) {
             iRound = 1000
         }
-        if (!entity.hasBloodblaze() && iRound > 0) {
+        if (!entity.hasBloodflame() && iRound > 0) {
             val currentHp = entity.currentHp
             val iCalculateTotalMaxHp = entity.calculateTotalMaxHp()
             val iMin = Math.min(iCalculateTotalMaxHp, currentHp + iRound)
@@ -1678,10 +1706,10 @@ abstract class Area {
             if (entity2.currentHp < entity.currentHp && entity.stunChanceOnLowerHp > 0.0) {
                 applyStatus(entity2, StatusEffect(StatusEffectType.STUN, entity, 1, entity.stunChanceOnLowerHp), entity.calculateIgnoreImmunityToStatus() * 0.01)
             }
-            // Subjugate/Subjugate II: each basic attack hit sets Bloodblaze on the target.
+            // Subjugate/Subjugate II: each basic attack hit sets Bloodflame on the target.
             when (entity.passiveSkill) {
-                Skills.PASSIVE_SUBJUGATE_I -> applyStatus(entity2, StatusEffect(StatusEffectType.BLOODBLAZE, entity, 1, 1.0), entity.calculateIgnoreImmunityToStatus() * 0.01)
-                Skills.PASSIVE_SUBJUGATE_II -> applyStatus(entity2, StatusEffect(StatusEffectType.BLOODBLAZE, entity, 2, 1.0), entity.calculateIgnoreImmunityToStatus() * 0.01)
+                Skills.PASSIVE_SUBJUGATE_I -> applyStatus(entity2, StatusEffect(StatusEffectType.BLOODFLAME, entity, 1, 1.0), entity.calculateIgnoreImmunityToStatus() * 0.01)
+                Skills.PASSIVE_SUBJUGATE_II -> applyStatus(entity2, StatusEffect(StatusEffectType.BLOODFLAME, entity, 2, 1.0), entity.calculateIgnoreImmunityToStatus() * 0.01)
                 else -> {}
             }
         }
@@ -1782,7 +1810,7 @@ abstract class Area {
     private fun healingNova() {
         var healMissingHpOnEnemyDeath = 0.0
         for (adventurer in this.adventurersExploring) {
-            if (adventurer.currentHp > 0 && !adventurer.hasBloodblaze()) {
+            if (adventurer.currentHp > 0 && !adventurer.hasBloodflame()) {
                 healMissingHpOnEnemyDeath += adventurer.getHealMissingHpOnEnemyDeath().toDouble() * adventurer.calculateHealingModifier()
             }
         }
@@ -1790,7 +1818,7 @@ abstract class Area {
             return
         }
         for (adventurer2 in this.adventurersExploring) {
-            if (adventurer2.currentHp > 0 && !adventurer2.hasBloodblaze()) {
+            if (adventurer2.currentHp > 0 && !adventurer2.hasBloodflame()) {
                 val iCalculateTotalMaxHp = adventurer2.calculateTotalMaxHp()
                 adventurer2.currentHp = Math.min(
                     iCalculateTotalMaxHp,

@@ -20,7 +20,7 @@ object Logger {
     const val ARCANE_SUPPRESSION = 116
     const val BARD_SHIELD = 120
     const val YELLOW_LOG = 121
-    const val STATUS_BLOODBLAZE = 122
+    const val STATUS_BLOODFLAME = 122
     const val BOTCHED_OFFERING = 115
     private const val COLOR_FORMAT = "<font color=%s><strong>%s</strong></font>"
     const val DARKNESS_DESCRIPTION = 1
@@ -261,7 +261,7 @@ object Logger {
                     strWrap = String.format(string8, strWrap10, strWrap11, wrap(turnsLeft2, red5))
                     }
                 }
-                17, 19, 122 -> {
+                17, 19 -> {
                     if (zIsSettingVerboseLogs) {
                     entity2 = objArr[0] as Entity
                     statusEffect2 = objArr[1] as StatusEffect
@@ -287,6 +287,20 @@ object Logger {
                     red5 = getRed()
                     }
                     strWrap = String.format(string11, strWrap12, strWrap13, strWrap14, wrap(turnsLeft3, red5))
+                    }
+                }
+                122 -> {
+                    if (zIsSettingVerboseLogs) {
+                    entity = objArr[0] as Entity
+                    val iBloodflameDmg = (objArr[2] as Number).toInt()
+                    var stringBloodflame = RESOURCES!!.getString(R.string.status_effect_bloodflame_damage_log)
+                    var nameBloodflame = RESOURCES!!.getString(entity.idName)
+                    if (entity is Enemy) {
+                    red5 = getRed()
+                    } else {
+                    red5 = GREEN
+                    }
+                    strWrap = String.format(stringBloodflame, wrap(nameBloodflame, red5), wrap(iBloodflameDmg, getRed()))
                     }
                 }
                 20 -> {
