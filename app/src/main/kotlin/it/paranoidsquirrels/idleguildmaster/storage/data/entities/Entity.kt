@@ -210,11 +210,14 @@ abstract class Entity {
         return iRound
     }
 
-    protected open fun calculateFlatDamageReduction(): Int {
+    open fun calculateFlatDamageReduction(): Int {
         var i = 0
         for (effect in positiveStatusEffects) {
             if (effect.type == StatusEffectType.EXALT) {
                 i += 5
+            }
+            if (effect.type == StatusEffectType.RADIANT_BLESSING) {
+                i += effect.flatDr
             }
         }
         return i + (calculateTotalConstitution() / 8)
@@ -233,7 +236,7 @@ abstract class Entity {
             }
             return 0
         }
-        val statusEffect2 = StatusEffect(type, statusEffect.cause, statusEffect.turnsLeft, 1.0)
+        val statusEffect2 = StatusEffect(type, statusEffect.cause, statusEffect.turnsLeft, 1.0, statusEffect.immunity, statusEffect.flatDr, statusEffect.regenPct, statusEffect.undeadDamageBonus)
         val list = if (type.negative) negativeStatusEffects else positiveStatusEffects
         var next: StatusEffect? = null
         for (effect in list) {

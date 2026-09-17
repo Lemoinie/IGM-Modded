@@ -369,6 +369,12 @@ abstract class Adventurer : Entity() {
         val acc = accessory
         if (acc != null) its += acc.getImmunityToStatus()
         if (traitRare == Trait.MINDFUL) its += 0.1
+        // Radiant Blessing aura grants bonus status immunity to all allies.
+        for (blessing in positiveStatusEffects) {
+            if (blessing.type == StatusEffectType.RADIANT_BLESSING) {
+                its += blessing.immunity
+            }
+        }
         return its + ((doctrine?.bonusStatusImmunity() ?: 0).toDouble() * 0.01)
     }
 

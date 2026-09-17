@@ -142,7 +142,12 @@ class DialogEntityDetail : CustomDialog() {
         b.namePassive.text = getString(e.passiveSkill?.nameRes ?: 0)
         b.nameActive.text = getString(e.activeSkill?.nameRes ?: 0)
         b.detailAttackDamage.text = String.format(getString(R.string.attack_formatted), e.calculateMinAttackDamage(), e.calculateMaxAttackDamage())
-        b.detailAttackType.text = String.format(getString(R.string.attack_type), getString(if (e.isRanged()) R.string.ranged else R.string.melee), getString(if (e.isMagic()) R.string.magic else R.string.physical))
+        val baseAttackType = String.format(getString(R.string.attack_type), getString(if (e.isRanged()) R.string.ranged else R.string.melee), getString(if (e.isMagic()) R.string.magic else R.string.physical))
+        b.detailAttackType.text = if (e is Enemy) {
+            "$baseAttackType, ${getString(e.getEnemyType().nameRes)}"
+        } else {
+            baseAttackType
+        }
         b.detailHp.text = String.format(getString(R.string.hp_formatted), e.calculateTotalMaxHp())
         b.detailMana.text = String.format(getString(R.string.mana_gain_formatted), e.calculateManaRegen())
         b.detailConstitution.text = String.format(getString(R.string.constitution_formatted), e.calculateTotalConstitution())
@@ -365,16 +370,18 @@ class DialogEntityDetail : CustomDialog() {
         b.detailExperience.setOnClickListener { populateHelp(it, getString(R.string.help_experience), false, null) }
         b.detailExperienceBar.setOnClickListener { populateHelp(it, getString(R.string.help_experience), false, null) }
         b.detailAttackType.setOnClickListener {
-            populateHelp(
-                it,
-                String.format(
-                    getString(R.string.attack_type_description),
-                    getString(if (e.isRanged()) R.string.ranged_description else R.string.melee_description),
-                    getString(if (e.isMagic()) R.string.magic_description else R.string.physical_description)
-                ),
-                false,
-                null
+            val baseHelp = String.format(
+                getString(R.string.attack_type_description),
+                getString(if (e.isRanged()) R.string.ranged_description else R.string.melee_description),
+                getString(if (e.isMagic()) R.string.magic_description else R.string.physical_description)
             )
+            val fullHelp = if (e is Enemy) {
+                val enemyType = e.getEnemyType()
+                baseHelp + "\n\n" + getString(enemyType.nameRes) + ":\n" + getString(enemyType.descriptionRes)
+            } else {
+                baseHelp
+            }
+            populateHelp(it, fullHelp, false, null)
         }
         b.detailHp.setOnClickListener { populateHelp(it, getString(R.string.help_hp), false, null) }
         b.detailConstitution.setOnClickListener { populateHelp(it, getString(R.string.help_constitution), false, null) }

@@ -4309,7 +4309,7 @@ TAUNT: the taunting unit is always chosen as target"</string>
     <string name="weapon_sword_colossal_sword_name">Colossal Sword</string>
     <string name="weapon_sword_colossal_sword_of_scarlet_king_name">Colossal Sword of Scarlet King</string>
     <string name="weapon_sword_colossal_sword_of_scarlet_king_description">A colossal blade steeped in the flesh of the Formless Mother. Bloodflame yet clings to its edge, burning within wounds that refuse to close.</string>
-    <string name="weapon_sword_colossal_sword_of_scarlet_king_effect">Bloodflame damage +50%. Half dmg if CON &lt; 120</string>
+    <string name="weapon_sword_colossal_sword_of_scarlet_king_effect">Bloodflame damage +50%</string>
     <string name="weapon_sword_copper_sword_description">A standard iron sword commonly used throughout the Realms.</string>
     <string name="weapon_sword_copper_sword_name">Iron Sword</string>
     <string name="weapon_sword_decomposed_limb_description">The rotting limb of an undead creature</string>
@@ -4405,6 +4405,32 @@ TAUNT: the taunting unit is always chosen as target"</string>
     <string name="guild_siege_wave" formatted="false">Wave %d of %d</string>
     <string name="guild_next_hunt_in">NEW HUNT IN</string>
     <string name="guild_next_siege_in">NEXT SIEGE IN</string>
+    <string name="active_holy_smite_i_name">Holy Smite I</string>
+    <string name="active_holy_smite_i_description" formatted="false">Strike one enemy for 200% physical damage, then heal the ally with the lowest HP for 50% of the damage dealt.</string>
+    <string name="active_holy_smite_ii_name">Holy Smite II</string>
+    <string name="active_holy_smite_ii_description" formatted="false">Strike one enemy for 220% physical damage, then heal the ally with the lowest HP for 60% of the damage dealt.</string>
+    <string name="active_radiant_judgment_i_name">Radiant Judgment I</string>
+    <string name="active_radiant_judgment_i_description" formatted="false">Strike all enemies for 220% magic damage (+50% extra damage against Undead), cleanse 1 negative effect from every ally, and heal each ally for 15% of their Max HP.</string>
+    <string name="active_radiant_judgment_ii_name">Radiant Judgment II</string>
+    <string name="active_radiant_judgment_ii_description" formatted="false">Strike all enemies for 240% magic damage (+50% extra damage against Undead) and Silence them for 1 turn, cleanse 1 negative effect from every ally, and grant each ally a holy shield worth 15% of their Max HP.</string>
+    <string name="active_wrath_of_heaven_i_name">Wrath of Heaven I</string>
+    <string name="active_wrath_of_heaven_i_description" formatted="false">Strike all enemies for 250% magic damage (+50% extra damage against Undead) and Silence them for 1 turn, fully cleanse all allies, and grant each ally a holy shield worth 20% of their Max HP.</string>
+    <string name="active_wrath_of_heaven_ii_name">Wrath of Heaven II</string>
+    <string name="active_wrath_of_heaven_ii_description" formatted="false">Strike all enemies for 280% magic damage (+50% extra damage against Undead) and Silence them for 2 turns, fully cleanse all allies, and grant each ally a holy shield worth 25% of their Max HP.</string>
+    <string name="passive_aura_of_light_i_name">Aura of Light I</string>
+    <string name="passive_aura_of_light_i_description" formatted="false">Reduces darkness by 15. At the start of battle, grants all allies Radiant Blessing (+10% status immunity, +5% damage against Undead).</string>
+    <string name="passive_aura_of_light_ii_name">Aura of Light II</string>
+    <string name="passive_aura_of_light_ii_description" formatted="false">Reduces darkness by 25. At the start of battle, grants all allies Radiant Blessing (+15% status immunity, +10% damage against Undead). Basic attacks heal the ally with the lowest HP for 25% of the damage dealt.</string>
+    <string name="passive_aura_of_devotion_i_name">Aura of Devotion I</string>
+    <string name="passive_aura_of_devotion_i_description" formatted="false">Reduces darkness by 35. At the start of battle, grants all allies Radiant Blessing (+20% status immunity, +15% damage against Undead, +5 flat damage reduction). Basic attacks heal the ally with the lowest HP for 30% of the damage dealt.</string>
+    <string name="passive_aura_of_devotion_ii_name">Aura of Devotion II</string>
+    <string name="passive_aura_of_devotion_ii_description" formatted="false">Reduces darkness by 45. At the start of battle, grants all allies Radiant Blessing (+30% status immunity, +20% damage against Undead, +8 flat damage reduction). Basic attacks heal the ally with the lowest HP for 35% of the damage dealt.</string>
+    <string name="passive_aura_of_sanctity_name">Aura of Sanctity</string>
+    <string name="passive_aura_of_sanctity_description" formatted="false">Reduces darkness by 50. At the start of battle, grants all allies Radiant Blessing (+40% status immunity, +25% damage against Undead, +10 flat damage reduction, +3% HP regeneration per turn). Each turn, cleanses 1 negative effect from the most debuffed ally. Basic attacks heal the ally with the lowest HP for 40% of the damage dealt.</string>
+    <string name="passive_aura_of_the_seraphim_name">Aura of the Seraphim</string>
+    <string name="passive_aura_of_the_seraphim_description" formatted="false">Reduces darkness by 50. At the start of battle, grants all allies Radiant Blessing (+50% status immunity, +30% damage against Undead, +15 flat damage reduction, +5% HP regeneration per turn). Each turn, cleanses 1 negative effect from every ally. Basic attacks heal the ally with the lowest HP for 50% of the damage dealt (overhealing becomes a holy shield).</string>
+    <string name="status_effect_radiant_blessing">Radiant Blessing</string>
+    <string name="status_effect_radiant_blessing_description">Blessed by the aura of light: bonus status immunity, bonus damage against Undead, flat damage reduction, and HP regeneration.</string>
     <string name="drawer_mod_about_title">Mod Info / Changelog</string>
     <string name="unit_berserker_name">Berserker</string>
     <string name="unit_berserker_description">A ferocious warrior fueled by unchecked battle frenzy.</string>
@@ -4412,4 +4438,26 @@ TAUNT: the taunting unit is always chosen as target"</string>
     <string name="enemy_shadow_name">Shadow</string>
     <string name="enemy_shadow_description">A mysterious and deadly manifestation of darkness.</string>
     <string name="fragment_name_other">Other</string>
+    <!-- Enemy Type System -->
+    <string name="enemy_type_label">Type: %s</string>
+    <string name="enemy_type_humanoid">Humanoid</string>
+    <string name="enemy_type_humanoid_desc">Mortals, soldiers, cultists, mages, and sentient folk.</string>
+    <string name="enemy_type_beast">Beast</string>
+    <string name="enemy_type_beast_desc">Wild beasts, predators, swarms, and primeval animals.</string>
+    <string name="enemy_type_undead">Undead</string>
+    <string name="enemy_type_undead_desc">Reanimated corpses, restless spirits, ghouls, and skeletal horrors.</string>
+    <string name="enemy_type_demon">Demon</string>
+    <string name="enemy_type_demon_desc">Malicious fiends and infernal entities from the abyss.</string>
+    <string name="enemy_type_dragon">Dragon</string>
+    <string name="enemy_type_dragon_desc">Ancient drakes, wyverns, and apex reptilian terrors.</string>
+    <string name="enemy_type_slime">Slime</string>
+    <string name="enemy_type_slime_desc">Gelatinous organisms of various elemental resonances.</string>
+    <string name="enemy_type_elemental">Elemental</string>
+    <string name="enemy_type_elemental_desc">Living manifestations of raw physical or magical elements.</string>
+    <string name="enemy_type_plant">Plant</string>
+    <string name="enemy_type_plant_desc">Sentient flora, deep forest treants, and parasitic fungi.</string>
+    <string name="enemy_type_construct">Construct</string>
+    <string name="enemy_type_construct_desc">Inanimate machines, animated armors, stone automatons, and wards.</string>
+    <string name="enemy_type_aberration">Aberration</string>
+    <string name="enemy_type_aberration_desc">Eldritch monstrosities, cosmic entities, and avatars of outer beings.</string>
 </resources>

@@ -4,7 +4,11 @@ class StatusEffect @JvmOverloads constructor(
     var type: StatusEffectType? = null,
     @Transient var cause: Entity? = null,
     var turnsLeft: Int = 0,
-    @Transient var probability: Double = 0.0
+    @Transient var probability: Double = 0.0,
+    var immunity: Double = 0.0,
+    var flatDr: Int = 0,
+    var regenPct: Double = 0.0,
+    var undeadDamageBonus: Double = 0.0
 ) {
     companion object {
         const val DURATION_LONG: Int = 999

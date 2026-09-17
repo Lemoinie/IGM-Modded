@@ -53,7 +53,7 @@ Build a multi-tiered endgame progression ladder for `Idle Guild Master` extendin
   open fun calculateUltimateRegen(): Int = 20
   ```
 - Update stat calculations:
-  - Base stat multiplier: Ascended = $1.5\times$, Transcended = $2.0\times$, Apotheosis = $2.5\times$.
+  - Base stat multiplier: Ascended = 1.5x, Transcended = 2.0x, Apotheosis = 2.5x.
   - Include `artifact` in stat scans (`calculateTotalStat`, retaliation, dodge, decay, lifesteal).
 
 #### [MODIFY] [DataDeserializer.kt](file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/DataDeserializer.kt) & [Data.kt](file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/Data.kt)
@@ -82,12 +82,12 @@ Build a multi-tiered endgame progression ladder for `Idle Guild Master` extendin
 
 #### [NEW] `it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.UniqueTraits`
 - Enum defining signature traits for all Tier 9 classes:
-  - **Black Regent** $\rightarrow$ `OVERLORDS_REIGN`: Attacks against enemies below 50% HP deal +30% damage and steal 10 mana.
-  - **Angel of War** $\rightarrow$ `AEGIS_OF_THE_SERAPH`: Basic attacks radiate 25% holy splash damage to adjacent enemies; 30% of overhealing converts to ally barrier.
-  - **White Archmage** $\rightarrow$ `RADIANT_CONDUIT`: Healing spells smite the lowest-HP enemy for 50% of the heal amount.
-  - **Hailstorm** $\rightarrow$ `ABSOLUTE_ZERO`: Attacks on Frozen targets deal +50% damage and spread Freeze.
-  - **Fury** $\rightarrow$ `RAMPAGE`: Critical strikes grant an extra basic attack (up to 2 per turn).
-  - **Shadow Sentinel** $\rightarrow$ `PHANTOM_RETALIATION`: Dodging an attack triggers an immediate guaranteed critical counterattack.
+  - **Black Regent** -> `OVERLORDS_REIGN`: Attacks against enemies below 50% HP deal +30% damage and steal 10 mana.
+  - **Angel of War** -> `AEGIS_OF_THE_SERAPH`: Basic attacks radiate 25% holy splash damage to adjacent enemies; 30% of overhealing converts to ally barrier.
+  - **White Archmage** -> `RADIANT_CONDUIT`: Healing spells smite the lowest-HP enemy for 50% of the heal amount.
+  - **Hailstorm** -> `ABSOLUTE_ZERO`: Attacks on Frozen targets deal +50% damage and spread Freeze.
+  - **Fury** -> `RAMPAGE`: Critical strikes grant an extra basic attack (up to 2 per turn).
+  - **Shadow Sentinel** -> `PHANTOM_RETALIATION`: Dodging an attack triggers an immediate guaranteed critical counterattack.
 
 #### [MODIFY] [Area.kt](file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/places/Area.kt)
 - Integrate unique trait hooks into damage dealing, skill casting, and turn resolution loops.
@@ -153,14 +153,14 @@ Build a multi-tiered endgame progression ladder for `Idle Guild Master` extendin
 ### Automated Tests
 1. **Compilation Check**: Run `./gradlew assembleDebug` to guarantee zero bytecode / syntax errors.
 2. **Unit Tests**: Add tests under `app/src/test/kotlin/` verifying:
-   - Stat scaling multipliers for Ascended ($1.5\times$), Transcended ($2.0\times$), and Apotheosis ($2.5\times$).
+   - Stat scaling multipliers for Ascended (1.5x), Transcended (2.0x), and Apotheosis (2.5x).
    - 4th slot Artifact stat aggregation.
    - Ultimate Bar charges by +20 each turn and triggers Ultimate Skill at 100.
    - Unique traits trigger correctly in simulated combat turns.
 3. **Save Roundtrip Test**: Test loading existing saves, mutating to Transcended/Apotheosis with Artifacts, and re-serializing.
 
 ### Manual / Device Verification
-1. Open `DialogEntityDetail` on a max-level ascended unit $\rightarrow$ verify Transcendence ritual button appears.
-2. Complete Transcendence $\rightarrow$ verify 4th Artifact slot unlocks, Unique Trait is assigned, and Constellation dialog opens.
-3. Deploy into combat in Area/Dungeon $\rightarrow$ verify Ultimate bar appears, regenerates +20 per turn, and casts cinematic Ultimate at 100.
-4. Open `save_editor/index.html` in browser $\rightarrow$ confirm heroes show Artifact slot, Transcended state, and Unique Traits cleanly.
+1. Open `DialogEntityDetail` on a max-level ascended unit -> verify Transcendence ritual button appears.
+2. Complete Transcendence -> verify 4th Artifact slot unlocks, Unique Trait is assigned, and Constellation dialog opens.
+3. Deploy into combat in Area/Dungeon -> verify Ultimate bar appears, regenerates +20 per turn, and casts cinematic Ultimate at 100.
+4. Open `save_editor/index.html` in browser -> confirm heroes show Artifact slot, Transcended state, and Unique Traits cleanly.
