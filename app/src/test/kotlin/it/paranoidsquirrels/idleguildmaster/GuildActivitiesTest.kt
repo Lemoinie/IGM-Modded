@@ -2,11 +2,17 @@ package it.paranoidsquirrels.idleguildmaster
 
 import it.paranoidsquirrels.idleguildmaster.game.activities.GuildActivitiesManager
 import it.paranoidsquirrels.idleguildmaster.game.activities.GuildActivitiesState
+import it.paranoidsquirrels.idleguildmaster.game.redeem.RedeemCodes
 import it.paranoidsquirrels.idleguildmaster.storage.data.Data
+import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.Adventurer
+import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.PotionsDrank
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.Enemy
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.units.Shadow
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.units.VoidSlime
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.instances.Geode
+import it.paranoidsquirrels.idleguildmaster.storage.data.pets.Pet
+import it.paranoidsquirrels.idleguildmaster.storage.data.places.Action
+import it.paranoidsquirrels.idleguildmaster.storage.data.places.Area
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.raids.GuildRequestArea
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.raids.GuildSiegeArea
 import org.junit.Assert.*
@@ -58,55 +64,180 @@ class GuildActivitiesTest {
         assertEquals(R.drawable.area_request, req.getDetailDrawable())
         assertEquals(R.drawable.test_area_image_summary_forest, req.getSummaryDrawable())
 
-        val enemies = req.listEnemies()
-        assertTrue("listEnemies must contain Shadow", enemies.any { it is Shadow })
-        assertTrue("listEnemies must contain VoidSlime", enemies.any { it is VoidSlime })
+        // Bestiary "Other" lists only new monsters (not Void Slime, which is in TheSlimePond).
+        val bestiary = req.listEnemies()
+        assertEquals("Bestiary Other should list only Shadow", 1, bestiary.size)
+        assertTrue("Bestiary Other monster must be Shadow", bestiary[0] is Shadow)
 
+        // Wave formation: 1 Shadow always in the middle, 1/2/4 Void Slimes.
         req.progress = 1
-        val wave = req.rollEnemies()
-        assertEquals("Request wave must contain 3 enemies (2 Void Slimes, 1 Shadow)", 3, wave.size)
-        val shadows = wave.count { it is Shadow }
-        val voidSlimes = wave.count { it is VoidSlime }
-        assertEquals(1, shadows)
-        assertEquals(2, voidSlimes)
-        // Order must be [VoidSlime, Shadow, VoidSlime]
-        assertTrue("First enemy must be VoidSlime", wave[0] is VoidSlime)
-        assertTrue("Second enemy must be Shadow", wave[1] is Shadow)
-        assertTrue("Third enemy must be VoidSlime", wave[2] is VoidSlime)
+        repeat(40) {
+            val wave = req.rollEnemies()
+            val slimes = wave.count { it is VoidSlime }
+            val shadows = wave.count { it is Shadow }
+            assertEquals("Exactly one Shadow per wave", 1, shadows)
+            assertTrue("Slime count must be 1/2/4, got $slimes (size ${wave.size})", slimes in setOf(1, 2, 4))
+            assertEquals(slimes + 1, wave.size)
+            assertTrue("Shadow must sit in the middle", wave[wave.size / 2] is Shadow)
+        }
     }
 
     @Test
     fun testGuildSiegeAreaConfiguration() {
         val siege = MainActivity.data.guildSiege!!
-        assertEquals(12, siege.adventurersNumber())
+        assertEquals(10, siege.adventurersNumber())
         assertEquals(R.drawable.area_the_siege, siege.getDetailDrawable())
         assertEquals(R.drawable.test_area_image_summary_forest, siege.getSummaryDrawable())
 
+        // Unlock every area so the wave planner sees its full pool.
+        val req = MainActivity.data.guildRequest!!
+        for (area in Utils.compileDungeonRaidList()) {
+            area.isUnlocked = true
+        }
+
         val wave1 = GuildActivitiesManager.rollSiegeWaveEnemies(1)
-        assertTrue("Wave 1 should have 5..10 enemies", wave1.size in 5..10)
+        assertTrue("Wave 1 should have 5..10 enemies, got ${wave1.size}", wave1.size in 5..10)
         // Verify no bosses in wave
         for (e in wave1) {
-            assertTrue("No boss rarity in wave: ${e.getTrueClass()}", e.getRarity() < 2)
             assertNotEquals("SlimeKing", e.getTrueClass())
             assertNotEquals("Shadow", e.getTrueClass())
         }
     }
 
     @Test
-    fun testRequestGemReward() {
+    fun testRequestVictoryHasNoGemReward() {
         val state = MainActivity.data.guildActivitiesState
         MainActivity.data.gems = 100L
 
         GuildActivitiesManager.onRequestVictory(MainActivity.data.guildRequest!!)
 
-        // Request pays a flat gem reward (replaces the removed reputation system).
-        assertEquals(100L + GuildActivitiesManager.REQUEST_GEM_REWARD, MainActivity.data.gems)
+        // The Hunt no longer awards gems on completion.
+        assertEquals("Victory must not add gems", 100L, MainActivity.data.gems)
         assertEquals(GuildActivitiesState.STATUS_COMPLETED, state.requestStatus)
         assertTrue(state.requestRewardClaimed)
 
-        // Subsequent victory should not re-award gems
+        // Subsequent victory should not change anything further
         GuildActivitiesManager.onRequestVictory(MainActivity.data.guildRequest!!)
-        assertEquals(100L + GuildActivitiesManager.REQUEST_GEM_REWARD, MainActivity.data.gems)
+        assertEquals("Victory must not add gems", 100L, MainActivity.data.gems)
+    }
+
+    @Test
+    fun testHuntVictoryProducesShadowGeodeDrop() {
+        val req = MainActivity.data.guildRequest!!
+        val hero = Adventurer.getInstance("Footman", 1, 50, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+        hero.currentHp = hero.calculateTotalMaxHp()
+        MainActivity.data.adventurers.add(hero)
+
+        val pet = Pet.getInstance("Semi", 1)!!
+        pet.level = 2000
+        pet.opportunist = 100.0 // executes any alive enemy
+        MainActivity.data.pets.add(pet)
+
+        req.adventurersExploringIds.add(hero.id)
+        req.petExploringId = pet.id
+        req.setupAdventurers(MainActivity.data.adventurers, MainActivity.data.pets)
+
+        // Prepare a finished fight: enemies already dead, bodies in corpses.
+        val wave = listOfNotNull(
+            Enemy.getInstance("VoidSlime"),
+            Enemy.getInstance("Shadow"),
+            Enemy.getInstance("VoidSlime")
+        )
+        for (e in wave) e.currentHp = 0
+        req.corpses = java.util.concurrent.CopyOnWriteArrayList(wave)
+        req.enemies = java.util.concurrent.CopyOnWriteArrayList()
+        req.action = Action(Action.FIGHT)
+
+        var guard = 0
+        while (guard < 60 && req.adventurersExploringIds.isNotEmpty()) {
+            req.tick()
+            guard++
+        }
+
+        val shadowDropped = req.drops.any { it.getTrueClass() == "Geode" }
+        assertTrue("Shadow must drop its Geode in The Hunt; drops=${req.drops.joinToString { it.getTrueClass() ?: "?" }}", shadowDropped)
+    }
+
+    @Test
+    fun testHuntAndSiegeCannotRefillWithGems() {
+        // No gem purchases for extra tries on guild activities — 1 try per reroll.
+        assertFalse("The Hunt must not allow gem refills", MainActivity.data.guildRequest!!.canRefillWithGems())
+        assertFalse("The Siege must not allow gem refills", MainActivity.data.guildSiege!!.canRefillWithGems())
+    }
+
+    @Test
+    fun testForceRerollHuntAndSiege() {
+        val state = MainActivity.data.guildActivitiesState
+        state.requestStatus = GuildActivitiesState.STATUS_COMPLETED
+        state.requestRewardClaimed = true
+        state.siegeStatus = GuildActivitiesState.STATUS_FAILED
+        state.siegeWavesCleared = 7
+
+        val ok = GuildActivitiesManager.forceRerollHuntAndSiege()
+        assertTrue("Reroll should succeed when nothing is exploring", ok)
+        assertEquals(GuildActivitiesState.STATUS_ACTIVE, state.requestStatus)
+        assertFalse(state.requestRewardClaimed)
+        assertEquals(GuildActivitiesState.STATUS_ACTIVE, state.siegeStatus)
+        assertEquals(0, state.siegeWavesCleared)
+        assertEquals(0, MainActivity.data.guildRequest?.progress)
+        assertEquals(0, MainActivity.data.guildSiege?.progress)
+        assertTrue("Reroll must stamp a fresh day boundary", state.requestDayBoundary != 0L)
+        assertTrue("Reroll must stamp a fresh week boundary", state.siegeWeekBoundary != 0L)
+    }
+
+    @Test
+    fun testRerollRedeemCode() {
+        val state = MainActivity.data.guildActivitiesState
+        state.requestStatus = GuildActivitiesState.STATUS_COMPLETED
+        state.requestRewardClaimed = true
+        state.siegeStatus = GuildActivitiesState.STATUS_COMPLETED
+
+        val result = RedeemCodes.process("REROLL", null)
+        assertNotNull("REROLL must return a message", result)
+        assertEquals(GuildActivitiesState.STATUS_ACTIVE, state.requestStatus)
+        assertFalse(state.requestRewardClaimed)
+        assertEquals(GuildActivitiesState.STATUS_ACTIVE, state.siegeStatus)
+    }
+
+    @Test
+    fun testSiegeWaveUsesSingleAreaWithRules() {
+        // Unlock every area on the CURRENT Data instance so the wave planner sees it.
+        val allAreas = ArrayList<Area>()
+        for (field in Data::class.java.declaredFields) {
+            if (Area::class.java.isAssignableFrom(field.type)) {
+                field.isAccessible = true
+                (field.get(MainActivity.data) as? Area)?.let { allAreas.add(it) }
+            }
+        }
+        for (a in allAreas) a.isUnlocked = true
+
+        val forest = MainActivity.data.enchantedForest!!
+        val forestAllowed = GuildActivitiesManager.siegeAllowedMonsters(forest)
+        assertTrue("Enchanted Forest should have spawnable monsters", forestAllowed.isNotEmpty())
+        assertFalse("Enchanted Forest must exclude GoldenRabbit", forestAllowed.contains("GoldenRabbit"))
+
+        val divine = MainActivity.data.divineArcheology!!
+        assertEquals("Divine Archeology must only spawn Sand Demon", listOf("SandDemon"), GuildActivitiesManager.siegeAllowedMonsters(divine))
+
+        val grave = MainActivity.data.ancientGraveDigging!!
+        val graveAllowed = GuildActivitiesManager.siegeAllowedMonsters(grave)
+        assertFalse("Ancient Grave Digging must exclude KabarTheRotten", graveAllowed.contains("KabarTheRotten"))
+        assertFalse("Ancient Grave Digging must exclude Necrolith", graveAllowed.contains("Necrolith"))
+
+        val city = MainActivity.data.theGoldenCity!!
+        assertFalse("The Golden City must exclude Imperial Captain", GuildActivitiesManager.siegeAllowedMonsters(city).contains("ImperialCaptain"))
+
+        val dire = MainActivity.data.theDireDescent!!
+        assertTrue("Dire Descent must never spawn monsters", GuildActivitiesManager.siegeAllowedMonsters(dire).isEmpty())
+
+        val tower = MainActivity.data.theTower!!
+        val towerAllowed = GuildActivitiesManager.siegeAllowedMonsters(tower)
+        assertTrue("The Tower must include Lazarus/Phoenix/HeadlessKnight", towerAllowed.containsAll(listOf("Lazarus", "Phoenix", "HeadlessKnight")))
+
+        for (w in listOf(1, 5, 10)) {
+            val wave = GuildActivitiesManager.rollSiegeWaveEnemies(w)
+            assertTrue("Wave $w should have 5..10 enemies, got ${wave.size}", wave.size in 5..10)
+        }
     }
 
     @Test
@@ -141,9 +272,13 @@ class GuildActivitiesTest {
         val wrapper = drops?.keys?.first()
         assertNotNull("Shadow should have a Geode drop", wrapper)
         assertTrue(wrapper!!.item is Geode)
+        assertEquals("Shadow must drop a stack of 3 Geodes", 3, (wrapper.item as? Geode)?.stack)
         val gemValue = (wrapper!!.item as? Geode)?.getGemValue()
         assertNotNull("Geode from Shadow must carry a preset gem value", gemValue)
         assertTrue("Geode value must be one of 100/50/20", gemValue in setOf(100, 50, 20))
+        // The drop itself must be guaranteed (weight is per-1000).
+        val rolled = Utils.rollFromWeightedMap(shadow?.listDrops(0))
+        assertNotNull("Shadow's Geode must always roll", rolled)
     }
 
     @Test
@@ -157,9 +292,17 @@ class GuildActivitiesTest {
     }
 
     @Test
-    fun testUtilsCompileRaidListIncludesGuildActivities() {
+    fun testGuildActivitiesLiveInTheirOwnListNotRaids() {
         val raids = Utils.compileRaidList()
-        assertTrue("Raid list must include GuildRequest", raids.any { it is GuildRequestArea })
-        assertTrue("Raid list must include GuildSiege", raids.any { it is GuildSiegeArea })
+        assertFalse("Raids tab must NOT include The Hunt", raids.any { it is GuildRequestArea })
+        assertFalse("Raids tab must NOT include The Siege", raids.any { it is GuildSiegeArea })
+
+        val guild = Utils.compileGuildActivitiesList()
+        assertTrue("Guild Activities list must include The Hunt", guild.any { it is GuildRequestArea })
+        assertTrue("Guild Activities list must include The Siege", guild.any { it is GuildSiegeArea })
+
+        val all = Utils.compileDungeonRaidList()
+        assertTrue("Aggregate list must include The Hunt", all.any { it is GuildRequestArea })
+        assertTrue("Aggregate list must include The Siege", all.any { it is GuildSiegeArea })
     }
 }

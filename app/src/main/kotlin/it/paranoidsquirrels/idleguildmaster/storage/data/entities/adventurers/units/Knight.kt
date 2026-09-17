@@ -15,6 +15,7 @@ class Knight : Adventurer() {
         baseDefense = 20
         baseMagicDefense = 20
         threat = 2
+        attackConstitutionScaling = 1.5 // 150% CON weapon scaling (Knight branch)
         imageId = R.drawable.unit_knight
         idName = R.string.adventurer_knight_name
         idDescription = R.string.adventurer_knight_description

@@ -15,6 +15,7 @@ class AngelOfWar : Adventurer() {
         baseDefense = 20
         baseMagicDefense = 40
         threat = 2
+        attackConstitutionScaling = 1.5 // 150% CON weapon scaling
         darknessReduction = 50
         immunityToStatus = 0.7
         imageId = R.drawable.unit_angel_of_war

@@ -145,6 +145,9 @@ abstract class Entity {
     open fun getThreat(): Int = threat
     open fun getNegativeStatusEffects(): List<StatusEffect> = negativeStatusEffects
     open fun setNegativeStatusEffects(list: MutableList<StatusEffect>) { negativeStatusEffects = list }
+
+    /** True when this unit carries Bloodblaze: burns each turn and cannot benefit from healing. */
+    open fun hasBloodblaze(): Boolean = negativeStatusEffects.any { it.type == StatusEffectType.BLOODBLAZE }
     open fun getPositiveStatusEffects(): List<StatusEffect> = positiveStatusEffects
     open fun setPositiveStatusEffects(list: MutableList<StatusEffect>) { positiveStatusEffects = list }
     open fun calculateOnDeathEffectsOnEnemies(): List<StatusEffect> = onDeathEffectsOnEnemies

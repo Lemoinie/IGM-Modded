@@ -105,6 +105,11 @@ abstract class Area {
     open fun adventurersNumber(): Int = 4
     open fun completed(): Boolean = false
     open fun costToRefresh(): Int = 30
+    /** Whether the player may spend gems to refill tries. Guild activities disallow this. */
+    open fun canRefillWithGems(): Boolean = true
+    /** Called when the player retreats from this area (default: no side effects). */
+    open fun onRetreat() {
+    }
     abstract fun getAreaType(): Int
     abstract fun getDarkness(): Int
     abstract fun getDetailDrawable(): Int
@@ -892,6 +897,24 @@ abstract class Area {
                         Logger.log(this, 17, entity, statusEffect, iApplyDamage2)
                         z4 = true
                     }
+                    StatusEffectType.BLOODBLAZE -> {
+                        // Same burn as Ablaze but without the on-fire bonus: exactly 5% of max HP
+                        // as magic damage at the start of the unit's turn.
+                        val dMagicDamageAmplificationBlood = magicDamageAmplification()
+                        val petBloodblaze = this.petExploring
+                        val barrierBloodblaze = if (petBloodblaze == null || !z3) 0 else petBloodblaze.barrier
+                        val iBloodblazeDamage = entity.applyDamage(
+                            Utils.round(0.05 * iCalculateTotalMaxHp.toDouble() * dMagicDamageAmplificationBlood).toDouble(),
+                            true,
+                            barrierBloodblaze,
+                            0.0
+                        )
+                        if (!z3) {
+                            QuestsManager.increment(QuestsManager.slowBurn, iBloodblazeDamage.toLong())
+                        }
+                        Logger.log(this, Logger.STATUS_BLOODBLAZE, entity, statusEffect, iBloodblazeDamage)
+                        z4 = true
+                    }
                     StatusEffectType.TERRIFY -> {
                         val dMagicDamageAmplification2 = magicDamageAmplification()
                         val pet4 = this.petExploring
@@ -902,10 +925,12 @@ abstract class Area {
                         i4 = 2
                     }
                     StatusEffectType.REGENERATION -> {
-                        val cause3 = statusEffect.cause
-                        val regenBonus = if (cause3 != null) 0.06 + (cause3.regenerationBonus.toDouble() * 0.01) else 0.06
-                        iRound += Utils.round(regenBonus * iCalculateTotalMaxHp.toDouble())
-                        Logger.log(this, 18, entity, statusEffect)
+                        if (!entity.hasBloodblaze()) {
+                            val cause3 = statusEffect.cause
+                            val regenBonus = if (cause3 != null) 0.06 + (cause3.regenerationBonus.toDouble() * 0.01) else 0.06
+                            iRound += Utils.round(regenBonus * iCalculateTotalMaxHp.toDouble())
+                            Logger.log(this, 18, entity, statusEffect)
+                        }
                     }
                     StatusEffectType.BLEED -> {
                         val turnsLeft = statusEffect.turnsLeft + 1
@@ -957,7 +982,7 @@ abstract class Area {
             z = z4
         }
 
-        if (iRound > 0 && entity.currentHp > 0 && entity.currentHp < iCalculateTotalMaxHp) {
+        if (!entity.hasBloodblaze() && iRound > 0 && entity.currentHp > 0 && entity.currentHp < iCalculateTotalMaxHp) {
             val currentHp = entity.currentHp
             val iMin = Math.min(iCalculateTotalMaxHp, currentHp + iRound)
             entity.currentHp = iMin
@@ -1032,7 +1057,7 @@ abstract class Area {
         val z2 = entity is Adventurer
         val pet = this.petExploring
         val z: Boolean
-        if (!z2 || pet == null || dCalculateCriticalMultiplier <= 1.0 || pet.savage <= 0.0 || Utils.random() >= pet.savage / 100.0) {
+        if (!z2 || pet == null || dCalculateCriticalMultiplier <= 1.0 || pet.getSavage() <= 0.0 || Utils.random() >= pet.getSavage() / 100.0) {
             z = false
         } else {
             dCalculateCriticalMultiplier *= dCalculateCriticalMultiplier
@@ -1045,15 +1070,17 @@ abstract class Area {
         val iMax = Math.max(1, Utils.round(entity.rollAttackDamage() * dCalculateCriticalMultiplier * dCalculateHealingModifier * 0.5))
         val currentHp = entity2.currentHp
         val iCalculateTotalMaxHp = entity2.calculateTotalMaxHp()
-        val iMin = Math.min(iCalculateTotalMaxHp, currentHp + iMax)
-        entity2.currentHp = iMin
-        if (z2) {
-            QuestsManager.increment(QuestsManager.medic, (iMin - currentHp).toLong())
-        }
-        if (entity.maxOverheal > 0) {
-            val i2 = (iMax - iCalculateTotalMaxHp) + currentHp
-            val overhealCap = Utils.round(iCalculateTotalMaxHp.toDouble() * 0.01 * entity.maxOverheal.toDouble())
-            entity2.currentShield = Math.max(entity2.currentShield, Math.min(entity2.currentShield + Math.max(0, i2), overhealCap))
+        if (!entity2.hasBloodblaze()) {
+            val iMin = Math.min(iCalculateTotalMaxHp, currentHp + iMax)
+            entity2.currentHp = iMin
+            if (z2) {
+                QuestsManager.increment(QuestsManager.medic, (iMin - currentHp).toLong())
+            }
+            if (entity.getMaxOverheal() > 0) {
+                val i2 = (iMax - iCalculateTotalMaxHp) + currentHp
+                val overhealCap = Utils.round(iCalculateTotalMaxHp.toDouble() * 0.01 * entity.getMaxOverheal().toDouble())
+                entity2.currentShield = Math.max(entity2.currentShield, Math.min(entity2.currentShield + Math.max(0, i2), overhealCap))
+            }
         }
         val logTier = if (z) 2 else if (dCalculateCriticalMultiplier > 1.0) 1 else 0
         Logger.log(this, 24, logTier, entity, entity2, iMax)
@@ -1199,9 +1226,9 @@ abstract class Area {
                 skill.setDamageAmplification(2.0).execute()
             }
             Skills.ACTIVE_OVERWHELM -> skill.setStatusEffect(StatusEffect(StatusEffectType.STUN, entity, 1, 0.7)).setDamageAmplification(3.0).execute()
-            Skills.ACTIVE_DECIMATE_I -> skill.setTargetSelectionMode("all_enemies").setStatusEffect(StatusEffect(StatusEffectType.STUN, entity, 1, 0.7)).setDamageAmplification(3.0).execute()
-            Skills.ACTIVE_DECIMATE_II -> skill.setTargetSelectionMode("all_enemies").setStatusEffect(StatusEffect(StatusEffectType.STUN, entity, 1, 1.0)).setDamageAmplification(3.0).execute()
-            Skills.ACTIVE_DECIMATE_III -> skill.setTargetSelectionMode("all_enemies").setStatusEffect(StatusEffect(StatusEffectType.STUN, entity, 1, 1.0)).setDamageAmplification(4.0).execute()
+            Skills.ACTIVE_DECIMATE_I -> skill.setTargetSelectionMode("all_enemies").setStatusEffect(StatusEffect(StatusEffectType.BLOODBLAZE, entity, 1, 0.7)).setDamageAmplification(3.0).execute()
+            Skills.ACTIVE_DECIMATE_II -> skill.setTargetSelectionMode("all_enemies").setStatusEffect(StatusEffect(StatusEffectType.BLOODBLAZE, entity, 1, 1.0)).setDamageAmplification(3.0).execute()
+            Skills.ACTIVE_DECIMATE_III -> skill.setTargetSelectionMode("all_enemies").setStatusEffect(StatusEffect(StatusEffectType.BLOODBLAZE, entity, 1, 1.0)).setDamageAmplification(4.0).execute()
             Skills.ACTIVE_CONDEMN -> skill.setStatusEffect(StatusEffect(StatusEffectType.SILENCE, entity, 1, 1.0)).applyEffectOnDodge().setDamageAmplification(2.5).execute()
             Skills.ACTIVE_CONDEMN_ALL_I -> skill.setTargetSelectionMode("all_enemies").setStatusEffect(StatusEffect(StatusEffectType.SILENCE, entity, 1, 1.0)).applyEffectOnDodge().setDamageAmplification(2.5).execute()
             Skills.ACTIVE_CONDEMN_ALL_II -> skill.setTargetSelectionMode("all_enemies").setStatusEffect(StatusEffect(StatusEffectType.SILENCE, entity, 2, 1.0)).applyEffectOnDodge().setDamageAmplification(2.5).execute()
@@ -1534,7 +1561,7 @@ abstract class Area {
 
         var dCalculateCriticalMultiplier = if (flatDamage) 1.0 else calculateCriticalMultiplier(entity, skill, entity2.criticalReduction)
         val pet2 = this.petExploring
-        val isSuperCrit = !z4 && pet2 != null && dCalculateCriticalMultiplier > 1.0 && pet2.savage > 0.0 && Utils.random() < pet2.savage / 100.0
+        val isSuperCrit = !z4 && pet2 != null && dCalculateCriticalMultiplier > 1.0 && pet2.getSavage() > 0.0 && Utils.random() < pet2.getSavage() / 100.0
         if (isSuperCrit) {
             dCalculateCriticalMultiplier *= dCalculateCriticalMultiplier
         }
@@ -1579,7 +1606,7 @@ abstract class Area {
             dRollAttackDamage * dCalculateCriticalMultiplier * livingCompanionBonusDamage * dCalculateTotalDarknessDamageAmplification * statusDamageMultiplier * dMagicDamageAmplification,
             zIsMagic,
             barrier,
-            entity.armorIgnored
+            entity.getArmorIgnored()
         )
 
         if (z4) {
@@ -1623,7 +1650,7 @@ abstract class Area {
         if (skill != null && entity.activeSkill == Skills.ACTIVE_FRAGMENTATION) {
             iRound = 1000
         }
-        if (iRound > 0) {
+        if (!entity.hasBloodblaze() && iRound > 0) {
             val currentHp = entity.currentHp
             val iCalculateTotalMaxHp = entity.calculateTotalMaxHp()
             val iMin = Math.min(iCalculateTotalMaxHp, currentHp + iRound)
@@ -1650,6 +1677,12 @@ abstract class Area {
             }
             if (entity2.currentHp < entity.currentHp && entity.stunChanceOnLowerHp > 0.0) {
                 applyStatus(entity2, StatusEffect(StatusEffectType.STUN, entity, 1, entity.stunChanceOnLowerHp), entity.calculateIgnoreImmunityToStatus() * 0.01)
+            }
+            // Subjugate/Subjugate II: each basic attack hit sets Bloodblaze on the target.
+            when (entity.passiveSkill) {
+                Skills.PASSIVE_SUBJUGATE_I -> applyStatus(entity2, StatusEffect(StatusEffectType.BLOODBLAZE, entity, 1, 1.0), entity.calculateIgnoreImmunityToStatus() * 0.01)
+                Skills.PASSIVE_SUBJUGATE_II -> applyStatus(entity2, StatusEffect(StatusEffectType.BLOODBLAZE, entity, 2, 1.0), entity.calculateIgnoreImmunityToStatus() * 0.01)
+                else -> {}
             }
         }
 
@@ -1749,15 +1782,15 @@ abstract class Area {
     private fun healingNova() {
         var healMissingHpOnEnemyDeath = 0.0
         for (adventurer in this.adventurersExploring) {
-            if (adventurer.currentHp > 0) {
-                healMissingHpOnEnemyDeath += adventurer.healMissingHpOnEnemyDeath.toDouble() * adventurer.calculateHealingModifier()
+            if (adventurer.currentHp > 0 && !adventurer.hasBloodblaze()) {
+                healMissingHpOnEnemyDeath += adventurer.getHealMissingHpOnEnemyDeath().toDouble() * adventurer.calculateHealingModifier()
             }
         }
         if (healMissingHpOnEnemyDeath == 0.0) {
             return
         }
         for (adventurer2 in this.adventurersExploring) {
-            if (adventurer2.currentHp > 0) {
+            if (adventurer2.currentHp > 0 && !adventurer2.hasBloodblaze()) {
                 val iCalculateTotalMaxHp = adventurer2.calculateTotalMaxHp()
                 adventurer2.currentHp = Math.min(
                     iCalculateTotalMaxHp,
@@ -1890,7 +1923,7 @@ abstract class Area {
             val pet = this.petExploring
             val barrier = if (pet == null || entity !is Adventurer) 0 else pet.barrier
             if (iCalculateRetaliationPhysicalDamage > 0) {
-                val iApplyDamage = entity.applyDamage(iCalculateRetaliationPhysicalDamage.toDouble(), false, barrier, entity2.armorIgnored)
+                val iApplyDamage = entity.applyDamage(iCalculateRetaliationPhysicalDamage.toDouble(), false, barrier, entity2.getArmorIgnored())
                 Logger.log(this, 46, entity, iApplyDamage)
                 if (entity2 is Adventurer) {
                     QuestsManager.increment(QuestsManager.spiky, iApplyDamage.toLong())
@@ -1900,7 +1933,7 @@ abstract class Area {
                 if (i > 0 && entity2 is Adventurer) {
                     QuestsManager.increment(QuestsManager.activeDeterrent, 1L)
                 }
-                val iApplyDamage2 = entity.applyDamage(Utils.round(magicDamageAmplification() * iCalculateRetaliationMagicalDamage.toDouble()).toDouble(), true, barrier, entity2.armorIgnored)
+                val iApplyDamage2 = entity.applyDamage(Utils.round(magicDamageAmplification() * iCalculateRetaliationMagicalDamage.toDouble()).toDouble(), true, barrier, entity2.getArmorIgnored())
                 Logger.log(this, 46, entity, iApplyDamage2)
                 if (entity2 is Adventurer) {
                     QuestsManager.increment(QuestsManager.spiky, iApplyDamage2.toLong())

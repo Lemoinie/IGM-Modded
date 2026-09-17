@@ -17,6 +17,7 @@ class DivineChampion : Adventurer() {
         baseDefense = 20
         baseMagicDefense = 20
         threat = 3
+        attackConstitutionScaling = 1.5 // 150% CON weapon scaling
         counterattack = 0.6
         onSelfHit = StatusEffect(StatusEffectType.DEFENSIVE_STANCE, this, 999, 0.3)
         imageId = R.drawable.unit_divine_champion

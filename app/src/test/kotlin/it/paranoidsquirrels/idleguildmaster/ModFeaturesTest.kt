@@ -4,15 +4,20 @@ import it.paranoidsquirrels.idleguildmaster.game.redeem.RedeemCodes
 import it.paranoidsquirrels.idleguildmaster.storage.data.Data
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.EndOfTurnAction
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.Skills
+import it.paranoidsquirrels.idleguildmaster.storage.data.entities.StatusEffect
+import it.paranoidsquirrels.idleguildmaster.storage.data.entities.StatusEffectType
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.Adventurer
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.PotionsDrank
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.Trait
+import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.doctrines.Doctrine
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.doctrines.DoctrineAbilityType
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.EliteEnemy
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.Enemy
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.Item
+import it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Sword
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.instances.*
 import it.paranoidsquirrels.idleguildmaster.storage.data.pets.Pet
+import it.paranoidsquirrels.idleguildmaster.storage.data.pets.PetAbility
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.dungeons.TheGoldenCity
 import it.paranoidsquirrels.idleguildmaster.ui.dialogs.ModChangelog
 import org.junit.Assert.*
@@ -150,12 +155,22 @@ class ModFeaturesTest {
         val pet = MainActivity.data.pets.find { it.trueClass == "Senko" }
         assertNotNull(pet)
         assertEquals(5, pet?.level)
+
+        val shopResult = RedeemCodes.process("SHOP", null)
+        assertNotNull(shopResult)
+        assertTrue("SHOP must flag new merchant items", MainActivity.data.isNewMerchantRegularItems)
+
+        // data.adventurers is non-empty here (the HERO above created one), so the
+        // vanilla quest extraction actually generates a fresh quest board.
+        val questResult = RedeemCodes.process("QUEST", null)
+        assertNotNull(questResult)
+        assertTrue("QUEST must repopulate King's quests", MainActivity.data.kingsQuests.isNotEmpty())
     }
     @Test
     fun testModAboutChangelogEntries() {
         val entries = ModChangelog.parseVersionEntries()
         assertTrue(entries.isNotEmpty())
-        assertTrue("Top entry must be 1.3.0.4", entries[0].title.startsWith("1.3.0.4"))
+        assertTrue("Top entry must be 1.3.1.7", entries[0].title.startsWith("1.3.1.7"))
         assertTrue("Bottom entry must be 1.0.0.0", entries.last().title.startsWith("1.0.0.0"))
     }
 
@@ -267,5 +282,210 @@ class ModFeaturesTest {
 
         assertEquals("E1 must be dead after hit 1", 0, e1.currentHp)
         assertTrue("E2 must take damage from remaining arrows", e2.currentHp < initialHpE2)
+    }
+
+    @Test
+    fun testPetSavageActivatesAfterProgrammaticLevelChange() {
+        // Mirrors the PET redeem path: the pet is created (abilities configured at the
+        // factory's level 1), then its level is set afterwards WITHOUT reconfiguring.
+        val pet = Pet.getInstance("Semi", 1)!!
+        pet.petAbility4 = PetAbility.SAVAGE
+        pet.level = 2000
+        pet.refreshAbilities()
+        assertEquals(
+            "Savage must be recomputed from the new level (2000 * 0.3 = 600)",
+            600.0,
+            pet.getSavage(),
+            0.001
+        )
+        assertTrue("Savage must be > 0 so the super-crit roll can fire", pet.getSavage() > 0.0)
+    }
+
+    @Test
+    fun testDoctrineOfGraceOverhealAndHealingNovaFlowThroughGetters() {
+        // Grace abilities: index 4 = OVERHEAL (max level 2, +5/level -> 10), index 5 = HEALING_NOVA (max level 1, +7/level -> 7)
+        val grace = Doctrine.getInstance("DoctrineOfGrace", 0, 0, 0, 0, 2, 1)!!
+        val hero = Adventurer.getInstance("Footman", 1, 45, 0, null, null, null, null, null, PotionsDrank(), grace, false)!!
+        assertTrue("getMaxOverheal() must include the doctrine", hero.getMaxOverheal() > 0)
+        assertEquals("raw maxOverheal field stays 0 — combat MUST read the getter", 0, hero.maxOverheal)
+        assertTrue("getHealMissingHpOnEnemyDeath() must include the doctrine", hero.getHealMissingHpOnEnemyDeath() > 0)
+        assertEquals("raw healMissingHpOnEnemyDeath field stays 0 — combat MUST read the getter", 0, hero.healMissingHpOnEnemyDeath)
+    }
+
+    @Test
+    fun testDoctrineOfWarTacticalKnowledgeIgnoresArmor() {
+        // War abilities: index 3 = TACTICAL_KNOWLEDGE (max level 2, +20/level -> 40 = the advertised 40% armor ignore), so it maps to l4
+        val war = Doctrine.getInstance("DoctrineOfWar", 0, 0, 0, 2, 0, 0)!!
+        val hero = Adventurer.getInstance("Footman", 1, 45, 0, null, null, null, null, null, PotionsDrank(), war, false)!!
+        assertEquals("Tactical Knowledge must ignore 40% armor", 0.40, hero.getArmorIgnored(), 0.001)
+        assertEquals("raw armorIgnored field stays 0 — combat MUST read the getter", 0.0, hero.armorIgnored, 0.0)
+
+        // Behavioral check: a high-defense target takes noticeably more damage past 40% armor ignore.
+        val enemy = Enemy.getInstance("Wolf")!!
+        enemy.baseDefense = 100
+        enemy.baseMagicDefense = 100
+        enemy.currentHp = 100000
+        val damageWithIgnore = enemy.applyDamage(1000.0, false, 0, hero.getArmorIgnored())
+        enemy.currentHp = 100000
+        val damageWithoutIgnore = enemy.applyDamage(1000.0, false, 0, 0.0)
+        assertTrue(
+            "40% armor ignore must yield more damage (got $damageWithIgnore vs $damageWithoutIgnore)",
+            damageWithIgnore > damageWithoutIgnore
+        )
+    }
+
+    @Test
+    fun testOverhealFromDoctrineOfGraceGrantsShield() {
+        val grace = Doctrine.getInstance("DoctrineOfGrace", 0, 0, 0, 0, 2, 1)!!
+        val healer = Adventurer.getInstance("Paladin", 1, 45, 0, null, null, null, null, null, PotionsDrank(), grace, false)!!
+        val target = Adventurer.getInstance("Footman", 2, 45, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+        // Full HP: all healed amount overflows into the overheal shield.
+        target.currentHp = target.calculateTotalMaxHp()
+        target.currentShield = 0
+        val area = MainActivity.data.enchantedForest!!
+        area.heal(healer, target, null)
+        assertTrue(
+            "Overheal from Doctrine of Grace must grant a shield (got ${target.currentShield})",
+            target.currentShield > 0
+        )
+    }
+
+    @Test
+    fun testAdventurerAttackStatScaling() {
+        val sword = (Item.getInstance("CopperSword", 1) as? Sword)!!
+
+        // Default scaling must be 1.0 so vanilla classes are unaffected.
+        val footman = Adventurer.getInstance("Footman", 1, 5, 0, sword, null, null, null, null, PotionsDrank(), null, false)!!
+        assertEquals("Default CON scaling must be 1.0", 1.0, footman.attackConstitutionScaling, 0.001)
+        assertEquals("Default INT scaling must be 1.0", 1.0, footman.attackIntelligenceScaling, 0.001)
+        assertEquals("Default DEX scaling must be 1.0", 1.0, footman.attackDexterityScaling, 0.001)
+
+        // The CON-scaling classes must be configured at 150%.
+        val regent = Adventurer.getInstance("BlackRegent", 1, 45, 0, sword, null, null, null, null, PotionsDrank(), null, false)!!
+        assertEquals("BlackRegent must scale CON at 150%", 1.5, regent.attackConstitutionScaling, 0.001)
+        val angel = Adventurer.getInstance("AngelOfWar", 1, 45, 0, sword, null, null, null, null, PotionsDrank(), null, false)!!
+        assertEquals("AngelOfWar must scale CON at 150%", 1.5, angel.attackConstitutionScaling, 0.001)
+        val champion = Adventurer.getInstance("DivineChampion", 1, 45, 0, sword, null, null, null, null, PotionsDrank(), null, false)!!
+        assertEquals("DivineChampion must scale CON at 150%", 1.5, champion.attackConstitutionScaling, 0.001)
+
+        // Behavioral check: raising the scaling on the same character must raise sword damage
+        // (Swords scale damage off CON, so a 150% CON scaling must yield more damage).
+        val baseline = footman.calculateMinAttackDamage()
+        footman.attackConstitutionScaling = 1.5
+        val boosted = footman.calculateMinAttackDamage()
+        assertTrue(
+            "150% CON scaling must increase sword damage ($baseline -> $boosted)",
+            boosted > baseline
+        )
+    }
+
+    @Test
+    fun testBloodblazeStatusEffectAndNoStacking() {
+        val enemy = Enemy.getInstance("Wolf")!!
+        enemy.addStatusEffect(StatusEffect(StatusEffectType.BLOODBLAZE, enemy, 3, 1.0), 1.0)
+        val bb = enemy.negativeStatusEffects.firstOrNull { it.type == StatusEffectType.BLOODBLAZE }
+        assertNotNull("Bloodblaze must be applied", bb)
+        assertEquals(3, bb?.turnsLeft)
+        assertTrue("hasBloodblaze() must report true", enemy.hasBloodblaze())
+
+        // Same as Ablaze: a shorter application must NOT stack / refresh.
+        assertEquals(0, enemy.addStatusEffect(StatusEffect(StatusEffectType.BLOODBLAZE, enemy, 1, 1.0), 1.0))
+        assertEquals(3, enemy.negativeStatusEffects.first { it.type == StatusEffectType.BLOODBLAZE }.turnsLeft)
+
+        // A longer application replaces (refreshes upward).
+        enemy.addStatusEffect(StatusEffect(StatusEffectType.BLOODBLAZE, enemy, 5, 1.0), 1.0)
+        assertEquals(5, enemy.negativeStatusEffects.first { it.type == StatusEffectType.BLOODBLAZE }.turnsLeft)
+        assertEquals(1, enemy.negativeStatusEffects.count { it.type == StatusEffectType.BLOODBLAZE })
+    }
+
+    @Test
+    fun testBloodblazeBlocksHealing() {
+        val area = MainActivity.data.enchantedForest!!
+        val healer = Adventurer.getInstance("Paladin", 1, 45, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+        val target = Adventurer.getInstance("Footman", 2, 5, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+        val maxHp = target.calculateTotalMaxHp()
+        target.currentHp = maxHp - 10
+
+        // Without Bloodblaze healing works.
+        area.heal(healer, target, null)
+        assertTrue("Normal heal must restore HP", target.currentHp > maxHp - 10)
+
+        // With Bloodblaze healing is fully blocked.
+        target.currentHp = maxHp - 10
+        target.addStatusEffect(StatusEffect(StatusEffectType.BLOODBLAZE, healer, 5, 1.0), 1.0)
+        assertTrue(target.hasBloodblaze())
+        val before = target.currentHp
+        area.heal(healer, target, null)
+        assertEquals("Bloodblaze must block all healing", before, target.currentHp)
+    }
+
+    @Test
+    fun testDecimateAppliesBloodblaze() {
+        val area = TheGoldenCity()
+        val overlord = Adventurer.getInstance("Overlord", 1, 40, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+        overlord.activeSkill = Skills.ACTIVE_DECIMATE_II
+        overlord.alwaysHits = true
+        area.adventurersExploring.add(overlord)
+        val wolf = Enemy.getInstance("Wolf")!!
+        wolf.baseDefense = 0
+        wolf.baseMagicDefense = 0
+        wolf.currentHp = 999999
+        area.enemies.add(wolf)
+
+        area.cast(overlord)
+
+        val bb = wolf.negativeStatusEffects.firstOrNull { it.type == StatusEffectType.BLOODBLAZE }
+        assertNotNull("Decimate must afflict hit targets with Bloodblaze", bb)
+        assertEquals("Decimate must set Bloodblaze for 1 turn", 1, bb?.turnsLeft)
+    }
+
+    @Test
+    fun testSubjugatePassivesApplyBloodblaze() {
+        val area = TheGoldenCity()
+
+        // Subjugate I (Overlord): bloodblaze for 1 turn on basic hits.
+        val overlord = Adventurer.getInstance("Overlord", 1, 40, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+        overlord.alwaysHits = true
+        val wolf1 = Enemy.getInstance("Wolf")!!
+        wolf1.baseDefense = 0
+        wolf1.baseMagicDefense = 0
+        wolf1.currentHp = 999999
+        area.dealDamage(overlord, wolf1, null, null)
+        val bb1 = wolf1.negativeStatusEffects.firstOrNull { it.type == StatusEffectType.BLOODBLAZE }
+        assertNotNull("Subjugate I must afflict Bloodblaze on hit", bb1)
+        assertEquals(1, bb1?.turnsLeft)
+
+        // Subjugate II (BlackRegent): bloodblaze for 2 turns on basic hits.
+        val regent = Adventurer.getInstance("BlackRegent", 1, 45, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+        regent.alwaysHits = true
+        val wolf2 = Enemy.getInstance("Wolf")!!
+        wolf2.baseDefense = 0
+        wolf2.baseMagicDefense = 0
+        wolf2.currentHp = 999999
+        area.dealDamage(regent, wolf2, null, null)
+        val bb2 = wolf2.negativeStatusEffects.firstOrNull { it.type == StatusEffectType.BLOODBLAZE }
+        assertNotNull("Subjugate II must afflict Bloodblaze on hit", bb2)
+        assertEquals(2, bb2?.turnsLeft)
+    }
+
+    @Test
+    fun testKnightBranchConScaling() {
+        val knightBranch = listOf(
+            "Knight", "DarkKnight", "DeathKnight", "Scourge", "Tyrant", "Overlord",
+            "BlackRegent", "HolyKnight", "Paladin", "Templar", "Inquisitor", "Justiciar", "AngelOfWar"
+        )
+        for (cls in knightBranch) {
+            val hero = Adventurer.getInstance(cls, 1, 5, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+            assertEquals("$cls (Knight branch) must scale CON at 150%", 1.5, hero.attackConstitutionScaling, 0.001)
+        }
+        val guardBranch = listOf(
+            "Guard", "RoyalGuard", "RoyalSwordsman", "RoyalCaptain", "KingsHand",
+            "DivineDuelist", "IronWarden", "IronDefender", "Juggernaut", "Titan",
+            "UndyingBastion", "EternalFortress"
+        )
+        for (cls in guardBranch) {
+            val hero = Adventurer.getInstance(cls, 1, 5, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+            assertEquals("$cls (Guard branch) must keep default 100% CON scaling", 1.0, hero.attackConstitutionScaling, 0.001)
+        }
     }
 }

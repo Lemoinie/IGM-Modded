@@ -148,15 +148,29 @@ Mod features are implemented as **native game code** in the source tree rather t
 injected patches. The remaining "mod-specific" surface is thin and clearly located:
 
 - **Redeem-code console** — `game/redeem/RedeemCodes.kt` services the in-game
-  Redeem Code dialog (`ui/dialogs/DialogRedeemCode.kt`) with `GOLD`, `STORAGE`,
-  `IDLETIME`, `LOOTCAP`, `SHOP`, `QUEST`, `KILLS`, `SETKILLS`, `ITEM`, `HERO`, and
-  `PET` commands; each command mutates live `Data` and persists via
+  Redeem Code dialog (`ui/dialogs/DialogRedeemCode.kt`) with `REROLL`, `SHOP`,
+  `QUEST`, `GOLD`, `STORAGE`, `IDLETIME`, `LOOTCAP`, `KILLS`, `SETKILLS`, `ITEM`,
+  `HERO`, and `PET` commands; each command mutates live `Data` and persists via
   `FileManager.saveNow(...)`.
-- **Guild Activities** — Daily Request (`GuildRequestArea`) and Weekly Siege
-  (`GuildSiegeArea`) are real raid areas under `storage/data/places/raids/`, driven
-  by `game/activities/GuildActivitiesManager.kt` + `GuildActivitiesState.kt`
+- **Guild Activities** — The Hunt (`GuildRequestArea`) and The Siege (`GuildSiegeArea`)
+  live under `storage/data/places/raids/` and are driven by
+  `game/activities/GuildActivitiesManager.kt` + `GuildActivitiesState.kt`
   (boundaries/status/rewards, hooked into `Utils.tick24Hours/tickWeek/refreshCooldowns`).
-  Shadow's loot drops a Geode with a preset gem yield (10%/20%/70% → 100/50/20).
+  They render on the **5th "Guild Activities" bottom-nav tab**
+  (`ui/guildactivities/GuildActivitiesFragment` + `fragment_guild_activities.xml`);
+  they are **not** part of `Utils.compileRaidList()` (the Raids tab) but *are* included
+  in `Utils.compileGuildActivitiesList()` and the `compileDungeonRaidList()` aggregate.
+  The Hunt is a daily encounter with 1–4 Void Slimes (70% → 1, 20% → 2, 10% → 4) and
+  Shadow always in the middle (no gem reward). The Siege is a 10-wave weekly defense:
+  each wave picks **one** dungeon/raid (weighted toward harder areas on later waves)
+  and spawns 5–10 of that area's monsters, honouring per-area rules in
+  `GuildActivitiesManager.siegeAllowedMonsters()` (e.g. Divine Archeology = Sand Demon
+  only, Ancient Grave Digging excludes Kabar/Necrolith, Dire Descent never spawns).
+  The battle UI (`DialogDungeonDetail`) renders up to 10 enemies per wave. Shadow's loot
+  drops a Geode (weight 1000/1000 = guaranteed) with a preset gem yield
+  (10%/20%/70% → 100/50/20). Both areas override `Area.canRefillWithGems()` to `false` —
+  extra tries can never be bought with gems (1 try per period; the `REROLL` redeem code
+  grants a fresh Hunt + Siege).
 - **Progression overrides** — `Data` carries the mod's persisted tuning knobs
   (`imperialKills`, `idleTimeCapHours`, `lootCap`) which are consumed by normal game
   systems: `TheGoldenCity` (Imperial Captain spawn/kill counter), `MainActivity`

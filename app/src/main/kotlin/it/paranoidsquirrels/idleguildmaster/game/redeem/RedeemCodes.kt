@@ -3,6 +3,7 @@ package it.paranoidsquirrels.idleguildmaster.game.redeem
 import android.content.Context
 import it.paranoidsquirrels.idleguildmaster.MainActivity
 import it.paranoidsquirrels.idleguildmaster.Utils
+import it.paranoidsquirrels.idleguildmaster.game.activities.GuildActivitiesManager
 import it.paranoidsquirrels.idleguildmaster.storage.FileManager
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.Adventurer
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.PotionsDrank
@@ -10,15 +11,17 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.Tr
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.Item
 import it.paranoidsquirrels.idleguildmaster.storage.data.pets.Pet
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.dungeons.TheGoldenCity
+import it.paranoidsquirrels.idleguildmaster.storage.data.quests.QuestsManager
 
 /**
  * Redeem-code console for the player. Codes modify live game state directly and
  * persist through [FileManager.saveNow].
  *
  * Supported codes (case-insensitive):
- * - `SHOP`            – force restock of regular merchant offers
- * - `QUEST`           – refresh / reroll King's quests
- * - `GOLD <amount>`   – add gold to the guild vault
+ * - `REROLL`         – force reroll of The Hunt and The Siege (refreshes both)
+ * - `SHOP`           – force restock of the traveling merchant (regular + special)
+ * - `QUEST`          – refresh / reroll all King's quests
+ * - `GOLD <amount>`  – add gold to the guild vault
  * - `STORAGE <slots>` – expand warehouse capacity
  * - `IDLETIME <h>`    – offline-idle cap in hours (12..168)
  * - `LOOTCAP <cap>`   – dungeon chest loot cap (override)
@@ -34,10 +37,23 @@ object RedeemCodes {
         if (code.isNullOrBlank() || MainActivity.data == null) return null
         val upper = code.trim().uppercase()
 
+        if (upper == "REROLL") {
+            return if (GuildActivitiesManager.forceRerollHuntAndSiege()) {
+                FileManager.saveNow(context)
+                "Hunt & Siege rerolled!"
+            } else {
+                "Cannot reroll while a party is exploring!"
+            }
+        }
         if (upper == "SHOP") {
-            refreshMerchantStock()
-            FileManager.saveNow(context)
-            return "Shop refreshed!"
+            return try {
+                Utils.refreshMerchantRegularStock()
+                Utils.refreshMerchantSpecialReserve()
+                MainActivity.headquartersFragment.refresh()
+                (MainActivity.dungeonsFragment?.activity as? MainActivity)?.refreshIcons()
+                FileManager.saveNow(context)
+                "Shop refreshed!"
+            } catch (e: Exception) { "Failed to refresh shop" }
         }
         if (upper.startsWith("GOLD ")) {
             return try {
@@ -71,13 +87,13 @@ object RedeemCodes {
             } catch (e: Exception) { "Usage: LOOTCAP <10-16000>" }
         }
         if (upper == "QUEST") {
-            try {
-                MainActivity.data.kingsQuests.clear()
+            return try {
+                QuestsManager.extractQuests()
                 MainActivity.data.isQuestsRefreshed = true
                 MainActivity.headquartersFragment.refresh()
                 FileManager.saveNow(context)
-                return "Quests refreshed!"
-            } catch (e: Exception) { return "Failed to refresh quests" }
+                "Quests refreshed!"
+            } catch (e: Exception) { "Failed to refresh quests" }
         }
         if (upper == "KILLS") {
             val kills = MainActivity.data.imperialKills
@@ -102,19 +118,6 @@ object RedeemCodes {
         }
 
         return null
-    }
-
-    /** Forces an immediate restock of regular merchant offers. */
-    @JvmStatic
-    fun refreshMerchantStock() {
-        try {
-            val d = MainActivity.data ?: return
-            d.merchantRegularStockItems.clear()
-            d.isNewMerchantRegularItems = true
-            MainActivity.headquartersFragment.refresh()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
     }
 
     @JvmStatic
@@ -178,6 +181,7 @@ object RedeemCodes {
             val id = Utils.calculateNewPetId()
             val pet = Pet.getInstance(petClass, id) ?: return "Pet '$petClass' not found"
             pet.level = level
+            pet.refreshAbilities()
             MainActivity.data.pets.add(pet)
             MainActivity.headquartersFragment.refresh()
             FileManager.saveNow(context)

@@ -15,6 +15,7 @@ class Overlord : Adventurer() {
         baseDefense = 20
         baseMagicDefense = 20
         threat = 2
+        attackConstitutionScaling = 1.5 // 150% CON weapon scaling (Knight branch)
         stunChanceOnLowerHp = 0.5
         imageId = R.drawable.unit_overlord
         idName = R.string.adventurer_overlord_name

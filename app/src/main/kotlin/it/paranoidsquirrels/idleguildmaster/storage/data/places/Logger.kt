@@ -19,6 +19,8 @@ object Logger {
     const val AMULET_OF_RESURRECTION = 119
     const val ARCANE_SUPPRESSION = 116
     const val BARD_SHIELD = 120
+    const val YELLOW_LOG = 121
+    const val STATUS_BLOODBLAZE = 122
     const val BOTCHED_OFFERING = 115
     private const val COLOR_FORMAT = "<font color=%s><strong>%s</strong></font>"
     const val DARKNESS_DESCRIPTION = 1
@@ -124,6 +126,10 @@ object Logger {
             var red4 = GREEN
 
             when (i) {
+                121 -> {
+                    val formatArgs = objArr.drop(1).toTypedArray()
+                    strWrap = wrap(String.format(RESOURCES!!.getString((objArr[0] as Number).toInt()), *formatArgs), YELLOW)
+                }
                 55 -> {
                     strWrap = wrap(String.format(RESOURCES!!.getString(R.string.log_progress), RESOURCES!!.getString((objArr[0] as Number).toInt()), (objArr[1] as Number).toInt(), (objArr[2] as Number).toInt()), YELLOW)
                 }
@@ -255,7 +261,7 @@ object Logger {
                     strWrap = String.format(string8, strWrap10, strWrap11, wrap(turnsLeft2, red5))
                     }
                 }
-                17, 19 -> {
+                17, 19, 122 -> {
                     if (zIsSettingVerboseLogs) {
                     entity2 = objArr[0] as Entity
                     statusEffect2 = objArr[1] as StatusEffect

@@ -15,6 +15,7 @@ class Templar : Adventurer() {
         baseDefense = 20
         baseMagicDefense = 30
         threat = 2
+        attackConstitutionScaling = 1.5 // 150% CON weapon scaling (Knight branch)
         darknessReduction = 30
         imageId = R.drawable.unit_templar
         idName = R.string.adventurer_templar_name

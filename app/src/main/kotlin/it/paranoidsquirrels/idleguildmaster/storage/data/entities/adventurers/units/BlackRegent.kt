@@ -15,6 +15,7 @@ class BlackRegent : Adventurer() {
         baseDefense = 20
         baseMagicDefense = 20
         threat = 2
+        attackConstitutionScaling = 1.5 // 150% CON weapon scaling
         stunChanceOnLowerHp = 1.0
         imageId = R.drawable.unit_black_regent
         idName = R.string.adventurer_black_regent_name

@@ -15,6 +15,7 @@ class Tyrant : Adventurer() {
         baseDefense = 20
         baseMagicDefense = 20
         threat = 2
+        attackConstitutionScaling = 1.5 // 150% CON weapon scaling (Knight branch)
         imageId = R.drawable.unit_tyrant
         idName = R.string.adventurer_tyrant_name
         idDescription = R.string.adventurer_tyrant_description

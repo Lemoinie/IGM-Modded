@@ -68,8 +68,24 @@ object DialogModAbout {
         close.gravity = Gravity.CENTER_HORIZONTAL
         close.setPadding(0, sp(ctx, 12f), 0, sp(ctx, 12f))
         close.setOnClickListener {
+            shownVersionDetailDialog?.dismiss()
+            shownVersionDetailDialog = null
             shownModAboutDialog?.dismiss()
             shownModAboutDialog = null
+        }
+        return close
+    }
+
+    /** Close button used inside the version-detail dialog: only closes the detail. */
+    private fun newDetailCloseButton(ctx: Context): TextView {
+        val close = TextView(ctx)
+        close.setText(R.string.close)
+        close.textSize = 14f
+        close.typeface = Typeface.DEFAULT_BOLD
+        close.setTextColor(-0x4f4f50) // 0xFFB0B0B0
+        close.gravity = Gravity.CENTER_HORIZONTAL
+        close.setPadding(0, sp(ctx, 12f), 0, sp(ctx, 12f))
+        close.setOnClickListener {
             shownVersionDetailDialog?.dismiss()
             shownVersionDetailDialog = null
         }
@@ -106,6 +122,7 @@ object DialogModAbout {
                 .create()
             dialog.window?.setBackgroundDrawableResource(R.drawable.dialog_border)
             dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            dialog.window?.decorView?.setPadding(0, 0, 0, 0)
             dialog.setOnDismissListener { shownModAboutDialog = null }
             shownModAboutDialog = dialog
             dialog.show()
@@ -159,7 +176,7 @@ private class ModAboutAdapter(
 
             val header = TextView(ctx)
             header.text = entry.title + " — " + changeCount(entry.body)
-            header.textSize = 15f
+            header.textSize = 17f
             header.typeface = Typeface.DEFAULT_BOLD
             header.setTextColor(-0x171718) // 0xFFE8E8E8
             header.gravity = Gravity.CENTER_HORIZONTAL
@@ -173,15 +190,15 @@ private class ModAboutAdapter(
             bodyList.setPadding(pad12, 0, pad12, 0)
             bodyList.scrollBarStyle = View.SCROLLBARS_INSIDE_INSET
 
-            val lineHeight = sp(ctx, 20f)
-            val maxHeight = (ctx.resources.displayMetrics.heightPixels * 0.6).toInt()
+            val lineHeight = sp(ctx, 24f)
+            val maxHeight = (ctx.resources.displayMetrics.heightPixels * 0.78).toInt()
             val listHeight = Math.min(lines.size * lineHeight + (lines.size - 1) * pad8, maxHeight)
 
             val body = LinearLayout(ctx)
             body.orientation = LinearLayout.VERTICAL
             body.addView(header, LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT))
             body.addView(bodyList, LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, listHeight))
-            body.addView(newCloseButton(ctx), LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT))
+            body.addView(newDetailCloseButton(ctx), LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT))
 
             val detail = AlertDialog.Builder(ctx, R.style.AlertDialog)
                 .setView(body)
@@ -189,6 +206,7 @@ private class ModAboutAdapter(
                 .create()
             detail.window?.setBackgroundDrawableResource(R.drawable.dialog_border)
             detail.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            detail.window?.decorView?.setPadding(0, 0, 0, 0)
             detail.setOnDismissListener { shownVersionDetailDialog = null }
             shownVersionDetailDialog = detail
             detail.show()
@@ -209,9 +227,9 @@ private class ModAboutAdapter(
         override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
             val row = (convertView as? TextView) ?: TextView(ctx)
             row.text = lines[position]
-            row.textSize = 14f
+            row.textSize = 15f
             row.setTextColor(0xFFE0E0E0.toInt())
-            val pad6 = sp(ctx, 6f)
+            val pad6 = sp(ctx, 8f)
             row.setPadding(0, pad6, 0, pad6)
             return row
         }

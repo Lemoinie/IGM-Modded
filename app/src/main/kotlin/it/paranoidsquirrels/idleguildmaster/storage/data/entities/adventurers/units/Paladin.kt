@@ -15,6 +15,7 @@ class Paladin : Adventurer() {
         baseDefense = 20
         baseMagicDefense = 26
         threat = 2
+        attackConstitutionScaling = 1.5 // 150% CON weapon scaling (Knight branch)
         darknessReduction = 20
         imageId = R.drawable.unit_paladin
         idName = R.string.adventurer_paladin_name

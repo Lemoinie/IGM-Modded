@@ -5,4 +5,5 @@
     <item android:icon="@drawable/bottom_nav_adventurers" android:id="@id/navigation_adventurers" android:title="@string/fragment_name_adventurers" />
     <item android:icon="@drawable/bottom_nav_dungeons" android:id="@id/navigation_dungeons" android:title="@string/fragment_name_dungeons" />
     <item android:icon="@drawable/bottom_nav_raids" android:id="@id/navigation_raids" android:title="@string/fragment_name_raids" />
+    <item android:icon="@drawable/bottom_nav_guild_activities" android:id="@id/navigation_guild_activities" android:title="@string/fragment_name_guild_activities" />
 </menu>

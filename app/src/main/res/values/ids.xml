@@ -234,6 +234,7 @@
     <item type="id" name="container_dungeon" />
     <item type="id" name="container_dungeons" />
     <item type="id" name="container_enemies" />
+    <item type="id" name="container_enemies_extra" />
     <item type="id" name="container_fight" />
     <item type="id" name="container_fortitude_quests" />
     <item type="id" name="container_gems" />
@@ -374,6 +375,11 @@
     <item type="id" name="enemy3" />
     <item type="id" name="enemy4" />
     <item type="id" name="enemy5" />
+    <item type="id" name="enemy6" />
+    <item type="id" name="enemy7" />
+    <item type="id" name="enemy8" />
+    <item type="id" name="enemy9" />
+    <item type="id" name="enemy10" />
     <item type="id" name="epic_raid" />
     <item type="id" name="equipped" />
     <item type="id" name="error" />
@@ -613,6 +619,7 @@
     <item type="id" name="navigation_bar_item_large_label_view" />
     <item type="id" name="navigation_bar_item_small_label_view" />
     <item type="id" name="navigation_dungeons" />
+    <item type="id" name="navigation_guild_activities" />
     <item type="id" name="navigation_header_container" />
     <item type="id" name="navigation_headquarters" />
     <item type="id" name="navigation_raids" />

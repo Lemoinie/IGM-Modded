@@ -15,6 +15,7 @@ class Inquisitor : Adventurer() {
         baseDefense = 20
         baseMagicDefense = 33
         threat = 2
+        attackConstitutionScaling = 1.5 // 150% CON weapon scaling (Knight branch)
         darknessReduction = 40
         imageId = R.drawable.unit_inquisitor
         idName = R.string.adventurer_inquisitor_name

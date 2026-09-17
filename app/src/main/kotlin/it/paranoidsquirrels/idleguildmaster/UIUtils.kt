@@ -59,6 +59,7 @@ import it.paranoidsquirrels.idleguildmaster.ui.dialogs.DialogItemDetail
 import it.paranoidsquirrels.idleguildmaster.ui.dialogs.DialogRefillRaidTry
 import it.paranoidsquirrels.idleguildmaster.ui.dialogs.DialogSendTeam
 import it.paranoidsquirrels.idleguildmaster.ui.dungeons.DungeonsFragment
+import it.paranoidsquirrels.idleguildmaster.ui.guildactivities.GuildActivitiesFragment
 import it.paranoidsquirrels.idleguildmaster.ui.headquarters.HeadquartersFragment
 import it.paranoidsquirrels.idleguildmaster.ui.raids.RaidsFragment
 import java.text.DecimalFormat
@@ -402,6 +403,10 @@ object UIUtils {
                 dialog.show(fragment.parentFragmentManager, "dialog_send_team")
                 return
             }
+            if (!area.canRefillWithGems()) {
+                // Guild activities: 1 try per reroll, no gem refill.
+                return
+            }
             if (MainActivity.shownDialogRefillRaidTry != null) {
                 return
             }
@@ -477,12 +482,13 @@ object UIUtils {
                 1 -> AdventurersFragment()
                 2 -> DungeonsFragment()
                 3 -> RaidsFragment()
+                4 -> GuildActivitiesFragment()
                 else -> HeadquartersFragment()
             }
         }
 
         override fun getItemCount(): Int {
-            return if (RaidsFragment.VISIBLE) 4 else 3
+            return 5
         }
     }
 
