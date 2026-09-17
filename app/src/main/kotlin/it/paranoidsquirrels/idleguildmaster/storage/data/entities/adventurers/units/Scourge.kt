@@ -15,6 +15,7 @@ class Scourge : Adventurer() {
         baseDefense = 20
         baseMagicDefense = 20
         threat = 2
+        attackConstitutionScaling = 1.5 // 150% CON weapon scaling (Knight branch)
         imageId = R.drawable.unit_scourge
         idName = R.string.adventurer_scourge_name
         idDescription = R.string.adventurer_scourge_description

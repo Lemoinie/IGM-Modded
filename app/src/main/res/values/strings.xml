@@ -420,17 +420,17 @@ ABHORRENT CURSE: When the unit dies, a Bone Hydra spawns and fights for the summ
     <string name="active_daze_description">"Deals 10% magic damage to all enemies and STUNS them for 2 turns.
 STUN: the unit skips its turn"</string>
     <string name="active_daze_name">Daze</string>
-    <string name="active_decimate_i_description" formatted="false">"Strikes all enemies for 300% damage. Then, each has 70% chance of being STUNNED.
+    <string name="active_decimate_i_description" formatted="false">"Strikes all enemies for 300% damage. Then, each has 70% chance of being BLOODBLAZED for 1 turn.
 
-STUN: the unit skips its turn."</string>
+BLOODBLAZE: burns for 5% max HP each turn (magic damage) and prevents all healing."</string>
     <string name="active_decimate_i_name">Decimate</string>
-    <string name="active_decimate_ii_description">"Strikes all enemies for 300% damage, then STUNS them.
+    <string name="active_decimate_ii_description">"Strikes all enemies for 300% damage, then BLOODBLAZES them for 1 turn.
 
-STUN: the unit skips its turn."</string>
+BLOODBLAZE: burns for 5% max HP each turn (magic damage) and prevents all healing."</string>
     <string name="active_decimate_ii_name">Decimate II</string>
-    <string name="active_decimate_iii_description">"Strikes all enemies for 400% damage, then STUNS them.
+    <string name="active_decimate_iii_description">"Strikes all enemies for 400% damage, then BLOODBLAZES them for 1 turn.
 
-STUN: the unit skips its turn."</string>
+BLOODBLAZE: burns for 5% max HP each turn (magic damage) and prevents all healing."</string>
     <string name="active_decimate_iii_name">Decimate III</string>
     <string name="active_desert_judgement_description">Attacks 4 random enemies, with each attack doing 150% damage</string>
     <string name="active_desert_judgement_name">Desert Judgement</string>
@@ -3473,13 +3473,15 @@ STUN: the unit skips its turn."</string>
 
 FREEZE: This unit can't dodge and takes 10 physical damage each turn."</string>
     <string name="passive_sub_zero_name">Sub Zero</string>
-    <string name="passive_subjugate_i_description">"This unit has a 2× chance of being targeted by enemies. If the target HP is lower than this unit's HP, 50% STUN chance on hit.
+    <string name="passive_subjugate_i_description">"This unit has a 2× chance of being targeted by enemies. If the target HP is lower than this unit's HP, 50% STUN chance on hit. Basic attacks BLOODBLAZE the target for 1 turn.
 
-STUN: the unit skips its turn"</string>
+STUN: the unit skips its turn
+BLOODBLAZE: burns for 5% max HP each turn (magic damage) and prevents all healing."</string>
     <string name="passive_subjugate_i_name">Subjugate</string>
-    <string name="passive_subjugate_ii_description">"This unit has a 2× chance of being targeted by enemies. If the target HP is lower than this unit's HP, STUNS on hit.
+    <string name="passive_subjugate_ii_description">"This unit has a 2× chance of being targeted by enemies. If the target HP is lower than this unit's HP, STUNS on hit. Basic attacks BLOODBLAZE the target for 2 turns.
 
-STUN: the unit skips its turn"</string>
+STUN: the unit skips its turn
+BLOODBLAZE: burns for 5% max HP each turn (magic damage) and prevents all healing."</string>
     <string name="passive_subjugate_ii_name">Subjugate II</string>
     <string name="passive_swarm_description">Immune to BLEED, STUN, PETRIFY. Reduces all damage to 1. Attacks once per HP point.</string>
     <string name="passive_swarm_name">Swarm</string>
@@ -3892,6 +3894,8 @@ I apologize for the inconvenience."</string>
     <string name="status_effect_abhorrent_curse_description">cursed</string>
     <string name="status_effect_ablaze">Ablaze</string>
     <string name="status_effect_ablaze_description">ablaze</string>
+    <string name="status_effect_bloodblaze">Bloodblaze</string>
+    <string name="status_effect_bloodblaze_description">Burns the target for 5% of its max Health each turn as magic damage, and prevents all healing.</string>
     <string name="status_effect_anointed">Anointed</string>
     <string name="status_effect_anointed_description">anointed</string>
     <string name="status_effect_bleed">Bleed</string>
@@ -4380,11 +4384,19 @@ TAUNT: the taunting unit is always chosen as target"</string>
     <string name="passive_imperial_authority_description" formatted="false">Gains +5% damage and +5 Defense / Magic Defense at the start of each of his turns, stacking up to 5 times.</string>
     <string name="active_execution_order_name">Execution Order</string>
     <string name="active_execution_order_description" formatted="false">Strikes the weakest adventurer for 100% damage. Targets below 50% HP are executed on the spot.</string>
-    <string name="log_the_golden_city_threat" formatted="false">The Imperial Guard is rallying, Imperial Captain threat level: [%d/100]</string>
+    <string name="log_the_golden_city_threat">The Imperial Guard is rallying, Imperial Captain threat level: [%d/100]</string>
     <string name="trait_ruthless_plus_name">Ruthless+</string>
     <string name="trait_ruthless_plus_description" formatted="false">Critical damage +30% (multiplicative).</string>
-    <string name="guild_request_name">Daily Request</string>
-    <string name="guild_siege_name">Weekly Siege</string>
+    <string name="guild_request_name">The Hunt</string>
+    <string name="guild_siege_name">The Siege</string>
+    <string name="fragment_name_guild_activities">Guild Activities</string>
+    <string name="guild_hunt_enter_dungeon">The Guild has a new target. The Hunt begins!</string>
+    <string name="guild_hunt_enter_room">You track your prey through the shadows...</string>
+    <string name="guild_siege_enter_dungeon">The Guild is under attack! The Siege begins!</string>
+    <string name="guild_siege_enter_room">Enemies flood the walls. A new wave closes in!</string>
+    <string name="guild_siege_wave" formatted="false">Wave %d of %d</string>
+    <string name="guild_next_hunt_in">NEW HUNT IN</string>
+    <string name="guild_next_siege_in">NEXT SIEGE IN</string>
     <string name="drawer_mod_about_title">Mod Info / Changelog</string>
     <string name="unit_berserker_name">Berserker</string>
     <string name="unit_berserker_description">A ferocious warrior fueled by unchecked battle frenzy.</string>

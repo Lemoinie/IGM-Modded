@@ -37,7 +37,7 @@ class DialogBestiary : CustomDialog() {
         val b = binding ?: return
         val dungeons = Utils.compileDungeonList().filter { it.isUnlocked }
         val raids = Utils.compileRaidList().filter { it.isUnlocked && it != MainActivity.data.guildRequest && it != MainActivity.data.guildSiege }
-        val other = listOfNotNull(MainActivity.data.guildRequest, MainActivity.data.guildSiege).filter { it.isUnlocked }
+        val other = listOfNotNull(MainActivity.data.guildRequest).filter { it.isUnlocked }
         constraintHeight(b.dungeonsBestiaryList, dungeons.size > 3)
         constraintHeight(b.raidsBestiaryList, raids.size > 3)
         constraintHeight(b.otherBestiaryList, other.size > 3)

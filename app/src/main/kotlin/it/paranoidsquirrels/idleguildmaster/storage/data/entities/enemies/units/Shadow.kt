@@ -40,15 +40,16 @@ class Shadow : Enemy() {
     override fun calculateTotalMaxHp(): Int = 1000
 
     override fun listDrops(i: Int): LinkedHashMap<ItemWrapper, Int> {
-        // Always drops a Geode whose gem yield is rolled here:
-        // 10% -> 100 gems, 20% -> 50 gems, 70% -> 20 gems.
+        // Drops a stack of 3 Geodes whose gem yield is rolled here:
+        // 10% -> 100 gems, 20% -> 50 gems, 70% -> 20 gems (per Geode).
+        // Weight is per-1000, so 1000 = guaranteed drop.
         val drops = LinkedHashMap<ItemWrapper, Int>()
-        val wrapper = ItemWrapper.getInstance("Geode", 1)
+        val wrapper = ItemWrapper.getInstance("Geode", 3)
         (wrapper.item as? Geode)?.let { geode ->
             val r = Utils.random()
             geode.setGemValue(if (r < 0.10) 100 else if (r < 0.30) 50 else 20)
         }
-        drops.put(wrapper, 1)
+        drops.put(wrapper, 1000)
         return drops
     }
 }

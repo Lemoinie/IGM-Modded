@@ -76,6 +76,7 @@ class DialogDungeonDetail : CustomDialog() {
             if (MainActivity.data.isSettingConfirmRetreat) {
                 if (retreatDialog != null) return@setOnClickListener
                 val dialog = UIUtils.getActionDialog(context, R.string.retreat, getString(R.string.retreat_confirmation), R.string.yes) { _, _ ->
+                    a.onRetreat()
                     a.terminationRequested = true
                     dismiss()
                 }
@@ -84,6 +85,7 @@ class DialogDungeonDetail : CustomDialog() {
                 dialog.show()
                 return@setOnClickListener
             }
+            a.onRetreat()
             a.terminationRequested = true
             dismiss()
         }
@@ -129,7 +131,7 @@ class DialogDungeonDetail : CustomDialog() {
             refreshUnit(true, i, advSize)
         }
         val enemySize = a.enemies.size
-        for (i in 1..5) {
+        for (i in 1..10) {
             refreshUnit(false, i, enemySize)
         }
         val pet = a.petExploring
@@ -259,11 +261,11 @@ class DialogDungeonDetail : CustomDialog() {
             3 -> if (isAdventurer) b.adventurer3 else b.enemy3
             4 -> if (isAdventurer) b.adventurer4 else b.enemy4
             5 -> if (isAdventurer) b.adventurer5 else b.enemy5
-            6 -> b.adventurer6
-            7 -> b.adventurer7
-            8 -> b.adventurer8
-            9 -> b.adventurer9
-            10 -> b.adventurer10
+            6 -> if (isAdventurer) b.adventurer6 else b.enemy6
+            7 -> if (isAdventurer) b.adventurer7 else b.enemy7
+            8 -> if (isAdventurer) b.adventurer8 else b.enemy8
+            9 -> if (isAdventurer) b.adventurer9 else b.enemy9
+            10 -> if (isAdventurer) b.adventurer10 else b.enemy10
             11 -> b.adventurer11
             12 -> b.adventurer12
             13 -> b.adventurer13

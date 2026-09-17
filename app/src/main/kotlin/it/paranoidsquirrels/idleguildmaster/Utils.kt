@@ -536,26 +536,8 @@ object Utils {
                 area.refreshTries()
             }
         }
-        MainActivity.data.merchantRegularStockItems.clear()
-        var arrayList: MutableList<Area> = ArrayList(compileDungeonList())
-        arrayList.removeAll { !it.isUnlocked }
-        if (arrayList.size > 4) {
-            arrayList = arrayList.subList(arrayList.size - 4, arrayList.size)
-        }
-        for (area2 in arrayList) {
-            if (area2.isUnlocked) {
-                val item = rollFromWeightedMap(area2.rollMerchantRegularOffers()) as? Item
-                if (item != null) {
-                    val merchantOffer = MerchantOffer(item)
-                    merchantOffer.isGems = false
-                    merchantOffer.price = item.getPrice() * item.getStack().toLong() * 10L
-                    MainActivity.data.merchantRegularStockItems.add(merchantOffer)
-                }
-            }
-        }
-        MainActivity.data.isNewMerchantRegularItems = true
+        refreshMerchantRegularStock()
         (MainActivity.dungeonsFragment?.activity as? MainActivity)?.refreshIcons()
-        MainActivity.shownDialogMerchant?.newItems()
         MainActivity.data.adsWatched = 0
         (MainActivity.dungeonsFragment?.activity as? MainActivity)?.loadAd()
         restoreErroneouslyCompletedEpicRaids()
@@ -573,7 +555,40 @@ object Utils {
         QuestsManager.extractQuests()
         QuestsManager.QUEST_NOTIFICATION = true
         (MainActivity.dungeonsFragment?.activity as? MainActivity)?.refreshIcons()
-        MainActivity.data.merchantSpecialReserve.clear()
+        refreshMerchantSpecialReserve()
+        MainActivity.shownDialogQuests?.dismiss()
+    }
+
+    /** Rerolls the traveling merchant's regular stock (4 latest unlocked dungeons). */
+    @JvmStatic
+    fun refreshMerchantRegularStock() {
+        val d = MainActivity.data
+        d.merchantRegularStockItems.clear()
+        var arrayList: MutableList<Area> = ArrayList(compileDungeonList())
+        arrayList.removeAll { !it.isUnlocked }
+        if (arrayList.size > 4) {
+            arrayList = arrayList.subList(arrayList.size - 4, arrayList.size)
+        }
+        for (area2 in arrayList) {
+            if (area2.isUnlocked) {
+                val item = rollFromWeightedMap(area2.rollMerchantRegularOffers()) as? Item
+                if (item != null) {
+                    val merchantOffer = MerchantOffer(item)
+                    merchantOffer.isGems = false
+                    merchantOffer.price = item.getPrice() * item.getStack().toLong() * 10L
+                    d.merchantRegularStockItems.add(merchantOffer)
+                }
+            }
+        }
+        d.isNewMerchantRegularItems = true
+        MainActivity.shownDialogMerchant?.newItems()
+    }
+
+    /** Rerolls the traveling merchant's special reserve (weekly rotation + unique drops). */
+    @JvmStatic
+    fun refreshMerchantSpecialReserve() {
+        val d = MainActivity.data
+        d.merchantSpecialReserve.clear()
         val listCompileDungeonList = compileDungeonList()
         var currentDungeon: Area? = MainActivity.data.enchantedForest
         var i = 50
@@ -588,34 +603,33 @@ object Utils {
             val merchantOffer = MerchantOffer(item)
             merchantOffer.price = i.toLong()
             merchantOffer.isGems = true
-            MainActivity.data.merchantSpecialReserve.add(merchantOffer)
+            d.merchantSpecialReserve.add(merchantOffer)
         }
         if (random() < 0.55) {
             val itemAegis = Item.getInstance("Aegis")
             val merchantOffer2 = MerchantOffer(itemAegis)
             merchantOffer2.price = 1000L
             merchantOffer2.isGems = true
-            MainActivity.data.merchantSpecialReserve.add(merchantOffer2)
+            d.merchantSpecialReserve.add(merchantOffer2)
         }
         val itemStrand = Item.getInstance("ScarletStrand")
         val merchantOffer3 = MerchantOffer(itemStrand)
         merchantOffer3.price = 650L
         merchantOffer3.isGems = true
-        MainActivity.data.merchantSpecialReserve.add(merchantOffer3)
+        d.merchantSpecialReserve.add(merchantOffer3)
         for (missingUnique in listUniqueDropsMissing()) {
             val itemUnique = Item.getInstance(missingUnique)
             val merchantOffer4 = MerchantOffer(itemUnique)
             merchantOffer4.price = 1L
             merchantOffer4.isGems = true
-            MainActivity.data.merchantSpecialReserve.add(merchantOffer4)
+            d.merchantSpecialReserve.add(merchantOffer4)
         }
         for (i2 in 0 until 3) {
-            MainActivity.data.merchantSpecialReserve.add(rollPotion())
+            d.merchantSpecialReserve.add(rollPotion())
         }
-        MainActivity.data.merchantSpecialReserve.addAll(rollSpecialFoods())
-        MainActivity.data.merchantSpecialReserve.addAll(rollUpgrades())
-        MainActivity.data.isNewMerchantSpecialItems = true
-        MainActivity.shownDialogQuests?.dismiss()
+        d.merchantSpecialReserve.addAll(rollSpecialFoods())
+        d.merchantSpecialReserve.addAll(rollUpgrades())
+        d.isNewMerchantSpecialItems = true
     }
 
     private fun showReviewCard() {
@@ -695,6 +709,19 @@ object Utils {
         val raidsFrag = MainActivity.raidsFragment
         if (raidsFrag?.binding != null) {
             raidsFrag.binding?.raidRefreshTime?.text = String.format(raidsFrag.getString(R.string.time_hours_minutes), i2, i3)
+        }
+        val guildFrag = MainActivity.guildActivitiesFragment
+        if (guildFrag.binding != null) {
+            val lastHunt = (ONE_DAY_IN_MILLISECONDS - (j - MainActivity.data.last24Triggered)) / 60000L
+            val huntHours = (lastHunt / 60L).toInt().coerceAtLeast(0)
+            val huntMinutes = (lastHunt % 60L).toInt().coerceAtLeast(0)
+            val lastSiege = (604800000L - (j - MainActivity.data.lastWeekTriggered)) / 60000L
+            val siegeDays = (lastSiege / 1440L).toInt().coerceAtLeast(0)
+            val siegeRest = lastSiege % 1440L
+            val siegeHours = (siegeRest / 60L).toInt().coerceAtLeast(0)
+            val siegeMinutes = (siegeRest % 60L).toInt().coerceAtLeast(0)
+            guildFrag.binding?.guildHuntRefreshTime?.text = String.format(guildFrag.getString(R.string.time_hours_minutes), huntHours, huntMinutes)
+            guildFrag.binding?.guildSiegeRefreshTime?.text = String.format(guildFrag.getString(R.string.time_days_hours_minutes), siegeDays, siegeHours, siegeMinutes)
         }
         MainActivity.shownDialogMerchant?.refreshCooldowns(i, i2, i3)
         MainActivity.shownDialogQuests?.refreshCooldowns(i, i2, i3)
@@ -1079,12 +1106,16 @@ object Utils {
                 MainActivity.data.theDireDescent,
                 MainActivity.data.sleepingPlanet,
                 MainActivity.data.kaunis,
-                MainActivity.data.theTower,
-                MainActivity.data.guildRequest,
-                MainActivity.data.guildSiege
+                MainActivity.data.theTower
             )
         }
         return raidsList!!
+    }
+
+    /** The guild-activity areas (The Hunt / The Siege), shown on the 5th Guild Activities tab. */
+    @JvmStatic
+    fun compileGuildActivitiesList(): List<Area> {
+        return listOfNotNull(MainActivity.data.guildRequest, MainActivity.data.guildSiege)
     }
 
     @JvmStatic
@@ -1094,6 +1125,7 @@ object Utils {
             dungeonsRaidsList = list
             list.addAll(compileDungeonList())
             list.addAll(compileRaidList())
+            list.addAll(compileGuildActivitiesList())
         }
         return dungeonsRaidsList!!
     }

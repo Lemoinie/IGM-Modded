@@ -36,6 +36,14 @@ class TheGoldenCity : Area() {
         FileManager.saveNow(MainActivity.context)
     }
 
+    /** Retreating also resets the Imperial Guard kill counter. */
+    override fun onRetreat() {
+        super.onRetreat()
+        MainActivity.data.imperialKills = 0
+        FileManager.saveNow(MainActivity.context)
+        Logger.log(this, Logger.YELLOW_LOG, R.string.log_the_golden_city_threat, 0)
+    }
+
     override fun getAreaType(): Int = 0
 
     override fun getDarkness(): Int = 0
@@ -254,13 +262,15 @@ class TheGoldenCity : Area() {
             }
             "kill_ImperialGuard" -> {
                 MainActivity.data.imperialKills = (MainActivity.data.imperialKills + 1).coerceIn(0, 1023)
+                Logger.log(this, Logger.YELLOW_LOG, R.string.log_the_golden_city_threat, MainActivity.data.imperialKills)
             }
             "kill_ImperialCaptain" -> {
                 onImperialCaptainDefeated()
-                Logger.log(this, 100, R.string.log_the_golden_city_threat)
+                Logger.log(this, Logger.YELLOW_LOG, R.string.log_the_golden_city_threat, MainActivity.data.imperialKills)
             }
             "respawn" -> {
                 onTeamWipe()
+                Logger.log(this, Logger.YELLOW_LOG, R.string.log_the_golden_city_threat, MainActivity.data.imperialKills)
                 event = null
             }
             "enter_dungeon" -> {

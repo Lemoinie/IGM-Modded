@@ -135,6 +135,16 @@ abstract class Pet {
         return this.level - prevLevel
     }
 
+    /**
+     * Recomputes ability magnitudes for the current level. Needed whenever the level is
+     * changed programmatically AFTER construction (e.g. the PET redeem code), because the
+     * factory only configured abilities for the original level — otherwise traits such as
+     * Savage stay at their level-1/zero magnitude and never activate.
+     */
+    fun refreshAbilities() {
+        configureAbilities()
+    }
+
     private fun configureAbilities() {
         val isSenko = (trueClass.equals("Senko", ignoreCase = true) || trueClass.equals("Semi", ignoreCase = true) || this is it.paranoidsquirrels.idleguildmaster.storage.data.pets.instances.Senko)
         if (isSenko) {

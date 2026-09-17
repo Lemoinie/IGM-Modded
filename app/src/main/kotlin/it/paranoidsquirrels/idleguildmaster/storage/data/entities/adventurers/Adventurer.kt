@@ -91,6 +91,15 @@ abstract class Adventurer : Entity() {
     @JvmField @Transient var nightVision: Boolean = false
     @JvmField @Transient var nextClasses: MutableList<String> = ArrayList()
 
+    /**
+     * Weapon-stat scaling multipliers (default 1.0). Multiplies each stat BEFORE it feeds into
+     * the weapon's damage modifier, so a class can scale e.g. Constitution at 150% (1.5).
+     * Set inside `configureStatistics()`; never persisted.
+     */
+    @Transient open var attackConstitutionScaling: Double = 1.0
+    @Transient open var attackIntelligenceScaling: Double = 1.0
+    @Transient open var attackDexterityScaling: Double = 1.0
+
     protected abstract fun configureStatistics()
 
     override fun getTeam(): Int = 0
@@ -141,11 +150,10 @@ abstract class Adventurer : Entity() {
 
     override fun calculateMinAttackDamage(): Int {
         val w = weapon ?: return 1
-        var damageModifier = w.getDamageModifier(
-            calculateTotalConstitution(),
-            calculateTotalIntelligence(),
-            calculateTotalDexterity()
-        ).toFloat()
+        val con = Utils.round(calculateTotalConstitution() * attackConstitutionScaling)
+        val int = Utils.round(calculateTotalIntelligence() * attackIntelligenceScaling)
+        val dex = Utils.round(calculateTotalDexterity() * attackDexterityScaling)
+        var damageModifier = w.getDamageModifier(con, int, dex).toFloat()
         if (w is SerpentBite) {
             damageModifier *= getThreat().toFloat()
         }
@@ -154,11 +162,10 @@ abstract class Adventurer : Entity() {
 
     override fun calculateMaxAttackDamage(): Int {
         val w = weapon ?: return 1
-        var damageModifier = w.getDamageModifier(
-            calculateTotalConstitution(),
-            calculateTotalIntelligence(),
-            calculateTotalDexterity()
-        ).toFloat()
+        val con = Utils.round(calculateTotalConstitution() * attackConstitutionScaling)
+        val int = Utils.round(calculateTotalIntelligence() * attackIntelligenceScaling)
+        val dex = Utils.round(calculateTotalDexterity() * attackDexterityScaling)
+        var damageModifier = w.getDamageModifier(con, int, dex).toFloat()
         if (w is SerpentBite) {
             damageModifier *= getThreat().toFloat()
         }

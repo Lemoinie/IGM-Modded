@@ -15,6 +15,7 @@ class Justiciar : Adventurer() {
         baseDefense = 20
         baseMagicDefense = 36
         threat = 2
+        attackConstitutionScaling = 1.5 // 150% CON weapon scaling (Knight branch)
         darknessReduction = 50
         imageId = R.drawable.unit_justiciar
         idName = R.string.adventurer_justiciar_name

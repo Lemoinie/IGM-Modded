@@ -1,5 +1,7 @@
 package it.paranoidsquirrels.idleguildmaster.storage.data.places.raids
 
+import android.os.Handler
+import android.os.Looper
 import it.paranoidsquirrels.idleguildmaster.MainActivity
 import it.paranoidsquirrels.idleguildmaster.R
 import it.paranoidsquirrels.idleguildmaster.Utils
@@ -18,29 +20,42 @@ class GuildRequestArea : Area() {
 
     override fun getDarkness(): Int = 0
 
+    /** The Hunt cannot be re-entered by spending gems — 1 try per reroll, period. */
+    override fun canRefillWithGems(): Boolean = false
+
     override fun getName(): Int = R.string.guild_request_name
 
     override fun getSummaryDrawable(): Int = R.drawable.test_area_image_summary_forest
 
     override fun getDetailDrawable(): Int = R.drawable.area_request
 
-    override fun getLayout(): LayoutDungeonBinding = MainActivity.raidsFragment.binding!!.guildRequest
+    override fun getLayout(): LayoutDungeonBinding = MainActivity.guildActivitiesFragment.binding!!.guildRequest
 
     override fun listAreasUnlocked(): LinkedHashMap<Area, Int> = LinkedHashMap()
 
     override fun listEnemies(): List<Enemy> {
-        return listOfNotNull(Enemy.getInstance("Shadow"), Enemy.getInstance("VoidSlime"))
+        // Only new monsters are shown here (Bestiary "Other" tab must not repeat
+        // monsters that already appear in the Dungeons/Raids tabs). Void Slime is
+        // already listed by TheSlimePond raid.
+        return listOfNotNull(Enemy.getInstance("Shadow"))
     }
 
     public override fun rollEnemies(): MutableList<Enemy> {
         if (progress == 1) {
-            return CopyOnWriteArrayList(
-                listOfNotNull(
-                    Enemy.getInstance("VoidSlime"),
-                    Enemy.getInstance("Shadow"),
-                    Enemy.getInstance("VoidSlime")
+            // Void Slime count: 70% -> 1, 20% -> 2, 10% -> 4. Shadow always sits
+            // in the middle of the formation (slime(s) ... Shadow ... slime(s)).
+            val r = Utils.random()
+            val slimeCount = if (r < 0.70) 1 else if (r < 0.90) 2 else 4
+            val total = slimeCount + 1
+            val shadowIndex = total / 2
+            val result = CopyOnWriteArrayList<Enemy>()
+            for (i in 0 until total) {
+                result.add(
+                    if (i == shadowIndex) Enemy.getInstance("Shadow")
+                    else Enemy.getInstance("VoidSlime")
                 )
-            )
+            }
+            return result
         }
         return CopyOnWriteArrayList()
     }
@@ -51,14 +66,19 @@ class GuildRequestArea : Area() {
 
     override fun triggerEvent(str: String) {
         when (str) {
+            "enter_dungeon" -> {
+                Logger.log(this, Logger.EVENT, R.string.guild_hunt_enter_dungeon)
+            }
             "enter_room" -> {
+                Logger.log(this, Logger.EVENT, R.string.guild_hunt_enter_room)
                 if (progress >= 2) {
                     terminationRequested = true
                 }
             }
             "victory" -> {
+                // Do NOT terminate here: the Area loop still runs the loot() phase for the
+                // bodies that just died. Terminating immediately skipped loot (no drops).
                 GuildActivitiesManager.onRequestVictory(this)
-                terminationRequested = true
             }
             "respawn" -> {
                 progress = 0
@@ -66,12 +86,23 @@ class GuildRequestArea : Area() {
         }
     }
 
+    override fun onRetreat() {
+        super.onRetreat()
+        GuildActivitiesManager.consumeRequestAttempt()
+        refreshTries()
+    }
+
     override fun refreshTries() {
-        if (!Utils.isMainLooper() || MainActivity.raidsFragment == null || MainActivity.raidsFragment.context == null || MainActivity.raidsFragment.binding == null) {
+        if (MainActivity.guildActivitiesFragment.context == null || MainActivity.guildActivitiesFragment.binding == null) {
+            return
+        }
+        if (!Utils.isMainLooper()) {
+            Handler(Looper.getMainLooper()).post { refreshTries() }
             return
         }
         val layout = getLayout()
-        val available = GuildActivitiesManager.isRequestAvailable()
+        val available = GuildActivitiesManager.isRequestAvailable() && adventurersExploringIds.isEmpty()
+        this.triesAvailable = available
         layout.raidTryAvailable.setImageResource(
             if (available) R.drawable.raid_try_available else R.drawable.raid_try_unavailable
         )

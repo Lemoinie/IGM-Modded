@@ -51,6 +51,7 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.quests.QuestsManager
 import it.paranoidsquirrels.idleguildmaster.ui.adventurers.AdventurersFragment
 import it.paranoidsquirrels.idleguildmaster.ui.dialogs.*
 import it.paranoidsquirrels.idleguildmaster.ui.dungeons.DungeonsFragment
+import it.paranoidsquirrels.idleguildmaster.ui.guildactivities.GuildActivitiesFragment
 import it.paranoidsquirrels.idleguildmaster.ui.headquarters.HeadquartersFragment
 import it.paranoidsquirrels.idleguildmaster.ui.raids.RaidsFragment
 import java.util.Arrays
@@ -80,6 +81,9 @@ class MainActivity : AppCompatActivity() {
 
         @JvmField
         var raidsFragment: RaidsFragment = RaidsFragment()
+
+        @JvmField
+        var guildActivitiesFragment: GuildActivitiesFragment = GuildActivitiesFragment()
 
         @JvmField
         var shownAdDialog: AlertDialog? = null
@@ -317,6 +321,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_adventurers -> binding.pager.setCurrentItem(1, true)
                 R.id.navigation_dungeons -> binding.pager.setCurrentItem(2, true)
                 R.id.navigation_raids -> binding.pager.setCurrentItem(3, true)
+                R.id.navigation_guild_activities -> binding.pager.setCurrentItem(4, true)
                 else -> binding.pager.setCurrentItem(0, true)
             }
             true
@@ -413,9 +418,6 @@ class MainActivity : AppCompatActivity() {
         }
         RaidsFragment.VISIBLE = unlocked
         binding.navView.menu.getItem(3)?.isVisible = unlocked
-        if (unlocked) {
-            binding.pager.adapter?.notifyItemInserted(3)
-        }
     }
 
     fun attachListeners() {

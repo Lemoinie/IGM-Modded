@@ -15,6 +15,7 @@ class HolyKnight : Adventurer() {
         baseDefense = 20
         baseMagicDefense = 23
         threat = 2
+        attackConstitutionScaling = 1.5 // 150% CON weapon scaling (Knight branch)
         darknessReduction = 10
         imageId = R.drawable.unit_holy_knight
         idName = R.string.adventurer_holy_knight_name
