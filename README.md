@@ -65,7 +65,7 @@ Originally developed as bytecode and smali injections, this repository represent
 
 ### New Pets
 * **Senko (`storage.data.pets.instances.Senko`)**:
-  * Divine kitsune spirit pet with base stats providing +20% healer power, +5 HP regen/turn, and +1 light.
+  * Divine kitsune spirit pet (Semi). Its 5th trait (Kitsune Spirit Blessing) grants progressive healing: +(level × 0.6)%.
   * Rolls all 4 ability slots from guaranteed abilities (`HEALER`, `REGENERATION`, `DROPS`, `EXPERIENCE`).
 
 ### Balance Reworks
@@ -115,7 +115,7 @@ The in-game Redeem Code dialog (`DialogRedeemCode`) includes a command dispatche
 * **Bestiary Entries**: Added Imperial Captain to The Golden City and enforced `trueClass` tracking for Knight Slime and Imperial Captain in the Bestiary.
 * **Pet Battle Log Interactions**: Tapping the pet avatar in Dungeon and Raid battle logs (`DialogDungeonDetail`) opens the pet's detail dialog.
 * **Imperial Captain Kill Count Reset**: Killing the Imperial Captain or wiping against him resets the Imperial Guard kill counter cleanly to 0 upon round completion.
-* **Pet Senko/Semi 5th Trait Redesign**: Unlocked all 4 traits at Level 1 with no level requirements (normally unlocked at Lv 1, 21, 41, 61), and added a dedicated golden ascended card for the 5th trait (*Kitsune Spirit Blessing*).
+* **Pet Senko/Semi Kitsune Spirit Blessing**: Unlocked all 4 traits at Level 1 with no level requirements (normally unlocked at Lv 1, 21, 41, 61). The 5th trait (Kitsune Spirit Blessing) grants progressive healing (+level × 0.6%) instead of the old fixed +20% (its +5 HP regen/turn and +1 light were removed).
 * **Start New Game Reset**: Added to the Settings dialog (`DialogSettings`). Safely resets all local save data and restarts the game fresh upon two-step confirmation.
 * **Modern App Identity**: Renamed application to **IGM Modded** with Sha unit launcher icon and custom Berserker sprite art.
 * **Nightstall / Black Market**: A 10%-per-day nocturnal stall (guaranteed after 6 consecutive missed days) with up to 12 discounted slots — smuggled materials (−50% gold), a smuggled legendary (ScarletStrand/Aegis: gems at −35% or rare gold), contraband potions, a shady delicacy, a Forbidden Evolution Vial and guild upgrades at −35% gems. Opens from a top-bar icon with a NEW badge; the `BLACK` code summons it.

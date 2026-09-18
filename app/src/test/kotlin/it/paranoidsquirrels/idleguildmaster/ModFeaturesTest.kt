@@ -175,7 +175,7 @@ class ModFeaturesTest {
     fun testModAboutChangelogEntries() {
         val entries = ModChangelog.parseVersionEntries()
         assertTrue(entries.isNotEmpty())
-        assertTrue("Top entry must be 1.3.5.2", entries[0].title.startsWith("1.3.5.2"))
+        assertTrue("Top entry must be 1.3.6.0", entries[0].title.startsWith("1.3.6.0"))
         assertTrue("Bottom entry must be 1.0.0.0", entries.last().title.startsWith("1.0.0.0"))
     }
 
@@ -877,5 +877,22 @@ class ModFeaturesTest {
         val rangedLowest = area.selectTargets(rangedAdv, "lowest_relative_enemy")
         assertNotNull(rangedLowest)
         assertEquals("Ranged unit can target lowest HP flying enemy", flyingEnemy, rangedLowest!![0])
+    }
+
+    @Test
+    fun testKitsuneBlessingProgressesWithLevel() {
+        val low = Pet.getInstance("Semi", 43, 1, 0, PetAbility.EMPTY, PetAbility.EMPTY, PetAbility.EMPTY, PetAbility.EMPTY)!!
+        val high = Pet.getInstance("Semi", 44, 100, 0, PetAbility.EMPTY, PetAbility.EMPTY, PetAbility.EMPTY, PetAbility.EMPTY)!!
+        assertEquals("Blessing at level 1 must be +0.6%", 0.006, low.getKitsuneBlessing(), 0.0001)
+        assertEquals("Blessing at level 100 must be +60%", 0.6, high.getKitsuneBlessing(), 0.0001)
+        assertEquals("Blessing must feed the healer stat", 0.6, high.getHealer(), 0.0001)
+        // Idempotent when abilities are re-computed (level ups / save loads).
+        high.refreshAbilities()
+        high.refreshAbilities()
+        assertEquals(0.6, high.getKitsuneBlessing(), 0.0001)
+        assertEquals(0.6, high.getHealer(), 0.0001)
+        // Removed: +5 regen/turn and +1 light no longer come from the blessing.
+        assertEquals(0, high.bright)
+        assertEquals(0, high.regeneration)
     }
 }

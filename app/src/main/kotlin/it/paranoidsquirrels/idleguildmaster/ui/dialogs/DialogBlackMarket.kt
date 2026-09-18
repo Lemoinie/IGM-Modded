@@ -7,6 +7,7 @@ import android.widget.ListAdapter
 import androidx.viewbinding.ViewBinding
 import it.paranoidsquirrels.idleguildmaster.MainActivity
 import it.paranoidsquirrels.idleguildmaster.R
+import it.paranoidsquirrels.idleguildmaster.TrueTimeUtils
 import it.paranoidsquirrels.idleguildmaster.UIUtils
 import it.paranoidsquirrels.idleguildmaster.Utils
 import it.paranoidsquirrels.idleguildmaster.databinding.DialogBlackMarketBinding
@@ -53,6 +54,14 @@ class DialogBlackMarket : CustomDialog() {
         val isEmpty = MainActivity.data.blackMarketStock.isEmpty()
         b.itemGrid.visibility = if (isEmpty) 8 else 0
         b.noItems.visibility = if (isEmpty) 0 else 8
+
+        // Show the departure countdown (plain text, tavern style): time left until the next daily reset.
+        val remaining = (Utils.ONE_DAY_IN_MILLISECONDS - (TrueTimeUtils.millis() - MainActivity.data.last24Triggered)) / 60000L
+        val days = (remaining / 1440L).toInt().coerceAtLeast(0)
+        val rest = remaining % 1440L
+        val hours = (rest / 60L).toInt().coerceAtLeast(0)
+        val minutes = (rest % 60L).toInt().coerceAtLeast(0)
+        refreshCountdown(days, hours, minutes)
     }
 
     override fun attachListeners() {
@@ -73,7 +82,8 @@ class DialogBlackMarket : CustomDialog() {
     }
 
     fun refreshCountdown(days: Int, hours: Int, minutes: Int) {
-        binding?.itemsHeader?.text = String.format(getString(R.string.time_days_hours_minutes), days, hours, minutes)
+        val text = String.format(getString(R.string.time_days_hours_minutes), days, hours, minutes)
+        binding?.itemsHeader?.text = text
     }
 
     fun newItems() {

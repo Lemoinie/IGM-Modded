@@ -13,9 +13,6 @@ class Senko : Wild() {
         idName = R.string.pet_senko_name
         idDescription = R.string.pet_senko_description
         abilityNumber = 5
-        bright = 1
-        healer = 0.20
-        regeneration = 5
     }
 
     override fun guaranteedFirstAbility(): List<PetAbility> {

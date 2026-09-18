@@ -4377,7 +4377,7 @@ TAUNT: the taunting unit is always chosen as target"</string>
     <string name="yes">YES</string>
     <string name="gpdeku_split_title">gpdeku</string>
     <string name="pet_senko_name">Semi</string>
-    <string name="pet_senko_description" formatted="false">A divine kitsune spirit dedicated to the guild.&lt;br&gt;&lt;br&gt;&lt;b&gt;5th Trait - Kitsune Spirit Blessing:&lt;/b&gt;&lt;br&gt;+20%% Team Healing Received, +5 HP Regen/turn, +1 Light</string>
+    <string name="pet_senko_description">A divine kitsune spirit dedicated to the guild.</string>
     <string name="consumable_evo22_vial_name">Evo-22 Vial</string>
     <string name="consumable_evo22_vial_description">A refined celestial compound that stimulates biological evolution. Permanently upgrades an adventurer\'s common trait into its enhanced PLUS form (Brute+, Feral+, Bookworm+).</string>
     <string name="dialog_consume_evo22_title">Select Adventurer</string>
