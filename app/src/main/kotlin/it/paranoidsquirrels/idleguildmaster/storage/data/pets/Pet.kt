@@ -97,6 +97,8 @@ abstract class Pet {
     @JvmField @Transient var bloodcrave: Double = 0.0
     @JvmField @Transient var lacerate: Double = 0.0
     @JvmField @Transient var serrated: Double = 0.0
+    /** Kitsune Spirit Blessing magnitude currently applied to [healer] (recomputed on every configureAbilities call). */
+    @JvmField @Transient var kitsuneBlessingApplied: Double = 0.0
     @JvmField @Transient var bright: Int = 0
     @JvmField @Transient var experience: Double = 0.0
     @JvmField @Transient var drops: Double = 0.0
@@ -156,6 +158,10 @@ abstract class Pet {
             configureAbility(this.petAbility2, this.level)
             configureAbility(this.petAbility3, this.level)
             configureAbility(this.petAbility4, this.level)
+            // 5th trait: Kitsune Spirit Blessing — progressive healing (+level * 0.6%), applied idempotently.
+            this.healer -= this.kitsuneBlessingApplied
+            this.kitsuneBlessingApplied = this.level * 0.006
+            this.healer += this.kitsuneBlessingApplied
         } else {
             configureAbility(this.petAbility1, this.level)
             configureAbility(this.petAbility2, this.level - 20)
@@ -215,6 +221,7 @@ abstract class Pet {
     open fun getBloodcrave(): Double = bloodcrave
     open fun getLacerate(): Double = lacerate
     open fun getSerrated(): Double = serrated
+    open fun getKitsuneBlessing(): Double = kitsuneBlessingApplied
     open fun getBright(): Int = bright
     open fun getExperience(): Double = experience
     open fun getDrops(): Double = drops

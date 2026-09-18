@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.LinearLayout
 import android.widget.ListView
+import android.widget.ScrollView
 import android.widget.TextView
 import it.paranoidsquirrels.idleguildmaster.R
 
@@ -112,6 +113,16 @@ object DialogModAbout {
 
             val body = LinearLayout(ctx)
             body.orientation = LinearLayout.VERTICAL
+
+            val header = TextView(ctx)
+            header.text = "Changelog (" + ModChangelog.allEntries().size + " versions)"
+            header.textSize = 17f
+            header.typeface = Typeface.DEFAULT_BOLD
+            header.setTextColor(-0x171718) // 0xFFE8E8E8
+            header.gravity = Gravity.CENTER_HORIZONTAL
+            header.setPadding(0, pad8, 0, pad8)
+            body.addView(header, LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT))
+
             body.addView(list, LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, listHeight))
             body.addView(newCloseButton(ctx), LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT))
 
@@ -183,21 +194,34 @@ private class ModAboutAdapter(
             header.setPadding(0, pad8, 0, pad8)
 
             val lines = buildChangeRows(entry.body)
-            val bodyList = ListView(ctx)
-            bodyList.adapter = BodyAdapter(ctx, lines)
-            bodyList.divider = ColorDrawable(Color.TRANSPARENT)
-            bodyList.dividerHeight = pad8
-            bodyList.setPadding(pad12, 0, pad12, 0)
-            bodyList.scrollBarStyle = View.SCROLLBARS_INSIDE_INSET
 
-            val lineHeight = sp(ctx, 24f)
+            // One wrapped TextView inside a ScrollView — height is measured from the REAL
+            // wrapped content (so long single changes like 1.3.5.1 get a proper window),
+            // capped at 78% of the screen with scrolling for anything taller.
+            val textView = TextView(ctx)
+            textView.text = lines.joinToString("\n\n")
+            textView.textSize = 15f
+            textView.setTextColor(0xFFE0E0E0.toInt())
+            val padText = sp(ctx, 8f)
+            textView.setPadding(pad12, padText, pad12, padText)
+
+            val widthHint = ctx.resources.displayMetrics.widthPixels - sp(ctx, 32f)
+            textView.measure(
+                View.MeasureSpec.makeMeasureSpec(widthHint, View.MeasureSpec.AT_MOST),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+            )
             val maxHeight = (ctx.resources.displayMetrics.heightPixels * 0.78).toInt()
-            val listHeight = Math.min(lines.size * lineHeight + (lines.size - 1) * pad8, maxHeight)
+            val contentHeight = textView.measuredHeight + (padText * 2)
+            val listHeight = Math.min(contentHeight, maxHeight).coerceAtLeast(sp(ctx, 40f))
+
+            val scroll = ScrollView(ctx)
+            scroll.setPadding(0, 0, 0, 0)
+            scroll.addView(textView, ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT))
 
             val body = LinearLayout(ctx)
             body.orientation = LinearLayout.VERTICAL
             body.addView(header, LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT))
-            body.addView(bodyList, LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, listHeight))
+            body.addView(scroll, LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, listHeight))
             body.addView(newDetailCloseButton(ctx), LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT))
 
             val detail = AlertDialog.Builder(ctx, R.style.AlertDialog)
@@ -213,25 +237,6 @@ private class ModAboutAdapter(
         } catch (t: Throwable) {
             t.printStackTrace()
             shownVersionDetailDialog = null
-        }
-    }
-
-    private class BodyAdapter(
-        private val ctx: Context,
-        private val lines: List<String>
-    ) : BaseAdapter() {
-        override fun getCount(): Int = lines.size
-        override fun getItem(position: Int): Any = lines[position]
-        override fun getItemId(position: Int): Long = position.toLong()
-
-        override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-            val row = (convertView as? TextView) ?: TextView(ctx)
-            row.text = lines[position]
-            row.textSize = 15f
-            row.setTextColor(0xFFE0E0E0.toInt())
-            val pad6 = sp(ctx, 8f)
-            row.setPadding(0, pad6, 0, pad6)
-            return row
         }
     }
 }

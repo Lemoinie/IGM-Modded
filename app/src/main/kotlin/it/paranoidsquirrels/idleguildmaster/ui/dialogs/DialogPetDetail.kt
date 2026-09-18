@@ -81,12 +81,12 @@ class DialogPetDetail : CustomDialog() {
             b.containerAbility3.visibility = View.VISIBLE
             b.containerAbility4.visibility = View.VISIBLE
 
-            // Redesigned 5th Trait Display Card
+            // Kitsune Spirit Blessing
             b.containerAbility5.visibility = View.VISIBLE
-            b.ability5Name.text = "Kitsune Spirit Blessing (5th Trait)"
-            b.ability5Description.text = Html.fromHtml("<font color=#FFDB7F><b>+20%</b></font> Team Healing &nbsp;•&nbsp; <font color=#7FFF7F><b>+5</b></font> HP Regen/Turn &nbsp;•&nbsp; <font color=#FFFFA0><b>+1</b></font> Light", 0)
-            b.detailTraits.visibility = View.VISIBLE
-            b.detailTraits.text = "5 Traits (All Unlocked)"
+            b.ability5Name.text = "Kitsune Spirit Blessing"
+            val blessingPct = Utils.round(p.getKitsuneBlessing() * 100.0)
+            b.ability5Description.text = Html.fromHtml("<font color=#FFDB7F><b>+$blessingPct%</b></font> Healing", 0)
+            b.detailTraits.visibility = View.GONE
         } else {
             b.ability1Name.text = String.format(getString(R.string.pet_ability_name_unlocked), getString(p.petAbility1.nameRes), p.level)
             b.ability2Name.text = if (p.level > 20) {

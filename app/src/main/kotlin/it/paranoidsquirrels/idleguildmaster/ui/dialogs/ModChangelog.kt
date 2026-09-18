@@ -260,7 +260,13 @@ object ModChangelog {
         "\n" +
         "1.3.5.2 (18/9/2026):\n" +
         "- The Black Market top-bar icon now uses a dedicated black market icon.\n" +
-        "- The Black Market dialog header now shows only the departure countdown (the cluttered \"Tonight's deals ... Departs in:\" bar was removed)." 
+        "- The Black Market dialog header now shows only the departure countdown (the cluttered \"Tonight's deals ... Departs in:\" bar was removed).\n" +
+        "\n" +
+        "1.3.6.0 (18/9/2026):\n" +
+        "- Semi's description is now simply \"A divine kitsune spirit dedicated to the guild.\"\n" +
+        "- Kitsune Spirit Blessing reworked: it now grants progressive healing of +(level * 0.6)% (was a fixed +20%), and the +5 HP regen/turn and +1 light are removed. The \"(5th Trait)\" suffix and the \"5 Traits (All Unlocked)\" label are gone from the pet card; the trait name is just \"Kitsune Spirit Blessing\" with the current % shown.\n" +
+        "- The Black Market header is now a clean plain-text countdown with no header bar — it shows only the time left before the stall departs (like the tavern's \"Next visitor in\").\n" +
+        "- The Mod Info changelog detail now sizes its window from the actual wrapped text of each version (long single-line changes like 1.3.5.1 get a full-size scrollable window, capped at 78% of the screen), and the Changelog header shows the total version count." 
 
     private val MOD_VERSION_LIST: List<VersionEntry> by lazy { parseVersionEntries() }
 
