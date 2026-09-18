@@ -45,60 +45,120 @@ abstract class Area {
         const val BEHAVIOUR_SKIP = 2
         const val EFFECT_PROBABILITY = 0.1
         const val MAX_SIGNIFICANT_PROGRESS = 250
-        @JvmField val TARGET_ALL = "all"
-        @JvmField val TARGET_ALL_ALLIES = "all_allies"
-        @JvmField val TARGET_ALL_ENEMIES = "all_enemies"
-        @JvmField val TARGET_ALL_EXCEPT_SELF = "all_except_self"
-        @JvmField val TARGET_LOWEST_ABSOLUTE_ALLY = "lowest_absolute_ally"
-        @JvmField val TARGET_LOWEST_ABSOLUTE_ENEMY = "lowest_absolute_enemy"
-        @JvmField val TARGET_LOWEST_RELATIVE_ALLY = "lowest_relative_ally"
-        @JvmField val TARGET_LOWEST_RELATIVE_ENEMY = "lowest_relative_enemy"
-        @JvmField val TARGET_LOWEST_SHIELD_ALLY = "lowest_shield_ally"
-        @JvmField val TARGET_MOST_NEGATIVE_CONDITIONS_OR_LOWEST_RELATIVE_ALLY = "most_negative_conditions_or_lowest_relative_ally"
-        @JvmField val TARGET_RANDOM = "random"
-        @JvmField val TARGET_RANDOM_ALLY = "random_ally"
-        @JvmField val TARGET_RANDOM_ALLY_EXCEPT_SELF = "random_ally_except_self"
-        @JvmField val TARGET_RANDOM_ENEMY = "random_enemy"
-        @JvmField val TARGET_RANDOM_EXCEPT_SELF = "random_except_self"
+
+        @JvmField
+        val TARGET_ALL = "all"
+
+        @JvmField
+        val TARGET_ALL_ALLIES = "all_allies"
+
+        @JvmField
+        val TARGET_ALL_ENEMIES = "all_enemies"
+
+        @JvmField
+        val TARGET_ALL_EXCEPT_SELF = "all_except_self"
+
+        @JvmField
+        val TARGET_LOWEST_ABSOLUTE_ALLY = "lowest_absolute_ally"
+
+        @JvmField
+        val TARGET_LOWEST_ABSOLUTE_ENEMY = "lowest_absolute_enemy"
+
+        @JvmField
+        val TARGET_LOWEST_RELATIVE_ALLY = "lowest_relative_ally"
+
+        @JvmField
+        val TARGET_LOWEST_RELATIVE_ENEMY = "lowest_relative_enemy"
+
+        @JvmField
+        val TARGET_LOWEST_SHIELD_ALLY = "lowest_shield_ally"
+
+        @JvmField
+        val TARGET_MOST_NEGATIVE_CONDITIONS_OR_LOWEST_RELATIVE_ALLY = "most_negative_conditions_or_lowest_relative_ally"
+
+        @JvmField
+        val TARGET_RANDOM = "random"
+
+        @JvmField
+        val TARGET_RANDOM_ALLY = "random_ally"
+
+        @JvmField
+        val TARGET_RANDOM_ALLY_EXCEPT_SELF = "random_ally_except_self"
+
+        @JvmField
+        val TARGET_RANDOM_ENEMY = "random_enemy"
+
+        @JvmField
+        val TARGET_RANDOM_EXCEPT_SELF = "random_except_self"
         private val TETHER = StatusEffect(StatusEffectType.FEEBLE_TETHER, null, 0, 0.0)
         const val TYPE_DUNGEON = 0
         const val TYPE_RAID = 1
         const val TYPE_EPIC_RAID = 2
     }
 
-    @Transient open var acting: Entity? = null
+    @Transient
+    open var acting: Entity? = null
     open var action: Action? = null
-    @Transient private var animator: ValueAnimator? = null
+
+    @Transient
+    private var animator: ValueAnimator? = null
     open var event: Event? = null
-    @Transient open var fightRarity: Int = 0
+
+    @Transient
+    open var fightRarity: Int = 0
     open var maxProgress: Int = 0
-    @Transient open var petExploring: Pet? = null
+
+    @Transient
+    open var petExploring: Pet? = null
     open var petExploringId: Int? = null
     open var progress: Int = 0
     open var savedActingEntity: Int? = null
     open var savedPetId: Int? = null
     open var triesAvailable: Boolean = false
     open var turnsFighting: Int = 0
+
     @SerializedName("unlocked")
     open var isUnlocked: Boolean = false
 
     open var savedAdventurersIds: MutableList<Int> = CopyOnWriteArrayList()
     open var adventurersExploringIds: MutableList<Int> = CopyOnWriteArrayList()
     open var drops: MutableList<Item> = CopyOnWriteArrayList()
-    @Transient open var adventurersExploring: MutableList<Adventurer> = CopyOnWriteArrayList()
-    @Transient open var localDarkness: Int = 0
+
+    @Transient
+    open var adventurersExploring: MutableList<Adventurer> = CopyOnWriteArrayList()
+
+    @Transient
+    open var localDarkness: Int = 0
     open var enemies: MutableList<Enemy> = CopyOnWriteArrayList()
     open var corpses: MutableList<Enemy> = CopyOnWriteArrayList()
-    @Transient open var fightingGroup: MutableList<Entity> = ArrayList()
+
+    @Transient
+    open var fightingGroup: MutableList<Entity> = ArrayList()
     open var adventureRecap: AdventureRecap = AdventureRecap()
-    @Transient @JvmField var terminationRequested: Boolean = false
-    @Transient @JvmField var restartRequested: Boolean = false
-    @Transient private var turnEndRequested: Boolean = false
-    @Transient private var success: Double = 0.0
-    @Transient private var failure: Double = 0.0
-    @Transient private var totalProgress: Double = 0.0
+
+    @Transient
+    @JvmField
+    var terminationRequested: Boolean = false
+
+    @Transient
+    @JvmField
+    var restartRequested: Boolean = false
+
+    @Transient
+    private var turnEndRequested: Boolean = false
+
+    @Transient
+    private var success: Double = 0.0
+
+    @Transient
+    private var failure: Double = 0.0
+
+    @Transient
+    private var totalProgress: Double = 0.0
     private var collectedExperienceIn24Hours: Double = 0.0
-    @Transient private var animationInvalidationRequested: Boolean = false
+
+    @Transient
+    private var animationInvalidationRequested: Boolean = false
 
 
     private fun getCurrentInstance(): Area = this
@@ -106,11 +166,14 @@ abstract class Area {
     open fun adventurersNumber(): Int = 4
     open fun completed(): Boolean = false
     open fun costToRefresh(): Int = 30
+
     /** Whether the player may spend gems to refill tries. Guild activities disallow this. */
     open fun canRefillWithGems(): Boolean = true
+
     /** Called when the player retreats from this area (default: no side effects). */
     open fun onRetreat() {
     }
+
     abstract fun getAreaType(): Int
     abstract fun getDarkness(): Int
     abstract fun getDetailDrawable(): Int
@@ -270,6 +333,7 @@ abstract class Area {
                 triggerEvent("enter_dungeon")
                 this.action = Action(1)
             }
+
             1 -> {
                 if (getAreaType() != 0) {
                     incrementProgress()
@@ -296,6 +360,7 @@ abstract class Area {
                     }
                 }
             }
+
             2 -> {
                 if (adventurersAlive() == 0) {
                     if (getAreaType() != 0) {
@@ -323,10 +388,12 @@ abstract class Area {
                     this.action = Action(2)
                 }
             }
+
             3 -> {
                 loot()
                 this.action = Action(if (getAreaType() != 0) 1 else 4)
             }
+
             4 -> {
                 searchRoom()
                 if (adventurersAlive() == 0) {
@@ -343,6 +410,7 @@ abstract class Area {
                     this.action = Action(1)
                 }
             }
+
             5 -> {
                 Logger.log(this, 4)
                 respawn()
@@ -352,6 +420,7 @@ abstract class Area {
                 triggerEvent("respawn")
                 this.action = Action(1)
             }
+
             6 -> {
                 Logger.log(this, 3)
                 triggerEvent("flee")
@@ -373,7 +442,10 @@ abstract class Area {
         val printStream = System.out
         val sb = StringBuilder("Success rate is ")
         val d = this.success
-        printStream.println(sb.append(d / (this.failure + d)).append("; average progress is ").append(this.totalProgress / (this.success + this.failure)).toString())
+        printStream.println(
+            sb.append(d / (this.failure + d)).append("; average progress is ")
+                .append(this.totalProgress / (this.success + this.failure)).toString()
+        )
         System.out.print("team was killed by: ")
         for (enemy in this.enemies) {
             System.out.print(enemy.getTrueClass() + "; ")
@@ -484,21 +556,29 @@ abstract class Area {
                 Skills.PASSIVE_AURA_OF_LIGHT_I -> {
                     immunity = maxOf(immunity, 0.10); undeadBonus = maxOf(undeadBonus, 0.05)
                 }
+
                 Skills.PASSIVE_AURA_OF_LIGHT_II -> {
                     immunity = maxOf(immunity, 0.15); undeadBonus = maxOf(undeadBonus, 0.10)
                 }
+
                 Skills.PASSIVE_AURA_OF_DEVOTION_I -> {
                     immunity = maxOf(immunity, 0.20); undeadBonus = maxOf(undeadBonus, 0.15); flatDr = maxOf(flatDr, 5)
                 }
+
                 Skills.PASSIVE_AURA_OF_DEVOTION_II -> {
                     immunity = maxOf(immunity, 0.30); undeadBonus = maxOf(undeadBonus, 0.20); flatDr = maxOf(flatDr, 8)
                 }
+
                 Skills.PASSIVE_AURA_OF_SANCTITY -> {
-                    immunity = maxOf(immunity, 0.40); undeadBonus = maxOf(undeadBonus, 0.25); flatDr = maxOf(flatDr, 10); regenPct = maxOf(regenPct, 0.03)
+                    immunity = maxOf(immunity, 0.40); undeadBonus = maxOf(undeadBonus, 0.25); flatDr =
+                        maxOf(flatDr, 10); regenPct = maxOf(regenPct, 0.03)
                 }
+
                 Skills.PASSIVE_AURA_OF_THE_SERAPHIM -> {
-                    immunity = maxOf(immunity, 0.50); undeadBonus = maxOf(undeadBonus, 0.30); flatDr = maxOf(flatDr, 15); regenPct = maxOf(regenPct, 0.05)
+                    immunity = maxOf(immunity, 0.50); undeadBonus = maxOf(undeadBonus, 0.30); flatDr =
+                        maxOf(flatDr, 15); regenPct = maxOf(regenPct, 0.05)
                 }
+
                 else -> {}
             }
         }
@@ -508,10 +588,20 @@ abstract class Area {
         if (immunity <= 0.0 && flatDr <= 0 && regenPct <= 0.0 && undeadBonus <= 0.0) {
             return // no living aura-bearer: the buff expires
         }
-        val blessing = StatusEffect(StatusEffectType.RADIANT_BLESSING, null, 1, 1.0, immunity, flatDr, regenPct, undeadBonus)
+        val blessing =
+            StatusEffect(StatusEffectType.RADIANT_BLESSING, null, 1, 1.0, immunity, flatDr, regenPct, undeadBonus)
         for (adventurer in this.adventurersExploring) {
             adventurer.positiveStatusEffects.add(
-                StatusEffect(blessing.type, blessing.cause, blessing.turnsLeft, blessing.probability, blessing.immunity, blessing.flatDr, blessing.regenPct, blessing.undeadDamageBonus)
+                StatusEffect(
+                    blessing.type,
+                    blessing.cause,
+                    blessing.turnsLeft,
+                    blessing.probability,
+                    blessing.immunity,
+                    blessing.flatDr,
+                    blessing.regenPct,
+                    blessing.undeadDamageBonus
+                )
             )
         }
     }
@@ -523,11 +613,13 @@ abstract class Area {
             if (adventurer.currentHp <= 0) continue
             when (adventurer.passiveSkill) {
                 Skills.PASSIVE_AURA_OF_SANCTITY -> {
-                    val mostDebuffed = this.adventurersExploring.filter { it.currentHp > 0 }.maxByOrNull { it.negativeStatusEffects.size }
+                    val mostDebuffed = this.adventurersExploring.filter { it.currentHp > 0 }
+                        .maxByOrNull { it.negativeStatusEffects.size }
                     if (mostDebuffed != null) {
                         cleanseOneNegative(mostDebuffed)
                     }
                 }
+
                 Skills.PASSIVE_AURA_OF_THE_SERAPHIM -> {
                     for (ally in this.adventurersExploring) {
                         if (ally.currentHp > 0) {
@@ -535,6 +627,7 @@ abstract class Area {
                         }
                     }
                 }
+
                 else -> {}
             }
         }
@@ -590,12 +683,13 @@ abstract class Area {
             for (enemy in this.corpses) {
                 val ev = this.event
                 val itemWrapper2 = Utils.rollFromWeightedMap(enemy.listDrops(ev?.key ?: 0)) as? ItemWrapper
-                val itemWrapper: ItemWrapper? = if (this.petExploring == null || (itemWrapper2?.item != null && itemWrapper2.item!!.isNotSellable()) || Utils.random() >= this.petExploring!!.drops / 100.0) {
-                    null
-                } else {
-                    val ev2 = this.event
-                    Utils.rollFromWeightedMap(enemy.listDrops(ev2?.key ?: 0)) as? ItemWrapper
-                }
+                val itemWrapper: ItemWrapper? =
+                    if (this.petExploring == null || (itemWrapper2?.item != null && itemWrapper2.item!!.isNotSellable()) || Utils.random() >= this.petExploring!!.drops / 100.0) {
+                        null
+                    } else {
+                        val ev2 = this.event
+                        Utils.rollFromWeightedMap(enemy.listDrops(ev2?.key ?: 0)) as? ItemWrapper
+                    }
                 if (itemWrapper2 != null) {
                     val item = itemWrapper2.item
                     if (item != null) {
@@ -721,7 +815,16 @@ abstract class Area {
                         }
                         val eff = endOfTurnAction.effect
                         if (eff != null) {
-                            applyStatus(entity4, StatusEffect(eff.type, curActing, eff.turnsLeft + curActing.getInspireExaltBonusTurns(), eff.probability), 0.0)
+                            applyStatus(
+                                entity4,
+                                StatusEffect(
+                                    eff.type,
+                                    curActing,
+                                    eff.turnsLeft + curActing.getInspireExaltBonusTurns(),
+                                    eff.probability
+                                ),
+                                0.0
+                            )
                         }
                     }
                 } else if (endOfTurnAction.procsOnMelee == null || endOfTurnAction.procsOnMelee != curActing.isRanged()) {
@@ -740,7 +843,8 @@ abstract class Area {
 
     private fun attackTargetStrategy(entity: Entity): String {
         var z = false
-        val z2 = entity.passiveSkill == Skills.PASSIVE_CHAOTIC || entity.passiveSkill == Skills.PASSIVE_PRIMORDIAL_HUNGER
+        val z2 =
+            entity.passiveSkill == Skills.PASSIVE_CHAOTIC || entity.passiveSkill == Skills.PASSIVE_PRIMORDIAL_HUNGER
         if (this is LostLands && (entity.passiveSkill == Skills.PASSIVE_PREHISTORIC_AVIAN || entity.passiveSkill == Skills.PASSIVE_PREHISTORIC_COLOSSUS)) {
             val it2 = this.enemies.iterator()
             while (true) {
@@ -774,7 +878,14 @@ abstract class Area {
         val entitySelectPetTarget = selectPetTarget()
         if (entitySelectPetTarget != null) {
             val damage = Utils.round(Math.max(1.0, (0.9 * fighter) + (Utils.random() * fighter * 0.2)))
-            Logger.log(this, 105, R.string.log_damage_dealt, pet, entitySelectPetTarget, entitySelectPetTarget.applyDamage(damage.toDouble(), false, 0, 0.0))
+            Logger.log(
+                this,
+                105,
+                R.string.log_damage_dealt,
+                pet,
+                entitySelectPetTarget,
+                entitySelectPetTarget.applyDamage(damage.toDouble(), false, 0, 0.0)
+            )
             checkDeath(entitySelectPetTarget)
             retaliate(null, entitySelectPetTarget, true, 0)
         }
@@ -805,7 +916,9 @@ abstract class Area {
             return
         }
         for (enemy in this.enemies) {
-            if (enemy.currentHp > 0 && enemy.currentHp.toDouble() / enemy.calculateTotalMaxHp().toDouble() < pet.opportunist / 100.0) {
+            if (enemy.currentHp > 0 && enemy.currentHp.toDouble() / enemy.calculateTotalMaxHp()
+                    .toDouble() < pet.opportunist / 100.0
+            ) {
                 enemy.currentHp = 0
                 Logger.log(this, 108, enemy, pet)
                 checkDeath(enemy)
@@ -859,7 +972,8 @@ abstract class Area {
                 }
             }
         }
-        val statusEffect = StatusEffect(statusEffectType, targetAdventurer, pet.statusEffectTurns, pet.statusEffectChance / 100.0)
+        val statusEffect =
+            StatusEffect(statusEffectType, targetAdventurer, pet.statusEffectTurns, pet.statusEffectChance / 100.0)
         val targetEntity: Entity
         val iAddStatusEffect: Int
         if (statusEffect.type?.negative == true) {
@@ -926,16 +1040,20 @@ abstract class Area {
             val cause = statusEffect.cause
             if (statusEffect.turnsLeft <= 0 || (statusEffect.type == StatusEffectType.TAUNT && (cause == null || cause.currentHp <= 0))) {
                 Logger.log(this, 10, entity, statusEffect.type)
-                (if (statusEffect.type?.negative == true) entity.negativeStatusEffects else entity.positiveStatusEffects).remove(statusEffect)
+                (if (statusEffect.type?.negative == true) entity.negativeStatusEffects else entity.positiveStatusEffects).remove(
+                    statusEffect
+                )
             } else {
                 statusEffect.turnsLeft = statusEffect.turnsLeft - 1
                 when (statusEffect.type) {
                     StatusEffectType.TAUNT -> {
                         Logger.log(this, 13, entity, statusEffect)
                     }
+
                     StatusEffectType.POISON -> {
                         Logger.log(this, 14, entity, statusEffect)
                     }
+
                     StatusEffectType.FROZEN -> {
                         val cause = statusEffect.cause
                         val freezeBonusDamage = cause?.freezeBonusDamage ?: 0
@@ -948,45 +1066,56 @@ abstract class Area {
                         Logger.log(this, 50, entity, statusEffect, iApplyDamage)
                         z4 = true
                     }
+
                     StatusEffectType.STUN, StatusEffectType.STUN_NOT_CLEANSABLE -> {
                         Logger.log(this, 15, entity, statusEffect)
                         i4 = 2
                     }
+
                     StatusEffectType.PETRIFY -> {
                         Logger.log(this, Logger.STATUS_PETRIFIED, entity, statusEffect)
                         i4 = 2
                     }
+
                     StatusEffectType.SILENCE -> {
                         Logger.log(this, 16, entity, statusEffect)
                         if (i4 != 2) {
                             i4 = 1
                         }
                     }
+
                     StatusEffectType.ABLAZE -> {
                         val cause2 = statusEffect.cause
                         val onFireBonusDamage = if (cause2 != null) cause2.onFireBonusDamage.toDouble() * 0.01 else 0.0
                         val dMagicDamageAmplification = magicDamageAmplification()
                         val pet3 = this.petExploring
                         val barrier = if (pet3 == null || !z3) 0 else pet3.barrier
-                        val iApplyDamage2 = entity.applyDamage(Utils.round((onFireBonusDamage + 0.05) * iCalculateTotalMaxHp.toDouble() * dMagicDamageAmplification).toDouble(), true, barrier, 0.0)
+                        val iApplyDamage2 = entity.applyDamage(
+                            Utils.round((onFireBonusDamage + 0.05) * iCalculateTotalMaxHp.toDouble() * dMagicDamageAmplification)
+                                .toDouble(), true, barrier, 0.0
+                        )
                         if (!z3) {
                             QuestsManager.increment(QuestsManager.slowBurn, iApplyDamage2.toLong())
                         }
                         Logger.log(this, 17, entity, statusEffect, iApplyDamage2)
                         z4 = true
                     }
+
                     StatusEffectType.BLOODFLAME -> {
                         // Same burn as Ablaze but without the on-fire bonus: exactly 5% of max HP
                         // as magic damage at the start of the unit's turn, boosted by the
                         // Bloodflame damage bonus of the unit that inflicted it.
                         // The bonus multiplies the 5% burn (e.g. +50% => 5% * 1.5 = 7.5% max HP).
                         val causeBloodflame = statusEffect.cause
-                        val bloodflameDamageBonus = if (causeBloodflame != null) causeBloodflame.getBloodflameDamageBonus().toDouble() * 0.01 else 0.0
+                        val bloodflameDamageBonus =
+                            if (causeBloodflame != null) causeBloodflame.getBloodflameDamageBonus()
+                                .toDouble() * 0.01 else 0.0
                         val dMagicDamageAmplificationBlood = magicDamageAmplification()
                         val petBloodflame = this.petExploring
                         val barrierBloodflame = if (petBloodflame == null || !z3) 0 else petBloodflame.barrier
                         val iBloodflameDamage = entity.applyDamage(
-                            Utils.round(0.05 * (1.0 + bloodflameDamageBonus) * iCalculateTotalMaxHp.toDouble() * dMagicDamageAmplificationBlood).toDouble(),
+                            Utils.round(0.05 * (1.0 + bloodflameDamageBonus) * iCalculateTotalMaxHp.toDouble() * dMagicDamageAmplificationBlood)
+                                .toDouble(),
                             true,
                             barrierBloodflame,
                             0.0
@@ -997,34 +1126,45 @@ abstract class Area {
                         Logger.log(this, Logger.STATUS_BLOODFLAME, entity, statusEffect, iBloodflameDamage)
                         z4 = true
                     }
+
                     StatusEffectType.TERRIFY -> {
                         val dMagicDamageAmplification2 = magicDamageAmplification()
                         val pet4 = this.petExploring
                         val barrier = if (pet4 == null || !z3) 0 else pet4.barrier
-                        val iApplyDamage3 = entity.applyDamage(Utils.round(iCalculateTotalMaxHp.toDouble() * 0.2 * dMagicDamageAmplification2).toDouble(), true, barrier, 0.0)
+                        val iApplyDamage3 = entity.applyDamage(
+                            Utils.round(iCalculateTotalMaxHp.toDouble() * 0.2 * dMagicDamageAmplification2).toDouble(),
+                            true,
+                            barrier,
+                            0.0
+                        )
                         Logger.log(this, Logger.STATUS_TERRIFIED, entity, statusEffect, iApplyDamage3)
                         z4 = true
                         i4 = 2
                     }
+
                     StatusEffectType.REGENERATION -> {
                         if (!entity.hasBloodflame()) {
                             val cause3 = statusEffect.cause
-                            val regenBonus = if (cause3 != null) 0.06 + (cause3.regenerationBonus.toDouble() * 0.01) else 0.06
+                            val regenBonus =
+                                if (cause3 != null) 0.06 + (cause3.regenerationBonus.toDouble() * 0.01) else 0.06
                             iRound += Utils.round(regenBonus * iCalculateTotalMaxHp.toDouble())
                             Logger.log(this, 18, entity, statusEffect)
                         }
                     }
+
                     StatusEffectType.RADIANT_BLESSING -> {
                         if (statusEffect.regenPct > 0.0) {
                             iRound += Utils.round(statusEffect.regenPct * iCalculateTotalMaxHp.toDouble())
                             Logger.log(this, 18, entity, statusEffect)
                         }
                     }
+
                     StatusEffectType.BLEED -> {
                         val turnsLeft = statusEffect.turnsLeft + 1
                         val petBleed = this.petExploring
                         val bloodcraveBonus = if (petBleed != null) petBleed.getBloodcrave() else 0.0
-                        val bleedDamage = if (bloodcraveBonus > 0.0) Utils.round(turnsLeft.toDouble() * (1.0 + bloodcraveBonus * 0.01)) else turnsLeft
+                        val bleedDamage =
+                            if (bloodcraveBonus > 0.0) Utils.round(turnsLeft.toDouble() * (1.0 + bloodcraveBonus * 0.01)) else turnsLeft
                         entity.currentHp = Math.max(0, entity.currentHp - bleedDamage)
                         if (!z3) {
                             QuestsManager.increment(QuestsManager.slowBurn, bleedDamage.toLong())
@@ -1037,6 +1177,7 @@ abstract class Area {
                             Logger.log(this, Logger.STATUS_BLEED_LACERATE, entity, bleedDamage)
                         }
                     }
+
                     StatusEffectType.FEEBLE_TETHER -> {
                         if (entity.currentMana < 100) {
                             entity.currentHp = 0
@@ -1045,6 +1186,7 @@ abstract class Area {
                             z4 = true
                         }
                     }
+
                     else -> {
                     }
                 }
@@ -1071,7 +1213,8 @@ abstract class Area {
             val dMagicDamageAmplification3 = magicDamageAmplification()
             val pet5 = this.petExploring
             val barrier = if (pet5 == null || !z3) 0 else pet5.barrier
-            val applied = entity.applyDamage(damagePerTurnPerStatus.toDouble() * dMagicDamageAmplification3, true, barrier, 0.0)
+            val applied =
+                entity.applyDamage(damagePerTurnPerStatus.toDouble() * dMagicDamageAmplification3, true, barrier, 0.0)
             Logger.log(this, Logger.ARCANE_SUPPRESSION, entity, applied)
             z = true
         } else {
@@ -1118,8 +1261,10 @@ abstract class Area {
         if (entity.isAlwaysHits() || entity2.negativeStatusEffects.contains(StatusEffect.STATIC_INSTANCE_FROZEN)) {
             dMax = 1.0
         } else {
-            val stat1 = if (entity.isMagic()) entity.calculateTotalIntelligence().toDouble() else entity.calculateTotalDexterity().toDouble()
-            val stat2 = if (entity.isMagic()) entity2.calculateTotalIntelligence().toDouble() else entity2.calculateTotalDexterity().toDouble()
+            val stat1 = if (entity.isMagic()) entity.calculateTotalIntelligence()
+                .toDouble() else entity.calculateTotalDexterity().toDouble()
+            val stat2 = if (entity.isMagic()) entity2.calculateTotalIntelligence()
+                .toDouble() else entity2.calculateTotalDexterity().toDouble()
             var hitChance = stat1 / ((stat2 / 5.0) + stat1)
             val entityIsEnemy = entity is Enemy
             val bothEnemies = entityIsEnemy && (entity2 is Enemy)
@@ -1163,7 +1308,10 @@ abstract class Area {
         if (increaseHealingAgainst != null && entity2.getTrueClass() == increaseHealingAgainst.key) {
             dCalculateHealingModifier *= increaseHealingAgainst.value
         }
-        val iMax = Math.max(1, Utils.round(entity.rollAttackDamage() * dCalculateCriticalMultiplier * dCalculateHealingModifier * 0.5))
+        val iMax = Math.max(
+            1,
+            Utils.round(entity.rollAttackDamage() * dCalculateCriticalMultiplier * dCalculateHealingModifier * 0.5)
+        )
         val currentHp = entity2.currentHp
         val iCalculateTotalMaxHp = entity2.calculateTotalMaxHp()
         if (!entity2.hasBloodflame()) {
@@ -1174,8 +1322,10 @@ abstract class Area {
             }
             if (entity.getMaxOverheal() > 0) {
                 val i2 = (iMax - iCalculateTotalMaxHp) + currentHp
-                val overhealCap = Utils.round(iCalculateTotalMaxHp.toDouble() * 0.01 * entity.getMaxOverheal().toDouble())
-                entity2.currentShield = Math.max(entity2.currentShield, Math.min(entity2.currentShield + Math.max(0, i2), overhealCap))
+                val overhealCap =
+                    Utils.round(iCalculateTotalMaxHp.toDouble() * 0.01 * entity.getMaxOverheal().toDouble())
+                entity2.currentShield =
+                    Math.max(entity2.currentShield, Math.min(entity2.currentShield + Math.max(0, i2), overhealCap))
             }
         }
         val logTier = if (z) 2 else if (dCalculateCriticalMultiplier > 1.0) 1 else 0
@@ -1332,7 +1482,16 @@ abstract class Area {
             applyStatus(statusEffect.cause, statusEffect, d)
             return
         }
-        val appliedStatus = StatusEffect(statusEffect.type, statusEffect.cause, statusEffect.turnsLeft, statusEffect.probability, statusEffect.immunity, statusEffect.flatDr, statusEffect.regenPct, statusEffect.undeadDamageBonus)
+        val appliedStatus = StatusEffect(
+            statusEffect.type,
+            statusEffect.cause,
+            statusEffect.turnsLeft,
+            statusEffect.probability,
+            statusEffect.immunity,
+            statusEffect.flatDr,
+            statusEffect.regenPct,
+            statusEffect.undeadDamageBonus
+        )
         if (appliedStatus.type == StatusEffectType.BLEED && entity is Enemy) {
             val petSerrated = this.petExploring
             if (petSerrated != null && petSerrated.getSerrated() > 0.0 && Utils.random() < petSerrated.getSerrated() / 100.0) {
@@ -1374,7 +1533,8 @@ abstract class Area {
         val bloodcraveBonus = if (petHem != null) petHem.getBloodcrave() else 0.0
         val baseDamage = stacks.toDouble() * (1.0 + bloodcraveBonus * 0.01)
         val isCrit = Utils.random() * 100.0 < inflicter.calculateCriticalChance()
-        val isSuperCrit = isCrit && petHem != null && petHem.getSavage() > 0.0 && Utils.random() < petHem.getSavage() / 100.0
+        val isSuperCrit =
+            isCrit && petHem != null && petHem.getSavage() > 0.0 && Utils.random() < petHem.getSavage() / 100.0
         val critMultiplier = if (isSuperCrit) {
             val cd = inflicter.calculateCriticalDamage()
             cd * cd
@@ -1426,7 +1586,8 @@ abstract class Area {
                     val pet = this.petExploring
                     val barrier = pet?.barrier ?: 0
                     val dmgMult = if (z) magicDamageAmplification() else 1.0
-                    val appliedDmg = adventurer.applyDamage(Utils.round(dmgMult * i4.toDouble()).toDouble(), z, barrier, 0.0)
+                    val appliedDmg =
+                        adventurer.applyDamage(Utils.round(dmgMult * i4.toDouble()).toDouble(), z, barrier, 0.0)
                     Logger.log(this, 27, adventurer, appliedDmg, 100 - (d3 * 100.0).toInt())
                     checkDeath(adventurer)
                 }
@@ -1442,81 +1603,133 @@ abstract class Area {
         return when (entity.activeSkill) {
             Skills.ACTIVE_MIGHTY_STRIKE -> skill.setDamageAmplification(2.0).execute()
             Skills.ACTIVE_CRUSHING_STRIKE -> skill.setDamageAmplification(2.5).execute()
-            Skills.ACTIVE_TAUNT_I -> skill.setStatusEffect(StatusEffect(StatusEffectType.TAUNT, entity, 2, 1.0)).applyEffectOnDodge().setDamageAmplification(2.0).execute()
-            Skills.ACTIVE_TAUNT_II -> skill.setStatusEffect(StatusEffect(StatusEffectType.TAUNT, entity, 4, 1.0)).applyEffectOnDodge().setDamageAmplification(2.0).execute()
-            Skills.ACTIVE_TAUNT_III -> skill.setStatusEffect(StatusEffect(StatusEffectType.TAUNT, entity, 8, 1.0)).applyEffectOnDodge().setDamageAmplification(2.0).execute()
-            Skills.ACTIVE_TAUNT_IV -> skill.setStatusEffect(StatusEffect(StatusEffectType.TAUNT, entity, 8, 1.0)).applyEffectOnDodge().setDamageAmplification(6.0).execute()
+            Skills.ACTIVE_TAUNT_I -> skill.setStatusEffect(StatusEffect(StatusEffectType.TAUNT, entity, 2, 1.0))
+                .applyEffectOnDodge().setDamageAmplification(2.0).execute()
+
+            Skills.ACTIVE_TAUNT_II -> skill.setStatusEffect(StatusEffect(StatusEffectType.TAUNT, entity, 4, 1.0))
+                .applyEffectOnDodge().setDamageAmplification(2.0).execute()
+
+            Skills.ACTIVE_TAUNT_III -> skill.setStatusEffect(StatusEffect(StatusEffectType.TAUNT, entity, 8, 1.0))
+                .applyEffectOnDodge().setDamageAmplification(2.0).execute()
+
+            Skills.ACTIVE_TAUNT_IV -> skill.setStatusEffect(StatusEffect(StatusEffectType.TAUNT, entity, 8, 1.0))
+                .applyEffectOnDodge().setDamageAmplification(6.0).execute()
+
             Skills.ACTIVE_EN_GARDE -> {
                 val stance = StatusEffect(StatusEffectType.DEFENSIVE_STANCE, entity, 999, 1.0)
                 applyStatus(entity, stance, 0.0)
                 skill.setDamageAmplification(2.0).execute()
             }
-            Skills.ACTIVE_OVERWHELM -> skill.setStatusEffect(StatusEffect(StatusEffectType.STUN, entity, 1, 0.7)).setDamageAmplification(3.0).execute()
+
+            Skills.ACTIVE_OVERWHELM -> skill.setStatusEffect(StatusEffect(StatusEffectType.STUN, entity, 1, 0.7))
+                .setDamageAmplification(3.0).execute()
+
             Skills.ACTIVE_DECIMATE_I -> {
                 // Deals damage + STUN (70%) via the skill status, then afflicts Bloodflame for 1 turn.
-                val targets = skill.setTargetSelectionMode("all_enemies").setStatusEffect(StatusEffect(StatusEffectType.STUN, entity, 1, 0.7)).setDamageAmplification(3.0).execute()
+                val targets = skill.setTargetSelectionMode("all_enemies")
+                    .setStatusEffect(StatusEffect(StatusEffectType.STUN, entity, 1, 0.7)).setDamageAmplification(3.0)
+                    .execute()
                 if (targets != null) {
                     for (target in targets) {
-                        applyStatus(target, StatusEffect(StatusEffectType.BLOODFLAME, entity, 1, 1.0), entity.calculateIgnoreImmunityToStatus() * 0.01)
+                        applyStatus(
+                            target,
+                            StatusEffect(StatusEffectType.BLOODFLAME, entity, 1, 1.0),
+                            entity.calculateIgnoreImmunityToStatus() * 0.01
+                        )
                     }
                 }
                 targets
             }
+
             Skills.ACTIVE_DECIMATE_II -> {
-                val targets = skill.setTargetSelectionMode("all_enemies").setStatusEffect(StatusEffect(StatusEffectType.STUN, entity, 1, 1.0)).setDamageAmplification(3.0).execute()
+                val targets = skill.setTargetSelectionMode("all_enemies")
+                    .setStatusEffect(StatusEffect(StatusEffectType.STUN, entity, 1, 1.0)).setDamageAmplification(3.0)
+                    .execute()
                 if (targets != null) {
                     for (target in targets) {
-                        applyStatus(target, StatusEffect(StatusEffectType.BLOODFLAME, entity, 1, 1.0), entity.calculateIgnoreImmunityToStatus() * 0.01)
+                        applyStatus(
+                            target,
+                            StatusEffect(StatusEffectType.BLOODFLAME, entity, 1, 1.0),
+                            entity.calculateIgnoreImmunityToStatus() * 0.01
+                        )
                     }
                 }
                 targets
             }
+
             Skills.ACTIVE_DECIMATE_III -> {
-                val targets = skill.setTargetSelectionMode("all_enemies").setStatusEffect(StatusEffect(StatusEffectType.STUN, entity, 1, 1.0)).setDamageAmplification(4.0).execute()
+                val targets = skill.setTargetSelectionMode("all_enemies")
+                    .setStatusEffect(StatusEffect(StatusEffectType.STUN, entity, 1, 1.0)).setDamageAmplification(4.0)
+                    .execute()
                 if (targets != null) {
                     for (target in targets) {
-                        applyStatus(target, StatusEffect(StatusEffectType.BLOODFLAME, entity, 1, 1.0), entity.calculateIgnoreImmunityToStatus() * 0.01)
+                        applyStatus(
+                            target,
+                            StatusEffect(StatusEffectType.BLOODFLAME, entity, 1, 1.0),
+                            entity.calculateIgnoreImmunityToStatus() * 0.01
+                        )
                     }
                 }
                 targets
             }
-            Skills.ACTIVE_CONDEMN -> skill.setStatusEffect(StatusEffect(StatusEffectType.SILENCE, entity, 1, 1.0)).applyEffectOnDodge().setDamageAmplification(2.5).execute()
-            Skills.ACTIVE_CONDEMN_ALL_I -> skill.setTargetSelectionMode("all_enemies").setStatusEffect(StatusEffect(StatusEffectType.SILENCE, entity, 1, 1.0)).applyEffectOnDodge().setDamageAmplification(2.5).execute()
-            Skills.ACTIVE_CONDEMN_ALL_II -> skill.setTargetSelectionMode("all_enemies").setStatusEffect(StatusEffect(StatusEffectType.SILENCE, entity, 2, 1.0)).applyEffectOnDodge().setDamageAmplification(2.5).execute()
+
+            Skills.ACTIVE_CONDEMN -> skill.setStatusEffect(StatusEffect(StatusEffectType.SILENCE, entity, 1, 1.0))
+                .applyEffectOnDodge().setDamageAmplification(2.5).execute()
+
+            Skills.ACTIVE_CONDEMN_ALL_I -> skill.setTargetSelectionMode("all_enemies")
+                .setStatusEffect(StatusEffect(StatusEffectType.SILENCE, entity, 1, 1.0)).applyEffectOnDodge()
+                .setDamageAmplification(2.5).execute()
+
+            Skills.ACTIVE_CONDEMN_ALL_II -> skill.setTargetSelectionMode("all_enemies")
+                .setStatusEffect(StatusEffect(StatusEffectType.SILENCE, entity, 2, 1.0)).applyEffectOnDodge()
+                .setDamageAmplification(2.5).execute()
+
             Skills.ACTIVE_HOLY_SMITE_I -> holySmite(entity, 2.0, 0.50)
             Skills.ACTIVE_HOLY_SMITE_II -> holySmite(entity, 2.2, 0.60)
             Skills.ACTIVE_RADIANT_JUDGMENT_I -> {
-                val targets = skill.setTargetSelectionMode("all_enemies").setDamageAmplification(2.2).setForceMagic(true).setUndeadDamageMultiplier(1.5).execute()
+                val targets =
+                    skill.setTargetSelectionMode("all_enemies").setDamageAmplification(2.2).setForceMagic(true)
+                        .setUndeadDamageMultiplier(1.5).execute()
                 for (ally in this.adventurersExploring) {
                     if (ally.currentHp > 0) cleanseOneNegative(ally)
                 }
                 healAlliesByMaxHpPct(entity, 0.15)
                 targets
             }
+
             Skills.ACTIVE_RADIANT_JUDGMENT_II -> {
-                val targets = skill.setTargetSelectionMode("all_enemies").setStatusEffect(StatusEffect(StatusEffectType.SILENCE, entity, 1, 1.0)).applyEffectOnDodge().setDamageAmplification(2.4).setForceMagic(true).setUndeadDamageMultiplier(1.5).execute()
+                val targets = skill.setTargetSelectionMode("all_enemies")
+                    .setStatusEffect(StatusEffect(StatusEffectType.SILENCE, entity, 1, 1.0)).applyEffectOnDodge()
+                    .setDamageAmplification(2.4).setForceMagic(true).setUndeadDamageMultiplier(1.5).execute()
                 for (ally in this.adventurersExploring) {
                     if (ally.currentHp > 0) cleanseOneNegative(ally)
                 }
                 shieldAlliesByMaxHpPct(0.15)
                 targets
             }
+
             Skills.ACTIVE_WRATH_OF_HEAVEN_I -> {
-                val targets = skill.setTargetSelectionMode("all_enemies").setStatusEffect(StatusEffect(StatusEffectType.SILENCE, entity, 1, 1.0)).applyEffectOnDodge().setDamageAmplification(2.5).setForceMagic(true).setUndeadDamageMultiplier(1.5).execute()
+                val targets = skill.setTargetSelectionMode("all_enemies")
+                    .setStatusEffect(StatusEffect(StatusEffectType.SILENCE, entity, 1, 1.0)).applyEffectOnDodge()
+                    .setDamageAmplification(2.5).setForceMagic(true).setUndeadDamageMultiplier(1.5).execute()
                 for (ally in this.adventurersExploring) {
                     if (ally.currentHp > 0) cleanseAllNegative(ally)
                 }
                 shieldAlliesByMaxHpPct(0.20)
                 targets
             }
+
             Skills.ACTIVE_WRATH_OF_HEAVEN_II -> {
-                val targets = skill.setTargetSelectionMode("all_enemies").setStatusEffect(StatusEffect(StatusEffectType.SILENCE, entity, 2, 1.0)).applyEffectOnDodge().setDamageAmplification(2.8).setForceMagic(true).setUndeadDamageMultiplier(1.5).execute()
+                val targets = skill.setTargetSelectionMode("all_enemies")
+                    .setStatusEffect(StatusEffect(StatusEffectType.SILENCE, entity, 2, 1.0)).applyEffectOnDodge()
+                    .setDamageAmplification(2.8).setForceMagic(true).setUndeadDamageMultiplier(1.5).execute()
                 for (ally in this.adventurersExploring) {
                     if (ally.currentHp > 0) cleanseAllNegative(ally)
                 }
                 shieldAlliesByMaxHpPct(0.25)
                 targets
             }
+
             Skills.ACTIVE_BARRAGE_I -> skill.setTargetSelectionMode("2").execute()
             Skills.ACTIVE_BARRAGE_II -> {
                 var hasFeebleTether = false
@@ -1531,6 +1744,7 @@ abstract class Area {
                 val damageAmp = if (hasFeebleTether) 10.0 else 1.0
                 skill.setTargetSelectionMode("3").setDamageAmplification(damageAmp).execute()
             }
+
             Skills.ACTIVE_BARRAGE_III -> skill.setTargetSelectionMode("4").execute()
             Skills.ACTIVE_BARRAGE_IV -> skill.setTargetSelectionMode("5").execute()
             Skills.ACTIVE_BARRAGE_V -> skill.setTargetSelectionMode("6").execute()
@@ -1541,83 +1755,231 @@ abstract class Area {
                 skill.setTargetSelectionMode("all_enemies").setDamageAmplification(0.5).execute()
                 skill.noLog().execute()
             }
-            Skills.ACTIVE_INCINERATE -> skill.setTargetSelectionMode("all_enemies").setStatusEffect(StatusEffect(StatusEffectType.ABLAZE, entity, 1, 1.0)).applyEffectOnDodge().setDamageAmplification(2.0).setForceRange(true).execute()
-            Skills.ACTIVE_INCINERATE_II -> skill.setTargetSelectionMode("all_enemies").setStatusEffect(StatusEffect(StatusEffectType.ABLAZE, entity, 1, 1.0)).applyEffectOnDodge().setDamageAmplification(3.0).setForceRange(true).execute()
+
+            Skills.ACTIVE_INCINERATE -> skill.setTargetSelectionMode("all_enemies")
+                .setStatusEffect(StatusEffect(StatusEffectType.ABLAZE, entity, 1, 1.0)).applyEffectOnDodge()
+                .setDamageAmplification(2.0).setForceRange(true).execute()
+
+            Skills.ACTIVE_INCINERATE_II -> skill.setTargetSelectionMode("all_enemies")
+                .setStatusEffect(StatusEffect(StatusEffectType.ABLAZE, entity, 1, 1.0)).applyEffectOnDodge()
+                .setDamageAmplification(3.0).setForceRange(true).execute()
+
             Skills.ACTIVE_SUBLIMATE -> {
-                skill.setTargetSelectionMode("all_enemies").setStatusEffect(StatusEffect(StatusEffectType.ABLAZE, entity, 1, 1.0)).applyEffectOnDodge().setDamageAmplification(1.7).setForceRange(true).execute()
-                skill.setStatusEffect(StatusEffect(StatusEffectType.FROZEN, entity, 2, 1.0)).setDamageAmplification(1.7).noLog().execute()
+                skill.setTargetSelectionMode("all_enemies")
+                    .setStatusEffect(StatusEffect(StatusEffectType.ABLAZE, entity, 1, 1.0)).applyEffectOnDodge()
+                    .setDamageAmplification(1.7).setForceRange(true).execute()
+                skill.setStatusEffect(StatusEffect(StatusEffectType.FROZEN, entity, 2, 1.0)).setDamageAmplification(1.7)
+                    .noLog().execute()
             }
+
             Skills.ACTIVE_BACKSTAB_I -> skill.setCriticalAmplification(1.5).execute()
             Skills.ACTIVE_BACKSTAB_II -> skill.setCriticalAmplification(2.0).execute()
             Skills.ACTIVE_BACKSTAB_III -> skill.setCriticalAmplification(3.0).execute()
             Skills.ACTIVE_UMBRAL_STRIKE_I -> skill.setCriticalAmplification(1.5).setDamageAmplification(3.0).execute()
             Skills.ACTIVE_UMBRAL_STRIKE_II -> skill.setCriticalAmplification(1.5).setDamageAmplification(3.0).execute()
             Skills.ACTIVE_UMBRAL_STRIKE_III -> skill.setCriticalAmplification(2.0).setDamageAmplification(3.0).execute()
-            Skills.ACTIVE_ECLIPSE_I -> skill.setTargetSelectionMode("lowest_absolute_enemy").setCriticalAmplification(3.0).recastOnKill().execute()
-            Skills.ACTIVE_ECLIPSE_II -> skill.setTargetSelectionMode("lowest_relative_enemy").setCriticalAmplification(3.0).setExecutionThreshold(0.1).recastOnKill().execute()
-            Skills.ACTIVE_ECLIPSE_III -> skill.setTargetSelectionMode("lowest_relative_enemy").setCriticalAmplification(3.0).setExecutionThreshold(0.2).recastOnKill().execute()
-            Skills.ACTIVE_ECLIPSE_IV -> skill.setTargetSelectionMode("lowest_relative_enemy").setCriticalAmplification(3.0).setExecutionThreshold(0.25).recastOnKill().execute()
-            Skills.ACTIVE_FEINT -> skill.setTargetSelectionMode("random_enemy").setCriticalAmplification(1.5).setStatusEffect(StatusEffect(StatusEffectType.STUN, entity, 1, 1.0)).execute()
-            Skills.ACTIVE_PETRIFYING_MELODY -> skill.setTargetSelectionMode("random_enemy").setCriticalAmplification(1.5).setForceRange(true).setStatusEffect(StatusEffect(StatusEffectType.PETRIFY, entity, 1, 1.0)).execute()
-            Skills.ACTIVE_THOUSAND_CUTS -> skill.setStatusEffect(StatusEffect(StatusEffectType.BLEED, entity, 0, 1.0)).setCriticalAmplification(3.0).execute()
-            Skills.ACTIVE_THOUSAND_CUTS_II -> skill.setStatusEffect(StatusEffect(StatusEffectType.BLEED, entity, 0, 1.0)).setCriticalAmplification(3.0).execute()
+            Skills.ACTIVE_ECLIPSE_I -> skill.setTargetSelectionMode("lowest_absolute_enemy")
+                .setCriticalAmplification(3.0).recastOnKill().execute()
+
+            Skills.ACTIVE_ECLIPSE_II -> skill.setTargetSelectionMode("lowest_relative_enemy")
+                .setCriticalAmplification(3.0).setExecutionThreshold(0.1).recastOnKill().execute()
+
+            Skills.ACTIVE_ECLIPSE_III -> skill.setTargetSelectionMode("lowest_relative_enemy")
+                .setCriticalAmplification(3.0).setExecutionThreshold(0.2).recastOnKill().execute()
+
+            Skills.ACTIVE_ECLIPSE_IV -> skill.setTargetSelectionMode("lowest_relative_enemy")
+                .setCriticalAmplification(3.0).setExecutionThreshold(0.25).recastOnKill().execute()
+
+            Skills.ACTIVE_FEINT -> skill.setTargetSelectionMode("random_enemy").setCriticalAmplification(1.5)
+                .setStatusEffect(StatusEffect(StatusEffectType.STUN, entity, 1, 1.0)).execute()
+
+            Skills.ACTIVE_PETRIFYING_MELODY -> skill.setTargetSelectionMode("random_enemy")
+                .setCriticalAmplification(1.5).setForceRange(true)
+                .setStatusEffect(StatusEffect(StatusEffectType.PETRIFY, entity, 1, 1.0)).execute()
+
+            Skills.ACTIVE_THOUSAND_CUTS -> skill.setStatusEffect(StatusEffect(StatusEffectType.BLEED, entity, 0, 1.0))
+                .setCriticalAmplification(3.0).execute()
+
+            Skills.ACTIVE_THOUSAND_CUTS_II -> skill.setStatusEffect(
+                StatusEffect(
+                    StatusEffectType.BLEED,
+                    entity,
+                    0,
+                    1.0
+                )
+            ).setCriticalAmplification(3.0).execute()
+
             Skills.ACTIVE_ENERGY_BURST_I -> skill.setDamageAmplification(1.5).setForceRange(true).execute()
             Skills.ACTIVE_ENERGY_BURST_II -> skill.setDamageAmplification(2.0).setForceRange(true).execute()
-            Skills.ACTIVE_FIRE_BURST -> skill.setStatusEffect(StatusEffect(StatusEffectType.ABLAZE, entity, 1, 1.0)).setForceRange(true).setDamageAmplification(2.0).execute()
-            Skills.ACTIVE_FIREBALL -> skill.setStatusEffect(StatusEffect(StatusEffectType.ABLAZE, entity, 1, 1.0)).setTargetSelectionMode("all_enemies").setForceRange(true).setDamageAmplification(2.0).execute()
-            Skills.ACTIVE_METEOR_I -> skill.setStatusEffect(StatusEffect(StatusEffectType.ABLAZE, entity, 1, 1.0)).setTargetSelectionMode("all_enemies").setForceRange(true).setDamageAmplification(2.3).execute()
-            Skills.ACTIVE_METEOR_II -> skill.setStatusEffect(StatusEffect(StatusEffectType.ABLAZE, entity, 2, 1.0)).setTargetSelectionMode("all_enemies").setForceRange(true).setDamageAmplification(2.3).execute()
-            Skills.ACTIVE_HEAL -> skill.setTargetSelectionMode("lowest_relative_ally").healing().setDamageAmplification(2.0).execute()
-            Skills.ACTIVE_MASS_HEAL_I -> skill.setTargetSelectionMode("all_allies").healing().setDamageAmplification(2.0).execute()
-            Skills.ACTIVE_MASS_HEAL_II -> skill.setTargetSelectionMode("all_allies").healing().setStatusEffect(StatusEffect(StatusEffectType.REGENERATION, entity, 2, 1.0)).setDamageAmplification(2.0).execute()
-            Skills.ACTIVE_MASS_HEAL_III -> skill.setTargetSelectionMode("all_allies").healing().setStatusEffect(StatusEffect(StatusEffectType.REGENERATION, entity, 3, 1.0)).setDamageAmplification(2.3).execute()
-            Skills.ACTIVE_RESTORATION_I -> skill.setTargetSelectionMode("all_allies").healing().setStatusEffect(StatusEffect(StatusEffectType.REGENERATION, entity, 3, 1.0)).setDamageAmplification(2.3).setReviveProbability(0.04).execute()
-            Skills.ACTIVE_RESTORATION_II -> skill.setTargetSelectionMode("all_allies").healing().setStatusEffect(StatusEffect(StatusEffectType.REGENERATION, entity, 3, 1.0)).setDamageAmplification(2.6).setReviveProbability(0.06).execute()
-            Skills.ACTIVE_CURSE_I -> skill.setStatusEffect(StatusEffect(StatusEffectType.LESSER_CURSE, entity, 999, 1.0)).setDamageAmplification(3.0).execute()
-            Skills.ACTIVE_CURSE_II -> skill.setStatusEffect(StatusEffect(StatusEffectType.CURSE, entity, 999, 1.0)).setDamageAmplification(3.25).execute()
-            Skills.ACTIVE_CURSE_III -> skill.setStatusEffect(StatusEffect(StatusEffectType.GREATER_CURSE, entity, 999, 1.0)).setDamageAmplification(3.5).execute()
-            Skills.ACTIVE_CURSE_IV -> skill.setStatusEffect(StatusEffect(StatusEffectType.OMINOUS_CURSE, entity, 999, 1.0)).setDamageAmplification(3.75).execute()
-            Skills.ACTIVE_CURSE_V -> skill.setStatusEffect(StatusEffect(StatusEffectType.ABHORRENT_CURSE, entity, 999, 1.0)).setDamageAmplification(4.0).execute()
-            Skills.ACTIVE_FLAY -> skill.setTargetSelectionMode("random_except_self").setDamageAmplification(10.0).setForceRange(false).execute()
-            Skills.ACTIVE_ANNIHILATE -> skill.setTargetSelectionMode("all_except_self").setDamageAmplification(10.0).setForceRange(false).execute()
-            Skills.ACTIVE_OBLITERATE -> skill.setTargetSelectionMode("all_except_self").setDamageAmplification(20.0).setForceRange(false).execute()
-            Skills.ACTIVE_EXTIRPATE -> skill.setTargetSelectionMode("all_except_self").setDamageAmplification(30.0).setForceRange(false).execute()
+            Skills.ACTIVE_FIRE_BURST -> skill.setStatusEffect(StatusEffect(StatusEffectType.ABLAZE, entity, 1, 1.0))
+                .setForceRange(true).setDamageAmplification(2.0).execute()
+
+            Skills.ACTIVE_FIREBALL -> skill.setStatusEffect(StatusEffect(StatusEffectType.ABLAZE, entity, 1, 1.0))
+                .setTargetSelectionMode("all_enemies").setForceRange(true).setDamageAmplification(2.0).execute()
+
+            Skills.ACTIVE_METEOR_I -> skill.setStatusEffect(StatusEffect(StatusEffectType.ABLAZE, entity, 1, 1.0))
+                .setTargetSelectionMode("all_enemies").setForceRange(true).setDamageAmplification(2.3).execute()
+
+            Skills.ACTIVE_METEOR_II -> skill.setStatusEffect(StatusEffect(StatusEffectType.ABLAZE, entity, 2, 1.0))
+                .setTargetSelectionMode("all_enemies").setForceRange(true).setDamageAmplification(2.3).execute()
+
+            Skills.ACTIVE_HEAL -> skill.setTargetSelectionMode("lowest_relative_ally").healing()
+                .setDamageAmplification(2.0).execute()
+
+            Skills.ACTIVE_MASS_HEAL_I -> skill.setTargetSelectionMode("all_allies").healing()
+                .setDamageAmplification(2.0).execute()
+
+            Skills.ACTIVE_MASS_HEAL_II -> skill.setTargetSelectionMode("all_allies").healing()
+                .setStatusEffect(StatusEffect(StatusEffectType.REGENERATION, entity, 2, 1.0))
+                .setDamageAmplification(2.0).execute()
+
+            Skills.ACTIVE_MASS_HEAL_III -> skill.setTargetSelectionMode("all_allies").healing()
+                .setStatusEffect(StatusEffect(StatusEffectType.REGENERATION, entity, 3, 1.0))
+                .setDamageAmplification(2.3).execute()
+
+            Skills.ACTIVE_RESTORATION_I -> skill.setTargetSelectionMode("all_allies").healing()
+                .setStatusEffect(StatusEffect(StatusEffectType.REGENERATION, entity, 3, 1.0))
+                .setDamageAmplification(2.3).setReviveProbability(0.04).execute()
+
+            Skills.ACTIVE_RESTORATION_II -> skill.setTargetSelectionMode("all_allies").healing()
+                .setStatusEffect(StatusEffect(StatusEffectType.REGENERATION, entity, 3, 1.0))
+                .setDamageAmplification(2.6).setReviveProbability(0.06).execute()
+
+            Skills.ACTIVE_CURSE_I -> skill.setStatusEffect(
+                StatusEffect(
+                    StatusEffectType.LESSER_CURSE,
+                    entity,
+                    999,
+                    1.0
+                )
+            ).setDamageAmplification(3.0).execute()
+
+            Skills.ACTIVE_CURSE_II -> skill.setStatusEffect(StatusEffect(StatusEffectType.CURSE, entity, 999, 1.0))
+                .setDamageAmplification(3.25).execute()
+
+            Skills.ACTIVE_CURSE_III -> skill.setStatusEffect(
+                StatusEffect(
+                    StatusEffectType.GREATER_CURSE,
+                    entity,
+                    999,
+                    1.0
+                )
+            ).setDamageAmplification(3.5).execute()
+
+            Skills.ACTIVE_CURSE_IV -> skill.setStatusEffect(
+                StatusEffect(
+                    StatusEffectType.OMINOUS_CURSE,
+                    entity,
+                    999,
+                    1.0
+                )
+            ).setDamageAmplification(3.75).execute()
+
+            Skills.ACTIVE_CURSE_V -> skill.setStatusEffect(
+                StatusEffect(
+                    StatusEffectType.ABHORRENT_CURSE,
+                    entity,
+                    999,
+                    1.0
+                )
+            ).setDamageAmplification(4.0).execute()
+
+            Skills.ACTIVE_FLAY -> skill.setTargetSelectionMode("random_except_self").setDamageAmplification(10.0)
+                .setForceRange(false).execute()
+
+            Skills.ACTIVE_ANNIHILATE -> skill.setTargetSelectionMode("all_except_self").setDamageAmplification(10.0)
+                .setForceRange(false).execute()
+
+            Skills.ACTIVE_OBLITERATE -> skill.setTargetSelectionMode("all_except_self").setDamageAmplification(20.0)
+                .setForceRange(false).execute()
+
+            Skills.ACTIVE_EXTIRPATE -> skill.setTargetSelectionMode("all_except_self").setDamageAmplification(30.0)
+                .setForceRange(false).execute()
+
             Skills.ACTIVE_WHIP_AND_TEAR -> {
-                skill.setTargetSelectionMode("all_except_self").setDamageAmplification(30.0).setForceRange(false).execute()
+                skill.setTargetSelectionMode("all_except_self").setDamageAmplification(30.0).setForceRange(false)
+                    .execute()
                 skill.setTargetSelectionMode("random_except_self").setForceRange(true).noLog().execute()
             }
-            Skills.ACTIVE_STOMP -> skill.setTargetSelectionMode("all_enemies").setStatusEffect(StatusEffect(StatusEffectType.STUN, entity, 1, 1.0)).execute()
+
+            Skills.ACTIVE_STOMP -> skill.setTargetSelectionMode("all_enemies")
+                .setStatusEffect(StatusEffect(StatusEffectType.STUN, entity, 1, 1.0)).execute()
+
             Skills.ACTIVE_ESCAPE -> {
                 enemies.remove(entity)
                 fightingGroup.remove(entity)
                 Logger.log(this, 43, entity.getIdName())
                 null
             }
-            Skills.ACTIVE_SOOTHING_WINDS -> skill.setTargetSelectionMode("all_enemies").setStatusEffect(StatusEffect(StatusEffectType.STUN, entity, 3, 0.6)).applyEffectOnDodge().execute()
-            Skills.ACTIVE_QUICKSAND_GRASP -> skill.setStatusEffect(StatusEffect(StatusEffectType.SILENCE, entity, 4, 1.0)).setDamageAmplification(2.0).execute()
-            Skills.ACTIVE_SANDSTORM -> skill.setTargetSelectionMode("all_enemies").setStatusEffect(StatusEffect(StatusEffectType.SILENCE, entity, 5, 0.8)).setDamageAmplification(0.5).applyEffectOnDodge().execute()
-            Skills.ACTIVE_RESTORE_ORDER -> skill.setTargetSelectionMode("all_enemies").setDamageAmplification(0.9).execute()
-            Skills.ACTIVE_PROTECT_THE_WEAK -> skill.setTargetSelectionMode("all_enemies").setStatusEffect(StatusEffect(StatusEffectType.TAUNT, entity, 2, 1.0)).setDamageAmplification(0.1).applyEffectOnDodge().execute()
-            Skills.ACTIVE_STATIC_SURGE -> skill.setTargetSelectionMode("all_enemies").setStatusEffect(StatusEffect(StatusEffectType.STUN, entity, 1, 0.5)).setDamageAmplification(2.5).execute()
+
+            Skills.ACTIVE_SOOTHING_WINDS -> skill.setTargetSelectionMode("all_enemies")
+                .setStatusEffect(StatusEffect(StatusEffectType.STUN, entity, 3, 0.6)).applyEffectOnDodge().execute()
+
+            Skills.ACTIVE_QUICKSAND_GRASP -> skill.setStatusEffect(
+                StatusEffect(
+                    StatusEffectType.SILENCE,
+                    entity,
+                    4,
+                    1.0
+                )
+            ).setDamageAmplification(2.0).execute()
+
+            Skills.ACTIVE_SANDSTORM -> skill.setTargetSelectionMode("all_enemies")
+                .setStatusEffect(StatusEffect(StatusEffectType.SILENCE, entity, 5, 0.8)).setDamageAmplification(0.5)
+                .applyEffectOnDodge().execute()
+
+            Skills.ACTIVE_RESTORE_ORDER -> skill.setTargetSelectionMode("all_enemies").setDamageAmplification(0.9)
+                .execute()
+
+            Skills.ACTIVE_PROTECT_THE_WEAK -> skill.setTargetSelectionMode("all_enemies")
+                .setStatusEffect(StatusEffect(StatusEffectType.TAUNT, entity, 2, 1.0)).setDamageAmplification(0.1)
+                .applyEffectOnDodge().execute()
+
+            Skills.ACTIVE_STATIC_SURGE -> skill.setTargetSelectionMode("all_enemies")
+                .setStatusEffect(StatusEffect(StatusEffectType.STUN, entity, 1, 0.5)).setDamageAmplification(2.5)
+                .execute()
+
             Skills.ACTIVE_ARCANE_STRIKE -> skill.setDamageAmplification(4.0).execute()
-            Skills.ACTIVE_FLINTLOCK_SHOT -> skill.setDamageAmplification(2.0).setForceRange(true).setStatusEffect(StatusEffect(StatusEffectType.ABLAZE, entity, 1, 1.0)).execute()
-            Skills.ACTIVE_ICE_TOMB -> skill.setStatusEffect(StatusEffect(StatusEffectType.FROZEN, entity, 20, 1.0)).setDamageAmplification(10.0).execute()
-            Skills.ACTIVE_FROZEN_BREATH -> skill.setTargetSelectionMode("all_enemies").setStatusEffect(StatusEffect(StatusEffectType.FROZEN, entity, 2, 1.0)).execute()
+            Skills.ACTIVE_FLINTLOCK_SHOT -> skill.setDamageAmplification(2.0).setForceRange(true)
+                .setStatusEffect(StatusEffect(StatusEffectType.ABLAZE, entity, 1, 1.0)).execute()
+
+            Skills.ACTIVE_ICE_TOMB -> skill.setStatusEffect(StatusEffect(StatusEffectType.FROZEN, entity, 20, 1.0))
+                .setDamageAmplification(10.0).execute()
+
+            Skills.ACTIVE_FROZEN_BREATH -> skill.setTargetSelectionMode("all_enemies")
+                .setStatusEffect(StatusEffect(StatusEffectType.FROZEN, entity, 2, 1.0)).execute()
+
             Skills.ACTIVE_ARCANE_BARRAGE -> skill.setTargetSelectionMode("12").execute()
             Skills.ACTIVE_DESERT_JUDGEMENT -> skill.setTargetSelectionMode("4").setDamageAmplification(1.5).execute()
-            Skills.ACTIVE_DISEMBODY -> skill.setTargetSelectionMode("all_enemies").setDamageAmplification(1111.0).setCriticalAmplification(0.66).execute()
-            Skills.ACTIVE_PANDEMONIUM -> skill.setTargetSelectionMode("all_enemies").setDamageAmplification(0.75).setCriticalAmplification(0.66).execute()
+            Skills.ACTIVE_DISEMBODY -> skill.setTargetSelectionMode("all_enemies").setDamageAmplification(1111.0)
+                .setCriticalAmplification(0.66).execute()
+
+            Skills.ACTIVE_PANDEMONIUM -> skill.setTargetSelectionMode("all_enemies").setDamageAmplification(0.75)
+                .setCriticalAmplification(0.66).execute()
+
             Skills.ACTIVE_FRAGMENTATION -> {
                 entity.currentHp = Math.max(1, entity.currentHp - 5000)
                 Logger.log(this, 101, R.string.log_the_cultist_rebels_fragmentation)
                 skill.setTargetSelectionMode("5").setForceRange(true).execute()
             }
-            Skills.ACTIVE_ARCANE_DIFFUSION -> skill.setTargetSelectionMode("all_enemies").setDamageAmplification(0.4).execute()
+
+            Skills.ACTIVE_ARCANE_DIFFUSION -> skill.setTargetSelectionMode("all_enemies").setDamageAmplification(0.4)
+                .execute()
+
             Skills.ACTIVE_SACRIFICE -> skill.setDamageAmplification(100.0).setCriticalAmplification(0.66).execute()
-            Skills.ACTIVE_CHOKING_POWDER -> skill.setTargetSelectionMode("all_enemies").setDamageAmplification(0.4).setStatusEffect(StatusEffect(StatusEffectType.SILENCE, entity, 3, 1.0)).applyEffectOnDodge().execute()
-            Skills.ACTIVE_DAZE -> skill.setTargetSelectionMode("all_enemies").setDamageAmplification(0.1).setStatusEffect(StatusEffect(StatusEffectType.STUN, entity, 2, 1.0)).execute()
-            Skills.ACTIVE_FLEECE -> skill.setTargetSelectionMode("all_enemies").setDamageAmplification(0.35).setStatusEffect(StatusEffect(StatusEffectType.BLEED, entity, 40, 1.0)).execute()
-            Skills.ACTIVE_DISASSEMBLE -> skill.setTargetSelectionMode("all_enemies").setStatusEffect(StatusEffect(StatusEffectType.TAUNT, entity, 5, 1.0)).setDamageAmplification(0.1).applyEffectOnDodge().execute()
+            Skills.ACTIVE_CHOKING_POWDER -> skill.setTargetSelectionMode("all_enemies").setDamageAmplification(0.4)
+                .setStatusEffect(StatusEffect(StatusEffectType.SILENCE, entity, 3, 1.0)).applyEffectOnDodge().execute()
+
+            Skills.ACTIVE_DAZE -> skill.setTargetSelectionMode("all_enemies").setDamageAmplification(0.1)
+                .setStatusEffect(StatusEffect(StatusEffectType.STUN, entity, 2, 1.0)).execute()
+
+            Skills.ACTIVE_FLEECE -> skill.setTargetSelectionMode("all_enemies").setDamageAmplification(0.35)
+                .setStatusEffect(StatusEffect(StatusEffectType.BLEED, entity, 40, 1.0)).execute()
+
+            Skills.ACTIVE_DISASSEMBLE -> skill.setTargetSelectionMode("all_enemies")
+                .setStatusEffect(StatusEffect(StatusEffectType.TAUNT, entity, 5, 1.0)).setDamageAmplification(0.1)
+                .applyEffectOnDodge().execute()
+
             Skills.ACTIVE_OVERDRIVE -> {
                 var magicArmor: Enemy? = null
                 for (e in enemies) {
@@ -1632,12 +1994,18 @@ abstract class Area {
                     magicArmor.currentHp = Math.max(1, magicArmor.currentHp - 300)
                     Logger.log(this, 101, R.string.log_hidden_city_of_larox_overdrive)
                     val stun = StatusEffect(StatusEffectType.STUN, entity, 1, 1.0)
-                    skill.setTargetSelectionMode("all_enemies").setDamageAmplification(0.7).setStatusEffect(stun).execute()
+                    skill.setTargetSelectionMode("all_enemies").setDamageAmplification(0.7).setStatusEffect(stun)
+                        .execute()
                 }
             }
+
             Skills.ACTIVE_RAYS_OF_DESTRUCTION -> skill.setTargetSelectionMode("8").setDamageAmplification(0.4).execute()
-            Skills.ACTIVE_THE_TEN_HELLS -> skill.setTargetSelectionMode("all_enemies").setDamageAmplification(100000.0).setCriticalAmplification(0.66).execute()
-            Skills.ACTIVE_INSTILL_TERROR -> skill.setTargetSelectionMode("all_enemies").setDamageAmplification(0.15).setStatusEffect(StatusEffect(StatusEffectType.STUN, entity, 1, 1.0)).applyEffectOnDodge().execute()
+            Skills.ACTIVE_THE_TEN_HELLS -> skill.setTargetSelectionMode("all_enemies").setDamageAmplification(100000.0)
+                .setCriticalAmplification(0.66).execute()
+
+            Skills.ACTIVE_INSTILL_TERROR -> skill.setTargetSelectionMode("all_enemies").setDamageAmplification(0.15)
+                .setStatusEffect(StatusEffect(StatusEffectType.STUN, entity, 1, 1.0)).applyEffectOnDodge().execute()
+
             Skills.ACTIVE_FIRE_DANCE -> {
                 Logger.log(this, 29, entity)
                 if (event == null) {
@@ -1651,25 +2019,44 @@ abstract class Area {
                 Logger.log(this, 113, event!!.progress)
                 null
             }
+
             Skills.ACTIVE_BOTCHED_SACRIFICE -> {
                 Logger.log(this, 115, entity)
                 null
             }
+
             Skills.ACTIVE_DREAM_FORGE -> {
                 val newHp = Math.min(entity.calculateTotalMaxHp(), entity.currentHp + 10000)
                 entity.currentHp = newHp
                 Logger.log(this, 24, 0, entity, entity, 10000)
                 skill.setTargetSelectionMode("10").setDamageAmplification(2.0).execute()
             }
-            Skills.ACTIVE_GRAVITY_SHIFT -> skill.setTargetSelectionMode("all_enemies").setDamageAmplification(0.5).execute()
+
+            Skills.ACTIVE_GRAVITY_SHIFT -> skill.setTargetSelectionMode("all_enemies").setDamageAmplification(0.5)
+                .execute()
+
             Skills.ACTIVE_SMASH -> skill.setTargetSelectionMode("all_enemies").setDamageAmplification(0.5).execute()
-            Skills.ACTIVE_LIGHTS_OUT -> skill.setTargetSelectionMode("lowest_relative_enemy").setDamageAmplification(10.0).execute()
-            Skills.ACTIVE_LIVE_TEST -> skill.setTargetSelectionMode("all_enemies").setDamageAmplification(0.05).setStatusEffect(StatusEffect(StatusEffectType.POISON, entity, 3, 1.0)).applyEffectOnDodge().execute()
-            Skills.ACTIVE_AT_THE_STAKE -> skill.setTargetSelectionMode("all_enemies").setDamageAmplification(0.2).setStatusEffect(StatusEffect(StatusEffectType.ABLAZE, entity, 4, 1.0)).execute()
-            Skills.ACTIVE_TABULA_RASA -> skill.setTargetSelectionMode("all_enemies").setDamageAmplification(0.5).setStatusEffect(StatusEffect(StatusEffectType.ABLAZE, entity, 2, 1.0)).execute()
-            Skills.ACTIVE_BOUNCE -> skill.setTargetSelectionMode("10").setDamageAmplification(0.5).setStatusEffect(StatusEffect(StatusEffectType.STUN, entity, 4, 1.0)).execute()
-            Skills.ACTIVE_DEVOUR_SPIRIT -> skill.setTargetSelectionMode("all_enemies").setDamageAmplification(0.2).setStatusEffect(StatusEffect(StatusEffectType.TERRIFY, entity, 1, 1.0)).execute()
-            Skills.ACTIVE_EXECUTION_ORDER -> skill.setTargetSelectionMode("lowest_relative_enemy").setExecutionThreshold(0.5).execute()
+            Skills.ACTIVE_LIGHTS_OUT -> skill.setTargetSelectionMode("lowest_relative_enemy")
+                .setDamageAmplification(10.0).execute()
+
+            Skills.ACTIVE_LIVE_TEST -> skill.setTargetSelectionMode("all_enemies").setDamageAmplification(0.05)
+                .setStatusEffect(StatusEffect(StatusEffectType.POISON, entity, 3, 1.0)).applyEffectOnDodge().execute()
+
+            Skills.ACTIVE_AT_THE_STAKE -> skill.setTargetSelectionMode("all_enemies").setDamageAmplification(0.2)
+                .setStatusEffect(StatusEffect(StatusEffectType.ABLAZE, entity, 4, 1.0)).execute()
+
+            Skills.ACTIVE_TABULA_RASA -> skill.setTargetSelectionMode("all_enemies").setDamageAmplification(0.5)
+                .setStatusEffect(StatusEffect(StatusEffectType.ABLAZE, entity, 2, 1.0)).execute()
+
+            Skills.ACTIVE_BOUNCE -> skill.setTargetSelectionMode("10").setDamageAmplification(0.5)
+                .setStatusEffect(StatusEffect(StatusEffectType.STUN, entity, 4, 1.0)).execute()
+
+            Skills.ACTIVE_DEVOUR_SPIRIT -> skill.setTargetSelectionMode("all_enemies").setDamageAmplification(0.2)
+                .setStatusEffect(StatusEffect(StatusEffectType.TERRIFY, entity, 1, 1.0)).execute()
+
+            Skills.ACTIVE_EXECUTION_ORDER -> skill.setTargetSelectionMode("lowest_relative_enemy")
+                .setExecutionThreshold(0.5).execute()
+
             else -> null
         }
     }
@@ -1846,7 +2233,9 @@ abstract class Area {
         if (endOfTurnAction != null && endOfTurnAction.fromLivingCompanion) {
             livingCompanionBonusDamage = (entity.livingCompanionBonusDamage.toDouble() * 0.01) + 1.0
         }
-        if (entity.isMoreDamageWhenHalfLife() && entity.currentHp.toDouble() <= entity.calculateTotalMaxHp().toDouble() * 0.5) {
+        if (entity.isMoreDamageWhenHalfLife() && entity.currentHp.toDouble() <= entity.calculateTotalMaxHp()
+                .toDouble() * 0.5
+        ) {
             livingCompanionBonusDamage *= 1.5
         }
         if (entity.isMoreDamageDealtAndTaken()) {
@@ -1860,14 +2249,17 @@ abstract class Area {
             livingCompanionBonusDamage *= skill.undeadDamageMultiplier
         }
 
-        var dCalculateCriticalMultiplier = if (flatDamage) 1.0 else calculateCriticalMultiplier(entity, skill, entity2.criticalReduction)
+        var dCalculateCriticalMultiplier =
+            if (flatDamage) 1.0 else calculateCriticalMultiplier(entity, skill, entity2.criticalReduction)
         val pet2 = this.petExploring
-        val isSuperCrit = !z4 && pet2 != null && dCalculateCriticalMultiplier > 1.0 && pet2.getSavage() > 0.0 && Utils.random() < pet2.getSavage() / 100.0
+        val isSuperCrit =
+            z4 && pet2 != null && dCalculateCriticalMultiplier > 1.0 && pet2.getSavage() > 0.0 && Utils.random() < pet2.getSavage() / 100.0
         if (isSuperCrit) {
             dCalculateCriticalMultiplier *= dCalculateCriticalMultiplier
         }
 
-        val dCalculateTotalDarknessDamageAmplification = if (flatDamage) 1.0 else (entity.calculateTotalDarknessDamageAmplification() * this.localDarkness.toDouble()) + 1.0
+        val dCalculateTotalDarknessDamageAmplification =
+            if (flatDamage) 1.0 else (entity.calculateTotalDarknessDamageAmplification() * this.localDarkness.toDouble()) + 1.0
 
         var statusDamageMultiplier = 1.0
         for (statusEffect2 in entity.positiveStatusEffects) {
@@ -1881,6 +2273,7 @@ abstract class Area {
                         statusDamageMultiplier *= (1.0 + statusEffect2.undeadDamageBonus)
                     }
                 }
+
                 else -> {}
             }
         }
@@ -1951,12 +2344,22 @@ abstract class Area {
                 triggerHemorrhage(entity, entity2)
             }
         } else if (endOfTurnAction?.effect != null) {
-            applyStatus(entity2, StatusEffect(endOfTurnAction.effect.type, entity, endOfTurnAction.effect.turnsLeft, endOfTurnAction.effect.probability), entity.calculateIgnoreImmunityToStatus() * 0.01)
+            applyStatus(
+                entity2,
+                StatusEffect(
+                    endOfTurnAction.effect.type,
+                    entity,
+                    endOfTurnAction.effect.turnsLeft,
+                    endOfTurnAction.effect.probability
+                ),
+                entity.calculateIgnoreImmunityToStatus() * 0.01
+            )
         }
 
         val pet3 = this.petExploring
         val lifesteal = if (pet3 != null && z4) pet3.lifesteal else 0.0
-        var iRound = Utils.round((entity.calculateTotalLifesteal().toDouble() + lifesteal) * 0.01 * iApplyDamage.toDouble())
+        var iRound =
+            Utils.round((entity.calculateTotalLifesteal().toDouble() + lifesteal) * 0.01 * iApplyDamage.toDouble())
         if (skill != null && entity.activeSkill == Skills.ACTIVE_FRAGMENTATION) {
             iRound = 1000
         }
@@ -1967,8 +2370,10 @@ abstract class Area {
             entity.currentHp = iMin
             if (entity.maxLifestealOverheal > 0) {
                 val overheal = Math.max(0, (iRound - iCalculateTotalMaxHp) + currentHp)
-                val shieldCap = Utils.round(iCalculateTotalMaxHp.toDouble() * 0.01 * entity.maxLifestealOverheal.toDouble())
-                entity.currentShield = Math.max(entity.currentShield, Math.min(entity.currentShield + overheal, shieldCap))
+                val shieldCap =
+                    Utils.round(iCalculateTotalMaxHp.toDouble() * 0.01 * entity.maxLifestealOverheal.toDouble())
+                entity.currentShield =
+                    Math.max(entity.currentShield, Math.min(entity.currentShield + overheal, shieldCap))
             }
             Logger.log(this, 35, entity, iRound)
             if (z4) {
@@ -1986,12 +2391,26 @@ abstract class Area {
                 applyStatus(entity2, hitEffect, entity.calculateIgnoreImmunityToStatus() * 0.01)
             }
             if (entity2.currentHp < entity.currentHp && entity.stunChanceOnLowerHp > 0.0) {
-                applyStatus(entity2, StatusEffect(StatusEffectType.STUN, entity, 1, entity.stunChanceOnLowerHp), entity.calculateIgnoreImmunityToStatus() * 0.01)
+                applyStatus(
+                    entity2,
+                    StatusEffect(StatusEffectType.STUN, entity, 1, entity.stunChanceOnLowerHp),
+                    entity.calculateIgnoreImmunityToStatus() * 0.01
+                )
             }
             // Subjugate/Subjugate II: each basic attack hit sets Bloodflame on the target.
             when (entity.passiveSkill) {
-                Skills.PASSIVE_SUBJUGATE_I -> applyStatus(entity2, StatusEffect(StatusEffectType.BLOODFLAME, entity, 1, 1.0), entity.calculateIgnoreImmunityToStatus() * 0.01)
-                Skills.PASSIVE_SUBJUGATE_II -> applyStatus(entity2, StatusEffect(StatusEffectType.BLOODFLAME, entity, 2, 1.0), entity.calculateIgnoreImmunityToStatus() * 0.01)
+                Skills.PASSIVE_SUBJUGATE_I -> applyStatus(
+                    entity2,
+                    StatusEffect(StatusEffectType.BLOODFLAME, entity, 1, 1.0),
+                    entity.calculateIgnoreImmunityToStatus() * 0.01
+                )
+
+                Skills.PASSIVE_SUBJUGATE_II -> applyStatus(
+                    entity2,
+                    StatusEffect(StatusEffectType.BLOODFLAME, entity, 2, 1.0),
+                    entity.calculateIgnoreImmunityToStatus() * 0.01
+                )
+
                 else -> {}
             }
             // Radiant branch (Paladin -> Angel of War): basic attacks heal the ally with the
@@ -2108,7 +2527,8 @@ abstract class Area {
         var healMissingHpOnEnemyDeath = 0.0
         for (adventurer in this.adventurersExploring) {
             if (adventurer.currentHp > 0 && !adventurer.hasBloodflame()) {
-                healMissingHpOnEnemyDeath += adventurer.getHealMissingHpOnEnemyDeath().toDouble() * adventurer.calculateHealingModifier()
+                healMissingHpOnEnemyDeath += adventurer.getHealMissingHpOnEnemyDeath()
+                    .toDouble() * adventurer.calculateHealingModifier()
             }
         }
         if (healMissingHpOnEnemyDeath == 0.0) {
@@ -2248,7 +2668,12 @@ abstract class Area {
             val pet = this.petExploring
             val barrier = if (pet == null || entity !is Adventurer) 0 else pet.barrier
             if (iCalculateRetaliationPhysicalDamage > 0) {
-                val iApplyDamage = entity.applyDamage(iCalculateRetaliationPhysicalDamage.toDouble(), false, barrier, entity2.getArmorIgnored())
+                val iApplyDamage = entity.applyDamage(
+                    iCalculateRetaliationPhysicalDamage.toDouble(),
+                    false,
+                    barrier,
+                    entity2.getArmorIgnored()
+                )
                 Logger.log(this, 46, entity, iApplyDamage)
                 if (entity2 is Adventurer) {
                     QuestsManager.increment(QuestsManager.spiky, iApplyDamage.toLong())
@@ -2258,7 +2683,12 @@ abstract class Area {
                 if (i > 0 && entity2 is Adventurer) {
                     QuestsManager.increment(QuestsManager.activeDeterrent, 1L)
                 }
-                val iApplyDamage2 = entity.applyDamage(Utils.round(magicDamageAmplification() * iCalculateRetaliationMagicalDamage.toDouble()).toDouble(), true, barrier, entity2.getArmorIgnored())
+                val iApplyDamage2 = entity.applyDamage(
+                    Utils.round(magicDamageAmplification() * iCalculateRetaliationMagicalDamage.toDouble()).toDouble(),
+                    true,
+                    barrier,
+                    entity2.getArmorIgnored()
+                )
                 Logger.log(this, 46, entity, iApplyDamage2)
                 if (entity2 is Adventurer) {
                     QuestsManager.increment(QuestsManager.spiky, iApplyDamage2.toLong())
@@ -2296,6 +2726,7 @@ abstract class Area {
                 arrayList.add(target)
                 arrayList
             }
+
             TARGET_MOST_NEGATIVE_CONDITIONS_OR_LOWEST_RELATIVE_ALLY -> {
                 val list: List<Entity> = if (entity is Adventurer) this.adventurersExploring else this.enemies
                 if (list.isEmpty()) return null
@@ -2312,66 +2743,79 @@ abstract class Area {
                 arrayList.add(target)
                 arrayList
             }
+
             TARGET_LOWEST_ABSOLUTE_ALLY -> {
                 val target = selectLowestHpTarget(entity, false, true) ?: return null
                 arrayList.add(target)
                 arrayList
             }
+
             TARGET_RANDOM -> {
                 val target = selectRandomTarget(entity, false) ?: return null
                 arrayList.add(target)
                 arrayList
             }
+
             TARGET_RANDOM_ALLY -> {
                 val list: List<Entity> = if (entity is Adventurer) this.adventurersExploring else this.enemies
                 if (list.isEmpty()) return null
                 arrayList.add(list[(Utils.random() * list.size.toDouble()).toInt()])
                 arrayList
             }
+
             TARGET_RANDOM_ENEMY -> {
                 val target = selectEnemyTarget(entity) ?: return null
                 arrayList.add(target)
                 arrayList
             }
+
             TARGET_LOWEST_RELATIVE_ENEMY -> {
                 val target = selectLowestHpTarget(entity, true, false) ?: return null
                 arrayList.add(target)
                 arrayList
             }
+
             TARGET_RANDOM_EXCEPT_SELF -> {
                 val target = selectRandomTarget(entity, true) ?: return null
                 arrayList.add(target)
                 arrayList
             }
+
             TARGET_ALL -> {
                 arrayList.addAll(this.adventurersExploring)
                 arrayList.addAll(this.enemies)
                 if (arrayList.isEmpty()) null else arrayList
             }
+
             TARGET_LOWEST_ABSOLUTE_ENEMY -> {
                 val target = selectLowestHpTarget(entity, true, true) ?: return null
                 arrayList.add(target)
                 arrayList
             }
+
             TARGET_ALL_ENEMIES -> {
                 arrayList.addAll(if (entity is Adventurer) this.enemies else this.adventurersExploring)
                 if (arrayList.isEmpty()) null else arrayList
             }
+
             TARGET_ALL_ALLIES -> {
                 arrayList.addAll(if (entity is Adventurer) this.adventurersExploring else this.enemies)
                 if (arrayList.isEmpty()) null else arrayList
             }
+
             TARGET_ALL_EXCEPT_SELF -> {
                 arrayList.addAll(this.adventurersExploring)
                 arrayList.addAll(this.enemies)
                 arrayList.remove(entity)
                 if (arrayList.isEmpty()) null else arrayList
             }
+
             TARGET_LOWEST_RELATIVE_ALLY -> {
                 val target = selectLowestHpTarget(entity, false, false) ?: return null
                 arrayList.add(target)
                 arrayList
             }
+
             TARGET_RANDOM_ALLY_EXCEPT_SELF -> {
                 val list = ArrayList(if (entity is Adventurer) this.adventurersExploring else this.enemies)
                 list.remove(entity)
@@ -2380,8 +2824,13 @@ abstract class Area {
                 arrayList.add(list[(Utils.random() * list.size.toDouble()).toInt()])
                 arrayList
             }
+
             else -> {
-                val count = try { str.toInt() } catch (e: Exception) { 1 }
+                val count = try {
+                    str.toInt()
+                } catch (e: Exception) {
+                    1
+                }
                 for (i2 in 0 until count) {
                     val target = selectEnemyTarget(entity) ?: return null
                     arrayList.add(target)
@@ -2436,7 +2885,9 @@ abstract class Area {
         arrayList.sortWith(compareByDescending { it.negativeStatusEffects.size })
         var entity: Entity? = null
         for (candidate in arrayList) {
-            if (candidate.currentHp > 0 && (entity == null || candidate.currentHp.toDouble() / candidate.calculateTotalMaxHp().toDouble() < entity.currentHp.toDouble() / entity.calculateTotalMaxHp().toDouble())) {
+            if (candidate.currentHp > 0 && (entity == null || candidate.currentHp.toDouble() / candidate.calculateTotalMaxHp()
+                    .toDouble() < entity.currentHp.toDouble() / entity.calculateTotalMaxHp().toDouble())
+            ) {
                 entity = candidate
             }
         }
@@ -2497,7 +2948,8 @@ abstract class Area {
     }
 
     private fun selectLowestHpTarget(entity: Entity, z: Boolean, z2: Boolean): Entity? {
-        val candidates: List<Entity> = if ((entity !is Adventurer || z) && (entity !is Enemy || !z)) this.enemies else this.adventurersExploring
+        val candidates: List<Entity> =
+            if ((entity !is Adventurer || z) && (entity !is Enemy || !z)) this.enemies else this.adventurersExploring
         val arrayList = ArrayList<Entity>(candidates)
         if (!z) {
             arrayList.sortWith(compareByDescending { it.negativeStatusEffects.size })
@@ -2512,7 +2964,8 @@ abstract class Area {
                 val matches = if (entity2 == null) {
                     true
                 } else if (!z2) {
-                    candidate.currentHp.toDouble() / candidate.calculateTotalMaxHp().toDouble() < entity2.currentHp.toDouble() / entity2.calculateTotalMaxHp().toDouble()
+                    candidate.currentHp.toDouble() / candidate.calculateTotalMaxHp()
+                        .toDouble() < entity2.currentHp.toDouble() / entity2.calculateTotalMaxHp().toDouble()
                 } else {
                     candidate.currentHp < entity2.currentHp
                 }
@@ -2609,72 +3062,156 @@ abstract class Area {
 
         if (size > 0) {
             val adv = arrayList[0]
-            layout.adventurerImage1.adventurerImage.setImageDrawable(ResourcesCompat.getDrawable(resources, adv.imageId, theme))
+            layout.adventurerImage1.adventurerImage.setImageDrawable(
+                ResourcesCompat.getDrawable(
+                    resources,
+                    adv.imageId,
+                    theme
+                )
+            )
             layout.adventurerImage1.adventurerImage.setBackgroundResource(if (adv.isAscended()) R.drawable.object_border_ascended else R.drawable.object_border_dim_white)
         }
         if (size > 1) {
             val adv = arrayList[1]
-            layout.adventurerImage2.adventurerImage.setImageDrawable(ResourcesCompat.getDrawable(resources, adv.imageId, theme))
+            layout.adventurerImage2.adventurerImage.setImageDrawable(
+                ResourcesCompat.getDrawable(
+                    resources,
+                    adv.imageId,
+                    theme
+                )
+            )
             layout.adventurerImage2.adventurerImage.setBackgroundResource(if (adv.isAscended()) R.drawable.object_border_ascended else R.drawable.object_border_dim_white)
         }
         if (size > 2) {
             val adv = arrayList[2]
-            layout.adventurerImage3.adventurerImage.setImageDrawable(ResourcesCompat.getDrawable(resources, adv.imageId, theme))
+            layout.adventurerImage3.adventurerImage.setImageDrawable(
+                ResourcesCompat.getDrawable(
+                    resources,
+                    adv.imageId,
+                    theme
+                )
+            )
             layout.adventurerImage3.adventurerImage.setBackgroundResource(if (adv.isAscended()) R.drawable.object_border_ascended else R.drawable.object_border_dim_white)
         }
         if (size > 3) {
             val adv = arrayList[3]
-            layout.adventurerImage4.adventurerImage.setImageDrawable(ResourcesCompat.getDrawable(resources, adv.imageId, theme))
+            layout.adventurerImage4.adventurerImage.setImageDrawable(
+                ResourcesCompat.getDrawable(
+                    resources,
+                    adv.imageId,
+                    theme
+                )
+            )
             layout.adventurerImage4.adventurerImage.setBackgroundResource(if (adv.isAscended()) R.drawable.object_border_ascended else R.drawable.object_border_dim_white)
         }
         if (size > 4) {
             val adv = arrayList[4]
-            layout.adventurerImage5.adventurerImage.setImageDrawable(ResourcesCompat.getDrawable(resources, adv.imageId, theme))
+            layout.adventurerImage5.adventurerImage.setImageDrawable(
+                ResourcesCompat.getDrawable(
+                    resources,
+                    adv.imageId,
+                    theme
+                )
+            )
             layout.adventurerImage5.adventurerImage.setBackgroundResource(if (adv.isAscended()) R.drawable.object_border_ascended else R.drawable.object_border_dim_white)
         }
         if (size > 5) {
             val adv = arrayList[5]
-            layout.adventurerImage6.adventurerImage.setImageDrawable(ResourcesCompat.getDrawable(resources, adv.imageId, theme))
+            layout.adventurerImage6.adventurerImage.setImageDrawable(
+                ResourcesCompat.getDrawable(
+                    resources,
+                    adv.imageId,
+                    theme
+                )
+            )
             layout.adventurerImage6.adventurerImage.setBackgroundResource(if (adv.isAscended()) R.drawable.object_border_ascended else R.drawable.object_border_dim_white)
         }
         if (size > 6) {
             val adv = arrayList[6]
-            layout.adventurerImage7.adventurerImage.setImageDrawable(ResourcesCompat.getDrawable(resources, adv.imageId, theme))
+            layout.adventurerImage7.adventurerImage.setImageDrawable(
+                ResourcesCompat.getDrawable(
+                    resources,
+                    adv.imageId,
+                    theme
+                )
+            )
             layout.adventurerImage7.adventurerImage.setBackgroundResource(if (adv.isAscended()) R.drawable.object_border_ascended else R.drawable.object_border_dim_white)
         }
         if (size > 7) {
             val adv = arrayList[7]
-            layout.adventurerImage8.adventurerImage.setImageDrawable(ResourcesCompat.getDrawable(resources, adv.imageId, theme))
+            layout.adventurerImage8.adventurerImage.setImageDrawable(
+                ResourcesCompat.getDrawable(
+                    resources,
+                    adv.imageId,
+                    theme
+                )
+            )
             layout.adventurerImage8.adventurerImage.setBackgroundResource(if (adv.isAscended()) R.drawable.object_border_ascended else R.drawable.object_border_dim_white)
         }
         if (size > 8) {
             val adv = arrayList[8]
-            layout.adventurerImage9.adventurerImage.setImageDrawable(ResourcesCompat.getDrawable(resources, adv.imageId, theme))
+            layout.adventurerImage9.adventurerImage.setImageDrawable(
+                ResourcesCompat.getDrawable(
+                    resources,
+                    adv.imageId,
+                    theme
+                )
+            )
             layout.adventurerImage9.adventurerImage.setBackgroundResource(if (adv.isAscended()) R.drawable.object_border_ascended else R.drawable.object_border_dim_white)
         }
         if (size > 9) {
             val adv = arrayList[9]
-            layout.adventurerImage10.adventurerImage.setImageDrawable(ResourcesCompat.getDrawable(resources, adv.imageId, theme))
+            layout.adventurerImage10.adventurerImage.setImageDrawable(
+                ResourcesCompat.getDrawable(
+                    resources,
+                    adv.imageId,
+                    theme
+                )
+            )
             layout.adventurerImage10.adventurerImage.setBackgroundResource(if (adv.isAscended()) R.drawable.object_border_ascended else R.drawable.object_border_dim_white)
         }
         if (size > 10) {
             val adv = arrayList[10]
-            layout.adventurerImage11.adventurerImage.setImageDrawable(ResourcesCompat.getDrawable(resources, adv.imageId, theme))
+            layout.adventurerImage11.adventurerImage.setImageDrawable(
+                ResourcesCompat.getDrawable(
+                    resources,
+                    adv.imageId,
+                    theme
+                )
+            )
             layout.adventurerImage11.adventurerImage.setBackgroundResource(if (adv.isAscended()) R.drawable.object_border_ascended else R.drawable.object_border_dim_white)
         }
         if (size > 11) {
             val adv = arrayList[11]
-            layout.adventurerImage12.adventurerImage.setImageDrawable(ResourcesCompat.getDrawable(resources, adv.imageId, theme))
+            layout.adventurerImage12.adventurerImage.setImageDrawable(
+                ResourcesCompat.getDrawable(
+                    resources,
+                    adv.imageId,
+                    theme
+                )
+            )
             layout.adventurerImage12.adventurerImage.setBackgroundResource(if (adv.isAscended()) R.drawable.object_border_ascended else R.drawable.object_border_dim_white)
         }
         if (size > 12) {
             val adv = arrayList[12]
-            layout.adventurerImage13.adventurerImage.setImageDrawable(ResourcesCompat.getDrawable(resources, adv.imageId, theme))
+            layout.adventurerImage13.adventurerImage.setImageDrawable(
+                ResourcesCompat.getDrawable(
+                    resources,
+                    adv.imageId,
+                    theme
+                )
+            )
             layout.adventurerImage13.adventurerImage.setBackgroundResource(if (adv.isAscended()) R.drawable.object_border_ascended else R.drawable.object_border_dim_white)
         }
         if (size > 13) {
             val adv = arrayList[13]
-            layout.adventurerImage14.adventurerImage.setImageDrawable(ResourcesCompat.getDrawable(resources, adv.imageId, theme))
+            layout.adventurerImage14.adventurerImage.setImageDrawable(
+                ResourcesCompat.getDrawable(
+                    resources,
+                    adv.imageId,
+                    theme
+                )
+            )
             layout.adventurerImage14.adventurerImage.setBackgroundResource(if (adv.isAscended()) R.drawable.object_border_ascended else R.drawable.object_border_dim_white)
         }
 
@@ -2745,13 +3282,24 @@ abstract class Area {
         val isFull = stack >= (if (MainActivity.data.isMerchantPackPurchased) 3000 else 2000)
         val layout = getLayout()
         layout.lootImage.visibility = if (this.drops.isEmpty()) 8 else 0
-        layout.lootImage.setImageDrawable(ResourcesCompat.getDrawable(resources, if (isFull) R.drawable.loot_chest_full else R.drawable.loot_chest, theme))
+        layout.lootImage.setImageDrawable(
+            ResourcesCompat.getDrawable(
+                resources,
+                if (isFull) R.drawable.loot_chest_full else R.drawable.loot_chest,
+                theme
+            )
+        )
         layout.fullLoot.visibility = if (this.drops.isEmpty()) 8 else 0
         layout.fullLoot.text = String.format(
             resources.getString(if (MainActivity.data.isMerchantPackPurchased) R.string.loot_percentage_full_with_pack else R.string.loot_percentage_full),
             stack
         )
-        layout.fullLoot.setTextColor(resources.getColor(if (isFull) UIUtils.getFailureColor() else R.color.dim_white, theme))
+        layout.fullLoot.setTextColor(
+            resources.getColor(
+                if (isFull) UIUtils.getFailureColor() else R.color.dim_white,
+                theme
+            )
+        )
     }
 
     open fun refreshActionDisplayed() {
