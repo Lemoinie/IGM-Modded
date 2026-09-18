@@ -187,7 +187,8 @@ abstract class Entity {
             flatReduction = 0
         }
         val maxDef = if (z) calculateTotalMagicDefense() else calculateTotalDefense()
-        val armorFactor = Math.min(1.0, (1.0 - d2) * 0.01 * maxDef.toDouble())
+        val bleedShred = Math.min(15.0, Math.floor(getBleedStacks().toDouble() * 0.1)) * 0.01
+        val armorFactor = Math.min(1.0, (1.0 - d2) * (1.0 - bleedShred) * 0.01 * maxDef.toDouble())
         var damageAfterArmor = (1.0 - armorFactor) * d
         if (this is Adventurer && traitRare == Trait.DRAGON_BLOOD) {
             val tier = maxLevel / 5
@@ -208,6 +209,17 @@ abstract class Entity {
             currentShield = 0
         }
         return iRound
+    }
+
+    /** Total Bleed stacks currently applied to this entity (BLEED stacks sum their turnsLeft). */
+    open fun getBleedStacks(): Int {
+        var stacks = 0
+        for (effect in negativeStatusEffects) {
+            if (effect.type == StatusEffectType.BLEED) {
+                stacks += effect.turnsLeft
+            }
+        }
+        return stacks
     }
 
     open fun calculateFlatDamageReduction(): Int {

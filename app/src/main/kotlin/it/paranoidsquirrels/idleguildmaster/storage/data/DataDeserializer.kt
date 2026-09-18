@@ -158,6 +158,7 @@ class DataDeserializer : JsonDeserializer<Data> {
         this.data.isRedeemed_vre8983y = asJsonObject.has("redeemed_vre8983y") && asJsonObject.get("redeemed_vre8983y").asBoolean
         this.data.isRedeemed_vrw74ync = asJsonObject.has("redeemed_vrw74ync") && asJsonObject.get("redeemed_vrw74ync").asBoolean
         this.data.isRedeemed_e44opo7z = asJsonObject.has("redeemed_e44opo7z") && asJsonObject.get("redeemed_e44opo7z").asBoolean
+        this.data.isRedeemed_z3gaazrt = asJsonObject.has("redeemed_z3gaazrt") && asJsonObject.get("redeemed_z3gaazrt").asBoolean
         this.data.isRedeem_potionsRefund1 = asJsonObject.has("redeem_potionsRefund1") && asJsonObject.get("redeem_potionsRefund1").asBoolean
         this.data.isRedeem_f1r39h15 = asJsonObject.has("redeem_f1r39h15") && asJsonObject.get("redeem_f1r39h15").asBoolean
         this.data.redeem_m975nfu5 = if (asJsonObject.has("redeem_m975nfu5")) asJsonObject.get("redeem_m975nfu5").asInt  else 0

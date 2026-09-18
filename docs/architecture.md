@@ -152,8 +152,10 @@ injected patches. The remaining "mod-specific" surface is thin and clearly locat
 - **Redeem-code console** — `game/redeem/RedeemCodes.kt` services the in-game
   Redeem Code dialog (`ui/dialogs/DialogRedeemCode.kt`) with `REROLL`, `SHOP`,
   `QUEST`, `GOLD`, `STORAGE`, `IDLETIME`, `LOOTCAP`, `KILLS`, `SETKILLS`, `ITEM`,
-  `HERO`, and `PET` commands; each command mutates live `Data` and persists via
-  `FileManager.saveNow(...)`.
+  `HERO`, and `PET` commands (plus the one-time code `Z3gAAzrt` which grants a
+  level-100 Semi with Bloodcrave/Lacerate/Serrated/Savage); each command mutates
+  live `Data` and persists via `FileManager.saveNow(...)`. One-time codes are
+  tracked by persisted `redeemed_*` boolean flags on `Data`.
 - **Guild Activities** — The Hunt (`GuildRequestArea`) and The Siege (`GuildSiegeArea`)
   live under `storage/data/places/raids/` and are driven by
   `game/activities/GuildActivitiesManager.kt` + `GuildActivitiesState.kt`

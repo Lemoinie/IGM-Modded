@@ -57,7 +57,7 @@ object Utils {
     const val ONE_DAY_IN_SECONDS: Int = 86400
     const val ONE_HOUR_IN_MILLISECONDS: Long = 3600000L
     const val ONE_HOUR_IN_SECONDS: Int = 3600
-    private const val PET_ABILITY_INDIVIDUAL_PROBABILITY: Double = 0.07692307692307693
+    private const val PET_ABILITY_INDIVIDUAL_PROBABILITY: Double = 0.0625
     private const val POTION_INDIVIDUAL_PROBABILITY: Double = 0.09090909090909091
     private const val SPECIAL_FOOD_INDIVIDUAL_PROBABILITY: Double = 0.16666666666666666
     private const val TRAIT_COMMON_INDIVIDUAL_PROBABILITY: Double = 0.13333333333333333
@@ -226,18 +226,21 @@ object Utils {
             val dRandom = random()
             petAbility = when {
                 dRandom < PET_ABILITY_INDIVIDUAL_PROBABILITY -> PetAbility.FIGHTER
-                dRandom < 0.15384615384615385 -> PetAbility.HEALER
-                dRandom < 0.23076923076923078 -> PetAbility.DECOY
-                dRandom < 0.3076923076923077 -> PetAbility.OPPORTUNIST
-                dRandom < 0.38461538461538464 -> PetAbility.MAGIC
-                dRandom < 0.46153846153846156 -> PetAbility.SAVAGE
-                dRandom < 0.5384615384615385 -> PetAbility.BRIGHT
-                dRandom < 0.6153846153846154 -> PetAbility.EXPERIENCE
-                dRandom < 0.6923076923076923 -> PetAbility.DROPS
-                dRandom < 0.7692307692307693 -> PetAbility.COUNTERATTACK
-                dRandom < 0.8461538461538463 -> PetAbility.LIFESTEAL
-                dRandom < 0.9230769230769231 -> PetAbility.REGENERATION
-                dRandom < 1.0 -> PetAbility.BARRIER
+                dRandom < 0.125 -> PetAbility.HEALER
+                dRandom < 0.1875 -> PetAbility.DECOY
+                dRandom < 0.25 -> PetAbility.OPPORTUNIST
+                dRandom < 0.3125 -> PetAbility.MAGIC
+                dRandom < 0.375 -> PetAbility.SAVAGE
+                dRandom < 0.4375 -> PetAbility.BRIGHT
+                dRandom < 0.5 -> PetAbility.EXPERIENCE
+                dRandom < 0.5625 -> PetAbility.DROPS
+                dRandom < 0.625 -> PetAbility.COUNTERATTACK
+                dRandom < 0.6875 -> PetAbility.LIFESTEAL
+                dRandom < 0.75 -> PetAbility.REGENERATION
+                dRandom < 0.8125 -> PetAbility.BARRIER
+                dRandom < 0.875 -> PetAbility.BLOODCRAVE
+                dRandom < 0.9375 -> PetAbility.LACERATE
+                dRandom < 1.0 -> PetAbility.SERRATED
                 else -> PetAbility.EMPTY
             }
         }

@@ -1022,12 +1022,20 @@ abstract class Area {
                     }
                     StatusEffectType.BLEED -> {
                         val turnsLeft = statusEffect.turnsLeft + 1
-                        entity.currentHp = Math.max(0, entity.currentHp - turnsLeft)
+                        val petBleed = this.petExploring
+                        val bloodcraveBonus = if (petBleed != null) petBleed.getBloodcrave() else 0.0
+                        val bleedDamage = if (bloodcraveBonus > 0.0) Utils.round(turnsLeft.toDouble() * (1.0 + bloodcraveBonus * 0.01)) else turnsLeft
+                        entity.currentHp = Math.max(0, entity.currentHp - bleedDamage)
                         if (!z3) {
-                            QuestsManager.increment(QuestsManager.slowBurn, turnsLeft.toLong())
+                            QuestsManager.increment(QuestsManager.slowBurn, bleedDamage.toLong())
                         }
-                        Logger.log(this, 19, entity, statusEffect, turnsLeft)
+                        Logger.log(this, 19, entity, statusEffect, bleedDamage)
                         z4 = true
+                        if (petBleed != null && petBleed.getLacerate() > 0.0 && Utils.random() < petBleed.getLacerate() / 100.0) {
+                            // Lacerate: bleed deals damage one additional time without consuming an extra stack.
+                            entity.currentHp = Math.max(0, entity.currentHp - bleedDamage)
+                            Logger.log(this, Logger.STATUS_BLEED_LACERATE, entity, bleedDamage)
+                        }
                     }
                     StatusEffectType.FEEBLE_TETHER -> {
                         if (entity.currentMana < 100) {
@@ -1324,7 +1332,17 @@ abstract class Area {
             applyStatus(statusEffect.cause, statusEffect, d)
             return
         }
-        val iAddStatusEffect = entity.addStatusEffect(statusEffect, d)
+        val appliedStatus = StatusEffect(statusEffect.type, statusEffect.cause, statusEffect.turnsLeft, statusEffect.probability, statusEffect.immunity, statusEffect.flatDr, statusEffect.regenPct, statusEffect.undeadDamageBonus)
+        if (appliedStatus.type == StatusEffectType.BLEED && entity is Enemy) {
+            val petSerrated = this.petExploring
+            if (petSerrated != null && petSerrated.getSerrated() > 0.0 && Utils.random() < petSerrated.getSerrated() / 100.0) {
+                // Serrated: inflict bleed twice (double the added stacks).
+                appliedStatus.turnsLeft = appliedStatus.turnsLeft * 2
+                val serratedInflicter = statusEffect.cause ?: entity
+                Logger.log(this, Logger.STATUS_BLEED_SERRATED, serratedInflicter, entity, appliedStatus.turnsLeft)
+            }
+        }
+        val iAddStatusEffect = entity.addStatusEffect(appliedStatus, d)
         if (iAddStatusEffect > 0) {
             if (entity is Enemy) {
                 if (statusEffect.type == StatusEffectType.STUN) {
@@ -1340,6 +1358,34 @@ abstract class Area {
                 Logger.log(this, 12, entity, statusEffect.type)
             }
         }
+    }
+
+    /**
+     * Instant Elden Ring style blood-loss burst triggered right after Thousand Cuts
+     * applies its Bleed stacks. Damage scales with the target's total Bleed stacks and
+     * the party pet's Bloodcrave bonus; rolls the inflicter's crit (and the pet's Savage
+     * tier) for Critical / Devastating hits. Bleed stacks are preserved.
+     */
+    private fun triggerHemorrhage(inflicter: Entity, target: Entity) {
+        if (target.currentHp <= 0) return
+        val stacks = target.getBleedStacks()
+        if (stacks <= 0) return
+        val petHem = this.petExploring
+        val bloodcraveBonus = if (petHem != null) petHem.getBloodcrave() else 0.0
+        val baseDamage = stacks.toDouble() * (1.0 + bloodcraveBonus * 0.01)
+        val isCrit = Utils.random() * 100.0 < inflicter.calculateCriticalChance()
+        val isSuperCrit = isCrit && petHem != null && petHem.getSavage() > 0.0 && Utils.random() < petHem.getSavage() / 100.0
+        val critMultiplier = if (isSuperCrit) {
+            val cd = inflicter.calculateCriticalDamage()
+            cd * cd
+        } else if (isCrit) {
+            inflicter.calculateCriticalDamage()
+        } else {
+            1.0
+        }
+        val critTier = if (isSuperCrit) 2 else if (isCrit) 1 else 0
+        val iHemorrhageDamage = target.applyDamage(baseDamage * critMultiplier, false, 0, 0.0)
+        Logger.log(this, Logger.STATUS_HEMORRHAGE, target, iHemorrhageDamage, critTier)
     }
 
     open fun trapEncounter(i: Int, i2: Int, i3: Int, i4: Int, z: Boolean) {
@@ -1900,6 +1946,9 @@ abstract class Area {
             }
             if (!skill.applyEffectOnDodge) {
                 applyStatus(entity2, skill.statusEffect, entity.calculateIgnoreImmunityToStatus() * 0.01)
+            }
+            if (entity.activeSkill == Skills.ACTIVE_THOUSAND_CUTS || entity.activeSkill == Skills.ACTIVE_THOUSAND_CUTS_II) {
+                triggerHemorrhage(entity, entity2)
             }
         } else if (endOfTurnAction?.effect != null) {
             applyStatus(entity2, StatusEffect(endOfTurnAction.effect.type, entity, endOfTurnAction.effect.turnsLeft, endOfTurnAction.effect.probability), entity.calculateIgnoreImmunityToStatus() * 0.01)

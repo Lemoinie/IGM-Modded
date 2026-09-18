@@ -22,10 +22,12 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.items.instances.*
 import it.paranoidsquirrels.idleguildmaster.storage.data.pets.Pet
 import it.paranoidsquirrels.idleguildmaster.storage.data.pets.PetAbility
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.dungeons.TheGoldenCity
+import it.paranoidsquirrels.idleguildmaster.storage.data.places.dungeons.EnchantedForest
 import it.paranoidsquirrels.idleguildmaster.ui.dialogs.ModChangelog
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
+import java.util.concurrent.CopyOnWriteArrayList
 
 class ModFeaturesTest {
 
@@ -173,7 +175,7 @@ class ModFeaturesTest {
     fun testModAboutChangelogEntries() {
         val entries = ModChangelog.parseVersionEntries()
         assertTrue(entries.isNotEmpty())
-        assertTrue("Top entry must be 1.3.3.0", entries[0].title.startsWith("1.3.3.0"))
+        assertTrue("Top entry must be 1.3.4.0", entries[0].title.startsWith("1.3.4.0"))
         assertTrue("Bottom entry must be 1.0.0.0", entries.last().title.startsWith("1.0.0.0"))
     }
 
@@ -641,5 +643,105 @@ class ModFeaturesTest {
         val multiplier = 1.0 + bonus
         assertEquals(1.25, multiplier, 0.0001)
         assertEquals(275, Utils.round(220.0 * multiplier)) // 220% -> 275% effective vs Undead
+    }
+
+    @Test
+    fun testBleedPetAbilitiesConfiguredAtLevel100() {
+        // Bloodcrave = floor(level*0.5) -> 50 at Lv100; Lacerate/Serrated = level*0.6 -> 60; Savage = level*0.3 -> 30.
+        val pet = Pet.getInstance("Semi", 1, 100, 0, PetAbility.BLOODCRAVE, PetAbility.LACERATE, PetAbility.SERRATED, PetAbility.SAVAGE)!!
+        assertEquals(100, pet.level)
+        assertEquals(50.0, pet.bloodcrave, 0.001)
+        assertEquals(60.0, pet.lacerate, 0.001)
+        assertEquals(60.0, pet.serrated, 0.001)
+        assertEquals(30.0, pet.savage, 0.001)
+    }
+
+    @Test
+    fun testWildGuaranteedPoolOffersBloodcrave() {
+        // guaranteedFirstAbility() is protected; the public factory rolls from it, so
+        // every base-Wild pet's first ability must be LIFESTEAL or BLOODCRAVE.
+        // (Senko/Semi overrides the pool with its own heal/regen/drops/experience kit.)
+        for (i in 1..20) {
+            val wildPet = Pet.getInstance("RedWolf", 100 + i)!!
+            assertTrue(
+                "Wild first ability must be LIFESTEAL or BLOODCRAVE (was ${wildPet.petAbility1})",
+                wildPet.petAbility1 == PetAbility.LIFESTEAL || wildPet.petAbility1 == PetAbility.BLOODCRAVE
+            )
+        }
+    }
+
+    @Test
+    fun testOneTimeBloodcraveSemiRedeem() {
+        MainActivity.data.isRedeemed_z3gaazrt = false
+        MainActivity.data.pets.clear()
+
+        val first = RedeemCodes.process("Z3GAAZRT", null)
+        assertNotNull("First redeem must return a message", first)
+        val semi = MainActivity.data.pets.firstOrNull { it.trueClass.equals("Semi", true) || it.trueClass.equals("Senko", true) }
+        assertNotNull("Z3GAAZRT must grant a Semi pet", semi)
+        assertEquals(100, semi!!.level)
+        assertEquals(PetAbility.BLOODCRAVE, semi.petAbility1)
+        assertEquals(PetAbility.LACERATE, semi.petAbility2)
+        assertEquals(PetAbility.SERRATED, semi.petAbility3)
+        assertEquals(PetAbility.SAVAGE, semi.petAbility4)
+        assertEquals(50.0, semi.bloodcrave, 0.001)
+        assertEquals(60.0, semi.lacerate, 0.001)
+        assertEquals(60.0, semi.serrated, 0.001)
+        assertEquals(30.0, semi.savage, 0.001)
+        assertTrue("Redeem flag must be persisted", MainActivity.data.isRedeemed_z3gaazrt)
+
+        val second = RedeemCodes.process("Z3GAAZRT", null)
+        assertNotNull(second)
+        assertTrue("Second redeem must be blocked", second!!.contains("already", ignoreCase = true))
+        assertEquals(1, MainActivity.data.pets.count { it.trueClass.equals("Semi", true) || it.trueClass.equals("Senko", true) })
+    }
+
+    @Test
+    fun testBleedArmorShredScalesAndCaps() {
+        // Ghoul has 50 Defense and no status immunity, so shred is clearly observable.
+        val ghoul = Enemy.getInstance("Ghoul")!!
+        ghoul.currentHp = ghoul.calculateTotalMaxHp()
+        val base = ghoul.applyDamage(10000.0, false, 0, 0.0)
+
+        ghoul.currentHp = ghoul.calculateTotalMaxHp()
+        repeat(50) { ghoul.addStatusEffect(StatusEffect(StatusEffectType.BLEED, null, 1, 1.0), 1.0) }
+        assertEquals(50, ghoul.getBleedStacks())
+        ghoul.currentHp = ghoul.calculateTotalMaxHp()
+        val shred50 = ghoul.applyDamage(10000.0, false, 0, 0.0)
+        assertTrue("50 stacks shred 5% defense (more damage taken than base: $base -> $shred50)", shred50 > base)
+
+        ghoul.currentHp = ghoul.calculateTotalMaxHp()
+        repeat(100) { ghoul.addStatusEffect(StatusEffect(StatusEffectType.BLEED, null, 1, 1.0), 1.0) }
+        assertEquals(150, ghoul.getBleedStacks())
+        ghoul.currentHp = ghoul.calculateTotalMaxHp()
+        val shred150 = ghoul.applyDamage(10000.0, false, 0, 0.0)
+        assertTrue("Cap of 15% shred at 150 stacks ($shred50 -> $shred150)", shred150 >= shred50)
+    }
+
+    @Test
+    fun testSerratedDoublesBleedApplication() {
+        val forest = EnchantedForest()
+        val pet = Pet.getInstance("Semi", 7)!!
+        pet.serrated = 100.0 // 100% proc chance
+        forest.petExploring = pet
+        val wolf = Enemy.getInstance("Wolf")!!
+        val hero = Adventurer.getInstance("Footman", 1, 20, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+        forest.applyStatus(wolf, StatusEffect(StatusEffectType.BLEED, hero, 5, 1.0), 1.0)
+        assertEquals("Serrated (100%) must double the inflicted bleed stacks", 10, wolf.getBleedStacks())
+    }
+
+    @Test
+    fun testThousandCutsAppliesBleedAndHemorrhage() {
+        val forest = EnchantedForest()
+        val hero = Adventurer.getInstance("HellishSculptor", 1, 50, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+        val wolf = Enemy.getInstance("Wolf")!!
+        wolf.currentHp = wolf.calculateTotalMaxHp()
+        // Frozen = cannot dodge, so Thousand Cuts always lands its hit.
+        wolf.negativeStatusEffects.add(StatusEffect.STATIC_INSTANCE_FROZEN)
+        forest.enemies = CopyOnWriteArrayList(listOf(wolf))
+        forest.acting = hero
+        forest.cast(hero)
+        assertTrue("Thousand Cuts must apply Bleed stacks (stacks=${wolf.getBleedStacks()})", wolf.getBleedStacks() > 0)
+        assertTrue("Hemorrhage burst must have dealt damage", wolf.currentHp < wolf.calculateTotalMaxHp())
     }
 }

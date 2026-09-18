@@ -196,6 +196,9 @@ class DialogPetDetail : CustomDialog() {
             PetAbility.LIFESTEAL -> String.format(string, wrap(UIUtils.formatDouble2Decimals(p.lifesteal)))
             PetAbility.REGENERATION -> String.format(string, wrap(p.regeneration))
             PetAbility.BARRIER -> String.format(string, wrap(p.barrier))
+            PetAbility.BLOODCRAVE -> String.format(string, wrap(UIUtils.formatDouble2Decimals(p.bloodcrave)))
+            PetAbility.LACERATE -> String.format(string, wrap(UIUtils.formatDouble2Decimals(p.lacerate)))
+            PetAbility.SERRATED -> String.format(string, wrap(UIUtils.formatDouble2Decimals(p.serrated)))
             else -> ""
         }
     }

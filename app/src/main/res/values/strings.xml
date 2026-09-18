@@ -3603,6 +3603,16 @@ POISON: damage reduced by 20%"</string>
     <string name="pet_ability_regeneration_name">Soothing</string>
     <string name="pet_ability_savage_description">Critical hits: %s%% to apply the multiplier twice.</string>
     <string name="pet_ability_savage_name">Savage</string>
+<string name="pet_ability_bloodcrave_name">Bloodcrave</string>
+<string name="pet_ability_bloodcrave_description" formatted="false">Increases bleed damage dealt by %s%%.</string>
+<string name="pet_ability_lacerate_name">Lacerate</string>
+<string name="pet_ability_lacerate_description" formatted="false">Bleed: %s%% chance to deal damage twice in a turn.</string>
+<string name="pet_ability_serrated_name">Serrated</string>
+<string name="pet_ability_serrated_description" formatted="false">Bleed infliction: %s%% chance to inflict bleed twice.</string>
+<string name="log_status_bleed_lacerate">%s suffered a lacerating wound! It lost %s damage! Lacerate!</string>
+<string name="log_bleed_serrated">%s inflicted serrated wounds on %s! Bleed doubled (+%s)!</string>
+<string name="status_effect_hemorrhage">Hemorrhage</string>
+<string name="log_status_hemorrhage" formatted="false">%s hemorrhaged. It lost %s damage!%s</string>
     <string name="pet_beetle_description">A small, hard-shelled insect with sturdy legs and antennae. It scuttles with purpose, often gleaming in metallic colors.</string>
     <string name="pet_beetle_name">Beetle</string>
     <string name="pet_crocodile_description">A massive, armored reptile with powerful jaws and a stealthy, low-slung body. It lurks in water, ready to launch explosive ambushes with a swift lunge.</string>
