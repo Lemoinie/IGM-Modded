@@ -70,28 +70,44 @@ object UIUtils {
     private val df2 = DecimalFormat("0.00")
 
     @JvmStatic
+    fun decomposeMoney(j: Long): MutableList<Long> {
+        val copper = j % 100
+        val silver = ((j % 10000) - copper) / 100
+        val gold = (((j % 1000000) - (silver * 100)) - copper) / 10000
+        val platinum = (((j % 100000000) - (gold * 10000) - (silver * 100)) - copper) / 1000000
+        val diamond = j / 100000000
+        return mutableListOf(copper, silver, gold, platinum, diamond)
+    }
+
+    @JvmStatic
     fun populateMoneyContainer(layoutMoneyBinding: LayoutMoneyBinding, j: Long, z: Boolean) {
-        val j2 = j % 100
-        val j3 = ((j % WorkRequest.MIN_BACKOFF_MILLIS) - j2) / 100
-        val j4 = (((j % 1000000) - j3) - j2) / WorkRequest.MIN_BACKOFF_MILLIS
-        val j5 = (((j - j4) - j3) - j2) / 1000000
-        layoutMoneyBinding.amountCopper.text = j2.toString()
-        layoutMoneyBinding.amountSilver.text = j3.toString()
-        layoutMoneyBinding.amountGold.text = j4.toString()
-        layoutMoneyBinding.amountPlatinum.text = j5.toString()
-        val z2 = j3 == 0L && j4 == 0L && j5 == 0L
-        val z3 = j4 == 0L && j5 == 0L
-        val z4 = j5 == 0L
-        val z5 = z && j >= WorkRequest.MIN_BACKOFF_MILLIS
-        val z6 = z && j >= 1000000L
-        layoutMoneyBinding.amountCopper.visibility = if (z5) View.GONE else View.VISIBLE
-        layoutMoneyBinding.imageCopper.visibility = if (z5) View.GONE else View.VISIBLE
-        layoutMoneyBinding.amountSilver.visibility = if (z2 || z6) View.GONE else View.VISIBLE
-        layoutMoneyBinding.imageSilver.visibility = if (z2 || z6) View.GONE else View.VISIBLE
+        val parts = decomposeMoney(j)
+        val copper = parts[0]
+        val silver = parts[1]
+        val gold = parts[2]
+        val platinum = parts[3]
+        val diamond = parts[4]
+        layoutMoneyBinding.amountCopper.text = copper.toString()
+        layoutMoneyBinding.amountSilver.text = silver.toString()
+        layoutMoneyBinding.amountGold.text = gold.toString()
+        layoutMoneyBinding.amountPlatinum.text = platinum.toString()
+        layoutMoneyBinding.amountDiamond.text = diamond.toString()
+        val z2 = copper == 0L && silver == 0L && gold == 0L && platinum == 0L && diamond == 0L
+        val z3 = gold == 0L && platinum == 0L && diamond == 0L
+        val z4 = platinum == 0L && diamond == 0L
+        val z5 = diamond == 0L
+        val z6 = z && j >= WorkRequest.MIN_BACKOFF_MILLIS
+        val z7 = z && j >= 1000000L
+        layoutMoneyBinding.amountCopper.visibility = if (z6) View.GONE else View.VISIBLE
+        layoutMoneyBinding.imageCopper.visibility = if (z6) View.GONE else View.VISIBLE
+        layoutMoneyBinding.amountSilver.visibility = if (z2 || z7) View.GONE else View.VISIBLE
+        layoutMoneyBinding.imageSilver.visibility = if (z2 || z7) View.GONE else View.VISIBLE
         layoutMoneyBinding.amountGold.visibility = if (z3) View.GONE else View.VISIBLE
         layoutMoneyBinding.imageGold.visibility = if (z3) View.GONE else View.VISIBLE
         layoutMoneyBinding.amountPlatinum.visibility = if (z4) View.GONE else View.VISIBLE
         layoutMoneyBinding.imagePlatinum.visibility = if (z4) View.GONE else View.VISIBLE
+        layoutMoneyBinding.amountDiamond.visibility = if (z5) View.GONE else View.VISIBLE
+        layoutMoneyBinding.imageDiamond.visibility = if (z5) View.GONE else View.VISIBLE
     }
 
     @JvmStatic
@@ -101,6 +117,7 @@ object UIUtils {
         layoutMoneyBinding.amountSilver.setTextColor(color)
         layoutMoneyBinding.amountGold.setTextColor(color)
         layoutMoneyBinding.amountPlatinum.setTextColor(color)
+        layoutMoneyBinding.amountDiamond.setTextColor(color)
     }
 
     @JvmStatic

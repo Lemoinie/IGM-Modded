@@ -173,6 +173,9 @@ class MainActivity : AppCompatActivity() {
         var shownDialogMerchant: DialogMerchant? = null
 
         @JvmField
+        var shownDialogBlackMarket: DialogBlackMarket? = null
+
+        @JvmField
         var shownDialogMergePet: DialogMergePet? = null
 
         @JvmField
@@ -393,6 +396,8 @@ class MainActivity : AppCompatActivity() {
         binding.navViewDrawer.menu.findItem(R.id.shop)?.isVisible = false
         binding.navViewDrawer.menu.findItem(R.id.cafe_naver)?.isVisible = ("ko" == data.settingsLanguage)
         binding.newItems.visibility = if (data.isNewMerchantRegularItems) View.VISIBLE else View.GONE
+        binding.blackMarket.visibility = if (data.isBlackMarketActive) View.VISIBLE else View.GONE
+        binding.newBlackMarketItems.visibility = if (data.isBlackMarketActive && data.isNewBlackMarketItems) View.VISIBLE else View.GONE
 
         val noQuests = data.kingsQuests.isEmpty() && data.afflictionQuests.isEmpty() &&
                 data.controlQuests.isEmpty() && data.fortitudeQuests.isEmpty() &&
@@ -569,6 +574,12 @@ class MainActivity : AppCompatActivity() {
         binding.merchant.setOnClickListener {
             if (shownDialogMerchant == null) {
                 DialogMerchant().show(supportFragmentManager, "merchant")
+            }
+        }
+
+        binding.blackMarket.setOnClickListener {
+            if (shownDialogBlackMarket == null && data.isBlackMarketActive) {
+                DialogBlackMarket().show(supportFragmentManager, "black_market")
             }
         }
 

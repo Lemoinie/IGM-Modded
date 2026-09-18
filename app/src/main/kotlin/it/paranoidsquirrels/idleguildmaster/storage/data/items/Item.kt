@@ -66,13 +66,13 @@ abstract class Item {
     open fun getSecondsToCraft(): Long {
         val discount = if (MainActivity.data.isMerchantPackPurchased) 0.6 else 1.0
         val timeMultiplier = Math.pow(0.9, (MainActivity.data.levelWorkshopTime + MainActivity.data.upgradeWorkshopTime - 1).toDouble())
-        return (discount * timeMultiplier * Math.max(price - 1, 1L).toDouble() * 6.0 * stack.toDouble()).toLong()
+        return (discount * timeMultiplier * Math.max(price - 1, 1L).toDouble() * 6.0 * stack.toDouble()).toLong().coerceAtLeast(1L)
     }
 
     open fun getSecondsToSell(): Long {
         val discount = if (MainActivity.data.isMerchantPackPurchased) 0.6 else 1.0
         val timeMultiplier = Math.pow(0.9, (MainActivity.data.levelMarketTime + MainActivity.data.upgradeMarketTime - 1).toDouble())
-        return (discount * timeMultiplier * price.toDouble() * 4.0 * stack.toDouble()).toLong()
+        return (discount * timeMultiplier * price.toDouble() * 4.0 * stack.toDouble()).toLong().coerceAtLeast(1L)
     }
 
     open fun getTrueClass(): String? = trueClass

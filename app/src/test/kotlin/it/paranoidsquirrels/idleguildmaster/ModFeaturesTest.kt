@@ -175,7 +175,7 @@ class ModFeaturesTest {
     fun testModAboutChangelogEntries() {
         val entries = ModChangelog.parseVersionEntries()
         assertTrue(entries.isNotEmpty())
-        assertTrue("Top entry must be 1.3.4.0", entries[0].title.startsWith("1.3.4.0"))
+        assertTrue("Top entry must be 1.3.5.0", entries[0].title.startsWith("1.3.5.0"))
         assertTrue("Bottom entry must be 1.0.0.0", entries.last().title.startsWith("1.0.0.0"))
     }
 
@@ -743,5 +743,84 @@ class ModFeaturesTest {
         forest.cast(hero)
         assertTrue("Thousand Cuts must apply Bleed stacks (stacks=${wolf.getBleedStacks()})", wolf.getBleedStacks() > 0)
         assertTrue("Hemorrhage burst must have dealt damage", wolf.currentHp < wolf.calculateTotalMaxHp())
+    }
+
+    @Test
+    fun testCurrencyDecomposition() {
+        // 1 Diamond = 100 Platinum = 100M copper; paln verification cases.
+        assertEquals("50 copper -> 50c", listOf(50L, 0L, 0L, 0L, 0L), UIUtils.decomposeMoney(50L))
+        assertEquals("1,500 copper -> 15s", listOf(0L, 15L, 0L, 0L, 0L), UIUtils.decomposeMoney(1500L))
+        assertEquals("150,000 copper -> 15g", listOf(0L, 0L, 15L, 0L, 0L), UIUtils.decomposeMoney(150000L))
+        assertEquals("15,000,000 copper -> 15p", listOf(0L, 0L, 0L, 15L, 0L), UIUtils.decomposeMoney(15000000L))
+        assertEquals("250,000,000 copper -> 2d 50p", listOf(0L, 0L, 0L, 50L, 2L), UIUtils.decomposeMoney(250000000L))
+    }
+
+    @Test
+    fun testItemSpeedClampAtLevel40() {
+        val d = MainActivity.data
+        d.isMerchantPackPurchased = true
+        d.levelWorkshopTime = 25
+        d.upgradeWorkshopTime = 15
+        d.levelMarketTime = 25
+        d.upgradeMarketTime = 15
+        val item = Item.getInstance("CopperSword", 1)!!
+        assertTrue("Craft time must stay >= 1s at speed level 40 (was ${item.getSecondsToCraft()})", item.getSecondsToCraft() >= 1L)
+        assertTrue("Sell time must stay >= 1s at speed level 40 (was ${item.getSecondsToSell()})", item.getSecondsToSell() >= 1L)
+    }
+
+    @Test
+    fun testExpandedUpgradeCaps() {
+        val d = MainActivity.data
+        d.upgradeStorage = 184
+        d.upgradeQuarters = 15
+        d.upgradeTavernCapacity = 7
+        d.upgradeShelter = 7
+        d.upgradeWorkshopTime = 15
+        d.upgradeMarketTime = 15
+        d.upgradeTavernTime = 5
+        d.upgradeWorkshopQueue = 1
+        d.upgradeMarketQueue = 1
+
+        val offers = Utils.rollUpgrades()
+        assertTrue("Storage must be offerable at 184 gem purchases", offers.any { it.item?.getTrueClass() == "UpgradeStorage" })
+
+        d.upgradeStorage = 185
+        val after = Utils.rollUpgrades()
+        assertTrue("Storage must disappear from offers at 185 purchases", after.none { it.item?.getTrueClass() == "UpgradeStorage" })
+    }
+
+    @Test
+    fun testBlackMarketBadLuckProtection() {
+        val d = MainActivity.data
+        d.isBlackMarketActive = false
+        d.blackMarketMissedDays = 6
+        Utils.checkBlackMarketDailyArrival()
+        assertTrue("6 consecutive missed days guarantees the 7th arrival", d.isBlackMarketActive)
+        assertEquals("Missed-day counter must reset on arrival", 0, d.blackMarketMissedDays)
+        assertTrue("Arrival must flag new items", d.isNewBlackMarketItems)
+    }
+
+    @Test
+    fun testBlackMarketStockShape() {
+        val d = MainActivity.data
+        Utils.refreshBlackMarketStock()
+        val stock = d.blackMarketStock
+        assertTrue("Stock must not be empty", stock.isNotEmpty())
+        assertTrue("Stock must fit the 12-slot stall (was ${stock.size})", stock.size <= 12)
+        assertTrue("Stock must include a smuggled legendary", stock.any { it.item?.getTrueClass() == "ScarletStrand" || it.item?.getTrueClass() == "Aegis" })
+        assertTrue("Stock must include an evolution vial", stock.any { it.item?.getTrueClass() == "Evo22Vial" || it.item?.getTrueClass() == "Evo23Vial" })
+        assertTrue("Stock must include contraband potions", stock.count { it.item?.getTrueClass()?.contains("PotionOf") == true } >= 1)
+        assertTrue("Stock must include a shady delicacy", stock.any { it.item?.getTrueClass() == "GlazedDonut" || it.item?.getTrueClass() == "GourmetIcecream" || it.item?.getTrueClass() == "Maxxiburger" || it.item?.getTrueClass() == "Cheesecake" || it.item?.getTrueClass() == "Ambrosia" || it.item?.getTrueClass() == "CeremonialCake" })
+    }
+
+    @Test
+    fun testBlackMarketRedeemCode() {
+        val d = MainActivity.data
+        d.isBlackMarketActive = false
+        d.blackMarketStock.clear()
+        val result = RedeemCodes.process("BLACK", null)
+        assertNotNull("BLACK must return a message", result)
+        assertTrue("BLACK must activate the black market", d.isBlackMarketActive)
+        assertTrue("BLACK must stock the stall", d.blackMarketStock.isNotEmpty())
     }
 }

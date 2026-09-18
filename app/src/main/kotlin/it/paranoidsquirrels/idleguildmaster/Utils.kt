@@ -334,28 +334,28 @@ object Utils {
         if (MainActivity.data.upgradeMarketQueue < 1) {
             Item.getInstance("UpgradeMarketQueue")?.let { arrayList.add(it) }
         }
-        if (MainActivity.data.upgradeMarketTime < 2) {
+        if (MainActivity.data.upgradeMarketTime < 15) {
             Item.getInstance("UpgradeMarketTime")?.let { arrayList.add(it) }
         }
-        if (MainActivity.data.upgradeQuarters < 1) {
+        if (MainActivity.data.upgradeQuarters < 15) {
             Item.getInstance("UpgradeQuarters")?.let { arrayList.add(it) }
         }
-        if (MainActivity.data.upgradeShelter < 1) {
+        if (MainActivity.data.upgradeShelter < 7) {
             Item.getInstance("UpgradeShelter")?.let { arrayList.add(it) }
         }
-        if (MainActivity.data.upgradeStorage < 10) {
+        if (MainActivity.data.upgradeStorage < 185) {
             Item.getInstance("UpgradeStorage")?.let { arrayList.add(it) }
         }
-        if (MainActivity.data.upgradeTavernCapacity < 1) {
+        if (MainActivity.data.upgradeTavernCapacity < 7) {
             Item.getInstance("UpgradeTavernCapacity")?.let { arrayList.add(it) }
         }
-        if (MainActivity.data.upgradeTavernTime < 2) {
+        if (MainActivity.data.upgradeTavernTime < 5) {
             Item.getInstance("UpgradeTavernTime")?.let { arrayList.add(it) }
         }
         if (MainActivity.data.upgradeWorkshopQueue < 1) {
             Item.getInstance("UpgradeWorkshopQueue")?.let { arrayList.add(it) }
         }
-        if (MainActivity.data.upgradeWorkshopTime < 2) {
+        if (MainActivity.data.upgradeWorkshopTime < 15) {
             Item.getInstance("UpgradeWorkshopTime")?.let { arrayList.add(it) }
         }
         val arrayList2 = ArrayList<MerchantOffer>()
@@ -540,6 +540,7 @@ object Utils {
             }
         }
         refreshMerchantRegularStock()
+        checkBlackMarketDailyArrival()
         (MainActivity.dungeonsFragment?.activity as? MainActivity)?.refreshIcons()
         MainActivity.data.adsWatched = 0
         (MainActivity.dungeonsFragment?.activity as? MainActivity)?.loadAd()
@@ -635,6 +636,153 @@ object Utils {
         d.isNewMerchantSpecialItems = true
     }
 
+    /**
+     * Daily roll for the Black Market: 10% chance per day, guaranteed on the 7th
+     * consecutive missed day (bad luck protection). Called from [tick24Hours].
+     */
+    @JvmStatic
+    fun checkBlackMarketDailyArrival() {
+        val d = MainActivity.data
+        if (d.blackMarketMissedDays >= 6 || random() < 0.10) {
+            d.isBlackMarketActive = true
+            d.blackMarketMissedDays = 0
+            refreshBlackMarketStock()
+        } else {
+            d.blackMarketMissedDays += 1
+        }
+        (MainActivity.dungeonsFragment?.activity as? MainActivity)?.refreshIcons()
+    }
+
+    /**
+     * Rerolls the Black Market's 12-slot nocturnal stall:
+     * 1-4 smuggled materials (-50% gold), 5 smuggled legendary (ScarletStrand/Aegis),
+     * 6-7 contraband potions (-40%), 8 shady delicacy (-40%), 9 evolution vial,
+     * 10-12 guild upgrades at -35% gems.
+     */
+    @JvmStatic
+    fun refreshBlackMarketStock() {
+        val d = MainActivity.data
+        d.blackMarketStock.clear()
+
+        // Slots 1-4: Smuggled Materials — 4 random materials from unlocked dungeons at 5x sell price (-50% gold).
+        val materialPool = ArrayList<Item>()
+        for (area in compileDungeonList()) {
+            if (area.isUnlocked) {
+                val mat = rollFromWeightedMap(area.rollMerchantRegularOffers()) as? Item
+                if (mat != null) {
+                    materialPool.add(mat)
+                }
+            }
+        }
+        val seenMaterials = ArrayList<String>()
+        var materialSlots = 0
+        while (materialSlots < 4 && materialPool.isNotEmpty()) {
+            val mat = materialPool[(random() * materialPool.size.toDouble()).toInt()]
+            val trueClass = mat.getTrueClass() ?: ""
+            if (!seenMaterials.contains(trueClass)) {
+                seenMaterials.add(trueClass)
+                val materialOffer = MerchantOffer(mat)
+                materialOffer.price = mat.getPrice() * mat.getStack().toLong() * 5L
+                materialOffer.isGems = false
+                d.blackMarketStock.add(materialOffer)
+                materialSlots++
+            } else {
+                materialPool.remove(mat)
+            }
+        }
+
+        // Slot 5: Smuggled Legendary — 90% gems at -35%, 10% gold.
+        val legendary = if (random() < 0.5) Item.getInstance("ScarletStrand") else Item.getInstance("Aegis")
+        if (legendary != null) {
+            val legendaryOffer = MerchantOffer(legendary)
+            val isScarlet = legendary.getTrueClass() == "ScarletStrand"
+            if (random() < 0.9) {
+                legendaryOffer.isGems = true
+                legendaryOffer.price = if (isScarlet) 420L else 650L
+            } else {
+                legendaryOffer.isGems = false
+                legendaryOffer.price = if (isScarlet) 75000L else 120000L
+            }
+            d.blackMarketStock.add(legendaryOffer)
+        }
+
+        // Slots 6-7: Contraband Potions — 2 at -40% gems (42-60), 25% chance of gold equivalent.
+        for (i2 in 0 until 2) {
+            val potionOffer = rollPotion()
+            val discounted = (potionOffer.price * 0.6).toLong()
+            potionOffer.price = discounted
+            if (random() < 0.25) {
+                potionOffer.isGems = false
+            }
+            d.blackMarketStock.add(potionOffer)
+        }
+
+        // Slot 8: Shady Delicacy — 1 food at -40% gems (30-900).
+        val delicacy = rollBlackMarketDelicacy()
+        if (delicacy != null) {
+            d.blackMarketStock.add(delicacy)
+        }
+
+        // Slot 9: Evolution Vial — Evo22Vial (1000) or Evo23Vial (1200) gems.
+        val vial = if (random() < 0.5) Item.getInstance("Evo22Vial") else Item.getInstance("Evo23Vial")
+        if (vial != null) {
+            val vialOffer = MerchantOffer(vial)
+            vialOffer.isGems = true
+            vialOffer.price = if (vial.getTrueClass() == "Evo22Vial") 1000L else 1200L
+            d.blackMarketStock.add(vialOffer)
+        }
+
+        // Slots 10-12: Guild Upgrades at -35% gem discount.
+        for (upgradeOffer in rollUpgrades()) {
+            val upgradeItem = upgradeOffer.item ?: continue
+            val discounted = Utils.round((upgradeItem as? Upgrade)?.getGemPrice()?.toDouble() ?: 0.0).toLong()
+            val blackMarketUpgrade = MerchantOffer(upgradeItem)
+            blackMarketUpgrade.isGems = true
+            blackMarketUpgrade.price = (discounted * 0.65).toLong()
+            d.blackMarketStock.add(blackMarketUpgrade)
+        }
+
+        d.isNewBlackMarketItems = true
+        MainActivity.shownDialogBlackMarket?.newItems()
+    }
+
+    private fun rollBlackMarketDelicacy(): MerchantOffer? {
+        val dRandom = random()
+        var price = 0
+        val item = when {
+            dRandom < SPECIAL_FOOD_INDIVIDUAL_PROBABILITY -> {
+                price = 50
+                Item.getInstance("GlazedDonut")
+            }
+            dRandom < 0.3333333333333333 -> {
+                price = 100
+                Item.getInstance("GourmetIcecream")
+            }
+            dRandom < 0.5 -> {
+                price = 200
+                Item.getInstance("Maxxiburger")
+            }
+            dRandom < 0.6666666666666666 -> {
+                price = 400
+                Item.getInstance("Cheesecake")
+            }
+            dRandom < 0.8333333333333333 -> {
+                price = 800
+                Item.getInstance("Ambrosia")
+            }
+            dRandom < 1.0 -> {
+                price = 1500
+                Item.getInstance("CeremonialCake")
+            }
+            else -> null
+        }
+        if (item == null) return null
+        val offer = MerchantOffer(item)
+        offer.price = (price.toLong() * 0.6).toLong()
+        offer.isGems = true
+        return offer
+    }
+
     private fun showReviewCard() {
         try {
             val context = MainActivity.headquartersFragment?.context ?: return
@@ -728,6 +876,12 @@ object Utils {
         }
         MainActivity.shownDialogMerchant?.refreshCooldowns(i, i2, i3)
         MainActivity.shownDialogQuests?.refreshCooldowns(i, i2, i3)
+        val lastBlackMarket = (ONE_DAY_IN_MILLISECONDS - (j - MainActivity.data.last24Triggered)) / 60000L
+        val blackMarketDays = (lastBlackMarket / 1440L).toInt().coerceAtLeast(0)
+        val blackMarketRest = lastBlackMarket % 1440L
+        val blackMarketHours = (blackMarketRest / 60L).toInt().coerceAtLeast(0)
+        val blackMarketMinutes = (blackMarketRest % 60L).toInt().coerceAtLeast(0)
+        MainActivity.shownDialogBlackMarket?.refreshCountdown(blackMarketDays, blackMarketHours, blackMarketMinutes)
     }
 
     @JvmStatic

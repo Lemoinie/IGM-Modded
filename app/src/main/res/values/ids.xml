@@ -991,4 +991,12 @@
     <item type="id" name="guild_siege" />
     <item type="id" name="radiobutton_other" />
     <item type="id" name="other_bestiary_list" />
+    <item type="id" name="black_market" />
+    <item type="id" name="new_black_market_items" />
+    <item type="id" name="items_header" />
+    <item type="id" name="departure_header" />
+    <item type="id" name="departure" />
+    <item type="id" name="no_items" />
+    <item type="id" name="amount_diamond" />
+    <item type="id" name="image_diamond" />
 </resources>

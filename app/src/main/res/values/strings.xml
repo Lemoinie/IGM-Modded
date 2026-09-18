@@ -3609,10 +3609,15 @@ POISON: damage reduced by 20%"</string>
 <string name="pet_ability_lacerate_description" formatted="false">Bleed: %s%% chance to deal damage twice in a turn.</string>
 <string name="pet_ability_serrated_name">Serrated</string>
 <string name="pet_ability_serrated_description" formatted="false">Bleed infliction: %s%% chance to inflict bleed twice.</string>
-<string name="log_status_bleed_lacerate">%s suffered a lacerating wound! It lost %s damage! Lacerate!</string>
-<string name="log_bleed_serrated">%s inflicted serrated wounds on %s! Bleed doubled (+%s)!</string>
+<string name="log_status_bleed_lacerate" formatted="false">%s suffered a lacerating wound! It lost %s damage! Lacerate!</string>
+<string name="log_bleed_serrated" formatted="false">%s inflicted serrated wounds on %s! Bleed doubled (+%s)!</string>
 <string name="status_effect_hemorrhage">Hemorrhage</string>
 <string name="log_status_hemorrhage" formatted="false">%s hemorrhaged. It lost %s damage!%s</string>
+<string name="black_market_dialog_title">Black Market</string>
+<string name="black_market_dialog_help">A shadow merchant hawks smuggled wares under the moon. Deals are discounted - some are too good to be legal.</string>
+<string name="black_market_dialog_items_header">Tonight\'s deals</string>
+<string name="black_market_dialog_departure">Departs in:</string>
+<string name="black_market_dialog_empty_stock">The stall is empty...</string>
     <string name="pet_beetle_description">A small, hard-shelled insect with sturdy legs and antennae. It scuttles with purpose, often gleaming in metallic colors.</string>
     <string name="pet_beetle_name">Beetle</string>
     <string name="pet_crocodile_description">A massive, armored reptile with powerful jaws and a stealthy, low-slung body. It lurks in water, ready to launch explosive ambushes with a swift lunge.</string>
