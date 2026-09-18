@@ -312,6 +312,8 @@ class Data {
     var isIntercessionsRetroactivelyGranted: Boolean = false
     @SerializedName("vial2RetGrant")
     var isVial2RetGrant: Boolean = false
+    @SerializedName("redeemed_z3gaazrt")
+    var isRedeemed_z3gaazrt: Boolean = false
 
     init {
         messagesToShow.add(KingMessage.MESSAGE_1)

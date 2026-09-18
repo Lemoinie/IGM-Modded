@@ -94,6 +94,9 @@ abstract class Pet {
     @JvmField @Transient var statusEffectChance: Double = 0.0
     @JvmField @Transient var statusEffectTurns: Int = 0
     @JvmField @Transient var savage: Double = 0.0
+    @JvmField @Transient var bloodcrave: Double = 0.0
+    @JvmField @Transient var lacerate: Double = 0.0
+    @JvmField @Transient var serrated: Double = 0.0
     @JvmField @Transient var bright: Int = 0
     @JvmField @Transient var experience: Double = 0.0
     @JvmField @Transient var drops: Double = 0.0
@@ -174,6 +177,9 @@ abstract class Pet {
                 this.statusEffectTurns = Utils.round((d * 0.028) + 1.0)
             }
             PetAbility.SAVAGE -> this.savage = d * 0.3
+            PetAbility.BLOODCRAVE -> this.bloodcrave = Math.floor(d * 0.5)
+            PetAbility.LACERATE -> this.lacerate = d * 0.6
+            PetAbility.SERRATED -> this.serrated = d * 0.6
             PetAbility.BRIGHT -> this.bright = Utils.round((d * 0.5) + 1.0)
             PetAbility.EXPERIENCE -> this.experience = d * 0.4
             PetAbility.DROPS -> this.drops = d * 0.3
@@ -206,6 +212,9 @@ abstract class Pet {
     open fun getStatusEffectChance(): Double = statusEffectChance
     open fun getStatusEffectTurns(): Int = statusEffectTurns
     open fun getSavage(): Double = savage
+    open fun getBloodcrave(): Double = bloodcrave
+    open fun getLacerate(): Double = lacerate
+    open fun getSerrated(): Double = serrated
     open fun getBright(): Int = bright
     open fun getExperience(): Double = experience
     open fun getDrops(): Double = drops

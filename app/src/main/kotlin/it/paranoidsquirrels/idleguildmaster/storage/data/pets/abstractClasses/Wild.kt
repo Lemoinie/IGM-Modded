@@ -6,6 +6,6 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.pets.PetAbility
 import java.util.Arrays
 
 abstract class Wild : Pet() {
-    override fun guaranteedFirstAbility(): List<PetAbility> = Arrays.asList(PetAbility.LIFESTEAL, PetAbility.COUNTERATTACK)
+    override fun guaranteedFirstAbility(): List<PetAbility> = Arrays.asList(PetAbility.LIFESTEAL, PetAbility.BLOODCRAVE)
     override fun printPetType(): Int = R.string.pet_type_wild
 }

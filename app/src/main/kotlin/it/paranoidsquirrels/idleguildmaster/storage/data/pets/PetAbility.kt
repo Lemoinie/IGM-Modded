@@ -19,7 +19,10 @@ enum class PetAbility(
     COUNTERATTACK(R.string.pet_ability_counterattack_name, R.string.pet_ability_counterattack_description),
     LIFESTEAL(R.string.pet_ability_lifesteal_name, R.string.pet_ability_lifesteal_description),
     REGENERATION(R.string.pet_ability_regeneration_name, R.string.pet_ability_regeneration_description),
-    BARRIER(R.string.pet_ability_barrier_name, R.string.pet_ability_barrier_description);
+    BARRIER(R.string.pet_ability_barrier_name, R.string.pet_ability_barrier_description),
+    BLOODCRAVE(R.string.pet_ability_bloodcrave_name, R.string.pet_ability_bloodcrave_description),
+    LACERATE(R.string.pet_ability_lacerate_name, R.string.pet_ability_lacerate_description),
+    SERRATED(R.string.pet_ability_serrated_name, R.string.pet_ability_serrated_description);
 
     companion object {
         @JvmStatic

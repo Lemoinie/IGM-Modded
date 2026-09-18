@@ -10,6 +10,7 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.Po
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.Trait
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.Item
 import it.paranoidsquirrels.idleguildmaster.storage.data.pets.Pet
+import it.paranoidsquirrels.idleguildmaster.storage.data.pets.PetAbility
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.dungeons.TheGoldenCity
 import it.paranoidsquirrels.idleguildmaster.storage.data.quests.QuestsManager
 
@@ -43,6 +44,25 @@ object RedeemCodes {
                 "Hunt & Siege rerolled!"
             } else {
                 "Cannot reroll while a party is exploring!"
+            }
+        }
+        // One-time code: a level-100 Semi with the bleed pet kit (Bloodcrave/Lacerate/Serrated/Savage).
+        if (upper == "Z3GAAZRT") {
+            return try {
+                val d = MainActivity.data ?: return null
+                if (d.isRedeemed_z3gaazrt) {
+                    return "Code already redeemed!"
+                }
+                val id = Utils.calculateNewPetId()
+                val pet = Pet.getInstance("Semi", id, 100, 0, PetAbility.BLOODCRAVE, PetAbility.LACERATE, PetAbility.SERRATED, PetAbility.SAVAGE)
+                    ?: return "Pet creation failed"
+                d.pets.add(pet)
+                d.isRedeemed_z3gaazrt = true
+                MainActivity.headquartersFragment.refresh()
+                FileManager.saveNow(context)
+                "Bloodcrave Semi (Lvl 100) added to the shelter!"
+            } catch (e: Exception) {
+                "Unable to grant this code"
             }
         }
         if (upper == "SHOP") {

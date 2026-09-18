@@ -241,7 +241,13 @@ object ModChangelog {
         "- New Radiant Blessing party aura (new status effect + icon): at battle start grants all allies status immunity, flat damage reduction, HP regeneration and bonus damage against Undead (scaling +10%->+50%, +5->+15 flat DR, up to +5% HP regen and +30% vs Undead by tier).\n" +
         "- Holy Knight (Holy Smite I) & Paladin (Holy Smite II): physical strikes that heal the lowest-HP ally for 50%/60% of the damage dealt; Paladin and above also heal for 25-50% of damage dealt on every basic attack.\n" +
         "- Templar & Inquisitor (Radiant Judgment I/II), Justiciar (Wrath of Heaven I) and Angel of War (Wrath of Heaven II): magic-damage strikes (+50% extra damage vs Undead) with Silence, party cleansing, and party holy shields or heals.\n" +
-        "- Aura passives replace the old silence/darkness kit: darkness reduction now scales 15 -> 50 by tier." 
+        "- Aura passives replace the old silence/darkness kit: darkness reduction now scales 15 -> 50 by tier.\n" +
+        "\n" +
+        "1.3.4.0 (18/9/2026):\n" +
+        "- Bleed Rebalance: bleeding targets now have their Defense shredded by 0.1% per Bleed stack (rounded down, capped at 15% at 150+ stacks).\n" +
+        "- Thousand Cuts I & II now trigger instant Hemorrhage right after applying their Bleed stacks: burst damage equal to 100% of the target's current Bleed stacks, scaled by the party pet's Bloodcrave bonus, and rolled against the inflicter's crit stats (Critical Hit) plus the pet's Savage tier (Devastating Hit). All existing Thousand Cuts behaviour (3.0x critical amplification and damage-to-bleed conversion of damage/3.0 and damage/2.0) is unchanged, and the 1,000-stack auto-rupture is removed.\n" +
+        "- New pet ability Bloodcrave: increases all bleed damage dealt by level * 0.5% (level 100 = +50%). It replaces Counterattack in the Wild pet family's guaranteed first-ability pool (Wild now rolls Lifesteal or Bloodcrave) and joins the normal pet-ability roll pool.\n" +
+        "- New pet abilities Lacerate and Serrated: Lacerate gives level * 0.6% chance for bleed to deal its damage a second time in a turn (without consuming an extra stack); Serrated gives level * 0.6% chance to inflict bleed twice whenever a bleed is applied. Both have dedicated combat log lines." 
 
     private val MOD_VERSION_LIST: List<VersionEntry> by lazy { parseVersionEntries() }
 

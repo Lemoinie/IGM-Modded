@@ -21,6 +21,9 @@ object Logger {
     const val BARD_SHIELD = 120
     const val YELLOW_LOG = 121
     const val STATUS_BLOODFLAME = 122
+    const val STATUS_HEMORRHAGE = 123
+    const val STATUS_BLEED_LACERATE = 124
+    const val STATUS_BLEED_SERRATED = 125
     const val BOTCHED_OFFERING = 115
     private const val COLOR_FORMAT = "<font color=%s><strong>%s</strong></font>"
     const val DARKNESS_DESCRIPTION = 1
@@ -739,6 +742,55 @@ object Logger {
                     val entity35 = objArr[0] as Entity
                     val entity36 = objArr[1] as Entity
                     strWrap = String.format(RESOURCES!!.getString(R.string.log_shielding), wrap(RESOURCES!!.getString(entity35.idName), (if (entity35 is Adventurer) GREEN else getRed())), wrap(RESOURCES!!.getString(entity36.idName), (if (entity36 is Adventurer) GREEN else getRed())), wrap((objArr[2] as Number).toInt(), GREEN))
+                }
+                STATUS_HEMORRHAGE -> {
+                    if (zIsSettingVerboseLogs) {
+                    val targetHem = objArr[0] as Entity
+                    val iHemDamage = (objArr[1] as Number).toInt()
+                    val iHemCritTier = (objArr[2] as Number).toInt()
+                    var hemSuffix = ""
+                    if (iHemCritTier == 1) {
+                    hemSuffix = " " + RESOURCES!!.getString(R.string.log_critical_hit)
+                    } else if (iHemCritTier == 2) {
+                    hemSuffix = " " + RESOURCES!!.getString(R.string.log_devastating_hit)
+                    }
+                    var nameHem = RESOURCES!!.getString(targetHem.idName)
+                    var colorHem = GREEN
+                    if (targetHem is Enemy) {
+                    colorHem = getRed()
+                    }
+                    strWrap = String.format(RESOURCES!!.getString(R.string.log_status_hemorrhage), wrap(nameHem, colorHem), wrap(iHemDamage, getRed()), hemSuffix)
+                    }
+                }
+                STATUS_BLEED_LACERATE -> {
+                    if (zIsSettingVerboseLogs) {
+                    val targetLac = objArr[0] as Entity
+                    val iLacDamage = (objArr[1] as Number).toInt()
+                    var nameLac = RESOURCES!!.getString(targetLac.idName)
+                    var colorLac = GREEN
+                    if (targetLac is Enemy) {
+                    colorLac = getRed()
+                    }
+                    strWrap = String.format(RESOURCES!!.getString(R.string.log_status_bleed_lacerate), wrap(nameLac, colorLac), wrap(iLacDamage, getRed()))
+                    }
+                }
+                STATUS_BLEED_SERRATED -> {
+                    if (zIsSettingVerboseLogs) {
+                    val inflicterSer = objArr[0] as Entity
+                    val targetSer = objArr[1] as Entity
+                    val iAddedSer = (objArr[2] as Number).toInt()
+                    var nameInflicterSer = RESOURCES!!.getString(inflicterSer.idName)
+                    var nameTargetSer = RESOURCES!!.getString(targetSer.idName)
+                    var colorInflicterSer = GREEN
+                    if (inflicterSer is Enemy) {
+                    colorInflicterSer = getRed()
+                    }
+                    var colorTargetSer = GREEN
+                    if (targetSer is Enemy) {
+                    colorTargetSer = getRed()
+                    }
+                    strWrap = String.format(RESOURCES!!.getString(R.string.log_bleed_serrated), wrap(nameInflicterSer, colorInflicterSer), wrap(nameTargetSer, colorTargetSer), wrap(iAddedSer, getRed()))
+                    }
                 }
             }
             if (strWrap != null) {

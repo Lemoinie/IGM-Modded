@@ -47,7 +47,7 @@ The JSON root is a flat object with ~100 keys. Categories (representative keys):
 | Timers              | `lastAccess`, `last24Triggered`, `lastHourTriggered`, `lastWeekTriggered`, `nextTavernVisit` |
 | Settings            | `settingsLanguage`, `settingConfirmRetreat`, `settingConfirmSwap`, `settingConfirmUpgrade`, `settingCraftMaxAmount`, `settingSellMaxAmount`, `settingVerboseLogs`, `settingAutoOpenDungeonDetail`, `settingColorblindMode`, `shownDialogRaid`, `shownDialogEpicRaid` |
 | Mod progression     | `imperialKills`, `idleTimeCapHours`, `lootCap` (0 = unset). Legacy saves are migrated by unpacking the old packed `redeem_m975nfu5` int (bits 0-9 kills / 10-17 idle hours / 18-31 loot cap) |
-| Legacy/redeem keys  | `redeem_f1r39h15`, `redeem_g73mfkf4`, `redeem_potionsRefund1`, `redeemed_*`, `redeem_m975nfu5` (kept for save compatibility) |
+| Legacy/redeem keys  | `redeem_f1r39h15`, `redeem_g73mfkf4`, `redeem_potionsRefund1`, `redeemed_*` (incl. the one-time `redeemed_z3gaazrt`), `redeem_m975nfu5` (kept for save compatibility) |
 
 ## Nested Structures
 
