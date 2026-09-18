@@ -98,6 +98,8 @@ The in-game Redeem Code dialog (`DialogRedeemCode`) includes a command dispatche
 | `IDLETIME <hours>` | Overrides the offline progression cap (12 to 168 hours / 1 week). |
 | `LOOTCAP <cap>` | Sets maximum dungeon chest loot drop capacity (e.g. 500). |
 | `SHOP` | Forces an immediate restock of regular and weekly merchant offers. |
+| `REROLL` | Forces The Hunt and The Siege to reroll (refreshes both). |
+| `BLACK` | Summons the Nightstall / Black Market and refreshes its stock. |
 | `QUEST` | Refreshes and rerolls King's quests. |
 | `KILLS` | Displays current Imperial Guard kills toward Imperial Captain spawn. |
 | `SETKILLS <n>` | Manually sets the Imperial Guard kill counter (0 to 1023). |
@@ -116,6 +118,9 @@ The in-game Redeem Code dialog (`DialogRedeemCode`) includes a command dispatche
 * **Pet Senko/Semi 5th Trait Redesign**: Unlocked all 4 traits at Level 1 with no level requirements (normally unlocked at Lv 1, 21, 41, 61), and added a dedicated golden ascended card for the 5th trait (*Kitsune Spirit Blessing*).
 * **Start New Game Reset**: Added to the Settings dialog (`DialogSettings`). Safely resets all local save data and restarts the game fresh upon two-step confirmation.
 * **Modern App Identity**: Renamed application to **IGM Modded** with Sha unit launcher icon and custom Berserker sprite art.
+* **Nightstall / Black Market**: A 10%-per-day nocturnal stall (guaranteed after 6 consecutive missed days) with up to 12 discounted slots — smuggled materials (−50% gold), a smuggled legendary (ScarletStrand/Aegis: gems at −35% or rare gold), contraband potions, a shady delicacy, a Forbidden Evolution Vial and guild upgrades at −35% gems. Opens from a top-bar icon with a NEW badge; the `BLACK` code summons it.
+* **Diamond Coin currency tier**: 1 Diamond = 100 Platinum = 100,000,000 copper. The money container shows the Diamond coin to the left of Platinum once you hold that much wealth.
+* **Expanded gem upgrade caps & speed clamp**: storage → 185 purchases (300 total spaces), quarters → 15 (40 roster), tavern → 7 (15 guests), shelter → 7 (20 pets), workshop/market time → 15 (speed level 40); craft/sell times are clamped to a minimum of 1 second.
 
 ---
 

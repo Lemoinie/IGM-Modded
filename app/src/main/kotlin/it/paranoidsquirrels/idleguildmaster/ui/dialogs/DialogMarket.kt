@@ -201,6 +201,7 @@ class DialogMarket : CustomDialog() {
             UIUtils.populateMoneyContainer(itemBinding.price, item.getPrice() * item.getStack().toLong(), true)
             val brassColor = resources.getColor(R.color.brass_border, context?.theme)
             itemBinding.price.amountCopper.setTextColor(brassColor)
+            itemBinding.price.amountDiamond.setTextColor(brassColor)
             itemBinding.price.amountSilver.setTextColor(brassColor)
             itemBinding.price.amountGold.setTextColor(brassColor)
             itemBinding.price.amountPlatinum.setTextColor(brassColor)

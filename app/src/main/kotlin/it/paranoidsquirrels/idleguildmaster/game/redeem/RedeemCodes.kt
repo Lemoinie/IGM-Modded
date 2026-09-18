@@ -20,6 +20,7 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.quests.QuestsManager
  *
  * Supported codes (case-insensitive):
  * - `REROLL`         – force reroll of The Hunt and The Siege (refreshes both)
+ * - `BLACK`          – force the Black Market to arrive and refresh its stock
  * - `SHOP`           – force restock of the traveling merchant (regular + special)
  * - `QUEST`          – refresh / reroll all King's quests
  * - `GOLD <amount>`  – add gold to the guild vault
@@ -44,6 +45,17 @@ object RedeemCodes {
                 "Hunt & Siege rerolled!"
             } else {
                 "Cannot reroll while a party is exploring!"
+            }
+        }
+        if (upper == "BLACK") {
+            return try {
+                MainActivity.data.isBlackMarketActive = true
+                Utils.refreshBlackMarketStock()
+                (MainActivity.dungeonsFragment?.activity as? MainActivity)?.refreshIcons()
+                FileManager.saveNow(context)
+                "The Black Market has arrived!"
+            } catch (e: Exception) {
+                "Failed to summon the Black Market"
             }
         }
         // One-time code: a level-100 Semi with the bleed pet kit (Bloodcrave/Lacerate/Serrated/Savage).

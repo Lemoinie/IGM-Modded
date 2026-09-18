@@ -256,6 +256,14 @@ class Data {
     var merchantRegularStockItems: MutableList<MerchantOffer> = CopyOnWriteArrayList()
     @SerializedName("merchantSpecialReserve")
     var merchantSpecialReserve: MutableList<MerchantOffer> = CopyOnWriteArrayList()
+    @SerializedName("blackMarketStock")
+    var blackMarketStock: MutableList<MerchantOffer> = CopyOnWriteArrayList()
+    @SerializedName("blackMarketActive")
+    var isBlackMarketActive: Boolean = false
+    @SerializedName("newBlackMarketItems")
+    var isNewBlackMarketItems: Boolean = false
+    @SerializedName("blackMarketMissedDays")
+    var blackMarketMissedDays: Int = 0
     @SerializedName("questsSeen")
     var isQuestsSeen: Boolean = false
     @SerializedName("questsRefreshed")

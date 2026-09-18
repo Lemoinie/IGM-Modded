@@ -150,10 +150,10 @@ Mod features are implemented as **native game code** in the source tree rather t
 injected patches. The remaining "mod-specific" surface is thin and clearly located:
 
 - **Redeem-code console** — `game/redeem/RedeemCodes.kt` services the in-game
-  Redeem Code dialog (`ui/dialogs/DialogRedeemCode.kt`) with `REROLL`, `SHOP`,
-  `QUEST`, `GOLD`, `STORAGE`, `IDLETIME`, `LOOTCAP`, `KILLS`, `SETKILLS`, `ITEM`,
-  `HERO`, and `PET` commands (plus the one-time code `Z3gAAzrt` which grants a
-  level-100 Semi with Bloodcrave/Lacerate/Serrated/Savage); each command mutates
+  Redeem Code dialog (`ui/dialogs/DialogRedeemCode.kt`) with `REROLL`, `BLACK`,
+  `SHOP`, `QUEST`, `GOLD`, `STORAGE`, `IDLETIME`, `LOOTCAP`, `KILLS`, `SETKILLS`,
+  `ITEM`, `HERO`, and `PET` commands (plus the one-time code `Z3gAAzrt` which grants
+  a level-100 Semi with Bloodcrave/Lacerate/Serrated/Savage); each command mutates
   live `Data` and persists via `FileManager.saveNow(...)`. One-time codes are
   tracked by persisted `redeemed_*` boolean flags on `Data`.
 - **Guild Activities** — The Hunt (`GuildRequestArea`) and The Siege (`GuildSiegeArea`)
@@ -175,6 +175,16 @@ injected patches. The remaining "mod-specific" surface is thin and clearly locat
   (10%/20%/70% → 100/50/20). Both areas override `Area.canRefillWithGems()` to `false` —
   extra tries can never be bought with gems (1 try per period; the `REROLL` redeem code
   grants a fresh Hunt + Siege).
+- **Nightstall / Black Market & Diamond Coin** — `Utils.checkBlackMarketDailyArrival()`
+  (10% daily roll + 6-day bad-luck protection, hooked into `Utils.tick24Hours`) and
+  `Utils.refreshBlackMarketStock()` fill `Data.blackMarketStock` (up to 12 discounted
+  slots: smuggled materials, legendary, potions, delicacy, evolution vial, upgrades).
+  The `ui/dialogs/DialogBlackMarket.kt` + `dialog_black_market.xml` stall opens from the
+  top-bar `@id/black_market` icon (`@id/new_black_market_items` badge) and sells via the
+  shared `DialogBuyFromMerchant`. A **Diamond Coin** tier (1 D = 100 Platinum = 100M copper)
+  is rendered by `layout_money.xml` + `UIUtils.populateMoneyContainer`/`decomposeMoney`;
+  gem upgrade caps in `Utils.rollUpgrades()` were expanded (storage 185, quarters 15,
+  tavern capacity 7, shelter 7, workshop/market time 15) and craft/sell times clamp to ≥1s.
 - **Progression overrides** — `Data` carries the mod's persisted tuning knobs
   (`imperialKills`, `idleTimeCapHours`, `lootCap`) which are consumed by normal game
   systems: `TheGoldenCity` (Imperial Captain spawn/kill counter), `MainActivity`

@@ -247,7 +247,13 @@ object ModChangelog {
         "- Bleed Rebalance: bleeding targets now have their Defense shredded by 0.1% per Bleed stack (rounded down, capped at 15% at 150+ stacks).\n" +
         "- Thousand Cuts I & II now trigger instant Hemorrhage right after applying their Bleed stacks: burst damage equal to 100% of the target's current Bleed stacks, scaled by the party pet's Bloodcrave bonus, and rolled against the inflicter's crit stats (Critical Hit) plus the pet's Savage tier (Devastating Hit). All existing Thousand Cuts behaviour (3.0x critical amplification and damage-to-bleed conversion of damage/3.0 and damage/2.0) is unchanged, and the 1,000-stack auto-rupture is removed.\n" +
         "- New pet ability Bloodcrave: increases all bleed damage dealt by level * 0.5% (level 100 = +50%). It replaces Counterattack in the Wild pet family's guaranteed first-ability pool (Wild now rolls Lifesteal or Bloodcrave) and joins the normal pet-ability roll pool.\n" +
-        "- New pet abilities Lacerate and Serrated: Lacerate gives level * 0.6% chance for bleed to deal its damage a second time in a turn (without consuming an extra stack); Serrated gives level * 0.6% chance to inflict bleed twice whenever a bleed is applied. Both have dedicated combat log lines." 
+        "- New pet abilities Lacerate and Serrated: Lacerate gives level * 0.6% chance for bleed to deal its damage a second time in a turn (without consuming an extra stack); Serrated gives level * 0.6% chance to inflict bleed twice whenever a bleed is applied. Both have dedicated combat log lines.\n" +
+        "\n" +
+        "1.3.5.0 (18/9/2026):\n" +
+        "- New currency tier: Diamond Coin (1 Diamond = 100 Platinum = 100,000,000 copper), displayed to the left of Platinum everywhere the money container renders (headquarters top bar, prices, market).\n" +
+        "- New Nightstall / Black Market: a nocturnal 12-slot stall has a 10% chance to arrive at each daily reset, guaranteed after 6 consecutive missed days. It sells smuggled materials at -50% gold, a smuggled legendary (ScarletStrand/Aegis: 90% gems at -35%, 10% gold), contraband potions (-40%), a shady delicacy (-40%), a Forbidden Evolution Vial (Evo22/23 at 1000/1200 gems) and up to 3 guild upgrades at -35% gems.\n" +
+        "- Expanded gem upgrade limits: storage up to 185 gem purchases (300 total spaces), quarters 15 (40 roster), tavern capacity 7 (15 guests), shelter 7 (20 pets), and workshop/market time 15 (reaching speed level 40).\n" +
+        "- Crafting and selling times are now clamped to a minimum of 1 second, preventing division-by-zero crashes at speed level 40." 
 
     private val MOD_VERSION_LIST: List<VersionEntry> by lazy { parseVersionEntries() }
 

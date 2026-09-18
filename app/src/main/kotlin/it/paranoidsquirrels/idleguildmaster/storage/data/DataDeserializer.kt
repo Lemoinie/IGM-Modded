@@ -159,6 +159,15 @@ class DataDeserializer : JsonDeserializer<Data> {
         this.data.isRedeemed_vrw74ync = asJsonObject.has("redeemed_vrw74ync") && asJsonObject.get("redeemed_vrw74ync").asBoolean
         this.data.isRedeemed_e44opo7z = asJsonObject.has("redeemed_e44opo7z") && asJsonObject.get("redeemed_e44opo7z").asBoolean
         this.data.isRedeemed_z3gaazrt = asJsonObject.has("redeemed_z3gaazrt") && asJsonObject.get("redeemed_z3gaazrt").asBoolean
+        if (asJsonObject.has("blackMarketStock")) {
+        val itBlackMarket = asJsonObject.get("blackMarketStock").asJsonArray.iterator()
+        while (itBlackMarket.hasNext()) {
+        this.data.blackMarketStock.add(getMerchantOffer(itBlackMarket.next().asJsonObject))
+        }
+        }
+        this.data.isBlackMarketActive = asJsonObject.has("blackMarketActive") && asJsonObject.get("blackMarketActive").asBoolean
+        this.data.isNewBlackMarketItems = asJsonObject.has("newBlackMarketItems") && asJsonObject.get("newBlackMarketItems").asBoolean
+        this.data.blackMarketMissedDays = if (asJsonObject.has("blackMarketMissedDays")) asJsonObject.get("blackMarketMissedDays").asInt else 0
         this.data.isRedeem_potionsRefund1 = asJsonObject.has("redeem_potionsRefund1") && asJsonObject.get("redeem_potionsRefund1").asBoolean
         this.data.isRedeem_f1r39h15 = asJsonObject.has("redeem_f1r39h15") && asJsonObject.get("redeem_f1r39h15").asBoolean
         this.data.redeem_m975nfu5 = if (asJsonObject.has("redeem_m975nfu5")) asJsonObject.get("redeem_m975nfu5").asInt  else 0
