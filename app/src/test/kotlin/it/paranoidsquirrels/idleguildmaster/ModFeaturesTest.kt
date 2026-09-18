@@ -175,7 +175,7 @@ class ModFeaturesTest {
     fun testModAboutChangelogEntries() {
         val entries = ModChangelog.parseVersionEntries()
         assertTrue(entries.isNotEmpty())
-        assertTrue("Top entry must be 1.3.5.0", entries[0].title.startsWith("1.3.5.0"))
+        assertTrue("Top entry must be 1.3.5.2", entries[0].title.startsWith("1.3.5.2"))
         assertTrue("Bottom entry must be 1.0.0.0", entries.last().title.startsWith("1.0.0.0"))
     }
 
@@ -822,5 +822,60 @@ class ModFeaturesTest {
         assertNotNull("BLACK must return a message", result)
         assertTrue("BLACK must activate the black market", d.isBlackMarketActive)
         assertTrue("BLACK must stock the stall", d.blackMarketStock.isNotEmpty())
+    }
+
+    @Test
+    fun testMeleeTargetingPrioritizesGroundOverFlying() {
+        val area = it.paranoidsquirrels.idleguildmaster.storage.data.places.dungeons.EnchantedForest()
+        val meleeAdv = it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.units.Footman()
+        meleeAdv.weapon = it.paranoidsquirrels.idleguildmaster.storage.data.items.instances.CopperSword()
+        meleeAdv.currentHp = 100
+
+        val flyingEnemy = it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.units.VampireBat().apply {
+            flying = true
+            baseMaxHp = 100
+            currentHp = 50
+        }
+        val groundEnemy = it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.units.Wolf().apply {
+            flying = false
+            baseMaxHp = 100
+            currentHp = 50
+        }
+
+        area.adventurersExploring.clear()
+        area.adventurersExploring.add(meleeAdv)
+        area.enemies.clear()
+        area.enemies.add(flyingEnemy)
+        area.enemies.add(groundEnemy)
+
+        // 1. Melee adventurer targeting random enemy must pick the reachable ground enemy (Wolf)
+        val targetsRandom = area.selectTargets(meleeAdv, "random_enemy")
+        assertNotNull(targetsRandom)
+        assertEquals("Melee unit must pick reachable ground enemy over flying", groundEnemy, targetsRandom!![0])
+
+        // 2. Melee adventurer targeting lowest HP enemy when flying is lower HP must still pick ground enemy
+        flyingEnemy.currentHp = 10
+        groundEnemy.currentHp = 50
+        val targetsLowest = area.selectTargets(meleeAdv, "lowest_relative_enemy")
+        assertNotNull(targetsLowest)
+        assertEquals("Melee unit must pick ground enemy even if flying has lower HP", groundEnemy, targetsLowest!![0])
+
+        // 3. When ground enemy dies, melee unit falls back to flying enemy
+        groundEnemy.currentHp = 0
+        val targetsFallback = area.selectTargets(meleeAdv, "random_enemy")
+        assertNotNull(targetsFallback)
+        assertEquals("Melee unit falls back to flying enemy when no ground enemies remain", flyingEnemy, targetsFallback!![0])
+
+        // 4. Ranged adventurer can target lowest HP flying enemy directly
+        groundEnemy.currentHp = 50
+        flyingEnemy.currentHp = 10
+        val rangedAdv = it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.units.Archer()
+        rangedAdv.weapon = it.paranoidsquirrels.idleguildmaster.storage.data.items.instances.WoodenBow()
+        rangedAdv.currentHp = 100
+        area.adventurersExploring.add(rangedAdv)
+
+        val rangedLowest = area.selectTargets(rangedAdv, "lowest_relative_enemy")
+        assertNotNull(rangedLowest)
+        assertEquals("Ranged unit can target lowest HP flying enemy", flyingEnemy, rangedLowest!![0])
     }
 }
