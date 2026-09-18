@@ -60,6 +60,15 @@ behavior (see "Mod Interface" below).
     reference for each dialog type; opening while one is already shown is skipped.
     The Kotlin port keeps this pattern in `MainActivity` and the fragment bindings.
 
+12. **Flying Units & Melee Targeting**: In vanilla, attacks against flying targets
+    (`isFlying() == true`) without ranged capability (`!isRanged() && !isFlying()`)
+    are guaranteed to miss with 100% dodge (`DODGE_FLYING`). However, vanilla's
+    target selectors (`selectEnemyTarget`, `selectLowestHpTarget`, `selectRandomTarget`)
+    did not check reachability, causing melee units to repeatedly lock onto
+    unreachable flying units even when valid ground targets were alive. Mod
+    v1.3.5.1 adds reachability filtering to prioritize reachable ground targets
+    whenever alive, falling back to flying units only if no ground targets remain.
+
 ## Mod Interface
 
 Intentional deviations from vanilla are implemented as **native game code** in the

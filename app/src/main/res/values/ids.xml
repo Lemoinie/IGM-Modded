@@ -994,8 +994,6 @@
     <item type="id" name="black_market" />
     <item type="id" name="new_black_market_items" />
     <item type="id" name="items_header" />
-    <item type="id" name="departure_header" />
-    <item type="id" name="departure" />
     <item type="id" name="no_items" />
     <item type="id" name="amount_diamond" />
     <item type="id" name="image_diamond" />

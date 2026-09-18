@@ -253,7 +253,14 @@ object ModChangelog {
         "- New currency tier: Diamond Coin (1 Diamond = 100 Platinum = 100,000,000 copper), displayed to the left of Platinum everywhere the money container renders (headquarters top bar, prices, market).\n" +
         "- New Nightstall / Black Market: a nocturnal 12-slot stall has a 10% chance to arrive at each daily reset, guaranteed after 6 consecutive missed days. It sells smuggled materials at -50% gold, a smuggled legendary (ScarletStrand/Aegis: 90% gems at -35%, 10% gold), contraband potions (-40%), a shady delicacy (-40%), a Forbidden Evolution Vial (Evo22/23 at 1000/1200 gems) and up to 3 guild upgrades at -35% gems.\n" +
         "- Expanded gem upgrade limits: storage up to 185 gem purchases (300 total spaces), quarters 15 (40 roster), tavern capacity 7 (15 guests), shelter 7 (20 pets), and workshop/market time 15 (reaching speed level 40).\n" +
-        "- Crafting and selling times are now clamped to a minimum of 1 second, preventing division-by-zero crashes at speed level 40." 
+        "- Crafting and selling times are now clamped to a minimum of 1 second, preventing division-by-zero crashes at speed level 40.\n" +
+        "\n" +
+        "1.3.5.1 (18/9/2026):\n" +
+        "- Fixed melee targeting prioritizing unreachable flying units: melee units without ranged/reach weapons or skills now intelligently ignore flying enemies and prioritize reachable ground targets whenever any are alive, only swinging at flying enemies if no ground targets remain.\n" +
+        "\n" +
+        "1.3.5.2 (18/9/2026):\n" +
+        "- The Black Market top-bar icon now uses a dedicated black market icon.\n" +
+        "- The Black Market dialog header now shows only the departure countdown (the cluttered \"Tonight's deals ... Departs in:\" bar was removed)." 
 
     private val MOD_VERSION_LIST: List<VersionEntry> by lazy { parseVersionEntries() }
 

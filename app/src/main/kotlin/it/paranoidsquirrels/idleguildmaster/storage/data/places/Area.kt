@@ -828,7 +828,7 @@ abstract class Area {
                         }
                     }
                 } else if (endOfTurnAction.procsOnMelee == null || endOfTurnAction.procsOnMelee != curActing.isRanged()) {
-                    val listSelectTargets3 = selectTargets(curActing, attackTargetStrategy(curActing))
+                    val listSelectTargets3 = selectTargets(curActing, attackTargetStrategy(curActing), endOfTurnAction.forceRange)
                     if (listSelectTargets3 != null) {
                         val entity6 = listSelectTargets3[0]
                         if (entity6.currentHp > 0) {
@@ -2142,7 +2142,7 @@ abstract class Area {
         }
 
         fun execute(): List<Entity>? {
-            val listSelectTargets = selectTargets(this.caster, this.targetSelectionMode) ?: return null
+            val listSelectTargets = selectTargets(this.caster, this.targetSelectionMode, this.forceRange) ?: return null
             if (!this.noLog) {
                 if (this.caster is Adventurer && !this.healing) {
                     QuestsManager.increment(QuestsManager.tormentor, 1L)
@@ -2160,7 +2160,7 @@ abstract class Area {
                     Logger.log(this@Area, 30, target, this.caster)
                 }
                 if (!this.healing && target != null && target.currentHp <= 0) {
-                    target = selectEnemyTarget(this.caster)
+                    target = selectEnemyTarget(this.caster, this.forceRange)
                 }
                 if (target == null || target.currentHp <= 0) {
                     if (!this.healing) {
@@ -2718,7 +2718,13 @@ abstract class Area {
         }
     }
 
-    open fun selectTargets(entity: Entity, str: String): List<Entity>? {
+    private fun canReach(attacker: Entity, target: Entity, forceRange: Boolean? = null): Boolean {
+        if (!target.isFlying()) return true
+        val isRanged = forceRange ?: attacker.isRanged()
+        return isRanged || attacker.isFlying()
+    }
+
+    open fun selectTargets(entity: Entity, str: String, forceRange: Boolean? = null): List<Entity>? {
         val arrayList = ArrayList<Entity>()
         return when (str) {
             TARGET_LOWEST_SHIELD_ALLY -> {
@@ -2738,20 +2744,20 @@ abstract class Area {
                 }
                 if (target == null) return null
                 if (target.negativeStatusEffects.isEmpty()) {
-                    return selectTargets(entity, TARGET_LOWEST_RELATIVE_ALLY)
+                    return selectTargets(entity, TARGET_LOWEST_RELATIVE_ALLY, forceRange)
                 }
                 arrayList.add(target)
                 arrayList
             }
 
             TARGET_LOWEST_ABSOLUTE_ALLY -> {
-                val target = selectLowestHpTarget(entity, false, true) ?: return null
+                val target = selectLowestHpTarget(entity, false, true, forceRange) ?: return null
                 arrayList.add(target)
                 arrayList
             }
 
             TARGET_RANDOM -> {
-                val target = selectRandomTarget(entity, false) ?: return null
+                val target = selectRandomTarget(entity, false, forceRange) ?: return null
                 arrayList.add(target)
                 arrayList
             }
@@ -2764,19 +2770,19 @@ abstract class Area {
             }
 
             TARGET_RANDOM_ENEMY -> {
-                val target = selectEnemyTarget(entity) ?: return null
+                val target = selectEnemyTarget(entity, forceRange) ?: return null
                 arrayList.add(target)
                 arrayList
             }
 
             TARGET_LOWEST_RELATIVE_ENEMY -> {
-                val target = selectLowestHpTarget(entity, true, false) ?: return null
+                val target = selectLowestHpTarget(entity, true, false, forceRange) ?: return null
                 arrayList.add(target)
                 arrayList
             }
 
             TARGET_RANDOM_EXCEPT_SELF -> {
-                val target = selectRandomTarget(entity, true) ?: return null
+                val target = selectRandomTarget(entity, true, forceRange) ?: return null
                 arrayList.add(target)
                 arrayList
             }
@@ -2788,7 +2794,7 @@ abstract class Area {
             }
 
             TARGET_LOWEST_ABSOLUTE_ENEMY -> {
-                val target = selectLowestHpTarget(entity, true, true) ?: return null
+                val target = selectLowestHpTarget(entity, true, true, forceRange) ?: return null
                 arrayList.add(target)
                 arrayList
             }
@@ -2811,7 +2817,7 @@ abstract class Area {
             }
 
             TARGET_LOWEST_RELATIVE_ALLY -> {
-                val target = selectLowestHpTarget(entity, false, false) ?: return null
+                val target = selectLowestHpTarget(entity, false, false, forceRange) ?: return null
                 arrayList.add(target)
                 arrayList
             }
@@ -2832,7 +2838,7 @@ abstract class Area {
                     1
                 }
                 for (i2 in 0 until count) {
-                    val target = selectEnemyTarget(entity) ?: return null
+                    val target = selectEnemyTarget(entity, forceRange) ?: return null
                     arrayList.add(target)
                 }
                 arrayList
@@ -2840,7 +2846,7 @@ abstract class Area {
         }
     }
 
-    private fun selectEnemyTarget(entity: Entity): Entity? {
+    private fun selectEnemyTarget(entity: Entity, forceRange: Boolean? = null): Entity? {
         val z = entity is Adventurer
         val arrayList = ArrayList<Entity>(if (z) this.enemies else this.adventurersExploring)
         if (entity.team != 0) {
@@ -2858,7 +2864,9 @@ abstract class Area {
         if (entityTauntedBy != null) {
             return entityTauntedBy
         }
-        val listWeightedSelection = weightedSelection(arrayList2)
+        val reachable = arrayList2.filter { it.currentHp > 0 && canReach(entity, it, forceRange) }
+        val targetPool = if (reachable.isNotEmpty()) reachable else arrayList2
+        val listWeightedSelection = weightedSelection(targetPool)
         if (listWeightedSelection.isEmpty()) {
             return null
         }
@@ -2894,7 +2902,7 @@ abstract class Area {
         return entity
     }
 
-    private fun selectRandomTarget(entity: Entity, z: Boolean): Entity? {
+    private fun selectRandomTarget(entity: Entity, z: Boolean, forceRange: Boolean? = null): Entity? {
         val arrayList = ArrayList<Entity>()
         arrayList.addAll(this.enemies)
         arrayList.addAll(this.adventurersExploring)
@@ -2908,7 +2916,9 @@ abstract class Area {
         if (entityTauntedBy != null) {
             return entityTauntedBy
         }
-        val listWeightedSelection = weightedSelection(arrayList)
+        val reachable = arrayList.filter { it.currentHp > 0 && canReach(entity, it, forceRange) }
+        val targetPool = if (reachable.isNotEmpty()) reachable else arrayList
+        val listWeightedSelection = weightedSelection(targetPool)
         if (listWeightedSelection.isEmpty()) {
             return null
         }
@@ -2947,7 +2957,7 @@ abstract class Area {
         return null
     }
 
-    private fun selectLowestHpTarget(entity: Entity, z: Boolean, z2: Boolean): Entity? {
+    private fun selectLowestHpTarget(entity: Entity, z: Boolean, z2: Boolean, forceRange: Boolean? = null): Entity? {
         val candidates: List<Entity> =
             if ((entity !is Adventurer || z) && (entity !is Enemy || !z)) this.enemies else this.adventurersExploring
         val arrayList = ArrayList<Entity>(candidates)
@@ -2958,8 +2968,14 @@ abstract class Area {
         if (entityTauntedBy != null) {
             return entityTauntedBy
         }
+        val targetPool = if (z) {
+            val reachable = arrayList.filter { it.currentHp > 0 && canReach(entity, it, forceRange) }
+            if (reachable.isNotEmpty()) reachable else arrayList
+        } else {
+            arrayList
+        }
         var entity2: Entity? = null
-        for (candidate in arrayList) {
+        for (candidate in targetPool) {
             if (candidate.currentHp > 0) {
                 val matches = if (entity2 == null) {
                     true

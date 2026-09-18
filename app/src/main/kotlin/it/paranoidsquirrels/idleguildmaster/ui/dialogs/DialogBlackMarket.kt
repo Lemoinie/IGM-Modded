@@ -73,7 +73,7 @@ class DialogBlackMarket : CustomDialog() {
     }
 
     fun refreshCountdown(days: Int, hours: Int, minutes: Int) {
-        binding?.departure?.text = String.format(getString(R.string.time_days_hours_minutes), days, hours, minutes)
+        binding?.itemsHeader?.text = String.format(getString(R.string.time_days_hours_minutes), days, hours, minutes)
     }
 
     fun newItems() {
