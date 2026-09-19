@@ -24,6 +24,7 @@ object Logger {
     const val STATUS_HEMORRHAGE = 123
     const val STATUS_BLEED_LACERATE = 124
     const val STATUS_BLEED_SERRATED = 125
+    const val AOE_DAMAGE_INTERCEPTED = 126
     const val BOTCHED_OFFERING = 115
     private const val COLOR_FORMAT = "<font color=%s><strong>%s</strong></font>"
     const val DARKNESS_DESCRIPTION = 1
@@ -791,6 +792,27 @@ object Logger {
                     }
                     strWrap = String.format(RESOURCES!!.getString(R.string.log_bleed_serrated), wrap(nameInflicterSer, colorInflicterSer), wrap(nameTargetSer, colorTargetSer), wrap(iAddedSer, getRed()))
                     }
+                }
+                AOE_DAMAGE_INTERCEPTED -> {
+                    val guardAoe = objArr[0] as Entity
+                    val allyAoe = objArr[1] as Entity
+                    val iInterceptedAoe = (objArr[2] as Number).toInt()
+                    val nameGuardAoe = RESOURCES!!.getString(guardAoe.idName)
+                    val nameAllyAoe = RESOURCES!!.getString(allyAoe.idName)
+                    var colorGuardAoe = GREEN
+                    if (guardAoe is Enemy) {
+                        colorGuardAoe = getRed()
+                    }
+                    var colorAllyAoe = GREEN
+                    if (allyAoe is Enemy) {
+                        colorAllyAoe = getRed()
+                    }
+                    strWrap = String.format(
+                        RESOURCES!!.getString(R.string.log_aoe_damage_intercepted),
+                        wrap(nameGuardAoe, colorGuardAoe),
+                        wrap(iInterceptedAoe, getRed()),
+                        wrap(nameAllyAoe, colorAllyAoe)
+                    )
                 }
             }
             if (strWrap != null) {

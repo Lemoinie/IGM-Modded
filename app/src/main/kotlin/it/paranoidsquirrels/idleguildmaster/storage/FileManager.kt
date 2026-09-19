@@ -75,7 +75,7 @@ object FileManager {
             overwriteFile(context, json)
             if (writeToCloud) {
                 writeToCloud = false
-                val threshold = (if (MainActivity.data.isImperialVanguardPurchased) 4 else 0) + 3 + (if (MainActivity.data.isUnholyCrusadePurchased) 4 else 0)
+                val threshold = (if (MainActivity.data.isImperialVanguardPurchased) 4 else 0) + 3 + (if (MainActivity.data.isUnholyCrusadePurchased) 4 else 0) + (if (MainActivity.data.isPrimalVanguardPurchased) 4 else 0)
                 if (MainActivity.data.adventurers.size > threshold) {
                     writeSnapshot(json.toByteArray(StandardCharsets.UTF_8))
                 }

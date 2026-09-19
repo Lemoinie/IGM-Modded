@@ -31,7 +31,12 @@ or open the project in Android Studio once so it generates one.
 | Documentation                      | `docs/`                                          |
 
 ## Feature Implementation Plans
-All implementation plans must be organized into dedicated folders named after the feature under `plans/<feature-name>/` (e.g. `plans/endgame-progression/implementation_plan.md`, `plans/angel-of-war-rebalance/implementation_plan.md`).
+All implementation plans are organized into three lifecycle stages with system-based categories under `plans/`:
+- `plans/planned/<category>/<plan-name>.md`: Drafted and upcoming plans waiting to be implemented.
+- `plans/working/<category>/<plan-name>.md`: Plan currently being actively implemented.
+- `plans/implemented/<category>/`: Completed plans (requires explicit user confirmation before moving; related plans are grouped into subsystem subfolders).
+
+Categories are based on the primary system being modified: `adventurers/`, `combat/`, `crafting/`, `progression/`, `enemies/`, `guild/`.
 Never create or commit loose `implementation_plan.md` files directly in the repository root.
 
 ## How to Add a New Feature

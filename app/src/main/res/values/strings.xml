@@ -3615,6 +3615,7 @@ POISON: damage reduced by 20%"</string>
 <string name="pet_ability_serrated_description" formatted="false">Bleed infliction: %s%% chance to inflict bleed twice.</string>
 <string name="log_status_bleed_lacerate" formatted="false">%s suffered a lacerating wound! It lost %s damage! Lacerate!</string>
 <string name="log_bleed_serrated" formatted="false">%s inflicted serrated wounds on %s! Bleed doubled (+%s)!</string>
+    <string name="log_aoe_damage_intercepted" formatted="false">%s intercepted %s damage for %s.</string>
 <string name="status_effect_hemorrhage">Hemorrhage</string>
 <string name="log_status_hemorrhage" formatted="false">%s hemorrhaged. It lost %s damage!%s</string>
 <string name="black_market_dialog_title">Black Market</string>
@@ -3908,6 +3909,46 @@ I apologize for the inconvenience."</string>
     <string name="shop_tooltip_body">Default maximum idle time is 8 hours. For each purchase of any kind, this limit is increased by one hour up to a maximum of 12.</string>
     <string name="shop_tooltip_title">MAX IDLE HOURS</string>
     <string name="shop_workshop_space">Workshop Queue</string>
+    <string name="shop_title_guild_initiate">GUILD INITIATE PACK</string>
+    <string name="shop_title_explorers_cache">EXPLORER\'S SUPPLY CACHE</string>
+    <string name="shop_title_primal_vanguard">PRIMAL VANGUARD</string>
+    <string name="shop_title_senko_pack">SENKO\'S CELESTIAL BOND</string>
+    <string name="shop_title_apprentice_merchant">APPRENTICE MERCHANT PACK</string>
+    <string name="shop_title_journeyman_merchant">JOURNEYMAN MERCHANT PACK</string>
+    <string name="shop_title_grand_merchant">GRAND MERCHANT PACK</string>
+    <string name="shop_title_trade_baron">TRADE BARON PACK</string>
+    <string name="shop_title_apprentice_workshop">APPRENTICE WORKSHOP PACK</string>
+    <string name="shop_title_journeyman_workshop">JOURNEYMAN WORKSHOP PACK</string>
+    <string name="shop_title_master_workshop">MASTER WORKSHOP PACK</string>
+    <string name="shop_title_grandmaster_workshop">GRANDMASTER WORKSHOP PACK</string>
+    <string name="shop_title_minor_storage">MINOR STORAGE EXPANSION</string>
+    <string name="shop_title_expanded_storage">EXPANDED STORAGE VAULT</string>
+    <string name="shop_title_grand_storage">GRAND STORAGE TREASURY</string>
+    <string name="shop_title_deep_pockets">DEEP POCKETS</string>
+    <string name="shop_title_extended_vigil">EXTENDED VIGIL</string>
+    <string name="shop_title_sacred_intercession">SACRED INTERCESSION</string>
+    <string name="shop_shelter_space">Shelter Capacity +1</string>
+    <string name="shop_market_speed_20">Market Speed +20%</string>
+    <string name="shop_market_speed_40">Market Speed +40%</string>
+    <string name="shop_market_speed_60">Market Speed +60%</string>
+    <string name="shop_workshop_speed_20">Workshop Speed +20%</string>
+    <string name="shop_workshop_speed_40">Workshop Speed +40%</string>
+    <string name="shop_workshop_speed_60">Workshop Speed +60%</string>
+    <string name="shop_50_storage_spaces">+50 Storage Spaces</string>
+    <string name="shop_idle_hours_increase">+6 Max Idle Hours</string>
+    <string name="shop_senko_description">Grants Level 50 Kitsune Pet \"Senko\" with 5 unlocked traits</string>
+    <string name="shop_intercession_desc">Consumable to cleanse and reroll adventurer traits</string>
+    <string name="shop_category_all">ALL</string>
+    <string name="shop_category_starter">STARTER</string>
+    <string name="shop_category_adventurers">ADVENTURERS</string>
+    <string name="shop_category_companions">COMPANIONS</string>
+    <string name="shop_category_merchant">MERCHANT</string>
+    <string name="shop_category_workshop">WORKSHOP</string>
+    <string name="shop_category_storage">STORAGE</string>
+    <string name="shop_category_utility">UTILITY</string>
+    <string name="shop_purchased">PURCHASED</string>
+    <string name="shop_confirm_purchase">Purchase %1$s for %2$d Gems?</string>
+    <string name="shop_not_enough_gems">Not enough Gems!</string>
     <string name="skill_active">Active Skill</string>
     <string name="skill_passive">Passive Skill</string>
     <string name="sold">SOLD</string>
@@ -4439,17 +4480,17 @@ TAUNT: the taunting unit is always chosen as target"</string>
     <string name="active_wrath_of_heaven_ii_name">Wrath of Heaven II</string>
     <string name="active_wrath_of_heaven_ii_description" formatted="false">Strike all enemies for 280% magic damage (+50% extra damage against Undead) and Silence them for 2 turns, fully cleanse all allies, and grant each ally a holy shield worth 25% of their Max HP.</string>
     <string name="passive_aura_of_light_i_name">Aura of Light I</string>
-    <string name="passive_aura_of_light_i_description" formatted="false">Reduces darkness by 15. At the start of battle, grants all allies Radiant Blessing (+10% status immunity, +5% damage against Undead).</string>
+    <string name="passive_aura_of_light_i_description" formatted="false">Reduces darkness by 15. At the start of battle, grants all allies Radiant Blessing (+10% status immunity, +5% damage against Undead). Intercepts 10% of enemy AoE damage for same-row allies.</string>
     <string name="passive_aura_of_light_ii_name">Aura of Light II</string>
-    <string name="passive_aura_of_light_ii_description" formatted="false">Reduces darkness by 25. At the start of battle, grants all allies Radiant Blessing (+15% status immunity, +10% damage against Undead). Basic attacks heal the ally with the lowest HP for 25% of the damage dealt.</string>
+    <string name="passive_aura_of_light_ii_description" formatted="false">Reduces darkness by 25. At the start of battle, grants all allies Radiant Blessing (+15% status immunity, +10% damage against Undead). Basic attacks heal the ally with the lowest HP for 25% of the damage dealt. Intercepts 15% of enemy AoE damage for same-row allies.</string>
     <string name="passive_aura_of_devotion_i_name">Aura of Devotion I</string>
-    <string name="passive_aura_of_devotion_i_description" formatted="false">Reduces darkness by 35. At the start of battle, grants all allies Radiant Blessing (+20% status immunity, +15% damage against Undead, +5 flat damage reduction). Basic attacks heal the ally with the lowest HP for 30% of the damage dealt.</string>
+    <string name="passive_aura_of_devotion_i_description" formatted="false">Reduces darkness by 35. At the start of battle, grants all allies Radiant Blessing (+20% status immunity, +15% damage against Undead, +5 flat damage reduction). Basic attacks heal the ally with the lowest HP for 30% of the damage dealt. Intercepts 20% of enemy AoE damage for same-row allies.</string>
     <string name="passive_aura_of_devotion_ii_name">Aura of Devotion II</string>
-    <string name="passive_aura_of_devotion_ii_description" formatted="false">Reduces darkness by 45. At the start of battle, grants all allies Radiant Blessing (+30% status immunity, +20% damage against Undead, +8 flat damage reduction). Basic attacks heal the ally with the lowest HP for 35% of the damage dealt.</string>
+    <string name="passive_aura_of_devotion_ii_description" formatted="false">Reduces darkness by 45. At the start of battle, grants all allies Radiant Blessing (+30% status immunity, +20% damage against Undead, +8 flat damage reduction). Basic attacks heal the ally with the lowest HP for 35% of the damage dealt. Intercepts 25% of enemy AoE damage for same-row allies.</string>
     <string name="passive_aura_of_sanctity_name">Aura of Sanctity</string>
-    <string name="passive_aura_of_sanctity_description" formatted="false">Reduces darkness by 50. At the start of battle, grants all allies Radiant Blessing (+40% status immunity, +25% damage against Undead, +10 flat damage reduction, +3% HP regeneration per turn). Each turn, cleanses 1 negative effect from the most debuffed ally. Basic attacks heal the ally with the lowest HP for 40% of the damage dealt.</string>
+    <string name="passive_aura_of_sanctity_description" formatted="false">Reduces darkness by 50. At the start of battle, grants all allies Radiant Blessing (+40% status immunity, +25% damage against Undead, +10 flat damage reduction, +3% HP regeneration per turn). Each turn, cleanses 1 negative effect from the most debuffed ally. Basic attacks heal the ally with the lowest HP for 40% of the damage dealt. Intercepts 30% of enemy AoE damage for same-row allies.</string>
     <string name="passive_aura_of_the_seraphim_name">Aura of the Seraphim</string>
-    <string name="passive_aura_of_the_seraphim_description" formatted="false">Reduces darkness by 50. At the start of battle, grants all allies Radiant Blessing (+50% status immunity, +30% damage against Undead, +15 flat damage reduction, +5% HP regeneration per turn). Each turn, cleanses 1 negative effect from every ally. Basic attacks heal the ally with the lowest HP for 50% of the damage dealt (overhealing becomes a holy shield).</string>
+    <string name="passive_aura_of_the_seraphim_description" formatted="false">Reduces darkness by 50. At the start of battle, grants all allies Radiant Blessing (+50% status immunity, +30% damage against Undead, +15 flat damage reduction, +5% HP regeneration per turn). Each turn, cleanses 1 negative effect from every ally. Basic attacks heal the ally with the lowest HP for 50% of the damage dealt (overhealing becomes a holy shield). Intercepts 35% of enemy AoE damage for same-row allies.</string>
     <string name="status_effect_radiant_blessing">Radiant Blessing</string>
     <string name="status_effect_radiant_blessing_description">Blessed by the aura of light: bonus status immunity, bonus damage against Undead, flat damage reduction, and HP regeneration.</string>
     <string name="drawer_mod_info_title">Mod Info</string>

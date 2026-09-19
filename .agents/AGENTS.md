@@ -72,9 +72,10 @@ The repository should follow this general organization:
 ├── backups/                 LOCAL save snapshots — gitignored, never committed
 ├── save.json                LOCAL working save — gitignored, never committed
 │
-├── plans/                   Feature implementation plans (each in plans/<feature-name>/)
-│   ├── endgame-progression/
-│   └── angel-of-war-rebalance/
+├── plans/                   Feature implementation plans (planned / working / implemented)
+│   ├── planned/             (adventurers/, combat/, crafting/, progression/, enemies/, guild/)
+│   ├── working/             (active implementation, same category structure)
+│   └── implemented/         (completed & user-confirmed, grouped by system/subsystem)
 │
 ├── build.gradle.kts
 ├── settings.gradle.kts
@@ -122,7 +123,47 @@ If a file does not clearly belong in the root, it does not belong in the root.
 
 
 ### Implementation Plans
-Implementation plans must never be stored as loose files in the repository root (e.g. `implementation_plan.md`). Instead, each plan must be placed in its own dedicated folder under `plans/<feature-name>/` named after the feature that the plan is ready to implement.
+
+Implementation plans must never be stored as loose files in the repository root (e.g. `implementation_plan.md`).
+
+The `plans/` directory is organized into three lifecycle stages with system-based categories:
+
+```text
+plans/
+├── planned/
+│   ├── adventurers/
+│   ├── combat/
+│   ├── crafting/
+│   ├── progression/
+│   ├── enemies/
+│   └── guild/
+├── working/
+│   └── [same category structure]
+└── implemented/
+    └── [same category structure]
+```
+
+#### Plan Lifecycle & Workflow Rules:
+1. **Creation & Drafting**:
+   - New or drafted plans are created directly in `plans/planned/<category>/<plan-name>.md`.
+   - The category is based on the primary system being modified (`adventurers/`, `combat/`, `crafting/`, `progression/`, `enemies/`, `guild/`).
+   - Do NOT create unnecessary nested folders for single plans in `planned/` or `working/`. Every plan belongs directly in its category folder.
+2. **Active Implementation**:
+   - When an AI agent is instructed to implement a plan, it MUST move that plan from `planned/<category>/` (or `implemented/<category>/`) into `working/<category>/<plan-name>.md`.
+   - The working directory contains only currently active plans.
+3. **Completion & User Permission**:
+   - An AI agent **CANNOT automatically move** a plan to `implemented/` merely because it believes the implementation is finished.
+   - It **MUST ask and receive explicit user permission** before moving a plan to `implemented/`.
+4. **Grouping in `implemented/`**:
+   - When moving to `implemented/`, closely related plans should be grouped together in a subsystem subfolder so they are easy to find together (e.g. `implemented/adventurers/angel-of-war/` containing both `angel-of-war-rebalance.md` and `angel-of-war-aoe-defense.md`).
+5. **Plan Splitting (Rule of Thumb)**:
+   - Split plans when components are:
+     - independently implementable;
+     - independently testable;
+     - independently understandable;
+     - or likely to be worked on separately.
+   - Keep them together when they form one cohesive feature/system and separating them would make the plans harder to understand or implement.
+   - Do NOT split a plan merely because it contains multiple changes if they form a single cohesive feature.
 
 ### Every new file needs a home
 

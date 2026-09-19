@@ -153,6 +153,7 @@ object Formulas {
         if (MainActivity.data.isAdventurerPackPurchased) packBonus += 2
         if (MainActivity.data.isImperialVanguardPurchased) packBonus += 4
         if (MainActivity.data.isUnholyCrusadePurchased) packBonus += 4
+        if (MainActivity.data.isPrimalVanguardPurchased) packBonus += 4
         return MainActivity.data.levelQuarters + 2 + MainActivity.data.upgradeQuarters + packBonus
     }
 
@@ -172,28 +173,35 @@ object Formulas {
     @JvmStatic
     fun marketListings(): Int {
         var packBonus = if (MainActivity.data.isStarterPackPurchased) 1 else 0
+        if (MainActivity.data.isApprenticeMerchantPurchased) packBonus += 1
+        if (MainActivity.data.isJourneymanMerchantPurchased) packBonus += 2
         if (MainActivity.data.isMerchantPackPurchased) packBonus += 2
+        if (MainActivity.data.isTradeBaronPurchased) packBonus += 3
         return MainActivity.data.levelMarketListings + 1 + MainActivity.data.upgradeMarketQueue + packBonus
     }
 
     @JvmStatic
     fun workshopQueue(): Int {
         var packBonus = if (MainActivity.data.isStarterPackPurchased) 1 else 0
-        if (MainActivity.data.isMerchantPackPurchased) packBonus += 2
+        if (MainActivity.data.isApprenticeWorkshopPurchased) packBonus += 1
+        if (MainActivity.data.isJourneymanWorkshopPurchased) packBonus += 2
+        if (MainActivity.data.isMasterWorkshopPurchased) packBonus += 2
+        if (MainActivity.data.isGrandmasterWorkshopPurchased) packBonus += 3
         return MainActivity.data.levelWorkshopQueue + 1 + MainActivity.data.upgradeWorkshopQueue + packBonus
     }
 
     @JvmStatic
     fun storageSpaces(): Int {
-        var packBonus = if (MainActivity.data.isStarterPackPurchased) 35 else 0
-        if (MainActivity.data.isAdventurerPackPurchased) packBonus += 35
-        if (MainActivity.data.isMerchantPackPurchased) packBonus += 70
+        var packBonus = 0
+        if (MainActivity.data.isStoragePack35Purchased) packBonus += 35
+        if (MainActivity.data.isStoragePack50Purchased) packBonus += 50
+        if (MainActivity.data.isStoragePack70Purchased) packBonus += 70
         return MainActivity.data.levelStorage + 35 + MainActivity.data.upgradeStorage + packBonus
     }
 
     @JvmStatic
     fun shelterCapacity(): Int {
-        return MainActivity.data.levelShelter + MainActivity.data.upgradeShelter + 2
+        return MainActivity.data.levelShelter + MainActivity.data.upgradeShelter + 2 + (if (MainActivity.data.isSenkoPackPurchased) 1 else 0)
     }
 
     @JvmStatic

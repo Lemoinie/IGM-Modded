@@ -27,9 +27,10 @@ toggles, and save tooling on top.
 ├── save_editor/            Standalone browser-based save-file editor
 ├── build.gradle.kts        Root Gradle (plugin versions)
 ├── settings.gradle.kts     Gradle multi-module setup
-├── plans/                  Feature implementation plans (each in plans/<feature-name>/)
-│   ├── endgame-progression/
-│   └── angel-of-war-rebalance/
+├── plans/                  Feature implementation plans (planned / working / implemented)
+│   ├── planned/            (adventurers/, combat/, crafting/, progression/, enemies/, guild/)
+│   ├── working/            (active implementation, same category structure)
+│   └── implemented/        (completed & user-confirmed, grouped by system/subsystem)
 ├── gradle.properties       Gradle/Android configuration
 └── README.md
 ```

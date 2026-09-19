@@ -127,7 +127,14 @@ class DialogMarket : CustomDialog() {
 
     private fun updateVisibility() {
         val b = binding ?: return
-        b.merchantPackBonus.visibility = if (MainActivity.data.isMerchantPackPurchased) View.VISIBLE else View.GONE
+        val marketSpeedBonus = (if (MainActivity.data.isApprenticeMerchantPurchased) 20 else 0) +
+            (if (MainActivity.data.isJourneymanMerchantPurchased) 40 else 0) +
+            (if (MainActivity.data.isMerchantPackPurchased) 40 else 0) +
+            (if (MainActivity.data.isTradeBaronPurchased) 60 else 0)
+        b.merchantPackBonus.visibility = if (marketSpeedBonus > 0) View.VISIBLE else View.GONE
+        if (marketSpeedBonus > 0) {
+            b.merchantPackBonus.text = "+ $marketSpeedBonus%"
+        }
         b.scrollView.visibility = if (b.list.childCount > 0) View.VISIBLE else View.GONE
         b.emptyList.visibility = if (b.list.childCount > 0) View.GONE else View.VISIBLE
     }

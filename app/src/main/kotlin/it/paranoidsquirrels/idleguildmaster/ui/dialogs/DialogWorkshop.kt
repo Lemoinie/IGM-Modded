@@ -138,7 +138,14 @@ class DialogWorkshop : CustomDialog() {
 
     private fun updateVisibility() {
         val b = binding ?: return
-        b.merchantPackBonus.visibility = if (MainActivity.data.isMerchantPackPurchased) View.VISIBLE else View.GONE
+        val workshopSpeedBonus = (if (MainActivity.data.isApprenticeWorkshopPurchased) 20 else 0) +
+            (if (MainActivity.data.isJourneymanWorkshopPurchased) 40 else 0) +
+            (if (MainActivity.data.isMasterWorkshopPurchased) 40 else 0) +
+            (if (MainActivity.data.isGrandmasterWorkshopPurchased) 60 else 0)
+        b.merchantPackBonus.visibility = if (workshopSpeedBonus > 0) View.VISIBLE else View.GONE
+        if (workshopSpeedBonus > 0) {
+            b.merchantPackBonus.text = "+ $workshopSpeedBonus%"
+        }
         b.scrollView.visibility = if (b.list.childCount > 0) View.VISIBLE else View.GONE
         b.emptyList.visibility = if (b.list.childCount > 0) View.GONE else View.VISIBLE
     }

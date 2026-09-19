@@ -3,6 +3,7 @@ package it.paranoidsquirrels.idleguildmaster
 import it.paranoidsquirrels.idleguildmaster.game.redeem.RedeemCodes
 import it.paranoidsquirrels.idleguildmaster.storage.data.Data
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.EndOfTurnAction
+import it.paranoidsquirrels.idleguildmaster.storage.data.entities.Entity
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.Skills
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.StatusEffect
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.StatusEffectType
@@ -16,17 +17,20 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.Enemy
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.EnemyType
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.EnemyTypeRegistry
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.Item
+import it.paranoidsquirrels.idleguildmaster.storage.data.items.ItemWrapper
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.Recipes
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Sword
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.instances.*
 import it.paranoidsquirrels.idleguildmaster.storage.data.pets.Pet
 import it.paranoidsquirrels.idleguildmaster.storage.data.pets.PetAbility
+import it.paranoidsquirrels.idleguildmaster.storage.data.places.Area
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.dungeons.TheGoldenCity
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.dungeons.EnchantedForest
 import it.paranoidsquirrels.idleguildmaster.ui.dialogs.ModChangelog
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
+import java.util.LinkedHashMap
 import java.util.concurrent.CopyOnWriteArrayList
 
 class ModFeaturesTest {
@@ -175,7 +179,7 @@ class ModFeaturesTest {
     fun testModAboutChangelogEntries() {
         val entries = ModChangelog.parseVersionEntries()
         assertTrue(entries.isNotEmpty())
-        assertTrue("Top entry must be 1.3.7.1", entries[0].title.startsWith("1.3.7.1"))
+        assertTrue("Top entry must be 1.3.8.1", entries[0].title.startsWith("1.3.8.1"))
         assertTrue("Bottom entry must be 1.0.0.0", entries.last().title.startsWith("1.0.0.0"))
     }
 
@@ -1017,5 +1021,179 @@ class ModFeaturesTest {
             MainActivity.data.levelShelterEffectiveness = originalGold
             MainActivity.data.upgradeShelterEffectiveness = originalGems
         }
+    }
+
+    // --- Angel of War branch: same-row AoE interception (Shared Burden) ---
+
+    private fun aoeAdventurer(str: String): Adventurer =
+        Adventurer.getInstance(str, 1, 5, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+
+    /** Deterministic enemy: 100 min=max attack (raw 100), 0 crit, 0 defense, always hits. */
+    private fun aoeTestEnemy(): Enemy {
+        val enemy = object : Enemy() {
+            override fun getMaxDamage(): Int = 100
+            override fun getMinDamage(): Int = 100
+            override fun isMagic(): Boolean = false
+            override fun isRanged(): Boolean = false
+            override fun configureStatistics() {}
+            override fun listDrops(i: Int): LinkedHashMap<ItemWrapper, Int> = LinkedHashMap()
+        }
+        enemy.currentHp = 100000
+        enemy.alwaysHits = true
+        enemy.baseDexterity = 0
+        enemy.baseDefense = 0
+        enemy.baseMagicDefense = 0
+        return enemy
+    }
+
+    private fun aoeArea(area: Area, party: List<Adventurer>): Area {
+        val partyList = ArrayList<Adventurer>()
+        partyList.addAll(party)
+        area.adventurersExploring = partyList
+        for (a in party) {
+            a.baseDefense = 0
+            a.baseMagicDefense = 0
+            a.currentHp = a.calculateTotalMaxHp()
+        }
+        return area
+    }
+
+    private fun aoeAllEnemiesSkill(area: Area, caster: Entity): Area.Skill =
+        area.Skill(caster).setTargetSelectionMode(Area.TARGET_ALL_ENEMIES)
+
+    private fun aoeHpLoss(area: Area, enemy: Enemy, target: Adventurer, skill: Area.Skill?, hpBefore: Int): Int {
+        area.dealDamage(enemy, target, skill, null)
+        return hpBefore - target.currentHp
+    }
+
+    @Test
+    fun testAoeInterceptionSingleProtector() {
+        val ally = aoeAdventurer("HolyKnight") // CON 20 -> 2 flat reduction
+        val protector = aoeAdventurer("HolyKnight")
+        val area = aoeArea(MainActivity.data.enchantedForest!!, listOf(ally, protector))
+        val enemy = aoeTestEnemy()
+        val skill = aoeAllEnemiesSkill(area, enemy)
+
+        // Baseline without any protector: full raw 100 - 2 flat = 98. Uses a DIFFERENT
+        // Area instance (Data fields are singletons — reusing enchantedForest would reset
+        // the main party's list).
+        val baselineArea = aoeArea(MainActivity.data.theDesert!!, listOf(aoeAdventurer("HolyKnight")))
+        val baseline = aoeHpLoss(baselineArea, enemy, baselineArea.adventurersExploring[0],
+            aoeAllEnemiesSkill(baselineArea, enemy), baselineArea.adventurersExploring[0].currentHp)
+        assertEquals(98, baseline)
+
+        var allyHp = ally.currentHp
+        var protectorHp = protector.currentHp
+        aoeHpLoss(area, enemy, ally, skill, allyHp)
+        // HolyKnight = tier 4 -> intercepts 10%. Ally: 90 raw arrives -> 90 - 2 flat = 88 lost.
+        assertEquals("Ally loses intercepted-reduced damage", 88, allyHp - ally.currentHp)
+        // Protector takes its 10 raw slice minus its 2 flat = 8.
+        assertEquals("Protector takes the intercepted slice", 8, protectorHp - protector.currentHp)
+    }
+
+    @Test
+    fun testAoeSharedBurdenTwoProtectors() {
+        val ally = aoeAdventurer("HolyKnight")
+        val p1 = aoeAdventurer("HolyKnight")
+        val p2 = aoeAdventurer("HolyKnight")
+        val area = aoeArea(MainActivity.data.enchantedForest!!, listOf(ally, p1, p2))
+        val enemy = aoeTestEnemy()
+        val skill = aoeAllEnemiesSkill(area, enemy)
+
+        var allyHp = ally.currentHp
+        var p1Hp = p1.currentHp
+        var p2Hp = p2.currentHp
+        area.dealDamage(enemy, ally, skill, null)
+
+        assertEquals("Ally still loses only 88 (90-2)", 88, allyHp - ally.currentHp)
+        // HolyKnights (10%): 10 raw intercepted, split evenly = 5 each; minus flat 2 -> 3 each.
+        val p1Loss = p1Hp - p1.currentHp
+        val p2Loss = p2Hp - p2.currentHp
+        assertEquals("Burden split equally across both protectors", p1Loss, p2Loss)
+        assertEquals("Each protector takes its half slice", 3, p1Loss)
+    }
+
+    @Test
+    fun testAoeTierPrioritySharedBurden() {
+        // Angel of War (35%) + Inquisitor (25%) in the same row: highest tier (35%) is used
+        // and the intercepted raw damage is split evenly between the two protectors.
+        val ally = aoeAdventurer("HolyKnight")
+        val angel = aoeAdventurer("AngelOfWar") // flat = 20/8 = 2
+        val inquisitor = aoeAdventurer("Inquisitor") // flat = 32/8 = 4
+        val area = aoeArea(MainActivity.data.enchantedForest!!, listOf(ally, angel, inquisitor))
+        val enemy = aoeTestEnemy()
+        val skill = aoeAllEnemiesSkill(area, enemy)
+
+        var allyHp = ally.currentHp
+        var angelHp = angel.currentHp
+        var inquisitorHp = inquisitor.currentHp
+        area.dealDamage(enemy, ally, skill, null)
+
+        assertEquals("Ally sees the 35% tier (65-2=63)", 63, allyHp - ally.currentHp)
+        // Each protector takes the same RAW slice (17.5); HP losses differ only by flat DR.
+        // Utils.round truncates: Angel 17.5-5=12.5 -> 12; Inquisitor 17.5-4=13.5 -> 13.
+        assertEquals("Angel of War raw slice 17.5 - 5 flat", 12, angelHp - angel.currentHp)
+        assertEquals("Inquisitor raw slice 17.5 - 4 flat", 13, inquisitorHp - inquisitor.currentHp)
+    }
+
+    @Test
+    fun testAoeRowIsolation() {
+        // Protector in row 0 (index 0) must NOT intercept for an ally in row 1 (index 6).
+        val protector = aoeAdventurer("HolyKnight")
+        val filler = aoeAdventurer("Footman")
+        val ally = aoeAdventurer("HolyKnight")
+        val area = aoeArea(MainActivity.data.enchantedForest!!, listOf(protector, filler, filler, filler, filler, filler, ally))
+        val enemy = aoeTestEnemy()
+        val skill = aoeAllEnemiesSkill(area, enemy)
+
+        var allyHp = ally.currentHp
+        var protectorHp = protector.currentHp
+        area.dealDamage(enemy, ally, skill, null)
+
+        assertEquals("Row-0 protector must not absorb row-1 damage", protectorHp, protector.currentHp)
+        assertEquals("Ally takes full 98 (no interception)", 98, allyHp - ally.currentHp)
+    }
+
+    @Test
+    fun testAoeCrossProtection() {
+        // Two Angels of War: when AoW1 is hit, AoW2 (same row) cross-protects it.
+        val aow1 = aoeAdventurer("AngelOfWar")
+        val aow2 = aoeAdventurer("AngelOfWar")
+        val area = aoeArea(MainActivity.data.enchantedForest!!, listOf(aow1, aow2))
+        val enemy = aoeTestEnemy()
+        val skill = aoeAllEnemiesSkill(area, enemy)
+
+        var aow1Hp = aow1.currentHp
+        var aow2Hp = aow2.currentHp
+        area.dealDamage(enemy, aow1, skill, null)
+
+        assertEquals("AoW1 is protected by AoW2 (60 = 65-5)", 60, aow1Hp - aow1.currentHp)
+        assertEquals("AoW2 takes its own intercept slice (35-5=30)", 30, aow2Hp - aow2.currentHp)
+    }
+
+    @Test
+    fun testAoeProtectorDeathThenSharedBurdenContinues() {
+        val ally = aoeAdventurer("HolyKnight")
+        val p1 = aoeAdventurer("HolyKnight")
+        val p2 = aoeAdventurer("HolyKnight")
+        val area = aoeArea(MainActivity.data.enchantedForest!!, listOf(ally, p1, p2))
+        p1.currentHp = 2 // dies from its 3-damage slice
+        val enemy = aoeTestEnemy()
+        val skill = aoeAllEnemiesSkill(area, enemy)
+
+        var p2Hp = p2.currentHp
+        area.dealDamage(enemy, ally, skill, null)
+        assertEquals("Fragile protector dies from its slice", 0, p1.currentHp)
+        assertEquals("Surviving protector takes its half slice", 3, p2Hp - p2.currentHp)
+
+        // Second swing: dead protector is excluded; the survivor now intercepts alone (10%).
+        // Restore HP first — the ally's remaining HP was lower than the incoming damage.
+        ally.currentHp = ally.calculateTotalMaxHp()
+        p2.currentHp = p2.calculateTotalMaxHp()
+        var allyHp2 = ally.currentHp
+        var p2Hp2 = p2.currentHp
+        area.dealDamage(enemy, ally, skill, null)
+        assertEquals("Ally still sees 10% interception on the second swing", 88, allyHp2 - ally.currentHp)
+        assertEquals("Survivor takes the full 10-2=8 slice now", 8, p2Hp2 - p2.currentHp)
     }
 }
