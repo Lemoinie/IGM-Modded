@@ -99,6 +99,8 @@ class Data {
     var levelShelter: Int = 0
     @SerializedName("levelShelterAutofeed")
     var levelShelterAutofeed: Int = 0
+    @SerializedName("levelShelterEffectiveness")
+    var levelShelterEffectiveness: Int = 0
     @SerializedName("levelStorage")
     var levelStorage: Int = 0
     @SerializedName("levelTavernCapacity")
@@ -208,6 +210,8 @@ class Data {
     var upgradeQuarters: Int = 0
     @SerializedName("upgradeShelter")
     var upgradeShelter: Int = 0
+    @SerializedName("upgradeShelterEffectiveness")
+    var upgradeShelterEffectiveness: Int = 0
     @SerializedName("upgradeStorage")
     var upgradeStorage: Int = 0
     @SerializedName("upgradeTavernCapacity")
@@ -371,6 +375,7 @@ class Data {
         seenItems.add("UpgradeMarketTime")
         seenItems.add("UpgradeQuarters")
         seenItems.add("UpgradeShelter")
+        seenItems.add("UpgradeShelterEffectiveness")
         seenItems.add("UpgradeStorage")
         seenItems.add("UpgradeTavernCapacity")
         seenItems.add("UpgradeTavernTime")

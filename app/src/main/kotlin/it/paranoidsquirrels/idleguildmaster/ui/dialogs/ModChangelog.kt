@@ -266,7 +266,26 @@ object ModChangelog {
         "- Semi's description is now simply \"A divine kitsune spirit dedicated to the guild.\"\n" +
         "- Kitsune Spirit Blessing reworked: it now grants progressive healing of +(level * 0.6)% (was a fixed +20%), and the +5 HP regen/turn and +1 light are removed. The \"(5th Trait)\" suffix and the \"5 Traits (All Unlocked)\" label are gone from the pet card; the trait name is just \"Kitsune Spirit Blessing\" with the current % shown.\n" +
         "- The Black Market header is now a clean plain-text countdown with no header bar — it shows only the time left before the stall departs (like the tavern's \"Next visitor in\").\n" +
-        "- The Mod Info changelog detail now sizes its window from the actual wrapped text of each version (long single-line changes like 1.3.5.1 get a full-size scrollable window, capped at 78% of the screen), and the Changelog header shows the total version count." 
+        "- The Mod Info changelog detail now sizes its window from the actual wrapped text of each version (long single-line changes like 1.3.5.1 get a full-size scrollable window, capped at 78% of the screen), and the Changelog header shows the total version count.\n" +
+        "\n" +
+        "1.3.6.1 (19/9/2026):\n" +
+        "- Kitsune Spirit Blessing now MULTIPLIES the pet's healing stat by (1 + level * 0.6%) instead of adding a flat amount; the trait's name shows the pet's level next to it (e.g. \"Kitsune Spirit Blessing 74\").\n" +
+        "- Hidden Achievements, Load from Cloud, and Reddit from the sidebar menu.\n" +
+        "- Mod Info / Changelog is now two separate windows: Mod Info shows IGM+, the version (auto-read from the build via versionName) and the developer, with a Changelog button; the Changelog window lists the versions with the total count in its title.\n" +
+        "\n" +
+        "1.3.6.2 (19/9/2026):\n" +
+        "- Kitsune Spirit Blessing now MULTIPLIES the healing dealt by the party's ADVENTURERS (heals from skills/doctrines) by (1 + level * 0.6%) instead of boosting the pet's own heal — it is a team-healing multiplier, matching the \"Team Healing\" intent.\n" +
+        "- The sidebar now has two separate entries: \"Mod Info\" (IGM+, version, developer) and \"Changelog\" (scrollable version list).\n" +
+        "\n" +
+        "1.3.7.0 (19/9/2026):\n" +
+        "- New Pet Shelter upgrade: Effectiveness. After buying Auto-Feed, the right-hand shelter button becomes \"Effectiveness +10%\": 5 gold tiers (5 Gold -> 50 Gold -> 5 Platinum -> 50 Platinum -> 5 Diamond, i.e. 50k / 500k / 5M / 50M / 500M copper) grant +10% each.\n" +
+        "- 5 gem tiers: the new UpgradeShelterEffectiveness item (1,000 gems each, up to 5) can be found in the Traveling Merchant / Black Market once Auto-Feed is owned — +10% auto-feed food value per purchase.\n" +
+        "- At max effectiveness (gold + gems = 10 levels), auto-fed food is worth +100%: a 10-feed-power food yields 20 feed power to your favourite pets.\n" +
+        "- Effectiveness only applies to food consumed via dungeon/raid auto-feeding (collectDrops); manual feeding from inventory is never affected.\n" +
+        "\n" +
+        "1.3.7.1 (19/9/2026):\n" +
+        "- The Shelter Effectiveness button no longer shows the purchase level — it reads \"Effectiveness +10%\", and the current total is shown under the shelter capacity line as \"Feed Effectiveness: n%\".\n" +
+        "- Fixed auto-feed long-press marking the wrong pet: the pets grid now re-binds from the freshly re-sorted list (previously the stale adapter order made long-pressing pet N toggle a different pet)." 
 
     private val MOD_VERSION_LIST: List<VersionEntry> by lazy { parseVersionEntries() }
 

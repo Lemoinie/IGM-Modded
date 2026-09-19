@@ -158,10 +158,9 @@ abstract class Pet {
             configureAbility(this.petAbility2, this.level)
             configureAbility(this.petAbility3, this.level)
             configureAbility(this.petAbility4, this.level)
-            // 5th trait: Kitsune Spirit Blessing — progressive healing (+level * 0.6%), applied idempotently.
-            this.healer -= this.kitsuneBlessingApplied
+            // 5th trait: Kitsune Spirit Blessing — +(level * 0.6%) healing, applied as a MULTIPLIER
+            // at heal time (see Area.petHeal). Recomputed idempotently on every call.
             this.kitsuneBlessingApplied = this.level * 0.006
-            this.healer += this.kitsuneBlessingApplied
         } else {
             configureAbility(this.petAbility1, this.level)
             configureAbility(this.petAbility2, this.level - 20)

@@ -19,6 +19,7 @@ import java.util.ArrayList
 class DialogShelter : CustomDialog() {
     companion object {
         private const val MAX_LEVEL_AUTOFEED = 1
+        private const val MAX_LEVEL_EFFECTIVENESS = 5
         private const val MAX_LEVEL_SHELTER = 11
     }
 
@@ -55,14 +56,36 @@ class DialogShelter : CustomDialog() {
             getString(R.string.headquarters_shelter_description_long),
             MainActivity.data.pets.size,
             Formulas.shelterCapacity()
+        ) + "\n" + String.format(
+            getString(R.string.headquarters_shelter_description_feed_effectiveness),
+            Formulas.getShelterEffectivenessPercent()
         )
         b.buttonUpgradeCapacity.visibility = if (MainActivity.data.levelShelter >= MAX_LEVEL_SHELTER) 8 else 0
 
-        val shelterAutofeedPrice = Formulas.getShelterAutofeedPrice()
-        UIUtils.populateMoneyContainer(b.moneyAutofeed, shelterAutofeedPrice, true)
-        UIUtils.changeMoneyContainerColor(b.moneyAutofeed, MainActivity.data.money >= shelterAutofeedPrice)
-        b.descriptionAutofeed.visibility = if (MainActivity.data.levelShelterAutofeed > 0) 0 else 4
-        b.buttonUpgradeAutofeed.visibility = if (MainActivity.data.levelShelterAutofeed >= MAX_LEVEL_AUTOFEED) 8 else 0
+        val shelterAutofeedEnabled = MainActivity.data.levelShelterAutofeed >= 1
+        if (shelterAutofeedEnabled) {
+            // Right-hand button becomes "Effectiveness +10%" and is hidden at max.
+            val effectivenessPrice = Formulas.getShelterEffectivenessPrice()
+            UIUtils.populateMoneyContainer(b.moneyAutofeed, effectivenessPrice, true)
+            UIUtils.changeMoneyContainerColor(b.moneyAutofeed, MainActivity.data.money >= effectivenessPrice)
+            b.upgradeAutofeedDescription.setText(R.string.headquarters_shelter_upgrade_effectiveness)
+            b.buttonUpgradeAutofeed.visibility = if (MainActivity.data.levelShelterEffectiveness >= MAX_LEVEL_EFFECTIVENESS) 8 else 0
+            val effectivenessPercent = Formulas.getShelterEffectivenessPercent()
+            b.descriptionAutofeed.text = if (effectivenessPercent > 0) {
+                getString(R.string.headquarters_shelter_description_autofeed) + "\n" +
+                    String.format(getString(R.string.headquarters_shelter_description_effectiveness), effectivenessPercent)
+            } else {
+                getString(R.string.headquarters_shelter_description_autofeed)
+            }
+            b.descriptionAutofeed.visibility = 0
+        } else {
+            val shelterAutofeedPrice = Formulas.getShelterAutofeedPrice()
+            UIUtils.populateMoneyContainer(b.moneyAutofeed, shelterAutofeedPrice, true)
+            UIUtils.changeMoneyContainerColor(b.moneyAutofeed, MainActivity.data.money >= shelterAutofeedPrice)
+            b.upgradeAutofeedDescription.setText(R.string.headquarters_shelter_upgrade_autofeed)
+            b.descriptionAutofeed.visibility = if (MainActivity.data.levelShelterAutofeed > 0) 0 else 4
+            b.buttonUpgradeAutofeed.visibility = if (MainActivity.data.levelShelterAutofeed >= MAX_LEVEL_AUTOFEED) 8 else 0
+        }
 
         adapter = UIUtils.getPetsGridAdapter(context, orderedPets)
         b.petsGrid.adapter = adapter as ListAdapter
@@ -89,12 +112,14 @@ class DialogShelter : CustomDialog() {
             }
         }
         b.buttonUpgradeAutofeed.setOnClickListener {
+            val effectiveness = MainActivity.data.levelShelterAutofeed >= 1
             if (!MainActivity.data.isSettingConfirmUpgrade) {
-                upgradeShelterAutofeed()
+                if (effectiveness) upgradeShelterEffectiveness() else upgradeShelterAutofeed()
             } else {
                 if (upgradeConfirm != null) return@setOnClickListener
-                val dialog = UIUtils.askConfirmUpgrade(context, R.string.headquarters_shelter_upgrade_autofeed) { _, _ ->
-                    upgradeShelterAutofeed()
+                val confirmTitle = if (effectiveness) R.string.headquarters_shelter_upgrade_effectiveness_confirm else R.string.headquarters_shelter_upgrade_autofeed
+                val dialog = UIUtils.askConfirmUpgrade(context, confirmTitle) { _, _ ->
+                    if (effectiveness) upgradeShelterEffectiveness() else upgradeShelterAutofeed()
                     upgradeConfirm?.dismiss()
                 }
                 upgradeConfirm = dialog
@@ -117,7 +142,11 @@ class DialogShelter : CustomDialog() {
             UIUtils.vibrate(context)
             pet.setFavourite(!pet.isFavourite())
             orderedPets.sortWith(Utils.petsComparator)
-            adapter?.notifyDataSetChanged()
+            // Recreate the adapter after re-sorting: UIUtils.getPetsGridAdapter copies the
+            // list, so notifyDataSetChanged on the OLD adapter rebinds its stale pre-sort
+            // order and positions drift (long-pressing pet N marks a different pet).
+            adapter = UIUtils.getPetsGridAdapter(context, orderedPets)
+            b.petsGrid.adapter = adapter as ListAdapter
             true
         }
         b.help.setOnClickListener {
@@ -150,6 +179,18 @@ class DialogShelter : CustomDialog() {
             MainActivity.data.levelShelterAutofeed += 1
             initialize(null)
             (activity as? MainActivity)?.refresh()
+        }
+    }
+
+    private fun upgradeShelterEffectiveness() {
+        if (MainActivity.data.levelShelterEffectiveness >= MAX_LEVEL_EFFECTIVENESS) return
+        val effectivenessPrice = Formulas.getShelterEffectivenessPrice()
+        if (MainActivity.data.money >= effectivenessPrice) {
+            MainActivity.data.money -= effectivenessPrice
+            MainActivity.data.levelShelterEffectiveness += 1
+            initialize(null)
+            (activity as? MainActivity)?.refresh()
+            MainActivity.headquartersFragment?.refresh()
         }
     }
 

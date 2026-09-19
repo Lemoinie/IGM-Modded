@@ -398,6 +398,9 @@ class MainActivity : AppCompatActivity() {
         binding.newItems.visibility = if (data.isNewMerchantRegularItems) View.VISIBLE else View.GONE
         binding.blackMarket.visibility = if (data.isBlackMarketActive) View.VISIBLE else View.GONE
         binding.newBlackMarketItems.visibility = if (data.isBlackMarketActive && data.isNewBlackMarketItems) View.VISIBLE else View.GONE
+        binding.navViewDrawer.menu.findItem(R.id.achievements)?.isVisible = false
+        binding.navViewDrawer.menu.findItem(R.id.cloud)?.isVisible = false
+        binding.navViewDrawer.menu.findItem(R.id.reddit)?.isVisible = false
 
         val noQuests = data.kingsQuests.isEmpty() && data.afflictionQuests.isEmpty() &&
                 data.controlQuests.isEmpty() && data.fortitudeQuests.isEmpty() &&
@@ -540,6 +543,10 @@ class MainActivity : AppCompatActivity() {
 
         binding.navViewDrawer.menu.findItem(R.id.mod_about)?.setOnMenuItemClickListener {
             DialogModAbout.show(this)
+            true
+        }
+        binding.navViewDrawer.menu.findItem(R.id.mod_changelog)?.setOnMenuItemClickListener {
+            DialogModAbout.showChangelog(this)
             true
         }
         binding.navViewDrawer.menu.findItem(R.id.cafe_naver)?.setOnMenuItemClickListener {

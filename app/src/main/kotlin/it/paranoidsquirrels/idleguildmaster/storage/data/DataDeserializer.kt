@@ -76,10 +76,12 @@ class DataDeserializer : JsonDeserializer<Data> {
         var z = false
         this.data.levelShelter = if (asJsonObject.has("levelShelter")) asJsonObject.get("levelShelter").asInt  else 0
         this.data.levelShelterAutofeed = if (asJsonObject.has("levelShelterAutofeed")) asJsonObject.get("levelShelterAutofeed").asInt  else 0
+        this.data.levelShelterEffectiveness = if (asJsonObject.has("levelShelterEffectiveness")) asJsonObject.get("levelShelterEffectiveness").asInt  else 0
         this.data.upgradeMarketQueue = if (asJsonObject.has("upgradeMarketQueue")) asJsonObject.get("upgradeMarketQueue").asInt  else 0
         this.data.upgradeMarketTime = if (asJsonObject.has("upgradeMarketTime")) asJsonObject.get("upgradeMarketTime").asInt  else 0
         this.data.upgradeQuarters = if (asJsonObject.has("upgradeQuarters")) asJsonObject.get("upgradeQuarters").asInt  else 0
         this.data.upgradeShelter = if (asJsonObject.has("upgradeShelter")) asJsonObject.get("upgradeShelter").asInt  else 0
+        this.data.upgradeShelterEffectiveness = if (asJsonObject.has("upgradeShelterEffectiveness")) asJsonObject.get("upgradeShelterEffectiveness").asInt  else 0
         this.data.upgradeStorage = if (asJsonObject.has("upgradeStorage")) asJsonObject.get("upgradeStorage").asInt  else 0
         this.data.upgradeTavernCapacity = if (asJsonObject.has("upgradeTavernCapacity")) asJsonObject.get("upgradeTavernCapacity").asInt  else 0
         this.data.upgradeTavernTime = if (asJsonObject.has("upgradeTavernTime")) asJsonObject.get("upgradeTavernTime").asInt  else 0

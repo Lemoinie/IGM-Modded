@@ -1943,6 +1943,10 @@ Autofeed allows to select pets that will automatically feed on any food item fou
     <string name="headquarters_shelter_name">SHELTER</string>
     <string name="headquarters_shelter_title_pets">Pets</string>
     <string name="headquarters_shelter_upgrade_autofeed">Auto Feed</string>
+    <string name="headquarters_shelter_upgrade_effectiveness">Effectiveness +10%</string>
+    <string name="headquarters_shelter_upgrade_effectiveness_confirm">Effectiveness</string>
+    <string name="headquarters_shelter_description_effectiveness" formatted="false">- Auto-feed food value: +%d%%</string>
+    <string name="headquarters_shelter_description_feed_effectiveness" formatted="false">Feed Effectiveness: %d%%</string>
     <string name="headquarters_shelter_upgrade_space">Spaces +1</string>
     <string name="headquarters_storage_description_1">Short tap to view, long press to sell</string>
     <string name="headquarters_storage_description_long" formatted="false">Stored items: %d/%d</string>
@@ -4069,6 +4073,8 @@ This item will be consumed automatically upon buying it."</string>
 Limited to one purchase.
 This item will be consumed automatically upon buying it."</string>
     <string name="upgrade_shelter_name">Upgrade: Shelter</string>
+    <string name="upgrade_shelter_effectiveness_description">Permanently increases Shelter auto-feed effectiveness by 10%.</string>
+    <string name="upgrade_shelter_effectiveness_name">Upgrade: Effectiveness</string>
     <string name="upgrade_storage_description">"Permanently increases Storage spaces by 1.
 Limited to ten purchases.
 This item will be consumed automatically upon buying it."</string>
@@ -4446,7 +4452,9 @@ TAUNT: the taunting unit is always chosen as target"</string>
     <string name="passive_aura_of_the_seraphim_description" formatted="false">Reduces darkness by 50. At the start of battle, grants all allies Radiant Blessing (+50% status immunity, +30% damage against Undead, +15 flat damage reduction, +5% HP regeneration per turn). Each turn, cleanses 1 negative effect from every ally. Basic attacks heal the ally with the lowest HP for 50% of the damage dealt (overhealing becomes a holy shield).</string>
     <string name="status_effect_radiant_blessing">Radiant Blessing</string>
     <string name="status_effect_radiant_blessing_description">Blessed by the aura of light: bonus status immunity, bonus damage against Undead, flat damage reduction, and HP regeneration.</string>
-    <string name="drawer_mod_about_title">Mod Info / Changelog</string>
+    <string name="drawer_mod_info_title">Mod Info</string>
+<string name="drawer_changelog_title">Changelog</string>
+<string name="drawer_mod_about_title">Mod Info / Changelog</string>
     <string name="unit_berserker_name">Berserker</string>
     <string name="unit_berserker_description">A ferocious warrior fueled by unchecked battle frenzy.</string>
     <string name="drawer_settings_reset">START NEW GAME</string>

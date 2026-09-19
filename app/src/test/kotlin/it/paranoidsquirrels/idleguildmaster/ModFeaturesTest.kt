@@ -175,7 +175,7 @@ class ModFeaturesTest {
     fun testModAboutChangelogEntries() {
         val entries = ModChangelog.parseVersionEntries()
         assertTrue(entries.isNotEmpty())
-        assertTrue("Top entry must be 1.3.6.0", entries[0].title.startsWith("1.3.6.0"))
+        assertTrue("Top entry must be 1.3.7.1", entries[0].title.startsWith("1.3.7.1"))
         assertTrue("Bottom entry must be 1.0.0.0", entries.last().title.startsWith("1.0.0.0"))
     }
 
@@ -881,18 +881,141 @@ class ModFeaturesTest {
 
     @Test
     fun testKitsuneBlessingProgressesWithLevel() {
-        val low = Pet.getInstance("Semi", 43, 1, 0, PetAbility.EMPTY, PetAbility.EMPTY, PetAbility.EMPTY, PetAbility.EMPTY)!!
-        val high = Pet.getInstance("Semi", 44, 100, 0, PetAbility.EMPTY, PetAbility.EMPTY, PetAbility.EMPTY, PetAbility.EMPTY)!!
+        val low = Pet.getInstance("Semi", 43, 1, 0, PetAbility.HEALER, PetAbility.EMPTY, PetAbility.EMPTY, PetAbility.EMPTY)!!
+        val high = Pet.getInstance("Semi", 44, 100, 0, PetAbility.HEALER, PetAbility.EMPTY, PetAbility.EMPTY, PetAbility.EMPTY)!!
         assertEquals("Blessing at level 1 must be +0.6%", 0.006, low.getKitsuneBlessing(), 0.0001)
         assertEquals("Blessing at level 100 must be +60%", 0.6, high.getKitsuneBlessing(), 0.0001)
-        assertEquals("Blessing must feed the healer stat", 0.6, high.getHealer(), 0.0001)
+        // The blessing boosts the PARTY's adventurer healing at heal time; the pet's own healer stays raw.
+        assertEquals(21.0, high.getHealer(), 0.0001)
         // Idempotent when abilities are re-computed (level ups / save loads).
         high.refreshAbilities()
         high.refreshAbilities()
         assertEquals(0.6, high.getKitsuneBlessing(), 0.0001)
-        assertEquals(0.6, high.getHealer(), 0.0001)
+        assertEquals(21.0, high.getHealer(), 0.0001)
         // Removed: +5 regen/turn and +1 light no longer come from the blessing.
         assertEquals(0, high.bright)
         assertEquals(0, high.regeneration)
+    }
+
+    @Test
+    fun testKitsuneBlessingMultipliesAdventurerHealingAtHealTime() {
+        // The blessing must multiply the healing DEALT BY ADVENTURERS in the party
+        // (Area.heal), not the pet's own heal. Compare heal output with/without a
+        // blessing pet over many samples (attack damage is rolled, so compare sums).
+        val area = MainActivity.data.enchantedForest!!
+        // Healer with a real weapon so heal amounts are meaningfully large (max(1,...) would
+        // mask the 1.6x multiplier otherwise).
+        val healer = Adventurer.getInstance("Footman", 1, 1, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+        healer.weapon = ColossalSwordOfScarletKing()
+        val target = Adventurer.getInstance("Footman", 2, 40, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+        val maxHp = target.calculateTotalMaxHp()
+
+        area.petExploring = null
+        var sumWithout = 0L
+        for (i in 1..150) {
+            target.currentHp = maxHp - 10
+            area.heal(healer, target, null)
+            sumWithout += target.currentHp - (maxHp - 10)
+        }
+
+        val pet = Pet.getInstance("Semi", 44, 100, 0, PetAbility.HEALER, PetAbility.EMPTY, PetAbility.EMPTY, PetAbility.EMPTY)!!
+        assertEquals(0.6, pet.getKitsuneBlessing(), 0.0001)
+        // The pet's OWN heal is NOT boosted by the blessing.
+        assertEquals(21.0, pet.healer, 0.0001)
+        area.petExploring = pet
+        var sumWith = 0L
+        for (i in 1..150) {
+            target.currentHp = maxHp - 10
+            area.heal(healer, target, null)
+            sumWith += target.currentHp - (maxHp - 10)
+        }
+        area.petExploring = null
+
+        assertTrue(
+            "Adventurer healing with Kitsune Spirit Blessing must be higher (with=$sumWith without=$sumWithout)",
+            sumWith > sumWithout
+        )
+    }
+
+    @Test
+    fun testShelterEffectivenessPriceProgression() {
+        // Guard-test the 5 exact gold price tiers against the current data counter.
+        val expected = longArrayOf(50000L, 500000L, 5000000L, 50000000L, 500000000L)
+        val original = MainActivity.data.levelShelterEffectiveness
+        try {
+            for (level in 0..4) {
+                MainActivity.data.levelShelterEffectiveness = level
+                assertEquals("Price tier $level", expected[level], Formulas.getShelterEffectivenessPrice())
+            }
+            MainActivity.data.levelShelterEffectiveness = 5
+            assertTrue("Level 5 must be unobtainable", Formulas.getShelterEffectivenessPrice() > 500000000L)
+        } finally {
+            MainActivity.data.levelShelterEffectiveness = original
+        }
+    }
+
+    @Test
+    fun testShelterEffectivenessPercent() {
+        val originalGold = MainActivity.data.levelShelterEffectiveness
+        val originalGems = MainActivity.data.upgradeShelterEffectiveness
+        try {
+            MainActivity.data.levelShelterEffectiveness = 3
+            MainActivity.data.upgradeShelterEffectiveness = 2
+            assertEquals(50, Formulas.getShelterEffectivenessPercent())
+            MainActivity.data.levelShelterEffectiveness = 5
+            MainActivity.data.upgradeShelterEffectiveness = 5
+            assertEquals(100, Formulas.getShelterEffectivenessPercent())
+            MainActivity.data.levelShelterEffectiveness = 0
+            MainActivity.data.upgradeShelterEffectiveness = 0
+            assertEquals(0, Formulas.getShelterEffectivenessPercent())
+        } finally {
+            MainActivity.data.levelShelterEffectiveness = originalGold
+            MainActivity.data.upgradeShelterEffectiveness = originalGems
+        }
+    }
+
+    @Test
+    fun testUpgradeShelterEffectivenessItem() {
+        val item = Item.getInstance("UpgradeShelterEffectiveness", 1) as? UpgradeShelterEffectiveness
+        assertNotNull("UpgradeShelterEffectiveness must be instantiable", item)
+        assertEquals("Gem price must be 1000", 1000L, (item as? it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Upgrade)?.getGemPrice()?.toLong())
+        val original = MainActivity.data.upgradeShelterEffectiveness
+        try {
+            MainActivity.data.upgradeShelterEffectiveness = 4
+            item!!.use()
+            assertEquals("use() must increment the counter", 5, MainActivity.data.upgradeShelterEffectiveness)
+            item.use()
+            assertEquals("use() must cap at 5", 5, MainActivity.data.upgradeShelterEffectiveness)
+        } finally {
+            MainActivity.data.upgradeShelterEffectiveness = original
+        }
+    }
+
+    @Test
+    fun testAutoFeedEffectivenessMultiplication() {
+        val originalGold = MainActivity.data.levelShelterEffectiveness
+        val originalGems = MainActivity.data.upgradeShelterEffectiveness
+        try {
+            // No effectiveness: feed power is unchanged.
+            assertEquals(10, Utils.effectiveAutoFeedPower(10))
+            // +50% (3 gold + 2 gem tiers): 10 -> 15.
+            MainActivity.data.levelShelterEffectiveness = 3
+            MainActivity.data.upgradeShelterEffectiveness = 2
+            assertEquals(50, Formulas.getShelterEffectivenessPercent())
+            assertEquals(15, Utils.effectiveAutoFeedPower(10))
+            // Max +100%: a 10-feed-power food yields 20 feed power to favourite pets.
+            MainActivity.data.levelShelterEffectiveness = 5
+            MainActivity.data.upgradeShelterEffectiveness = 5
+            assertEquals(100, Formulas.getShelterEffectivenessPercent())
+            assertEquals(20, Utils.effectiveAutoFeedPower(10))
+            // Rounding behaviour: +30% => 5 * 1.3 = 6.5 -> rounds to 7.
+            MainActivity.data.levelShelterEffectiveness = 0
+            MainActivity.data.upgradeShelterEffectiveness = 3
+            assertEquals(30, Formulas.getShelterEffectivenessPercent())
+            assertEquals(7, Utils.effectiveAutoFeedPower(5))
+        } finally {
+            MainActivity.data.levelShelterEffectiveness = originalGold
+            MainActivity.data.upgradeShelterEffectiveness = originalGems
+        }
     }
 }

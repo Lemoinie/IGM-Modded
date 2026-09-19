@@ -1297,6 +1297,11 @@ abstract class Area {
         var dCalculateCriticalMultiplier = calculateCriticalMultiplier(entity, skill, 0.0)
         val z2 = entity is Adventurer
         val pet = this.petExploring
+        // Kitsune Spirit Blessing (Semi/Senko 5th trait): multiplies the healing DEALT BY
+        // ADVENTURERS in the party by (1 + level * 0.6%) — it boosts the party, not the pet itself.
+        if (entity is Adventurer && pet != null && pet.getKitsuneBlessing() > 0.0) {
+            dCalculateHealingModifier = dCalculateHealingModifier * (1.0 + pet.getKitsuneBlessing())
+        }
         val z: Boolean
         if (!z2 || pet == null || dCalculateCriticalMultiplier <= 1.0 || pet.getSavage() <= 0.0 || Utils.random() >= pet.getSavage() / 100.0) {
             z = false

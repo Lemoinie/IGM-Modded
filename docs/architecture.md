@@ -185,6 +185,15 @@ injected patches. The remaining "mod-specific" surface is thin and clearly locat
   is rendered by `layout_money.xml` + `UIUtils.populateMoneyContainer`/`decomposeMoney`;
   gem upgrade caps in `Utils.rollUpgrades()` were expanded (storage 185, quarters 15,
   tavern capacity 7, shelter 7, workshop/market time 15) and craft/sell times clamp to ≥1s.
+- **Shelter Effectiveness** — after buying Auto-Feed, the Shelter dialog's right-hand
+  button becomes **Effectiveness +10%** (one gold tier per +10%): 5 gold tiers bought
+  with money (`Formulas.getShelterEffectivenessPrice()`: 50k / 500k / 5M / 50M / 500M)
+  plus 5 gem tiers from the `UpgradeShelterEffectiveness` item (1,000 gems, offered in
+  `Utils.rollUpgrades()` → Traveling Merchant / Black Market once auto-feed exists).
+  `Formulas.getShelterEffectivenessPercent()` = (gold + gem tiers) × 10%, shown in the
+  dialog as **Feed Effectiveness: n%** under the shelter capacity line; the bonus only
+  multiplies `Utils.effectiveAutoFeedPower()` inside `Utils.collectDrops()`
+  (dungeon/raid auto-feeding), never manual inventory feeding.
 - **Progression overrides** — `Data` carries the mod's persisted tuning knobs
   (`imperialKills`, `idleTimeCapHours`, `lootCap`) which are consumed by normal game
   systems: `TheGoldenCity` (Imperial Captain spawn/kill counter), `MainActivity`

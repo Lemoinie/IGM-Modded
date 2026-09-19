@@ -14,6 +14,7 @@ import android.widget.LinearLayout
 import android.widget.ListView
 import android.widget.ScrollView
 import android.widget.TextView
+import it.paranoidsquirrels.idleguildmaster.BuildConfig
 import it.paranoidsquirrels.idleguildmaster.R
 
 /**
@@ -100,6 +101,80 @@ object DialogModAbout {
             val ctx = activity
             val pad8 = sp(ctx, 8f)
 
+            val appTitle = TextView(ctx)
+            appTitle.text = "IGM+"
+            appTitle.textSize = 26f
+            appTitle.typeface = Typeface.DEFAULT_BOLD
+            appTitle.setTextColor(-0x171718) // 0xFFE8E8E8
+            appTitle.gravity = Gravity.CENTER_HORIZONTAL
+            appTitle.setPadding(0, pad8, 0, pad8)
+
+            val rawVersion = BuildConfig.VERSION_NAME
+            val version = if (rawVersion != null && rawVersion.contains("mod-")) {
+                rawVersion.substring(rawVersion.indexOf("mod-") + 4)
+            } else {
+                rawVersion ?: "1.3.6.0"
+            }
+            val versionText = TextView(ctx)
+            versionText.text = "Version: " + version
+            versionText.textSize = 14f
+            versionText.setTextColor(-0x4f4f50) // 0xFFB0B0B0
+            versionText.gravity = Gravity.CENTER_HORIZONTAL
+            versionText.setPadding(0, pad8, 0, pad8)
+
+            val devText = TextView(ctx)
+            devText.text = "Developer: Lemoinie"
+            devText.textSize = 14f
+            devText.setTextColor(-0x4f4f50) // 0xFFB0B0B0
+            devText.gravity = Gravity.CENTER_HORIZONTAL
+            devText.setPadding(0, pad8, 0, pad8)
+
+            val changelogButton = TextView(ctx)
+            changelogButton.text = "Changelog"
+            changelogButton.textSize = 16f
+            changelogButton.typeface = Typeface.DEFAULT_BOLD
+            changelogButton.setTextColor(-0x171718) // 0xFFE8E8E8
+            changelogButton.gravity = Gravity.CENTER_HORIZONTAL
+            changelogButton.setPadding(0, pad8, 0, pad8)
+            changelogButton.setOnClickListener {
+                shownModAboutDialog?.dismiss()
+                shownModAboutDialog = null
+                showChangelog(ctx)
+            }
+
+            val body = LinearLayout(ctx)
+            body.orientation = LinearLayout.VERTICAL
+            body.addView(appTitle, LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT))
+            body.addView(versionText, LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT))
+            body.addView(devText, LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT))
+            body.addView(changelogButton, LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT))
+            body.addView(newCloseButton(ctx), LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT))
+
+            val dialog = AlertDialog.Builder(ctx, R.style.AlertDialog)
+                .setTitle(R.string.drawer_mod_info_title)
+                .setView(body)
+                .setCancelable(true)
+                .create()
+            dialog.window?.setBackgroundDrawableResource(R.drawable.dialog_border)
+            dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            dialog.window?.decorView?.setPadding(0, 0, 0, 0)
+            dialog.setOnDismissListener { shownModAboutDialog = null }
+            shownModAboutDialog = dialog
+            dialog.show()
+        } catch (t: Throwable) {
+            t.printStackTrace()
+            shownModAboutDialog = null
+        }
+    }
+
+    /** The version-list (Changelog) window; its title carries the total version count. */
+    @JvmStatic
+    fun showChangelog(activity: Activity) {
+        if (activity.isFinishing || shownModAboutDialog != null) return
+        try {
+            val ctx = activity
+            val pad8 = sp(ctx, 8f)
+
             val list = ListView(ctx)
             list.adapter = ModAboutAdapter(ctx, ModChangelog.allEntries())
             list.divider = ColorDrawable(Color.TRANSPARENT)
@@ -113,21 +188,12 @@ object DialogModAbout {
 
             val body = LinearLayout(ctx)
             body.orientation = LinearLayout.VERTICAL
-
-            val header = TextView(ctx)
-            header.text = "Changelog (" + ModChangelog.allEntries().size + " versions)"
-            header.textSize = 17f
-            header.typeface = Typeface.DEFAULT_BOLD
-            header.setTextColor(-0x171718) // 0xFFE8E8E8
-            header.gravity = Gravity.CENTER_HORIZONTAL
-            header.setPadding(0, pad8, 0, pad8)
-            body.addView(header, LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT))
-
             body.addView(list, LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, listHeight))
             body.addView(newCloseButton(ctx), LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT))
 
+            val title = ctx.getString(R.string.drawer_changelog_title) + " (" + ModChangelog.allEntries().size + ")"
             val dialog = AlertDialog.Builder(ctx, R.style.AlertDialog)
-                .setTitle(R.string.drawer_mod_about_title)
+                .setTitle(title)
                 .setView(body)
                 .setCancelable(true)
                 .create()

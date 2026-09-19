@@ -343,6 +343,9 @@ object Utils {
         if (MainActivity.data.upgradeShelter < 7) {
             Item.getInstance("UpgradeShelter")?.let { arrayList.add(it) }
         }
+        if (MainActivity.data.levelShelterAutofeed >= 1 && MainActivity.data.upgradeShelterEffectiveness < 5) {
+            Item.getInstance("UpgradeShelterEffectiveness")?.let { arrayList.add(it) }
+        }
         if (MainActivity.data.upgradeStorage < 185) {
             Item.getInstance("UpgradeStorage")?.let { arrayList.add(it) }
         }
@@ -1035,6 +1038,18 @@ object Utils {
         }
     }
 
+    /**
+     * Scales a raw auto-feed feed-power amount by the Shelter Effectiveness bonus
+     * (Formulas.getShelterEffectivenessPercent), rounded to the nearest integer.
+     * Only used by dungeon/raid auto-feeding — manual feeding is never affected.
+     */
+    @JvmStatic
+    fun effectiveAutoFeedPower(feedPower: Int): Int {
+        val percent = Formulas.getShelterEffectivenessPercent()
+        if (percent <= 0) return feedPower
+        return Math.round(feedPower * (1.0 + percent * 0.01)).toInt()
+    }
+
     @JvmStatic
     fun collectDrops(fragment: Fragment, area: Area) {
         val arrayList = ArrayList<Pet>()
@@ -1076,7 +1091,9 @@ object Utils {
             }
         }
         if (size > 0) {
-            val i = feedPower / size
+            // Shelter Effectiveness scales only the auto-feed amount (never manual feeding).
+            val effectiveFeedPower = effectiveAutoFeedPower(feedPower)
+            val i = effectiveFeedPower / size
             for (pet in arrayList) {
                 pet.feed(i)
             }
