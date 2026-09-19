@@ -285,7 +285,23 @@ object ModChangelog {
         "\n" +
         "1.3.7.1 (19/9/2026):\n" +
         "- The Shelter Effectiveness button no longer shows the purchase level — it reads \"Effectiveness +10%\", and the current total is shown under the shelter capacity line as \"Feed Effectiveness: n%\".\n" +
-        "- Fixed auto-feed long-press marking the wrong pet: the pets grid now re-binds from the freshly re-sorted list (previously the stale adapter order made long-pressing pet N toggle a different pet)." 
+        "- Fixed auto-feed long-press marking the wrong pet: the pets grid now re-binds from the freshly re-sorted list (previously the stale adapter order made long-pressing pet N toggle a different pet).\n" +
+        "\n" +
+        "1.3.7.2 (19/9/2026):\n" +
+        "- Angel of War branch gains an AoE Row Defense (Shared Burden) mechanic: when an enemy performs an AoE attack against an adventurer, every alive branch unit (Holy Knight -> Angel of War) in the same row intercepts the highest-tier % of the pre-mitigation damage and splits it evenly (10% -> 35% by tier: Light I/II 10%/15%, Devotion I/II 20%/25%, Sanctity 30%, Seraphim 35%). Each protector mitigates its slice with its own defenses and logs \"[Protector] intercepted [N] damage for [Ally].\".\n" +
+        "\n" +
+        "1.3.8.0 (19/9/2026):\n" +
+        "- In-game Shop Rework: completely switched from real-money in-app purchases to in-game Gem unlocks.\n" +
+        "- 7 categorized shop bundles with filter navigation chips: Starter, Adventurers, Companions, Merchant, Workshop, Storage, and Utility.\n" +
+        "- Adventurer bundle unique packs (5,000 Gems each) strictly feature Tier 4 units (max level 20) with PLUS basic traits and rare traits: Imperial Vanguard, Unholy Crusade, and the new Primal Vanguard (Wolf Rider, Shadow Dancer, Silver Tongue, Iron Warden).\n" +
+        "- Companion bundle features Senko's Celestial Bond (2,500 Gems): grants Level 50 Kitsune Pet Senko with all 5 traits unlocked + Shelter Capacity +1.\n" +
+        "- Merchant and Workshop bundles feature dedicated 4-tier progression packs (Apprentice, Journeyman, Grand/Master, Trade Baron/Grandmaster) providing tiered queue/listing and speed bonuses (+20%, +40%, +60%).\n" +
+        "- Storage bundle introduces standalone Minor (+35), Expanded (+50), and Grand (+70) storage expansions; storage bonuses removed from starter/adventurer/merchant packs.\n" +
+        "- Utility bundle adds Deep Pockets (+1,000 Max Loot), Extended Vigil (+6 Offline Idle Hours), and Sacred Intercession (repeatable 1x Intercession).\n" +
+        "- Offline double-purchase protection: prevents re-purchasing already unlocked packs and properly displays the brass checkmark for owned packs.\n" +
+        "\n" +
+        "1.3.8.1 (19/9/2026):\n" +
+        "- Auto-Migration Failsafe on Save Load: importing older or vanilla saves with Starter, Adventurer, or Merchant packs automatically grants the corresponding new modular storage (+35, +50, +70), workshop (+2 queue, +40% speed), and max loot (+1,000) perks so no player stats or inventory capacities are lost on import." 
 
     private val MOD_VERSION_LIST: List<VersionEntry> by lazy { parseVersionEntries() }
 

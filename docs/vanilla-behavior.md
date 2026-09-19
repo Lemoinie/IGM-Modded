@@ -79,6 +79,16 @@ source tree (no injected patches). They are concentrated in a few places:
   `CLEAN_SAVE_ON_START`, ...). Game logic branches on these.
 - `game/redeem/RedeemCodes.kt` — the redeem-code console (REROLL/SHOP/QUEST/GOLD/
   STORAGE/IDLETIME/LOOTCAP/KILLS/SETKILLS/ITEM/HERO/PET), served by `DialogRedeemCode`.
+- **Angel of War branch — AoE Row Defense (Shared Burden)** — when an enemy performs an
+  AoE attack (`Area.isAoeAttack` detects active multi-target skills: `all`/`all_enemies`/
+  `all_except_self`/integer barrage counts) against an adventurer, all alive Holy-Knight
+  branch units in the **same row** (slot / 5) intercept the **highest-tier** percentage
+  of the **pre-mitigation** raw damage, split evenly across the protectors: Holy Knight
+  10%, Paladin 15%, Templar 20%, Inquisitor 25%, Justiciar 30%, Angel of War 35%.
+  Each protector mitigates its slice through its own DEF/MDEF, flat damage reduction,
+  Radiant Blessing flat DR and holy shields (`guard.applyDamage(...)`); a protector does
+  not protect itself, but two protectors in one row cross-protect each other. Combat log:
+  `[Protector] intercepted [N] damage for [Ally].` (`Logger.AOE_DAMAGE_INTERCEPTED`).
 - `Data` progression knobs — `imperialKills`, `idleTimeCapHours`, `lootCap` are
   consumed by `TheGoldenCity`, `MainActivity.initializeThreads()`, and
   `Area.fullChest()` respectively (0 = vanilla behavior).

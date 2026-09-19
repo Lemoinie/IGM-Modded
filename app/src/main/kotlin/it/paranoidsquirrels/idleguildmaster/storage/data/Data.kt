@@ -163,6 +163,34 @@ class Data {
     var isShownDialogRaid: Boolean = false
     @SerializedName("sleepingPlanet")
     var sleepingPlanet: SleepingPlanet? = SleepingPlanet()
+    @SerializedName("primalVanguardPurchased")
+    var isPrimalVanguardPurchased: Boolean = false
+    @SerializedName("senkoPackPurchased")
+    var isSenkoPackPurchased: Boolean = false
+    @SerializedName("apprenticeMerchantPurchased")
+    var isApprenticeMerchantPurchased: Boolean = false
+    @SerializedName("journeymanMerchantPurchased")
+    var isJourneymanMerchantPurchased: Boolean = false
+    @SerializedName("tradeBaronPurchased")
+    var isTradeBaronPurchased: Boolean = false
+    @SerializedName("apprenticeWorkshopPurchased")
+    var isApprenticeWorkshopPurchased: Boolean = false
+    @SerializedName("journeymanWorkshopPurchased")
+    var isJourneymanWorkshopPurchased: Boolean = false
+    @SerializedName("masterWorkshopPurchased")
+    var isMasterWorkshopPurchased: Boolean = false
+    @SerializedName("grandmasterWorkshopPurchased")
+    var isGrandmasterWorkshopPurchased: Boolean = false
+    @SerializedName("storagePack35Purchased")
+    var isStoragePack35Purchased: Boolean = false
+    @SerializedName("storagePack50Purchased")
+    var isStoragePack50Purchased: Boolean = false
+    @SerializedName("storagePack70Purchased")
+    var isStoragePack70Purchased: Boolean = false
+    @SerializedName("maxLootPackPurchased")
+    var isMaxLootPackPurchased: Boolean = false
+    @SerializedName("idleHoursPackPurchased")
+    var isIdleHoursPackPurchased: Boolean = false
     @SerializedName("starterPackPurchased")
     var isStarterPackPurchased: Boolean = false
     @SerializedName("t4Pet")

@@ -198,6 +198,36 @@ class DataDeserializer : JsonDeserializer<Data> {
         this.data.isMerchantPackPurchased = asJsonObject.has("merchantPackPurchased") && asJsonObject.get("merchantPackPurchased").asBoolean
         this.data.isImperialVanguardPurchased = asJsonObject.has("imperialVanguardPurchased") && asJsonObject.get("imperialVanguardPurchased").asBoolean
         this.data.isUnholyCrusadePurchased = asJsonObject.has("unholyCrusadePurchased") && asJsonObject.get("unholyCrusadePurchased").asBoolean
+        this.data.isPrimalVanguardPurchased = asJsonObject.has("primalVanguardPurchased") && asJsonObject.get("primalVanguardPurchased").asBoolean
+        this.data.isSenkoPackPurchased = asJsonObject.has("senkoPackPurchased") && asJsonObject.get("senkoPackPurchased").asBoolean
+        this.data.isApprenticeMerchantPurchased = asJsonObject.has("apprenticeMerchantPurchased") && asJsonObject.get("apprenticeMerchantPurchased").asBoolean
+        this.data.isJourneymanMerchantPurchased = asJsonObject.has("journeymanMerchantPurchased") && asJsonObject.get("journeymanMerchantPurchased").asBoolean
+        this.data.isTradeBaronPurchased = asJsonObject.has("tradeBaronPurchased") && asJsonObject.get("tradeBaronPurchased").asBoolean
+        this.data.isApprenticeWorkshopPurchased = asJsonObject.has("apprenticeWorkshopPurchased") && asJsonObject.get("apprenticeWorkshopPurchased").asBoolean
+        this.data.isJourneymanWorkshopPurchased = asJsonObject.has("journeymanWorkshopPurchased") && asJsonObject.get("journeymanWorkshopPurchased").asBoolean
+        this.data.isMasterWorkshopPurchased = asJsonObject.has("masterWorkshopPurchased") && asJsonObject.get("masterWorkshopPurchased").asBoolean
+        this.data.isGrandmasterWorkshopPurchased = asJsonObject.has("grandmasterWorkshopPurchased") && asJsonObject.get("grandmasterWorkshopPurchased").asBoolean
+        this.data.isStoragePack35Purchased = asJsonObject.has("storagePack35Purchased") && asJsonObject.get("storagePack35Purchased").asBoolean
+        this.data.isStoragePack50Purchased = asJsonObject.has("storagePack50Purchased") && asJsonObject.get("storagePack50Purchased").asBoolean
+        this.data.isStoragePack70Purchased = asJsonObject.has("storagePack70Purchased") && asJsonObject.get("storagePack70Purchased").asBoolean
+        this.data.isMaxLootPackPurchased = asJsonObject.has("maxLootPackPurchased") && asJsonObject.get("maxLootPackPurchased").asBoolean
+        this.data.isIdleHoursPackPurchased = asJsonObject.has("idleHoursPackPurchased") && asJsonObject.get("idleHoursPackPurchased").asBoolean
+
+        // Backward Compatibility / Save Migration for Shop Rework (v1.3.8.1)
+        // If an imported or older save has the legacy packs, ensure they retain their full storage,
+        // workshop queue/speed, and max loot bonuses via the new dedicated modular flags.
+        if (this.data.isStarterPackPurchased && !this.data.isStoragePack35Purchased) {
+            this.data.isStoragePack35Purchased = true
+        }
+        if (this.data.isAdventurerPackPurchased && !this.data.isStoragePack50Purchased) {
+            this.data.isStoragePack50Purchased = true
+        }
+        if (this.data.isMerchantPackPurchased) {
+            if (!this.data.isStoragePack70Purchased) this.data.isStoragePack70Purchased = true
+            if (!this.data.isMasterWorkshopPurchased) this.data.isMasterWorkshopPurchased = true
+            if (!this.data.isMaxLootPackPurchased) this.data.isMaxLootPackPurchased = true
+        }
+
         this.data.amountOfPurchases = if (asJsonObject.has("amountOfPurchases")) asJsonObject.get("amountOfPurchases").asInt  else 0
         this.data.totalGemsPurchased = if (asJsonObject.has("totalGemsPurchased")) asJsonObject.get("totalGemsPurchased").asLong  else 0L
         this.data.isIntercessionsRetroactivelyGranted = asJsonObject.has("intercessionsRetroactivelyGranted") && asJsonObject.get("intercessionsRetroactivelyGranted").asBoolean

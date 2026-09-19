@@ -749,7 +749,8 @@ abstract class Area {
         // Vanilla hardcap is 2,000 (3,000 with Merchant Pack); the mod's lootCap
         // override (0 = unset) replaces it entirely when configured.
         val lootCap = MainActivity.data.lootCap
-        return stack >= (if (lootCap > 0) lootCap else if (MainActivity.data.isMerchantPackPurchased) 3000 else 2000)
+        val defaultCap = 2000 + (if (MainActivity.data.isMaxLootPackPurchased) 1000 else 0)
+        return stack >= (if (lootCap > 0) lootCap else defaultCap)
     }
 
     private fun adventurersAlive(): Int {
@@ -2190,6 +2191,30 @@ abstract class Area {
         }
     }
 
+    /**
+     * Angel of War branch: share of enemy AoE damage this passive's bearer intercepts
+     * for same-row allies (Shared Burden). 0 = no interception.
+     */
+    private fun getAoeDamageInterceptionPct(passiveSkill: Skills?): Double {
+        return when (passiveSkill) {
+            Skills.PASSIVE_AURA_OF_LIGHT_I -> 0.10
+            Skills.PASSIVE_AURA_OF_LIGHT_II -> 0.15
+            Skills.PASSIVE_AURA_OF_DEVOTION_I -> 0.20
+            Skills.PASSIVE_AURA_OF_DEVOTION_II -> 0.25
+            Skills.PASSIVE_AURA_OF_SANCTITY -> 0.30
+            Skills.PASSIVE_AURA_OF_THE_SERAPHIM -> 0.35
+            else -> 0.0
+        }
+    }
+
+    /** True when an active, non-healing skill hits multiple entities (AoE attack). */
+    private fun isAoeAttack(skill: Skill?): Boolean {
+        if (skill == null || skill.healing) return false
+        val mode = skill.targetSelectionMode
+        return mode == TARGET_ALL || mode == TARGET_ALL_ENEMIES || mode == TARGET_ALL_EXCEPT_SELF ||
+            (mode.toIntOrNull() ?: 1) > 1
+    }
+
     open fun dealDamage(entity: Entity, entity2: Entity, skill: Skill?, endOfTurnAction: EndOfTurnAction?) {
         val z4 = entity is Adventurer
         val z5 = entity2 is Adventurer
@@ -2307,8 +2332,45 @@ abstract class Area {
             }
         }
 
+        val rawDamage = (dRollAttackDamage * dCalculateCriticalMultiplier * livingCompanionBonusDamage *
+            dCalculateTotalDarknessDamageAmplification * statusDamageMultiplier * dMagicDamageAmplification)
+
+        // Angel of War branch: same-row AoE interception (Shared Burden). When an enemy
+        // performs an AoE attack against an adventurer, all alive branch units in the same
+        // row intercept the highest-tier % of the PRE-mitigation raw damage, split evenly.
+        val aoeProtectors = ArrayList<Adventurer>()
+        var aoeInterceptedRaw = 0.0
+        if (isAoeAttack(skill) && !z4 && z5) {
+            var allyIndex = -1
+            for (idx in 0 until this.adventurersExploring.size) {
+                if (this.adventurersExploring[idx] === entity2) {
+                    allyIndex = idx
+                    break
+                }
+            }
+            if (allyIndex >= 0) {
+                val allyRow = allyIndex / 5
+                for (idx in 0 until this.adventurersExploring.size) {
+                    val candidate = this.adventurersExploring[idx]
+                    if (candidate !== entity2 && candidate.currentHp > 0 &&
+                        (idx / 5) == allyRow &&
+                        getAoeDamageInterceptionPct(candidate.passiveSkill) > 0.0
+                    ) {
+                        aoeProtectors.add(candidate)
+                    }
+                }
+                if (aoeProtectors.isNotEmpty()) {
+                    var maxPct = 0.0
+                    for (protector in aoeProtectors) {
+                        maxPct = Math.max(maxPct, getAoeDamageInterceptionPct(protector.passiveSkill))
+                    }
+                    aoeInterceptedRaw = rawDamage * maxPct
+                }
+            }
+        }
+
         val iApplyDamage = entity2.applyDamage(
-            dRollAttackDamage * dCalculateCriticalMultiplier * livingCompanionBonusDamage * dCalculateTotalDarknessDamageAmplification * statusDamageMultiplier * dMagicDamageAmplification,
+            if (aoeProtectors.isEmpty()) rawDamage else rawDamage - aoeInterceptedRaw,
             zIsMagic,
             barrier,
             entity.getArmorIgnored()
@@ -2330,6 +2392,20 @@ abstract class Area {
         val logRes = endOfTurnAction?.log ?: R.string.log_damage_dealt
         val critTier = if (isSuperCrit) 2 else if (dCalculateCriticalMultiplier > 1.0) 1 else 0
         Logger.log(this, 33, logRes, critTier, entity, entity2, iApplyDamage)
+
+        if (aoeProtectors.isNotEmpty()) {
+            // Split the intercepted raw damage equally among every living protector in the row;
+            // each slice is mitigated by the protector's own defenses via applyDamage.
+            val perGuardRaw = aoeInterceptedRaw / aoeProtectors.size
+            for (guard in aoeProtectors) {
+                val guardBarrier = if (pet != null) pet.barrier else 0
+                val iGuardDmg =
+                    guard.applyDamage(perGuardRaw, zIsMagic, guardBarrier, entity.getArmorIgnored())
+                animateDamage(guard)
+                Logger.log(this, Logger.AOE_DAMAGE_INTERCEPTED, guard, entity2, iGuardDmg)
+                checkDeath(guard)
+            }
+        }
 
         if (skill != null) {
             if (entity2.currentHp.toDouble() / entity2.calculateTotalMaxHp().toDouble() < skill.executionThreshold) {
@@ -3300,7 +3376,9 @@ abstract class Area {
         for (item in this.drops) {
             stack += item.getStack()
         }
-        val isFull = stack >= (if (MainActivity.data.isMerchantPackPurchased) 3000 else 2000)
+        val defaultCap = 2000 + (if (MainActivity.data.isMaxLootPackPurchased) 1000 else 0)
+        val cap = if (MainActivity.data.lootCap > 0) MainActivity.data.lootCap else defaultCap
+        val isFull = stack >= cap
         val layout = getLayout()
         layout.lootImage.visibility = if (this.drops.isEmpty()) 8 else 0
         layout.lootImage.setImageDrawable(
@@ -3311,10 +3389,14 @@ abstract class Area {
             )
         )
         layout.fullLoot.visibility = if (this.drops.isEmpty()) 8 else 0
-        layout.fullLoot.text = String.format(
-            resources.getString(if (MainActivity.data.isMerchantPackPurchased) R.string.loot_percentage_full_with_pack else R.string.loot_percentage_full),
-            stack
-        )
+        layout.fullLoot.text = if (MainActivity.data.lootCap > 0) {
+            "$stack / $cap"
+        } else {
+            String.format(
+                resources.getString(if (MainActivity.data.isMaxLootPackPurchased) R.string.loot_percentage_full_with_pack else R.string.loot_percentage_full),
+                stack
+            )
+        }
         layout.fullLoot.setTextColor(
             resources.getColor(
                 if (isFull) UIUtils.getFailureColor() else R.color.dim_white,
