@@ -34,7 +34,7 @@ The JSON root is a flat object with ~100 keys. Categories (representative keys):
 | ------------------- | --------------------------------------------------------------- |
 | Resources           | `money`, `gems`, `totalGemsPurchased`, `maxWealth`, `adsWatched`, `itemsCrafted`, `itemsSold`, `amountOfPurchases` |
 | Purchased packs     | `starterPackPurchased`, `adventurerPackPurchased`, `merchantPackPurchased`, `imperialVanguardPurchased`, `unholyCrusadePurchased`, `doctrineMaxed`, `everAscended`, `potsMaxed`, `vial2RetGrant`, `intercessionsRetroactivelyGranted`, `reviewShown`, `reviewTrigger` |
-| Guild buildings     | `levelQuarters`, `levelStorage`, `levelTavernCapacity`, `levelTavernTime`, `levelMarketListings`, `levelMarketTime`, `levelShelter`, `levelShelterAutofeed`, `levelWorkshopQueue`, `levelWorkshopTime` + matching `upgrade*` keys |
+| Guild buildings     | `levelQuarters`, `levelStorage`, `levelTavernCapacity`, `levelTavernTime`, `levelMarketListings`, `levelMarketTime`, `levelShelter`, `levelShelterAutofeed`, `levelShelterEffectiveness`, `levelWorkshopQueue`, `levelWorkshopTime` + matching `upgrade*` keys (incl. `upgradeShelterEffectiveness`) |
 | Adventurers         | `adventurers[]`, `dismissedAdventurers[]`, `tavernGuests[]`, `maxAdventurersOwned`, `maxAdventurerTier` |
 | Areas (11 dungeons) | `enchantedForest`, `theDesert`, `eternalBattlefield`, `theGoldenCity`, `blackwaterPort`, `frostbitePeaks`, `obsidianMines`, `theSouthernGrove`, `barrenWastelands`, `hiddenCityOfLarox`, `lostLands` |
 | Areas (12 raids)    | `theSlimePond`, `divineArcheology`, `ancientGraveDigging`, `imperialRescue`, `theCultistRebels`, `theDreadfulAscent`, `theLostExpedition`, `celestialMothership`, `theDireDescent`, `sleepingPlanet`, `kaunis`, `theTower` |

@@ -124,6 +124,29 @@ object Formulas {
         )
     }
 
+    /**
+     * Shelter Effectiveness (gold tiers, purchased in the Shelter dialog after Auto-Feed):
+     * 5 Gold -> 50G -> 5 P -> 50 P -> 5 D, capping out at level 5.
+     */
+    @JvmStatic
+    fun getShelterEffectivenessPrice(): Long {
+        val price = when (MainActivity.data.levelShelterEffectiveness) {
+            0 -> 50000L          // 5 Gold
+            1 -> 500000L         // 50 Gold
+            2 -> 5000000L        // 5 Platinum
+            3 -> 50000000L       // 50 Platinum
+            4 -> 500000000L      // 5 Diamond
+            else -> IMPOSSIBLY_HIGH_PRICE
+        }
+        return Utils.truncatePrice(price)
+    }
+
+    /** Combined auto-feed effectiveness percent: gold tiers + gem tiers, each +10% per level. */
+    @JvmStatic
+    fun getShelterEffectivenessPercent(): Int {
+        return (MainActivity.data.levelShelterEffectiveness + MainActivity.data.upgradeShelterEffectiveness) * 10
+    }
+
     @JvmStatic
     fun getQuartersCapacity(): Int {
         var packBonus = if (MainActivity.data.isStarterPackPurchased) 1 else 0

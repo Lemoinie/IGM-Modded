@@ -83,7 +83,7 @@ class DialogPetDetail : CustomDialog() {
 
             // Kitsune Spirit Blessing
             b.containerAbility5.visibility = View.VISIBLE
-            b.ability5Name.text = "Kitsune Spirit Blessing"
+            b.ability5Name.text = "Kitsune Spirit Blessing " + p.level
             val blessingPct = Utils.round(p.getKitsuneBlessing() * 100.0)
             b.ability5Description.text = Html.fromHtml("<font color=#FFDB7F><b>+$blessingPct%</b></font> Healing", 0)
             b.detailTraits.visibility = View.GONE

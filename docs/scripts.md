@@ -15,7 +15,8 @@ scripts/
 │   ├── save_manager.ps1     All-in-one save-file manager (pull/push/edit/sync)
 │   └── update_save.py       Inject pack heroes/items into a pulled save.json
 └── tools/
-    └── scan_ports.ps1       TCP port scanner (wireless debugging discovery)
+    ├── scan_ports.ps1       TCP port scanner (wireless debugging discovery)
+    └── connect_phone.ps1    Reconnect to the phone (USB / wireless) + install latest APK
 
 save_editor/
 └── index.html               Self-contained browser-based save editor
@@ -88,6 +89,31 @@ backups/       Timestamped snapshots of save.json (gitignored)
   .\scripts\save\save_manager.ps1 pull
   python .\scripts\save\update_save.py
   .\scripts\save\save_manager.ps1 push
+  ```
+
+## scripts/tools/connect_phone.ps1
+
+- **Purpose**: reconnect to the Android phone no matter the transport — USB first,
+  then an explicit `-Ip/-Port`, then the last-known wireless target, then `adb mdns`
+  discovery — and optionally install + launch the latest debug APK. Reconnects need
+  **no pairing code** because the PC is already trusted from a prior pairing.
+- **Inputs (parameters)**: `-Install` (install the newest APK in
+  `app/build/outputs/apk/debug/` or the `-ApkPath` given), `-Launch`, `-Ip <ip>`,
+  `-Port <port>` (normally the fixed `adb tcpip` port 5555).
+- **Outputs**: an `adb connect` target; stores the last wireless target in the
+  machine-local `%USERPROFILE%\.igm_phone.txt`; installs + prints the on-device
+  `versionName` when `-Install` is used.
+- **Required for development**: optional convenience (a one-command replacement for
+  the pairing dance once the PC has been paired once over USB or code).
+- **Modifies source?** No. **Generates files?** `%USERPROFILE%\.igm_phone.txt` only
+  (machine-local, never committed).
+- **Safe to run repeatedly?** Yes.
+- **Dependencies**: PowerShell, `adb`, and (for wireless) the phone with Wireless
+  debugging enabled — once paired to this PC, the code/port dance is gone.
+- **Typical usage**
+  ```powershell
+  .\scripts\tools\connect_phone.ps1
+  .\scripts\tools\connect_phone.ps1 -Install -Launch
   ```
 
 ## scripts/tools/scan_ports.ps1
