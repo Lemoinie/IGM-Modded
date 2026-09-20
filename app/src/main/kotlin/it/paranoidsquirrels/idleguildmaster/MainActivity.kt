@@ -692,9 +692,10 @@ class MainActivity : AppCompatActivity() {
     private fun initializeThreads() {
         // Offline idle is capped at 12 hours by vanilla purchases ("iMin"); the mod's
         // idleTimeCapHours override (12..168, 0 = unset) extends that cap when set.
+        // The Vigil packs extend it progressively: Vigil I +6h, II +6h, III +24h,
+        // IV +48h, Eternal Vigil +72h (reaching 168h / 7 days).
         val idleCapHours = data.idleTimeCapHours
-        val idleBonus = if (data.isIdleHoursPackPurchased) 6 else 0
-        val vanillaCap = (Math.min(4, 4) + 8 + idleBonus) * Utils.ONE_HOUR_IN_SECONDS
+        val vanillaCap = Formulas.getIdleTimeCapHours() * Utils.ONE_HOUR_IN_SECONDS
         val iMin = if (idleCapHours in 12..168) idleCapHours * Utils.ONE_HOUR_IN_SECONDS else vanillaCap
         val lastAccess = data.lastAccess
         val jMillis = TrueTimeUtils.millis()

@@ -195,6 +195,46 @@ class Data {
     var isSacredIntercessionPurchased: Boolean = false
     @SerializedName("cakePackPurchased")
     var isCakePackPurchased: Boolean = false
+    @SerializedName("divineChampionPackPurchased")
+    var isDivineChampionPackPurchased: Boolean = false
+    @SerializedName("eternalReliquaryPurchased")
+    var isEternalReliquaryPurchased: Boolean = false
+    @SerializedName("alchemistBountyPurchased")
+    var isAlchemistBountyPurchased: Boolean = false
+    @SerializedName("patricianWardrobePurchased")
+    var isPatricianWardrobePurchased: Boolean = false
+    @SerializedName("royalTreasuryPurchased")
+    var isRoyalTreasuryPurchased: Boolean = false
+    @SerializedName("scarletShroudPurchased")
+    var isScarletShroudPurchased: Boolean = false
+    @SerializedName("celestialBowPurchased")
+    var isCelestialBowPurchased: Boolean = false
+    @SerializedName("barracks1Purchased")
+    var isBarracks1Purchased: Boolean = false
+    @SerializedName("barracks2Purchased")
+    var isBarracks2Purchased: Boolean = false
+    @SerializedName("grandTavernPurchased")
+    var isGrandTavernPurchased: Boolean = false
+    @SerializedName("sanctuary1Purchased")
+    var isSanctuary1Purchased: Boolean = false
+    @SerializedName("sanctuary2Purchased")
+    var isSanctuary2Purchased: Boolean = false
+    @SerializedName("idleHoursPack2Purchased")
+    var isIdleHoursPack2Purchased: Boolean = false
+    @SerializedName("idleHoursPack3Purchased")
+    var isIdleHoursPack3Purchased: Boolean = false
+    @SerializedName("idleHoursPack4Purchased")
+    var isIdleHoursPack4Purchased: Boolean = false
+    @SerializedName("eternalVigilPurchased")
+    var isEternalVigilPurchased: Boolean = false
+    @SerializedName("maxLootPack2Purchased")
+    var isMaxLootPack2Purchased: Boolean = false
+    @SerializedName("evolutionSynthesisPurchased")
+    var isEvolutionSynthesisPurchased: Boolean = false
+    @SerializedName("storagePack100Purchased")
+    var isStoragePack100Purchased: Boolean = false
+    @SerializedName("storagePack150Purchased")
+    var isStoragePack150Purchased: Boolean = false
     @SerializedName("starterPackPurchased")
     var isStarterPackPurchased: Boolean = false
     @SerializedName("t4Pet")

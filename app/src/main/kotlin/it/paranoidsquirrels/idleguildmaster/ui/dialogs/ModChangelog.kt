@@ -317,7 +317,28 @@ object ModChangelog {
         "\n" +
         "1.3.8.4 (20/9/2026):\n" +
         "- Updated the merchant/workshop pack icons to match the rebalanced bonuses: Grand Merchant & Master Workshop now use the +3 icon (shop_3), Trade Baron & Grandmaster Workshop use the +4 icon (shop_4).\n" +
-        "- Fixed the Ceremonial Cake bundle so it actually lives inside the Companion bundle category (it was previously rendered outside the category container, so it never showed under the Companion filter)." 
+        "- Fixed the Ceremonial Cake bundle so it actually lives inside the Companion bundle category (it was previously rendered outside the category container, so it never showed under the Companion filter)." +
+        "\n\n" +
+        "1.3.8.5 (20/9/2026):\n" +
+        "- Shop Expansion: converted the legacy vanilla redeem codes (Divine Champion, Eternal Reliquary, Alchemist's Bounty, Patrician's Wardrobe, Royal Treasury & Feast, Shroud of the Ancients) into purchasable gem packs in the Shop; legacy saves that already redeemed those codes auto-migrate and show them as purchased.\n" +
+        "- New Equipment bundle: Celestial Bow pack. New Infrastructure bundle: Barracks I & II (+1 adventurer slot each), Grand Tavern (+2 tavern capacity, visitors 20% faster), Sanctuary I & II (+2 pet slots each), Idle Hours II/III/IV (+6/+24/+48 offline hours), Eternal Vigil (+72 offline hours), Deep Pockets II (+1000 max loot), Evolution Synthesis, Storage +100, Storage +150.\n" +
+        "- Unhidden the Celestial Bow's +10% crit chance and +10% crit damage in its tooltip/stat line.\n" +
+        "\n" +
+        "1.3.8.6 (20/9/2026):\n" +
+        "- Shop UI & packs reworked to match the expansion plan exactly. Pack names, gem prices, categories, and contents corrected: Barracks Expansion I (1,000) / II (2,000) with the shop_1 Quarters Spaces icon, Grand Tavern Expansion (1,250), Sanctuary Grounds I (750) / II (1,250) under Infrastructure; Extended Vigil II/III/IV (Chronos Ward, Aegis of Time, Temporal Anchor), Eternal Vigil (Timeless Continuum), and Deep Pockets II (Bottomless Chest) under Utility; Dimensional Vault (+100) and Infinite Hoard (+150) under Storage; Armory: Celestial Bow (1,000) under Equipment. Evolutionary Synthesis Crate (1,000: 1x Evo-22 Vial, 1x Evo-23 Vial, 2x Dreamcatcher) added under Utility.\n" +
+        "- The converted redeem packs now display every contained item/adventurer (Divine Champion hero + gear, Eternal Reliquary items, all 11 Alchemist potions, Patrician's Wardrobe items, Royal Treasury + Feast) and every icon is clickable to open its detail dialog.\n" +
+        "- Removed redundant in-pack text that repeated the pack name; each pack card now shows only its contents/benefit. Sacred Intercession no longer shows its long description, the Celestial Bow pack no longer says 'attacks thrice per turn', and the Shroud of the Ancients pack no longer says '(Legendary Medium Armor)'.\n" +
+        "- Reverted the duplicated crit stat strings; the shop now reuses the existing critical_chance_formatted / critical_damage_formatted resources.\n" +
+        "\n" +
+        "1.3.8.7 (20/9/2026):\n" +
+        "- Re-added the Evolutionary Synthesis Crate (1,000 Gems, one-time) to the Utility bundle: grants 1x Evo-22 Vial, 1x Evo-23 Vial and 2x Dreamcatcher, with clickable item previews.\n" +
+        "- Normalized all new shop pack cards to the vanilla geometry: pack titles at 18sp and 140x36 buy buttons.\n" +
+        "- Updated the MAX IDLE HOURS tooltip for the progressive Vigil caps (up to 168 hours / 7 days).\n" +
+        "\n" +
+        "1.3.8.8 (20/9/2026):\n" +
+        "- Fixed all Shop expansion pack layouts: item-row TextViews now use layout_weight=\"1\" inside match_parent LinearLayouts so item names are always visible (they collapsed to zero-width in wrap_content rows).\n" +
+        "- Fixed buy button positioning in all new single-row packs (Vigil II/III/IV, Eternal Vigil, Deep Pockets II, Dimensional Vault, Infinite Hoard, Celestial Bow, all Infrastructure packs): buttons are now vertically centred in their card via constraintTop/Bottom_toTopOf/BottomOf=\"parent\" instead of floating below the icon.\n" +
+        "- Affected packs: Divine Champion, Eternal Reliquary, Alchemist's Bounty, Patrician's Wardrobe, Royal Treasury & Feast, Shroud of the Ancients, Evolutionary Synthesis Crate, Chronos Ward, Aegis of Time, Temporal Anchor, Timeless Continuum, Bottomless Chest, Dimensional Vault, Infinite Hoard, Armory: Celestial Bow, Barracks Expansion I & II, Grand Tavern Expansion, Sanctuary Grounds I & II."
 
     private val MOD_VERSION_LIST: List<VersionEntry> by lazy { parseVersionEntries() }
 

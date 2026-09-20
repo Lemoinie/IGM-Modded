@@ -55,13 +55,17 @@ class DialogShop : CustomDialog() {
         @JvmField
         val primalVanguard4: Adventurer = Adventurer.getInstance("IronWarden", -33, 1, 0, Item.getInstance("Spade") as? Weapon, null, null, Trait.BRUTE_PLUS, Trait.INTIMIDATING, PotionsDrank(), null, false)!!
 
+        // Divine Champion Pack hero preview
+        @JvmField
+        val divineChampionHero: Adventurer = Adventurer.getInstance("DivineChampion", -40, 45, 0, null, null, null, Trait.BRUTE_PLUS, Trait.FOCUSED, PotionsDrank(), null, false)!!
+
         // Senko Pet (Level 50, 5 Traits — first trait SAVAGE)
         @JvmField
         val senkoPetPreview: Pet? = Pet.getInstance("Senko", -100, 50, 0, PetAbility.SAVAGE, PetAbility.REGENERATION, PetAbility.DROPS, PetAbility.EXPERIENCE)
     }
 
     enum class Category {
-        ALL, STARTER, ADVENTURERS, COMPANIONS, MERCHANT, WORKSHOP, STORAGE, UTILITY
+        ALL, STARTER, ADVENTURERS, COMPANIONS, MERCHANT, WORKSHOP, STORAGE, UTILITY, EQUIPMENT, INFRASTRUCTURE
     }
 
     @JvmField
@@ -105,6 +109,9 @@ class DialogShop : CustomDialog() {
         populateAdventurer(b.primalVanguardAdventurer3, primalVanguard3)
         populateAdventurer(b.primalVanguardAdventurer4, primalVanguard4)
 
+        // Divine Champion pack hero preview icon (row 1)
+        b.containerConvertedBundle.divineChampionR1Icon.setImageDrawable(ResourcesCompat.getDrawable(resources, divineChampionHero.imageId, context?.theme))
+
         selectCategory(Category.ALL)
         refresh()
     }
@@ -140,6 +147,8 @@ class DialogShop : CustomDialog() {
         b.chipCategoryWorkshop.setOnClickListener { selectCategory(Category.WORKSHOP) }
         b.chipCategoryStorage.setOnClickListener { selectCategory(Category.STORAGE) }
         b.chipCategoryUtility.setOnClickListener { selectCategory(Category.UTILITY) }
+        b.chipCategoryEquipment.setOnClickListener { selectCategory(Category.EQUIPMENT) }
+        b.chipCategoryInfrastructure.setOnClickListener { selectCategory(Category.INFRASTRUCTURE) }
 
         // Bonus Item Detail Click Listeners
         b.bonusItemImageAdventurerPack.setOnClickListener { UIUtils.openItemDetail(Item.getInstance("Dreamcatcher")) }
@@ -177,6 +186,94 @@ class DialogShop : CustomDialog() {
                 MainActivity.data.amountOfPurchases += 1
             }
         }
+
+        // Converted Redeem Codes (Starter Bundle)
+        b.containerConvertedBundle.divineChampionBuy.setOnClickListener {
+            confirmAndPurchase(getString(R.string.shop_title_divine_champion), 500, MainActivity.data.isDivineChampionPackPurchased) {
+                MainActivity.data.isDivineChampionPackPurchased = true
+                val hero = Adventurer.getInstance("DivineChampion", -40, 45, 0, null, null, null, Trait.BRUTE_PLUS, Trait.FOCUSED, PotionsDrank(), null, false)
+                if (hero != null) MainActivity.data.adventurers.add(hero)
+                Utils.collectItem(Item.getInstance("ChampionArmor", 1), MainActivity.data.items)
+                Utils.collectItem(Item.getInstance("SpikedPrimevalShield", 1), MainActivity.data.items)
+                Utils.collectItem(Item.getInstance("GhastlyScimitar", 1), MainActivity.data.items)
+                MainActivity.data.amountOfPurchases += 1
+                Utils.triggerGuildSizeAchievementCheck()
+            }
+        }
+
+        b.containerConvertedBundle.eternalReliquaryBuy.setOnClickListener {
+            confirmAndPurchase(getString(R.string.shop_title_eternal_reliquary), 500, MainActivity.data.isEternalReliquaryPurchased) {
+                MainActivity.data.isEternalReliquaryPurchased = true
+                Utils.collectItem(Item.getInstance("EternalHunger", 2), MainActivity.data.items)
+                Utils.collectItem(Item.getInstance("ScarletVeil", 1), MainActivity.data.items)
+                Utils.collectItem(Item.getInstance("ReassemblingJacket", 1), MainActivity.data.items)
+                Utils.collectItem(Item.getInstance("SeekingGlass", 1), MainActivity.data.items)
+                MainActivity.data.amountOfPurchases += 1
+            }
+        }
+
+        b.containerConvertedBundle.alchemistBountyBuy.setOnClickListener {
+            confirmAndPurchase(getString(R.string.shop_title_alchemist_bounty), 100, MainActivity.data.isAlchemistBountyPurchased) {
+                MainActivity.data.isAlchemistBountyPurchased = true
+                mapOf(
+                    "PotionOfConstitution" to 100, "PotionOfDexterity" to 100, "PotionOfIntelligence" to 100,
+                    "PotionOfHealth" to 100, "PotionOfDefense" to 100, "PotionOfMagicDefense" to 100,
+                    "PotionOfPrecision" to 100, "PotionOfViciousness" to 100, "PotionOfDarkness" to 100,
+                    "PotionOfImmunity" to 100, "PotionOfAgility" to 100
+                ).forEach { (name, count) ->
+                    Utils.collectItem(Item.getInstance(name, count), MainActivity.data.items)
+                }
+                MainActivity.data.amountOfPurchases += 1
+            }
+        }
+
+        b.containerConvertedBundle.patricianWardrobeBuy.setOnClickListener {
+            confirmAndPurchase(getString(R.string.shop_title_patrician_wardrobe), 300, MainActivity.data.isPatricianWardrobePurchased) {
+                MainActivity.data.isPatricianWardrobePurchased = true
+                Utils.collectItem(Item.getInstance("PatricianArmor", 2), MainActivity.data.items)
+                Utils.collectItem(Item.getInstance("DiamondAmulet", 19), MainActivity.data.items)
+                Utils.collectItem(Item.getInstance("CottontailJacket", 10), MainActivity.data.items)
+                Utils.collectItem(Item.getInstance("GhostRabbitCloak", 6), MainActivity.data.items)
+                MainActivity.data.amountOfPurchases += 1
+            }
+        }
+
+        b.containerConvertedBundle.royalTreasuryBuy.setOnClickListener {
+            confirmAndPurchase(getString(R.string.shop_title_royal_treasury), 500, MainActivity.data.isRoyalTreasuryPurchased) {
+                MainActivity.data.isRoyalTreasuryPurchased = true
+                MainActivity.data.money += 10_000_000L // 10 Platinum Coins
+                Utils.collectItem(Item.getInstance("CeremonialCake", 10), MainActivity.data.items)
+                MainActivity.data.amountOfPurchases += 1
+            }
+        }
+
+        b.containerConvertedBundle.scarletShroudBuy.setOnClickListener {
+            confirmAndPurchase(getString(R.string.shop_title_scarlet_shroud), 500, MainActivity.data.isScarletShroudPurchased) {
+                MainActivity.data.isScarletShroudPurchased = true
+                Utils.collectItem(Item.getInstance("ScarletShroud", 1), MainActivity.data.items)
+                MainActivity.data.amountOfPurchases += 1
+            }
+        }
+
+        // Converted pack item / adventurer detail previews (click to inspect)
+        b.containerConvertedBundle.divineChampionR1Icon.setOnClickListener { UIUtils.getAdventurerDetailDialog(parentFragmentManager, divineChampionHero, false, false) }
+        b.containerConvertedBundle.divineChampionR2Icon.setOnClickListener { UIUtils.openItemDetail(Item.getInstance("ChampionArmor")) }
+        b.containerConvertedBundle.divineChampionR3Icon.setOnClickListener { UIUtils.openItemDetail(Item.getInstance("SpikedPrimevalShield")) }
+        b.containerConvertedBundle.divineChampionR4Icon.setOnClickListener { UIUtils.openItemDetail(Item.getInstance("GhastlyScimitar")) }
+
+        b.containerConvertedBundle.eternalReliquaryR1Icon.setOnClickListener { UIUtils.openItemDetail(Item.getInstance("EternalHunger")) }
+        b.containerConvertedBundle.eternalReliquaryR2Icon.setOnClickListener { UIUtils.openItemDetail(Item.getInstance("ScarletVeil")) }
+        b.containerConvertedBundle.eternalReliquaryR3Icon.setOnClickListener { UIUtils.openItemDetail(Item.getInstance("ReassemblingJacket")) }
+        b.containerConvertedBundle.eternalReliquaryR4Icon.setOnClickListener { UIUtils.openItemDetail(Item.getInstance("SeekingGlass")) }
+
+        b.containerConvertedBundle.alchemistBountyR1Icon.setOnClickListener { UIUtils.openItemDetail(Item.getInstance("PotionOfConstitution")) }
+        b.containerConvertedBundle.patricianWardrobeR1Icon.setOnClickListener { UIUtils.openItemDetail(Item.getInstance("PatricianArmor")) }
+        b.containerConvertedBundle.patricianWardrobeR2Icon.setOnClickListener { UIUtils.openItemDetail(Item.getInstance("DiamondAmulet")) }
+        b.containerConvertedBundle.patricianWardrobeR3Icon.setOnClickListener { UIUtils.openItemDetail(Item.getInstance("CottontailJacket")) }
+        b.containerConvertedBundle.patricianWardrobeR4Icon.setOnClickListener { UIUtils.openItemDetail(Item.getInstance("GhostRabbitCloak")) }
+
+        b.containerConvertedBundle.royalTreasuryR2Icon.setOnClickListener { UIUtils.openItemDetail(Item.getInstance("CeremonialCake")) }
+        b.containerConvertedBundle.scarletShroudR1Icon.setOnClickListener { UIUtils.openItemDetail(Item.getInstance("ScarletShroud")) }
 
         // Adventurer Bundle (5,000 Gems each)
         b.imperialVanguardBuy.setOnClickListener {
@@ -341,6 +438,116 @@ class DialogShop : CustomDialog() {
             }
         }
 
+        // Equipment Bundle
+        b.containerEquipmentBundle.celestialBowBuy.setOnClickListener {
+            confirmAndPurchase(getString(R.string.shop_title_celestial_bow), 1000, MainActivity.data.isCelestialBowPurchased) {
+                MainActivity.data.isCelestialBowPurchased = true
+                Utils.collectItem(Item.getInstance("CelestialBow", 1), MainActivity.data.items)
+                MainActivity.data.amountOfPurchases += 1
+            }
+        }
+
+        // Infrastructure Bundle (plan: Barracks Expansion I/II, Grand Tavern, Sanctuary Grounds I/II)
+        b.containerInfrastructureBundle.barracks1Buy.setOnClickListener {
+            confirmAndPurchase(getString(R.string.shop_title_barracks_i), 1000, MainActivity.data.isBarracks1Purchased) {
+                MainActivity.data.isBarracks1Purchased = true
+                MainActivity.data.amountOfPurchases += 1
+            }
+        }
+
+        b.containerInfrastructureBundle.barracks2Buy.setOnClickListener {
+            confirmAndPurchase(getString(R.string.shop_title_barracks_ii), 2000, MainActivity.data.isBarracks2Purchased) {
+                MainActivity.data.isBarracks2Purchased = true
+                MainActivity.data.amountOfPurchases += 1
+            }
+        }
+
+        b.containerInfrastructureBundle.grandTavernBuy.setOnClickListener {
+            confirmAndPurchase(getString(R.string.shop_title_grand_tavern), 1250, MainActivity.data.isGrandTavernPurchased) {
+                MainActivity.data.isGrandTavernPurchased = true
+                MainActivity.data.amountOfPurchases += 1
+            }
+        }
+
+        b.containerInfrastructureBundle.sanctuary1Buy.setOnClickListener {
+            confirmAndPurchase(getString(R.string.shop_title_sanctuary_i), 750, MainActivity.data.isSanctuary1Purchased) {
+                MainActivity.data.isSanctuary1Purchased = true
+                MainActivity.data.amountOfPurchases += 1
+            }
+        }
+
+        b.containerInfrastructureBundle.sanctuary2Buy.setOnClickListener {
+            confirmAndPurchase(getString(R.string.shop_title_sanctuary_ii), 1250, MainActivity.data.isSanctuary2Purchased) {
+                MainActivity.data.isSanctuary2Purchased = true
+                MainActivity.data.amountOfPurchases += 1
+            }
+        }
+
+        // Utility Expansion (plan: Extended Vigil II/III/IV, Eternal Vigil, Deep Pockets II)
+        b.containerUtilityExpansionBundle.vigil2Buy.setOnClickListener {
+            confirmAndPurchase(getString(R.string.shop_title_idle_hours_ii), 1000, MainActivity.data.isIdleHoursPack2Purchased) {
+                MainActivity.data.isIdleHoursPack2Purchased = true
+                MainActivity.data.amountOfPurchases += 1
+            }
+        }
+
+        b.containerUtilityExpansionBundle.vigil3Buy.setOnClickListener {
+            confirmAndPurchase(getString(R.string.shop_title_idle_hours_iii), 1500, MainActivity.data.isIdleHoursPack3Purchased) {
+                MainActivity.data.isIdleHoursPack3Purchased = true
+                MainActivity.data.amountOfPurchases += 1
+            }
+        }
+
+        b.containerUtilityExpansionBundle.vigil4Buy.setOnClickListener {
+            confirmAndPurchase(getString(R.string.shop_title_idle_hours_iv), 2000, MainActivity.data.isIdleHoursPack4Purchased) {
+                MainActivity.data.isIdleHoursPack4Purchased = true
+                MainActivity.data.amountOfPurchases += 1
+            }
+        }
+
+        b.containerUtilityExpansionBundle.eternalVigilBuy.setOnClickListener {
+            confirmAndPurchase(getString(R.string.shop_title_eternal_vigil), 3000, MainActivity.data.isEternalVigilPurchased) {
+                MainActivity.data.isEternalVigilPurchased = true
+                MainActivity.data.amountOfPurchases += 1
+            }
+        }
+
+        b.containerUtilityExpansionBundle.deepPockets2Buy.setOnClickListener {
+            confirmAndPurchase(getString(R.string.shop_title_deep_pockets_ii), 1000, MainActivity.data.isMaxLootPack2Purchased) {
+                MainActivity.data.isMaxLootPack2Purchased = true
+                MainActivity.data.amountOfPurchases += 1
+            }
+        }
+
+        // Evolutionary Synthesis Crate (one-time key ascension material pack)
+        b.containerUtilityExpansionBundle.evolutionCrateR1Icon.setOnClickListener { UIUtils.openItemDetail(Item.getInstance("Evo22Vial")) }
+        b.containerUtilityExpansionBundle.evolutionCrateR2Icon.setOnClickListener { UIUtils.openItemDetail(Item.getInstance("Evo23Vial")) }
+        b.containerUtilityExpansionBundle.evolutionCrateR3Icon.setOnClickListener { UIUtils.openItemDetail(Item.getInstance("Dreamcatcher")) }
+        b.containerUtilityExpansionBundle.evolutionCrateBuy.setOnClickListener {
+            confirmAndPurchase(getString(R.string.shop_title_evolution_crate), 1000, MainActivity.data.isEvolutionSynthesisPurchased) {
+                MainActivity.data.isEvolutionSynthesisPurchased = true
+                Utils.collectItem(Item.getInstance("Evo22Vial", 1), MainActivity.data.items)
+                Utils.collectItem(Item.getInstance("Evo23Vial", 1), MainActivity.data.items)
+                Utils.collectItem(Item.getInstance("Dreamcatcher", 2), MainActivity.data.items)
+                MainActivity.data.amountOfPurchases += 1
+            }
+        }
+
+        // Storage Expansion (plan: Dimensional Vault, Infinite Hoard)
+        b.containerStorageExpansionBundle.dimensionalVaultBuy.setOnClickListener {
+            confirmAndPurchase(getString(R.string.shop_title_storage_100), 1500, MainActivity.data.isStoragePack100Purchased) {
+                MainActivity.data.isStoragePack100Purchased = true
+                MainActivity.data.amountOfPurchases += 1
+            }
+        }
+
+        b.containerStorageExpansionBundle.infiniteHoardBuy.setOnClickListener {
+            confirmAndPurchase(getString(R.string.shop_title_storage_150), 2000, MainActivity.data.isStoragePack150Purchased) {
+                MainActivity.data.isStoragePack150Purchased = true
+                MainActivity.data.amountOfPurchases += 1
+            }
+        }
+
         // Max Idle Time Info Tooltip
         b.maxIdleTimeInfo.setOnClickListener {
             if (tooltip != null) return@setOnClickListener
@@ -382,6 +589,8 @@ class DialogShop : CustomDialog() {
         updateChip(b.chipCategoryWorkshop, category == Category.WORKSHOP)
         updateChip(b.chipCategoryStorage, category == Category.STORAGE)
         updateChip(b.chipCategoryUtility, category == Category.UTILITY)
+        updateChip(b.chipCategoryEquipment, category == Category.EQUIPMENT)
+        updateChip(b.chipCategoryInfrastructure, category == Category.INFRASTRUCTURE)
 
         b.containerStarterBundle.visibility = if (category == Category.ALL || category == Category.STARTER) View.VISIBLE else View.GONE
         b.containerAdventurerBundle.visibility = if (category == Category.ALL || category == Category.ADVENTURERS) View.VISIBLE else View.GONE
@@ -390,6 +599,11 @@ class DialogShop : CustomDialog() {
         b.containerWorkshopBundle.visibility = if (category == Category.ALL || category == Category.WORKSHOP) View.VISIBLE else View.GONE
         b.containerStorageBundle.visibility = if (category == Category.ALL || category == Category.STORAGE) View.VISIBLE else View.GONE
         b.containerUtilityBundle.visibility = if (category == Category.ALL || category == Category.UTILITY) View.VISIBLE else View.GONE
+        b.containerUtilityExpansionBundle.root.visibility = if (category == Category.ALL || category == Category.UTILITY) View.VISIBLE else View.GONE
+        b.containerConvertedBundle.root.visibility = if (category == Category.ALL || category == Category.STARTER) View.VISIBLE else View.GONE
+        b.containerEquipmentBundle.root.visibility = if (category == Category.ALL || category == Category.EQUIPMENT) View.VISIBLE else View.GONE
+        b.containerInfrastructureBundle.root.visibility = if (category == Category.ALL || category == Category.INFRASTRUCTURE) View.VISIBLE else View.GONE
+        b.containerStorageExpansionBundle.root.visibility = if (category == Category.ALL || category == Category.STORAGE) View.VISIBLE else View.GONE
     }
 
     private fun confirmAndPurchase(packName: String, price: Int, isPurchased: Boolean, onPurchase: () -> Unit) {
@@ -441,6 +655,14 @@ class DialogShop : CustomDialog() {
         setPurchasedState(b.starterPackBuy, b.checkStarterPack, MainActivity.data.isStarterPackPurchased)
         setPurchasedState(b.adventurerPackBuy, b.checkAdventurerPack, MainActivity.data.isAdventurerPackPurchased)
 
+        // Converted Redeem Code packs
+        setPurchasedState(b.containerConvertedBundle.divineChampionBuy, b.containerConvertedBundle.checkDivineChampion, MainActivity.data.isDivineChampionPackPurchased)
+        setPurchasedState(b.containerConvertedBundle.eternalReliquaryBuy, b.containerConvertedBundle.checkEternalReliquary, MainActivity.data.isEternalReliquaryPurchased)
+        setPurchasedState(b.containerConvertedBundle.alchemistBountyBuy, b.containerConvertedBundle.checkAlchemistBounty, MainActivity.data.isAlchemistBountyPurchased)
+        setPurchasedState(b.containerConvertedBundle.patricianWardrobeBuy, b.containerConvertedBundle.checkPatricianWardrobe, MainActivity.data.isPatricianWardrobePurchased)
+        setPurchasedState(b.containerConvertedBundle.royalTreasuryBuy, b.containerConvertedBundle.checkRoyalTreasury, MainActivity.data.isRoyalTreasuryPurchased)
+        setPurchasedState(b.containerConvertedBundle.scarletShroudBuy, b.containerConvertedBundle.checkScarletShroud, MainActivity.data.isScarletShroudPurchased)
+
         // Adventurer Bundle
         setPurchasedState(b.imperialVanguardBuy, b.checkImperialVanguard, MainActivity.data.isImperialVanguardPurchased)
         setPurchasedState(b.unholyCrusadeBuy, b.checkUnholyCrusade, MainActivity.data.isUnholyCrusadePurchased)
@@ -472,8 +694,35 @@ class DialogShop : CustomDialog() {
         setPurchasedState(b.extendedVigilBuy, b.checkExtendedVigil, MainActivity.data.isIdleHoursPackPurchased)
         setPurchasedState(b.sacredIntercessionBuy, b.checkSacredIntercession, MainActivity.data.isSacredIntercessionPurchased)
 
+        // Equipment Bundle
+        setPurchasedState(b.containerEquipmentBundle.celestialBowBuy, b.containerEquipmentBundle.checkCelestialBow, MainActivity.data.isCelestialBowPurchased)
+
+        // Infrastructure Bundle
+        setPurchasedState(b.containerInfrastructureBundle.barracks1Buy, b.containerInfrastructureBundle.checkBarracks1, MainActivity.data.isBarracks1Purchased)
+        setPurchasedState(b.containerInfrastructureBundle.barracks2Buy, b.containerInfrastructureBundle.checkBarracks2, MainActivity.data.isBarracks2Purchased)
+        setPurchasedState(b.containerInfrastructureBundle.grandTavernBuy, b.containerInfrastructureBundle.checkGrandTavern, MainActivity.data.isGrandTavernPurchased)
+        setPurchasedState(b.containerInfrastructureBundle.sanctuary1Buy, b.containerInfrastructureBundle.checkSanctuary1, MainActivity.data.isSanctuary1Purchased)
+        setPurchasedState(b.containerInfrastructureBundle.sanctuary2Buy, b.containerInfrastructureBundle.checkSanctuary2, MainActivity.data.isSanctuary2Purchased)
+
+        // Utility Expansion Bundle
+        setPurchasedState(b.containerUtilityExpansionBundle.vigil2Buy, b.containerUtilityExpansionBundle.checkVigil2, MainActivity.data.isIdleHoursPack2Purchased)
+        setPurchasedState(b.containerUtilityExpansionBundle.vigil3Buy, b.containerUtilityExpansionBundle.checkVigil3, MainActivity.data.isIdleHoursPack3Purchased)
+        setPurchasedState(b.containerUtilityExpansionBundle.vigil4Buy, b.containerUtilityExpansionBundle.checkVigil4, MainActivity.data.isIdleHoursPack4Purchased)
+        setPurchasedState(b.containerUtilityExpansionBundle.eternalVigilBuy, b.containerUtilityExpansionBundle.checkEternalVigil, MainActivity.data.isEternalVigilPurchased)
+        setPurchasedState(b.containerUtilityExpansionBundle.deepPockets2Buy, b.containerUtilityExpansionBundle.checkDeepPockets2, MainActivity.data.isMaxLootPack2Purchased)
+        setPurchasedState(b.containerUtilityExpansionBundle.evolutionCrateBuy, b.containerUtilityExpansionBundle.checkEvolutionCrate, MainActivity.data.isEvolutionSynthesisPurchased)
+
+        // Storage Expansion Bundle
+        setPurchasedState(b.containerStorageExpansionBundle.dimensionalVaultBuy, b.containerStorageExpansionBundle.checkDimensionalVault, MainActivity.data.isStoragePack100Purchased)
+        setPurchasedState(b.containerStorageExpansionBundle.infiniteHoardBuy, b.containerStorageExpansionBundle.checkInfiniteHoard, MainActivity.data.isStoragePack150Purchased)
+
         // Max Idle Time Info
-        val idleBonus = if (MainActivity.data.isIdleHoursPackPurchased) 6 else 0
+        var idleBonus = 0
+        if (MainActivity.data.isIdleHoursPackPurchased) idleBonus += 6
+        if (MainActivity.data.isIdleHoursPack2Purchased) idleBonus += 6
+        if (MainActivity.data.isIdleHoursPack3Purchased) idleBonus += 24
+        if (MainActivity.data.isIdleHoursPack4Purchased) idleBonus += 48
+        if (MainActivity.data.isEternalVigilPurchased) idleBonus += 72
         b.maxIdleTimeValue.text = (Math.min(4, MainActivity.data.amountOfPurchases) + 8 + idleBonus).toString()
     }
 
