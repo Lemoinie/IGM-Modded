@@ -301,7 +301,23 @@ object ModChangelog {
         "- Offline double-purchase protection: prevents re-purchasing already unlocked packs and properly displays the brass checkmark for owned packs.\n" +
         "\n" +
         "1.3.8.1 (19/9/2026):\n" +
-        "- Auto-Migration Failsafe on Save Load: importing older or vanilla saves with Starter, Adventurer, or Merchant packs automatically grants the corresponding new modular storage (+35, +50, +70), workshop (+2 queue, +40% speed), and max loot (+1,000) perks so no player stats or inventory capacities are lost on import." 
+        "- Auto-Migration Failsafe on Save Load: importing older or vanilla saves with Starter, Adventurer, or Merchant packs automatically grants the corresponding new modular storage (+35, +50, +70), workshop (+2 queue, +40% speed), and max loot (+1,000) perks so no player stats or inventory capacities are lost on import.\n" +
+        "\n" +
+        "1.3.8.2 (19/9/2026):\n" +
+        "- Fixed the Shop entry being hidden from the sidebar drawer: it is now visible (still controlled by the DebugToggles.DISABLE_SHOP flag, which defaults to false = shown).\n" +
+        "\n" +
+        "1.3.8.3 (19/9/2026):\n" +
+        "- Fixed the max-loot cap: the Deep Pockets / merchant-pack +1,000 bonus is now authoritative at 3,000. A stale LOOTCAP cheat redeem no longer silently keeps the chest cap at a legacy value like 4096.\n" +
+        "- Sacred Intercession is now a one-time purchase (persisted flag).\n" +
+        "- Merchant/workshop pack bonuses rebalanced: Grand Merchant +3, Master Workshop +3, Trade Baron +4, Grandmaster Workshop +4.\n" +
+        "- Senko pack pet's first trait changed to Savage (was Healer).\n" +
+        "- New Companion bundle pack: 10x Ceremonial Cake for 10,000 Gems (one-time).\n" +
+        "- Shop price buttons now show a gem icon next to the number instead of the word \"Gems\".\n" +
+        "- Fixed shop borders: storage pack icons now use a square border, and the Sacred Intercession icon border matches the other item cards.\n" +
+        "\n" +
+        "1.3.8.4 (20/9/2026):\n" +
+        "- Updated the merchant/workshop pack icons to match the rebalanced bonuses: Grand Merchant & Master Workshop now use the +3 icon (shop_3), Trade Baron & Grandmaster Workshop use the +4 icon (shop_4).\n" +
+        "- Fixed the Ceremonial Cake bundle so it actually lives inside the Companion bundle category (it was previously rendered outside the category container, so it never showed under the Companion filter)." 
 
     private val MOD_VERSION_LIST: List<VersionEntry> by lazy { parseVersionEntries() }
 

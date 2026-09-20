@@ -33,25 +33,25 @@ backups/       Timestamped snapshots of save.json (gitignored)
 
 ## scripts/build/build.ps1
 
-- **Purpose**: end-to-end dev pipeline — run unit tests, build the debug APK,
-  install to a connected Android device (USB or wireless ADB), launch the game,
-  optionally stream logcat.
+- **Purpose**: end-to-end dev pipeline — run unit tests, build both Dev (`-dev.apk`)
+  and Release (`-release.apk`) APKs, install the Dev APK to a connected Android
+  device (USB or wireless ADB), launch the game, and optionally stream logcat.
 - **Inputs (parameters)**: `-Clean` (gradle clean first), `-Test` (run
   `testDebugUnitTest`), `-NoDeploy` (build only), `-Logcat` (stream logcat after
   launch), `-Device <serial|ip:port>` (target a specific device).
-- **Outputs**: debug APK in `app/build/outputs/apk/debug/`; installs it to the
-  device; console progress messages.
+- **Outputs**: Dev APK in `app/build/outputs/apk/debug/` and Release APK in
+  `app/build/outputs/apk/release/`; installs the Dev APK to the device; console progress messages.
 - **Required for development**: optional convenience — the same tasks are runnable
   directly with `gradlew.bat`.
 - **Modifies source?** No.
 - **Generates files?** Yes: standard Gradle build output under `app/build/`.
 - **Safe to run repeatedly?** Yes (idempotent; incremental via Gradle).
-- **Dependencies**: JDK 21, Android SDK for `assembleDebug`; ADB + connected device
+- **Dependencies**: JDK 21, Android SDK for `assembleDebug` & `assembleRelease`; ADB + connected device
   for the deploy step (skipped with `-NoDeploy`).
 - **Typical usage**
   ```powershell
-  .\scripts\build\build.ps1 -Test -NoDeploy   # test + build, no device
-  .\scripts\build\build.ps1 -Test             # test + build + install + launch
+  .\scripts\build\build.ps1 -Test -NoDeploy   # test + build dev & release, no device
+  .\scripts\build\build.ps1 -Test             # test + build both + install & launch dev APK
   ```
 
 ## scripts/save/save_manager.ps1

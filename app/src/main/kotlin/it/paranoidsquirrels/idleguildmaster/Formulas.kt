@@ -175,8 +175,8 @@ object Formulas {
         var packBonus = if (MainActivity.data.isStarterPackPurchased) 1 else 0
         if (MainActivity.data.isApprenticeMerchantPurchased) packBonus += 1
         if (MainActivity.data.isJourneymanMerchantPurchased) packBonus += 2
-        if (MainActivity.data.isMerchantPackPurchased) packBonus += 2
-        if (MainActivity.data.isTradeBaronPurchased) packBonus += 3
+        if (MainActivity.data.isMerchantPackPurchased) packBonus += 3
+        if (MainActivity.data.isTradeBaronPurchased) packBonus += 4
         return MainActivity.data.levelMarketListings + 1 + MainActivity.data.upgradeMarketQueue + packBonus
     }
 
@@ -185,8 +185,8 @@ object Formulas {
         var packBonus = if (MainActivity.data.isStarterPackPurchased) 1 else 0
         if (MainActivity.data.isApprenticeWorkshopPurchased) packBonus += 1
         if (MainActivity.data.isJourneymanWorkshopPurchased) packBonus += 2
-        if (MainActivity.data.isMasterWorkshopPurchased) packBonus += 2
-        if (MainActivity.data.isGrandmasterWorkshopPurchased) packBonus += 3
+        if (MainActivity.data.isMasterWorkshopPurchased) packBonus += 3
+        if (MainActivity.data.isGrandmasterWorkshopPurchased) packBonus += 4
         return MainActivity.data.levelWorkshopQueue + 1 + MainActivity.data.upgradeWorkshopQueue + packBonus
     }
 

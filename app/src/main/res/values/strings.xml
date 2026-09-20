@@ -3926,7 +3926,9 @@ I apologize for the inconvenience."</string>
     <string name="shop_title_grand_storage">GRAND STORAGE TREASURY</string>
     <string name="shop_title_deep_pockets">DEEP POCKETS</string>
     <string name="shop_title_extended_vigil">EXTENDED VIGIL</string>
-    <string name="shop_title_sacred_intercession">SACRED INTERCESSION</string>
+    <string name="shop_title_cake_pack">CEREMONIAL CAKE BUNDLE (x10)</string>
+<string name="shop_cake_pack_desc">10x Ceremonial Cake for your pets</string>
+<string name="shop_title_sacred_intercession">SACRED INTERCESSION</string>
     <string name="shop_shelter_space">Shelter Capacity +1</string>
     <string name="shop_market_speed_20">Market Speed +20%</string>
     <string name="shop_market_speed_40">Market Speed +40%</string>

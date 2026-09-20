@@ -16,6 +16,6 @@ class Senko : Wild() {
     }
 
     override fun guaranteedFirstAbility(): List<PetAbility> {
-        return listOf(PetAbility.HEALER, PetAbility.REGENERATION, PetAbility.DROPS, PetAbility.EXPERIENCE)
+        return listOf(PetAbility.SAVAGE, PetAbility.REGENERATION, PetAbility.DROPS, PetAbility.EXPERIENCE)
     }
 }

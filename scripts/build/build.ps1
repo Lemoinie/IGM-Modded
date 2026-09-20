@@ -96,23 +96,32 @@ if ($Test) {
     Write-Host "Unit tests passed!" -ForegroundColor Green
 }
 
-# 3. Assemble Debug APK
-Write-Host "[3/4] Building debug APK..." -ForegroundColor Yellow
-& $gradlew -p $repoDir assembleDebug
+# 3. Assemble Dev and Release APKs
+Write-Host "[3/4] Building Dev and Release APKs..." -ForegroundColor Yellow
+& $gradlew -p $repoDir assembleDebug assembleRelease
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Gradle build failed!"
     exit $LASTEXITCODE
 }
 
-# Find built APK
-$apkPath = Get-ChildItem "$repoDir\app\build\outputs\apk\debug" -Filter "*.apk" | Select-Object -First 1 -ExpandProperty FullName
-if (!$apkPath -or !(Test-Path $apkPath)) {
-    Write-Error "APK artifact not found in app/build/outputs/apk/debug/."
+# Find built APKs
+$devApk = Get-ChildItem "$repoDir\app\build\outputs\apk\debug" -Filter "*.apk" | Select-Object -First 1 -ExpandProperty FullName
+$releaseApk = Get-ChildItem "$repoDir\app\build\outputs\apk\release" -Filter "*.apk" | Select-Object -First 1 -ExpandProperty FullName
+
+if ($devApk -and (Test-Path $devApk)) {
+    $devSizeMB = [math]::Round(((Get-Item $devApk).Length / 1MB), 2)
+    Write-Host "Dev APK:     $devApk ($devSizeMB MB)" -ForegroundColor Green
+} else {
+    Write-Error "Dev APK artifact not found in app/build/outputs/apk/debug/."
     exit 1
 }
 
-$apkSizeMB = [math]::Round(((Get-Item $apkPath).Length / 1MB), 2)
-Write-Host "APK Built: $apkPath ($apkSizeMB MB)" -ForegroundColor Green
+if ($releaseApk -and (Test-Path $releaseApk)) {
+    $releaseSizeMB = [math]::Round(((Get-Item $releaseApk).Length / 1MB), 2)
+    Write-Host "Release APK: $releaseApk ($releaseSizeMB MB)" -ForegroundColor Green
+}
+
+$apkPath = $devApk
 
 # 4. Deploy to device
 if ($NoDeploy) {
