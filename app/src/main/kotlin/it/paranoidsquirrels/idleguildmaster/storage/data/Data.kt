@@ -191,6 +191,10 @@ class Data {
     var isMaxLootPackPurchased: Boolean = false
     @SerializedName("idleHoursPackPurchased")
     var isIdleHoursPackPurchased: Boolean = false
+    @SerializedName("sacredIntercessionPurchased")
+    var isSacredIntercessionPurchased: Boolean = false
+    @SerializedName("cakePackPurchased")
+    var isCakePackPurchased: Boolean = false
     @SerializedName("starterPackPurchased")
     var isStarterPackPurchased: Boolean = false
     @SerializedName("t4Pet")

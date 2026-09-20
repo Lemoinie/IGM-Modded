@@ -746,11 +746,24 @@ abstract class Area {
         for (item in this.drops) {
             stack += item.getStack()
         }
-        // Vanilla hardcap is 2,000 (3,000 with Merchant Pack); the mod's lootCap
-        // override (0 = unset) replaces it entirely when configured.
+        return stack >= getLootCap()
+    }
+
+    /** Effective dungeon loot-chest capacity.
+     *  - Shop Deep-Pockets / legacy merchant pack (isMaxLootPackPurchased) grants exactly
+     *    base 2,000 + 1,000 = 3,000 and is authoritative (a stale LOOTCAP cheat redeem must
+     *    not silently keep the cap above the pack's intended value).
+     *  - Without the pack, a LOOTCAP redeem (10..16000) still overrides the base cap.
+     *  - Otherwise the vanilla cap (2,000) applies. */
+    fun getLootCap(): Int {
+        if (MainActivity.data.isMaxLootPackPurchased) {
+            return 3000
+        }
         val lootCap = MainActivity.data.lootCap
-        val defaultCap = 2000 + (if (MainActivity.data.isMaxLootPackPurchased) 1000 else 0)
-        return stack >= (if (lootCap > 0) lootCap else defaultCap)
+        if (lootCap > 0) {
+            return lootCap
+        }
+        return 2000
     }
 
     private fun adventurersAlive(): Int {
@@ -3376,8 +3389,7 @@ abstract class Area {
         for (item in this.drops) {
             stack += item.getStack()
         }
-        val defaultCap = 2000 + (if (MainActivity.data.isMaxLootPackPurchased) 1000 else 0)
-        val cap = if (MainActivity.data.lootCap > 0) MainActivity.data.lootCap else defaultCap
+        val cap = getLootCap()
         val isFull = stack >= cap
         val layout = getLayout()
         layout.lootImage.visibility = if (this.drops.isEmpty()) 8 else 0
@@ -3389,13 +3401,12 @@ abstract class Area {
             )
         )
         layout.fullLoot.visibility = if (this.drops.isEmpty()) 8 else 0
-        layout.fullLoot.text = if (MainActivity.data.lootCap > 0) {
+        layout.fullLoot.text = if (MainActivity.data.isMaxLootPackPurchased) {
+            String.format(resources.getString(R.string.loot_percentage_full_with_pack), stack)
+        } else if (MainActivity.data.lootCap > 0) {
             "$stack / $cap"
         } else {
-            String.format(
-                resources.getString(if (MainActivity.data.isMaxLootPackPurchased) R.string.loot_percentage_full_with_pack else R.string.loot_percentage_full),
-                stack
-            )
+            String.format(resources.getString(R.string.loot_percentage_full), stack)
         }
         layout.fullLoot.setTextColor(
             resources.getColor(

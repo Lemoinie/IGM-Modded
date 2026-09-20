@@ -31,19 +31,19 @@ app/
 | minSdk             | `26`                                               |
 | targetSdk          | `34`                                               |
 | versionCode        | `159`                                              |
-| versionName        | `2.148-mod-1.3.0.0` (gameVersion-mod-modVersion)   |
+| versionName        | `2.148-mod-1.3.8.3` (gameVersion-mod-modVersion)   |
 | Java/Kotlin target | `21` (jvmTarget = 21)                              |
 | build features     | `dataBinding`, `viewBinding`, `buildConfig`        |
 | minify             | disabled (debug & release)                          |
 | source sets        | `src/main/java` + `src/main/kotlin` (java tree unused) |
-| APK name           | `IdleGuildMaster_v2.148_mod_v1.3.0.0.apk` (custom name) |
+| APK names          | `${gameName}_v${gameVersion}_mod_v${modVersion}-dev.apk`<br>`${gameName}_v${gameVersion}_mod_v${modVersion}-release.apk` |
 
 Version branding is driven by three values at the top of `app/build.gradle.kts`:
 
 ```kotlin
 val gameName = "IdleGuildMaster"   // base game name
 val gameVersion = "2.148"          // vanilla version the reconstruction targets
-val modVersion = "1.3.0.0"         // mod version — bump for every mod release
+val modVersion = "1.3.8.3"         // mod version — bump for every mod release
 ```
 
 ## Root Configuration
@@ -72,28 +72,39 @@ Run from the repository root:
 
 | Task                     | Purpose                                                        |
 | ------------------------ | ------------------------------------------------------------- |
-| `assembleDebug`          | Build the debug APK (primary build task)                      |
+| `assembleDebug`          | Build the **Dev APK** (`-dev.apk`, `BuildConfig.DEBUG = true`) |
+| `assembleRelease`        | Build the **Release APK** (`-release.apk`, `BuildConfig.DEBUG = false`) |
 | `testDebugUnitTest`      | Run the JVM unit test suite (`FunctionalParityTest`)           |
 | `clean`                  | Delete `app/build/` generated output                          |
 | `build`                  | Assemble + run checks/tests (everything)                       |
-| `installDebug`           | Build and install debug APK to a connected device             |
+| `installDebug`           | Build and install Dev APK to a connected device                |
 | `compileDebugKotlin`     | Fast Kotlin-only compile check                                 |
 
-There is no meaningful difference between debug/release in this project (minify is
-disabled in both). The **debug** APK is the daily artifact and the one deployed by
-`scripts/build/build.ps1`.
+### Dev vs Release Builds
+
+1. **Dev Build (`debug`)**:
+   - APK output: `app/build/outputs/apk/debug/IdleGuildMaster_v2.148_mod_v1.3.8.3-dev.apk`
+   - `BuildConfig.DEBUG == true`
+   - Developer cheat redeem codes (`GOLD`, `BLACK`, `ITEM`, `HERO`, `PET`, `REROLL`, `SHOP`, `QUEST`, `STORAGE`, `IDLETIME`, `LOOTCAP`, `KILLS`, `SETKILLS`) are **enabled**.
+   - Deployed automatically by `scripts/build/build.ps1`.
+2. **Release Build (`release`)**:
+   - APK output: `app/build/outputs/apk/release/IdleGuildMaster_v2.148_mod_v1.3.8.3-release.apk`
+   - `BuildConfig.DEBUG == false`
+   - Developer cheat redeem codes are **blocked** (`"Dev commands are only available in Dev builds."`).
+   - Signed with debug keystore (`signingConfig = signingConfigs.getByName("debug")`) for instant, error-free local installation.
+   - Legitimate player reward codes (e.g. `Z3GAAZRT`) and vanilla codes remain functional.
 
 ## APK Location
 
-After `assembleDebug`:
+After running `.\scripts\build\build.ps1` (or `gradlew assembleDebug assembleRelease`):
 
 ```text
-app/build/outputs/apk/debug/IdleGuildMaster_v2.148_mod_v1.3.0.0.apk
+app/build/outputs/apk/debug/IdleGuildMaster_v2.148_mod_v1.3.8.3-dev.apk
+app/build/outputs/apk/release/IdleGuildMaster_v2.148_mod_v1.3.8.3-release.apk
 ```
 
-The filename is produced by the `applicationVariants.all` rename block in
-`app/build.gradle.kts`; it changes when `gameName`/`gameVersion`/`modVersion` change.
-**Do not** git-commit APKs (`*.apk` is gitignored).
+The filenames are produced by the `applicationVariants.all` rename block in
+`app/build.gradle.kts`. **Do not** git-commit APKs (`*.apk` is gitignored).
 
 ## Test Commands
 

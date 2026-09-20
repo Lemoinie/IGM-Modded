@@ -393,7 +393,7 @@ class MainActivity : AppCompatActivity() {
         binding.ad.visibility = View.GONE
         binding.adfree.visibility = View.GONE
         binding.shop.visibility = View.GONE
-        binding.navViewDrawer.menu.findItem(R.id.shop)?.isVisible = false
+        binding.navViewDrawer.menu.findItem(R.id.shop)?.isVisible = !DebugToggles.DISABLE_SHOP
         binding.navViewDrawer.menu.findItem(R.id.cafe_naver)?.isVisible = ("ko" == data.settingsLanguage)
         binding.newItems.visibility = if (data.isNewMerchantRegularItems) View.VISIBLE else View.GONE
         binding.blackMarket.visibility = if (data.isBlackMarketActive) View.VISIBLE else View.GONE

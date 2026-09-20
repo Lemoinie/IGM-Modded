@@ -55,9 +55,9 @@ class DialogShop : CustomDialog() {
         @JvmField
         val primalVanguard4: Adventurer = Adventurer.getInstance("IronWarden", -33, 1, 0, Item.getInstance("Spade") as? Weapon, null, null, Trait.BRUTE_PLUS, Trait.INTIMIDATING, PotionsDrank(), null, false)!!
 
-        // Senko Pet (Level 50, 5 Traits)
+        // Senko Pet (Level 50, 5 Traits — first trait SAVAGE)
         @JvmField
-        val senkoPetPreview: Pet? = Pet.getInstance("Senko", -100, 50, 0, PetAbility.HEALER, PetAbility.REGENERATION, PetAbility.DROPS, PetAbility.EXPERIENCE)
+        val senkoPetPreview: Pet? = Pet.getInstance("Senko", -100, 50, 0, PetAbility.SAVAGE, PetAbility.REGENERATION, PetAbility.DROPS, PetAbility.EXPERIENCE)
     }
 
     enum class Category {
@@ -222,7 +222,7 @@ class DialogShop : CustomDialog() {
         b.senkoPackBuy.setOnClickListener {
             confirmAndPurchase(getString(R.string.shop_title_senko_pack), 2500, MainActivity.data.isSenkoPackPurchased) {
                 MainActivity.data.isSenkoPackPurchased = true
-                val pet = Pet.getInstance("Senko", -100, 50, 0, PetAbility.HEALER, PetAbility.REGENERATION, PetAbility.DROPS, PetAbility.EXPERIENCE)
+                val pet = Pet.getInstance("Senko", -100, 50, 0, PetAbility.SAVAGE, PetAbility.REGENERATION, PetAbility.DROPS, PetAbility.EXPERIENCE)
                 if (pet != null) {
                     MainActivity.data.pets.add(pet)
                 }
@@ -326,8 +326,18 @@ class DialogShop : CustomDialog() {
         }
 
         b.sacredIntercessionBuy.setOnClickListener {
-            confirmAndPurchase(getString(R.string.shop_title_sacred_intercession), 500, false) {
+            confirmAndPurchase(getString(R.string.shop_title_sacred_intercession), 500, MainActivity.data.isSacredIntercessionPurchased) {
+                MainActivity.data.isSacredIntercessionPurchased = true
                 Utils.collectItem(Item.getInstance("Intercession", 1), MainActivity.data.items)
+            }
+        }
+
+        // Companion Bundle: 10x Ceremonial Cake for 10,000 Gems (one-time)
+        b.cakePackBuy.setOnClickListener {
+            confirmAndPurchase(getString(R.string.shop_title_cake_pack), 10000, MainActivity.data.isCakePackPurchased) {
+                MainActivity.data.isCakePackPurchased = true
+                Utils.collectItem(Item.getInstance("CeremonialCake", 10), MainActivity.data.items)
+                MainActivity.data.amountOfPurchases += 1
             }
         }
 
@@ -422,7 +432,7 @@ class DialogShop : CustomDialog() {
         b.currentGemsValue.text = MainActivity.data.gems.toString()
 
         // Helper to update buy button & checkmark visibility
-        fun setPurchasedState(buyButton: TextView, checkView: View, isPurchased: Boolean) {
+        fun setPurchasedState(buyButton: View, checkView: View, isPurchased: Boolean) {
             buyButton.visibility = if (isPurchased) View.GONE else View.VISIBLE
             checkView.visibility = if (isPurchased) View.VISIBLE else View.GONE
         }
@@ -438,6 +448,7 @@ class DialogShop : CustomDialog() {
 
         // Companion Bundle
         setPurchasedState(b.senkoPackBuy, b.checkSenkoPack, MainActivity.data.isSenkoPackPurchased)
+        setPurchasedState(b.cakePackBuy, b.checkCakePack, MainActivity.data.isCakePackPurchased)
 
         // Merchant Bundle
         setPurchasedState(b.apprenticeMerchantBuy, b.checkApprenticeMerchant, MainActivity.data.isApprenticeMerchantPurchased)
@@ -459,6 +470,7 @@ class DialogShop : CustomDialog() {
         // Utility Bundle
         setPurchasedState(b.deepPocketsBuy, b.checkDeepPockets, MainActivity.data.isMaxLootPackPurchased)
         setPurchasedState(b.extendedVigilBuy, b.checkExtendedVigil, MainActivity.data.isIdleHoursPackPurchased)
+        setPurchasedState(b.sacredIntercessionBuy, b.checkSacredIntercession, MainActivity.data.isSacredIntercessionPurchased)
 
         // Max Idle Time Info
         val idleBonus = if (MainActivity.data.isIdleHoursPackPurchased) 6 else 0

@@ -5,7 +5,7 @@ plugins {
 
 val gameName = "IdleGuildMaster"
 val gameVersion = "2.148"
-val modVersion = "1.3.8.1"
+val modVersion = "1.3.8.4"
 
 android {
     namespace = "it.paranoidsquirrels.idleguildmaster"
@@ -24,6 +24,7 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
+            signingConfig = signingConfigs.getByName("debug")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -49,6 +50,11 @@ android {
         }
     }
 
+    lint {
+        checkReleaseBuilds = false
+        abortOnError = false
+    }
+
     buildFeatures {
         dataBinding = true
         viewBinding = true
@@ -62,10 +68,17 @@ android {
         }
     }
 
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
+    }
+
     applicationVariants.all {
         outputs.all {
+            val suffix = if (buildType.name == "debug") "-dev" else "-release"
             (this as? com.android.build.gradle.internal.api.BaseVariantOutputImpl)?.outputFileName =
-                "${gameName}_v${gameVersion}_mod_v${modVersion}.apk"
+                "${gameName}_v${gameVersion}_mod_v${modVersion}${suffix}.apk"
         }
     }
 }

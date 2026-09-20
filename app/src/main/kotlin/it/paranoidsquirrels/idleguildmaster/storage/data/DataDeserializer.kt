@@ -212,6 +212,8 @@ class DataDeserializer : JsonDeserializer<Data> {
         this.data.isStoragePack70Purchased = asJsonObject.has("storagePack70Purchased") && asJsonObject.get("storagePack70Purchased").asBoolean
         this.data.isMaxLootPackPurchased = asJsonObject.has("maxLootPackPurchased") && asJsonObject.get("maxLootPackPurchased").asBoolean
         this.data.isIdleHoursPackPurchased = asJsonObject.has("idleHoursPackPurchased") && asJsonObject.get("idleHoursPackPurchased").asBoolean
+        this.data.isSacredIntercessionPurchased = asJsonObject.has("sacredIntercessionPurchased") && asJsonObject.get("sacredIntercessionPurchased").asBoolean
+        this.data.isCakePackPurchased = asJsonObject.has("cakePackPurchased") && asJsonObject.get("cakePackPurchased").asBoolean
 
         // Backward Compatibility / Save Migration for Shop Rework (v1.3.8.1)
         // If an imported or older save has the legacy packs, ensure they retain their full storage,

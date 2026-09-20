@@ -1,6 +1,7 @@
 package it.paranoidsquirrels.idleguildmaster.game.redeem
 
 import android.content.Context
+import it.paranoidsquirrels.idleguildmaster.BuildConfig
 import it.paranoidsquirrels.idleguildmaster.MainActivity
 import it.paranoidsquirrels.idleguildmaster.Utils
 import it.paranoidsquirrels.idleguildmaster.game.activities.GuildActivitiesManager
@@ -34,10 +35,27 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.quests.QuestsManager
  */
 object RedeemCodes {
 
+    val DEV_CODES = setOf(
+        "REROLL", "BLACK", "SHOP", "QUEST", "GOLD", "STORAGE",
+        "IDLETIME", "LOOTCAP", "KILLS", "SETKILLS", "ITEM", "HERO", "PET"
+    )
+
+    @JvmStatic
+    fun isDevCode(code: String?): Boolean {
+        if (code.isNullOrBlank()) return false
+        val upper = code.trim().uppercase()
+        val cmd = upper.split(" ").firstOrNull() ?: ""
+        return cmd in DEV_CODES
+    }
+
     @JvmStatic
     fun process(code: String?, context: Context?): String? {
         if (code.isNullOrBlank() || MainActivity.data == null) return null
         val upper = code.trim().uppercase()
+
+        if (!BuildConfig.DEBUG && isDevCode(upper)) {
+            return "Dev commands are only available in Dev builds."
+        }
 
         if (upper == "REROLL") {
             return if (GuildActivitiesManager.forceRerollHuntAndSiege()) {

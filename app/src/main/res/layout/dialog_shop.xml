@@ -350,20 +350,31 @@
                         app:layout_constraintStart_toEndOf="@id/market_image_starter_pack"
                         app:layout_constraintTop_toTopOf="@id/market_image_starter_pack" />
 
-                    <TextView
+                    <LinearLayout
                         android:id="@+id/starter_pack_buy"
                         android:layout_width="140.0dip"
                         android:layout_height="36.0dip"
                         android:layout_marginTop="8.0dip"
                         android:background="@drawable/object_border_buy"
                         android:gravity="center"
-                        android:text="500 Gems"
-                        android:textColor="@color/brass_filler"
-                        android:textSize="15.0sp"
-                        android:textStyle="bold"
+                        android:orientation="horizontal"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/market_image_starter_pack" />
+                        app:layout_constraintTop_toBottomOf="@id/market_image_starter_pack"
+                    >
+                        <ImageView
+                            android:layout_width="22.0dip"
+                            android:layout_height="22.0dip"
+                            android:layout_marginEnd="4.0dip"
+                            android:src="@drawable/gem" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="500"
+                            android:textColor="@color/brass_filler"
+                            android:textSize="15.0sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
 
                     <ImageView
                         android:id="@+id/check_starter_pack"
@@ -497,20 +508,31 @@
                         app:layout_constraintStart_toEndOf="@id/bonus_item_image_adventurer_pack_2"
                         app:layout_constraintTop_toTopOf="@id/bonus_item_image_adventurer_pack_2" />
 
-                    <TextView
+                    <LinearLayout
                         android:id="@+id/adventurer_pack_buy"
                         android:layout_width="140.0dip"
                         android:layout_height="36.0dip"
                         android:layout_marginTop="8.0dip"
                         android:background="@drawable/object_border_buy"
                         android:gravity="center"
-                        android:text="1,000 Gems"
-                        android:textColor="@color/brass_filler"
-                        android:textSize="15.0sp"
-                        android:textStyle="bold"
+                        android:orientation="horizontal"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/bonus_item_image_adventurer_pack_2" />
+                        app:layout_constraintTop_toBottomOf="@id/bonus_item_image_adventurer_pack_2"
+                    >
+                        <ImageView
+                            android:layout_width="22.0dip"
+                            android:layout_height="22.0dip"
+                            android:layout_marginEnd="4.0dip"
+                            android:src="@drawable/gem" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1,000"
+                            android:textColor="@color/brass_filler"
+                            android:textSize="15.0sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
 
                     <ImageView
                         android:id="@+id/check_adventurer_pack"
@@ -638,19 +660,30 @@
                         app:layout_constraintStart_toEndOf="@id/bonus_item_image_imperial_vanguard"
                         app:layout_constraintTop_toTopOf="@id/bonus_item_image_imperial_vanguard" />
 
-                    <TextView
+                    <LinearLayout
                         android:id="@+id/imperial_vanguard_buy"
                         android:layout_width="140.0dip"
                         android:layout_height="36.0dip"
                         android:background="@drawable/object_border_buy"
                         android:gravity="center"
-                        android:text="5,000 Gems"
-                        android:textColor="@color/brass_filler"
-                        android:textSize="15.0sp"
-                        android:textStyle="bold"
+                        android:orientation="horizontal"
                         app:layout_constraintBottom_toBottomOf="@id/bonus_item_image_imperial_vanguard"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/quarters_image_imperial_vanguard" />
+                        app:layout_constraintTop_toTopOf="@id/quarters_image_imperial_vanguard"
+                    >
+                        <ImageView
+                            android:layout_width="22.0dip"
+                            android:layout_height="22.0dip"
+                            android:layout_marginEnd="4.0dip"
+                            android:src="@drawable/gem" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="5,000"
+                            android:textColor="@color/brass_filler"
+                            android:textSize="15.0sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
 
                     <ImageView
                         android:id="@+id/check_imperial_vanguard"
@@ -770,19 +803,30 @@
                         app:layout_constraintStart_toEndOf="@id/bonus_item_image_unholy_crusade"
                         app:layout_constraintTop_toTopOf="@id/bonus_item_image_unholy_crusade" />
 
-                    <TextView
+                    <LinearLayout
                         android:id="@+id/unholy_crusade_buy"
                         android:layout_width="140.0dip"
                         android:layout_height="36.0dip"
                         android:background="@drawable/object_border_buy"
                         android:gravity="center"
-                        android:text="5,000 Gems"
-                        android:textColor="@color/brass_filler"
-                        android:textSize="15.0sp"
-                        android:textStyle="bold"
+                        android:orientation="horizontal"
                         app:layout_constraintBottom_toBottomOf="@id/bonus_item_image_unholy_crusade"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/quarters_image_unholy_crusade" />
+                        app:layout_constraintTop_toTopOf="@id/quarters_image_unholy_crusade"
+                    >
+                        <ImageView
+                            android:layout_width="22.0dip"
+                            android:layout_height="22.0dip"
+                            android:layout_marginEnd="4.0dip"
+                            android:src="@drawable/gem" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="5,000"
+                            android:textColor="@color/brass_filler"
+                            android:textSize="15.0sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
 
                     <ImageView
                         android:id="@+id/check_unholy_crusade"
@@ -902,19 +946,30 @@
                         app:layout_constraintStart_toEndOf="@id/bonus_item_image_primal_vanguard"
                         app:layout_constraintTop_toTopOf="@id/bonus_item_image_primal_vanguard" />
 
-                    <TextView
+                    <LinearLayout
                         android:id="@+id/primal_vanguard_buy"
                         android:layout_width="140.0dip"
                         android:layout_height="36.0dip"
                         android:background="@drawable/object_border_buy"
                         android:gravity="center"
-                        android:text="5,000 Gems"
-                        android:textColor="@color/brass_filler"
-                        android:textSize="15.0sp"
-                        android:textStyle="bold"
+                        android:orientation="horizontal"
                         app:layout_constraintBottom_toBottomOf="@id/bonus_item_image_primal_vanguard"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/quarters_image_primal_vanguard" />
+                        app:layout_constraintTop_toTopOf="@id/quarters_image_primal_vanguard"
+                    >
+                        <ImageView
+                            android:layout_width="22.0dip"
+                            android:layout_height="22.0dip"
+                            android:layout_marginEnd="4.0dip"
+                            android:src="@drawable/gem" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="5,000"
+                            android:textColor="@color/brass_filler"
+                            android:textSize="15.0sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
 
                     <ImageView
                         android:id="@+id/check_primal_vanguard"
@@ -1010,19 +1065,30 @@
                         app:layout_constraintStart_toEndOf="@id/shelter_image_senko"
                         app:layout_constraintTop_toTopOf="@id/shelter_image_senko" />
 
-                    <TextView
+                    <LinearLayout
                         android:id="@+id/senko_pack_buy"
                         android:layout_width="140.0dip"
                         android:layout_height="36.0dip"
                         android:background="@drawable/object_border_buy"
                         android:gravity="center"
-                        android:text="2,500 Gems"
-                        android:textColor="@color/brass_filler"
-                        android:textSize="15.0sp"
-                        android:textStyle="bold"
+                        android:orientation="horizontal"
                         app:layout_constraintBottom_toBottomOf="@id/shelter_image_senko"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/shelter_image_senko" />
+                        app:layout_constraintTop_toTopOf="@id/shelter_image_senko"
+                    >
+                        <ImageView
+                            android:layout_width="22.0dip"
+                            android:layout_height="22.0dip"
+                            android:layout_marginEnd="4.0dip"
+                            android:src="@drawable/gem" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="2,500"
+                            android:textColor="@color/brass_filler"
+                            android:textSize="15.0sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
 
                     <ImageView
                         android:id="@+id/check_senko_pack"
@@ -1034,8 +1100,85 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@id/senko_pack_buy" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
-            </LinearLayout>
 
+<!-- Ceremonial Cake Bundle (10x for 10,000 Gems) -->
+            <TextView
+                android:id="@+id/cake_pack_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8.0dip"
+                android:text="@string/shop_title_cake_pack"
+                android:textSize="18.0sp"
+                android:textStyle="bold" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraint_cake_pack"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4.0dip"
+                android:background="@drawable/object_border_brass"
+                android:padding="8.0dip">
+
+                <ImageView
+                    android:id="@+id/image_cake_pack"
+                    android:layout_width="44.0dip"
+                    android:layout_height="44.0dip"
+                    android:background="@drawable/object_border_dim_white"
+                    android:padding="4.0dip"
+                    android:src="@drawable/ceremonial_cake"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/text_cake_pack"
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8.0dip"
+                    android:text="@string/shop_cake_pack_desc"
+                    android:textSize="14.0sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/cake_pack_buy"
+                    app:layout_constraintStart_toEndOf="@id/image_cake_pack"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:id="@+id/cake_pack_buy"
+                    android:layout_width="140.0dip"
+                    android:layout_height="36.0dip"
+                    android:background="@drawable/object_border_buy"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                >
+                    <ImageView
+                        android:layout_width="22.0dip"
+                        android:layout_height="22.0dip"
+                        android:layout_marginEnd="4.0dip"
+                        android:src="@drawable/gem" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="10,000"
+                        android:textColor="@color/brass_filler"
+                        android:textSize="15.0sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/check_cake_pack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/check_brass"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@id/cake_pack_buy"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/cake_pack_buy" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
             <!-- ===================== 4. MERCHANT BUNDLE ===================== -->
             <LinearLayout
                 android:id="@+id/container_merchant_bundle"
@@ -1108,19 +1251,30 @@
                         app:layout_constraintStart_toEndOf="@id/speed_image_apprentice_merchant"
                         app:layout_constraintTop_toTopOf="@id/speed_image_apprentice_merchant" />
 
-                    <TextView
+                    <LinearLayout
                         android:id="@+id/apprentice_merchant_buy"
                         android:layout_width="140.0dip"
                         android:layout_height="36.0dip"
                         android:background="@drawable/object_border_buy"
                         android:gravity="center"
-                        android:text="500 Gems"
-                        android:textColor="@color/brass_filler"
-                        android:textSize="15.0sp"
-                        android:textStyle="bold"
+                        android:orientation="horizontal"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                    >
+                        <ImageView
+                            android:layout_width="22.0dip"
+                            android:layout_height="22.0dip"
+                            android:layout_marginEnd="4.0dip"
+                            android:src="@drawable/gem" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="500"
+                            android:textColor="@color/brass_filler"
+                            android:textSize="15.0sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
 
                     <ImageView
                         android:id="@+id/check_apprentice_merchant"
@@ -1198,19 +1352,30 @@
                         app:layout_constraintStart_toEndOf="@id/speed_image_journeyman_merchant"
                         app:layout_constraintTop_toTopOf="@id/speed_image_journeyman_merchant" />
 
-                    <TextView
+                    <LinearLayout
                         android:id="@+id/journeyman_merchant_buy"
                         android:layout_width="140.0dip"
                         android:layout_height="36.0dip"
                         android:background="@drawable/object_border_buy"
                         android:gravity="center"
-                        android:text="1,000 Gems"
-                        android:textColor="@color/brass_filler"
-                        android:textSize="15.0sp"
-                        android:textStyle="bold"
+                        android:orientation="horizontal"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                    >
+                        <ImageView
+                            android:layout_width="22.0dip"
+                            android:layout_height="22.0dip"
+                            android:layout_marginEnd="4.0dip"
+                            android:src="@drawable/gem" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1,000"
+                            android:textColor="@color/brass_filler"
+                            android:textSize="15.0sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
 
                     <ImageView
                         android:id="@+id/check_journeyman_merchant"
@@ -1247,7 +1412,7 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/object_border_dim_white"
                         android:padding="4.0dip"
-                        android:src="@drawable/shop_2"
+                        android:src="@drawable/shop_3"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -1288,19 +1453,30 @@
                         app:layout_constraintStart_toEndOf="@id/shop_speed_image_merchant_pack"
                         app:layout_constraintTop_toTopOf="@id/shop_speed_image_merchant_pack" />
 
-                    <TextView
+                    <LinearLayout
                         android:id="@+id/merchant_pack_buy"
                         android:layout_width="140.0dip"
                         android:layout_height="36.0dip"
                         android:background="@drawable/object_border_buy"
                         android:gravity="center"
-                        android:text="1,000 Gems"
-                        android:textColor="@color/brass_filler"
-                        android:textSize="15.0sp"
-                        android:textStyle="bold"
+                        android:orientation="horizontal"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                    >
+                        <ImageView
+                            android:layout_width="22.0dip"
+                            android:layout_height="22.0dip"
+                            android:layout_marginEnd="4.0dip"
+                            android:src="@drawable/gem" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1,000"
+                            android:textColor="@color/brass_filler"
+                            android:textSize="15.0sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
 
                     <ImageView
                         android:id="@+id/check_merchant_pack"
@@ -1337,7 +1513,7 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/object_border_dim_white"
                         android:padding="4.0dip"
-                        android:src="@drawable/shop_3"
+                        android:src="@drawable/shop_4"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -1378,19 +1554,30 @@
                         app:layout_constraintStart_toEndOf="@id/speed_image_trade_baron"
                         app:layout_constraintTop_toTopOf="@id/speed_image_trade_baron" />
 
-                    <TextView
+                    <LinearLayout
                         android:id="@+id/trade_baron_buy"
                         android:layout_width="140.0dip"
                         android:layout_height="36.0dip"
                         android:background="@drawable/object_border_buy"
                         android:gravity="center"
-                        android:text="1,500 Gems"
-                        android:textColor="@color/brass_filler"
-                        android:textSize="15.0sp"
-                        android:textStyle="bold"
+                        android:orientation="horizontal"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                    >
+                        <ImageView
+                            android:layout_width="22.0dip"
+                            android:layout_height="22.0dip"
+                            android:layout_marginEnd="4.0dip"
+                            android:src="@drawable/gem" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1,500"
+                            android:textColor="@color/brass_filler"
+                            android:textSize="15.0sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
 
                     <ImageView
                         android:id="@+id/check_trade_baron"
@@ -1476,19 +1663,30 @@
                         app:layout_constraintStart_toEndOf="@id/speed_image_apprentice_workshop"
                         app:layout_constraintTop_toTopOf="@id/speed_image_apprentice_workshop" />
 
-                    <TextView
+                    <LinearLayout
                         android:id="@+id/apprentice_workshop_buy"
                         android:layout_width="140.0dip"
                         android:layout_height="36.0dip"
                         android:background="@drawable/object_border_buy"
                         android:gravity="center"
-                        android:text="500 Gems"
-                        android:textColor="@color/brass_filler"
-                        android:textSize="15.0sp"
-                        android:textStyle="bold"
+                        android:orientation="horizontal"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                    >
+                        <ImageView
+                            android:layout_width="22.0dip"
+                            android:layout_height="22.0dip"
+                            android:layout_marginEnd="4.0dip"
+                            android:src="@drawable/gem" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="500"
+                            android:textColor="@color/brass_filler"
+                            android:textSize="15.0sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
 
                     <ImageView
                         android:id="@+id/check_apprentice_workshop"
@@ -1566,19 +1764,30 @@
                         app:layout_constraintStart_toEndOf="@id/speed_image_journeyman_workshop"
                         app:layout_constraintTop_toTopOf="@id/speed_image_journeyman_workshop" />
 
-                    <TextView
+                    <LinearLayout
                         android:id="@+id/journeyman_workshop_buy"
                         android:layout_width="140.0dip"
                         android:layout_height="36.0dip"
                         android:background="@drawable/object_border_buy"
                         android:gravity="center"
-                        android:text="1,000 Gems"
-                        android:textColor="@color/brass_filler"
-                        android:textSize="15.0sp"
-                        android:textStyle="bold"
+                        android:orientation="horizontal"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                    >
+                        <ImageView
+                            android:layout_width="22.0dip"
+                            android:layout_height="22.0dip"
+                            android:layout_marginEnd="4.0dip"
+                            android:src="@drawable/gem" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1,000"
+                            android:textColor="@color/brass_filler"
+                            android:textSize="15.0sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
 
                     <ImageView
                         android:id="@+id/check_journeyman_workshop"
@@ -1615,7 +1824,7 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/object_border_dim_white"
                         android:padding="4.0dip"
-                        android:src="@drawable/shop_2"
+                        android:src="@drawable/shop_3"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -1656,19 +1865,30 @@
                         app:layout_constraintStart_toEndOf="@id/speed_image_master_workshop"
                         app:layout_constraintTop_toTopOf="@id/speed_image_master_workshop" />
 
-                    <TextView
+                    <LinearLayout
                         android:id="@+id/master_workshop_buy"
                         android:layout_width="140.0dip"
                         android:layout_height="36.0dip"
                         android:background="@drawable/object_border_buy"
                         android:gravity="center"
-                        android:text="1,000 Gems"
-                        android:textColor="@color/brass_filler"
-                        android:textSize="15.0sp"
-                        android:textStyle="bold"
+                        android:orientation="horizontal"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                    >
+                        <ImageView
+                            android:layout_width="22.0dip"
+                            android:layout_height="22.0dip"
+                            android:layout_marginEnd="4.0dip"
+                            android:src="@drawable/gem" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1,000"
+                            android:textColor="@color/brass_filler"
+                            android:textSize="15.0sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
 
                     <ImageView
                         android:id="@+id/check_master_workshop"
@@ -1705,7 +1925,7 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/object_border_dim_white"
                         android:padding="4.0dip"
-                        android:src="@drawable/shop_3"
+                        android:src="@drawable/shop_4"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -1746,19 +1966,30 @@
                         app:layout_constraintStart_toEndOf="@id/speed_image_grandmaster_workshop"
                         app:layout_constraintTop_toTopOf="@id/speed_image_grandmaster_workshop" />
 
-                    <TextView
+                    <LinearLayout
                         android:id="@+id/grandmaster_workshop_buy"
                         android:layout_width="140.0dip"
                         android:layout_height="36.0dip"
                         android:background="@drawable/object_border_buy"
                         android:gravity="center"
-                        android:text="1,500 Gems"
-                        android:textColor="@color/brass_filler"
-                        android:textSize="15.0sp"
-                        android:textStyle="bold"
+                        android:orientation="horizontal"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                    >
+                        <ImageView
+                            android:layout_width="22.0dip"
+                            android:layout_height="22.0dip"
+                            android:layout_marginEnd="4.0dip"
+                            android:src="@drawable/gem" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1,500"
+                            android:textColor="@color/brass_filler"
+                            android:textSize="15.0sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
 
                     <ImageView
                         android:id="@+id/check_grandmaster_workshop"
@@ -1799,8 +2030,8 @@
 
                     <ImageView
                         android:id="@+id/storage_image_minor"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="44.0dip"
+                        android:layout_height="44.0dip"
                         android:background="@drawable/object_border_dim_white"
                         android:padding="4.0dip"
                         android:src="@drawable/sign_storage"
@@ -1821,19 +2052,30 @@
                         app:layout_constraintStart_toEndOf="@id/storage_image_minor"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
+                    <LinearLayout
                         android:id="@+id/minor_storage_buy"
                         android:layout_width="140.0dip"
                         android:layout_height="36.0dip"
                         android:background="@drawable/object_border_buy"
                         android:gravity="center"
-                        android:text="500 Gems"
-                        android:textColor="@color/brass_filler"
-                        android:textSize="15.0sp"
-                        android:textStyle="bold"
+                        android:orientation="horizontal"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                    >
+                        <ImageView
+                            android:layout_width="22.0dip"
+                            android:layout_height="22.0dip"
+                            android:layout_marginEnd="4.0dip"
+                            android:src="@drawable/gem" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="500"
+                            android:textColor="@color/brass_filler"
+                            android:textSize="15.0sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
 
                     <ImageView
                         android:id="@+id/check_minor_storage"
@@ -1866,8 +2108,8 @@
 
                     <ImageView
                         android:id="@+id/storage_image_expanded"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="44.0dip"
+                        android:layout_height="44.0dip"
                         android:background="@drawable/object_border_dim_white"
                         android:padding="4.0dip"
                         android:src="@drawable/sign_storage"
@@ -1888,19 +2130,30 @@
                         app:layout_constraintStart_toEndOf="@id/storage_image_expanded"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
+                    <LinearLayout
                         android:id="@+id/expanded_storage_buy"
                         android:layout_width="140.0dip"
                         android:layout_height="36.0dip"
                         android:background="@drawable/object_border_buy"
                         android:gravity="center"
-                        android:text="750 Gems"
-                        android:textColor="@color/brass_filler"
-                        android:textSize="15.0sp"
-                        android:textStyle="bold"
+                        android:orientation="horizontal"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                    >
+                        <ImageView
+                            android:layout_width="22.0dip"
+                            android:layout_height="22.0dip"
+                            android:layout_marginEnd="4.0dip"
+                            android:src="@drawable/gem" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="750"
+                            android:textColor="@color/brass_filler"
+                            android:textSize="15.0sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
 
                     <ImageView
                         android:id="@+id/check_expanded_storage"
@@ -1933,8 +2186,8 @@
 
                     <ImageView
                         android:id="@+id/storage_image_grand"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="44.0dip"
+                        android:layout_height="44.0dip"
                         android:background="@drawable/object_border_dim_white"
                         android:padding="4.0dip"
                         android:src="@drawable/sign_storage"
@@ -1955,19 +2208,30 @@
                         app:layout_constraintStart_toEndOf="@id/storage_image_grand"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
+                    <LinearLayout
                         android:id="@+id/grand_storage_buy"
                         android:layout_width="140.0dip"
                         android:layout_height="36.0dip"
                         android:background="@drawable/object_border_buy"
                         android:gravity="center"
-                        android:text="1,000 Gems"
-                        android:textColor="@color/brass_filler"
-                        android:textSize="15.0sp"
-                        android:textStyle="bold"
+                        android:orientation="horizontal"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                    >
+                        <ImageView
+                            android:layout_width="22.0dip"
+                            android:layout_height="22.0dip"
+                            android:layout_marginEnd="4.0dip"
+                            android:src="@drawable/gem" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1,000"
+                            android:textColor="@color/brass_filler"
+                            android:textSize="15.0sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
 
                     <ImageView
                         android:id="@+id/check_grand_storage"
@@ -2030,19 +2294,30 @@
                         app:layout_constraintStart_toEndOf="@id/loot_image_deep_pockets"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
+                    <LinearLayout
                         android:id="@+id/deep_pockets_buy"
                         android:layout_width="140.0dip"
                         android:layout_height="36.0dip"
                         android:background="@drawable/object_border_buy"
                         android:gravity="center"
-                        android:text="750 Gems"
-                        android:textColor="@color/brass_filler"
-                        android:textSize="15.0sp"
-                        android:textStyle="bold"
+                        android:orientation="horizontal"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                    >
+                        <ImageView
+                            android:layout_width="22.0dip"
+                            android:layout_height="22.0dip"
+                            android:layout_marginEnd="4.0dip"
+                            android:src="@drawable/gem" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="750"
+                            android:textColor="@color/brass_filler"
+                            android:textSize="15.0sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
 
                     <ImageView
                         android:id="@+id/check_deep_pockets"
@@ -2097,19 +2372,30 @@
                         app:layout_constraintStart_toEndOf="@id/idle_image_extended_vigil"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
+                    <LinearLayout
                         android:id="@+id/extended_vigil_buy"
                         android:layout_width="140.0dip"
                         android:layout_height="36.0dip"
                         android:background="@drawable/object_border_buy"
                         android:gravity="center"
-                        android:text="750 Gems"
-                        android:textColor="@color/brass_filler"
-                        android:textSize="15.0sp"
-                        android:textStyle="bold"
+                        android:orientation="horizontal"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                    >
+                        <ImageView
+                            android:layout_width="22.0dip"
+                            android:layout_height="22.0dip"
+                            android:layout_marginEnd="4.0dip"
+                            android:src="@drawable/gem" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="750"
+                            android:textColor="@color/brass_filler"
+                            android:textSize="15.0sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
 
                     <ImageView
                         android:id="@+id/check_extended_vigil"
@@ -2142,10 +2428,10 @@
 
                     <ImageView
                         android:id="@+id/intercession_image_sacred"
-                        android:layout_width="36.0dip"
-                        android:layout_height="36.0dip"
+                        android:layout_width="44.0dip"
+                        android:layout_height="44.0dip"
                         android:background="@drawable/object_border_dim_white"
-                        android:padding="2.0dip"
+                        android:padding="4.0dip"
                         android:src="@drawable/intercession"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -2176,19 +2462,39 @@
                         app:layout_constraintStart_toEndOf="@id/intercession_image_sacred"
                         app:layout_constraintTop_toBottomOf="@id/intercession_text_sacred" />
 
-                    <TextView
+                    <LinearLayout
                         android:id="@+id/sacred_intercession_buy"
                         android:layout_width="140.0dip"
                         android:layout_height="36.0dip"
                         android:background="@drawable/object_border_buy"
                         android:gravity="center"
-                        android:text="500 Gems"
-                        android:textColor="@color/brass_filler"
-                        android:textSize="15.0sp"
-                        android:textStyle="bold"
+                        android:orientation="horizontal"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                    >
+                        <ImageView
+                            android:layout_width="22.0dip"
+                            android:layout_height="22.0dip"
+                            android:layout_marginEnd="4.0dip"
+                            android:src="@drawable/gem" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="500"
+                            android:textColor="@color/brass_filler"
+                            android:textSize="15.0sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+<ImageView
+                        android:id="@+id/check_sacred_intercession"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/check_brass"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="@id/sacred_intercession_buy"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/sacred_intercession_buy" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
         </LinearLayout>
