@@ -196,6 +196,36 @@
                 android:textColor="@color/dim_white"
                 android:textSize="12.0sp"
                 android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/chip_category_equipment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6.0dip"
+                android:background="@drawable/object_border_dim_white"
+                android:paddingLeft="10.0dip"
+                android:paddingTop="4.0dip"
+                android:paddingRight="10.0dip"
+                android:paddingBottom="4.0dip"
+                android:text="@string/shop_category_equipment"
+                android:textColor="@color/dim_white"
+                android:textSize="12.0sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/chip_category_infrastructure"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6.0dip"
+                android:background="@drawable/object_border_dim_white"
+                android:paddingLeft="10.0dip"
+                android:paddingTop="4.0dip"
+                android:paddingRight="10.0dip"
+                android:paddingBottom="4.0dip"
+                android:text="@string/shop_category_infrastructure"
+                android:textColor="@color/dim_white"
+                android:textSize="12.0sp"
+                android:textStyle="bold" />
         </LinearLayout>
     </HorizontalScrollView>
 
@@ -2497,6 +2527,35 @@
                         app:layout_constraintTop_toTopOf="@id/sacred_intercession_buy" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
+<include
+                android:id="@+id/container_converted_bundle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/shop_bundle_converted" />
+
+            <include
+                android:id="@+id/container_equipment_bundle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/shop_bundle_equipment" />
+
+            <include
+                android:id="@+id/container_infrastructure_bundle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/shop_bundle_infrastructure" />
+
+            <include
+                android:id="@+id/container_utility_expansion_bundle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/shop_bundle_utility" />
+
+            <include
+                android:id="@+id/container_storage_expansion_bundle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/shop_bundle_storage" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

@@ -214,6 +214,26 @@ class DataDeserializer : JsonDeserializer<Data> {
         this.data.isIdleHoursPackPurchased = asJsonObject.has("idleHoursPackPurchased") && asJsonObject.get("idleHoursPackPurchased").asBoolean
         this.data.isSacredIntercessionPurchased = asJsonObject.has("sacredIntercessionPurchased") && asJsonObject.get("sacredIntercessionPurchased").asBoolean
         this.data.isCakePackPurchased = asJsonObject.has("cakePackPurchased") && asJsonObject.get("cakePackPurchased").asBoolean
+        this.data.isDivineChampionPackPurchased = asJsonObject.has("divineChampionPackPurchased") && asJsonObject.get("divineChampionPackPurchased").asBoolean
+        this.data.isEternalReliquaryPurchased = asJsonObject.has("eternalReliquaryPurchased") && asJsonObject.get("eternalReliquaryPurchased").asBoolean
+        this.data.isAlchemistBountyPurchased = asJsonObject.has("alchemistBountyPurchased") && asJsonObject.get("alchemistBountyPurchased").asBoolean
+        this.data.isPatricianWardrobePurchased = asJsonObject.has("patricianWardrobePurchased") && asJsonObject.get("patricianWardrobePurchased").asBoolean
+        this.data.isRoyalTreasuryPurchased = asJsonObject.has("royalTreasuryPurchased") && asJsonObject.get("royalTreasuryPurchased").asBoolean
+        this.data.isScarletShroudPurchased = asJsonObject.has("scarletShroudPurchased") && asJsonObject.get("scarletShroudPurchased").asBoolean
+        this.data.isCelestialBowPurchased = asJsonObject.has("celestialBowPurchased") && asJsonObject.get("celestialBowPurchased").asBoolean
+        this.data.isBarracks1Purchased = asJsonObject.has("barracks1Purchased") && asJsonObject.get("barracks1Purchased").asBoolean
+        this.data.isBarracks2Purchased = asJsonObject.has("barracks2Purchased") && asJsonObject.get("barracks2Purchased").asBoolean
+        this.data.isGrandTavernPurchased = asJsonObject.has("grandTavernPurchased") && asJsonObject.get("grandTavernPurchased").asBoolean
+        this.data.isSanctuary1Purchased = asJsonObject.has("sanctuary1Purchased") && asJsonObject.get("sanctuary1Purchased").asBoolean
+        this.data.isSanctuary2Purchased = asJsonObject.has("sanctuary2Purchased") && asJsonObject.get("sanctuary2Purchased").asBoolean
+        this.data.isIdleHoursPack2Purchased = asJsonObject.has("idleHoursPack2Purchased") && asJsonObject.get("idleHoursPack2Purchased").asBoolean
+        this.data.isIdleHoursPack3Purchased = asJsonObject.has("idleHoursPack3Purchased") && asJsonObject.get("idleHoursPack3Purchased").asBoolean
+        this.data.isIdleHoursPack4Purchased = asJsonObject.has("idleHoursPack4Purchased") && asJsonObject.get("idleHoursPack4Purchased").asBoolean
+        this.data.isEternalVigilPurchased = asJsonObject.has("eternalVigilPurchased") && asJsonObject.get("eternalVigilPurchased").asBoolean
+        this.data.isMaxLootPack2Purchased = asJsonObject.has("maxLootPack2Purchased") && asJsonObject.get("maxLootPack2Purchased").asBoolean
+        this.data.isEvolutionSynthesisPurchased = asJsonObject.has("evolutionSynthesisPurchased") && asJsonObject.get("evolutionSynthesisPurchased").asBoolean
+        this.data.isStoragePack100Purchased = asJsonObject.has("storagePack100Purchased") && asJsonObject.get("storagePack100Purchased").asBoolean
+        this.data.isStoragePack150Purchased = asJsonObject.has("storagePack150Purchased") && asJsonObject.get("storagePack150Purchased").asBoolean
 
         // Backward Compatibility / Save Migration for Shop Rework (v1.3.8.1)
         // If an imported or older save has the legacy packs, ensure they retain their full storage,
@@ -228,6 +248,21 @@ class DataDeserializer : JsonDeserializer<Data> {
             if (!this.data.isStoragePack70Purchased) this.data.isStoragePack70Purchased = true
             if (!this.data.isMasterWorkshopPurchased) this.data.isMasterWorkshopPurchased = true
             if (!this.data.isMaxLootPackPurchased) this.data.isMaxLootPackPurchased = true
+        }
+
+        // Backward Compatibility / Save Migration for Shop Expansion (v1.3.8.5)
+        // Legacy vanilla redeem codes migrate into the new converted starter packs.
+        if (this.data.isRedeem_f1r39h15) {
+            if (!this.data.isDivineChampionPackPurchased) this.data.isDivineChampionPackPurchased = true
+            if (!this.data.isEternalReliquaryPurchased) this.data.isEternalReliquaryPurchased = true
+        }
+        if (this.data.isRedeem_potionsRefund1) {
+            if (!this.data.isAlchemistBountyPurchased) this.data.isAlchemistBountyPurchased = true
+            if (!this.data.isPatricianWardrobePurchased) this.data.isPatricianWardrobePurchased = true
+            if (!this.data.isRoyalTreasuryPurchased) this.data.isRoyalTreasuryPurchased = true
+        }
+        if (this.data.isRedeemed_f8hf3045 || this.data.isRedeemed_g294ps91) {
+            if (!this.data.isScarletShroudPurchased) this.data.isScarletShroudPurchased = true
         }
 
         this.data.amountOfPurchases = if (asJsonObject.has("amountOfPurchases")) asJsonObject.get("amountOfPurchases").asInt  else 0

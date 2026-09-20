@@ -179,7 +179,7 @@ class ModFeaturesTest {
     fun testModAboutChangelogEntries() {
         val entries = ModChangelog.parseVersionEntries()
         assertTrue(entries.isNotEmpty())
-        assertTrue("Top entry must be 1.3.8.4", entries[0].title.startsWith("1.3.8.4"))
+        assertTrue("Top entry must be 1.3.8.8", entries[0].title.startsWith("1.3.8.8"))
         assertTrue("Bottom entry must be 1.0.0.0", entries.last().title.startsWith("1.0.0.0"))
     }
 

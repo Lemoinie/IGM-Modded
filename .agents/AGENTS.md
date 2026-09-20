@@ -60,6 +60,7 @@ The repository should follow this general organization:
 │   ├── reverse-engineering.md
 │   ├── save-format.md
 │   ├── scripts.md
+│   ├── shop-ui-rules.md
 │   └── vanilla-behavior.md
 │
 ├── scripts/
@@ -498,6 +499,7 @@ docs/
 ├── reverse-engineering.md  Origins of the reconstruction & verification workflow
 ├── save-format.md        On-disk JSON schema and save tooling
 ├── scripts.md            Inventory of every script/tool
+├── shop-ui-rules.md      Shop dialog pack layouts, item/hero display & UI conventions
 └── vanilla-behavior.md   Verified vanilla quirks & the mod interface
 ```
 

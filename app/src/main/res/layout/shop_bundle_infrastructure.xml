@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- ── Barracks Expansion I ── -->
+        <TextView
+            android:id="@+id/barracks1_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8.0dip"
+            android:text="@string/shop_title_barracks_i"
+            android:textSize="17.0sp"
+            android:textStyle="bold" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_barracks1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4.0dip"
+            android:background="@drawable/object_border_brass"
+            android:padding="8.0dip">
+
+            <ImageView
+                android:id="@+id/icon_barracks1"
+                android:layout_width="44.0dip"
+                android:layout_height="44.0dip"
+                android:background="@drawable/object_border_dim_white"
+                android:padding="4.0dip"
+                android:src="@drawable/shop_1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/label_barracks1"
+                android:layout_width="0.0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8.0dip"
+                android:layout_marginEnd="8.0dip"
+                android:text="@string/shop_barracks_desc"
+                android:textSize="13.0sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/barracks1_buy"
+                app:layout_constraintStart_toEndOf="@id/icon_barracks1"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/barracks1_buy"
+                android:layout_width="140.0dip"
+                android:layout_height="36.0dip"
+                android:background="@drawable/object_border_buy"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="22.0dip"
+                    android:layout_height="22.0dip"
+                    android:layout_marginEnd="4.0dip"
+                    android:src="@drawable/gem" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1,000"
+                    android:textColor="@color/brass_filler"
+                    android:textSize="15.0sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/check_barracks1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/check_brass"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/barracks1_buy"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/barracks1_buy" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- ── Barracks Expansion II ── -->
+        <TextView
+            android:id="@+id/barracks2_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8.0dip"
+            android:text="@string/shop_title_barracks_ii"
+            android:textSize="17.0sp"
+            android:textStyle="bold" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_barracks2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4.0dip"
+            android:background="@drawable/object_border_brass"
+            android:padding="8.0dip">
+
+            <ImageView
+                android:id="@+id/icon_barracks2"
+                android:layout_width="44.0dip"
+                android:layout_height="44.0dip"
+                android:background="@drawable/object_border_dim_white"
+                android:padding="4.0dip"
+                android:src="@drawable/shop_1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/label_barracks2"
+                android:layout_width="0.0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8.0dip"
+                android:layout_marginEnd="8.0dip"
+                android:text="@string/shop_barracks_desc"
+                android:textSize="13.0sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/barracks2_buy"
+                app:layout_constraintStart_toEndOf="@id/icon_barracks2"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/barracks2_buy"
+                android:layout_width="140.0dip"
+                android:layout_height="36.0dip"
+                android:background="@drawable/object_border_buy"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="22.0dip"
+                    android:layout_height="22.0dip"
+                    android:layout_marginEnd="4.0dip"
+                    android:src="@drawable/gem" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2,000"
+                    android:textColor="@color/brass_filler"
+                    android:textSize="15.0sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/check_barracks2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/check_brass"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/barracks2_buy"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/barracks2_buy" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- ── Grand Tavern Expansion ── -->
+        <TextView
+            android:id="@+id/grand_tavern_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8.0dip"
+            android:text="@string/shop_title_grand_tavern"
+            android:textSize="17.0sp"
+            android:textStyle="bold" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_grand_tavern"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4.0dip"
+            android:background="@drawable/object_border_brass"
+            android:padding="8.0dip">
+
+            <ImageView
+                android:id="@+id/icon_grand_tavern"
+                android:layout_width="44.0dip"
+                android:layout_height="44.0dip"
+                android:background="@drawable/object_border_dim_white"
+                android:padding="4.0dip"
+                android:src="@drawable/sign_tavern"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/label_grand_tavern"
+                android:layout_width="0.0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8.0dip"
+                android:layout_marginEnd="8.0dip"
+                android:text="@string/shop_grand_tavern_desc"
+                android:textSize="13.0sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/grand_tavern_buy"
+                app:layout_constraintStart_toEndOf="@id/icon_grand_tavern"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/grand_tavern_buy"
+                android:layout_width="140.0dip"
+                android:layout_height="36.0dip"
+                android:background="@drawable/object_border_buy"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="22.0dip"
+                    android:layout_height="22.0dip"
+                    android:layout_marginEnd="4.0dip"
+                    android:src="@drawable/gem" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1,250"
+                    android:textColor="@color/brass_filler"
+                    android:textSize="15.0sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/check_grand_tavern"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/check_brass"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/grand_tavern_buy"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/grand_tavern_buy" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- ── Sanctuary Grounds I ── -->
+        <TextView
+            android:id="@+id/sanctuary1_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8.0dip"
+            android:text="@string/shop_title_sanctuary_i"
+            android:textSize="17.0sp"
+            android:textStyle="bold" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_sanctuary1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4.0dip"
+            android:background="@drawable/object_border_brass"
+            android:padding="8.0dip">
+
+            <ImageView
+                android:id="@+id/icon_sanctuary1"
+                android:layout_width="44.0dip"
+                android:layout_height="44.0dip"
+                android:background="@drawable/object_border_dim_white"
+                android:padding="4.0dip"
+                android:src="@drawable/upgrade_shelter"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/label_sanctuary1"
+                android:layout_width="0.0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8.0dip"
+                android:layout_marginEnd="8.0dip"
+                android:text="@string/shop_sanctuary_desc"
+                android:textSize="13.0sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/sanctuary1_buy"
+                app:layout_constraintStart_toEndOf="@id/icon_sanctuary1"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/sanctuary1_buy"
+                android:layout_width="140.0dip"
+                android:layout_height="36.0dip"
+                android:background="@drawable/object_border_buy"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="22.0dip"
+                    android:layout_height="22.0dip"
+                    android:layout_marginEnd="4.0dip"
+                    android:src="@drawable/gem" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="750"
+                    android:textColor="@color/brass_filler"
+                    android:textSize="15.0sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/check_sanctuary1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/check_brass"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/sanctuary1_buy"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/sanctuary1_buy" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- ── Sanctuary Grounds II ── -->
+        <TextView
+            android:id="@+id/sanctuary2_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8.0dip"
+            android:text="@string/shop_title_sanctuary_ii"
+            android:textSize="17.0sp"
+            android:textStyle="bold" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_sanctuary2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4.0dip"
+            android:background="@drawable/object_border_brass"
+            android:padding="8.0dip">
+
+            <ImageView
+                android:id="@+id/icon_sanctuary2"
+                android:layout_width="44.0dip"
+                android:layout_height="44.0dip"
+                android:background="@drawable/object_border_dim_white"
+                android:padding="4.0dip"
+                android:src="@drawable/upgrade_shelter"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/label_sanctuary2"
+                android:layout_width="0.0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8.0dip"
+                android:layout_marginEnd="8.0dip"
+                android:text="@string/shop_sanctuary_desc"
+                android:textSize="13.0sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/sanctuary2_buy"
+                app:layout_constraintStart_toEndOf="@id/icon_sanctuary2"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/sanctuary2_buy"
+                android:layout_width="140.0dip"
+                android:layout_height="36.0dip"
+                android:background="@drawable/object_border_buy"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="22.0dip"
+                    android:layout_height="22.0dip"
+                    android:layout_marginEnd="4.0dip"
+                    android:src="@drawable/gem" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1,250"
+                    android:textColor="@color/brass_filler"
+                    android:textSize="15.0sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/check_sanctuary2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/check_brass"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/sanctuary2_buy"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/sanctuary2_buy" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+</layout>

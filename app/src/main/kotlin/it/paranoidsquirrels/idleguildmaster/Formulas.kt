@@ -154,20 +154,43 @@ object Formulas {
         if (MainActivity.data.isImperialVanguardPurchased) packBonus += 4
         if (MainActivity.data.isUnholyCrusadePurchased) packBonus += 4
         if (MainActivity.data.isPrimalVanguardPurchased) packBonus += 4
+        if (MainActivity.data.isBarracks1Purchased) packBonus += 1
+        if (MainActivity.data.isBarracks2Purchased) packBonus += 1
         return MainActivity.data.levelQuarters + 2 + MainActivity.data.upgradeQuarters + packBonus
     }
 
     @JvmStatic
     fun getTavernVisitorInterval(): Long {
         val exponent = (MainActivity.data.levelTavernTime + MainActivity.data.upgradeTavernTime).toDouble()
-        return (0.9.pow(exponent) * 28800.0 * 1000.0).toLong()
+        var interval = (0.9.pow(exponent) * 28800.0 * 1000.0).toLong()
+        if (MainActivity.data.isGrandTavernPurchased) {
+            interval = (interval.toDouble() * 0.8).toLong()
+        }
+        return interval
     }
 
     @JvmStatic
     fun getTavernCapacity(): Int {
         var packBonus = if (MainActivity.data.isStarterPackPurchased) 1 else 0
         if (MainActivity.data.isAdventurerPackPurchased) packBonus += 2
+        if (MainActivity.data.isGrandTavernPurchased) packBonus += 2
         return MainActivity.data.levelTavernCapacity + 1 + MainActivity.data.upgradeTavernCapacity + packBonus
+    }
+
+    /** Maximum offline idle time cap in hours.
+     *  Vanilla caps offline idle at 12h (2.148: min(4,4)+8). Extended Vigil packs
+     *  raise the cap progressively: Vigil I +6h, II +6h, III +24h, IV +48h and
+     *  Eternal Vigil +72h — reaching 168h (7 days / 1 week). */
+    @JvmStatic
+    fun getIdleTimeCapHours(): Int {
+        val data = MainActivity.data
+        var idleBonus = 0
+        if (data.isIdleHoursPackPurchased) idleBonus += 6
+        if (data.isIdleHoursPack2Purchased) idleBonus += 6
+        if (data.isIdleHoursPack3Purchased) idleBonus += 24
+        if (data.isIdleHoursPack4Purchased) idleBonus += 48
+        if (data.isEternalVigilPurchased) idleBonus += 72
+        return 12 + idleBonus
     }
 
     @JvmStatic
@@ -196,12 +219,18 @@ object Formulas {
         if (MainActivity.data.isStoragePack35Purchased) packBonus += 35
         if (MainActivity.data.isStoragePack50Purchased) packBonus += 50
         if (MainActivity.data.isStoragePack70Purchased) packBonus += 70
+        if (MainActivity.data.isStoragePack100Purchased) packBonus += 100
+        if (MainActivity.data.isStoragePack150Purchased) packBonus += 150
         return MainActivity.data.levelStorage + 35 + MainActivity.data.upgradeStorage + packBonus
     }
 
     @JvmStatic
     fun shelterCapacity(): Int {
-        return MainActivity.data.levelShelter + MainActivity.data.upgradeShelter + 2 + (if (MainActivity.data.isSenkoPackPurchased) 1 else 0)
+        var bonus = 2
+        if (MainActivity.data.isSenkoPackPurchased) bonus += 1
+        if (MainActivity.data.isSanctuary1Purchased) bonus += 2
+        if (MainActivity.data.isSanctuary2Purchased) bonus += 2
+        return MainActivity.data.levelShelter + MainActivity.data.upgradeShelter + bonus
     }
 
     @JvmStatic

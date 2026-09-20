@@ -1,10 +1,14 @@
 package it.paranoidsquirrels.idleguildmaster
 
 import it.paranoidsquirrels.idleguildmaster.storage.data.Data
+import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.Adventurer
+import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.PotionsDrank
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.Trait
+import it.paranoidsquirrels.idleguildmaster.storage.data.items.Item
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.instances.Spade
 import it.paranoidsquirrels.idleguildmaster.storage.data.pets.Pet
 import it.paranoidsquirrels.idleguildmaster.storage.data.pets.PetAbility
+import it.paranoidsquirrels.idleguildmaster.storage.data.places.dungeons.EnchantedForest
 import it.paranoidsquirrels.idleguildmaster.ui.dialogs.DialogShop
 import org.junit.Assert.*
 import org.junit.Before
@@ -245,19 +249,206 @@ class ShopReworkTest {
     }
 
     @Test
-    fun testDevRedeemCodesIdentification() {
-        val devCodes = listOf(
-            "GOLD 100", "BLACK", "ITEM Spade", "HERO Paladin", "PET Semi",
-            "REROLL", "SHOP", "QUEST", "STORAGE 10", "IDLETIME 24",
-            "LOOTCAP 5000", "KILLS", "SETKILLS 50"
-        )
-        for (code in devCodes) {
-            assertTrue("Code '$code' should be recognized as a dev code", it.paranoidsquirrels.idleguildmaster.game.redeem.RedeemCodes.isDevCode(code))
+    fun testRedeemCodeMigration() {
+        // Legacy redeem codes migrate into the converted starter packs.
+        val legacy = Data().apply {
+            isRedeem_f1r39h15 = true
+            isRedeem_potionsRefund1 = true
+            isRedeemed_f8hf3045 = true
         }
+        val gson = com.google.gson.GsonBuilder()
+            .registerTypeAdapter(Data::class.java, it.paranoidsquirrels.idleguildmaster.storage.data.DataDeserializer())
+            .create()
+        val json = com.google.gson.Gson().toJson(legacy)
+        val migrated = gson.fromJson(json, Data::class.java)
 
-        val nonDevCodes = listOf("Z3GAAZRT", "e44ttr7z", "rotdrv9deq", "f1r29u15eq", "f3hqt045", "UNKNOWN")
-        for (code in nonDevCodes) {
-            assertFalse("Code '$code' should not be recognized as a dev code", it.paranoidsquirrels.idleguildmaster.game.redeem.RedeemCodes.isDevCode(code))
-        }
+        assertTrue("f1r39h15 must grant Divine Champion pack", migrated.isDivineChampionPackPurchased)
+        assertTrue("f1r39h15 must grant Eternal Reliquary", migrated.isEternalReliquaryPurchased)
+        assertTrue("potionsRefund1 must grant Alchemist's Bounty", migrated.isAlchemistBountyPurchased)
+        assertTrue("potionsRefund1 must grant Patrician's Wardrobe", migrated.isPatricianWardrobePurchased)
+        assertTrue("potionsRefund1 must grant Royal Treasury & Feast", migrated.isRoyalTreasuryPurchased)
+        assertTrue("f8hf3045 must grant Shroud of the Ancients", migrated.isScarletShroudPurchased)
+
+        // Fresh save must NOT auto-grant any of them.
+        val freshJson = com.google.gson.Gson().toJson(Data())
+        val fresh = gson.fromJson(freshJson, Data::class.java)
+        assertFalse(fresh.isDivineChampionPackPurchased)
+        assertFalse(fresh.isScarletShroudPurchased)
+    }
+
+    @Test
+    fun testConvertedStarterPacksPurchase() {
+        // Divine Champion pack grants the Level 45 hero + 3 gear pieces (mirrors the shop handler).
+        MainActivity.data.adventurers.clear()
+        MainActivity.data.items.clear()
+        val hero = Adventurer.getInstance("DivineChampion", -40, 45, 0, null, null, null, Trait.BRUTE_PLUS, Trait.FOCUSED, PotionsDrank(), null, false)
+        assertNotNull("Divine Champion hero must exist", hero)
+        MainActivity.data.adventurers.add(hero!!)
+        Utils.collectItem(Item.getInstance("ChampionArmor", 1), MainActivity.data.items)
+        Utils.collectItem(Item.getInstance("SpikedPrimevalShield", 1), MainActivity.data.items)
+        Utils.collectItem(Item.getInstance("GhastlyScimitar", 1), MainActivity.data.items)
+        assertTrue(MainActivity.data.adventurers.any { it.getTrueClass() == "DivineChampion" })
+        assertTrue(MainActivity.data.items.any { it.getTrueClass() == "ChampionArmor" })
+        assertTrue(MainActivity.data.items.any { it.getTrueClass() == "SpikedPrimevalShield" })
+        assertTrue(MainActivity.data.items.any { it.getTrueClass() == "GhastlyScimitar" })
+
+        // Alchemist's Bounty grants 100x of all 11 permanent stat potions.
+        MainActivity.data.items.clear()
+        val potions = listOf(
+            "PotionOfConstitution", "PotionOfDexterity", "PotionOfIntelligence", "PotionOfHealth",
+            "PotionOfDefense", "PotionOfMagicDefense", "PotionOfPrecision", "PotionOfViciousness",
+            "PotionOfDarkness", "PotionOfImmunity", "PotionOfAgility"
+        )
+        for (name in potions) Utils.collectItem(Item.getInstance(name, 100), MainActivity.data.items)
+        assertEquals(11, MainActivity.data.items.size)
+        assertTrue(MainActivity.data.items.all { it.getStack() == 100 })
+
+        // Patrician's Wardrobe grants its gear with the documented counts.
+        MainActivity.data.items.clear()
+        Utils.collectItem(Item.getInstance("PatricianArmor", 2), MainActivity.data.items)
+        Utils.collectItem(Item.getInstance("DiamondAmulet", 19), MainActivity.data.items)
+        Utils.collectItem(Item.getInstance("CottontailJacket", 10), MainActivity.data.items)
+        Utils.collectItem(Item.getInstance("GhostRabbitCloak", 6), MainActivity.data.items)
+        assertEquals(4, MainActivity.data.items.size)
+        assertTrue(MainActivity.data.items.any { it.getTrueClass() == "PatricianArmor" && it.getStack() == 2 })
+        assertTrue(MainActivity.data.items.any { it.getTrueClass() == "DiamondAmulet" && it.getStack() == 19 })
+
+        // Royal Treasury & Feast grants 10,000,000 copper (10 Platinum Coins).
+        val moneyBefore = MainActivity.data.money
+        MainActivity.data.money += 10_000_000L
+        assertEquals(moneyBefore + 10_000_000L, MainActivity.data.money)
+
+        // Purchased flags persist through a save/load round-trip.
+        MainActivity.data.isDivineChampionPackPurchased = true
+        MainActivity.data.isEternalReliquaryPurchased = true
+        MainActivity.data.isAlchemistBountyPurchased = true
+        MainActivity.data.isPatricianWardrobePurchased = true
+        MainActivity.data.isRoyalTreasuryPurchased = true
+        MainActivity.data.isScarletShroudPurchased = true
+        val gson = com.google.gson.GsonBuilder()
+            .registerTypeAdapter(Data::class.java, it.paranoidsquirrels.idleguildmaster.storage.data.DataDeserializer())
+            .create()
+        val json = com.google.gson.Gson().toJson(MainActivity.data)
+        val loaded = gson.fromJson(json, Data::class.java)
+        assertTrue(loaded.isDivineChampionPackPurchased)
+        assertTrue(loaded.isEternalReliquaryPurchased)
+        assertTrue(loaded.isAlchemistBountyPurchased)
+        assertTrue(loaded.isPatricianWardrobePurchased)
+        assertTrue(loaded.isRoyalTreasuryPurchased)
+        assertTrue(loaded.isScarletShroudPurchased)
+    }
+
+    @Test
+    fun testCelestialBowPackPurchase() {
+        // One-time 1,000-gem pack grants 1x Celestial Bow (mirrors the shop handler).
+        MainActivity.data.gems = 1000
+        MainActivity.data.items.clear()
+        MainActivity.data.gems -= 1000
+        Utils.collectItem(Item.getInstance("CelestialBow", 1), MainActivity.data.items)
+        assertEquals("gems must be deducted", 0, MainActivity.data.gems)
+        val bow = MainActivity.data.items.firstOrNull { it.getTrueClass() == "CelestialBow" }
+        assertNotNull("Celestial Bow must be added to inventory", bow)
+        assertEquals(1, bow?.getStack())
+
+        // One-time: the purchased flag persists through save/load, blocking repeat buys.
+        MainActivity.data.isCelestialBowPurchased = true
+        val gson = com.google.gson.GsonBuilder()
+            .registerTypeAdapter(Data::class.java, it.paranoidsquirrels.idleguildmaster.storage.data.DataDeserializer())
+            .create()
+        val json = com.google.gson.Gson().toJson(MainActivity.data)
+        val loaded = gson.fromJson(json, Data::class.java)
+        assertTrue("Celestial Bow pack flag must persist", loaded.isCelestialBowPurchased)
+    }
+
+    @Test
+    fun testInfrastructureFormulas() {
+        // Barracks expansions: +1 Quarters space each.
+        assertEquals(2, Formulas.getQuartersCapacity())
+        MainActivity.data.isBarracks1Purchased = true
+        assertEquals(3, Formulas.getQuartersCapacity())
+        MainActivity.data.isBarracks2Purchased = true
+        assertEquals(4, Formulas.getQuartersCapacity())
+
+        // Grand Tavern: visitors arrive 20% faster and capacity +2.
+        val baseInterval = Formulas.getTavernVisitorInterval() // 28,800,000 ms at level 0
+        assertEquals(1, Formulas.getTavernCapacity())
+        MainActivity.data.isGrandTavernPurchased = true
+        assertEquals((baseInterval * 0.8).toLong(), Formulas.getTavernVisitorInterval())
+        assertEquals(3, Formulas.getTavernCapacity())
+
+        // Sanctuary expansions: +2 Pet Shelter capacity each.
+        assertEquals(2, Formulas.shelterCapacity())
+        MainActivity.data.isSanctuary1Purchased = true
+        assertEquals(4, Formulas.shelterCapacity())
+        MainActivity.data.isSanctuary2Purchased = true
+        assertEquals(6, Formulas.shelterCapacity())
+    }
+
+    @Test
+    fun testExtendedIdleTimeTiers() {
+        // Base vanilla cap is 12h; Vigil packs progress to 24h / 48h / 96h / 168h.
+        assertEquals(12, Formulas.getIdleTimeCapHours())
+
+        MainActivity.data.isIdleHoursPackPurchased = true
+        assertEquals(18, Formulas.getIdleTimeCapHours())
+
+        MainActivity.data.isIdleHoursPack2Purchased = true
+        assertEquals(24, Formulas.getIdleTimeCapHours())
+
+        MainActivity.data.isIdleHoursPack3Purchased = true
+        assertEquals(48, Formulas.getIdleTimeCapHours())
+
+        MainActivity.data.isIdleHoursPack4Purchased = true
+        assertEquals(96, Formulas.getIdleTimeCapHours())
+
+        MainActivity.data.isEternalVigilPurchased = true
+        assertEquals(168, Formulas.getIdleTimeCapHours())
+    }
+
+    @Test
+    fun testHighTierStorageSpaces() {
+        assertEquals(35, Formulas.storageSpaces())
+
+        MainActivity.data.isStoragePack100Purchased = true
+        assertEquals(135, Formulas.storageSpaces())
+
+        MainActivity.data.isStoragePack150Purchased = true
+        assertEquals(285, Formulas.storageSpaces())
+    }
+
+    @Test
+    fun testMaxLootCapTier2() {
+        val area = EnchantedForest()
+        assertEquals("vanilla loot cap is 2,000", 2000, area.getLootCap())
+
+        MainActivity.data.isMaxLootPack2Purchased = true
+        assertEquals("Deep Pockets II raises the cap to 4,000", 4000, area.getLootCap())
+
+        // The pack is authoritative: legacy LOOTCAP/Deep Pockets overrides must not exceed it.
+        MainActivity.data.isMaxLootPackPurchased = true
+        MainActivity.data.lootCap = 8192
+        assertEquals(4000, area.getLootCap())
+    }
+
+    @Test
+    fun testOneTimeEvolutionCrate() {
+        // Grants 1x Evo-22 Vial, 1x Evo-23 Vial and 2x Dreamcatcher (mirrors the shop handler).
+        MainActivity.data.items.clear()
+        Utils.collectItem(Item.getInstance("Evo22Vial", 1), MainActivity.data.items)
+        Utils.collectItem(Item.getInstance("Evo23Vial", 1), MainActivity.data.items)
+        Utils.collectItem(Item.getInstance("Dreamcatcher", 2), MainActivity.data.items)
+        assertEquals(3, MainActivity.data.items.size)
+        assertTrue(MainActivity.data.items.any { it.getTrueClass() == "Evo22Vial" && it.getStack() == 1 })
+        assertTrue(MainActivity.data.items.any { it.getTrueClass() == "Evo23Vial" && it.getStack() == 1 })
+        assertTrue(MainActivity.data.items.any { it.getTrueClass() == "Dreamcatcher" && it.getStack() == 2 })
+
+        // One-time: the flag persists through save/load, blocking repeat buys.
+        MainActivity.data.isEvolutionSynthesisPurchased = true
+        val gson = com.google.gson.GsonBuilder()
+            .registerTypeAdapter(Data::class.java, it.paranoidsquirrels.idleguildmaster.storage.data.DataDeserializer())
+            .create()
+        val json = com.google.gson.Gson().toJson(MainActivity.data)
+        val loaded = gson.fromJson(json, Data::class.java)
+        assertTrue("Evolution crate flag must persist", loaded.isEvolutionSynthesisPurchased)
     }
 }

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- ── Dimensional Vault (+100 Storage) ── -->
+        <TextView
+            android:id="@+id/dimensional_vault_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8.0dip"
+            android:text="@string/shop_title_storage_100"
+            android:textSize="17.0sp"
+            android:textStyle="bold" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_dimensional_vault"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4.0dip"
+            android:background="@drawable/object_border_brass"
+            android:padding="8.0dip">
+
+            <ImageView
+                android:id="@+id/icon_dimensional_vault"
+                android:layout_width="44.0dip"
+                android:layout_height="44.0dip"
+                android:background="@drawable/object_border_dim_white"
+                android:padding="4.0dip"
+                android:src="@drawable/upgrade_storage"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/label_dimensional_vault"
+                android:layout_width="0.0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8.0dip"
+                android:layout_marginEnd="8.0dip"
+                android:text="@string/shop_storage_desc"
+                android:textSize="13.0sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/dimensional_vault_buy"
+                app:layout_constraintStart_toEndOf="@id/icon_dimensional_vault"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/dimensional_vault_buy"
+                android:layout_width="140.0dip"
+                android:layout_height="36.0dip"
+                android:background="@drawable/object_border_buy"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="22.0dip"
+                    android:layout_height="22.0dip"
+                    android:layout_marginEnd="4.0dip"
+                    android:src="@drawable/gem" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1,500"
+                    android:textColor="@color/brass_filler"
+                    android:textSize="15.0sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/check_dimensional_vault"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/check_brass"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/dimensional_vault_buy"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/dimensional_vault_buy" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- ── Infinite Hoard (+150 Storage) ── -->
+        <TextView
+            android:id="@+id/infinite_hoard_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8.0dip"
+            android:text="@string/shop_title_storage_150"
+            android:textSize="17.0sp"
+            android:textStyle="bold" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_infinite_hoard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4.0dip"
+            android:background="@drawable/object_border_brass"
+            android:padding="8.0dip">
+
+            <ImageView
+                android:id="@+id/icon_infinite_hoard"
+                android:layout_width="44.0dip"
+                android:layout_height="44.0dip"
+                android:background="@drawable/object_border_dim_white"
+                android:padding="4.0dip"
+                android:src="@drawable/upgrade_storage"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/label_infinite_hoard"
+                android:layout_width="0.0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8.0dip"
+                android:layout_marginEnd="8.0dip"
+                android:text="@string/shop_storage_desc_150"
+                android:textSize="13.0sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/infinite_hoard_buy"
+                app:layout_constraintStart_toEndOf="@id/icon_infinite_hoard"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/infinite_hoard_buy"
+                android:layout_width="140.0dip"
+                android:layout_height="36.0dip"
+                android:background="@drawable/object_border_buy"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="22.0dip"
+                    android:layout_height="22.0dip"
+                    android:layout_marginEnd="4.0dip"
+                    android:src="@drawable/gem" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2,000"
+                    android:textColor="@color/brass_filler"
+                    android:textSize="15.0sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/check_infinite_hoard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/check_brass"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/infinite_hoard_buy"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/infinite_hoard_buy" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+</layout>

@@ -756,6 +756,9 @@ abstract class Area {
      *  - Without the pack, a LOOTCAP redeem (10..16000) still overrides the base cap.
      *  - Otherwise the vanilla cap (2,000) applies. */
     fun getLootCap(): Int {
+        if (MainActivity.data.isMaxLootPack2Purchased) {
+            return 4000
+        }
         if (MainActivity.data.isMaxLootPackPurchased) {
             return 3000
         }

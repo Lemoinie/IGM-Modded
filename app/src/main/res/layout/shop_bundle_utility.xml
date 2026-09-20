@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- ── Extended Vigil II (Chronos Ward) ── -->
+        <TextView
+            android:id="@+id/vigil2_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8.0dip"
+            android:text="@string/shop_title_idle_hours_ii"
+            android:textSize="17.0sp"
+            android:textStyle="bold" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_vigil2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4.0dip"
+            android:background="@drawable/object_border_brass"
+            android:padding="8.0dip">
+
+            <ImageView
+                android:id="@+id/icon_vigil2"
+                android:layout_width="44.0dip"
+                android:layout_height="44.0dip"
+                android:background="@drawable/object_border_dim_white"
+                android:padding="4.0dip"
+                android:src="@drawable/hourglass"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/label_vigil2"
+                android:layout_width="0.0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8.0dip"
+                android:layout_marginEnd="8.0dip"
+                android:text="@string/shop_idle_hours_desc"
+                android:textSize="13.0sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/vigil2_buy"
+                app:layout_constraintStart_toEndOf="@id/icon_vigil2"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/vigil2_buy"
+                android:layout_width="140.0dip"
+                android:layout_height="36.0dip"
+                android:background="@drawable/object_border_buy"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="22.0dip"
+                    android:layout_height="22.0dip"
+                    android:layout_marginEnd="4.0dip"
+                    android:src="@drawable/gem" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1,000"
+                    android:textColor="@color/brass_filler"
+                    android:textSize="15.0sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/check_vigil2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/check_brass"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/vigil2_buy"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/vigil2_buy" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- ── Extended Vigil III (Aegis of Time) ── -->
+        <TextView
+            android:id="@+id/vigil3_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8.0dip"
+            android:text="@string/shop_title_idle_hours_iii"
+            android:textSize="17.0sp"
+            android:textStyle="bold" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_vigil3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4.0dip"
+            android:background="@drawable/object_border_brass"
+            android:padding="8.0dip">
+
+            <ImageView
+                android:id="@+id/icon_vigil3"
+                android:layout_width="44.0dip"
+                android:layout_height="44.0dip"
+                android:background="@drawable/object_border_dim_white"
+                android:padding="4.0dip"
+                android:src="@drawable/hourglass"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/label_vigil3"
+                android:layout_width="0.0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8.0dip"
+                android:layout_marginEnd="8.0dip"
+                android:text="@string/shop_idle_hours_desc"
+                android:textSize="13.0sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/vigil3_buy"
+                app:layout_constraintStart_toEndOf="@id/icon_vigil3"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/vigil3_buy"
+                android:layout_width="140.0dip"
+                android:layout_height="36.0dip"
+                android:background="@drawable/object_border_buy"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="22.0dip"
+                    android:layout_height="22.0dip"
+                    android:layout_marginEnd="4.0dip"
+                    android:src="@drawable/gem" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1,500"
+                    android:textColor="@color/brass_filler"
+                    android:textSize="15.0sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/check_vigil3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/check_brass"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/vigil3_buy"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/vigil3_buy" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- ── Extended Vigil IV (Temporal Anchor) ── -->
+        <TextView
+            android:id="@+id/vigil4_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8.0dip"
+            android:text="@string/shop_title_idle_hours_iv"
+            android:textSize="17.0sp"
+            android:textStyle="bold" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_vigil4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4.0dip"
+            android:background="@drawable/object_border_brass"
+            android:padding="8.0dip">
+
+            <ImageView
+                android:id="@+id/icon_vigil4"
+                android:layout_width="44.0dip"
+                android:layout_height="44.0dip"
+                android:background="@drawable/object_border_dim_white"
+                android:padding="4.0dip"
+                android:src="@drawable/hourglass"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/label_vigil4"
+                android:layout_width="0.0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8.0dip"
+                android:layout_marginEnd="8.0dip"
+                android:text="@string/shop_idle_hours_desc"
+                android:textSize="13.0sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/vigil4_buy"
+                app:layout_constraintStart_toEndOf="@id/icon_vigil4"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/vigil4_buy"
+                android:layout_width="140.0dip"
+                android:layout_height="36.0dip"
+                android:background="@drawable/object_border_buy"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="22.0dip"
+                    android:layout_height="22.0dip"
+                    android:layout_marginEnd="4.0dip"
+                    android:src="@drawable/gem" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2,000"
+                    android:textColor="@color/brass_filler"
+                    android:textSize="15.0sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/check_vigil4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/check_brass"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/vigil4_buy"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/vigil4_buy" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- ── Eternal Vigil (Timeless Continuum) ── -->
+        <TextView
+            android:id="@+id/eternal_vigil_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8.0dip"
+            android:text="@string/shop_title_eternal_vigil"
+            android:textSize="17.0sp"
+            android:textStyle="bold" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_eternal_vigil"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4.0dip"
+            android:background="@drawable/object_border_brass"
+            android:padding="8.0dip">
+
+            <ImageView
+                android:id="@+id/icon_eternal_vigil"
+                android:layout_width="44.0dip"
+                android:layout_height="44.0dip"
+                android:background="@drawable/object_border_dim_white"
+                android:padding="4.0dip"
+                android:src="@drawable/hourglass"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/label_eternal_vigil"
+                android:layout_width="0.0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8.0dip"
+                android:layout_marginEnd="8.0dip"
+                android:text="@string/shop_eternal_vigil_desc"
+                android:textSize="13.0sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/eternal_vigil_buy"
+                app:layout_constraintStart_toEndOf="@id/icon_eternal_vigil"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/eternal_vigil_buy"
+                android:layout_width="140.0dip"
+                android:layout_height="36.0dip"
+                android:background="@drawable/object_border_buy"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="22.0dip"
+                    android:layout_height="22.0dip"
+                    android:layout_marginEnd="4.0dip"
+                    android:src="@drawable/gem" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="3,000"
+                    android:textColor="@color/brass_filler"
+                    android:textSize="15.0sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/check_eternal_vigil"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/check_brass"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/eternal_vigil_buy"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/eternal_vigil_buy" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- ── Deep Pockets II (Bottomless Chest) ── -->
+        <TextView
+            android:id="@+id/deep_pockets_2_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8.0dip"
+            android:text="@string/shop_title_deep_pockets_ii"
+            android:textSize="17.0sp"
+            android:textStyle="bold" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_deep_pockets_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4.0dip"
+            android:background="@drawable/object_border_brass"
+            android:padding="8.0dip">
+
+            <ImageView
+                android:id="@+id/icon_deep_pockets_2"
+                android:layout_width="44.0dip"
+                android:layout_height="44.0dip"
+                android:background="@drawable/object_border_dim_white"
+                android:padding="4.0dip"
+                android:src="@drawable/loot_chest"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/label_deep_pockets_2"
+                android:layout_width="0.0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8.0dip"
+                android:layout_marginEnd="8.0dip"
+                android:text="@string/shop_deep_pockets_desc"
+                android:textSize="13.0sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/deep_pockets_2_buy"
+                app:layout_constraintStart_toEndOf="@id/icon_deep_pockets_2"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/deep_pockets_2_buy"
+                android:layout_width="140.0dip"
+                android:layout_height="36.0dip"
+                android:background="@drawable/object_border_buy"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="22.0dip"
+                    android:layout_height="22.0dip"
+                    android:layout_marginEnd="4.0dip"
+                    android:src="@drawable/gem" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1,000"
+                    android:textColor="@color/brass_filler"
+                    android:textSize="15.0sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/check_deep_pockets_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/check_brass"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/deep_pockets_2_buy"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/deep_pockets_2_buy" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- ── Evolutionary Synthesis Crate ── -->
+        <TextView
+            android:id="@+id/evolution_crate_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8.0dip"
+            android:text="@string/shop_title_evolution_crate"
+            android:textSize="17.0sp"
+            android:textStyle="bold" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_evolution_crate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4.0dip"
+            android:background="@drawable/object_border_brass"
+            android:padding="8.0dip">
+
+            <LinearLayout
+                android:id="@+id/rows_evolution_crate"
+                android:layout_width="0.0dip"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/evolution_crate_buy"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="6.0dip" android:gravity="center_vertical" android:orientation="horizontal">
+                    <ImageView android:id="@+id/evolution_crate_r1_icon" android:layout_width="40.0dip" android:layout_height="40.0dip" android:background="@drawable/object_border_dim_white" android:padding="3.0dip" android:src="@drawable/evo22_vial" />
+                    <TextView android:id="@+id/evolution_crate_r1_text" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginStart="8.0dip" android:layout_weight="1" android:text="@string/consumable_evo22_vial_name" android:textSize="12.0sp" android:textStyle="bold" />
+                </LinearLayout>
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="6.0dip" android:gravity="center_vertical" android:orientation="horizontal">
+                    <ImageView android:id="@+id/evolution_crate_r2_icon" android:layout_width="40.0dip" android:layout_height="40.0dip" android:background="@drawable/object_border_dim_white" android:padding="3.0dip" android:src="@drawable/evo23_vial" />
+                    <TextView android:id="@+id/evolution_crate_r2_text" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginStart="8.0dip" android:layout_weight="1" android:text="@string/consumable_evo23_vial_name" android:textSize="12.0sp" android:textStyle="bold" />
+                </LinearLayout>
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical" android:orientation="horizontal">
+                    <ImageView android:id="@+id/evolution_crate_r3_icon" android:layout_width="40.0dip" android:layout_height="40.0dip" android:background="@drawable/object_border_dim_white" android:padding="3.0dip" android:src="@drawable/dreamcatcher" />
+                    <TextView android:id="@+id/evolution_crate_r3_text" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginStart="8.0dip" android:layout_weight="1" android:text="@string/accessory_dreamcatcher_name" android:textSize="12.0sp" android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/evolution_crate_buy"
+                android:layout_width="140.0dip"
+                android:layout_height="36.0dip"
+                android:background="@drawable/object_border_buy"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="22.0dip"
+                    android:layout_height="22.0dip"
+                    android:layout_marginEnd="4.0dip"
+                    android:src="@drawable/gem" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1,000"
+                    android:textColor="@color/brass_filler"
+                    android:textSize="15.0sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/check_evolution_crate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/check_brass"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/evolution_crate_buy"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/evolution_crate_buy" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+</layout>
