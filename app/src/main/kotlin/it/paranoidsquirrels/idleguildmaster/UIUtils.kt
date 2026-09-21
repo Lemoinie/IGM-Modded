@@ -635,6 +635,21 @@ object UIUtils {
                 b.plusSign2.visibility = View.GONE
                 b.ingredient3.root.visibility = View.GONE
             }
+            if (ingredients.size > 3 && ingredients[3] != null) {
+                val ing3 = ingredients[3]!!
+                b.plusSign3.visibility = View.VISIBLE
+                b.ingredient4.root.visibility = View.VISIBLE
+                b.ingredient4.image.setImageDrawable(ResourcesCompat.getDrawable(context.resources, ing3.getIdImage(), context.theme))
+                b.ingredient4.image.setBackgroundResource(backgroundFromRarity(ing3.getRarity()))
+                b.ingredient4.stack.text = ing3.getStack().toString()
+                b.ingredient4.stack.setTextColor(context.resources.getColor(if (Utils.gotEnoughItem(ing3)) R.color.dim_white else getFailureColor(), context.theme))
+                b.ingredient4.root.setOnClickListener {
+                    openItemDetail(ing3)
+                }
+            } else {
+                b.plusSign3.visibility = View.GONE
+                b.ingredient4.root.visibility = View.GONE
+            }
             return holder.view
         }
 

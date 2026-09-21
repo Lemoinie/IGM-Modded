@@ -491,6 +491,7 @@
     <item type="id" name="ingredient_1" />
     <item type="id" name="ingredient_2" />
     <item type="id" name="ingredient_3" />
+    <item type="id" name="ingredient_4" />
     <item type="id" name="is_new" />
     <item type="id" name="item" />
     <item type="id" name="item_grid" />
@@ -664,6 +665,7 @@
     <item type="id" name="plus_sign" />
     <item type="id" name="plus_sign_1" />
     <item type="id" name="plus_sign_2" />
+    <item type="id" name="plus_sign_3" />
     <item type="id" name="potion_amount" />
     <item type="id" name="potion_selected" />
     <item type="id" name="potions_container" />
