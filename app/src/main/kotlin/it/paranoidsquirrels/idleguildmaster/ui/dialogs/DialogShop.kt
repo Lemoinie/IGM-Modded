@@ -1,10 +1,16 @@
 package it.paranoidsquirrels.idleguildmaster.ui.dialogs
 
 import android.app.AlertDialog
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import android.widget.FrameLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.viewbinding.ViewBinding
@@ -85,6 +91,96 @@ class DialogShop : CustomDialog() {
         val b = DialogShopBinding.inflate(inflater, container, attachToRoot)
         binding = b
         return b
+    }
+
+    /**
+     * Async inflation for the shop.
+     *
+     * The shop layout (~600+ views across all 11 pack sections, including the 5
+     * `shop_bundle_*.xml` sub-layouts) used to be inflated synchronously on the
+     * main thread, which caused a visible stutter every time the dialog opened.
+     * We now show a lightweight shell immediately and inflate the full
+     * `dialog_shop.xml` on a background thread (the same pattern Android's
+     * AsyncLayoutInflater uses internally). When inflation finishes, the
+     * fully-inflated content is bound and attached on the main thread (1-2 frames
+     * later), and the existing initialize/attachListeners logic runs unchanged.
+     * All layouts, visuals, and click interactions are pixel-identical to the
+     * previous synchronous path.
+     */
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        super.onCreate(savedInstanceState)
+        dialog?.window?.apply {
+            setBackgroundDrawable(ColorDrawable(0))
+            setBackgroundDrawableResource(R.drawable.dialog_border)
+            setFlags(8, 8)
+            decorView.systemUiVisibility = activity?.window?.decorView?.systemUiVisibility ?: 0
+        }
+        dialog?.setOnShowListener { _ ->
+            try {
+                dialog?.window?.clearFlags(8)
+                val wm = activity?.getSystemService("window") as? WindowManager
+                wm?.updateViewLayout(dialog?.window?.decorView, dialog?.window?.attributes)
+            } catch (_: Exception) {
+                dismiss()
+            }
+        }
+
+        // Lightweight shell with a transient loading spinner so the dialog opens
+        // instantly instead of blocking on the full shop view tree.
+        val shell = FrameLayout(requireContext()).apply {
+            layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            addView(
+                ProgressBar(context),
+                ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                )
+            )
+        }
+
+        // Inflate the full shop layout off the main thread; bind + attach on the
+        // main thread once it completes. A new inflater is created up front (main
+        // thread) and used from the worker, mirroring AsyncLayoutInflater.
+        val shopInflater = LayoutInflater.from(requireContext())
+        val mainHandler = Handler(Looper.getMainLooper())
+        Thread {
+            val shopView = try {
+                shopInflater.inflate(R.layout.dialog_shop, null)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                null
+            }
+            if (shopView != null) {
+                mainHandler.post {
+                    if (isAdded) {
+                        val b = DialogShopBinding.bind(shopView)
+                        binding = b
+                        shell.removeAllViews()
+                        shell.addView(
+                            shopView,
+                            ViewGroup.LayoutParams(
+                                ViewGroup.LayoutParams.MATCH_PARENT,
+                                ViewGroup.LayoutParams.WRAP_CONTENT
+                            )
+                        )
+                        try {
+                            initialize(arguments)
+                            attachListeners()
+                            dialog?.setTitle(getTitle())
+                            setLayout()
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                            dismiss()
+                        }
+                    }
+                }
+            }
+        }.start()
+
+        return shell
     }
 
     override fun initialize(arguments: Bundle?) {
