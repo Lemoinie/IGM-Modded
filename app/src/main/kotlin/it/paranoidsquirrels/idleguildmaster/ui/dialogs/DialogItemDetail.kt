@@ -204,6 +204,21 @@ class DialogItemDetail : CustomDialog() {
             craftBinding.plusSign2.visibility = View.GONE
             craftBinding.ingredient3.root.visibility = View.GONE
         }
+
+        val ing3 = ingredients.getOrNull(3)
+        if (ing3 != null) {
+            craftBinding.plusSign3.visibility = View.VISIBLE
+            craftBinding.ingredient4.root.visibility = View.VISIBLE
+            craftBinding.ingredient4.image.setImageDrawable(
+                ResourcesCompat.getDrawable(resources, ing3.getIdImage(), context?.theme)
+            )
+            craftBinding.ingredient4.image.setBackgroundResource(UIUtils.backgroundFromRarity(ing3.getRarity()))
+            craftBinding.ingredient4.stack.text = ing3.getStack().toString()
+            craftBinding.ingredient4.root.setOnClickListener { openItemDetail(ing3) }
+        } else {
+            craftBinding.plusSign3.visibility = View.GONE
+            craftBinding.ingredient4.root.visibility = View.GONE
+        }
     }
 
     fun openItemDetail(item: Item) {

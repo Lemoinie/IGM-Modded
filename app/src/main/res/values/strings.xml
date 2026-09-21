@@ -30,6 +30,9 @@
     <string name="abc_toolbar_collapse_description">Collapse</string>
     <string name="accessory_abyssal_compendium_description">A book listing forgotten techniques of spellweaving, learned from eldritch entities at a great price.</string>
     <string name="accessory_abyssal_compendium_name">Abyssal Compendium</string>
+    <string name="accessory_abyssal_scarlet_mantle_description">An awe-inspiring mantle saturated with Ancestral Blood from the deepest abyss. Its suffocating crimson aura elevates all mortal faculties to mythical heights, delivering cataclysmic critical strikes.</string>
+    <string name="accessory_abyssal_scarlet_mantle_effect">+35% crit chance, +40% crit dmg</string>
+    <string name="accessory_abyssal_scarlet_mantle_name">Abyssal Scarlet Mantle</string>
     <string name="accessory_amulet_of_resurrection_description">Made from the feathers of a legendary bird, in case of death this amulet will resurrect its owner with full HP and no negative effect, possibly forever.</string>
     <string name="accessory_amulet_of_resurrection_effect">40% Resurrect</string>
     <string name="accessory_amulet_of_resurrection_name">Amulet of Resurrection</string>
@@ -116,6 +119,9 @@ BLEED: the target receives 1 damage at the start of its turn for every charge, t
     <string name="accessory_eldritch_mitre_description">This unholy relic amplifies one’s understanding of the universe to extraordinary levels, channeling ancient and forbidden powers.</string>
     <string name="accessory_eldritch_mitre_effect">-99% healing</string>
     <string name="accessory_eldritch_mitre_name">Eldritch Mitre</string>
+    <string name="accessory_eldritch_scarlet_cape_description">The Scarlet Cape steeped in esoteric rites and sealed by outer horrors. Deep crimson threads twist with cosmic energy, multiplying critical destruction.</string>
+    <string name="accessory_eldritch_scarlet_cape_effect">+21% crit chance and dmg</string>
+    <string name="accessory_eldritch_scarlet_cape_name">Eldritch Scarlet Cape</string>
     <string name="accessory_emerald_ring_description">A silver ring with an inset emerald, a precious stone carrying some magical properties of protective nature.</string>
     <string name="accessory_emerald_ring_effect">Initiative</string>
     <string name="accessory_emerald_ring_name">Emerald Ring</string>
@@ -225,6 +231,9 @@ BLEED: the target receives 1 damage at the start of its turn for every charge, t
     <string name="accessory_ruby_ring_description">A silver ring with an inset ruby, a precious stone carrying some magical properties of protective nature.</string>
     <string name="accessory_ruby_ring_effect">Initiative</string>
     <string name="accessory_ruby_ring_name">Ruby Ring</string>
+    <string name="accessory_scarlet_cape_description">A regal cape woven from tenfold Scarlet strands. Flowing with occult grace, it bolsters the wearer\'s physical and arcane agility while sharpening lethal precision.</string>
+    <string name="accessory_scarlet_cape_effect">+15% crit chance</string>
+    <string name="accessory_scarlet_cape_name">Scarlet Cape</string>
     <string name="accessory_seeking_glass_description">A jewel once worn by the Slime King, ensures perfect accuracy under all conditions.</string>
     <string name="accessory_seeking_glass_effect">Attacks always hit</string>
     <string name="accessory_seeking_glass_name">Seeking Glass</string>
@@ -983,6 +992,9 @@ FREEZE: This unit can't dodge and takes 10 physical damage each turn."</string>
     <string name="armor_heavy_scarlet_oni_description">A demonic visage forged from condensed Scarlet strands. Discarding conventional heavy plating, it surges with raw bloodlust that drives its wearer to strike down foes with brutal, crushing criticals.</string>
     <string name="armor_heavy_scarlet_oni_effect">+18% crit chance, +5% crit dmg</string>
     <string name="armor_heavy_scarlet_oni_name">Scarlet Oni</string>
+    <string name="armor_heavy_scarlet_oni_juggernaut_description">The apex manifestation of demonic Scarlet armor. Imbued with titanic resilience and boundless fury, it pulverizes enemy lines with devastating critical brutality.</string>
+    <string name="armor_heavy_scarlet_oni_juggernaut_effect">+30% crit chance, +35% crit dmg</string>
+    <string name="armor_heavy_scarlet_oni_juggernaut_name">Scarlet Oni Juggernaut</string>
     <string name="armor_heavy_shielding_cuirass_description">Heavy armor enhanced with an endless source of magic power, to shield the user from external influences.</string>
     <string name="armor_heavy_shielding_cuirass_effect">30% status immunity</string>
     <string name="armor_heavy_shielding_cuirass_name">Shielding Cuirass</string>

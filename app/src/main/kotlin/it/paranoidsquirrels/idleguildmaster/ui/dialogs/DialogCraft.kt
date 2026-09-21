@@ -111,6 +111,22 @@ class DialogCraft : CustomDialog() {
             layoutCraftBigBinding.plusSign2.visibility = 8
             layoutCraftBigBinding.ingredient3.root.visibility = 8
         }
+        if (recipes.getIngredients().size > 3) {
+            val ing3 = recipes.getIngredients()[3]!!
+            layoutCraftBigBinding.plusSign3.visibility = 0
+            layoutCraftBigBinding.ingredient4.root.visibility = 0
+            layoutCraftBigBinding.ingredient4.image.setImageDrawable(ResourcesCompat.getDrawable(resources, ing3.getIdImage(), theme))
+            layoutCraftBigBinding.ingredient4.image.setBackgroundResource(UIUtils.backgroundFromRarity(ing3.getRarity()))
+            layoutCraftBigBinding.ingredient4.stack.setTextColor(
+                resources.getColor(
+                    if (Utils.gotEnoughItem(ing3)) R.color.dim_white else UIUtils.getFailureColor(),
+                    theme
+                )
+            )
+        } else {
+            layoutCraftBigBinding.plusSign3.visibility = 8
+            layoutCraftBigBinding.ingredient4.root.visibility = 8
+        }
     }
 
     private fun changeAmount() {
@@ -130,6 +146,10 @@ class DialogCraft : CustomDialog() {
         if (r.getIngredients().size > 2) {
             val ing2 = r.getIngredients()[2]!!
             b.buildsFrom.ingredient3.stack.text = (ing2.getStack() * itm.getStack()).toString()
+        }
+        if (r.getIngredients().size > 3) {
+            val ing3 = r.getIngredients()[3]!!
+            b.buildsFrom.ingredient4.stack.text = (ing3.getStack() * itm.getStack()).toString()
         }
     }
 

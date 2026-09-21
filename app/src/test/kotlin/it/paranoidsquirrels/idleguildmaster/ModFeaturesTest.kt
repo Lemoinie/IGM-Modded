@@ -146,6 +146,105 @@ class ModFeaturesTest {
     }
 
     @Test
+    fun testScarletExpansionGear() {
+        // Scarlet Oni Juggernaut: Heavy Armor (4-ingredient apex upgrade)
+        val jugg = Item.getInstance("ScarletOniJuggernaut", 1) as? ScarletOniJuggernaut
+        assertNotNull("ScarletOniJuggernaut must instantiate via reflection", jugg)
+        assertEquals("Juggernaut must grant +720 max HP", 720, jugg?.getMaxHp())
+        assertEquals("Juggernaut must grant +126 CON", 126, jugg?.getConstitution())
+        assertEquals("Juggernaut must grant +30% crit chance", 0.30, jugg?.getCriticalChance()!!, 0.0001)
+        assertEquals("Juggernaut must grant +35% crit damage", 0.35, jugg?.getCriticalDamage()!!, 0.0001)
+
+        // Cape line: universal tri-stat accessories
+        val cape = Item.getInstance("ScarletCape", 1) as? ScarletCape
+        assertNotNull("ScarletCape must instantiate via reflection", cape)
+        assertEquals("Scarlet Cape must grant +30 CON", 30, cape?.getConstitution())
+        assertEquals("Scarlet Cape must grant +30 DEX", 30, cape?.getDexterity())
+        assertEquals("Scarlet Cape must grant +30 INT", 30, cape?.getIntelligence())
+        assertEquals("Scarlet Cape must grant +15% crit chance", 0.15, cape?.getCriticalChance()!!, 0.0001)
+
+        val eldritch = Item.getInstance("EldritchScarletCape", 1) as? EldritchScarletCape
+        assertNotNull("EldritchScarletCape must instantiate via reflection", eldritch)
+        assertEquals("Eldritch Cape must grant +40 CON", 40, eldritch?.getConstitution())
+        assertEquals("Eldritch Cape must grant +40 DEX", 40, eldritch?.getDexterity())
+        assertEquals("Eldritch Cape must grant +40 INT", 40, eldritch?.getIntelligence())
+        assertEquals("Eldritch Cape must grant +21% crit chance", 0.21, eldritch?.getCriticalChance()!!, 0.0001)
+        assertEquals("Eldritch Cape must grant +21% crit damage", 0.21, eldritch?.getCriticalDamage()!!, 0.0001)
+
+        val mantle = Item.getInstance("AbyssalScarletMantle", 1) as? AbyssalScarletMantle
+        assertNotNull("AbyssalScarletMantle must instantiate via reflection", mantle)
+        assertEquals("Mantle must grant +50 CON", 50, mantle?.getConstitution())
+        assertEquals("Mantle must grant +50 DEX", 50, mantle?.getDexterity())
+        assertEquals("Mantle must grant +50 INT", 50, mantle?.getIntelligence())
+        assertEquals("Mantle must grant +35% crit chance", 0.35, mantle?.getCriticalChance()!!, 0.0001)
+        assertEquals("Mantle must grant +40% crit damage", 0.40, mantle?.getCriticalDamage()!!, 0.0001)
+
+        // Recipe registration (4-ingredient first, then the cape upgrade chain)
+        val juggRecipe = Recipes.into(jugg)
+        assertNotNull("ScarletOniJuggernaut must have a craft recipe", juggRecipe)
+        assertEquals(Recipes.ScarletOniJuggernaut, juggRecipe)
+        assertEquals(
+            listOf("ScarletOni", "MysteriousCog", "HeartOfDarkness", "EldritchSeal"),
+            juggRecipe?.getIngredients()?.map { it?.getTrueClass() }
+        )
+        assertEquals(listOf(1, 5, 10, 1), juggRecipe?.getIngredients()?.map { it?.getStack() })
+
+        val capeRecipe = Recipes.into(cape)
+        assertNotNull("ScarletCape must have a craft recipe", capeRecipe)
+        assertEquals(listOf("ScarletStrand"), capeRecipe?.getIngredients()?.map { it?.getTrueClass() })
+        assertEquals(listOf(10), capeRecipe?.getIngredients()?.map { it?.getStack() })
+
+        val eldritchRecipe = Recipes.into(eldritch)
+        assertNotNull("EldritchScarletCape must have a craft recipe", eldritchRecipe)
+        assertEquals(listOf("ScarletCape", "EldritchSeal"), eldritchRecipe?.getIngredients()?.map { it?.getTrueClass() })
+        assertEquals(listOf(1, 5), eldritchRecipe?.getIngredients()?.map { it?.getStack() })
+
+        val mantleRecipe = Recipes.into(mantle)
+        assertNotNull("AbyssalScarletMantle must have a craft recipe", mantleRecipe)
+        assertEquals(listOf("EldritchScarletCape", "AncestralBlood"), mantleRecipe?.getIngredients()?.map { it?.getTrueClass() })
+        assertEquals(listOf(1, 10), mantleRecipe?.getIngredients()?.map { it?.getStack() })
+
+        // 1:1 ingredient valuation (Scarlet Veil rule), raw plan sums truncated to the market sell price.
+        assertEquals("Juggernaut price must equal 100,000 + 5x2,000 + 10x1,500 + 1x893 (truncated)", Utils.truncatePrice(125893L), jugg?.getPrice())
+        assertEquals("Scarlet Cape price must equal 10x20,000 (truncated)", Utils.truncatePrice(200000L), cape?.getPrice())
+        assertEquals("Eldritch Cape price must equal 200,000 + 5x893 (truncated)", Utils.truncatePrice(204465L), eldritch?.getPrice())
+        assertEquals("Mantle price must equal 204,465 + 10x1,000 (truncated)", Utils.truncatePrice(214465L), mantle?.getPrice())
+    }
+
+    @Test
+    fun testScarletOniJuggernautAdventurerStats() {
+        val bare = Adventurer.getInstance("Footman", 1, 5, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+        val jugg = Item.getInstance("ScarletOniJuggernaut", 1) as? ScarletOniJuggernaut
+        val hero = Adventurer.getInstance("Footman", 1, 5, 0, null, jugg, null, null, null, PotionsDrank(), null, false)!!
+        assertEquals("+720 max HP from Juggernaut", 720, hero.calculateTotalMaxHp() - bare.calculateTotalMaxHp())
+        assertEquals("+126 CON from Juggernaut", 126, hero.calculateTotalConstitution() - bare.calculateTotalConstitution())
+        assertEquals("+30% crit chance from Juggernaut", 0.30, hero.calculateCriticalChance() - bare.calculateCriticalChance(), 0.0001)
+        assertEquals("+35% crit damage from Juggernaut", 0.35, hero.calculateCriticalDamage() - bare.calculateCriticalDamage(), 0.0001)
+    }
+
+    @Test
+    fun testScarletCapeAccessoryStats() {
+        val bare = Adventurer.getInstance("Footman", 1, 5, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+        val cape = Item.getInstance("ScarletCape", 1) as? ScarletCape
+        val hero = Adventurer.getInstance("Footman", 1, 5, 0, null, null, cape, null, null, PotionsDrank(), null, false)!!
+        assertEquals("+30 CON from Scarlet Cape", 30, hero.calculateTotalConstitution() - bare.calculateTotalConstitution())
+        assertEquals("+30 DEX from Scarlet Cape", 30, hero.calculateTotalDexterity() - bare.calculateTotalDexterity())
+        assertEquals("+30 INT from Scarlet Cape", 30, hero.calculateTotalIntelligence() - bare.calculateTotalIntelligence())
+    }
+
+    @Test
+    fun testScarletOniJuggernautCraftableAmount() {
+        val d = MainActivity.data
+        d.items.clear()
+        d.items.add(Item.getInstance("ScarletOni", 2)!!)
+        d.items.add(Item.getInstance("MysteriousCog", 11)!!)
+        d.items.add(Item.getInstance("HeartOfDarkness", 25)!!)
+        d.items.add(Item.getInstance("EldritchSeal", 3)!!)
+        val recipe = Recipes.into(Item.getInstance("ScarletOniJuggernaut", 1))!!
+        assertEquals("4-ingredient craftable amount must scale with the bottleneck ingredient", 2, Utils.maxCraftableAmount(recipe))
+    }
+
+    @Test
     fun testCelestialBowAttackThrice() {
         val bow = Item.getInstance("CelestialBow", 1) as? CelestialBow
         assertNotNull(bow)
@@ -244,7 +343,7 @@ class ModFeaturesTest {
     fun testModAboutChangelogEntries() {
         val entries = ModChangelog.parseVersionEntries()
         assertTrue(entries.isNotEmpty())
-        assertTrue("Top entry must be 1.3.8.14", entries[0].title.startsWith("1.3.8.14"))
+        assertTrue("Top entry must be 1.3.8.15", entries[0].title.startsWith("1.3.8.15"))
         assertTrue("Bottom entry must be 1.0.0.0", entries.last().title.startsWith("1.0.0.0"))
     }
 

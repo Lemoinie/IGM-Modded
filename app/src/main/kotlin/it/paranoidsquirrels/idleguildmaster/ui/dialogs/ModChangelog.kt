@@ -373,7 +373,12 @@ object ModChangelog {
         "1.3.8.14 (21/9/2026):\n" +
         "- New craftable legendary armor completes the Scarlet trilogy: Scarlet Oni (Heavy, +470 HP, +56 CON, +18% crit chance, +5% crit dmg, 100,000L) and Scarlet Sigil (Light, +200 HP, +62 INT, +20% crit chance, +2 mana regen, 60,893L).\n" +
         "- Equipment can now grant Mana Regen: weapon, armor and accessory mana regen is added to an adventurer's mana gain every turn.\n" +
-        "- Both new recipes retroactively unlock in the Workshop for saves that have already seen Scarlet Strand or Eldritch Seal."
+        "- Both new recipes retroactively unlock in the Workshop for saves that have already seen Scarlet Strand or Eldritch Seal." +
+        "\n\n" +
+        "1.3.8.15 (21/9/2026):\n" +
+        "- New Scarlet Expansion Gear: craftable Scarlet Oni Juggernaut (Heavy, +720 HP, +126 CON, +30% crit chance, +35% crit dmg) and the Cape line — Scarlet Cape (Accessory, +30 CON/DEX/INT, +15% crit chance), Eldritch Scarlet Cape (+40 CON/DEX/INT, +21% crit chance and dmg) and Abyssal Scarlet Mantle (+50 CON/DEX/INT, +35% crit chance, +40% crit dmg).\n" +
+        "- The crafting UI now supports recipes with up to 4 ingredients (Scarlet Oni Juggernaut: 1x Scarlet Oni + 5x Mysterious Cog + 10x Heart of Darkness + 1x Eldritch Seal); 3-ingredient recipes are unchanged.\n" +
+        "- All four new recipes retroactively unlock in the Workshop for saves that have already seen their required materials."
 
     private val MOD_VERSION_LIST: List<VersionEntry> by lazy { parseVersionEntries() }
 

@@ -328,6 +328,10 @@ Cloth(Item.getInstance("PlantFiber", 4)),
     VoltaicShock(Item.getInstance("ShortCircuit", 1), Item.getInstance("AbioticCore", 1)),
     ScarletOni(Item.getInstance("ScarletStrand", 5)),
     ScarletSigil(Item.getInstance("ScarletStrand", 3), Item.getInstance("EldritchSeal", 1)),
+    ScarletOniJuggernaut(Item.getInstance("ScarletOni", 1), Item.getInstance("MysteriousCog", 5), Item.getInstance("HeartOfDarkness", 10), Item.getInstance("EldritchSeal", 1)),
+    ScarletCape(Item.getInstance("ScarletStrand", 10)),
+    EldritchScarletCape(Item.getInstance("ScarletCape", 1), Item.getInstance("EldritchSeal", 5)),
+    AbyssalScarletMantle(Item.getInstance("EldritchScarletCape", 1), Item.getInstance("AncestralBlood", 10)),
     ScarletVeil(Item.getInstance("ScarletStrand", 4));
 
     private val ingredients: Array<out Item?> = itemArr
