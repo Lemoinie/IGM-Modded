@@ -79,6 +79,12 @@ source tree (no injected patches). They are concentrated in a few places:
   `CLEAN_SAVE_ON_START`, ...). Game logic branches on these.
 - `game/redeem/RedeemCodes.kt` — the redeem-code console (REROLL/SHOP/QUEST/GOLD/
   STORAGE/IDLETIME/LOOTCAP/KILLS/SETKILLS/ITEM/HERO/PET), served by `DialogRedeemCode`.
+- **Redeem-code lockdown (v1.3.8.17)** — the vanilla upgrade codes
+  (`f3hqt045`, `g394te91`, `rotdrv9d`, `f1r29u15`, `brttr5g5`, `UNLOCKME`) are
+  removed from `DialogRedeemCode` and now fall through to the unknown-code blink
+  (treated as invalid). Only the gem codes (`g75nfkf4`, `fj9rf8hh`, `e44ttr7z`,
+  `vrd75ywc`, `vrt4983y`), `DEBUG000` (save-share), and the mod `Z3gAAzrt`
+  (lvl-100 Semi pet) remain active (see `plans/working/guild/redeem-code-lockdown.md`).
 - **Angel of War branch — AoE Row Defense (Shared Burden)** — when an enemy performs an
   AoE attack (`Area.isAoeAttack` detects active multi-target skills: `all`/`all_enemies`/
   `all_except_self`/integer barrage counts) against an adventurer, all alive Holy-Knight

@@ -562,6 +562,25 @@ Add the pack to the `setPurchasedState` calls:
 setPurchasedState(b.myPackBuy, b.checkMyPack, MainActivity.data.isMyPackPurchased)
 ```
 
+### Async inflation note (v1.3.8.16)
+`DialogShop.onCreateView` does **not** inflate synchronously anymore. It returns a
+lightweight shell (with a transient `ProgressBar`) immediately and inflates the
+full `dialog_shop.xml` on a **background thread** (a plain `Thread`, the same
+pattern Android's `AsyncLayoutInflater` uses internally — the class itself is not
+available in this game's Android runtime). When inflation finishes, a
+`Handler(Looper.getMainLooper())` post runs the binding (`DialogShopBinding.bind`),
+attaches the content, and then runs the three steps above unchanged.
+
+Consequences for contributors:
+- `initialize()`, `attachListeners()`, and `refresh()` still run exactly as
+  before — they are just invoked from the main-thread callback of the background
+  inflation instead of directly from `onCreateView`. Do **not** access `binding`
+  (it is `null`) until after that callback has run.
+- Do **not** re-introduce a synchronous `DialogShopBinding.inflate(...)` call in
+  the open path — that reintroduces the open-stutter this fix removes.
+- All layout XML files (`dialog_shop.xml`, `shop_bundle_*.xml`) are untouched and
+  must remain untouched (see plan `plans/working/guild/shop-performance-fix.md`).
+
 ---
 
 ## 7. DOs and DON'Ts Checklist
