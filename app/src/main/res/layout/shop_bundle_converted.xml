@@ -7,7 +7,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- ── Divine Champion Pack ── -->
+        <!-- Ã¢â€â‚¬Ã¢â€â‚¬ Divine Champion Pack Ã¢â€â‚¬Ã¢â€â‚¬ -->
         <TextView
             android:id="@+id/divine_champion_title"
             android:layout_width="wrap_content"
@@ -30,87 +30,26 @@
                 android:layout_width="0.0dip"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/divine_champion_buy"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <LinearLayout
+                <include
+                    android:id="@+id/divine_champion_adventurer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="6.0dip"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/divine_champion_r1_icon"
-                        android:layout_width="40.0dip"
-                        android:layout_height="40.0dip"
-                        android:background="@drawable/object_border_dim_white"
-                        android:padding="3.0dip"
-                        android:src="@drawable/unit_divine_champion" />
-
-                    <TextView
-                        android:id="@+id/divine_champion_r1_text"
-                        android:layout_width="0.0dip"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8.0dip"
-                        android:layout_weight="1"
-                        android:text="@string/adventurer_divine_champion_name"
-                        android:textSize="12.0sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
+                    layout="@layout/layout_adventurer" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="6.0dip"
-                    android:gravity="center_vertical"
                     android:orientation="horizontal">
 
-                    <ImageView
-                        android:id="@+id/divine_champion_r2_icon"
-                        android:layout_width="40.0dip"
-                        android:layout_height="40.0dip"
-                        android:background="@drawable/object_border_dim_white"
-                        android:padding="3.0dip"
-                        android:src="@drawable/champion_armor" />
+                    <LinearLayout android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center_vertical" android:orientation="horizontal"><ImageView android:id="@+id/divine_champion_r2_icon" android:layout_width="40.0dip" android:layout_height="40.0dip" android:background="@drawable/object_border_dim_white" android:padding="3.0dip" android:src="@drawable/champion_armor" /><TextView android:id="@+id/divine_champion_r2_text" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginStart="6.0dip" android:layout_weight="1" android:text="@string/armor_heavy_champion_armor_name" android:textSize="12.0sp" android:textStyle="bold" /></LinearLayout>
 
-                    <TextView
-                        android:id="@+id/divine_champion_r2_text"
-                        android:layout_width="0.0dip"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8.0dip"
-                        android:layout_weight="1"
-                        android:text="@string/armor_heavy_champion_armor_name"
-                        android:textSize="12.0sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="6.0dip"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/divine_champion_r3_icon"
-                        android:layout_width="40.0dip"
-                        android:layout_height="40.0dip"
-                        android:background="@drawable/object_border_dim_white"
-                        android:padding="3.0dip"
-                        android:src="@drawable/spiked_primeval_shield" />
-
-                    <TextView
-                        android:id="@+id/divine_champion_r3_text"
-                        android:layout_width="0.0dip"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8.0dip"
-                        android:layout_weight="1"
-                        android:text="@string/accessory_spiked_primeval_shield_name"
-                        android:textSize="12.0sp"
-                        android:textStyle="bold" />
+                    <LinearLayout android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center_vertical" android:orientation="horizontal"><ImageView android:id="@+id/divine_champion_r3_icon" android:layout_width="40.0dip" android:layout_height="40.0dip" android:background="@drawable/object_border_dim_white" android:padding="3.0dip" android:src="@drawable/spiked_primeval_shield" /><TextView android:id="@+id/divine_champion_r3_text" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginStart="6.0dip" android:layout_weight="1" android:text="@string/accessory_spiked_primeval_shield_name" android:textSize="12.0sp" android:textStyle="bold" /></LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
@@ -141,14 +80,14 @@
 
             <LinearLayout
                 android:id="@+id/divine_champion_buy"
-                android:layout_width="140.0dip"
-                android:layout_height="36.0dip"
+                android:layout_width="120.0dip"
+                android:layout_height="32.0dip"
                 android:background="@drawable/object_border_buy"
                 android:gravity="center"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@id/rows_divine_champion">
 
                 <ImageView
                     android:layout_width="22.0dip"
@@ -176,7 +115,7 @@
                 app:layout_constraintTop_toTopOf="@id/divine_champion_buy" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- ── Eternal Reliquary ── -->
+        <!-- Ã¢â€â‚¬Ã¢â€â‚¬ Eternal Reliquary Ã¢â€â‚¬Ã¢â€â‚¬ -->
         <TextView
             android:id="@+id/eternal_reliquary_title"
             android:layout_width="wrap_content"
@@ -199,8 +138,7 @@
                 android:layout_width="0.0dip"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/eternal_reliquary_buy"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -208,116 +146,35 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="6.0dip"
-                    android:gravity="center_vertical"
                     android:orientation="horizontal">
 
-                    <ImageView
-                        android:id="@+id/eternal_reliquary_r1_icon"
-                        android:layout_width="40.0dip"
-                        android:layout_height="40.0dip"
-                        android:background="@drawable/object_border_dim_white"
-                        android:padding="3.0dip"
-                        android:src="@drawable/eternal_hunger" />
+                    <LinearLayout android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center_vertical" android:orientation="horizontal"><ImageView android:id="@+id/eternal_reliquary_r1_icon" android:layout_width="40.0dip" android:layout_height="40.0dip" android:background="@drawable/object_border_dim_white" android:padding="3.0dip" android:src="@drawable/eternal_hunger" /><TextView android:id="@+id/eternal_reliquary_r1_text" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginStart="6.0dip" android:layout_weight="1" android:text="@string/accessory_eternal_hunger_name" android:textSize="12.0sp" android:textStyle="bold" /></LinearLayout>
 
-                    <TextView
-                        android:id="@+id/eternal_reliquary_r1_text"
-                        android:layout_width="0.0dip"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8.0dip"
-                        android:layout_weight="1"
-                        android:text="@string/accessory_eternal_hunger_name"
-                        android:textSize="12.0sp"
-                        android:textStyle="bold" />
+                    <LinearLayout android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center_vertical" android:orientation="horizontal"><ImageView android:id="@+id/eternal_reliquary_r2_icon" android:layout_width="40.0dip" android:layout_height="40.0dip" android:background="@drawable/object_border_dim_white" android:padding="3.0dip" android:src="@drawable/scarlet_veil" /><TextView android:id="@+id/eternal_reliquary_r2_text" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginStart="6.0dip" android:layout_weight="1" android:text="@string/armor_medium_scarlet_veil_name" android:textSize="12.0sp" android:textStyle="bold" /></LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="6.0dip"
-                    android:gravity="center_vertical"
                     android:orientation="horizontal">
 
-                    <ImageView
-                        android:id="@+id/eternal_reliquary_r2_icon"
-                        android:layout_width="40.0dip"
-                        android:layout_height="40.0dip"
-                        android:background="@drawable/object_border_dim_white"
-                        android:padding="3.0dip"
-                        android:src="@drawable/scarlet_veil" />
+                    <LinearLayout android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center_vertical" android:orientation="horizontal"><ImageView android:id="@+id/eternal_reliquary_r3_icon" android:layout_width="40.0dip" android:layout_height="40.0dip" android:background="@drawable/object_border_dim_white" android:padding="3.0dip" android:src="@drawable/reassembling_jacket" /><TextView android:id="@+id/eternal_reliquary_r3_text" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginStart="6.0dip" android:layout_weight="1" android:text="@string/armor_medium_reassembling_jacket_name" android:textSize="12.0sp" android:textStyle="bold" /></LinearLayout>
 
-                    <TextView
-                        android:id="@+id/eternal_reliquary_r2_text"
-                        android:layout_width="0.0dip"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8.0dip"
-                        android:layout_weight="1"
-                        android:text="@string/armor_medium_scarlet_veil_name"
-                        android:textSize="12.0sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="6.0dip"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/eternal_reliquary_r3_icon"
-                        android:layout_width="40.0dip"
-                        android:layout_height="40.0dip"
-                        android:background="@drawable/object_border_dim_white"
-                        android:padding="3.0dip"
-                        android:src="@drawable/reassembling_jacket" />
-
-                    <TextView
-                        android:id="@+id/eternal_reliquary_r3_text"
-                        android:layout_width="0.0dip"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8.0dip"
-                        android:layout_weight="1"
-                        android:text="@string/armor_medium_reassembling_jacket_name"
-                        android:textSize="12.0sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/eternal_reliquary_r4_icon"
-                        android:layout_width="40.0dip"
-                        android:layout_height="40.0dip"
-                        android:background="@drawable/object_border_dim_white"
-                        android:padding="3.0dip"
-                        android:src="@drawable/seeking_glass" />
-
-                    <TextView
-                        android:id="@+id/eternal_reliquary_r4_text"
-                        android:layout_width="0.0dip"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8.0dip"
-                        android:layout_weight="1"
-                        android:text="@string/accessory_seeking_glass_name"
-                        android:textSize="12.0sp"
-                        android:textStyle="bold" />
+                    <LinearLayout android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center_vertical" android:orientation="horizontal"><ImageView android:id="@+id/eternal_reliquary_r4_icon" android:layout_width="40.0dip" android:layout_height="40.0dip" android:background="@drawable/object_border_dim_white" android:padding="3.0dip" android:src="@drawable/seeking_glass" /><TextView android:id="@+id/eternal_reliquary_r4_text" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginStart="6.0dip" android:layout_weight="1" android:text="@string/accessory_seeking_glass_name" android:textSize="12.0sp" android:textStyle="bold" /></LinearLayout>
                 </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/eternal_reliquary_buy"
-                android:layout_width="140.0dip"
-                android:layout_height="36.0dip"
+                android:layout_width="120.0dip"
+                android:layout_height="32.0dip"
                 android:background="@drawable/object_border_buy"
                 android:gravity="center"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@id/rows_eternal_reliquary">
 
                 <ImageView
                     android:layout_width="22.0dip"
@@ -345,7 +202,7 @@
                 app:layout_constraintTop_toTopOf="@id/eternal_reliquary_buy" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- ── Alchemist's Bounty ── -->
+        <!-- Ã¢â€â‚¬Ã¢â€â‚¬ Alchemist's Bounty Ã¢â€â‚¬Ã¢â€â‚¬ -->
         <TextView
             android:id="@+id/alchemist_bounty_title"
             android:layout_width="wrap_content"
@@ -368,50 +225,61 @@
                 android:layout_width="0.0dip"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/alchemist_bounty_buy"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="6.0dip" android:gravity="center_vertical" android:orientation="horizontal">
-                    <ImageView android:id="@+id/alchemist_bounty_r1_icon" android:layout_width="40.0dip" android:layout_height="40.0dip" android:background="@drawable/object_border_dim_white" android:padding="3.0dip" android:src="@drawable/potion_of_constitution" />
-                    <TextView android:id="@+id/alchemist_bounty_r1_text" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginStart="8.0dip" android:layout_weight="1" android:text="@string/consumable_potion_of_constitution_name" android:textSize="12.0sp" android:textStyle="bold" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6.0dip"
+                    android:orientation="horizontal">
+
+                    <LinearLayout android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center_vertical" android:orientation="horizontal"><ImageView android:id="@+id/alchemist_bounty_r1_icon" android:layout_width="40.0dip" android:layout_height="40.0dip" android:background="@drawable/object_border_dim_white" android:padding="3.0dip" android:src="@drawable/potion_of_constitution" /><TextView android:id="@+id/alchemist_bounty_r1_text" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginStart="6.0dip" android:layout_weight="1" android:text="@string/consumable_potion_of_constitution_name" android:textSize="12.0sp" android:textStyle="bold" /></LinearLayout>
+
+                    <LinearLayout android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center_vertical" android:orientation="horizontal"><ImageView android:id="@+id/alchemist_bounty_r2_icon" android:layout_width="40.0dip" android:layout_height="40.0dip" android:background="@drawable/object_border_dim_white" android:padding="3.0dip" android:src="@drawable/potion_of_dexterity" /><TextView android:id="@+id/alchemist_bounty_r2_text" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginStart="6.0dip" android:layout_weight="1" android:text="@string/consumable_potion_of_dexterity_name" android:textSize="12.0sp" android:textStyle="bold" /></LinearLayout>
                 </LinearLayout>
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="6.0dip" android:gravity="center_vertical" android:orientation="horizontal">
-                    <ImageView android:id="@+id/alchemist_bounty_r2_icon" android:layout_width="40.0dip" android:layout_height="40.0dip" android:background="@drawable/object_border_dim_white" android:padding="3.0dip" android:src="@drawable/potion_of_dexterity" />
-                    <TextView android:id="@+id/alchemist_bounty_r2_text" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginStart="8.0dip" android:layout_weight="1" android:text="@string/consumable_potion_of_dexterity_name" android:textSize="12.0sp" android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6.0dip"
+                    android:orientation="horizontal">
+
+                    <LinearLayout android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center_vertical" android:orientation="horizontal"><ImageView android:id="@+id/alchemist_bounty_r3_icon" android:layout_width="40.0dip" android:layout_height="40.0dip" android:background="@drawable/object_border_dim_white" android:padding="3.0dip" android:src="@drawable/potion_of_intelligence" /><TextView android:id="@+id/alchemist_bounty_r3_text" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginStart="6.0dip" android:layout_weight="1" android:text="@string/consumable_potion_of_intelligence_name" android:textSize="12.0sp" android:textStyle="bold" /></LinearLayout>
+
+                    <LinearLayout android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center_vertical" android:orientation="horizontal"><ImageView android:id="@+id/alchemist_bounty_r4_icon" android:layout_width="40.0dip" android:layout_height="40.0dip" android:background="@drawable/object_border_dim_white" android:padding="3.0dip" android:src="@drawable/potion_of_health" /><TextView android:id="@+id/alchemist_bounty_r4_text" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginStart="6.0dip" android:layout_weight="1" android:text="@string/consumable_potion_of_health_name" android:textSize="12.0sp" android:textStyle="bold" /></LinearLayout>
                 </LinearLayout>
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="6.0dip" android:gravity="center_vertical" android:orientation="horizontal">
-                    <ImageView android:id="@+id/alchemist_bounty_r3_icon" android:layout_width="40.0dip" android:layout_height="40.0dip" android:background="@drawable/object_border_dim_white" android:padding="3.0dip" android:src="@drawable/potion_of_intelligence" />
-                    <TextView android:id="@+id/alchemist_bounty_r3_text" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginStart="8.0dip" android:layout_weight="1" android:text="@string/consumable_potion_of_intelligence_name" android:textSize="12.0sp" android:textStyle="bold" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6.0dip"
+                    android:orientation="horizontal">
+
+                    <LinearLayout android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center_vertical" android:orientation="horizontal"><ImageView android:id="@+id/alchemist_bounty_r5_icon" android:layout_width="40.0dip" android:layout_height="40.0dip" android:background="@drawable/object_border_dim_white" android:padding="3.0dip" android:src="@drawable/potion_of_defense" /><TextView android:id="@+id/alchemist_bounty_r5_text" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginStart="6.0dip" android:layout_weight="1" android:text="@string/consumable_potion_of_defense_name" android:textSize="12.0sp" android:textStyle="bold" /></LinearLayout>
+
+                    <LinearLayout android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center_vertical" android:orientation="horizontal"><ImageView android:id="@+id/alchemist_bounty_r6_icon" android:layout_width="40.0dip" android:layout_height="40.0dip" android:background="@drawable/object_border_dim_white" android:padding="3.0dip" android:src="@drawable/potion_of_magic_defense" /><TextView android:id="@+id/alchemist_bounty_r6_text" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginStart="6.0dip" android:layout_weight="1" android:text="@string/consumable_potion_of_magic_defense_name" android:textSize="12.0sp" android:textStyle="bold" /></LinearLayout>
                 </LinearLayout>
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="6.0dip" android:gravity="center_vertical" android:orientation="horizontal">
-                    <ImageView android:id="@+id/alchemist_bounty_r4_icon" android:layout_width="40.0dip" android:layout_height="40.0dip" android:background="@drawable/object_border_dim_white" android:padding="3.0dip" android:src="@drawable/potion_of_health" />
-                    <TextView android:id="@+id/alchemist_bounty_r4_text" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginStart="8.0dip" android:layout_weight="1" android:text="@string/consumable_potion_of_health_name" android:textSize="12.0sp" android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6.0dip"
+                    android:orientation="horizontal">
+
+                    <LinearLayout android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center_vertical" android:orientation="horizontal"><ImageView android:id="@+id/alchemist_bounty_r7_icon" android:layout_width="40.0dip" android:layout_height="40.0dip" android:background="@drawable/object_border_dim_white" android:padding="3.0dip" android:src="@drawable/potion_of_precision" /><TextView android:id="@+id/alchemist_bounty_r7_text" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginStart="6.0dip" android:layout_weight="1" android:text="@string/consumable_potion_of_precision_name" android:textSize="12.0sp" android:textStyle="bold" /></LinearLayout>
+
+                    <LinearLayout android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center_vertical" android:orientation="horizontal"><ImageView android:id="@+id/alchemist_bounty_r8_icon" android:layout_width="40.0dip" android:layout_height="40.0dip" android:background="@drawable/object_border_dim_white" android:padding="3.0dip" android:src="@drawable/potion_of_viciousness" /><TextView android:id="@+id/alchemist_bounty_r8_text" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginStart="6.0dip" android:layout_weight="1" android:text="@string/consumable_potion_of_viciousness_name" android:textSize="12.0sp" android:textStyle="bold" /></LinearLayout>
                 </LinearLayout>
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="6.0dip" android:gravity="center_vertical" android:orientation="horizontal">
-                    <ImageView android:id="@+id/alchemist_bounty_r5_icon" android:layout_width="40.0dip" android:layout_height="40.0dip" android:background="@drawable/object_border_dim_white" android:padding="3.0dip" android:src="@drawable/potion_of_defense" />
-                    <TextView android:id="@+id/alchemist_bounty_r5_text" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginStart="8.0dip" android:layout_weight="1" android:text="@string/consumable_potion_of_defense_name" android:textSize="12.0sp" android:textStyle="bold" />
-                </LinearLayout>
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="6.0dip" android:gravity="center_vertical" android:orientation="horizontal">
-                    <ImageView android:id="@+id/alchemist_bounty_r6_icon" android:layout_width="40.0dip" android:layout_height="40.0dip" android:background="@drawable/object_border_dim_white" android:padding="3.0dip" android:src="@drawable/potion_of_magic_defense" />
-                    <TextView android:id="@+id/alchemist_bounty_r6_text" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginStart="8.0dip" android:layout_weight="1" android:text="@string/consumable_potion_of_magic_defense_name" android:textSize="12.0sp" android:textStyle="bold" />
-                </LinearLayout>
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="6.0dip" android:gravity="center_vertical" android:orientation="horizontal">
-                    <ImageView android:id="@+id/alchemist_bounty_r7_icon" android:layout_width="40.0dip" android:layout_height="40.0dip" android:background="@drawable/object_border_dim_white" android:padding="3.0dip" android:src="@drawable/potion_of_precision" />
-                    <TextView android:id="@+id/alchemist_bounty_r7_text" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginStart="8.0dip" android:layout_weight="1" android:text="@string/consumable_potion_of_precision_name" android:textSize="12.0sp" android:textStyle="bold" />
-                </LinearLayout>
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="6.0dip" android:gravity="center_vertical" android:orientation="horizontal">
-                    <ImageView android:id="@+id/alchemist_bounty_r8_icon" android:layout_width="40.0dip" android:layout_height="40.0dip" android:background="@drawable/object_border_dim_white" android:padding="3.0dip" android:src="@drawable/potion_of_viciousness" />
-                    <TextView android:id="@+id/alchemist_bounty_r8_text" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginStart="8.0dip" android:layout_weight="1" android:text="@string/consumable_potion_of_viciousness_name" android:textSize="12.0sp" android:textStyle="bold" />
-                </LinearLayout>
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="6.0dip" android:gravity="center_vertical" android:orientation="horizontal">
-                    <ImageView android:id="@+id/alchemist_bounty_r9_icon" android:layout_width="40.0dip" android:layout_height="40.0dip" android:background="@drawable/object_border_dim_white" android:padding="3.0dip" android:src="@drawable/potion_of_darkness" />
-                    <TextView android:id="@+id/alchemist_bounty_r9_text" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginStart="8.0dip" android:layout_weight="1" android:text="@string/consumable_potion_of_darkness_name" android:textSize="12.0sp" android:textStyle="bold" />
-                </LinearLayout>
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="6.0dip" android:gravity="center_vertical" android:orientation="horizontal">
-                    <ImageView android:id="@+id/alchemist_bounty_r10_icon" android:layout_width="40.0dip" android:layout_height="40.0dip" android:background="@drawable/object_border_dim_white" android:padding="3.0dip" android:src="@drawable/potion_of_immunity" />
-                    <TextView android:id="@+id/alchemist_bounty_r10_text" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginStart="8.0dip" android:layout_weight="1" android:text="@string/consumable_potion_of_immunity_name" android:textSize="12.0sp" android:textStyle="bold" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6.0dip"
+                    android:orientation="horizontal">
+
+                    <LinearLayout android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center_vertical" android:orientation="horizontal"><ImageView android:id="@+id/alchemist_bounty_r9_icon" android:layout_width="40.0dip" android:layout_height="40.0dip" android:background="@drawable/object_border_dim_white" android:padding="3.0dip" android:src="@drawable/potion_of_darkness" /><TextView android:id="@+id/alchemist_bounty_r9_text" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginStart="6.0dip" android:layout_weight="1" android:text="@string/consumable_potion_of_darkness_name" android:textSize="12.0sp" android:textStyle="bold" /></LinearLayout>
+
+                    <LinearLayout android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center_vertical" android:orientation="horizontal"><ImageView android:id="@+id/alchemist_bounty_r10_icon" android:layout_width="40.0dip" android:layout_height="40.0dip" android:background="@drawable/object_border_dim_white" android:padding="3.0dip" android:src="@drawable/potion_of_immunity" /><TextView android:id="@+id/alchemist_bounty_r10_text" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginStart="6.0dip" android:layout_weight="1" android:text="@string/consumable_potion_of_immunity_name" android:textSize="12.0sp" android:textStyle="bold" /></LinearLayout>
                 </LinearLayout>
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical" android:orientation="horizontal">
                     <ImageView android:id="@+id/alchemist_bounty_r11_icon" android:layout_width="40.0dip" android:layout_height="40.0dip" android:background="@drawable/object_border_dim_white" android:padding="3.0dip" android:src="@drawable/potion_of_agility" />
@@ -421,14 +289,14 @@
 
             <LinearLayout
                 android:id="@+id/alchemist_bounty_buy"
-                android:layout_width="140.0dip"
-                android:layout_height="36.0dip"
+                android:layout_width="120.0dip"
+                android:layout_height="32.0dip"
                 android:background="@drawable/object_border_buy"
                 android:gravity="center"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@id/rows_alchemist_bounty">
 
                 <ImageView
                     android:layout_width="22.0dip"
@@ -456,7 +324,7 @@
                 app:layout_constraintTop_toTopOf="@id/alchemist_bounty_buy" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- ── Patrician's Wardrobe ── -->
+        <!-- Ã¢â€â‚¬Ã¢â€â‚¬ Patrician's Wardrobe Ã¢â€â‚¬Ã¢â€â‚¬ -->
         <TextView
             android:id="@+id/patrician_wardrobe_title"
             android:layout_width="wrap_content"
@@ -479,39 +347,42 @@
                 android:layout_width="0.0dip"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/patrician_wardrobe_buy"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="6.0dip" android:gravity="center_vertical" android:orientation="horizontal">
-                    <ImageView android:id="@+id/patrician_wardrobe_r1_icon" android:layout_width="40.0dip" android:layout_height="40.0dip" android:background="@drawable/object_border_dim_white" android:padding="3.0dip" android:src="@drawable/patrician_armor" />
-                    <TextView android:id="@+id/patrician_wardrobe_r1_text" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginStart="8.0dip" android:layout_weight="1" android:text="@string/armor_heavy_patrician_armor_name" android:textSize="12.0sp" android:textStyle="bold" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6.0dip"
+                    android:orientation="horizontal">
+
+                    <LinearLayout android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center_vertical" android:orientation="horizontal"><ImageView android:id="@+id/patrician_wardrobe_r1_icon" android:layout_width="40.0dip" android:layout_height="40.0dip" android:background="@drawable/object_border_dim_white" android:padding="3.0dip" android:src="@drawable/patrician_armor" /><TextView android:id="@+id/patrician_wardrobe_r1_text" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginStart="6.0dip" android:layout_weight="1" android:text="@string/armor_heavy_patrician_armor_name" android:textSize="12.0sp" android:textStyle="bold" /></LinearLayout>
+
+                    <LinearLayout android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center_vertical" android:orientation="horizontal"><ImageView android:id="@+id/patrician_wardrobe_r2_icon" android:layout_width="40.0dip" android:layout_height="40.0dip" android:background="@drawable/object_border_dim_white" android:padding="3.0dip" android:src="@drawable/diamond_amulet" /><TextView android:id="@+id/patrician_wardrobe_r2_text" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginStart="6.0dip" android:layout_weight="1" android:text="@string/accessory_diamond_amulet_name" android:textSize="12.0sp" android:textStyle="bold" /></LinearLayout>
                 </LinearLayout>
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="6.0dip" android:gravity="center_vertical" android:orientation="horizontal">
-                    <ImageView android:id="@+id/patrician_wardrobe_r2_icon" android:layout_width="40.0dip" android:layout_height="40.0dip" android:background="@drawable/object_border_dim_white" android:padding="3.0dip" android:src="@drawable/diamond_amulet" />
-                    <TextView android:id="@+id/patrician_wardrobe_r2_text" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginStart="8.0dip" android:layout_weight="1" android:text="@string/accessory_diamond_amulet_name" android:textSize="12.0sp" android:textStyle="bold" />
-                </LinearLayout>
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="6.0dip" android:gravity="center_vertical" android:orientation="horizontal">
-                    <ImageView android:id="@+id/patrician_wardrobe_r3_icon" android:layout_width="40.0dip" android:layout_height="40.0dip" android:background="@drawable/object_border_dim_white" android:padding="3.0dip" android:src="@drawable/cottontail_jacket" />
-                    <TextView android:id="@+id/patrician_wardrobe_r3_text" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginStart="8.0dip" android:layout_weight="1" android:text="@string/armor_medium_cottontail_jacket_name" android:textSize="12.0sp" android:textStyle="bold" />
-                </LinearLayout>
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical" android:orientation="horizontal">
-                    <ImageView android:id="@+id/patrician_wardrobe_r4_icon" android:layout_width="40.0dip" android:layout_height="40.0dip" android:background="@drawable/object_border_dim_white" android:padding="3.0dip" android:src="@drawable/ghost_rabbit_cloak" />
-                    <TextView android:id="@+id/patrician_wardrobe_r4_text" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginStart="8.0dip" android:layout_weight="1" android:text="@string/armor_light_ghost_rabbit_cloak_name" android:textSize="12.0sp" android:textStyle="bold" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6.0dip"
+                    android:orientation="horizontal">
+
+                    <LinearLayout android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center_vertical" android:orientation="horizontal"><ImageView android:id="@+id/patrician_wardrobe_r3_icon" android:layout_width="40.0dip" android:layout_height="40.0dip" android:background="@drawable/object_border_dim_white" android:padding="3.0dip" android:src="@drawable/cottontail_jacket" /><TextView android:id="@+id/patrician_wardrobe_r3_text" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginStart="6.0dip" android:layout_weight="1" android:text="@string/armor_medium_cottontail_jacket_name" android:textSize="12.0sp" android:textStyle="bold" /></LinearLayout>
+
+                    <LinearLayout android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center_vertical" android:orientation="horizontal"><ImageView android:id="@+id/patrician_wardrobe_r4_icon" android:layout_width="40.0dip" android:layout_height="40.0dip" android:background="@drawable/object_border_dim_white" android:padding="3.0dip" android:src="@drawable/ghost_rabbit_cloak" /><TextView android:id="@+id/patrician_wardrobe_r4_text" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginStart="6.0dip" android:layout_weight="1" android:text="@string/armor_light_ghost_rabbit_cloak_name" android:textSize="12.0sp" android:textStyle="bold" /></LinearLayout>
                 </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/patrician_wardrobe_buy"
-                android:layout_width="140.0dip"
-                android:layout_height="36.0dip"
+                android:layout_width="120.0dip"
+                android:layout_height="32.0dip"
                 android:background="@drawable/object_border_buy"
                 android:gravity="center"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@id/rows_patrician_wardrobe">
 
                 <ImageView
                     android:layout_width="22.0dip"
@@ -539,7 +410,7 @@
                 app:layout_constraintTop_toTopOf="@id/patrician_wardrobe_buy" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- ── Royal Treasury & Feast ── -->
+        <!-- Ã¢â€â‚¬Ã¢â€â‚¬ Royal Treasury & Feast Ã¢â€â‚¬Ã¢â€â‚¬ -->
         <TextView
             android:id="@+id/royal_treasury_title"
             android:layout_width="wrap_content"
@@ -579,8 +450,8 @@
 
             <LinearLayout
                 android:id="@+id/royal_treasury_buy"
-                android:layout_width="140.0dip"
-                android:layout_height="36.0dip"
+                android:layout_width="120.0dip"
+                android:layout_height="32.0dip"
                 android:background="@drawable/object_border_buy"
                 android:gravity="center"
                 android:orientation="horizontal"
@@ -614,7 +485,7 @@
                 app:layout_constraintTop_toTopOf="@id/royal_treasury_buy" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- ── Shroud of the Ancients ── -->
+        <!-- Ã¢â€â‚¬Ã¢â€â‚¬ Shroud of the Ancients Ã¢â€â‚¬Ã¢â€â‚¬ -->
         <TextView
             android:id="@+id/scarlet_shroud_title"
             android:layout_width="wrap_content"
@@ -634,10 +505,10 @@
 
             <ImageView
                 android:id="@+id/scarlet_shroud_r1_icon"
-                android:layout_width="44.0dip"
-                android:layout_height="44.0dip"
+                android:layout_width="40.0dip"
+                android:layout_height="40.0dip"
                 android:background="@drawable/object_border_dim_white"
-                android:padding="4.0dip"
+                android:padding="3.0dip"
                 android:src="@drawable/scarlet_shroud"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -659,8 +530,8 @@
 
             <LinearLayout
                 android:id="@+id/scarlet_shroud_buy"
-                android:layout_width="140.0dip"
-                android:layout_height="36.0dip"
+                android:layout_width="120.0dip"
+                android:layout_height="32.0dip"
                 android:background="@drawable/object_border_buy"
                 android:gravity="center"
                 android:orientation="horizontal"

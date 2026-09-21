@@ -326,6 +326,8 @@ Cloth(Item.getInstance("PlantFiber", 4)),
     EnlightedServant(Item.getInstance("InvisibleServant", 1), Item.getInstance("GiftOfLight", 1), Item.getInstance("HeartOfDarkness", 1)),
     Sha(Item.getInstance("DivineLarvae", 1), Item.getInstance("MysteriousCog", 10)),
     VoltaicShock(Item.getInstance("ShortCircuit", 1), Item.getInstance("AbioticCore", 1)),
+    ScarletOni(Item.getInstance("ScarletStrand", 5)),
+    ScarletSigil(Item.getInstance("ScarletStrand", 3), Item.getInstance("EldritchSeal", 1)),
     ScarletVeil(Item.getInstance("ScarletStrand", 4));
 
     private val ingredients: Array<out Item?> = itemArr

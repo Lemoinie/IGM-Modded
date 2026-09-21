@@ -338,7 +338,42 @@ object ModChangelog {
         "1.3.8.8 (20/9/2026):\n" +
         "- Fixed all Shop expansion pack layouts: item-row TextViews now use layout_weight=\"1\" inside match_parent LinearLayouts so item names are always visible (they collapsed to zero-width in wrap_content rows).\n" +
         "- Fixed buy button positioning in all new single-row packs (Vigil II/III/IV, Eternal Vigil, Deep Pockets II, Dimensional Vault, Infinite Hoard, Celestial Bow, all Infrastructure packs): buttons are now vertically centred in their card via constraintTop/Bottom_toTopOf/BottomOf=\"parent\" instead of floating below the icon.\n" +
-        "- Affected packs: Divine Champion, Eternal Reliquary, Alchemist's Bounty, Patrician's Wardrobe, Royal Treasury & Feast, Shroud of the Ancients, Evolutionary Synthesis Crate, Chronos Ward, Aegis of Time, Temporal Anchor, Timeless Continuum, Bottomless Chest, Dimensional Vault, Infinite Hoard, Armory: Celestial Bow, Barracks Expansion I & II, Grand Tavern Expansion, Sanctuary Grounds I & II."
+        "- Affected packs: Divine Champion, Eternal Reliquary, Alchemist's Bounty, Patrician's Wardrobe, Royal Treasury & Feast, Shroud of the Ancients, Evolutionary Synthesis Crate, Chronos Ward, Aegis of Time, Temporal Anchor, Timeless Continuum, Bottomless Chest, Dimensional Vault, Infinite Hoard, Armory: Celestial Bow, Barracks Expansion I & II, Grand Tavern Expansion, Sanctuary Grounds I & II." +
+        "\n\n" +
+        "1.3.8.9 (20/9/2026):\n" +
+        "- Shop polish: Minor/Expanded/Grand Storage packs now use the Dimensional Vault icon; Grand Tavern and Sanctuary I/II now use the shop_2 (+2) icon.\n" +
+        "- Reordered the Utility category to group related packs: Deep Pockets + Bottomless Chest, then the Extended Vigil family (Chronos Ward, Aegis of Time, Temporal Anchor, Timeless Continuum), then Sacred Intercession + Evolutionary Synthesis Crate.\n" +
+        "- Converted starter packs and key utility packs now state item counts (e.g. 1x Champion Armor, 100x of each potion, 10x Ceremonial Cake, 2x Dreamcatcher).\n" +
+        "- Celestial Bow pack renamed to just CELESTIAL BOW and its icon now opens the weapon detail dialog.\n" +
+        "- Divine Champion pack now displays its hero like the other adventurer packs, and Eternal Reliquary / Alchemist's Bounty / Patrician's Wardrobe items are shown in two columns." +
+        "\n\n" +
+        "1.3.8.10 (20/9/2026):\n" +
+        "- Divine Champion, Eternal Reliquary, Alchemist's Bounty and Patrician's Wardrobe buy buttons now sit at the bottom-right of their cards (like the Guild Initiate / Explorer's Supply Cache packs).\n" +
+        "- Grand Tavern Expansion now lists its two benefits as separate rows: shop_2 icon for Tavern Visitor Capacity, hourglass icon for -20% Visitor Arrival Interval.\n" +
+        "- Utility packs now use their keyword names instead of the bracketed titles: CHRONOS WARD, AEGIS OF TIME, TEMPORAL ANCHOR, TIMELESS CONTINUUM, BOTTOMLESS CHEST.\n" +
+        "- Buy buttons on all new shop packs are slightly smaller (120x32)." +
+        "\n\n" +
+        "1.3.8.11 (20/9/2026):\n" +
+        "- Divine Champion, Eternal Reliquary, Alchemist's Bounty and Patrician's Wardrobe now fill their cards with a 2-column item grid and the buy button sits in its own row at the bottom; Divine Champion keeps its full adventurer row on top.\n" +
+        "- All item/pet/shop icon square borders now use one universal 40x40 size (adventurer previews untouched); all buy buttons use a universal 120x32 size.\n" +
+        "- Bottomless Chest description updated to 'Max Loot +10000'; Temporal Anchor and Timeless Continuum now grant +6 Max Idle Hours each (description and effect).\n" +
+        "- Master Workshop and Grand Merchant packs increased to 2,500 Gems; Grandmaster Workshop and Trade Baron packs increased to 5,000 Gems.\n" +
+        "- The shop now switches category when you swipe left/right on the content, in addition to the category chips." +
+        "\n\n" +
+        "1.3.8.12 (20/9/2026):\n" +
+        "- Removed the swipe-to-change-category gesture from the shop.\n" +
+        "- Utility price rebalance: Chronos Ward 2,000, Aegis of Time 3,500, Temporal Anchor 7,000, Timeless Continuum 10,000, Deep Pockets 1,000, Bottomless Chest 2,000.\n" +
+        "- Ceremonial Cake Bundle title/description cleaned (removed '(x10)' and 'for your pets').\n" +
+        "- Fixed the converted starter packs (Divine Champion, Eternal Reliquary, Alchemist's Bounty, Patrician's Wardrobe) showing too much space between the first row and the card border.\n" +
+        "- Alchemist's Bounty potions are now clickable to open their detail dialogs; the Celestial Bow detail dialog now shows its +10% crit chance and +10% crit damage." +
+        "\n\n" +
+        "1.3.8.13 (20/9/2026):\n" +
+        "- Fixed the item detail crit display: the Celestial Bow effect now reads 'Attack thrice, +10% crit chance and dmg' (crit stated in the effect text like Scarlet Shroud) and the auto-appended crit lines were removed, so no item shows duplicated crit text." +
+        "\n\n" +
+        "1.3.8.14 (21/9/2026):\n" +
+        "- New craftable legendary armor completes the Scarlet trilogy: Scarlet Oni (Heavy, +470 HP, +56 CON, +18% crit chance, +5% crit dmg, 100,000L) and Scarlet Sigil (Light, +200 HP, +62 INT, +20% crit chance, +2 mana regen, 60,893L).\n" +
+        "- Equipment can now grant Mana Regen: weapon, armor and accessory mana regen is added to an adventurer's mana gain every turn.\n" +
+        "- Both new recipes retroactively unlock in the Workshop for saves that have already seen Scarlet Strand or Eldritch Seal."
 
     private val MOD_VERSION_LIST: List<VersionEntry> by lazy { parseVersionEntries() }
 

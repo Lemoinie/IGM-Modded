@@ -386,7 +386,7 @@ class ShopReworkTest {
 
     @Test
     fun testExtendedIdleTimeTiers() {
-        // Base vanilla cap is 12h; Vigil packs progress to 24h / 48h / 96h / 168h.
+        // Base vanilla cap is 12h; Vigil packs progress: +6/+6/+24 then temporal & timeless add +6 each.
         assertEquals(12, Formulas.getIdleTimeCapHours())
 
         MainActivity.data.isIdleHoursPackPurchased = true
@@ -399,10 +399,10 @@ class ShopReworkTest {
         assertEquals(48, Formulas.getIdleTimeCapHours())
 
         MainActivity.data.isIdleHoursPack4Purchased = true
-        assertEquals(96, Formulas.getIdleTimeCapHours())
+        assertEquals(54, Formulas.getIdleTimeCapHours())
 
         MainActivity.data.isEternalVigilPurchased = true
-        assertEquals(168, Formulas.getIdleTimeCapHours())
+        assertEquals(60, Formulas.getIdleTimeCapHours())
     }
 
     @Test
