@@ -941,7 +941,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun retroactivelyAddKnownRecipes() {
-        for (recipes in listOf(Recipes.VoltaicShock)) {
+        for (recipes in listOf(Recipes.VoltaicShock, Recipes.ScarletOni, Recipes.ScarletSigil)) {
             for (ingredient in recipes.getIngredients()) {
                 val tc = ingredient?.getTrueClass()
                 if (tc != null && data.seenItems.contains(tc)) {

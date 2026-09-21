@@ -173,8 +173,15 @@ abstract class Adventurer : Entity() {
     }
 
     override fun calculateManaRegen(): Int {
-        val iCalculateManaRegen = super.calculateManaRegen() + (doctrine?.bonusManaRegen() ?: 0)
-        return if (traitRare == Trait.GIFTED) iCalculateManaRegen + 2 else iCalculateManaRegen
+        var mr = super.calculateManaRegen() + (doctrine?.bonusManaRegen() ?: 0)
+        if (traitRare == Trait.GIFTED) mr += 2
+        val w = weapon
+        if (w != null) mr += w.getManaRegen()
+        val a = armor
+        if (a != null) mr += a.getManaRegen()
+        val acc = accessory
+        if (acc != null) mr += acc.getManaRegen()
+        return mr
     }
 
     override fun calculateCounterattackChance(): Double {

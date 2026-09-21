@@ -29,7 +29,7 @@ This document defines the strict UI and architectural conventions for the in-gam
 | **Card Padding** | `8.0dip` | Uniform padding on all 4 sides of the card |
 | **Card Margin Top** | `4.0dip` | Distance between the title and the card |
 | **Title Margin Top** | `8.0dip` | Distance between preceding card and the new pack title |
-| **Buy Button Size** | Width: `140.0dip`, Height: `36.0dip` | **MANDATORY**: Never use 42dp or `wrap_content` |
+| **Buy Button Size** | Width: `120.0dip`, Height: `32.0dip` | **MANDATORY**: Never use 42dp or `wrap_content`. Modded buy buttons were reduced from vanilla `140×36` to a slightly smaller `120×32` (v1.3.8.10). |
 
 ---
 
@@ -569,7 +569,7 @@ setPurchasedState(b.myPackBuy, b.checkMyPack, MainActivity.data.isMyPackPurchase
 | Do | Don't |
 | :--- | :--- |
 | **DO** place the pack title `TextView` above and outside the card `ConstraintLayout`. | **DON'T** put the title inside the card border. |
-| **DO** use `140.0dip` width and `36.0dip` height for the buy button. | **DON'T** use 42dp, wrap_content, or random heights for buy buttons. |
+| **DO** use `120.0dip` width and `32.0dip` height for the buy button. | **DON'T** use 42dp, wrap_content, or random heights for buy buttons. |
 | **DO** use `@drawable/object_border_brass` for the card background. | **DON'T** use plain colors or `object_border_buy` for the card outline. |
 | **DO** set `layout_weight="1"` when using `layout_width="0.0dip"` inside a `LinearLayout`. | **DON'T** use `0.0dip` without weight in `wrap_content` containers (text collapses). |
 | **DO** hide all 9 equipment/doctrine views when reusing `layout_adventurer`. | **DON'T** leave empty equipment slots or delete buttons visible on shop heroes. |

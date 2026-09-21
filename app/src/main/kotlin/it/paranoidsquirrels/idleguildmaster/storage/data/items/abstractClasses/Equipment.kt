@@ -12,6 +12,7 @@ abstract class Equipment : Item() {
     @JvmField @Transient protected var endOfTurnActionRepeats: Int = 1
     @JvmField @Transient protected var intelligence: Int = 0
     @JvmField @Transient protected var magicDefense: Int = 0
+    @JvmField @Transient protected var manaRegen: Int = 0
     @JvmField @Transient protected var maxHp: Int = 0
     @JvmField @Transient protected var onSelfHit: StatusEffect? = null
     @JvmField @Transient protected var onTargetHit: StatusEffect? = null
@@ -53,6 +54,8 @@ abstract class Equipment : Item() {
     open fun setDefense(i: Int) { defense = i }
     open fun getMagicDefense(): Int = magicDefense
     open fun setMagicDefense(i: Int) { magicDefense = i }
+    open fun getManaRegen(): Int = manaRegen
+    open fun setManaRegen(i: Int) { manaRegen = i }
     open fun getOnTargetHit(): StatusEffect? = onTargetHit
     open fun setOnTargetHit(statusEffect: StatusEffect?) { onTargetHit = statusEffect }
     open fun getOnSelfHit(): StatusEffect? = onSelfHit

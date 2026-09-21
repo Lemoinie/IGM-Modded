@@ -188,8 +188,8 @@ object Formulas {
         if (data.isIdleHoursPackPurchased) idleBonus += 6
         if (data.isIdleHoursPack2Purchased) idleBonus += 6
         if (data.isIdleHoursPack3Purchased) idleBonus += 24
-        if (data.isIdleHoursPack4Purchased) idleBonus += 48
-        if (data.isEternalVigilPurchased) idleBonus += 72
+        if (data.isIdleHoursPack4Purchased) idleBonus += 6
+        if (data.isEternalVigilPurchased) idleBonus += 6
         return 12 + idleBonus
     }
 

@@ -81,6 +81,71 @@ class ModFeaturesTest {
     }
 
     @Test
+    fun testScarletOniAndScarletSigil() {
+        // Scarlet Oni: Heavy Armor
+        val oni = Item.getInstance("ScarletOni", 1) as? ScarletOni
+        assertNotNull("ScarletOni must instantiate via reflection", oni)
+        assertEquals("Scarlet Oni must grant +470 max HP", 470, oni?.getMaxHp())
+        assertEquals("Scarlet Oni must grant +56 CON", 56, oni?.getConstitution())
+        assertEquals("Scarlet Oni must grant +18% crit chance", 0.18, oni?.getCriticalChance()!!, 0.0001)
+        assertEquals("Scarlet Oni must grant +5% crit damage", 0.05, oni?.getCriticalDamage()!!, 0.0001)
+
+        // Scarlet Sigil: Light Armor
+        val sigil = Item.getInstance("ScarletSigil", 1) as? ScarletSigil
+        assertNotNull("ScarletSigil must instantiate via reflection", sigil)
+        assertEquals("Scarlet Sigil must grant +200 max HP", 200, sigil?.getMaxHp())
+        assertEquals("Scarlet Sigil must grant +62 INT", 62, sigil?.getIntelligence())
+        assertEquals("Scarlet Sigil must grant +20% crit chance", 0.20, sigil?.getCriticalChance()!!, 0.0001)
+        assertEquals("Scarlet Sigil must grant +2 mana regen", 2, sigil?.getManaRegen())
+
+        // Recipe registration, resolvable both directions via Recipes.into
+        val oniRecipe = Recipes.into(oni)
+        assertNotNull("ScarletOni must have a craft recipe", oniRecipe)
+        assertEquals(Recipes.ScarletOni, oniRecipe)
+        assertEquals(
+            listOf("ScarletStrand"),
+            oniRecipe?.getIngredients()?.map { it?.getTrueClass() }
+        )
+        assertEquals(listOf(5), oniRecipe?.getIngredients()?.map { it?.getStack() })
+
+        val sigilRecipe = Recipes.into(sigil)
+        assertNotNull("ScarletSigil must have a craft recipe", sigilRecipe)
+        assertEquals(Recipes.ScarletSigil, sigilRecipe)
+        assertEquals(
+            listOf("ScarletStrand", "EldritchSeal"),
+            sigilRecipe?.getIngredients()?.map { it?.getTrueClass() }
+        )
+        assertEquals(listOf(3, 1), sigilRecipe?.getIngredients()?.map { it?.getStack() })
+
+        // 1:1 ingredient valuation (Scarlet Veil rule) at actual sell-price level.
+        val strand = Item.getInstance("ScarletStrand", 1)!!
+        val seal = Item.getInstance("EldritchSeal", 1)!!
+        assertEquals("Scarlet Oni price must equal 5x Scarlet Strand (truncated)", Utils.truncatePrice(5 * strand.getPrice()), oni?.getPrice())
+        assertEquals("Scarlet Sigil price must equal 3x Scarlet Strand + Eldritch Seal (truncated)", Utils.truncatePrice(3 * strand.getPrice() + seal.getPrice()), sigil?.getPrice())
+    }
+
+    @Test
+    fun testScarletOniAdventurerStats() {
+        val bare = Adventurer.getInstance("Footman", 1, 5, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+        val oni = Item.getInstance("ScarletOni", 1) as? ScarletOni
+        val hero = Adventurer.getInstance("Footman", 1, 5, 0, null, oni, null, null, null, PotionsDrank(), null, false)!!
+        assertEquals("+470 max HP from Scarlet Oni", 470, hero.calculateTotalMaxHp() - bare.calculateTotalMaxHp())
+        assertEquals("+56 CON from Scarlet Oni", 56, hero.calculateTotalConstitution() - bare.calculateTotalConstitution())
+        assertEquals("+18% crit chance from Scarlet Oni", 0.18, hero.calculateCriticalChance() - bare.calculateCriticalChance(), 0.0001)
+        assertEquals("+5% crit damage from Scarlet Oni", 0.05, hero.calculateCriticalDamage() - bare.calculateCriticalDamage(), 0.0001)
+    }
+
+    @Test
+    fun testScarletSigilEquipmentManaRegen() {
+        val bare = Adventurer.getInstance("Adept", 1, 5, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+        val sigil = Item.getInstance("ScarletSigil", 1) as? ScarletSigil
+        val hero = Adventurer.getInstance("Adept", 1, 5, 0, null, sigil, null, null, null, PotionsDrank(), null, false)!!
+        // Sigil grants +62 INT (adds floor(62/10)=+6 via the INT mana formula) plus its flat +2 equipment mana regen.
+        val expected = ((bare.calculateTotalIntelligence() + 62) / 10) + 10 + 2
+        assertEquals("Mana regen must count the Sigil's flat +2 equipment bonus on top of its INT gain", expected, hero.calculateManaRegen())
+    }
+
+    @Test
     fun testCelestialBowAttackThrice() {
         val bow = Item.getInstance("CelestialBow", 1) as? CelestialBow
         assertNotNull(bow)
@@ -179,7 +244,7 @@ class ModFeaturesTest {
     fun testModAboutChangelogEntries() {
         val entries = ModChangelog.parseVersionEntries()
         assertTrue(entries.isNotEmpty())
-        assertTrue("Top entry must be 1.3.8.8", entries[0].title.startsWith("1.3.8.8"))
+        assertTrue("Top entry must be 1.3.8.14", entries[0].title.startsWith("1.3.8.14"))
         assertTrue("Bottom entry must be 1.0.0.0", entries.last().title.startsWith("1.0.0.0"))
     }
 
