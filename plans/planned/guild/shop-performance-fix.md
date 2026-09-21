@@ -2,163 +2,236 @@
 
 ## Goal Description
 
-`DialogShop` currently inflates all pack cards simultaneously inside a `NestedScrollView`
-(~246 views on open). Every field binding call, adventurer-preview draw, and text-set
-runs synchronously on the main thread before the dialog becomes visible, causing a
-noticeable stutter/delay on open.
+`DialogShop` currently inflates all pack cards simultaneously across 5 modular sub-bundles (`shop_bundle_converted.xml`, `shop_bundle_equipment.xml`, `shop_bundle_infrastructure.xml`, `shop_bundle_storage.xml`, `shop_bundle_utility.xml`) inside a single `NestedScrollView`. 
 
-The fix replaces the static `NestedScrollView` + flat XML card tree with a
-`RecyclerView` + `ListAdapter`. Each pack becomes a lightweight `ShopItem` data class.
-The `RecyclerView` inflates only the items visible on screen at open time (~5–8 cards
-on a typical phone), deferring the rest until the user scrolls. Category filtering
-(ALL / STARTER / ADVENTURERS / …) switches the submitted list, not the view hierarchy.
+With the recent shop expansions (40+ individual pack cards, 16 hero previews, 10 categories, dozens of potion/item rows), the shop layout now contains **over 600+ views** inflated and measured synchronously on the main thread every time the dialog opens. This causes an immediate, noticeable stutter/freeze upon opening the Shop.
 
-This is a **pure UI refactor** — zero changes to purchase logic, `Data.kt`, formulas,
-or any other system.
+The fix replaces the static `NestedScrollView` + flat XML card hierarchy with a high-performance **`RecyclerView`** using `ListAdapter` and `DiffUtil`.
 
----
-
-## Open Questions
-
-> [!IMPORTANT]
-> **Adventurer preview cards** — the existing pack cards embed a full `LayoutAdventurerBinding`
-> per adventurer (image, name, traits). The plan uses a dedicated `VIEW_TYPE_ADVENTURER_PACK`
-> that inflates the same partial `layout_adventurer.xml` slots inside the card, bound
-> lazily by the adapter. If you prefer to keep those three cards as fully static XML
-> (not recycled), say so and they will use a separate fixed layout instead.
+### Core Benefits:
+1. **Instant Dialog Open (Zero Lag)**: Only the ~4–6 cards visible on screen are inflated initially (~20 views vs 600+), eliminating open stutter.
+2. **Smooth Category Filtering**: Tapping any of the 10 category chips filters the list in-memory via `DiffUtil` with buttery-smooth animations, without re-measuring 600+ views.
+3. **100% Feature & Visual Parity**: Adheres strictly to [`docs/shop-ui-rules.md`](file:///C:/Repositories/IGM-Modded/docs/shop-ui-rules.md). All 120×32 buy buttons, brass borders, checkmarks, prices, and interactive detail popups remain identical.
+4. **Preserved Click Interactions**: Every hero preview, item icon, and companion portrait remains fully clickable to open their detail dialogs.
+5. **Pure UI Refactor**: Zero changes to purchase logic, `Data.kt`, formulas, or save formats.
 
 ---
 
-## Proposed Changes
+## 1. Shop Item Data Model ([`ShopItem.kt`](file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/shop/ShopItem.kt))
 
-### New Data Model
+Create a sealed class hierarchy mapping to the 5 canonical pack archetypes defined in `docs/shop-ui-rules.md`:
 
-#### [NEW] `ShopItem.kt`
-- Path: `app/src/main/kotlin/…/ui/dialogs/shop/ShopItem.kt`
-- Sealed class:
-  ```kotlin
-  sealed class ShopItem {
-      abstract val category: DialogShop.Category
-      // Generic pack (title, description, price, buy/check, optional bonus item)
-      data class Pack(...) : ShopItem()
-      // Pack with embedded adventurer previews
-      data class AdventurerPack(...) : ShopItem()
-      // Pack with embedded pet preview
-      data class CompanionPack(...) : ShopItem()
-  }
-  ```
-- `isPurchased: () -> Boolean` and `onPurchase: () -> Unit` are lambdas that close
-  over `MainActivity.data` — no logic moves out of `DialogShop`.
+```kotlin
+package it.paranoidsquirrels.idleguildmaster.ui.dialogs.shop
+
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
+import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.Adventurer
+import it.paranoidsquirrels.idleguildmaster.storage.data.items.Item
+import it.paranoidsquirrels.idleguildmaster.storage.data.pets.Pet
+import it.paranoidsquirrels.idleguildmaster.ui.dialogs.DialogShop
+
+sealed class ShopItem {
+    abstract val id: String
+    abstract val titleRes: Int
+    abstract val priceGems: Int
+    abstract val category: DialogShop.Category
+    abstract val isPurchased: () -> Boolean
+    abstract val onPurchase: () -> Unit
+
+    // Archetype 1: Single-Row Upgrade / Feature (Storage, Workshop, Merchant, Single Gear)
+    data class SingleRow(
+        override val id: String,
+        @StringRes override val titleRes: Int,
+        @StringRes val descriptionRes: Int,
+        @DrawableRes val iconRes: Int,
+        override val priceGems: Int,
+        override val category: DialogShop.Category,
+        val detailItem: Item? = null,
+        override val isPurchased: () -> Boolean,
+        override val onPurchase: () -> Unit
+    ) : ShopItem()
+
+    // Archetype 2: 2x2 Grid Multi-Feature Pack (Guild Initiate, Explorer's Cache)
+    data class Grid(
+        override val id: String,
+        @StringRes override val titleRes: Int,
+        val gridItems: List<GridEntry>,
+        val bonusItem: Item? = null,
+        @StringRes val bonusItemTextRes: Int? = null,
+        override val priceGems: Int,
+        override val category: DialogShop.Category,
+        override val isPurchased: () -> Boolean,
+        override val onPurchase: () -> Unit
+    ) : ShopItem()
+
+    // Archetype 3: Adventurer / Hero Pack (Imperial Vanguard, Unholy Crusade, Primal Vanguard, Divine Champion)
+    data class AdventurerPack(
+        override val id: String,
+        @StringRes override val titleRes: Int,
+        val adventurers: List<Adventurer>,
+        val bonusItem: Item? = null,
+        @StringRes val bonusItemTextRes: Int? = null,
+        val extraItems: List<CountedItem> = emptyList(),
+        override val priceGems: Int,
+        override val category: DialogShop.Category,
+        override val isPurchased: () -> Boolean,
+        override val onPurchase: () -> Unit
+    ) : ShopItem()
+
+    // Archetype 4: Companion / Pet Pack (Senko Pet Pack)
+    data class CompanionPack(
+        override val id: String,
+        @StringRes override val titleRes: Int,
+        val pet: Pet,
+        @StringRes val petDescriptionRes: Int,
+        @StringRes val shelterTextRes: Int,
+        override val priceGems: Int,
+        override val category: DialogShop.Category,
+        override val isPurchased: () -> Boolean,
+        override val onPurchase: () -> Unit
+    ) : ShopItem()
+
+    // Archetype 5: Multi-Item / Reward Bundle (Patrician Wardrobe, Alchemist Bounty, Eternal Reliquary, Evolution Crate, etc.)
+    data class RewardBundle(
+        override val id: String,
+        @StringRes override val titleRes: Int,
+        val items: List<CountedItem>,
+        override val priceGems: Int,
+        override val category: DialogShop.Category,
+        override val isPurchased: () -> Boolean,
+        override val onPurchase: () -> Unit
+    ) : ShopItem()
+
+    data class GridEntry(
+        @DrawableRes val iconRes: Int,
+        @StringRes val textRes: Int
+    )
+
+    data class CountedItem(
+        val item: Item,
+        val count: Int,
+        @StringRes val nameRes: Int
+    )
+}
+```
 
 ---
 
-### Adapter
+## 2. Interactive Previews & Click Handlers
 
-#### [NEW] `ShopAdapter.kt`
-- Path: `app/src/main/kotlin/…/ui/dialogs/shop/ShopAdapter.kt`
-- `ListAdapter<ShopItem, RecyclerView.ViewHolder>` with `DiffUtil.ItemCallback` keyed
-  by `titleRes` (unique per pack).
-- Three view types: `PACK`, `ADVENTURER_PACK`, `COMPANION_PACK`.
-- `onBindViewHolder` sets title/body/price text, calls `setPurchasedState()`, wires
-  the BUY button click → `onPurchaseClick(item)` callback from `DialogShop`.
-- Adventurer slot binding reuses the same logic as the existing `populateAdventurer()`
-  helper (extracted to a static utility or kept inline in the adapter).
+Every item, adventurer, and pet bound in the `RecyclerView` ViewHolders has its click listener wired immediately:
 
----
-
-### Layout
-
-#### [DELETE] `dialog_shop.xml`
-The current ~246-view flat layout is removed entirely.
-
-#### [NEW] `dialog_shop.xml` (replacement — thin shell)
-- `LinearLayout` root:
-  - Title `TextView`
-  - `HorizontalScrollView` containing the category chip row (same chip IDs/labels)
-  - Gem balance row
-  - `RecyclerView` (`id/shopRecyclerView`, `LinearLayoutManager`)
-  - Close `Button`
-- Total inflated views on open: ~15
-
-#### [NEW] `layout_shop_item_pack.xml`
-- Generic pack card: title, description body, gem-price badge, BUY button, ✓ checkmark,
-  optional bonus-item `ImageView`.
-
-#### [NEW] `layout_shop_item_adventurer_pack.xml`
-- Extends the generic card with a horizontal strip of up to 4 adventurer slot includes
-  (`layout_adventurer.xml` partials).
-
-#### [NEW] `layout_shop_item_companion_pack.xml`
-- Extends the generic card with a pet portrait `ImageView` and detail-click listener.
+1. **Adventurers**:
+   ```kotlin
+   adventurerBinding.root.setOnClickListener {
+       UIUtils.getAdventurerDetailDialog(parentFragmentManager, adventurer, false, false)
+   }
+   ```
+2. **Items & Equipment**:
+   ```kotlin
+   itemView.setOnClickListener {
+       UIUtils.openItemDetail(item)
+   }
+   ```
+3. **Pets / Companions**:
+   ```kotlin
+   petImageView.setOnClickListener {
+       if (MainActivity.shownDialogPetDetail == null) {
+           val dialog = DialogPetDetail()
+           MainActivity.shownDialogPetDetail = dialog
+           dialog.pet = pet
+           dialog.show(parentFragmentManager, "pet_detail")
+       }
+   }
+   ```
 
 ---
 
-### Dialog Controller
+## 3. UI Layout Architecture
 
-#### [MODIFY] [DialogShop.kt](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogShop.kt)
-- Remove all `binding.xyzBuy.setOnClickListener` blocks (~20 listeners).
-- Remove `populateAdventurer()` method (logic moves to `ShopAdapter`).
+### 3.1 Main Dialog ([`dialog_shop.xml`](file:///C:/Repositories/IGM-Modded/app/src/main/res/layout/dialog_shop.xml))
+Replace the massive 600-view layout with a lightweight shell:
+- Header: Title (`shop_title`), Close button, Gem balance container.
+- Horizontal Category Chip ScrollView (10 chips):
+  `ALL`, `STARTER`, `ADVENTURERS`, `COMPANIONS`, `MERCHANT`, `WORKSHOP`, `STORAGE`, `UTILITY`, `EQUIPMENT`, `INFRASTRUCTURE`.
+- `RecyclerView` (`@+id/shop_recycler_view`):
+  `layout_width="match_parent"`, `layout_height="0dp"`, `layout_weight="1"`.
+  Configured with standard `LinearLayoutManager`.
+
+### 3.2 Canonical Card Layouts
+Create 5 reusable item layout templates matching [`docs/shop-ui-rules.md`](file:///C:/Repositories/IGM-Modded/docs/shop-ui-rules.md):
+1. `layout_shop_item_single_row.xml`: Title TextView (outside) + Card ConstraintLayout (icon, title/description, 120×32 buy button, checkmark).
+2. `layout_shop_item_grid.xml`: Title TextView (outside) + Card with 2×2 grid layout + optional bonus item + 120×32 buy button.
+3. `layout_shop_item_adventurer.xml`: Title TextView (outside) + Card with up to 4 embedded `layout_adventurer` slots + optional bonus item + 120×32 buy button.
+4. `layout_shop_item_companion.xml`: Title TextView (outside) + Card with pet portrait, pet name, traits/description, shelter text + 120×32 buy button.
+5. `layout_shop_item_reward_bundle.xml`: Title TextView (outside) + Card with vertical LinearLayout of item rows + 120×32 buy button.
+
+---
+
+## 4. Adapter & Controller Implementation
+
+### 4.1 `ShopAdapter.kt`
+- Extends `ListAdapter<ShopItem, RecyclerView.ViewHolder>(ShopDiffCallback())`.
+- `getItemViewType(position)`: Returns `VIEW_TYPE_SINGLE_ROW`, `VIEW_TYPE_GRID`, `VIEW_TYPE_ADVENTURER`, `VIEW_TYPE_COMPANION`, or `VIEW_TYPE_REWARD_BUNDLE`.
+- `onCreateViewHolder()`: Inflates the corresponding card layout.
+- `onBindViewHolder()`:
+  - Sets pack title, icons, descriptions, and gem prices (`@color/brass_filler`).
+  - Sets purchased state (disables button, shows `@drawable/check_brass` centered on button).
+  - Wires detail clicks on icons/heroes.
+  - Wires buy button click $\rightarrow$ triggers `confirmAndPurchase()` via lambda.
+
+### 4.2 `DialogShop.kt` Refactor
+- Remove the 20+ separate `xyzBuy.setOnClickListener` blocks.
 - `initialize()`:
-  - Creates `ShopAdapter`, sets it on `binding.shopRecyclerView`.
-  - Calls `buildShopItems()` → pure function returning `List<ShopItem>` for all packs.
-  - Calls `filterAndSubmit(Category.ALL)`.
+  - Setup `shopRecyclerView` with `ShopAdapter`.
+  - `masterShopItems = buildShopItems()`: Instantiates the master list of `ShopItem`s once.
+  - Setup category chip listeners.
+  - Call `selectCategory(Category.ALL)`.
 - `selectCategory(category)`:
-  - Filters the cached master list.
-  - Calls `adapter.submitList(filtered)` — DiffUtil diffs, no view creation.
+  - Updates category chip drawables (active vs inactive token styles).
+  - Filters `masterShopItems`:
+    ```kotlin
+    val filtered = if (category == Category.ALL) masterShopItems else masterShopItems.filter { it.category == category }
+    shopAdapter.submitList(filtered)
+    ```
 - `refresh()`:
-  - Re-submits filtered list to adapter (DiffUtil handles minimal redraws).
-- `confirmAndPurchase()` — **unchanged**, stays as a private function; called via
-  lambda stored in each `ShopItem`.
-- `companion object` adventurer instances — **unchanged** (pre-built once at class
-  load time, no regression).
-- `Category` enum — **unchanged**.
+  - Re-checks purchased states and calls `shopAdapter.notifyDataSetChanged()` (or updates `ShopItem` states and re-submits).
 
 ---
 
-### Package Structure
+## 5. Directory & Package Structure
 
-```
-ui/dialogs/
+```text
+app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/
 ├── shop/
-│   ├── ShopItem.kt      ← new
-│   └── ShopAdapter.kt   ← new
-└── DialogShop.kt        ← modified
+│   ├── ShopItem.kt           ← Sealed class data models & pack catalog
+│   ├── ShopAdapter.kt        ← RecyclerView ListAdapter with 5 ViewHolder types
+│   └── ShopDiffCallback.kt   ← DiffUtil item callback
+└── DialogShop.kt             ← Lightweight dialog controller
 ```
 
-The `shop/` sub-package is justified: two new cohesive files scoped exclusively to
-this dialog refactor; keeps `ui/dialogs/` from accumulating adapter classes.
-
 ---
 
-### No Changes Required
-
-| Component | Reason |
-|-----------|--------|
-| `Data.kt` | Pure UI refactor — no new fields |
-| `Formulas.kt` | No formula changes |
-| `strings.xml` | Existing string IDs reused as `titleRes`/`bodyRes` in `ShopItem` |
-| `build.gradle.kts` | `RecyclerView` already on classpath via `androidx.recyclerview` |
-| All purchase logic | Unchanged; moved into lambdas in `buildShopItems()` |
-
----
-
-## Verification Plan
+## 6. Verification Plan
 
 ### Automated Tests
-- `ShopReworkTest.kt` — add `testShopItemListCompleteness()`:
-  - Instantiate `Data`, call `buildShopItems()`, assert every existing purchase
-    flag has a corresponding `ShopItem` entry.
-  - Ensures future pack additions don't silently miss a list entry.
+- Run `./gradlew testDebugUnitTest`.
+- Update `ShopReworkTest.kt`:
+  - Assert that `buildShopItems()` contains entries for every shop pack in `Data.kt`.
+  - Assert category filtering returns the correct pack subsets.
+  - Verify purchase flag checks match `Data` properties.
 
 ### Manual Verification
-1. Open Shop — should open with no perceptible stutter.
-2. Tap each category chip — correct cards appear; others are gone.
-3. Purchase one pack — gem balance decreases, checkmark appears, save writes.
-4. Tap an adventurer preview card — `DialogEntityDetail` opens correctly.
-5. Rotate device / re-open dialog — purchased packs still show checkmarks.
-
-### Build Check
-```powershell
-.\gradlew.bat testDebugUnitTest
-.\gradlew.bat assembleDebug
-```
+1. **Dialog Open Performance**:
+   - Open Shop dialog $\rightarrow$ Verify it opens instantly without any stutter or frame drop.
+2. **Category Navigation**:
+   - Tap through all 10 chips (`ALL`, `STARTER`, `ADVENTURERS`, `COMPANIONS`, `MERCHANT`, `WORKSHOP`, `STORAGE`, `UTILITY`, `EQUIPMENT`, `INFRASTRUCTURE`).
+   - Confirm appropriate cards display smoothly for each category.
+3. **Click Interactions**:
+   - Tap on an adventurer in an adventurer pack $\rightarrow$ Confirm `DialogEntityDetail` opens.
+   - Tap on an item icon in a reward bundle / bonus item $\rightarrow$ Confirm `DialogItemDetail` opens.
+   - Tap on Senko pet icon $\rightarrow$ Confirm `DialogPetDetail` opens.
+4. **Purchase Flow & Persistence**:
+   - Purchase an unbought pack $\rightarrow$ Confirm confirmation dialog, gem deduction, checkmark appearance, and inventory reward.
+   - Close and re-open Shop $\rightarrow$ Confirm purchased state persists.
