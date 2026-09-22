@@ -37,6 +37,10 @@ class DialogMergePet : CustomDialog() {
 
     override fun initialize(arguments: Bundle?) {
         val sel = selected ?: return
+        if (!MainActivity.data.pets.contains(sel)) {
+            dismiss()
+            return
+        }
         val b = binding ?: return
         val foodGiven = Utils.round(sel.calculateTotalFoodGiven().toDouble() * 0.8)
         context?.let { ctx ->
@@ -87,7 +91,11 @@ class DialogMergePet : CustomDialog() {
             msg,
             R.string.yes
         ) { _, _ ->
-            MainActivity.data.pets.remove(sel)
+            val removed = MainActivity.data.pets.remove(sel)
+            if (!removed) {
+                dismiss()
+                return@getActionDialog
+            }
             pet.feed(foodGiven)
             for (saved in savedAreas) {
                 saved.savedPetId = null

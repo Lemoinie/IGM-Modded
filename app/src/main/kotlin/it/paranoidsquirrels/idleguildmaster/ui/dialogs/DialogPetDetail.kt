@@ -121,13 +121,18 @@ class DialogPetDetail : CustomDialog() {
         b.ability3Description.text = Html.fromHtml(formatPetAbilityDescription(p.petAbility3), 0)
         b.ability4Description.text = Html.fromHtml(formatPetAbilityDescription(p.petAbility4), 0)
 
-        b.dismiss.setText(if ((p.level > 1 || p.food > 0) && MainActivity.data.pets.size > 1) R.string.pet_merge else R.string.pet_set_free)
+        val isOwned = MainActivity.data.pets.contains(p)
+        b.dismiss.visibility = if (isOwned) View.VISIBLE else View.GONE
+        if (isOwned) {
+            b.dismiss.setText(if ((p.level > 1 || p.food > 0) && MainActivity.data.pets.size > 1) R.string.pet_merge else R.string.pet_set_free)
+        }
     }
 
     override fun attachListeners() {
         val b = binding ?: return
         b.dismiss.setOnClickListener {
             val p = pet ?: return@setOnClickListener
+            if (!MainActivity.data.pets.contains(p)) return@setOnClickListener
             val isMerge = (p.level > 1 || p.food > 0) && MainActivity.data.pets.size > 1
             if (isMerge || setFreeDialog == null) {
                 if (!isMerge || MainActivity.shownDialogConsumeFood == null) {

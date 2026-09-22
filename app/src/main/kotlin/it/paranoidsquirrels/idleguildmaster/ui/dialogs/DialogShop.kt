@@ -779,6 +779,11 @@ class DialogShop : CustomDialog() {
                     it.refreshGems()
                     MainActivity.adventurersFragment?.refresh()
                     MainActivity.headquartersFragment?.refresh()
+                    // Loot packs (Deep Pockets / Bottomless Chest) change the dungeon
+                    // loot cap: update the dungeon/raid loot displays right away so no
+                    // relaunch is needed to see the new cap.
+                    for (area in Utils.compileDungeonList()) area.refreshLoot()
+                    for (area in Utils.compileRaidList()) area.refreshLoot()
                     it.refreshIcons()
                 }
                 SaveManager.getInstance().save(ctx)

@@ -388,7 +388,13 @@ object ModChangelog {
         "\n\n" +
         "1.3.8.18 (22/9/2026):\n" +
         "- Settings: fixed the version text overlapping the START NEW GAME button, and removed the dead 'Restore Purchases' button (no in-app purchases).\n" +
-        "- Importing a save or starting a new game now reloads every screen immediately (dungeons, raids, guild activities, quests, gems/money) — no manual relaunch required."
+        "- Importing a save or starting a new game now reloads every screen immediately (dungeons, raids, guild activities, quests, gems/money) — no manual relaunch required.\n" +
+        "\n" +
+        "1.3.8.19 (22/9/2026):\n" +
+        "- Added the RESETCAPS redeem code: resets the LOOTCAP and IDLETIME overrides to base (vanilla) and also wipes the legacy packed save bits, so a stale override such as a loot cap of 4096 can no longer resurrect on the next load.\n" +
+        "- Fixed the dungeon/raid loot cap not updating until a relaunch after buying Deep Pockets or Bottomless Chest - the loot bars now refresh immediately after the purchase.\n" +
+        "- Fixed the loot bar staying at 3k max when Bottomless Chest (Deep Pockets II) was owned - it now shows the correct 4k cap.\n" +
+        "- Fixed the Bottomless Chest shop description showing 'Max Loot +10000' instead of 'Max Loot +1000'."
 
     private val MOD_VERSION_LIST: List<VersionEntry> by lazy { parseVersionEntries() }
 
