@@ -24,6 +24,7 @@ Visual assets located in `app/src/main/res/drawable/`:
 | **Minion** | **Crimson Acolyte** (`CrimsonAcolyte.kt`) | `scarlet_mage.png` | 15 chars. Wanders hallway rooms and spawns 4× with the boss. |
 | **New Status** | **Sanguine Fervor** (`StatusEffectType.SANGUINE_FERVOR`) | `icon_effect_sanguine_fervor.png` | Stackable on-death buff from Acolytes: +5% damage per stack to surviving enemy allies. Permanent (no turn duration, stays until unit dies). |
 | **Boss Skill** | **Scarlet Aeonia** (`ACTIVE_SCARLET_AEONIA`) | — | AoE magic: Sinister Curse (5 turns) $\rightarrow$ 120% magic dmg $\rightarrow$ Bloodflame (5 turns). |
+| **Minion Skill** | **Sanguine Pyre** (`ACTIVE_SANGUINE_PYRE`) | — | AoE magic: 50% damage $\rightarrow$ Bloodflame (3 turns). |
 
 ---
 
@@ -65,7 +66,7 @@ Fanatical ritualists who sustain the Archmagus and empower each other through ma
   - **Magic Defense**: `60` (`baseMagicDefense = 60`)
   - **Status Immunity**: `60%` (`immunityToStatus = 0.60`)
 - **Active Skill — Sanguine Pyre**:
-  - Hits all adventurers for **50% damage** and inflicts **`BLOODFLAME`** (burns each turn and disables all healing).
+  - Hits all adventurers for **50% damage** and inflicts **`BLOODFLAME`** for 3 turns (burns each turn and disables all healing).
 - **Passive Skill — Martyr's Pact (On-Death Effect)**:
   - When a Crimson Acolyte dies, `calculateOnDeathEffectsOnAllies()` triggers.
   - Grants the positive status effect **`Sanguine Fervor`** (`StatusEffectType.SANGUINE_FERVOR`) to all surviving enemy allies.
@@ -169,9 +170,9 @@ override fun listDrops(i: Int): LinkedHashMap<ItemWrapper, Int> {
 - [MODIFY] `StatusEffect.kt` / `Entity.kt`:
   - Support stack tracking for `SANGUINE_FERVOR` upon receiving multiple instances (incrementing stack count or stacking instances).
 - [MODIFY] `Area.kt`:
-  - Exempt `SANGUINE_FERVOR` from turn duration decrement / expiration removal in `decrementStatusEffects()` so it stays active until unit death.
+  - Exempt `SANGUINE_FERVOR` from turn duration decrement / expiration removal in `resolveStatus()` (lines ~1080–1100) so it stays active until unit death.
   - Handle `SANGUINE_FERVOR` in `statusDamageMultiplier`: `+ (stacks * 0.05)` damage bonus.
-  - Handle `PASSIVE_BLOOD_CONVOCATION` in damage resolution: 5% chance on being damaged to spawn a `CrimsonAcolyte` if `enemies.size < 5`.
+  - Handle `PASSIVE_BLOOD_CONVOCATION` in damage resolution: 50% chance on being damaged to spawn a `CrimsonAcolyte` if `enemies.size < 5`.
 - [MODIFY] `Skills.kt`:
   - Add `ACTIVE_SCARLET_AEONIA` and `ACTIVE_SANGUINE_PYRE`.
 
@@ -206,10 +207,10 @@ override fun listDrops(i: Int): LinkedHashMap<ItemWrapper, Int> {
 ## 6. Verification & Balance Testing
 1. **Dungeon Exploration Validation**:
    - Verify room generation: Party correctly wanders between 5 and 50 rooms before reaching the boss.
-   - Verify hallway skirmishes with 1–3 Crimson Acolytes.
+   - Verify hallway skirmishes with 1–5 Crimson Acolytes.
 2. **Combat Mechanics**:
    - Slaying a Crimson Acolyte applies stackable `Sanguine Fervor` (+5% damage per stack, no turn duration / permanent until unit dies) to surviving enemies.
    - Valthex casts Scarlet Aeonia: applies Sinister Curse, deals 120% magic damage, and applies Bloodflame for 5 turns.
-   - Valthex taking hits triggers a 5% chance to spawn an Acolyte if space permits.
+   - Valthex taking hits triggers a 50% chance to spawn an Acolyte if space permits.
 3. **Loot Table**:
    - Automated roll simulation: Scarlet Strand verified at exactly 1.0% (Weight 10 / 1000), remaining 99% yielding no drop.
