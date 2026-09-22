@@ -200,6 +200,9 @@ class DataDeserializer : JsonDeserializer<Data> {
         this.data.isUnholyCrusadePurchased = asJsonObject.has("unholyCrusadePurchased") && asJsonObject.get("unholyCrusadePurchased").asBoolean
         this.data.isPrimalVanguardPurchased = asJsonObject.has("primalVanguardPurchased") && asJsonObject.get("primalVanguardPurchased").asBoolean
         this.data.isSenkoPackPurchased = asJsonObject.has("senkoPackPurchased") && asJsonObject.get("senkoPackPurchased").asBoolean
+        this.data.isMythicEggPack10Purchased = asJsonObject.has("mythicEggPack10Purchased") && asJsonObject.get("mythicEggPack10Purchased").asBoolean
+        this.data.isMythicEggPack25Purchased = asJsonObject.has("mythicEggPack25Purchased") && asJsonObject.get("mythicEggPack25Purchased").asBoolean
+        this.data.isMythicEggPack50Purchased = asJsonObject.has("mythicEggPack50Purchased") && asJsonObject.get("mythicEggPack50Purchased").asBoolean
         this.data.isApprenticeMerchantPurchased = asJsonObject.has("apprenticeMerchantPurchased") && asJsonObject.get("apprenticeMerchantPurchased").asBoolean
         this.data.isJourneymanMerchantPurchased = asJsonObject.has("journeymanMerchantPurchased") && asJsonObject.get("journeymanMerchantPurchased").asBoolean
         this.data.isTradeBaronPurchased = asJsonObject.has("tradeBaronPurchased") && asJsonObject.get("tradeBaronPurchased").asBoolean

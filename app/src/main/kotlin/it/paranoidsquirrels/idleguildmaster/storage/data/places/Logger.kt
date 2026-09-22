@@ -25,6 +25,8 @@ object Logger {
     const val STATUS_BLEED_LACERATE = 124
     const val STATUS_BLEED_SERRATED = 125
     const val AOE_DAMAGE_INTERCEPTED = 126
+    const val SOLAR_REBIRTH_REVIVE = 127
+    const val SOLAR_REBIRTH_SAVE = 128
     const val BOTCHED_OFFERING = 115
     private const val COLOR_FORMAT = "<font color=%s><strong>%s</strong></font>"
     const val DARKNESS_DESCRIPTION = 1
@@ -813,6 +815,19 @@ object Logger {
                         wrap(iInterceptedAoe, getRed()),
                         wrap(nameAllyAoe, colorAllyAoe)
                     )
+                }
+                SOLAR_REBIRTH_REVIVE -> {
+                    if (zIsSettingVerboseLogs) {
+                    val revivedAlly = objArr[0] as Entity
+                    val phoenixPet = objArr[1] as Pet
+                    strWrap = wrap(String.format(RESOURCES!!.getString(R.string.log_solar_rebirth_revive), wrap(RESOURCES!!.getString(revivedAlly.idName), GREEN), wrap(RESOURCES!!.getString(phoenixPet.idName), ORANGE)), YELLOW)
+                    }
+                }
+                SOLAR_REBIRTH_SAVE -> {
+                    if (zIsSettingVerboseLogs) {
+                    val savedAlly = objArr[0] as Entity
+                    strWrap = wrap(String.format(RESOURCES!!.getString(R.string.log_solar_rebirth_save), wrap(RESOURCES!!.getString(savedAlly.idName), GREEN)), YELLOW)
+                    }
                 }
             }
             if (strWrap != null) {

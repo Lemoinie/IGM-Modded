@@ -394,7 +394,16 @@ object ModChangelog {
         "- Added the RESETCAPS redeem code: resets the LOOTCAP and IDLETIME overrides to base (vanilla) and also wipes the legacy packed save bits, so a stale override such as a loot cap of 4096 can no longer resurrect on the next load.\n" +
         "- Fixed the dungeon/raid loot cap not updating until a relaunch after buying Deep Pockets or Bottomless Chest - the loot bars now refresh immediately after the purchase.\n" +
         "- Fixed the loot bar staying at 3k max when Bottomless Chest (Deep Pockets II) was owned - it now shows the correct 4k cap.\n" +
-        "- Fixed the Bottomless Chest shop description showing 'Max Loot +10000' instead of 'Max Loot +1000'."
+        "- Fixed the Bottomless Chest shop description showing 'Max Loot +10000' instead of 'Max Loot +1000'.\n" +
+        "\n" +
+        "1.3.8.20 (22/9/2026):\n" +
+        "- Fixed the Senko's Celestial Bond exploit: the pack's unique Level-50 Senko could be merged into an owned pet to convert its entire level history into pet XP (80% of all food consumed), which acted as a repeatable infinite-XP farm. Unique promotional pets (negative ids, such as the pack Senko at id -100) can no longer be merged.\n" +
+        "\n" +
+        "1.3.9.0 (22/9/2026):\n" +
+        "- Added the Mythic pet type with a fixed trait pool (EXPERIENCE, DROPS, OPPORTUNIST, SAVAGE) rolled without repeats.\n" +
+        "- Added the Phoenix pet 'Kiara' with Solar Rebirth as its 5th trait: each combat turn it may revive a fallen ally at 1 HP or protect an ally from one lethal hit (0.15% chance per level, 1 + floor(level/50) targets).\n" +
+        "- Standardized the Kitsune pet (display name 'Senko'): legacy 'Semi'/'Senko' saves resolve to Kitsune, the pet detail/shop show 'Senko', and the Z3GAAZRT redeem now grants 'Bloodcrave Senko (Lvl 100)'.\n" +
+        "- Added the Mythic Egg item (hatches Phoenix or Kitsune at 50/50) and three one-time Mythic Hatchery shop packs: Cache (10 eggs, 500 Gems), Bundle (25 eggs, 1,000 Gems), Treasury (50 eggs, 2,000 Gems)."
 
     private val MOD_VERSION_LIST: List<VersionEntry> by lazy { parseVersionEntries() }
 

@@ -15,6 +15,8 @@ import it.paranoidsquirrels.idleguildmaster.Utils
 import it.paranoidsquirrels.idleguildmaster.databinding.DialogPetDetailBinding
 import it.paranoidsquirrels.idleguildmaster.storage.data.pets.Pet
 import it.paranoidsquirrels.idleguildmaster.storage.data.pets.PetAbility
+import it.paranoidsquirrels.idleguildmaster.storage.data.pets.instances.Kitsune
+import it.paranoidsquirrels.idleguildmaster.storage.data.pets.instances.Phoenix
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.Area
 import java.util.ArrayList
 
@@ -66,8 +68,8 @@ class DialogPetDetail : CustomDialog() {
         b.detailExperienceBar.progress = if (nextLvlFood > 0) ((p.food * 100.0) / nextLvlFood).toInt() else 0
         b.description.text = getString(p.idDescription)
 
-        val isSenko = (p.trueClass.equals("Senko", ignoreCase = true) || p.trueClass.equals("Semi", ignoreCase = true) || p is it.paranoidsquirrels.idleguildmaster.storage.data.pets.instances.Senko)
-        if (isSenko) {
+        val isKitsune = (p is Kitsune || p.trueClass.equals("Kitsune", true) || p.trueClass.equals("Senko", true) || p.trueClass.equals("Semi", true))
+        if (isKitsune) {
             // Unlock all traits at level 1 with full power
             b.ability1Name.text = String.format(getString(R.string.pet_ability_name_unlocked), getString(p.petAbility1.nameRes), p.level)
             b.ability2Name.text = String.format(getString(R.string.pet_ability_name_unlocked), getString(p.petAbility2.nameRes), p.level)
@@ -113,6 +115,14 @@ class DialogPetDetail : CustomDialog() {
             b.containerAbility4.visibility = if (p.abilityNumber <= 3) View.GONE else View.VISIBLE
 
             b.containerAbility5.visibility = View.GONE
+            if (p is Phoenix || p.trueClass.equals("Phoenix", true)) {
+                // Phoenix 5th trait: Solar Rebirth — revive/protect allies each combat turn.
+                b.containerAbility5.visibility = View.VISIBLE
+                b.ability5Name.text = String.format(getString(R.string.pet_ability_name_unlocked), getString(R.string.pet_ability_solar_rebirth_name), p.level)
+                val rebirthPct = Utils.round(((p as? Phoenix)?.getSolarRebirthChance() ?: (p.level * 0.0015)) * 100.0)
+                val rebirthTargets = (p as? Phoenix)?.getSolarRebirthTargetCount() ?: (1 + (p.level / 50))
+                b.ability5Description.text = Html.fromHtml("<font color=#FFDB7F><b>$rebirthPct%</b></font> chance to protect <b>${rebirthTargets}</b> allies from death each turn", 0)
+            }
             b.detailTraits.visibility = View.GONE
         }
 

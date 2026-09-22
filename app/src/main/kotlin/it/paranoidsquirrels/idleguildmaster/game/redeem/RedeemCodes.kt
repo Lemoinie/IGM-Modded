@@ -77,7 +77,7 @@ object RedeemCodes {
                 "Failed to summon the Black Market"
             }
         }
-        // One-time code: a level-100 Semi with the bleed pet kit (Bloodcrave/Lacerate/Serrated/Savage).
+        // One-time code: a level-100 Kitsune (Senko) with the bleed pet kit (Bloodcrave/Lacerate/Serrated/Savage).
         if (upper == "Z3GAAZRT") {
             return try {
                 val d = MainActivity.data ?: return null
@@ -85,13 +85,13 @@ object RedeemCodes {
                     return "Code already redeemed!"
                 }
                 val id = Utils.calculateNewPetId()
-                val pet = Pet.getInstance("Semi", id, 100, 0, PetAbility.BLOODCRAVE, PetAbility.LACERATE, PetAbility.SERRATED, PetAbility.SAVAGE)
+                val pet = Pet.getInstance("Kitsune", id, 100, 0, PetAbility.BLOODCRAVE, PetAbility.LACERATE, PetAbility.SERRATED, PetAbility.SAVAGE)
                     ?: return "Pet creation failed"
                 d.pets.add(pet)
                 d.isRedeemed_z3gaazrt = true
                 MainActivity.headquartersFragment.refresh()
                 FileManager.saveNow(context)
-                "Bloodcrave Semi (Lvl 100) added to the shelter!"
+                "Bloodcrave Senko (Lvl 100) added to the shelter!"
             } catch (e: Exception) {
                 "Unable to grant this code"
             }

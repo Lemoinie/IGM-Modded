@@ -1510,6 +1510,8 @@ Tap on \"Raids\" at the bottom of the screen to see the unlocked raid!"</string>
     <string name="egg_reptile_name">Reptile Egg</string>
     <string name="egg_wild_description">Egg that will hatch a Wild pet. Wild pets usually provide strategic support to the team, enhancing health management and offensive capabilities.</string>
     <string name="egg_wild_name">Wild Egg</string>
+    <string name="item_mythic_egg_name">Mythic Egg</string>
+    <string name="item_mythic_egg_description">A legendary egg infused with ancient power. It shimmers with otherworldly energy, holding mythical beasts of legend within.</string>
     <string name="egg_wooden_description">Egg that will hatch a Wooden pet. Wooden pets like to help the team stay alive, and are rarely keen for harming enemies.</string>
     <string name="egg_wooden_name">Wooden Egg</string>
     <string name="enemy_abomination_description">Defying all the laws of basic biology, this monstrosity of connected tissues and nervous dead ends displays the strength of the many body it is made of. It feels no pain, so physical damage is less effective.</string>
@@ -2762,6 +2764,8 @@ Adventurers' HP are fully restored, harmful effects are cleansed."</string>
     <string name="log_parry_skill">%s parried.</string>
     <string name="log_pet_decoy" formatted="false">Distracted by %s, %s missed.</string>
     <string name="log_pet_execution" formatted="false">%s was executed by %s</string>
+    <string name="log_solar_rebirth_revive" formatted="false">%s was resurrected by %s\'s Solar Rebirth!</string>
+    <string name="log_solar_rebirth_save" formatted="false">%s survived lethal damage with 1 HP thanks to Solar Rebirth!</string>
     <string name="log_progress" formatted="false">Progress towards %s: %d/%d</string>
     <string name="log_reanimate_corpse" formatted="false">A %s was reanimated by %s</string>
     <string name="log_reanimated_unit_death">%s crumbled to dust.</string>
@@ -3620,6 +3624,7 @@ POISON: damage reduced by 20%"</string>
     <string name="pet_ability_magic_name">Magic</string>
     <string name="pet_ability_name_locked" formatted="false">%s 0 (unlocks at level %d)</string>
     <string name="pet_ability_name_unlocked" formatted="false">%s %d</string>
+    <string name="pet_ability_solar_rebirth_name">Solar Rebirth</string>
     <string name="pet_ability_opportunist_description">Executes enemies below %s%% HP.</string>
     <string name="pet_ability_opportunist_name">Opportunist</string>
     <string name="pet_ability_regeneration_description">Allies regenerate %s HP/turn.</string>
@@ -3696,6 +3701,7 @@ POISON: damage reduced by 20%"</string>
     <string name="pet_type_insect">INSECT</string>
     <string name="pet_type_reptile">REPTILE</string>
     <string name="pet_type_wild">WILD</string>
+    <string name="pet_type_mythic">MYTHIC</string>
     <string name="pet_type_wooden">WOODEN</string>
     <string name="pet_walking_bush_description">A dense, thorny shrub with rustling leaves that move on their own. It scuttles across the ground, roots writhing like legs, driven mostly by its curiosity.</string>
     <string name="pet_walking_bush_name">Walking Bush</string>
@@ -3933,6 +3939,12 @@ I apologize for the inconvenience."</string>
     <string name="shop_title_explorers_cache">EXPLORER\'S SUPPLY CACHE</string>
     <string name="shop_title_primal_vanguard">PRIMAL VANGUARD</string>
     <string name="shop_title_senko_pack">SENKO\'S CELESTIAL BOND</string>
+    <string name="shop_title_mythic_eggs_10">MYTHIC HATCHERY CACHE</string>
+    <string name="shop_title_mythic_eggs_25">MYTHIC HATCHERY BUNDLE</string>
+    <string name="shop_title_mythic_eggs_50">MYTHIC HATCHERY TREASURY</string>
+    <string name="shop_mythic_eggs_10_desc">10× Mythic Egg</string>
+    <string name="shop_mythic_eggs_25_desc">25× Mythic Egg</string>
+    <string name="shop_mythic_eggs_50_desc">50× Mythic Egg</string>
     <string name="shop_title_apprentice_merchant">APPRENTICE MERCHANT PACK</string>
     <string name="shop_title_journeyman_merchant">JOURNEYMAN MERCHANT PACK</string>
     <string name="shop_title_grand_merchant">GRAND MERCHANT PACK</string>
@@ -4489,6 +4501,10 @@ TAUNT: the taunting unit is always chosen as target"</string>
     <string name="gpdeku_split_title">gpdeku</string>
     <string name="pet_senko_name">Semi</string>
     <string name="pet_senko_description">A divine kitsune spirit dedicated to the guild.</string>
+    <string name="pet_kitsune_name">Senko</string>
+    <string name="pet_kitsune_description">A divine celestial kitsune dedicated to nurturing and pampering the guild.</string>
+    <string name="pet_phoenix_name">Kiara</string>
+    <string name="pet_phoenix_description">An immortal phoenix born from eternal flames. With radiant warmth and vibrant spirit, she rises anew each time she falls.</string>
     <string name="consumable_evo22_vial_name">Evo-22 Vial</string>
     <string name="consumable_evo22_vial_description">A refined celestial compound that stimulates biological evolution. Permanently upgrades an adventurer\'s common trait into its enhanced PLUS form (Brute+, Feral+, Bookworm+).</string>
     <string name="dialog_consume_evo22_title">Select Adventurer</string>
@@ -4557,6 +4573,8 @@ TAUNT: the taunting unit is always chosen as target"</string>
     <string name="passive_aura_of_the_seraphim_description" formatted="false">Reduces darkness by 50. At the start of battle, grants all allies Radiant Blessing (+50% status immunity, +30% damage against Undead, +15 flat damage reduction, +5% HP regeneration per turn). Each turn, cleanses 1 negative effect from every ally. Basic attacks heal the ally with the lowest HP for 50% of the damage dealt (overhealing becomes a holy shield). Intercepts 35% of enemy AoE damage for same-row allies.</string>
     <string name="status_effect_radiant_blessing">Radiant Blessing</string>
     <string name="status_effect_radiant_blessing_description">Blessed by the aura of light: bonus status immunity, bonus damage against Undead, flat damage reduction, and HP regeneration.</string>
+    <string name="status_effect_solar_rebirth">Solar Rebirth</string>
+    <string name="status_effect_solar_rebirth_description">Wrapped in Phoenix solar flames: survives one lethal hit at 1 HP.</string>
     <string name="drawer_mod_info_title">Mod Info</string>
 <string name="drawer_changelog_title">Changelog</string>
 <string name="drawer_mod_about_title">Mod Info / Changelog</string>

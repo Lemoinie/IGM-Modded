@@ -1043,7 +1043,7 @@
                         android:layout_height="48.0dip"
                         android:background="@drawable/object_border_dim_white"
                         android:padding="4.0dip"
-                        android:src="@drawable/pet_senko"
+                        android:src="@drawable/pet_kitsune"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -1052,7 +1052,7 @@
                         android:layout_width="0.0dip"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8.0dip"
-                        android:text="@string/pet_senko_name"
+                        android:text="@string/pet_kitsune_name"
                         android:textColor="@color/brass_filler"
                         android:textSize="15.0sp"
                         android:textStyle="bold"
@@ -1207,6 +1207,240 @@
                     app:layout_constraintBottom_toBottomOf="@id/cake_pack_buy"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/cake_pack_buy" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Mythic Hatchery Cache (10 Mythic Eggs) -->
+            <TextView
+                android:id="@+id/mythic_eggs_10_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8.0dip"
+                android:text="@string/shop_title_mythic_eggs_10"
+                android:textSize="18.0sp"
+                android:textStyle="bold" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraint_mythic_eggs_10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4.0dip"
+                android:background="@drawable/object_border_brass"
+                android:padding="8.0dip">
+
+                <ImageView
+                    android:id="@+id/image_mythic_eggs_10"
+                    android:layout_width="44.0dip"
+                    android:layout_height="44.0dip"
+                    android:background="@drawable/object_border_dim_white"
+                    android:padding="4.0dip"
+                    android:src="@drawable/egg_mythic"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/text_mythic_eggs_10"
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8.0dip"
+                    android:text="@string/shop_mythic_eggs_10_desc"
+                    android:textSize="14.0sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/mythic_eggs_10_buy"
+                    app:layout_constraintStart_toEndOf="@id/image_mythic_eggs_10"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:id="@+id/mythic_eggs_10_buy"
+                    android:layout_width="120.0dip"
+                    android:layout_height="32.0dip"
+                    android:background="@drawable/object_border_buy"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                >
+                    <ImageView
+                        android:layout_width="22.0dip"
+                        android:layout_height="22.0dip"
+                        android:layout_marginEnd="4.0dip"
+                        android:src="@drawable/gem" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="500"
+                        android:textColor="@color/brass_filler"
+                        android:textSize="15.0sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/check_mythic_eggs_10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/check_brass"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@id/mythic_eggs_10_buy"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/mythic_eggs_10_buy" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Mythic Hatchery Bundle (25 Mythic Eggs) -->
+            <TextView
+                android:id="@+id/mythic_eggs_25_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8.0dip"
+                android:text="@string/shop_title_mythic_eggs_25"
+                android:textSize="18.0sp"
+                android:textStyle="bold" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraint_mythic_eggs_25"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4.0dip"
+                android:background="@drawable/object_border_brass"
+                android:padding="8.0dip">
+
+                <ImageView
+                    android:id="@+id/image_mythic_eggs_25"
+                    android:layout_width="44.0dip"
+                    android:layout_height="44.0dip"
+                    android:background="@drawable/object_border_dim_white"
+                    android:padding="4.0dip"
+                    android:src="@drawable/egg_mythic"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/text_mythic_eggs_25"
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8.0dip"
+                    android:text="@string/shop_mythic_eggs_25_desc"
+                    android:textSize="14.0sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/mythic_eggs_25_buy"
+                    app:layout_constraintStart_toEndOf="@id/image_mythic_eggs_25"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:id="@+id/mythic_eggs_25_buy"
+                    android:layout_width="120.0dip"
+                    android:layout_height="32.0dip"
+                    android:background="@drawable/object_border_buy"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                >
+                    <ImageView
+                        android:layout_width="22.0dip"
+                        android:layout_height="22.0dip"
+                        android:layout_marginEnd="4.0dip"
+                        android:src="@drawable/gem" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1,000"
+                        android:textColor="@color/brass_filler"
+                        android:textSize="15.0sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/check_mythic_eggs_25"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/check_brass"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@id/mythic_eggs_25_buy"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/mythic_eggs_25_buy" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Mythic Hatchery Treasury (50 Mythic Eggs) -->
+            <TextView
+                android:id="@+id/mythic_eggs_50_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8.0dip"
+                android:text="@string/shop_title_mythic_eggs_50"
+                android:textSize="18.0sp"
+                android:textStyle="bold" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraint_mythic_eggs_50"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4.0dip"
+                android:background="@drawable/object_border_brass"
+                android:padding="8.0dip">
+
+                <ImageView
+                    android:id="@+id/image_mythic_eggs_50"
+                    android:layout_width="44.0dip"
+                    android:layout_height="44.0dip"
+                    android:background="@drawable/object_border_dim_white"
+                    android:padding="4.0dip"
+                    android:src="@drawable/egg_mythic"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/text_mythic_eggs_50"
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8.0dip"
+                    android:text="@string/shop_mythic_eggs_50_desc"
+                    android:textSize="14.0sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/mythic_eggs_50_buy"
+                    app:layout_constraintStart_toEndOf="@id/image_mythic_eggs_50"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:id="@+id/mythic_eggs_50_buy"
+                    android:layout_width="120.0dip"
+                    android:layout_height="32.0dip"
+                    android:background="@drawable/object_border_buy"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                >
+                    <ImageView
+                        android:layout_width="22.0dip"
+                        android:layout_height="22.0dip"
+                        android:layout_marginEnd="4.0dip"
+                        android:src="@drawable/gem" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2,000"
+                        android:textColor="@color/brass_filler"
+                        android:textSize="15.0sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/check_mythic_eggs_50"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/check_brass"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@id/mythic_eggs_50_buy"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/mythic_eggs_50_buy" />
             </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
             <!-- ===================== 4. MERCHANT BUNDLE ===================== -->

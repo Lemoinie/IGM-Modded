@@ -20,7 +20,7 @@ abstract class Pet {
             petAbility4: PetAbility
         ): Pet? {
             return try {
-                val resolved = if (str.equals("Semi", ignoreCase = true)) "Senko" else str
+                val resolved = if (str.equals("Semi", true) || str.equals("Senko", true) || str.equals("Kitsune", true)) "Kitsune" else str
                 val clazz = Class.forName(String.format(CLASS_PATH, resolved))
                 val pet = clazz.getConstructor().newInstance() as Pet
                 pet.configureStatistics()
@@ -43,7 +43,7 @@ abstract class Pet {
         @JvmStatic
         fun getInstance(str: String, id: Int): Pet? {
             return try {
-                val resolved = if (str.equals("Semi", ignoreCase = true)) "Senko" else str
+                val resolved = if (str.equals("Semi", true) || str.equals("Senko", true) || str.equals("Kitsune", true)) "Kitsune" else str
                 val clazz = Class.forName(String.format(CLASS_PATH, resolved))
                 val pet = clazz.getConstructor().newInstance() as Pet
                 pet.configureStatistics()
@@ -56,13 +56,13 @@ abstract class Pet {
                 val petAbility = guaranteed[(Utils.random() * guaranteed.size.toDouble()).toInt()]
                 arrayList.add(petAbility)
                 pet.petAbility1 = petAbility
-                val petAbilityRollPetAbility = Utils.rollPetAbility(arrayList)
+                val petAbilityRollPetAbility = pet.rollAbility(arrayList)
                 arrayList.add(petAbilityRollPetAbility)
                 pet.petAbility2 = petAbilityRollPetAbility
-                val petAbilityRollPetAbility2 = if (pet.abilityNumber > 2) Utils.rollPetAbility(arrayList) else PetAbility.EMPTY
+                val petAbilityRollPetAbility2 = if (pet.abilityNumber > 2) pet.rollAbility(arrayList) else PetAbility.EMPTY
                 arrayList.add(petAbilityRollPetAbility2)
                 pet.petAbility3 = petAbilityRollPetAbility2
-                val petAbilityRollPetAbility3 = if (pet.abilityNumber > 3) Utils.rollPetAbility(arrayList) else PetAbility.EMPTY
+                val petAbilityRollPetAbility3 = if (pet.abilityNumber > 3) pet.rollAbility(arrayList) else PetAbility.EMPTY
                 arrayList.add(petAbilityRollPetAbility3)
                 pet.petAbility4 = petAbilityRollPetAbility3
                 pet.configureAbilities()
@@ -151,9 +151,13 @@ abstract class Pet {
     }
 
     private fun configureAbilities() {
-        val isSenko = (trueClass.equals("Senko", ignoreCase = true) || trueClass.equals("Semi", ignoreCase = true) || this is it.paranoidsquirrels.idleguildmaster.storage.data.pets.instances.Senko)
-        if (isSenko) {
-            // Senko/Semi unlocks all traits at Level 1
+        val isKitsune =
+            this is it.paranoidsquirrels.idleguildmaster.storage.data.pets.instances.Kitsune ||
+                trueClass.equals("Kitsune", true) ||
+                trueClass.equals("Senko", true) ||
+                trueClass.equals("Semi", true)
+        if (isKitsune) {
+            // Kitsune (Senko) unlocks all traits at Level 1
             configureAbility(this.petAbility1, this.level)
             configureAbility(this.petAbility2, this.level)
             configureAbility(this.petAbility3, this.level)
@@ -209,6 +213,8 @@ abstract class Pet {
     open fun getTrueClass(): String = trueClass
     open fun getId(): Int = id
     open fun getAbilityNumber(): Int = abilityNumber
+    /** Rolls the next pet trait; base pets use the generic pool, subclasses may restrict it (e.g. Mythic). */
+    open fun rollAbility(exclude: List<PetAbility>): PetAbility = Utils.rollPetAbility(exclude)
     open fun isFavourite(): Boolean = favourite
     open fun setFavourite(favourite: Boolean) { this.favourite = favourite }
     open fun getIdName(): Int = idName

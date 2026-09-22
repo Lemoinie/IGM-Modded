@@ -276,7 +276,7 @@ class ModFeaturesTest {
 
         val senko = Pet.getInstance("Senko", 1)
         assertNotNull(senko)
-        assertEquals("Senko", senko?.trueClass)
+        assertEquals("Kitsune", senko?.trueClass)
 
         val eliteSlime = Enemy.getInstance("Elite_Slime")
         assertNotNull(eliteSlime)
@@ -325,7 +325,7 @@ class ModFeaturesTest {
 
         val petResult = RedeemCodes.process("PET Senko 5", null)
         assertNotNull(petResult)
-        val pet = MainActivity.data.pets.find { it.trueClass == "Senko" }
+        val pet = MainActivity.data.pets.find { it.trueClass == "Kitsune" }
         assertNotNull(pet)
         assertEquals(5, pet?.level)
 
@@ -343,7 +343,7 @@ class ModFeaturesTest {
     fun testModAboutChangelogEntries() {
         val entries = ModChangelog.parseVersionEntries()
         assertTrue(entries.isNotEmpty())
-        assertTrue("Top entry must be 1.3.8.19", entries[0].title.startsWith("1.3.8.19"))
+        assertTrue("Top entry must be 1.3.9.0", entries[0].title.startsWith("1.3.9.0"))
         assertTrue("Bottom entry must be 1.0.0.0", entries.last().title.startsWith("1.0.0.0"))
     }
 
@@ -388,7 +388,7 @@ class ModFeaturesTest {
     fun testSenkoSemiPetFeatures() {
         val semi = Pet.getInstance("Semi", 1)
         assertNotNull(semi)
-        assertEquals("Senko", semi?.getTrueClass())
+        assertEquals("Kitsune", semi?.getTrueClass())
         assertEquals(1, semi?.level)
 
         // At level 1, Senko's abilities are unlocked and configureAbilities applies them
@@ -845,8 +845,8 @@ class ModFeaturesTest {
 
         val first = RedeemCodes.process("Z3GAAZRT", null)
         assertNotNull("First redeem must return a message", first)
-        val semi = MainActivity.data.pets.firstOrNull { it.trueClass.equals("Semi", true) || it.trueClass.equals("Senko", true) }
-        assertNotNull("Z3GAAZRT must grant a Semi pet", semi)
+        val semi = MainActivity.data.pets.firstOrNull { it.trueClass.equals("Kitsune", true) || it.trueClass.equals("Semi", true) || it.trueClass.equals("Senko", true) }
+        assertNotNull("Z3GAAZRT must grant a Kitsune pet", semi)
         assertEquals(100, semi!!.level)
         assertEquals(PetAbility.BLOODCRAVE, semi.petAbility1)
         assertEquals(PetAbility.LACERATE, semi.petAbility2)
@@ -861,7 +861,7 @@ class ModFeaturesTest {
         val second = RedeemCodes.process("Z3GAAZRT", null)
         assertNotNull(second)
         assertTrue("Second redeem must be blocked", second!!.contains("already", ignoreCase = true))
-        assertEquals(1, MainActivity.data.pets.count { it.trueClass.equals("Semi", true) || it.trueClass.equals("Senko", true) })
+        assertEquals(1, MainActivity.data.pets.count { it.trueClass.equals("Kitsune", true) || it.trueClass.equals("Semi", true) || it.trueClass.equals("Senko", true) })
     }
 
     @Test

@@ -454,7 +454,7 @@ class DialogShop : CustomDialog() {
         b.senkoPackBuy.setOnClickListener {
             confirmAndPurchase(getString(R.string.shop_title_senko_pack), 2500, MainActivity.data.isSenkoPackPurchased) {
                 MainActivity.data.isSenkoPackPurchased = true
-                val pet = Pet.getInstance("Senko", -100, 50, 0, PetAbility.SAVAGE, PetAbility.REGENERATION, PetAbility.DROPS, PetAbility.EXPERIENCE)
+                val pet = Pet.getInstance("Kitsune", Utils.calculateNewPetId(), 50, 0, PetAbility.SAVAGE, PetAbility.REGENERATION, PetAbility.DROPS, PetAbility.EXPERIENCE)
                 if (pet != null) {
                     MainActivity.data.pets.add(pet)
                 }
@@ -569,6 +569,31 @@ class DialogShop : CustomDialog() {
             confirmAndPurchase(getString(R.string.shop_title_cake_pack), 10000, MainActivity.data.isCakePackPurchased) {
                 MainActivity.data.isCakePackPurchased = true
                 Utils.collectItem(Item.getInstance("CeremonialCake", 10), MainActivity.data.items)
+                MainActivity.data.amountOfPurchases += 1
+            }
+        }
+
+        // Mythic Hatchery packs (one-time; grant bundles of Mythic Eggs)
+        b.mythicEggs10Buy.setOnClickListener {
+            confirmAndPurchase(getString(R.string.shop_title_mythic_eggs_10), 500, MainActivity.data.isMythicEggPack10Purchased) {
+                MainActivity.data.isMythicEggPack10Purchased = true
+                Utils.collectItem(Item.getInstance("MythicEgg", 10), MainActivity.data.items)
+                MainActivity.data.amountOfPurchases += 1
+            }
+        }
+
+        b.mythicEggs25Buy.setOnClickListener {
+            confirmAndPurchase(getString(R.string.shop_title_mythic_eggs_25), 1000, MainActivity.data.isMythicEggPack25Purchased) {
+                MainActivity.data.isMythicEggPack25Purchased = true
+                Utils.collectItem(Item.getInstance("MythicEgg", 25), MainActivity.data.items)
+                MainActivity.data.amountOfPurchases += 1
+            }
+        }
+
+        b.mythicEggs50Buy.setOnClickListener {
+            confirmAndPurchase(getString(R.string.shop_title_mythic_eggs_50), 2000, MainActivity.data.isMythicEggPack50Purchased) {
+                MainActivity.data.isMythicEggPack50Purchased = true
+                Utils.collectItem(Item.getInstance("MythicEgg", 50), MainActivity.data.items)
                 MainActivity.data.amountOfPurchases += 1
             }
         }
@@ -825,6 +850,9 @@ class DialogShop : CustomDialog() {
         // Companion Bundle
         setPurchasedState(b.senkoPackBuy, b.checkSenkoPack, MainActivity.data.isSenkoPackPurchased)
         setPurchasedState(b.cakePackBuy, b.checkCakePack, MainActivity.data.isCakePackPurchased)
+        setPurchasedState(b.mythicEggs10Buy, b.checkMythicEggs10, MainActivity.data.isMythicEggPack10Purchased)
+        setPurchasedState(b.mythicEggs25Buy, b.checkMythicEggs25, MainActivity.data.isMythicEggPack25Purchased)
+        setPurchasedState(b.mythicEggs50Buy, b.checkMythicEggs50, MainActivity.data.isMythicEggPack50Purchased)
 
         // Merchant Bundle
         setPurchasedState(b.apprenticeMerchantBuy, b.checkApprenticeMerchant, MainActivity.data.isApprenticeMerchantPurchased)
