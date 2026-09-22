@@ -797,6 +797,37 @@ class MainActivity : AppCompatActivity() {
         AchievementsUtils.flushQueue()
     }
 
+    /**
+     * Reloads every data-driven screen from [MainActivity.data] without a process
+     * restart. Called after importing a save or starting a new game (SaveImporter /
+     * SaveResetter). It rebuilds the cached area lists, re-aligns the static quest
+     * templates and re-binds the dungeon/raid/guild-activity click listeners so the
+     * visible screens (and taps) reflect the new save immediately.
+     */
+    fun reloadAfterSaveChange() {
+        Utils.invalidateAreaCaches()
+        QuestsManager.initializeFields(QuestsManager.calculateDifficulty())
+        QuestsManager.realignQuests()
+        headquartersFragment?.refresh()
+        adventurersFragment?.refresh()
+        dungeonsFragment?.apply {
+            attachListeners()
+            refresh()
+            refreshDungeonVisibility()
+        }
+        raidsFragment?.apply {
+            attachListeners()
+            refresh()
+            refreshRaidVisibility()
+        }
+        guildActivitiesFragment?.apply {
+            attachListeners()
+            refresh()
+        }
+        refresh()
+        refreshRaidsFragmentVisibility()
+    }
+
     fun loadAd() {
         if (data.adsWatched >= 5) {
             rewardedAd = null

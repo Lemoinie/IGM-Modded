@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import it.paranoidsquirrels.idleguildmaster.MainActivity
+import it.paranoidsquirrels.idleguildmaster.Utils
 import it.paranoidsquirrels.idleguildmaster.storage.data.Data
 import org.json.JSONObject
 import java.io.BufferedReader
@@ -59,7 +60,14 @@ class SaveImporter : Activity() {
                 val parsed = FileManager.getGson().fromJson(text, Data::class.java)
                 if (parsed is Data) {
                     MainActivity.data = parsed
+                    Utils.invalidateAreaCaches()
                 }
+
+                // If the game is already running underneath, reload its screens in
+                // place so the imported save is reflected immediately (the relaunch
+                // below is best-effort; without this the dungeon/raid screens keep
+                // showing the previous save until a full process restart).
+                (MainActivity.context as? MainActivity)?.takeIf { !it.isFinishing }?.reloadAfterSaveChange()
 
                 Toast.makeText(context, "Save Imported Successfully!", Toast.LENGTH_SHORT).show()
                 val mainIntent = Intent(context, MainActivity::class.java)

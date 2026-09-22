@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import it.paranoidsquirrels.idleguildmaster.MainActivity
+import it.paranoidsquirrels.idleguildmaster.Utils
 import it.paranoidsquirrels.idleguildmaster.storage.data.Data
 
 object SaveResetter {
@@ -39,9 +40,14 @@ object SaveResetter {
             activity.deleteFile("databackup.txt")
 
             MainActivity.data = Data()
+            Utils.invalidateAreaCaches()
 
             FileManager.save(activity)
             FileManager.save(activity)
+
+            // Reload the visible UI immediately so the fresh state is shown even if
+            // the activity restart below is dropped by the runtime.
+            (activity as? MainActivity)?.reloadAfterSaveChange()
 
             val intent = Intent(activity, MainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)

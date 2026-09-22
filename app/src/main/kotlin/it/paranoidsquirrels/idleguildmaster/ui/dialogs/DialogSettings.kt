@@ -148,14 +148,6 @@ class DialogSettings : CustomDialog() {
             colorblindMode = !colorblindMode
             refreshValues()
         }
-        b.restorePurchases.setOnClickListener {
-            try {
-                MainActivity.IAPWrapper?.restorePurchases()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-            dismiss()
-        }
         b.cancel.setOnClickListener {
             dismiss()
         }
