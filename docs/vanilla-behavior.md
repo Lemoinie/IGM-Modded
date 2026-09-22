@@ -84,7 +84,7 @@ source tree (no injected patches). They are concentrated in a few places:
   removed from `DialogRedeemCode` and now fall through to the unknown-code blink
   (treated as invalid). Only the gem codes (`g75nfkf4`, `fj9rf8hh`, `e44ttr7z`,
   `vrd75ywc`, `vrt4983y`), `DEBUG000` (save-share), and the mod `Z3gAAzrt`
-  (lvl-100 Semi pet) remain active (see `plans/working/guild/redeem-code-lockdown.md`).
+  (lvl-100 Kitsune "Senko" pet) remain active (see `plans/working/guild/redeem-code-lockdown.md`).
 - **Angel of War branch — AoE Row Defense (Shared Burden)** — when an enemy performs an
   AoE attack (`Area.isAoeAttack` detects active multi-target skills: `all`/`all_enemies`/
   `all_except_self`/integer barrage counts) against an adventurer, all alive Holy-Knight
@@ -98,6 +98,11 @@ source tree (no injected patches). They are concentrated in a few places:
 - `Data` progression knobs — `imperialKills`, `idleTimeCapHours`, `lootCap` are
   consumed by `TheGoldenCity`, `MainActivity.initializeThreads()`, and
   `Area.fullChest()` respectively (0 = vanilla behavior).
+- **Mythic pets (v1.3.9.0)** — `Phoenix` ("Kiara") and `Kitsune` ("Senko") extend
+  `Mythic` with a fixed trait pool (EXPERIENCE/DROPS/OPPORTUNIST/SAVAGE). `Pet.getInstance()`
+  resolves the legacy `Semi`/`Senko` names to `Kitsune`, so old saves load cleanly.
+  The Phoenix 5th trait **Solar Rebirth** revives a fallen ally at 1 HP or shields an ally
+  from one lethal hit each combat turn (`Area.petSolarRebirth()` / `Area.dealDamage()`).
 - Branding: `app_name` = "IGM Modded", launcher icon `@drawable/unit_balrog`,
   `versionName`/APK name from `app/build.gradle.kts`.
 - Ads/IAP are stubbed and hidden from the UI (see

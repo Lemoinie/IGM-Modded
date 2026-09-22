@@ -167,6 +167,12 @@ class Data {
     var isPrimalVanguardPurchased: Boolean = false
     @SerializedName("senkoPackPurchased")
     var isSenkoPackPurchased: Boolean = false
+    @SerializedName("mythicEggPack10Purchased")
+    var isMythicEggPack10Purchased: Boolean = false
+    @SerializedName("mythicEggPack25Purchased")
+    var isMythicEggPack25Purchased: Boolean = false
+    @SerializedName("mythicEggPack50Purchased")
+    var isMythicEggPack50Purchased: Boolean = false
     @SerializedName("apprenticeMerchantPurchased")
     var isApprenticeMerchantPurchased: Boolean = false
     @SerializedName("journeymanMerchantPurchased")

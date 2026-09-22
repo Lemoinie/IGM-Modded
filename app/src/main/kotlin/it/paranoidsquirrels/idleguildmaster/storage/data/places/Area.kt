@@ -30,6 +30,7 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.W
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.instances.AmuletOfResurrection
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.instances.SkeletonKey
 import it.paranoidsquirrels.idleguildmaster.storage.data.pets.Pet
+import it.paranoidsquirrels.idleguildmaster.storage.data.pets.instances.Phoenix
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.dungeons.LostLands
 import it.paranoidsquirrels.idleguildmaster.storage.data.quests.QuestsManager
 import java.io.PrintStream
@@ -377,6 +378,7 @@ abstract class Area {
                     this.action = Action(6)
                 } else {
                     val size = this.corpses.size
+                    petSolarRebirth()
                     fightTurn()
                     petAttack()
                     petHeal()
@@ -906,6 +908,43 @@ abstract class Area {
             checkDeath(entitySelectPetTarget)
             retaliate(null, entitySelectPetTarget, true, 0)
         }
+    }
+
+    private fun petSolarRebirth() {
+        val pet = this.petExploring
+        if (pet == null || this.turnEndRequested) return
+        val isPhoenix = pet is Phoenix || pet.trueClass.equals("Phoenix", true)
+        if (!isPhoenix) return
+        val chance = (pet as? Phoenix)?.getSolarRebirthChance() ?: (pet.level * 0.0015)
+        if (Utils.random() >= chance) return
+        var remaining = (pet as? Phoenix)?.getSolarRebirthTargetCount() ?: (1 + (pet.level / 50))
+        if (remaining <= 0) return
+        val allies = this.adventurersExploring.filter { !it.isSummonedMinion() }
+        // 1. Revive fainted allies first, at 1 HP, blessing them for one turn.
+        for (ally in allies) {
+            if (remaining <= 0) break
+            if (ally.currentHp <= 0) {
+                ally.currentHp = 1
+                applySolarRebirth(ally)
+                remaining--
+                Logger.log(this, Logger.SOLAR_REBIRTH_REVIVE, ally, pet)
+            }
+        }
+        // 2. Remaining targets: alive allies without the blessing are shielded from one lethal hit.
+        if (remaining > 0) {
+            for (ally in allies) {
+                if (remaining <= 0) break
+                if (ally.currentHp <= 0) continue
+                if (ally.positiveStatusEffects.any { it.type == StatusEffectType.SOLAR_REBIRTH }) continue
+                applySolarRebirth(ally)
+                remaining--
+            }
+        }
+    }
+
+    private fun applySolarRebirth(entity: Entity) {
+        entity.positiveStatusEffects.removeAll { it.type == StatusEffectType.SOLAR_REBIRTH }
+        entity.positiveStatusEffects.add(StatusEffect(StatusEffectType.SOLAR_REBIRTH, null, 1, 1.0))
     }
 
     private fun petHeal() {
@@ -2525,6 +2564,13 @@ abstract class Area {
                     radiantHealLowest(entity, Utils.round(iApplyDamage * pct))
                 }
             }
+        }
+
+        // Phoenix Solar Rebirth: an adventurer carrying the blessing survives one lethal hit at 1 HP.
+        if (z5 && entity2.currentHp <= 0 && entity2.positiveStatusEffects.any { it.type == StatusEffectType.SOLAR_REBIRTH }) {
+            entity2.positiveStatusEffects.removeAll { it.type == StatusEffectType.SOLAR_REBIRTH }
+            entity2.currentHp = 1
+            Logger.log(this, Logger.SOLAR_REBIRTH_SAVE, entity2)
         }
 
         checkDeath(entity2)
