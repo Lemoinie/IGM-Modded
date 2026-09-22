@@ -1304,6 +1304,21 @@ object Utils {
         return dungeonsRaidsList!!
     }
 
+    /**
+     * Drops the cached area lists so the next compileDungeonList()/compileRaidList()/
+     * compileDungeonRaidList() call rebuilds them from the current MainActivity.data.
+     *
+     * Called after importing a save or starting a new game. Without this, the static
+     * caches keep pointing at the old save's Area instances (which only reset when the
+     * process is killed), so the dungeon/raid screens keep showing the old save.
+     */
+    @JvmStatic
+    fun invalidateAreaCaches() {
+        dungeonsList = null
+        raidsList = null
+        dungeonsRaidsList = null
+    }
+
     @JvmStatic
     fun getBaseClass(adventurer: Adventurer): String {
         if (adventurer.weaponType == R.string.type_bow) {

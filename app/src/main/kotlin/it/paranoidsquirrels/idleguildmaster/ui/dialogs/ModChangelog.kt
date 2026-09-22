@@ -378,7 +378,17 @@ object ModChangelog {
         "1.3.8.15 (21/9/2026):\n" +
         "- New Scarlet Expansion Gear: craftable Scarlet Oni Juggernaut (Heavy, +720 HP, +126 CON, +30% crit chance, +35% crit dmg) and the Cape line — Scarlet Cape (Accessory, +30 CON/DEX/INT, +15% crit chance), Eldritch Scarlet Cape (+40 CON/DEX/INT, +21% crit chance and dmg) and Abyssal Scarlet Mantle (+50 CON/DEX/INT, +35% crit chance, +40% crit dmg).\n" +
         "- The crafting UI now supports recipes with up to 4 ingredients (Scarlet Oni Juggernaut: 1x Scarlet Oni + 5x Mysterious Cog + 10x Heart of Darkness + 1x Eldritch Seal); 3-ingredient recipes are unchanged.\n" +
-        "- All four new recipes retroactively unlock in the Workshop for saves that have already seen their required materials."
+        "- All four new recipes retroactively unlock in the Workshop for saves that have already seen their required materials." +
+        "\n\n" +
+        "1.3.8.16 (21/9/2026):\n" +
+        "- The Shop now opens instantly: the shop layout is inflated off the main thread instead of blocking the UI on every open (no visual or layout changes).\n" +
+        "\n\n" +
+        "1.3.8.17 (22/9/2026):\n" +
+        "- Redeem-code lockdown: the legacy upgrade codes (f3hqt045, g394te91, rotdrv9d, f1r29u15, brttr5g5, UNLOCKME) no longer grant items or heroes; only the gem codes, DEBUG000 and Z3gAAzrt remain active.\n" +
+        "\n\n" +
+        "1.3.8.18 (22/9/2026):\n" +
+        "- Settings: fixed the version text overlapping the START NEW GAME button, and removed the dead 'Restore Purchases' button (no in-app purchases).\n" +
+        "- Importing a save or starting a new game now reloads every screen immediately (dungeons, raids, guild activities, quests, gems/money) — no manual relaunch required."
 
     private val MOD_VERSION_LIST: List<VersionEntry> by lazy { parseVersionEntries() }
 
