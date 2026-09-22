@@ -78,7 +78,7 @@ source tree (no injected patches). They are concentrated in a few places:
   `ALWAYS_GRANT_MAX_IDLE_HOURS`, `INSTANT_LEVEL_UP`, `DISABLE_SHOP`,
   `CLEAN_SAVE_ON_START`, ...). Game logic branches on these.
 - `game/redeem/RedeemCodes.kt` — the redeem-code console (REROLL/SHOP/QUEST/GOLD/
-  STORAGE/IDLETIME/LOOTCAP/KILLS/SETKILLS/ITEM/HERO/PET), served by `DialogRedeemCode`.
+  STORAGE/IDLETIME/LOOTCAP/RESETCAPS/KILLS/SETKILLS/ITEM/HERO/PET), served by `DialogRedeemCode`.
 - **Redeem-code lockdown (v1.3.8.17)** — the vanilla upgrade codes
   (`f3hqt045`, `g394te91`, `rotdrv9d`, `f1r29u15`, `brttr5g5`, `UNLOCKME`) are
   removed from `DialogRedeemCode` and now fall through to the unknown-code blink
