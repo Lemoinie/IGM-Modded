@@ -97,6 +97,7 @@ The in-game Redeem Code dialog (`DialogRedeemCode`) includes a command dispatche
 | `STORAGE <slots>` | Expands warehouse inventory by `<slots>` slots. |
 | `IDLETIME <hours>` | Overrides the offline progression cap (12 to 168 hours / 1 week). |
 | `LOOTCAP <cap>` | Sets maximum dungeon chest loot drop capacity (e.g. 500). |
+| `RESETCAPS` | Resets the LOOTCAP and IDLETIME overrides to base (vanilla). |
 | `SHOP` | Forces an immediate restock of regular and weekly merchant offers. |
 | `REROLL` | Forces The Hunt and The Siege to reroll (refreshes both). |
 | `BLACK` | Summons the Nightstall / Black Market and refreshes its stock. |

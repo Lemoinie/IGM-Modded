@@ -3404,7 +3404,9 @@ abstract class Area {
             )
         )
         layout.fullLoot.visibility = if (this.drops.isEmpty()) 8 else 0
-        layout.fullLoot.text = if (MainActivity.data.isMaxLootPackPurchased) {
+        layout.fullLoot.text = if (MainActivity.data.isMaxLootPack2Purchased) {
+            String.format(resources.getString(R.string.loot_percentage_full_with_pack_ii), stack)
+        } else if (MainActivity.data.isMaxLootPackPurchased) {
             String.format(resources.getString(R.string.loot_percentage_full_with_pack), stack)
         } else if (MainActivity.data.lootCap > 0) {
             "$stack / $cap"

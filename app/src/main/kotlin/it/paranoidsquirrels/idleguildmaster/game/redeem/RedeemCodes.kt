@@ -28,6 +28,7 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.quests.QuestsManager
  * - `STORAGE <slots>` – expand warehouse capacity
  * - `IDLETIME <h>`    – offline-idle cap in hours (12..168)
  * - `LOOTCAP <cap>`   – dungeon chest loot cap (override)
+ * - `RESETCAPS`       – reset both the LOOTCAP and IDLETIME overrides to base (vanilla)
  * - `KILLS` / `SETKILLS <n>` – query/set Imperial Guard kill count
  * - `ITEM <Name> [count]`    – grant an item
  * - `HERO <Class> [level] [trait] [trait]` – create an adventurer
@@ -37,7 +38,7 @@ object RedeemCodes {
 
     val DEV_CODES = setOf(
         "REROLL", "BLACK", "SHOP", "QUEST", "GOLD", "STORAGE",
-        "IDLETIME", "LOOTCAP", "KILLS", "SETKILLS", "ITEM", "HERO", "PET"
+        "IDLETIME", "LOOTCAP", "RESETCAPS", "KILLS", "SETKILLS", "ITEM", "HERO", "PET"
     )
 
     @JvmStatic
@@ -132,9 +133,18 @@ object RedeemCodes {
             return try {
                 val cap = code.substring(8).trim().toInt()
                 MainActivity.data.lootCap = cap.coerceIn(10, 16000)
+                refreshCapDisplays()
                 FileManager.saveNow(context)
                 "Chest loot capacity set to $cap!"
             } catch (e: Exception) { "Usage: LOOTCAP <10-16000>" }
+        }
+        if (upper == "RESETCAPS") {
+            return try {
+                resetCapsToBase()
+                refreshCapDisplays()
+                FileManager.saveNow(context)
+                "Loot & idle caps reset to base!"
+            } catch (e: Exception) { "Failed to reset caps" }
         }
         if (upper == "QUEST") {
             return try {
@@ -239,5 +249,24 @@ object RedeemCodes {
         } catch (e: Exception) {
             "Usage: PET <PetClass> [level]"
         }
+    }
+    /** Re-render every dungeon/raid loot bar so a cap change is visible immediately. */
+    @JvmStatic
+    fun refreshCapDisplays() {
+        for (area in Utils.compileDungeonList()) area.refreshLoot()
+        for (area in Utils.compileRaidList()) area.refreshLoot()
+        MainActivity.headquartersFragment?.refresh()
+    }
+
+    /** Reset the LOOTCAP / IDLETIME overrides to base (vanilla behaviour).
+     *  Also wipes the idle/loot bits of the legacy packed save value (keeping the
+     *  kill count), so a stale override such as a loot cap of 4096 can never
+     *  resurrect on the next load. */
+    @JvmStatic
+    fun resetCapsToBase() {
+        val d = MainActivity.data ?: return
+        d.lootCap = 0
+        d.idleTimeCapHours = 0
+        d.redeem_m975nfu5 = d.redeem_m975nfu5 and 0x3FF
     }
 }

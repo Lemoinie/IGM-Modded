@@ -9,6 +9,7 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.items.instances.Spade
 import it.paranoidsquirrels.idleguildmaster.storage.data.pets.Pet
 import it.paranoidsquirrels.idleguildmaster.storage.data.pets.PetAbility
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.dungeons.EnchantedForest
+import it.paranoidsquirrels.idleguildmaster.game.redeem.RedeemCodes
 import it.paranoidsquirrels.idleguildmaster.ui.dialogs.DialogShop
 import org.junit.Assert.*
 import org.junit.Before
@@ -428,6 +429,25 @@ class ShopReworkTest {
         MainActivity.data.isMaxLootPackPurchased = true
         MainActivity.data.lootCap = 8192
         assertEquals(4000, area.getLootCap())
+    }
+
+    @Test
+    fun testResetCapsRedeemClearsOverridesAndLegacyBits() {
+        val d = MainActivity.data
+        d.lootCap = 4096
+        d.idleTimeCapHours = 96
+        // Legacy packed value layout: kills bits 0-9, idle hours bits 10-17, loot cap bits 18-31.
+        d.redeem_m975nfu5 = 45 or (96 shl 10) or (4096 shl 18)
+
+        val result = RedeemCodes.process("RESETCAPS", null)
+        assertNotNull("RESETCAPS must be a recognized dev command", result)
+
+        assertEquals("LOOTCAP override must reset to base (0)", 0, d.lootCap)
+        assertEquals("IDLETIME override must reset to base (0)", 0, d.idleTimeCapHours)
+        assertEquals("Legacy packed idle/loot bits must be wiped while the kill count is kept", 45, d.redeem_m975nfu5)
+
+        // With the override gone and no loot packs, the vanilla 2,000 cap applies.
+        assertEquals("Base loot cap is 2,000", 2000, EnchantedForest().getLootCap())
     }
 
     @Test
