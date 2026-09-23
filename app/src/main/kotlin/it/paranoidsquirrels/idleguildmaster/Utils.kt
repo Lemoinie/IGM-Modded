@@ -931,6 +931,14 @@ object Utils {
         if (item == null || list == null) return
         val trueClass = item.getTrueClass() ?: return
         MainActivity.data.seenItems.add(trueClass)
+        // First Scarlet Strand acquisition unlocks The Sanguine Crucible raid.
+        if (trueClass == "ScarletStrand") {
+            MainActivity.data.sanguineCrucible?.let {
+                if (!it.isUnlocked) {
+                    UIUtils.unlockArea(it)
+                }
+            }
+        }
         if (MainActivity.data.items == list) {
             if ("DivineZygote" == trueClass) {
                 MainActivity.data.isReviewTrigger = true
@@ -1280,7 +1288,8 @@ object Utils {
                 MainActivity.data.theDireDescent,
                 MainActivity.data.sleepingPlanet,
                 MainActivity.data.kaunis,
-                MainActivity.data.theTower
+                MainActivity.data.theTower,
+                MainActivity.data.sanguineCrucible
             )
         }
         return raidsList!!

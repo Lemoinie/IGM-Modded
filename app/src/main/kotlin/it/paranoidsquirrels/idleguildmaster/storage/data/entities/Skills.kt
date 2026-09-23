@@ -248,5 +248,8 @@ enum class Skills(
     PASSIVE_AURA_OF_DEVOTION_I(R.string.passive_aura_of_devotion_i_name, R.string.passive_aura_of_devotion_i_description),
     PASSIVE_AURA_OF_DEVOTION_II(R.string.passive_aura_of_devotion_ii_name, R.string.passive_aura_of_devotion_ii_description),
     PASSIVE_AURA_OF_SANCTITY(R.string.passive_aura_of_sanctity_name, R.string.passive_aura_of_sanctity_description),
-    PASSIVE_AURA_OF_THE_SERAPHIM(R.string.passive_aura_of_the_seraphim_name, R.string.passive_aura_of_the_seraphim_description);
+    PASSIVE_AURA_OF_THE_SERAPHIM(R.string.passive_aura_of_the_seraphim_name, R.string.passive_aura_of_the_seraphim_description),
+    ACTIVE_SCARLET_AEONIA(R.string.skill_scarlet_aeonia_name, R.string.skill_scarlet_aeonia_description),
+    ACTIVE_SANGUINE_PYRE(R.string.skill_sanguine_pyre_name, R.string.skill_sanguine_pyre_description),
+    PASSIVE_BLOOD_CONVOCATION(R.string.passive_blood_convocation_name, R.string.passive_blood_convocation_description);
 }

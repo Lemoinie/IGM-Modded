@@ -120,7 +120,7 @@ concrete subclass overriding hooks:
 
 **Registration points** — new content must be added in two places:
 - a field + getter in `Data` (persisted, e.g. `@SerializedName("myArea") var myArea: MyArea? = MyArea()`),
-- an entry in `Utils.compileDungeonList()` (11 dungeons) or `Utils.compileRaidList()` (12 raids).
+- an entry in `Utils.compileDungeonList()` (11 dungeons) or `Utils.compileRaidList()` (13 raids).
 
 ### 4. Combat entities
 `entities.Entity` is the base for both `Adventurer` and `Enemy` (HP/mana/stats,

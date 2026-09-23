@@ -27,6 +27,8 @@ object Logger {
     const val AOE_DAMAGE_INTERCEPTED = 126
     const val SOLAR_REBIRTH_REVIVE = 127
     const val SOLAR_REBIRTH_SAVE = 128
+    const val SCARLET_AEONIA = 129
+    const val BLOOD_CONVOCATION = 130
     const val BOTCHED_OFFERING = 115
     private const val COLOR_FORMAT = "<font color=%s><strong>%s</strong></font>"
     const val DARKNESS_DESCRIPTION = 1
@@ -828,6 +830,26 @@ object Logger {
                     val savedAlly = objArr[0] as Entity
                     strWrap = wrap(String.format(RESOURCES!!.getString(R.string.log_solar_rebirth_save), wrap(RESOURCES!!.getString(savedAlly.idName), GREEN)), YELLOW)
                     }
+                }
+                SCARLET_AEONIA -> {
+                    val casterScarletAeonia = objArr[0] as Entity
+                    strWrap = wrap(
+                        String.format(
+                            RESOURCES!!.getString(R.string.log_sanguine_aeonia),
+                            RESOURCES!!.getString(casterScarletAeonia.idName)
+                        ),
+                        getRed()
+                    )
+                }
+                BLOOD_CONVOCATION -> {
+                    val casterConvocation = objArr[0] as Entity
+                    strWrap = wrap(
+                        String.format(
+                            RESOURCES!!.getString(R.string.log_sanguine_convocation),
+                            RESOURCES!!.getString(casterConvocation.idName)
+                        ),
+                        getRed()
+                    )
                 }
             }
             if (strWrap != null) {

@@ -257,6 +257,13 @@ abstract class Entity {
                 break
             }
         }
+        if (type == StatusEffectType.SANGUINE_FERVOR) {
+            // Sanguine Fervor stacks infinitely: each application adds a fresh permanent
+            // instance. resolveStatus() exempts it from duration decrement / expiration so
+            // it stays active until the unit dies. Damage bonus = stacks * 5%.
+            list.add(statusEffect2)
+            return 1
+        }
         if (type == StatusEffectType.BLEED) {
             if (next != null) {
                 val turnsLeft = next.turnsLeft + statusEffect2.turnsLeft

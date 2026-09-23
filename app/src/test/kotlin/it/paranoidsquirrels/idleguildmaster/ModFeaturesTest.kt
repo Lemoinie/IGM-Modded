@@ -26,6 +26,7 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.pets.PetAbility
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.Area
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.dungeons.TheGoldenCity
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.dungeons.EnchantedForest
+import it.paranoidsquirrels.idleguildmaster.storage.data.places.raids.SanguineCrucible
 import it.paranoidsquirrels.idleguildmaster.ui.dialogs.ModChangelog
 import org.junit.Assert.*
 import org.junit.Before
@@ -343,7 +344,7 @@ class ModFeaturesTest {
     fun testModAboutChangelogEntries() {
         val entries = ModChangelog.parseVersionEntries()
         assertTrue(entries.isNotEmpty())
-        assertTrue("Top entry must be 1.3.9.0", entries[0].title.startsWith("1.3.9.0"))
+        assertTrue("Top entry must be 1.3.10.1", entries[0].title.startsWith("1.3.10.1"))
         assertTrue("Bottom entry must be 1.0.0.0", entries.last().title.startsWith("1.0.0.0"))
     }
 
@@ -1359,5 +1360,70 @@ class ModFeaturesTest {
         area.dealDamage(enemy, ally, skill, null)
         assertEquals("Ally still sees 10% interception on the second swing", 88, allyHp2 - ally.currentHp)
         assertEquals("Survivor takes the full 10-2=8 slice now", 8, p2Hp2 - p2.currentHp)
+    }
+
+    @Test
+    fun testSanguineCrucibleRaidRegistration() {
+        Utils.invalidateAreaCaches()
+        val crucible = MainActivity.data.sanguineCrucible
+        assertNotNull("Data must own a SanguineCrucible instance", crucible)
+        assertSame(crucible, Utils.compileRaidList().last())
+        assertEquals(1, crucible!!.getAreaType())
+        assertEquals(14, crucible.adventurersNumber())
+    }
+
+    @Test
+    fun testSanguineCrucibleBestiaryEnemies() {
+        val enemies = SanguineCrucible().listEnemies()
+        assertTrue("Bestiary must list CrimsonAcolyte", enemies.any { it.getTrueClass() == "CrimsonAcolyte" })
+        assertTrue("Bestiary must list ArchmagusValthex", enemies.any { it.getTrueClass() == "ArchmagusValthex" })
+    }
+
+    @Test
+    fun testArchmagusValthexConfig() {
+        val boss = Enemy.getInstance("ArchmagusValthex")
+        assertNotNull(boss)
+        assertEquals(100000, boss!!.baseMaxHp)
+        assertEquals(600, boss.baseIntelligence)
+        assertEquals(300, boss.baseDexterity)
+        assertEquals(200, boss.baseLifesteal)
+        assertEquals(1.0, boss.immunityToStatus, 0.0)
+        assertEquals(Skills.ACTIVE_SCARLET_AEONIA, boss.activeSkill)
+        assertEquals(Skills.PASSIVE_BLOOD_CONVOCATION, boss.passiveSkill)
+        assertEquals(1.0, boss.calculateCriticalChance(), 0.0)
+    }
+
+    @Test
+    fun testArchmagusValthexScarletStrandDropIsExactlyOnePercent() {
+        val boss = Enemy.getInstance("ArchmagusValthex")
+        assertNotNull(boss)
+        val drops = boss!!.listDrops(0)
+        val entry = drops.entries.find { it.key.item?.getTrueClass() == "ScarletStrand" }
+        assertNotNull("Valthex must drop ScarletStrand", entry)
+        assertEquals("Weight must be 10 / 1000 for a strict 1% drop", 10, entry!!.value)
+    }
+
+    @Test
+    fun testCrimsonAcolyteConfig() {
+        val acolyte = Enemy.getInstance("CrimsonAcolyte")
+        assertNotNull(acolyte)
+        assertEquals(5000, acolyte!!.baseMaxHp)
+        assertEquals(100, acolyte.baseLifesteal)
+        assertEquals(0.60, acolyte.immunityToStatus, 0.0)
+        assertEquals(Skills.ACTIVE_SANGUINE_PYRE, acolyte.activeSkill)
+        assertEquals(0.60, acolyte.calculateCriticalChance(), 0.0)
+        val onDeath = acolyte.calculateOnDeathEffectsOnAllies()
+        val fervor = onDeath.find { it.type == StatusEffectType.SANGUINE_FERVOR }
+        assertNotNull("Acolyte death must grant Sanguine Fervor to surviving allies", fervor)
+        assertEquals(0, fervor!!.turnsLeft)
+    }
+
+    @Test
+    fun testSanguineFervorStacksAsInstances() {
+        val acolyte = Enemy.getInstance("CrimsonAcolyte")!!
+        acolyte.addStatusEffect(StatusEffect(StatusEffectType.SANGUINE_FERVOR, acolyte, 0, 1.0), 0.0)
+        acolyte.addStatusEffect(StatusEffect(StatusEffectType.SANGUINE_FERVOR, acolyte, 0, 1.0), 0.0)
+        val stacks = acolyte.positiveStatusEffects.count { it.type == StatusEffectType.SANGUINE_FERVOR }
+        assertEquals("Each application must add a fresh permanent stack instance", 2, stacks)
     }
 }
