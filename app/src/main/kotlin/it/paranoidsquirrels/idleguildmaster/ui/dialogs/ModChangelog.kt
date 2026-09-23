@@ -403,7 +403,17 @@ object ModChangelog {
         "- Added the Mythic pet type with a fixed trait pool (EXPERIENCE, DROPS, OPPORTUNIST, SAVAGE) rolled without repeats.\n" +
         "- Added the Phoenix pet 'Kiara' with Solar Rebirth as its 5th trait: each combat turn it may revive a fallen ally at 1 HP or protect an ally from one lethal hit (0.15% chance per level, 1 + floor(level/50) targets).\n" +
         "- Standardized the Kitsune pet (display name 'Senko'): legacy 'Semi'/'Senko' saves resolve to Kitsune, the pet detail/shop show 'Senko', and the Z3GAAZRT redeem now grants 'Bloodcrave Senko (Lvl 100)'.\n" +
-        "- Added the Mythic Egg item (hatches Phoenix or Kitsune at 50/50) and three one-time Mythic Hatchery shop packs: Cache (10 eggs, 500 Gems), Bundle (25 eggs, 1,000 Gems), Treasury (50 eggs, 2,000 Gems)."
+        "- Added the Mythic Egg item (hatches Phoenix or Kitsune at 50/50) and three one-time Mythic Hatchery shop packs: Cache (10 eggs, 500 Gems), Bundle (25 eggs, 1,000 Gems), Treasury (50 eggs, 2,000 Gems).\n" +
+        "\n" +
+        "1.3.10.0 (22/9/2026):\n" +
+        "- Added the Sanguine Crucible endgame raid (15 adventurers, 5-50 wandering rooms) starring Archmagus Valthex and his 4 Crimson Acolytes, an ultra-rare farmable source of Scarlet Strand (strict 1.0% boss drop).\n" +
+        "- Added the Crimson Acolyte (Sanguine Pyre active, Martyr's Pact on-death buff) and the permanent stackable Sanguine Fervor status: +5% damage dealt per stack, no turn duration, lasts until the unit dies.\n" +
+        "- Added Archmagus Valthex (Scarlet Aeonia AoE: Sinister Curse + 120% magic damage + Bloodflame) with Blood Convocation: 50% chance when hit to summon a Crimson Acolyte while the enemy formation has room.\n" +
+        "- The raid unlocks by clearing The Tower floor 35 (The Machine) or upon first acquiring a Scarlet Strand.\n" +
+        "\n" +
+        "1.3.10.1 (23/9/2026):\n" +
+        "- Fixed the Sanguine Crucible crashing on open: the raid party size is now 14 (the engine's maximum adventurer slots, same as The Tower), so the team-selection dialog no longer throws.\n" +
+        "- The Sanguine Crucible raid card now uses its dedicated summary banner art (summary_scarlet.png)."
 
     private val MOD_VERSION_LIST: List<VersionEntry> by lazy { parseVersionEntries() }
 

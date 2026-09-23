@@ -10,7 +10,8 @@ Modeled after the dynamic exploration of [TheCultistRebels](file:///c:/Repositor
 ## 1. Visual Assets & Entity Overview
 
 Visual assets located in `app/src/main/res/drawable/`:
-- `area_scarlet.png` — Raid banner & detail background.
+- `summary_scarlet.png` — Raid banner (summary card).
+- `area_scarlet.png` — Raid detail background.
 - `scarlet_grand_mage.png` — Archmagus Valthex sprite.
 - `scarlet_mage.png` — Crimson Acolyte sprite.
 - `icon_effect_sanguine_fervor.png` — Sanguine Fervor status effect icon.
@@ -19,7 +20,7 @@ Visual assets located in `app/src/main/res/drawable/`:
 
 | Element | Final Name | Asset | Notes / UI Length Handling |
 | :--- | :--- | :--- | :--- |
-| **Raid Area** | **The Sanguine Crucible** (`SanguineCrucible.kt`) | `area_scarlet.png` | 21 chars. Extends [Area](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/places/Area.kt), Raid Type (`getAreaType() = 1`). |
+| **Raid Area** | **The Sanguine Crucible** (`SanguineCrucible.kt`) | `summary_scarlet.png` (summary), `area_scarlet.png` (detail) | 21 chars. Extends [Area](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/places/Area.kt), Raid Type (`getAreaType() = 1`). |
 | **Boss** | **Archmagus Valthex** *(The Crimson Sovereign)* | `scarlet_grand_mage.png` | Display name: **`Archmagus Valthex`** (17 chars) to avoid UI clipping; "The Crimson Sovereign" in lore description. |
 | **Minion** | **Crimson Acolyte** (`CrimsonAcolyte.kt`) | `scarlet_mage.png` | 15 chars. Wanders hallway rooms and spawns 4× with the boss. |
 | **New Status** | **Sanguine Fervor** (`StatusEffectType.SANGUINE_FERVOR`) | `icon_effect_sanguine_fervor.png` | Stackable on-death buff from Acolytes: +5% damage per stack to surviving enemy allies. Permanent (no turn duration, stays until unit dies). |
@@ -32,10 +33,10 @@ Visual assets located in `app/src/main/res/drawable/`:
 
 ### 2.1 Wandering Corridor Structure (5 to 50 Rooms)
 Modeled directly after the random hall exploration in [TheCultistRebels](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/places/raids/TheCultistRebels.kt):
-- **Party Size**: `adventurersNumber() = 15`
+- **Party Size**: `adventurersNumber() = 14` (the engine's maximum team slots — same as The Tower; a size of 15 crashes `DialogSendTeam` because only 14 slot bindings exist)
 - **Dynamic Pacing**:
   - Upon entering the raid (`progress == 1`), a target boss room threshold is randomly rolled:
-    $$\text{bossRoomThreshold} = 5 + \text{random}(0 \dots 45) \quad \text{(Range: 5 to 50 rooms)}$$
+    $$\text{bossRoomThreshold} = 5 + \text{random}(0 \dots 45) \quad \text{(Range: 5 to 10 rooms)}$$
   - In each exploration step, the party navigates a randomized chamber:
     - **Combat Chamber (80% chance)**: Spawns 1 to 5 wandering **Crimson Acolytes**.
     - **Atmospheric Chamber (20% chance)**: Flavor event/logs ("Whispers of forbidden crimson incantations echo through the twisting halls...", etc.).
@@ -65,15 +66,20 @@ Fanatical ritualists who sustain the Archmagus and empower each other through ma
   - **Physical Defense**: `0` (`baseDefense = 0`)
   - **Magic Defense**: `60` (`baseMagicDefense = 60`)
   - **Status Immunity**: `60%` (`immunityToStatus = 0.60`)
+  - **XP Drop**: `2,500 XP` (`expGiven = 2500`)
 - **Active Skill — Sanguine Pyre**:
-  - Hits all adventurers for **50% damage** and inflicts **`BLOODFLAME`** for 3 turns (burns each turn and disables all healing).
+  - Hits all adventurers for **50% magic damage** and inflicts **`BLOODFLAME`** for 3 turns (burns each turn and disables all healing).
+  - Tooltip includes standard `BLOODFLAME` explanation block.
 - **Passive Skill — Martyr's Pact (On-Death Effect)**:
+  - `passiveSkill = Skills.PASSIVE_MARTYRS_PACT`
   - When a Crimson Acolyte dies, `calculateOnDeathEffectsOnAllies()` triggers.
   - Grants the positive status effect **`Sanguine Fervor`** (`StatusEffectType.SANGUINE_FERVOR`) to all surviving enemy allies.
   - **Mechanics**:
-    - **Stackable**: Stacks infinitely; each slain Acolyte applies +1 stack (+5% damage dealt per stack).
-    - **No Turn Duration / Permanent**: Has no turn countdown and persists indefinitely until the affected unit dies.
+    - **Single Icon Stacking (Bleed-style consolidation)**: Like `BLEED`, multiple applications consolidate into a single `StatusEffect` instance on the entity, storing the stack count in `turnsLeft`. This ensures **only 1 icon** appears in the combat UI (preventing 3 duplicate icons from consuming all 3 entity status slots).
+    - **Damage Scaling**: Each stack increases damage dealt by +5% (`+ (effect.turnsLeft * 0.05)`).
+    - **No Turn Duration / Permanent**: `resolveStatus()` exempts `SANGUINE_FERVOR` from duration decrement and expiration removal so the stack count remains until the unit dies.
     - Slaying all 4 initial acolytes grants Archmagus Valthex a permanent **+20% damage boost** (4 stacks), and any subsequently slain Acolytes summoned via Blood Convocation add further stacks.
+  - **Description**: Explains both on-death trigger and Sanguine Fervor mechanics in the tooltip.
 
 ---
 
@@ -103,14 +109,27 @@ The Crimson Sovereign — supreme master of the Sanguine Crucible.
   - **Physical Defense**: `10` (`baseDefense = 10`)
   - **Magic Defense**: `90` (`baseMagicDefense = 90`)
   - **Status Immunity**: `100%` (`immunityToStatus = 1.0`)
+  - **XP Drop**: `50,000 XP` (`expGiven = 50000`)
 - **Active Skill — Scarlet Aeonia**:
-  1. Inflicts all adventurers with **`SINISTER_CURSE`** (amplifies damage taken) for 5 turns.
+  1. Inflicts all adventurers with **`SINISTER_CURSE`** for 5 turns (icon: `icon_effect_sinister_curse.png`).
+     - **Option C Mechanics**: Amplifies incoming damage taken by **+50%**. If an afflicted adventurer dies while cursed, their soul is reaped into an enemy [BoneNightmareEnemy](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/enemies/units/BoneNightmareEnemy.kt) fighting on Valthex's team (if enemy formation has room, < 5).
   2. Hits all adventurers for **120% magic damage**.
   3. Inflicts all adventurers with **`BLOODFLAME`** for 5 turns.
+  - Tooltip includes standard explanation blocks for both `SINISTER CURSE` and `BLOODFLAME`.
   - *Log message*: `"%s unleashes Scarlet Aeonia, engulfing the raid in sinister curses and blooming crimson flames!"`
 - **Passive Skill — Blood Convocation (On-Hit Summon)**:
   - Whenever Archmagus Valthex takes damage, there is a **50% chance** to summon a fresh **Crimson Acolyte** into the fight (if enemy formation has room, max 5).
   - Newly summoned Acolytes also grant +1 stack of permanent `Sanguine Fervor` (+5% damage, no turn duration) when slain, continuously escalating the boss's power if the encounter drags on.
+
+---
+
+### 3.3 Enemy Minion: Cursed Bone Nightmare (`BoneNightmareEnemy.kt`)
+Reanimated minion raised when a cursed adventurer falls under `SINISTER_CURSE`:
+- Subclass of [Enemy](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/enemies/Enemy.kt), registered as `EnemyType.UNDEAD`.
+- Uses `R.drawable.unit_bone_nightmare`.
+- **Base Statistics**: HP `8,000`, CON `100`, DEX `150`, DEF `40`, MDEF `20`, Melee Damage `300–400`.
+- **Passive**: `Skills.PASSIVE_THREATENING_II`.
+- **XP**: `1,000 XP`.
 
 ---
 
@@ -159,22 +178,30 @@ override fun listDrops(i: Int): LinkedHashMap<ItemWrapper, Int> {
   - Implements randomized hallway wandering (5 to 50 rooms) with Acolyte skirmishes.
   - Spawns the 5-enemy encounter (Valthex + 4 Acolytes) at the final room.
 - [NEW] `CrimsonAcolyte.kt` in `it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.units`:
-  - Stats, `Sanguine Pyre` active, and `calculateOnDeathEffectsOnAllies()` returning `SANGUINE_FERVOR`.
+  - Stats (`expGiven = 2500`), `Sanguine Pyre` active, `passiveSkill = Skills.PASSIVE_MARTYRS_PACT`, and `calculateOnDeathEffectsOnAllies()` granting permanent `SANGUINE_FERVOR`.
 - [NEW] `ArchmagusValthex.kt` in `it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.units`:
-  - Stats, `Scarlet Aeonia` active, 1% drop table, and `PASSIVE_BLOOD_CONVOCATION`.
+  - Stats (`expGiven = 50000`), `Scarlet Aeonia` active, 1% drop table, and `PASSIVE_BLOOD_CONVOCATION`.
+- [NEW] `BoneNightmareEnemy.kt` in `it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.units`:
+  - Stats (`expGiven = 1000`), `passiveSkill = Skills.PASSIVE_THREATENING_II`, sprite `R.drawable.unit_bone_nightmare`.
+  - Registered as `EnemyType.UNDEAD` in `EnemyTypeRegistry.kt`.
 
 ### 5.2 Status Effects & Skills
 - [MODIFY] `StatusEffectType.kt`:
-  - Add `SANGUINE_FERVOR`: Positive status buffing damage by +5% per stack. Stackable, permanent (no turn duration, stays forever until unit dies), linked to `R.drawable.icon_effect_sanguine_fervor`.
-  - Add `SINISTER_CURSE`: Negative status applied by Scarlet Aeonia (5 turns).
+  - `SANGUINE_FERVOR`: Positive status buffing damage by +5% per stack. Stackable, permanent (no turn duration, stays until unit dies), linked to `R.drawable.icon_effect_sanguine_fervor`. Custom log string: `status_effect_sanguine_fervor_log_description`.
+  - `SINISTER_CURSE`: Negative status applied by Scarlet Aeonia (5 turns). Linked to `R.drawable.icon_effect_sinister_curse`.
 - [MODIFY] `StatusEffect.kt` / `Entity.kt`:
   - Support stack tracking for `SANGUINE_FERVOR` upon receiving multiple instances (incrementing stack count or stacking instances).
+  - Return `999` in `addStatusEffect()` for `SANGUINE_FERVOR` to use clean log format ("%s is %s.").
 - [MODIFY] `Area.kt`:
-  - Exempt `SANGUINE_FERVOR` from turn duration decrement / expiration removal in `resolveStatus()` (lines ~1080–1100) so it stays active until unit death.
+  - Exempt `SANGUINE_FERVOR` from turn duration decrement / expiration removal in `resolveStatus()` so it stays active until unit death.
   - Handle `SANGUINE_FERVOR` in `statusDamageMultiplier`: `+ (stacks * 0.05)` damage bonus.
+  - Handle `SINISTER_CURSE` in `statusDamageMultiplier`: `* 1.5` (+50% damage taken).
+  - Handle `SINISTER_CURSE` in adventurer death handling (`checkDeath`): if dying adventurer is cursed, spawn `BoneNightmareEnemy` into `this.enemies` and `this.fightingGroup` (if `enemies.size < 5`).
   - Handle `PASSIVE_BLOOD_CONVOCATION` in damage resolution: 50% chance on being damaged to spawn a `CrimsonAcolyte` if `enemies.size < 5`.
 - [MODIFY] `Skills.kt`:
-  - Add `ACTIVE_SCARLET_AEONIA` and `ACTIVE_SANGUINE_PYRE`.
+  - Add `ACTIVE_SCARLET_AEONIA`, `ACTIVE_SANGUINE_PYRE`, and `PASSIVE_MARTYRS_PACT`.
+- [MODIFY] `Logger.kt`:
+  - Add `SINISTER_CURSE_REANIMATE` log format.
 
 ### 5.3 UI & Registration
 - [MODIFY] [`fragment_raids.xml`](file:///c:/Repositories/IGM-Modded/app/src/main/res/layout/fragment_raids.xml):
@@ -195,11 +222,19 @@ override fun listDrops(i: Int): LinkedHashMap<ItemWrapper, Int> {
   - `enemy_archmagus_valthex_description`: "Known as The Crimson Sovereign. Masters the forbidden arts of blood and strand within the Crucible."
   - `enemy_crimson_acolyte_name`: "Crimson Acolyte"
   - `enemy_crimson_acolyte_description`: "A fanatical ritualist whose death fuels their allies with dark zealotry."
+  - `passive_martyrs_pact_name`: "Martyr's Pact"
+  - `passive_martyrs_pact_description`: Explaining on-death Sanguine Fervor stack and what Sanguine Fervor does (+5% damage, stays until death).
   - `status_effect_sanguine_fervor_name`: "Sanguine Fervor"
   - `status_effect_sanguine_fervor_description`: "Infused with sacrificial blood essence. Damage dealt increased by 5% per stack. Stays until death."
+  - `status_effect_sanguine_fervor_log_description`: "empowered by Sanguine Fervor"
   - `status_effect_sinister_curse_name`: "Sinister Curse"
+  - `status_effect_sinister_curse_description`: "A malign crimson curse. Increases damage taken by 50%. If the afflicted dies while cursed, their soul is reaped into an enemy Bone Nightmare."
   - `skill_scarlet_aeonia_name`: "Scarlet Aeonia"
+  - `skill_scarlet_aeonia_description`: Description including Sinister Curse and Bloodflame explanation blocks.
   - `skill_sanguine_pyre_name`: "Sanguine Pyre"
+  - `skill_sanguine_pyre_description`: Description including Bloodflame explanation block.
+  - `enemy_cursed_bone_nightmare_description`: "A grotesque skeletal war-steed risen from the soul of a cursed adventurer."
+  - `log_sinister_curse_reanimate`: "%s falls under the Sinister Curse and is reanimated as a Bone Nightmare to serve the enemy!"
   - Combat logs for Scarlet Aeonia, Sanguine Fervor, and Acolyte summons.
 
 ---
@@ -207,10 +242,12 @@ override fun listDrops(i: Int): LinkedHashMap<ItemWrapper, Int> {
 ## 6. Verification & Balance Testing
 1. **Dungeon Exploration Validation**:
    - Verify room generation: Party correctly wanders between 5 and 50 rooms before reaching the boss.
-   - Verify hallway skirmishes with 1–5 Crimson Acolytes.
+   - Verify hallway skirmishes with 1–5 Crimson Acolytes awarding 2,500 XP each.
 2. **Combat Mechanics**:
-   - Slaying a Crimson Acolyte applies stackable `Sanguine Fervor` (+5% damage per stack, no turn duration / permanent until unit dies) to surviving enemies.
-   - Valthex casts Scarlet Aeonia: applies Sinister Curse, deals 120% magic damage, and applies Bloodflame for 5 turns.
+   - Slaying a Crimson Acolyte applies stackable `Sanguine Fervor` (+5% damage per stack, no turn duration / permanent until unit dies) to surviving enemies with clean battle logs.
+   - Valthex casts Scarlet Aeonia: applies Sinister Curse (with `icon_effect_sinister_curse`), deals 120% magic damage, and applies Bloodflame for 5 turns.
+   - When an adventurer afflicted with Sinister Curse dies, an enemy `BoneNightmareEnemy` is reanimated onto Valthex's team.
    - Valthex taking hits triggers a 50% chance to spawn an Acolyte if space permits.
+   - Slaying Archmagus Valthex awards 50,000 XP.
 3. **Loot Table**:
    - Automated roll simulation: Scarlet Strand verified at exactly 1.0% (Weight 10 / 1000), remaining 99% yielding no drop.

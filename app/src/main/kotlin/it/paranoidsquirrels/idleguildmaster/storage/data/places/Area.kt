@@ -1093,6 +1093,11 @@ abstract class Area {
         var i4 = 0
 
         for (statusEffect in arrayList) {
+            // Sanguine Fervor is permanent: it never expires and has no turn duration,
+            // so skip decrement / expiration removal entirely (stays until unit death).
+            if (statusEffect.type == StatusEffectType.SANGUINE_FERVOR) {
+                continue
+            }
             val cause = statusEffect.cause
             if (statusEffect.turnsLeft <= 0 || (statusEffect.type == StatusEffectType.TAUNT && (cause == null || cause.currentHp <= 0))) {
                 Logger.log(this, 10, entity, statusEffect.type)
@@ -2118,6 +2123,28 @@ abstract class Area {
             Skills.ACTIVE_EXECUTION_ORDER -> skill.setTargetSelectionMode("lowest_relative_enemy")
                 .setExecutionThreshold(0.5).execute()
 
+            Skills.ACTIVE_SANGUINE_PYRE -> skill.setTargetSelectionMode("all_enemies")
+                .setStatusEffect(StatusEffect(StatusEffectType.BLOODFLAME, entity, 3, 1.0))
+                .setDamageAmplification(0.5).setForceMagic(true).execute()
+
+            Skills.ACTIVE_SCARLET_AEONIA -> {
+                Logger.log(this, 29, entity)
+                Logger.log(this, Logger.SCARLET_AEONIA, entity)
+                val targets = skill.setTargetSelectionMode("all_enemies")
+                    .setStatusEffect(StatusEffect(StatusEffectType.SINISTER_CURSE, entity, 5, 1.0))
+                    .setDamageAmplification(1.2).setForceMagic(true).execute()
+                if (targets != null) {
+                    for (target in targets) {
+                        applyStatus(
+                            target,
+                            StatusEffect(StatusEffectType.BLOODFLAME, entity, 5, 1.0),
+                            entity.calculateIgnoreImmunityToStatus() * 0.01
+                        )
+                    }
+                }
+                targets
+            }
+
             else -> null
         }
     }
@@ -2347,11 +2374,15 @@ abstract class Area {
             if (flatDamage) 1.0 else (entity.calculateTotalDarknessDamageAmplification() * this.localDarkness.toDouble()) + 1.0
 
         var statusDamageMultiplier = 1.0
+        var sanguineFervorStacks = 0
         for (statusEffect2 in entity.positiveStatusEffects) {
             when (statusEffect2.type) {
                 StatusEffectType.DELIRIUM, StatusEffectType.SKELETON_KEY -> statusDamageMultiplier *= 2.0
                 StatusEffectType.FRENZY -> statusDamageMultiplier *= 1.3
                 StatusEffectType.ANOINTED, StatusEffectType.INSPIRE, StatusEffectType.EXALT -> statusDamageMultiplier *= 1.25
+                // Sanguine Fervor: +5% damage dealt per stack (permanent, stack instances).
+                StatusEffectType.SANGUINE_FERVOR -> sanguineFervorStacks += 1
+
                 // Radiant Blessing: all party attacks deal +% damage against Undead.
                 StatusEffectType.RADIANT_BLESSING -> {
                     if (entity2 is Enemy && entity2.getEnemyType() == EnemyType.UNDEAD) {
@@ -2361,6 +2392,9 @@ abstract class Area {
 
                 else -> {}
             }
+        }
+        if (sanguineFervorStacks > 0) {
+            statusDamageMultiplier *= (1.0 + sanguineFervorStacks * 0.05)
         }
 
         for (neg in entity2.negativeStatusEffects) {
@@ -2574,6 +2608,20 @@ abstract class Area {
         }
 
         checkDeath(entity2)
+
+        // Blood Convocation: whenever Archmagus Valthex takes damage there is a 50% chance to
+        // summon a fresh Crimson Acolyte into the fight while the formation has room (max 5).
+        if (entity2 is Enemy && entity2.currentHp > 0 &&
+            entity2.passiveSkill == Skills.PASSIVE_BLOOD_CONVOCATION &&
+            this.enemies.size < 5 && Utils.random() < 0.5
+        ) {
+            val acolyte = Enemy.getInstance("CrimsonAcolyte")
+            if (acolyte != null) {
+                this.enemies.add(acolyte)
+                this.fightingGroup.add(acolyte)
+                Logger.log(this, Logger.BLOOD_CONVOCATION, entity2)
+            }
+        }
 
         if (endOfTurnAction == null || endOfTurnAction.triggersRetaliation) {
             retaliate(entity, entity2, zBooleanValue, 0)

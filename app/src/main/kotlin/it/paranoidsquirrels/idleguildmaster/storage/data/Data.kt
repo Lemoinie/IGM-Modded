@@ -274,6 +274,8 @@ class Data {
 
     @SerializedName("theTower")
     var theTower: TheTower? = TheTower()
+    @SerializedName("sanguineCrucible")
+    var sanguineCrucible: SanguineCrucible? = SanguineCrucible()
     @SerializedName("totalGemsPurchased")
     var totalGemsPurchased: Long = 0L
     @SerializedName("tutorialStep")
@@ -439,6 +441,7 @@ class Data {
         sleepingPlanet = SleepingPlanet()
         kaunis = Kaunis()
         theTower = TheTower()
+        sanguineCrucible = SanguineCrucible()
         guildRequest = GuildRequestArea()
         guildSiege = GuildSiegeArea()
         guildActivitiesState = GuildActivitiesState()

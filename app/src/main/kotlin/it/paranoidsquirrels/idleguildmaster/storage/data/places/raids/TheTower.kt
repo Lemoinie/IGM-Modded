@@ -127,7 +127,12 @@ class TheTower : Area() {
         return if (progress == 31) 50 else 0
     }
 
-    override fun listAreasUnlocked(): LinkedHashMap<Area, Int> = LinkedHashMap()
+    override fun listAreasUnlocked(): LinkedHashMap<Area, Int> {
+        val linkedHashMap = LinkedHashMap<Area, Int>()
+        // The Sanguine Crucible unlocks upon clearing Floor 35 (The Machine) of the Tower.
+        MainActivity.data.sanguineCrucible?.let { linkedHashMap[it] = 35 }
+        return linkedHashMap
+    }
 
     override fun listEnemies(): List<Enemy> {
         return listOfNotNull(

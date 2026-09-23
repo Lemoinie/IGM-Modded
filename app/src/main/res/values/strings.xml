@@ -2993,6 +2993,14 @@ Adventurers' HP are fully restored."</string>
     <string name="log_the_tower_encounter_6">\"A wound on this universe, barely contained but never healed. Eternal glory will come to its saviour, unending suffering to everything else.\"</string>
     <string name="log_the_tower_encounter_7">\"A piece of art that sculpts itself, and you, and me, and everything else. Its downfall, the laws it forged to bind us.\"</string>
     <string name="log_the_tower_enter">The machine lights up, and the molten core reveals a passage to the interior of a building. It is lavishly furnished and impeccably maintained, beyond the large window on the wall, the cold void of space stretches endlessly.</string>
+<string name="log_sanguine_aeonia">%s unleashes Scarlet Aeonia, engulfing the raid in sinister curses and blooming crimson flames!</string>
+    <string name="log_sanguine_convocation">%s summons a Crimson Acolyte through forbidden blood rites!</string>
+    <string name="log_sanguine_crucible_enter">The party descends into the Sanguine Crucible, where whispers of forbidden crimson incantations echo through the twisting halls...</string>
+    <string name="log_sanguine_crucible_sanctum">The party breaches the inner sanctum! Archmagus Valthex awaits in crimson splendor, flanked by his four Crimson Acolytes.</string>
+    <string name="log_sanguine_crucible_combat_chamber">Crimson Acolytes block the hallway, their ritual blades gleaming with sacrificial blood!</string>
+    <string name="log_sanguine_crucible_atmosphere_1">Whispers of forbidden crimson incantations echo through the twisting halls...</string>
+    <string name="log_sanguine_crucible_atmosphere_2">Sconces of black iron flare with flame-like blood as the party passes.</string>
+    <string name="log_sanguine_crucible_atmosphere_3">Droplets of crimson rain from the ceiling, tracing arcane sigils across the stone floor.</string>
     <string name="log_the_tower_event_heal">"Adventurer's HP have been replenished"</string>
     <string name="log_the_tower_event_resurrect">An Adventurer was resurrected</string>
     <string name="log_the_tower_room_1">The puzzled adventurers look around, wondering how could this mansion be floating through space and what purpose it might serve.</string>
@@ -3842,6 +3850,21 @@ POISON: damage reduced by 20%"</string>
     <string name="raid_name_the_lost_expedition">The Lost Expedition</string>
     <string name="raid_name_the_slime_pond">The Slime Pond</string>
     <string name="raid_name_the_tower">The Tower</string>
+<string name="raid_name_sanguine_crucible">The Sanguine Crucible</string>
+    <string name="enemy_archmagus_valthex_name">Archmagus Valthex</string>
+    <string name="enemy_archmagus_valthex_description">Known as The Crimson Sovereign. Masters the forbidden arts of blood and strand within the Crucible.</string>
+    <string name="enemy_crimson_acolyte_name">Crimson Acolyte</string>
+    <string name="enemy_crimson_acolyte_description">A fanatical ritualist whose death fuels their allies with dark zealotry.</string>
+    <string name="status_effect_sanguine_fervor_name">Sanguine Fervor</string>
+    <string name="status_effect_sanguine_fervor_description">Infused with sacrificial blood essence. Damage dealt increased by 5% per stack. Stays until death.</string>
+    <string name="status_effect_sinister_curse_name">Sinister Curse</string>
+    <string name="status_effect_sinister_curse_description">A malign crimson curse that amplifies the damage the victim takes.</string>
+    <string name="skill_scarlet_aeonia_name">Scarlet Aeonia</string>
+    <string name="skill_scarlet_aeonia_description">Engulfs all adventurers in a blooming crimson rite: curses them, deals 120% magic damage, and ignites Bloodflame.</string>
+    <string name="skill_sanguine_pyre_name">Sanguine Pyre</string>
+    <string name="skill_sanguine_pyre_description">Strikes all adventurers for 50% damage and sears them with Bloodflame.</string>
+    <string name="passive_blood_convocation_name">Blood Convocation</string>
+    <string name="passive_blood_convocation_description">Whenever the Archmagus takes damage, there is a 50% chance to summon a Crimson Acolyte while the formation has room.</string>
     <string name="raid_time_description">NEW TRIES IN:</string>
     <string name="raids_help_body">"You unlocked your first Raid!
 

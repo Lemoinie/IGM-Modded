@@ -416,6 +416,7 @@ class DataDeserializer : JsonDeserializer<Data> {
         this.data.sleepingPlanet = getArea(SleepingPlanet::class.java, asJsonObject, "sleepingPlanet")
         this.data.kaunis = getArea(Kaunis::class.java, asJsonObject, "kaunis")
 this.data.theTower = getArea(TheTower::class.java, asJsonObject, "theTower")
+        this.data.sanguineCrucible = getArea(SanguineCrucible::class.java, asJsonObject, "sanguineCrucible")
         this.data.guildRequest = getArea(GuildRequestArea::class.java, asJsonObject, "guildRequest")
         if (this.data.guildRequest == null) {
             this.data.guildRequest = GuildRequestArea()
@@ -439,6 +440,11 @@ this.data.theTower = getArea(TheTower::class.java, asJsonObject, "theTower")
             }
         } else {
             this.data.guildActivitiesState = GuildActivitiesState()
+        }
+        // The Sanguine Crucible unlocks for saves that have already acquired a Scarlet Strand.
+        if (this.data.seenItems.contains("ScarletStrand")) {
+            this.data.sanguineCrucible?.isUnlocked = true
+            this.data.sanguineCrucible?.triesAvailable = true
         }
         return this.data
     }
