@@ -145,6 +145,21 @@ source tree (no injected patches). They are concentrated in a few places:
   turns — "Permanent" / "N turns left" — and cause) for all living allies and enemies.
   `DialogDungeonDetail.refreshUnits()` notifies the open inspector each combat turn so
   counts tick down in real time.
+- **Auto-Raid (v1.3.13.0)** — repeatable normal raids (`getAreaType() == 1` &&
+  `canRefillWithGems()`) can be queued for 5/10/25/Unlimited consecutive runs via a
+  new `DialogAutoRaidConfig` (opened from the `DialogSendTeam` AUTO-RAID button, the
+  dungeon-detail `[AUTO: ON/OFF]` toggle, or the streamlined no-try raid tap when a
+  team is saved). Per-run state lives on `Area` (`isAutoRaidActive`,
+  `autoRaidRunsRemaining` = -1 for unlimited, `autoRaidRunsCompleted`,
+  `autoRaidStopOnWipe`, `autoRaidGemsSpent`) and is persisted by `DataDeserializer`.
+  When a run concludes, `Area.tick()` detects `terminationRequested` + active Auto-Raid
+  and calls `handleAutoRaidCycle()`: stop-on-wipe check → run counter → storage-full
+  check (`Utils.remainingInventorySpaceAfterCollecting`) → `stashDropsDirectly()`
+  (moves drops into inventory / feeds favourite pets via `Utils.effectiveAutoFeedPower`)
+  → consume `triesAvailable` or deduct `costToRefresh()` gems → re-dispatch
+  `savedAdventurersIds`/`savedPetId` with `progress`/`action`/`event` reset. Works in
+  the foreground and during offline idle (each `tick()` call can chain the next run).
+  The raid card shows a brass AUTO badge while active.
 - Ads/IAP are stubbed and hidden from the UI (see
   [known-uncertainties.md](known-uncertainties.md), item 2).
 - Save tooling (`scripts/save/`, `save_editor/`) operates on saved games outside

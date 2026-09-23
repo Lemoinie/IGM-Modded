@@ -64,6 +64,7 @@ class RaidsFragment : Fragment() {
             area.refreshLoot()
             area.refreshActionDisplayed()
             area.refreshTries()
+            area.refreshAutoRaidIndicator()
         }
         showRaidHelpDialog(hasRaid, hasEpicRaid)
     }

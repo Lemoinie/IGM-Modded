@@ -9,6 +9,11 @@ extend an existing one" (see `.agents/AGENTS.md`).
 
 ```text
 scripts/
+├── build_debug.bat          Quick build debug APK (double-clickable)
+├── build_release.bat        Quick build release APK (double-clickable)
+├── install_debug.bat        Install newest debug APK to connected device & launch
+├── pair_and_connect.bat     Two-step wireless ADB pair then connect (reads wireless_debug.txt)
+├── wireless_debug.txt       Connection info (pair IP:port, connect IP:port, pairing code)
 ├── build/
 │   └── build.ps1            Build, test & deploy pipeline for the Android app
 ├── save/

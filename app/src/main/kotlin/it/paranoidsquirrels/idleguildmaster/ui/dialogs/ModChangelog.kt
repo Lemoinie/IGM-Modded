@@ -439,7 +439,13 @@ object ModChangelog {
         "- Applied the same fix to the adventure report dialog: a long enemy-slay list now scrolls inside a height-constrained grid, keeping the CLOSE button pinned and tappable.\n" +
         "\n" +
         "1.3.12.0 (23/9/2026):\n" +
-        "- Added a live Battle Status Effects Inspector: a STATUS button in the dungeon-detail view opens a dialog listing every active positive and negative status effect (icon, name, remaining turns, cause) for all allies and enemies, refreshing in real time each combat turn."
+        "- Added a live Battle Status Effects Inspector: a STATUS button in the dungeon-detail view opens a dialog listing every active positive and negative status effect (icon, name, remaining turns, cause) for all allies and enemies, refreshing in real time each combat turn.\n" +
+        "\n" +
+        "1.3.12.1 (23/9/2026):\n" +
+        "- Fixed the Battle Status Effects Inspector showing no status effects: unit rows and status rows were inflated but never attached to the dialog's scrollable list, so only the Allies/Enemies headers appeared. Every active positive and negative effect (icon, name, remaining turns, cause) now renders for all living allies and enemies.\n" +
+        "\n" +
+        "1.3.13.0 (23/9/2026):\n" +
+        "- Added the Auto-Raid system: repeatable normal raids (The Tower, Sleeping Planet, Kaunis, The Slime Pond, The Lost Expedition, The Cultist Rebels, Celestial Mothership, Ancient Grave Digging, The Sanguine Crucible) can now be queued for 5/10/25/Unlimited consecutive runs. Each finished run auto-stashes loot into the guild inventory (feeding favourite pets), pays the next run with gems (or the free daily try), and instantly re-dispatches the saved team — in the foreground and during offline idle progress. Safety stops: on party wipe, on full storage, when out of gems, or when the target run count is reached. Controlled from a new AUTO-RAID button in the team-select dialog, an [AUTO: ON/OFF] toggle during combat, and an AUTO badge on the raid cards."
 
     private val MOD_VERSION_LIST: List<VersionEntry> by lazy { parseVersionEntries() }
 
