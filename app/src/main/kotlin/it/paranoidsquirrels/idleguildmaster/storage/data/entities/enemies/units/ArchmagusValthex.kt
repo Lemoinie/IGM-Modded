@@ -3,6 +3,7 @@ package it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.units
 import it.paranoidsquirrels.idleguildmaster.R
 import it.paranoidsquirrels.idleguildmaster.Utils
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.Skills
+import it.paranoidsquirrels.idleguildmaster.storage.data.entities.StatusEffect
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.StatusEffectType
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.Enemy
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.ItemWrapper

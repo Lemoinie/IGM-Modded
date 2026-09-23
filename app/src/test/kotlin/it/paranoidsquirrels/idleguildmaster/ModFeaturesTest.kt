@@ -344,7 +344,7 @@ class ModFeaturesTest {
     fun testModAboutChangelogEntries() {
         val entries = ModChangelog.parseVersionEntries()
         assertTrue(entries.isNotEmpty())
-        assertTrue("Top entry must be 1.3.10.3", entries[0].title.startsWith("1.3.10.3"))
+        assertTrue("Top entry must be 1.3.10.4", entries[0].title.startsWith("1.3.10.4"))
         assertTrue("Bottom entry must be 1.0.0.0", entries.last().title.startsWith("1.0.0.0"))
     }
 
@@ -1383,11 +1383,14 @@ class ModFeaturesTest {
     fun testArchmagusValthexConfig() {
         val boss = Enemy.getInstance("ArchmagusValthex")
         assertNotNull(boss)
-        assertEquals(120000, boss!!.baseMaxHp)
+        assertEquals(150000, boss!!.baseMaxHp)
         assertEquals(600, boss.baseIntelligence)
         assertEquals(300, boss.baseDexterity)
         assertEquals(150, boss.baseLifesteal)
-        assertEquals(1.0, boss.immunityToStatus, 0.0)
+        assertEquals(0.0, boss.immunityToStatus, 0.0)
+        assertTrue(boss.statusImmunities.contains(StatusEffectType.ABLAZE))
+        assertTrue(boss.statusImmunities.contains(StatusEffectType.BLOODFLAME))
+        assertEquals(StatusEffectType.BLOODFLAME, boss.onTargetHit?.type)
         assertEquals(1.5, boss.criticalDamage, 0.0)
         assertEquals(100, boss.currentMana)
         assertEquals(1, boss.threat)
@@ -1429,9 +1432,12 @@ class ModFeaturesTest {
     fun testCrimsonAcolyteConfig() {
         val acolyte = Enemy.getInstance("CrimsonAcolyte")
         assertNotNull(acolyte)
-        assertEquals(6000, acolyte!!.baseMaxHp)
+        assertEquals(3000, acolyte!!.baseMaxHp)
         assertEquals(100, acolyte.baseLifesteal)
-        assertEquals(0.60, acolyte.immunityToStatus, 0.0)
+        assertEquals(0.0, acolyte.immunityToStatus, 0.0)
+        assertTrue(acolyte.statusImmunities.contains(StatusEffectType.ABLAZE))
+        assertTrue(acolyte.statusImmunities.contains(StatusEffectType.BLOODFLAME))
+        assertEquals(StatusEffectType.BLOODFLAME, acolyte.onTargetHit?.type)
         assertEquals(2.0, acolyte.criticalDamage, 0.0)
         assertEquals(100, acolyte.currentMana)
         assertEquals(4, acolyte.threat)
