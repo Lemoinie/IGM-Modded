@@ -422,7 +422,12 @@ object ModChangelog {
         "\n" +
         "1.3.10.3 (23/9/2026):\n" +
         "- Nerfed Archmagus Valthex: Blood Convocation summon chance reduced from 50% to 20%, and lifesteal reduced from 200% to 150%.\n" +
-        "- Reworked skill/status tooltips to a two-part format (skill description, then the inflicted status effect) for Martyr's Pact, Sanguine Pyre, and Scarlet Aeonia, mirroring the Eidolon's Petrifying Melody / Exalting II naming style."
+        "- Reworked skill/status tooltips to a two-part format (skill description, then the inflicted status effect) for Martyr's Pact, Sanguine Pyre, and Scarlet Aeonia, mirroring the Eidolon's Petrifying Melody / Exalting II naming style.\n" +
+        "\n" +
+        "1.3.10.4 (23/9/2026):\n" +
+        "- ArchmagusValthex and CrimsonAcolyte are now only immune to ABLAZE and BLOODFLAME.\n" +
+        "- Reduced the CrimsonAcolyte's HP (6,000 → 3,000) and drop chances (Eldritch Seal / Black Hide / Aberrant Fabric 35% → 15% each).\n" +
+        "- ArchmagusValthex and CrimsonAcolyte now inflict BLOODFLAME (3 turns) on hit."
 
     private val MOD_VERSION_LIST: List<VersionEntry> by lazy { parseVersionEntries() }
 
