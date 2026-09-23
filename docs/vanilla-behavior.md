@@ -139,6 +139,12 @@ source tree (no injected patches). They are concentrated in a few places:
   `Utils.mergeAdventureRecaps()` (duration = max, rooms/wipes/EXP = sums, kill counts
   combined), clears each collected dungeon's drops/recap, and shows one
   `DialogCollectDrops` titled "All Dungeons".
+- **Battle Status Effects Inspector (v1.3.12.0)** — a STATUS button in the bottom-left
+  of the dungeon-detail view opens `DialogBattleStatusEffects`, a live-updating
+  inspector listing every active positive/negative status effect (icon, name, remaining
+  turns — "Permanent" / "N turns left" — and cause) for all living allies and enemies.
+  `DialogDungeonDetail.refreshUnits()` notifies the open inspector each combat turn so
+  counts tick down in real time.
 - Ads/IAP are stubbed and hidden from the UI (see
   [known-uncertainties.md](known-uncertainties.md), item 2).
 - Save tooling (`scripts/save/`, `save_editor/`) operates on saved games outside

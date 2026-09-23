@@ -3873,6 +3873,15 @@ POISON: damage reduced by 20%"</string>
     <string name="passive_blood_convocation_description">Whenever the Archmagus takes damage, there is a 20% chance to summon a Crimson Acolyte while the formation has room.</string>
     <string name="passive_martyrs_pact_name">Martyr\'s Pact</string>
     <string name="passive_martyrs_pact_description">When the Crimson Acolyte dies, every surviving enemy gains +1 stack of SANGUINE FERVOR.\n\nSANGUINE FERVOR: +5% dmg dealt per stack, permanently until unit dies.</string>
+    <string name="btn_status_effects">STATUS</string>
+    <string name="status_effects_title">Status Effects</string>
+    <string name="status_allies">Allies</string>
+    <string name="status_enemies">Enemies</string>
+    <string name="status_permanent">Permanent</string>
+    <string name="status_turn_left">1 turn left</string>
+    <string name="status_turns_left">%d turns left</string>
+    <string name="status_unit_hp">HP %1$d/%2$d · Shield %3$d · %4$d%%</string>
+    <string name="status_by_cause">by %s</string>
     <string name="raid_time_description">NEW TRIES IN:</string>
     <string name="raids_help_body">"You unlocked your first Raid!
 
