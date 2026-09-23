@@ -3864,13 +3864,13 @@ POISON: damage reduced by 20%"</string>
     <string name="status_effect_sinister_curse_name">Sinister Curse</string>
     <string name="status_effect_sinister_curse_description">A malign crimson curse. Increases damage taken by 50%. If the afflicted dies while cursed, their soul is reaped into an enemy Bone Nightmare.</string>
     <string name="skill_scarlet_aeonia_name">Scarlet Aeonia</string>
-    <string name="skill_scarlet_aeonia_description">Unleashes forbidden crimson magic: curses all adventurers with Sinister Curse (increases damage taken by 50%, and if one dies while cursed its soul is reaped into an enemy Bone Nightmare), deals 120% magic damage, and ignites Bloodflame (burns each turn and disables all healing) for 5 turns.</string>
+    <string name="skill_scarlet_aeonia_description">Unleashes forbidden crimson magic upon every adventurers, cursing them with SINISTER CURSE, dealing 120% magic damage and igniting BLOODFLAME for 5 turns.\n\nSINISTER CURSE: Damage taken +50%. When the unit dies, its soul corrupted and its flesh twisted into Bone Nightmare, attacking its once comrades.\nBLOODFLAME: Burns for 5% Max HP each turn as magic damage and prevents all healing.</string>
     <string name="skill_sanguine_pyre_name">Sanguine Pyre</string>
-    <string name="skill_sanguine_pyre_description">Consumes the acolyte's dark vitality to strike all adventurers for 50% magic damage and sear them with Bloodflame (burns each turn and disables all healing) for 3 turns.</string>
+    <string name="skill_sanguine_pyre_description">Consumes the acolyte\'s dark vitality to strike all adventurers for 50% magic damage and sear them with BLOODFLAME for 3 turns.\n\nBLOODFLAME: Burns for 5% Max HP each turn as magic damage and prevents all healing.</string>
     <string name="passive_blood_convocation_name">Blood Convocation</string>
-    <string name="passive_blood_convocation_description">Whenever the Archmagus takes damage, there is a 50% chance to summon a Crimson Acolyte while the formation has room.</string>
-    <string name="passive_martyrs_pact_name">Martyr's Pact</string>
-    <string name="passive_martyrs_pact_description">When the Crimson Acolyte dies, every surviving enemy gains +1 stack of Sanguine Fervor: +5% damage dealt per stack, permanent, lasting until the unit dies.</string>
+    <string name="passive_blood_convocation_description">Whenever the Archmagus takes damage, there is a 20% chance to summon a Crimson Acolyte while the formation has room.</string>
+    <string name="passive_martyrs_pact_name">Martyr\'s Pact</string>
+    <string name="passive_martyrs_pact_description">When the Crimson Acolyte dies, every surviving enemy gains +1 stack of SANGUINE FERVOR.\n\nSANGUINE FERVOR: +5% dmg dealt per stack, permanently until unit dies.</string>
     <string name="raid_time_description">NEW TRIES IN:</string>
     <string name="raids_help_body">"You unlocked your first Raid!
 

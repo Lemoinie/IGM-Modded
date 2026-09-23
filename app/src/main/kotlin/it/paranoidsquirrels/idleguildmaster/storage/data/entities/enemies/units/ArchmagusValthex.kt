@@ -21,7 +21,7 @@ class ArchmagusValthex : Enemy() {
         baseIntelligence = 600
         baseDefense = 10
         baseMagicDefense = 90
-        baseLifesteal = 200
+        baseLifesteal = 150
         immunityToStatus = 1.0
         criticalDamage = 1.5
         // Casts Scarlet Aeonia immediately on turn 1 (like Bleak Disciple).

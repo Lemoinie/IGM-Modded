@@ -2616,11 +2616,11 @@ abstract class Area {
 
         checkDeath(entity2)
 
-        // Blood Convocation: whenever Archmagus Valthex takes damage there is a 50% chance to
+        // Blood Convocation: whenever Archmagus Valthex takes damage there is a 20% chance to
         // summon a fresh Crimson Acolyte into the fight while the formation has room (max 5).
         if (entity2 is Enemy && entity2.currentHp > 0 &&
             entity2.passiveSkill == Skills.PASSIVE_BLOOD_CONVOCATION &&
-            this.enemies.size < 5 && Utils.random() < 0.5
+            this.enemies.size < 5 && Utils.random() < 0.2
         ) {
             val acolyte = Enemy.getInstance("CrimsonAcolyte")
             if (acolyte != null) {
