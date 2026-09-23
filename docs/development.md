@@ -39,6 +39,10 @@ All implementation plans are organized into three lifecycle stages with system-b
 Categories are based on the primary system being modified: `adventurers/`, `combat/`, `crafting/`, `progression/`, `enemies/`, `guild/`.
 Never create or commit loose `implementation_plan.md` files directly in the repository root.
 
+### Strict Plan Adherence & Inquiries
+- **Follow the plan strictly**: AI agents and contributors must adhere strictly to approved feature plans. Never invent mechanics, fabricate undocumented parameters, or make assumptions outside the approved plan.
+- **Stop and ask**: If something in the plan or codebase is off, contradictory, ambiguous, or requires more information during implementation, **stop working immediately and ask the user for permission and clarification** before proceeding. Never guess or push ahead on unverified assumptions.
+
 ## How to Add a New Feature
 
 Follow the AGENTS.md "every new file needs a home" rule and reuse existing patterns.

@@ -103,22 +103,31 @@ source tree (no injected patches). They are concentrated in a few places:
   resolves the legacy `Semi`/`Senko` names to `Kitsune`, so old saves load cleanly.
   The Phoenix 5th trait **Solar Rebirth** revives a fallen ally at 1 HP or shields an ally
   from one lethal hit each combat turn (`Area.petSolarRebirth()` / `Area.dealDamage()`).
-- **Sanguine Crucible (v1.3.10.0)** — new endgame raid `SanguineCrucible.kt` (14
-  adventurers — the engine's max team slots, same as The Tower — `getAreaType() = 1`): the party wanders 5 to 50 randomly-rolled rooms
-  (`event.progress` holds `5 + random(0..45)`) with 80% combat chambers spawning 1-5
+- **Sanguine Crucible (v1.3.10.0 → v1.3.10.2)** — new endgame raid `SanguineCrucible.kt` (14
+  adventurers — the engine's max team slots, same as The Tower — `getAreaType() = 1`): the party wanders 5 to 15 randomly-rolled rooms
+  (`event.progress` holds `5 + random(0..10)`) with 80% combat chambers spawning 1-5
   `CrimsonAcolyte`s and 20% atmospheric logs, then fights boss `ArchmagusValthex` (in
   the middle of his 4 `CrimsonAcolyte`s) at `progress >= event.progress`. Unlocks via
   `TheTower.listAreasUnlocked()` at floor 35, `Utils.collectItem` on first `ScarletStrand`,
   or `DataDeserializer` for saves that already own a Scarlet Strand. Base stats: Valthex
-  100k HP / 600 INT / 1.0 crit with `ACTIVE_SCARLET_AEONIA` (AoE: Sinister Curse → 120%
-  magic damage → Bloodflame) and `PASSIVE_BLOOD_CONVOCATION` (50% on-hit summon of a
-  `CrimsonAcolyte` while `enemies.size < 5`, wired into `Area.dealDamage()`); Acolytes
-  5k HP / 250 DEX and `ACTIVE_SANGUINE_PYRE` (50% AoE + 3-turn Bloodflame). Acolyte
-  deaths apply permanent, stackable `SANGUINE_FERVOR` (+5% damage dealt per stack, no
-  turn duration) to surviving enemies via `calculateOnDeathEffectsOnAllies()`; the stack
-  instances skip decrement/removal in `Area.resolveStatus()` and feed
-  `statusDamageMultiplier` in `Area.dealDamage()`. Valthex drops ScarletStrand at weight
-  10/1000 (strict 1%).
+  120k HP / 200-250 damage / 600 INT / 150% crit / 50,000 XP with `ACTIVE_SCARLET_AEONIA`
+  (AoE: Sinister Curse → 120% magic damage → Bloodflame) and `PASSIVE_BLOOD_CONVOCATION`
+  (50% on-hit summon of a `CrimsonAcolyte` while `enemies.size < 5`, wired into
+  `Area.dealDamage()`); Acolytes 6k HP / 100-200 damage / 250 DEX / 2,500 XP with
+  `ACTIVE_SANGUINE_PYRE` (50% AoE + 3-turn Bloodflame) and `PASSIVE_MARTYRS_PACT`. Acolyte
+  deaths apply permanent, stackable `SANGUINE_FERVOR` (+5% damage dealt per stack, no turn
+  duration) to surviving enemies via `calculateOnDeathEffectsOnAllies()`; the stack
+  **consolidates into a single status instance** (BLEED-style, count in `turnsLeft`, one
+  icon) that skips decrement/removal in `Area.resolveStatus()` and feeds
+  `statusDamageMultiplier` in `Area.dealDamage()`. Sinister Curse uses
+  `icon_effect_sinister_curse`, amplifies incoming damage by 50% (`Area.dealDamage`), and
+  when a cursed adventurer dies `Area.checkDeath` reaps their soul into an enemy
+  `BoneNightmareEnemy` (8k HP / 300-400 melee / threat 6 / `PASSIVE_THREATENING_II`,
+  registered `EnemyType.UNDEAD`) while the enemy formation has room. Drop tables moved to
+  independent per-item rolls via `Enemy.rollDrops()` (default = vanilla single
+  `rollFromWeightedMap`); Valthex/Acolyte roll each item independently (Scarlet Strand 1%,
+  Esoteric Egg 5%, Eldritch Seal 35%, Black Hide 35%, Aberrant Fabric 45%) and `listDrops`
+  lists every item for the Bestiary.
 - Branding: `app_name` = "IGM Modded", launcher icon `@drawable/unit_balrog`,
   `versionName`/APK name from `app/build.gradle.kts`.
 - Ads/IAP are stubbed and hidden from the UI (see

@@ -31,12 +31,12 @@ Visual assets located in `app/src/main/res/drawable/`:
 
 ## 2. Raid Exploration: The Sanguine Crucible
 
-### 2.1 Wandering Corridor Structure (5 to 50 Rooms)
+### 2.1 Wandering Corridor Structure (5 to 15 Rooms)
 Modeled directly after the random hall exploration in [TheCultistRebels](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/places/raids/TheCultistRebels.kt):
 - **Party Size**: `adventurersNumber() = 14` (the engine's maximum team slots — same as The Tower; a size of 15 crashes `DialogSendTeam` because only 14 slot bindings exist)
 - **Dynamic Pacing**:
   - Upon entering the raid (`progress == 1`), a target boss room threshold is randomly rolled:
-    $$\text{bossRoomThreshold} = 5 + \text{random}(0 \dots 45) \quad \text{(Range: 5 to 10 rooms)}$$
+    $$\text{bossRoomThreshold} = 5 + \text{random}(0 \dots 10) \quad \text{(Range: 5 to 15 rooms)}$$
   - In each exploration step, the party navigates a randomized chamber:
     - **Combat Chamber (80% chance)**: Spawns 1 to 5 wandering **Crimson Acolytes**.
     - **Atmospheric Chamber (20% chance)**: Flavor event/logs ("Whispers of forbidden crimson incantations echo through the twisting halls...", etc.).
@@ -55,18 +55,25 @@ Modeled directly after the random hall exploration in [TheCultistRebels](file://
 Fanatical ritualists who sustain the Archmagus and empower each other through martyrdom.
 
 - **Base Statistics**:
-  - **HP**: `5,000`
+  - **HP**: `6,000` (`baseMaxHp = 6000`)
   - **Constitution**: `80`
   - **Dexterity**: `250`
   - **Intelligence**: `200`
-  - **Attack Damage**: `500` – `600`
+  - **Attack Damage**: `100` – `200` (`getMinDamage() = 100`, `getMaxDamage() = 200`)
   - **Lifesteal**: `100%` (`baseLifesteal = 100`)
   - **Critical Chance**: `60%` (`calculateCriticalChance() = 0.60`)
   - **Critical Damage**: `200%` (`criticalDamage = 2.0`)
   - **Physical Defense**: `0` (`baseDefense = 0`)
   - **Magic Defense**: `60` (`baseMagicDefense = 60`)
-  - **Status Immunity**: `60%` (`immunityToStatus = 0.60`)
+  - **Status Immunity**: `60%` (`immunityToStatus = 0.60`, with `StatusEffectType.BLEED` bypassing status immunity)
+  - **Starting Mana**: `currentMana = 100` (casts Sanguine Pyre immediately on turn 1, like Bleak Disciple)
+  - **Threat**: `4` (`threat = 4`)
   - **XP Drop**: `2,500 XP` (`expGiven = 2500`)
+  - **Drop Table**:
+    - **5%** Esoteric Egg (`EsotericEgg`)
+    - **35%** Eldritch Seal (`EldritchSeal`)
+    - **35%** Black Hide (`BlackHide`)
+    - **45%** Aberrant Fabric (`AbherrantFabric`)
 - **Active Skill — Sanguine Pyre**:
   - Hits all adventurers for **50% magic damage** and inflicts **`BLOODFLAME`** for 3 turns (burns each turn and disables all healing).
   - Tooltip includes standard `BLOODFLAME` explanation block.
@@ -98,18 +105,26 @@ The Crimson Sovereign — supreme master of the Sanguine Crucible.
     ))
     ```
 - **Base Statistics**:
-  - **HP**: `100,000`
+  - **HP**: `120,000` (`baseMaxHp = 120000`)
   - **Constitution**: `100`
   - **Dexterity**: `300`
   - **Intelligence**: `600`
-  - **Attack Damage**: `500` – `600`
+  - **Attack Damage**: `200` – `250` (`getMinDamage() = 200`, `getMaxDamage() = 250`)
   - **Lifesteal**: `200%` (`baseLifesteal = 200`)
   - **Critical Chance**: `100%` (`calculateCriticalChance() = 1.0`)
-  - **Critical Damage**: `250%` (`criticalDamage = 2.5`)
+  - **Critical Damage**: `150%` (`criticalDamage = 1.5`)
   - **Physical Defense**: `10` (`baseDefense = 10`)
   - **Magic Defense**: `90` (`baseMagicDefense = 90`)
-  - **Status Immunity**: `100%` (`immunityToStatus = 1.0`)
+  - **Status Immunity**: `100%` (`immunityToStatus = 1.0`, with `StatusEffectType.BLEED` bypassing status immunity)
+  - **Starting Mana**: `currentMana = 100` (casts Scarlet Aeonia immediately on turn 1, like Bleak Disciple)
+  - **Threat**: `1` (standard boss threat)
   - **XP Drop**: `50,000 XP` (`expGiven = 50000`)
+  - **Drop Table**:
+    - **1%** Scarlet Strand (`ScarletStrand`)
+    - **5%** Esoteric Egg (`EsotericEgg`)
+    - **35%** Eldritch Seal (`EldritchSeal`)
+    - **35%** Black Hide (`BlackHide`)
+    - **45%** Aberrant Fabric (`AbherrantFabric`)
 - **Active Skill — Scarlet Aeonia**:
   1. Inflicts all adventurers with **`SINISTER_CURSE`** for 5 turns (icon: `icon_effect_sinister_curse.png`).
      - **Option C Mechanics**: Amplifies incoming damage taken by **+50%**. If an afflicted adventurer dies while cursed, their soul is reaped into an enemy [BoneNightmareEnemy](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/enemies/units/BoneNightmareEnemy.kt) fighting on Valthex's team (if enemy formation has room, < 5).
@@ -128,46 +143,24 @@ Reanimated minion raised when a cursed adventurer falls under `SINISTER_CURSE`:
 - Subclass of [Enemy](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/enemies/Enemy.kt), registered as `EnemyType.UNDEAD`.
 - Uses `R.drawable.unit_bone_nightmare`.
 - **Base Statistics**: HP `8,000`, CON `100`, DEX `150`, DEF `40`, MDEF `20`, Melee Damage `300–400`.
+- **Threat**: `6` (`threat = 6`). High-threat frontline tank minion.
 - **Passive**: `Skills.PASSIVE_THREATENING_II`.
 - **XP**: `1,000 XP`.
 
 ---
 
-## 4. Drop Table Implementation (Strict 1% / 99% No-Drop)
+## 4. Drop Table Architecture & Independent Rolls
 
-### 4.1 Vanilla Engine Architecture
-In Idle Guild Master, [`Utils.rollFromWeightedMap()`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/Utils.kt#L1211) generates a random roll against a hardcoded base of `1000.0`:
-```kotlin
-val dRandom = random() * 1000.0
-var iIntValue = 0
-for ((key, value) in map) {
-    iIntValue += value
-    if (dRandom < iIntValue) {
-        return key
-    }
-}
-return null // Fell through: NO LOOT DROPPED
-```
-
-When an enemy's weight sum is less than `1000`, the remainder is automatically an empty roll returning `null` (no item). This is the exact pattern used by vanilla bosses:
-- **[Cerebrum.kt](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/enemies/units/Cerebrum.kt#L36)**: Has only `AbioticCore` with weight `100` (10% drop, 90% null).
-- **[HeadlessKnight.kt](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/enemies/units/HeadlessKnight.kt#L40)**: Has only `DreadfulMorningstar` with weight `75` (7.5% drop, 92.5% null).
-- **[Oculus.kt](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/enemies/units/Oculus.kt#L34)**: Has `ElasticMembrane` (400), `FluxLimiter` (3), `Scanner` (4) — total weight `407` (40.7% total drop, 59.3% null).
-- **[SlimeKing.kt](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/enemies/units/SlimeKing.kt#L43)**: Weights sum to `1000` (guaranteed drop): `SeekingGlass` has weight `10` (1%), `SlimeKingsCrown` has `30` (3%), and `GreenSlime` has `960` (96%).
-
-### 4.2 Exact Kotlin Code for Archmagus Valthex
-To achieve a **strict 1.0% drop chance with 99.0% nothing dropped**, `ArchmagusValthex.kt` contains ONLY the single 10-weight entry:
-```kotlin
-override fun listDrops(i: Int): LinkedHashMap<ItemWrapper, Int> {
-    val linkedHashMap = LinkedHashMap<ItemWrapper, Int>()
-    linkedHashMap.put(ItemWrapper.getInstance("ScarletStrand", 1), 10)
-    return linkedHashMap
-}
-```
-
-- **Roll < 10.0 (1.0%)**: Returns `ItemWrapper("ScarletStrand", 1)`.
-- **Roll >= 10.0 (99.0%)**: `rollFromWeightedMap` returns `null` $\rightarrow$ no item dropped in [Area.kt](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/places/Area.kt#L685).
-- **Bestiary Cleanliness**: Because no dummy entries exist, [DialogEntityDetail.kt](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogEntityDetail.kt#L104) renders only `ScarletStrand` in the enemy loot display.
+### 4.1 Independent Roll Implementation
+`Enemy.kt` introduces `open fun rollDrops(evKey: Int): List<ItemWrapper>`:
+- Default behavior preserves vanilla single roll from `listDrops()`.
+- `CrimsonAcolyte` and `ArchmagusValthex` override `rollDrops()` to roll each item independently:
+  - **ScarletStrand** (Valthex only): 1.0% chance (`random() < 0.01`).
+  - **EsotericEgg**: 5.0% chance (`random() < 0.05`).
+  - **EldritchSeal**: 35.0% chance (`random() < 0.35`).
+  - **BlackHide**: 35.0% chance (`random() < 0.35`).
+  - **AbherrantFabric**: 45.0% chance (`random() < 0.45`).
+- `listDrops(i)` on both entities returns all items as keys in `LinkedHashMap<ItemWrapper, Int>` so they all appear cleanly in the Bestiary and inspection UI ([DialogEntityDetail.kt](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogEntityDetail.kt#L104)).
 
 ---
 
@@ -175,7 +168,7 @@ override fun listDrops(i: Int): LinkedHashMap<ItemWrapper, Int> {
 
 ### 5.1 Storage & Raid Logic
 - [NEW] `SanguineCrucible.kt` in `it.paranoidsquirrels.idleguildmaster.storage.data.places.raids`:
-  - Implements randomized hallway wandering (5 to 50 rooms) with Acolyte skirmishes.
+  - Implements randomized hallway wandering (5 to 15 rooms) with Acolyte skirmishes.
   - Spawns the 5-enemy encounter (Valthex + 4 Acolytes) at the final room.
 - [NEW] `CrimsonAcolyte.kt` in `it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.units`:
   - Stats (`expGiven = 2500`), `Sanguine Pyre` active, `passiveSkill = Skills.PASSIVE_MARTYRS_PACT`, and `calculateOnDeathEffectsOnAllies()` granting permanent `SANGUINE_FERVOR`.
@@ -241,7 +234,7 @@ override fun listDrops(i: Int): LinkedHashMap<ItemWrapper, Int> {
 
 ## 6. Verification & Balance Testing
 1. **Dungeon Exploration Validation**:
-   - Verify room generation: Party correctly wanders between 5 and 50 rooms before reaching the boss.
+   - Verify room generation: Party correctly wanders between 5 and 15 rooms before reaching the boss.
    - Verify hallway skirmishes with 1–5 Crimson Acolytes awarding 2,500 XP each.
 2. **Combat Mechanics**:
    - Slaying a Crimson Acolyte applies stackable `Sanguine Fervor` (+5% damage per stack, no turn duration / permanent until unit dies) to surviving enemies with clean battle logs.
