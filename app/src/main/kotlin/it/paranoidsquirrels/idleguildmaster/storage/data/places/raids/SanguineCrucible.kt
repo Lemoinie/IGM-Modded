@@ -71,8 +71,8 @@ class SanguineCrucible : Area() {
                 if (progress == 1 && event == null) {
                     Logger.log(this, 100, R.string.log_sanguine_crucible_enter)
                     event = Event(Event.HALLS_EXPLORATION)
-                    // bossRoomThreshold = 5 + random(0..45) -> 5 to 50 rooms.
-                    event?.progress = 5 + (Utils.random() * 46).toInt()
+                    // bossRoomThreshold = 5 + random(0..10) -> 5 to 15 rooms.
+                    event?.progress = 5 + (Utils.random() * 11).toInt()
                 } else if (event != null && progress >= event!!.progress) {
                     Logger.log(this, Logger.EVENT_SIGNIFICANT, R.string.log_sanguine_crucible_sanctum)
                 }

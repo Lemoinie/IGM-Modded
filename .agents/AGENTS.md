@@ -27,6 +27,7 @@ Before implementing a feature, fixing a bug, or creating tooling:
 5. Inspect the existing Kotlin architecture before creating new classes.
 6. Search the repository for existing implementations before creating new utilities, scripts, helpers, or abstractions.
 7. Determine where the new code/artifact belongs **before creating it**.
+8. **Follow the plan strictly** — no making things up. If something is off, contradictory, or requires more information, **stop working immediately and ask the user for permission and information**.
 
 Do not immediately start generating files.
 
@@ -165,6 +166,10 @@ plans/
      - or likely to be worked on separately.
    - Keep them together when they form one cohesive feature/system and separating them would make the plans harder to understand or implement.
    - Do NOT split a plan merely because it contains multiple changes if they form a single cohesive feature.
+6. **Strict Plan Adherence & Asking for Clarification**:
+   - AI agents MUST follow implementation plans strictly.
+   - **No making things up**: Never invent mechanics, fabricate undocumented parameters, or make assumptions outside the approved plan.
+   - **Stop and ask**: If something in the plan or codebase is off, contradictory, ambiguous, or requires more information, **stop working immediately and ask the user for permission and information**. Never guess or proceed on unverified assumptions.
 
 ### Every new file needs a home
 
@@ -747,6 +752,10 @@ Before creating a directory, think:
 
 > **Does this represent a real category of project content?**
 
+Before inventing mechanics or guessing unverified details, think:
+
+> **Is this in the approved plan? If not, stop working immediately and ask the user.**
+
 ---
 
 # 26. Core Rules
@@ -771,5 +780,8 @@ The following rules take priority over convenience:
     `*.apk`, `local.properties`, `save.json`, `backups/`).
 16. **Documentation is codebase infrastructure** — record discoveries in `docs/`
     instead of leaving them in an AI conversation.
+17. **Strict Plan Adherence**: Follow implementation plans strictly — no making things up.
+    If something is off, contradictory, or requires more information, **stop working immediately
+    and ask the user for permission and clarification**.
 
 These rules apply to every future AI-assisted task in this repository.

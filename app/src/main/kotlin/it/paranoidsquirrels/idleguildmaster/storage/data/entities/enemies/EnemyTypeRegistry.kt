@@ -25,6 +25,7 @@ object EnemyTypeRegistry {
 
         // UNDEAD (12)
         "Banshee" to EnemyType.UNDEAD,
+        "BoneNightmareEnemy" to EnemyType.UNDEAD,
         "EtherealSoul" to EnemyType.UNDEAD,
         "Ghoul" to EnemyType.UNDEAD,
         "HeadlessKnight" to EnemyType.UNDEAD,

@@ -344,7 +344,7 @@ class ModFeaturesTest {
     fun testModAboutChangelogEntries() {
         val entries = ModChangelog.parseVersionEntries()
         assertTrue(entries.isNotEmpty())
-        assertTrue("Top entry must be 1.3.10.1", entries[0].title.startsWith("1.3.10.1"))
+        assertTrue("Top entry must be 1.3.10.2", entries[0].title.startsWith("1.3.10.2"))
         assertTrue("Bottom entry must be 1.0.0.0", entries.last().title.startsWith("1.0.0.0"))
     }
 
@@ -1383,47 +1383,93 @@ class ModFeaturesTest {
     fun testArchmagusValthexConfig() {
         val boss = Enemy.getInstance("ArchmagusValthex")
         assertNotNull(boss)
-        assertEquals(100000, boss!!.baseMaxHp)
+        assertEquals(120000, boss!!.baseMaxHp)
         assertEquals(600, boss.baseIntelligence)
         assertEquals(300, boss.baseDexterity)
         assertEquals(200, boss.baseLifesteal)
         assertEquals(1.0, boss.immunityToStatus, 0.0)
+        assertEquals(1.5, boss.criticalDamage, 0.0)
+        assertEquals(100, boss.currentMana)
+        assertEquals(1, boss.threat)
+        assertEquals(50000, boss.getExpGiven())
         assertEquals(Skills.ACTIVE_SCARLET_AEONIA, boss.activeSkill)
         assertEquals(Skills.PASSIVE_BLOOD_CONVOCATION, boss.passiveSkill)
         assertEquals(1.0, boss.calculateCriticalChance(), 0.0)
     }
 
     @Test
-    fun testArchmagusValthexScarletStrandDropIsExactlyOnePercent() {
-        val boss = Enemy.getInstance("ArchmagusValthex")
-        assertNotNull(boss)
-        val drops = boss!!.listDrops(0)
-        val entry = drops.entries.find { it.key.item?.getTrueClass() == "ScarletStrand" }
-        assertNotNull("Valthex must drop ScarletStrand", entry)
-        assertEquals("Weight must be 10 / 1000 for a strict 1% drop", 10, entry!!.value)
+    fun testArchmagusValthexDropSimulation() {
+        val boss = Enemy.getInstance("ArchmagusValthex")!!
+
+        // Bestiary / inspection must list every possible drop.
+        val listed = boss.listDrops(0).keys.mapNotNull { it.item?.getTrueClass() }
+        for (id in listOf("ScarletStrand", "EsotericEgg", "EldritchSeal", "BlackHide", "AbherrantFabric")) {
+            assertTrue("Bestiary must list $id", listed.contains(id))
+        }
+
+        // Independent rolls: Scarlet Strand must be ~1.0% (allow statistical noise).
+        val n = 20000
+        var strands = 0
+        var eggs = 0
+        for (i in 0 until n) {
+            for (dropped in boss.rollDrops(0)) {
+                when (dropped.item?.getTrueClass()) {
+                    "ScarletStrand" -> strands++
+                    "EsotericEgg" -> eggs++
+                }
+            }
+        }
+        val strandPct = strands.toDouble() / n
+        val eggPct = eggs.toDouble() / n
+        assertTrue("Scarlet Strand must be ~1% (got ${"%.3f".format(strandPct * 100)}%)", strandPct in 0.007..0.013)
+        assertTrue("Esoteric Egg must be ~5% (got ${"%.3f".format(eggPct * 100)}%)", eggPct in 0.035..0.065)
     }
 
     @Test
     fun testCrimsonAcolyteConfig() {
         val acolyte = Enemy.getInstance("CrimsonAcolyte")
         assertNotNull(acolyte)
-        assertEquals(5000, acolyte!!.baseMaxHp)
+        assertEquals(6000, acolyte!!.baseMaxHp)
         assertEquals(100, acolyte.baseLifesteal)
         assertEquals(0.60, acolyte.immunityToStatus, 0.0)
+        assertEquals(2.0, acolyte.criticalDamage, 0.0)
+        assertEquals(100, acolyte.currentMana)
+        assertEquals(4, acolyte.threat)
+        assertEquals(2500, acolyte.getExpGiven())
         assertEquals(Skills.ACTIVE_SANGUINE_PYRE, acolyte.activeSkill)
+        assertEquals(Skills.PASSIVE_MARTYRS_PACT, acolyte.passiveSkill)
         assertEquals(0.60, acolyte.calculateCriticalChance(), 0.0)
         val onDeath = acolyte.calculateOnDeathEffectsOnAllies()
         val fervor = onDeath.find { it.type == StatusEffectType.SANGUINE_FERVOR }
         assertNotNull("Acolyte death must grant Sanguine Fervor to surviving allies", fervor)
-        assertEquals(0, fervor!!.turnsLeft)
+        assertEquals(1, fervor!!.turnsLeft)
     }
 
     @Test
-    fun testSanguineFervorStacksAsInstances() {
+    fun testSanguineFervorConsolidatedStacks() {
         val acolyte = Enemy.getInstance("CrimsonAcolyte")!!
-        acolyte.addStatusEffect(StatusEffect(StatusEffectType.SANGUINE_FERVOR, acolyte, 0, 1.0), 0.0)
-        acolyte.addStatusEffect(StatusEffect(StatusEffectType.SANGUINE_FERVOR, acolyte, 0, 1.0), 0.0)
-        val stacks = acolyte.positiveStatusEffects.count { it.type == StatusEffectType.SANGUINE_FERVOR }
-        assertEquals("Each application must add a fresh permanent stack instance", 2, stacks)
+        val first = acolyte.addStatusEffect(StatusEffect(StatusEffectType.SANGUINE_FERVOR, acolyte, 1, 1.0), 0.0)
+        val second = acolyte.addStatusEffect(StatusEffect(StatusEffectType.SANGUINE_FERVOR, acolyte, 1, 1.0), 0.0)
+        assertEquals(999, first)
+        assertEquals(999, second)
+        val fervor = acolyte.positiveStatusEffects.filter { it.type == StatusEffectType.SANGUINE_FERVOR }
+        assertEquals("Fervor must consolidate into a single status (1 icon)", 1, fervor.size)
+        assertEquals("Stack count is stored in turnsLeft", 2, fervor[0].turnsLeft)
+    }
+
+    @Test
+    fun testBoneNightmareEnemyConfig() {
+        val nightmare = Enemy.getInstance("BoneNightmareEnemy")
+        assertNotNull(nightmare)
+        assertEquals(8000, nightmare!!.baseMaxHp)
+        assertEquals(100, nightmare.baseConstitution)
+        assertEquals(150, nightmare.baseDexterity)
+        assertEquals(40, nightmare.baseDefense)
+        assertEquals(20, nightmare.baseMagicDefense)
+        assertEquals(6, nightmare.threat)
+        assertEquals(1000, nightmare.getExpGiven())
+        assertEquals(Skills.PASSIVE_THREATENING_II, nightmare.passiveSkill)
+        assertEquals(Skills.ACTIVE_NONE, nightmare.activeSkill)
+        assertEquals(EnemyType.UNDEAD, nightmare.getEnemyType())
     }
 }

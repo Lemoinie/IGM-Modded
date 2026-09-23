@@ -251,5 +251,6 @@ enum class Skills(
     PASSIVE_AURA_OF_THE_SERAPHIM(R.string.passive_aura_of_the_seraphim_name, R.string.passive_aura_of_the_seraphim_description),
     ACTIVE_SCARLET_AEONIA(R.string.skill_scarlet_aeonia_name, R.string.skill_scarlet_aeonia_description),
     ACTIVE_SANGUINE_PYRE(R.string.skill_sanguine_pyre_name, R.string.skill_sanguine_pyre_description),
-    PASSIVE_BLOOD_CONVOCATION(R.string.passive_blood_convocation_name, R.string.passive_blood_convocation_description);
+    PASSIVE_BLOOD_CONVOCATION(R.string.passive_blood_convocation_name, R.string.passive_blood_convocation_description),
+    PASSIVE_MARTYRS_PACT(R.string.passive_martyrs_pact_name, R.string.passive_martyrs_pact_description);
 }

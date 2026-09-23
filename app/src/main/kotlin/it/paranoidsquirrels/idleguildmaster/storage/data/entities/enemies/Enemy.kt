@@ -1,5 +1,6 @@
 package it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies
 
+import it.paranoidsquirrels.idleguildmaster.Utils
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.EndOfTurnAction
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.Entity
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.StatusEffect
@@ -45,6 +46,15 @@ abstract class Enemy : Entity() {
     protected abstract fun getMaxDamage(): Int
     protected abstract fun getMinDamage(): Int
     abstract fun listDrops(i: Int): LinkedHashMap<ItemWrapper, Int>
+
+    /**
+     * Rolls this enemy's drop table. Default preserves the vanilla single weighted
+     * roll over [listDrops]; subclasses may override to roll each drop independently.
+     */
+    open fun rollDrops(evKey: Int): List<ItemWrapper> {
+        val rolled = Utils.rollFromWeightedMap(listDrops(evKey)) as? ItemWrapper ?: return emptyList()
+        return listOf(rolled)
+    }
 
     override fun rollsDamageThreeTimes(): Boolean = false
 

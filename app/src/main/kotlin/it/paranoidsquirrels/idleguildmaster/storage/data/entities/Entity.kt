@@ -258,11 +258,18 @@ abstract class Entity {
             }
         }
         if (type == StatusEffectType.SANGUINE_FERVOR) {
-            // Sanguine Fervor stacks infinitely: each application adds a fresh permanent
-            // instance. resolveStatus() exempts it from duration decrement / expiration so
-            // it stays active until the unit dies. Damage bonus = stacks * 5%.
+            // Sanguine Fervor consolidates like BLEED: a single permanent instance stores
+            // the stack count in turnsLeft (only 1 status icon in the combat UI).
+            // resolveStatus() exempts it from duration decrement / expiration removal so it
+            // stays active until the unit dies; damage bonus = stack count * 5%. Returning
+            // 999 makes the battle log use the clean permanent-status format.
+            if (next != null) {
+                val turnsLeft = next.turnsLeft + statusEffect2.turnsLeft
+                next.turnsLeft = turnsLeft
+                return 999
+            }
             list.add(statusEffect2)
-            return 1
+            return 999
         }
         if (type == StatusEffectType.BLEED) {
             if (next != null) {

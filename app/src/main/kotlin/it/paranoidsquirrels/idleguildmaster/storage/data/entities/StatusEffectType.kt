@@ -39,6 +39,6 @@ enum class StatusEffectType(
     FROZEN(R.string.status_effect_freeze, R.string.status_effect_freeze_description, R.drawable.icon_effect_freeze, true, true),
     RADIANT_BLESSING(R.string.status_effect_radiant_blessing, R.string.status_effect_radiant_blessing_description, R.drawable.icon_effect_radiant_blessing, false, false),
     SOLAR_REBIRTH(R.string.status_effect_solar_rebirth, R.string.status_effect_solar_rebirth_description, R.drawable.icon_effect_solar_rebirth, false, false),
-    SANGUINE_FERVOR(R.string.status_effect_sanguine_fervor_name, R.string.status_effect_sanguine_fervor_description, R.drawable.icon_effect_sanguine_fervor, false, false),
-    SINISTER_CURSE(R.string.status_effect_sinister_curse_name, R.string.status_effect_sinister_curse_description, R.drawable.icon_effect_curse, true, false)
+    SANGUINE_FERVOR(R.string.status_effect_sanguine_fervor_name, R.string.status_effect_sanguine_fervor_log_description, R.drawable.icon_effect_sanguine_fervor, false, false),
+    SINISTER_CURSE(R.string.status_effect_sinister_curse_name, R.string.status_effect_sinister_curse_description, R.drawable.icon_effect_sinister_curse, true, false)
 }

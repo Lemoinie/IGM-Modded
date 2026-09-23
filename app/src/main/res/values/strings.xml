@@ -2995,6 +2995,7 @@ Adventurers' HP are fully restored."</string>
     <string name="log_the_tower_enter">The machine lights up, and the molten core reveals a passage to the interior of a building. It is lavishly furnished and impeccably maintained, beyond the large window on the wall, the cold void of space stretches endlessly.</string>
 <string name="log_sanguine_aeonia">%s unleashes Scarlet Aeonia, engulfing the raid in sinister curses and blooming crimson flames!</string>
     <string name="log_sanguine_convocation">%s summons a Crimson Acolyte through forbidden blood rites!</string>
+    <string name="log_sinister_curse_reanimate">%s falls under the Sinister Curse and is reanimated as a Bone Nightmare to serve the enemy!</string>
     <string name="log_sanguine_crucible_enter">The party descends into the Sanguine Crucible, where whispers of forbidden crimson incantations echo through the twisting halls...</string>
     <string name="log_sanguine_crucible_sanctum">The party breaches the inner sanctum! Archmagus Valthex awaits in crimson splendor, flanked by his four Crimson Acolytes.</string>
     <string name="log_sanguine_crucible_combat_chamber">Crimson Acolytes block the hallway, their ritual blades gleaming with sacrificial blood!</string>
@@ -3855,16 +3856,21 @@ POISON: damage reduced by 20%"</string>
     <string name="enemy_archmagus_valthex_description">Known as The Crimson Sovereign. Masters the forbidden arts of blood and strand within the Crucible.</string>
     <string name="enemy_crimson_acolyte_name">Crimson Acolyte</string>
     <string name="enemy_crimson_acolyte_description">A fanatical ritualist whose death fuels their allies with dark zealotry.</string>
+    <string name="enemy_cursed_bone_nightmare_name">Cursed Bone Nightmare</string>
+    <string name="enemy_cursed_bone_nightmare_description">A grotesque skeletal war-steed risen from the soul of a cursed adventurer.</string>
     <string name="status_effect_sanguine_fervor_name">Sanguine Fervor</string>
     <string name="status_effect_sanguine_fervor_description">Infused with sacrificial blood essence. Damage dealt increased by 5% per stack. Stays until death.</string>
+    <string name="status_effect_sanguine_fervor_log_description">empowered by Sanguine Fervor</string>
     <string name="status_effect_sinister_curse_name">Sinister Curse</string>
-    <string name="status_effect_sinister_curse_description">A malign crimson curse that amplifies the damage the victim takes.</string>
+    <string name="status_effect_sinister_curse_description">A malign crimson curse. Increases damage taken by 50%. If the afflicted dies while cursed, their soul is reaped into an enemy Bone Nightmare.</string>
     <string name="skill_scarlet_aeonia_name">Scarlet Aeonia</string>
-    <string name="skill_scarlet_aeonia_description">Engulfs all adventurers in a blooming crimson rite: curses them, deals 120% magic damage, and ignites Bloodflame.</string>
+    <string name="skill_scarlet_aeonia_description">Unleashes forbidden crimson magic: curses all adventurers with Sinister Curse (increases damage taken by 50%, and if one dies while cursed its soul is reaped into an enemy Bone Nightmare), deals 120% magic damage, and ignites Bloodflame (burns each turn and disables all healing) for 5 turns.</string>
     <string name="skill_sanguine_pyre_name">Sanguine Pyre</string>
-    <string name="skill_sanguine_pyre_description">Strikes all adventurers for 50% damage and sears them with Bloodflame.</string>
+    <string name="skill_sanguine_pyre_description">Consumes the acolyte's dark vitality to strike all adventurers for 50% magic damage and sear them with Bloodflame (burns each turn and disables all healing) for 3 turns.</string>
     <string name="passive_blood_convocation_name">Blood Convocation</string>
     <string name="passive_blood_convocation_description">Whenever the Archmagus takes damage, there is a 50% chance to summon a Crimson Acolyte while the formation has room.</string>
+    <string name="passive_martyrs_pact_name">Martyr's Pact</string>
+    <string name="passive_martyrs_pact_description">When the Crimson Acolyte dies, every surviving enemy gains +1 stack of Sanguine Fervor: +5% damage dealt per stack, permanent, lasting until the unit dies.</string>
     <string name="raid_time_description">NEW TRIES IN:</string>
     <string name="raids_help_body">"You unlocked your first Raid!
 

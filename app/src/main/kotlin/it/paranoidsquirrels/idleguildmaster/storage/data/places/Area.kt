@@ -684,16 +684,17 @@ abstract class Area {
             var z = true
             for (enemy in this.corpses) {
                 val ev = this.event
-                val itemWrapper2 = Utils.rollFromWeightedMap(enemy.listDrops(ev?.key ?: 0)) as? ItemWrapper
-                val itemWrapper: ItemWrapper? =
-                    if (this.petExploring == null || (itemWrapper2?.item != null && itemWrapper2.item!!.isNotSellable()) || Utils.random() >= this.petExploring!!.drops / 100.0) {
-                        null
+                val rolledDrops = enemy.rollDrops(ev?.key ?: 0)
+                // Pet double-roll (Curious-style): skipped if a rolled drop is not sellable.
+                val petDoubleRoll =
+                    if (this.petExploring == null || rolledDrops.any { it.item?.isNotSellable() == true } || Utils.random() >= this.petExploring!!.drops / 100.0) {
+                        emptyList()
                     } else {
                         val ev2 = this.event
-                        Utils.rollFromWeightedMap(enemy.listDrops(ev2?.key ?: 0)) as? ItemWrapper
+                        enemy.rollDrops(ev2?.key ?: 0)
                     }
-                if (itemWrapper2 != null) {
-                    val item = itemWrapper2.item
+                for (itemWrapper in rolledDrops) {
+                    val item = itemWrapper.item
                     if (item != null) {
                         Utils.collectItem(item, this.drops)
                         Logger.log(this, 8, enemy.getIdName(), item.getStack(), item.getIdName())
@@ -707,7 +708,7 @@ abstract class Area {
                         z = false
                     }
                 }
-                if (itemWrapper != null) {
+                for (itemWrapper in petDoubleRoll) {
                     val item2 = itemWrapper.item
                     if (item2 != null) {
                         Utils.collectItem(item2, this.drops)
@@ -2380,8 +2381,9 @@ abstract class Area {
                 StatusEffectType.DELIRIUM, StatusEffectType.SKELETON_KEY -> statusDamageMultiplier *= 2.0
                 StatusEffectType.FRENZY -> statusDamageMultiplier *= 1.3
                 StatusEffectType.ANOINTED, StatusEffectType.INSPIRE, StatusEffectType.EXALT -> statusDamageMultiplier *= 1.25
-                // Sanguine Fervor: +5% damage dealt per stack (permanent, stack instances).
-                StatusEffectType.SANGUINE_FERVOR -> sanguineFervorStacks += 1
+                // Sanguine Fervor: +5% damage dealt per stack (permanent; a single consolidated
+                // instance stores the stack count in turnsLeft).
+                StatusEffectType.SANGUINE_FERVOR -> sanguineFervorStacks += statusEffect2.turnsLeft
 
                 // Radiant Blessing: all party attacks deal +% damage against Undead.
                 StatusEffectType.RADIANT_BLESSING -> {
@@ -2400,6 +2402,11 @@ abstract class Area {
         for (neg in entity2.negativeStatusEffects) {
             if (neg.type == StatusEffectType.PETRIFY) {
                 statusDamageMultiplier = 1.1
+                break
+            }
+            // Sinister Curse: +50% incoming damage taken.
+            if (neg.type == StatusEffectType.SINISTER_CURSE) {
+                statusDamageMultiplier *= 1.5
                 break
             }
         }
@@ -2700,8 +2707,20 @@ abstract class Area {
                         minion.currentHp = 0
                         checkDeath(minion)
                     }
+                    val sinisterCursed = adventurer.negativeStatusEffects.any { it.type == StatusEffectType.SINISTER_CURSE }
                     adventurer.positiveStatusEffects.clear()
                     adventurer.negativeStatusEffects.clear()
+                    // Sinister Curse: the soul of a cursed adventurer is reaped into an
+                    // enemy Bone Nightmare fighting on the enemy side (if the formation
+                    // still has room).
+                    if (sinisterCursed && this.enemies.size < 5) {
+                        val nightmare = Enemy.getInstance("BoneNightmareEnemy")
+                        if (nightmare != null) {
+                            this.enemies.add(nightmare)
+                            this.fightingGroup.add(nightmare)
+                            Logger.log(this, Logger.SINISTER_CURSE_REANIMATE, adventurer)
+                        }
+                    }
                 }
             }
             if (zContains) {

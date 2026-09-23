@@ -29,6 +29,7 @@ object Logger {
     const val SOLAR_REBIRTH_SAVE = 128
     const val SCARLET_AEONIA = 129
     const val BLOOD_CONVOCATION = 130
+    const val SINISTER_CURSE_REANIMATE = 131
     const val BOTCHED_OFFERING = 115
     private const val COLOR_FORMAT = "<font color=%s><strong>%s</strong></font>"
     const val DARKNESS_DESCRIPTION = 1
@@ -847,6 +848,16 @@ object Logger {
                         String.format(
                             RESOURCES!!.getString(R.string.log_sanguine_convocation),
                             RESOURCES!!.getString(casterConvocation.idName)
+                        ),
+                        getRed()
+                    )
+                }
+                SINISTER_CURSE_REANIMATE -> {
+                    val cursedAdventurer = objArr[0] as Entity
+                    strWrap = wrap(
+                        String.format(
+                            RESOURCES!!.getString(R.string.log_sinister_curse_reanimate),
+                            RESOURCES!!.getString(cursedAdventurer.idName)
                         ),
                         getRed()
                     )
