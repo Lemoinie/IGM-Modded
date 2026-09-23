@@ -112,7 +112,7 @@ source tree (no injected patches). They are concentrated in a few places:
   or `DataDeserializer` for saves that already own a Scarlet Strand. Base stats: Valthex
   120k HP / 200-250 damage / 600 INT / 150% crit / 50,000 XP with `ACTIVE_SCARLET_AEONIA`
   (AoE: Sinister Curse → 120% magic damage → Bloodflame) and `PASSIVE_BLOOD_CONVOCATION`
-  (50% on-hit summon of a `CrimsonAcolyte` while `enemies.size < 5`, wired into
+  (20% on-hit summon of a `CrimsonAcolyte` while `enemies.size < 5`, wired into
   `Area.dealDamage()`); Acolytes 6k HP / 100-200 damage / 250 DEX / 2,500 XP with
   `ACTIVE_SANGUINE_PYRE` (50% AoE + 3-turn Bloodflame) and `PASSIVE_MARTYRS_PACT`. Acolyte
   deaths apply permanent, stackable `SANGUINE_FERVOR` (+5% damage dealt per stack, no turn

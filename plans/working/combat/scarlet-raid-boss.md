@@ -110,7 +110,7 @@ The Crimson Sovereign — supreme master of the Sanguine Crucible.
   - **Dexterity**: `300`
   - **Intelligence**: `600`
   - **Attack Damage**: `200` – `250` (`getMinDamage() = 200`, `getMaxDamage() = 250`)
-  - **Lifesteal**: `200%` (`baseLifesteal = 200`)
+  - **Lifesteal**: `150%` (`baseLifesteal = 150`)
   - **Critical Chance**: `100%` (`calculateCriticalChance() = 1.0`)
   - **Critical Damage**: `150%` (`criticalDamage = 1.5`)
   - **Physical Defense**: `10` (`baseDefense = 10`)
@@ -133,7 +133,7 @@ The Crimson Sovereign — supreme master of the Sanguine Crucible.
   - Tooltip includes standard explanation blocks for both `SINISTER CURSE` and `BLOODFLAME`.
   - *Log message*: `"%s unleashes Scarlet Aeonia, engulfing the raid in sinister curses and blooming crimson flames!"`
 - **Passive Skill — Blood Convocation (On-Hit Summon)**:
-  - Whenever Archmagus Valthex takes damage, there is a **50% chance** to summon a fresh **Crimson Acolyte** into the fight (if enemy formation has room, max 5).
+  - Whenever Archmagus Valthex takes damage, there is a **20% chance** to summon a fresh **Crimson Acolyte** into the fight (if enemy formation has room, max 5).
   - Newly summoned Acolytes also grant +1 stack of permanent `Sanguine Fervor` (+5% damage, no turn duration) when slain, continuously escalating the boss's power if the encounter drags on.
 
 ---
@@ -190,7 +190,7 @@ Reanimated minion raised when a cursed adventurer falls under `SINISTER_CURSE`:
   - Handle `SANGUINE_FERVOR` in `statusDamageMultiplier`: `+ (stacks * 0.05)` damage bonus.
   - Handle `SINISTER_CURSE` in `statusDamageMultiplier`: `* 1.5` (+50% damage taken).
   - Handle `SINISTER_CURSE` in adventurer death handling (`checkDeath`): if dying adventurer is cursed, spawn `BoneNightmareEnemy` into `this.enemies` and `this.fightingGroup` (if `enemies.size < 5`).
-  - Handle `PASSIVE_BLOOD_CONVOCATION` in damage resolution: 50% chance on being damaged to spawn a `CrimsonAcolyte` if `enemies.size < 5`.
+  - Handle `PASSIVE_BLOOD_CONVOCATION` in damage resolution: 20% chance on being damaged to spawn a `CrimsonAcolyte` if `enemies.size < 5`.
 - [MODIFY] `Skills.kt`:
   - Add `ACTIVE_SCARLET_AEONIA`, `ACTIVE_SANGUINE_PYRE`, and `PASSIVE_MARTYRS_PACT`.
 - [MODIFY] `Logger.kt`:
@@ -216,16 +216,16 @@ Reanimated minion raised when a cursed adventurer falls under `SINISTER_CURSE`:
   - `enemy_crimson_acolyte_name`: "Crimson Acolyte"
   - `enemy_crimson_acolyte_description`: "A fanatical ritualist whose death fuels their allies with dark zealotry."
   - `passive_martyrs_pact_name`: "Martyr's Pact"
-  - `passive_martyrs_pact_description`: Explaining on-death Sanguine Fervor stack and what Sanguine Fervor does (+5% damage, stays until death).
+  - `passive_martyrs_pact_description`: Two-part: "When the Crimson Acolyte dies, every surviving enemy gains +1 stack of SANGUINE FERVOR.\n\nSANGUINE FERVOR: +5% dmg dealt per stack, permanently until unit dies."
   - `status_effect_sanguine_fervor_name`: "Sanguine Fervor"
   - `status_effect_sanguine_fervor_description`: "Infused with sacrificial blood essence. Damage dealt increased by 5% per stack. Stays until death."
   - `status_effect_sanguine_fervor_log_description`: "empowered by Sanguine Fervor"
   - `status_effect_sinister_curse_name`: "Sinister Curse"
   - `status_effect_sinister_curse_description`: "A malign crimson curse. Increases damage taken by 50%. If the afflicted dies while cursed, their soul is reaped into an enemy Bone Nightmare."
   - `skill_scarlet_aeonia_name`: "Scarlet Aeonia"
-  - `skill_scarlet_aeonia_description`: Description including Sinister Curse and Bloodflame explanation blocks.
+  - `skill_scarlet_aeonia_description`: Two-part: "Unleashes forbidden crimson magic upon every adventurers, cursing them with SINISTER CURSE, dealing 120% magic damage and igniting BLOODFLAME for 5 turns.\n\nSINISTER CURSE: Damage taken +50%. When the unit dies, its soul corrupted and its flesh twisted into Bone Nightmare, attacking its once comrades.\nBLOODFLAME: Burns for 5% Max HP each turn as magic damage and prevents all healing."
   - `skill_sanguine_pyre_name`: "Sanguine Pyre"
-  - `skill_sanguine_pyre_description`: Description including Bloodflame explanation block.
+  - `skill_sanguine_pyre_description`: Two-part: "Consumes the acolyte's dark vitality to strike all adventurers for 50% magic damage and sear them with BLOODFLAME for 3 turns.\n\nBLOODFLAME: Burns for 5% Max HP each turn as magic damage and prevents all healing."
   - `enemy_cursed_bone_nightmare_description`: "A grotesque skeletal war-steed risen from the soul of a cursed adventurer."
   - `log_sinister_curse_reanimate`: "%s falls under the Sinister Curse and is reanimated as a Bone Nightmare to serve the enemy!"
   - Combat logs for Scarlet Aeonia, Sanguine Fervor, and Acolyte summons.
@@ -240,7 +240,7 @@ Reanimated minion raised when a cursed adventurer falls under `SINISTER_CURSE`:
    - Slaying a Crimson Acolyte applies stackable `Sanguine Fervor` (+5% damage per stack, no turn duration / permanent until unit dies) to surviving enemies with clean battle logs.
    - Valthex casts Scarlet Aeonia: applies Sinister Curse (with `icon_effect_sinister_curse`), deals 120% magic damage, and applies Bloodflame for 5 turns.
    - When an adventurer afflicted with Sinister Curse dies, an enemy `BoneNightmareEnemy` is reanimated onto Valthex's team.
-   - Valthex taking hits triggers a 50% chance to spawn an Acolyte if space permits.
+   - Valthex taking hits triggers a 20% chance to spawn an Acolyte if space permits.
    - Slaying Archmagus Valthex awards 50,000 XP.
 3. **Loot Table**:
    - Automated roll simulation: Scarlet Strand verified at exactly 1.0% (Weight 10 / 1000), remaining 99% yielding no drop.

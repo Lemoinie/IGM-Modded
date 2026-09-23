@@ -418,7 +418,11 @@ object ModChangelog {
         "1.3.10.2 (23/9/2026):\n" +
         "- Sanguine Crucible balance pass: shortened the wandering halls to 5-15 rooms, buffed Valthex to 120k HP / 200-250 damage / 150% crit with 50,000 XP, reworked Acolytes to 6k HP / 100-200 damage with 2,500 XP, and gave both strict independent drop rolls (Scarlet Strand 1%, Esoteric Egg 5%, Eldritch Seal 35%, Black Hide 35%, Aberrant Fabric 45%).\n" +
         "- Sinister Curse now amps incoming damage by +50% and reaps a cursed adventurer's soul into an enemy Cursed Bone Nightmare on death; Scarlet Aeonia applies its new curse icon.\n" +
-        "- Sanguine Fervor now consolidates into a single permanent status icon (stack count built into the effect), with a dedicated Martyr's Pact passive tooltip on the Crimson Acolyte."
+        "- Sanguine Fervor now consolidates into a single permanent status icon (stack count built into the effect), with a dedicated Martyr's Pact passive tooltip on the Crimson Acolyte.\n" +
+        "\n" +
+        "1.3.10.3 (23/9/2026):\n" +
+        "- Nerfed Archmagus Valthex: Blood Convocation summon chance reduced from 50% to 20%, and lifesteal reduced from 200% to 150%.\n" +
+        "- Reworked skill/status tooltips to a two-part format (skill description, then the inflicted status effect) for Martyr's Pact, Sanguine Pyre, and Scarlet Aeonia, mirroring the Eidolon's Petrifying Melody / Exalting II naming style."
 
     private val MOD_VERSION_LIST: List<VersionEntry> by lazy { parseVersionEntries() }
 
