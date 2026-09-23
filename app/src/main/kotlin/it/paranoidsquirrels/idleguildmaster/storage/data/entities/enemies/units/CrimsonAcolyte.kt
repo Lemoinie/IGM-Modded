@@ -14,18 +14,19 @@ class CrimsonAcolyte : Enemy() {
     override fun getMaxDamage(): Int = 200
     override fun getMinDamage(): Int = 100
     override fun isMagic(): Boolean = true
-    override fun isRanged(): Boolean = false
+    override fun isRanged(): Boolean = true
 
     override fun configureStatistics() {
-        baseMaxHp = 6000
+        baseMaxHp = 3000
         baseConstitution = 80
         baseDexterity = 250
         baseIntelligence = 200
         baseDefense = 0
         baseMagicDefense = 60
         baseLifesteal = 100
-        immunityToStatus = 0.60
+        immunityToStatus = 0.0
         criticalDamage = 2.0
+        onTargetHit = StatusEffect(StatusEffectType.BLOODFLAME, this, 3, 1.0)
         // Casts Sanguine Pyre immediately on turn 1 (like Bleak Disciple).
         currentMana = 100
         threat = 4
@@ -36,6 +37,12 @@ class CrimsonAcolyte : Enemy() {
         activeSkill = Skills.ACTIVE_SANGUINE_PYRE
         rarity = 1
         expGiven = 2500
+
+
+        // Hard immune to elemental effects
+        statusImmunities.add(StatusEffectType.ABLAZE)
+        statusImmunities.add(StatusEffectType.BLOODFLAME)
+
         // Martyr's Pact: on death, every surviving enemy ally gains +1 permanent
         // Sanguine Fervor stack (consolidated into a single status, count in turnsLeft).
         onDeathEffectsOnAllies.add(StatusEffect(StatusEffectType.SANGUINE_FERVOR, this, 1, 1.0))
@@ -51,13 +58,13 @@ class CrimsonAcolyte : Enemy() {
         return linkedHashMap
     }
 
-    /** Independent per-item rolls: 5% / 35% / 35% / 45%. */
+    /** Independent per-item rolls: 5% / 15% / 15% / 15%. */
     override fun rollDrops(evKey: Int): List<ItemWrapper> {
         val rolled = ArrayList<ItemWrapper>()
         if (Utils.random() < 0.05) rolled.add(ItemWrapper.getInstance("EsotericEgg", 1))
-        if (Utils.random() < 0.35) rolled.add(ItemWrapper.getInstance("EldritchSeal", 1))
-        if (Utils.random() < 0.35) rolled.add(ItemWrapper.getInstance("BlackHide", 1))
-        if (Utils.random() < 0.45) rolled.add(ItemWrapper.getInstance("AbherrantFabric", 1))
+        if (Utils.random() < 0.15) rolled.add(ItemWrapper.getInstance("EldritchSeal", 1))
+        if (Utils.random() < 0.15) rolled.add(ItemWrapper.getInstance("BlackHide", 1))
+        if (Utils.random() < 0.15) rolled.add(ItemWrapper.getInstance("AbherrantFabric", 1))
         return rolled
     }
 
