@@ -427,7 +427,16 @@ object ModChangelog {
         "1.3.10.4 (23/9/2026):\n" +
         "- ArchmagusValthex and CrimsonAcolyte are now only immune to ABLAZE and BLOODFLAME.\n" +
         "- Reduced the CrimsonAcolyte's HP (6,000 → 3,000) and drop chances (Eldritch Seal / Black Hide / Aberrant Fabric 35% → 15% each).\n" +
-        "- ArchmagusValthex and CrimsonAcolyte now inflict BLOODFLAME (3 turns) on hit."
+        "- ArchmagusValthex and CrimsonAcolyte now inflict BLOODFLAME (3 turns) on hit.\n" +
+        "\n" +
+        "1.3.11.0 (23/9/2026):\n" +
+        "- Added a 'Claim all chests' setting: when enabled, tapping any dungeon's loot chest sweeps and collects the loot from every active dungeon in one tap, consolidating the drops and merging all dungeon adventure reports into a single 'All Dungeons' overview (aggregated rooms cleared, wipes, EXP, and enemy kill counts).\n" +
+        "\n" +
+        "1.3.11.1 (23/9/2026):\n" +
+        "- Fixed the loot claim dialog when a huge haul is pending: the item grid is now height-constrained and scrolls internally, so the REPORT and CLOSE buttons stay pinned and tappable at the bottom of the screen.\n" +
+        "\n" +
+        "1.3.11.2 (23/9/2026):\n" +
+        "- Applied the same fix to the adventure report dialog: a long enemy-slay list now scrolls inside a height-constrained grid, keeping the CLOSE button pinned and tappable."
 
     private val MOD_VERSION_LIST: List<VersionEntry> by lazy { parseVersionEntries() }
 

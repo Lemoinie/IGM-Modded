@@ -143,6 +143,8 @@ class Data {
     var isSettingAutoOpenDungeonDetail: Boolean = false
     @SerializedName("settingColorblindMode")
     var isSettingColorblindMode: Boolean = false
+    @SerializedName("settingClaimAllChests")
+    var isSettingClaimAllChests: Boolean = false
     @SerializedName("settingConfirmRetreat")
     var isSettingConfirmRetreat: Boolean = false
     @SerializedName("settingConfirmSwap")
@@ -418,6 +420,7 @@ class Data {
         isSettingConfirmSwap = true
         isSettingAutoOpenDungeonDetail = true
         isSettingVerboseLogs = true
+        isSettingClaimAllChests = false
         enchantedForest = EnchantedForest()
         theDesert = TheDesert()
         eternalBattlefield = EternalBattlefield()

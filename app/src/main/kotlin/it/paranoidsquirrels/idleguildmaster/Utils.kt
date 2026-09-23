@@ -40,6 +40,7 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.pets.Pet
 import it.paranoidsquirrels.idleguildmaster.storage.data.pets.PetAbility
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.AdventureRecap
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.Area
+import it.paranoidsquirrels.idleguildmaster.storage.data.places.EnemyCounter
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.Logger
 import it.paranoidsquirrels.idleguildmaster.storage.data.quests.QuestsManager
 import it.paranoidsquirrels.idleguildmaster.ui.dialogs.DialogCollectDrops
@@ -1121,6 +1122,117 @@ object Utils {
             }
         }
         MainActivity.headquartersFragment?.refresh()
+    }
+
+    /**
+     * "Claim all chests" batch collection: collapses every active dungeon's loot into a
+     * single consolidated claim dialog ("All Dungeons").
+     */
+    @JvmStatic
+    fun collectAllDungeonDrops(fragment: Fragment) {
+        val activeDungeons = compileDungeonList().filter { it.drops.isNotEmpty() }
+        if (activeDungeons.isEmpty()) return
+
+        // 1. Consolidate drop stacks across all dungeons to accurately calculate the
+        //    inventory slot requirement (no duplicate slots for identical items).
+        val consolidatedDrops = consolidateDropsForClaim(activeDungeons)
+
+        val favPets = MainActivity.data.pets.filter { it.favourite }
+        val remainingSpace = remainingInventorySpaceAfterCollecting(favPets.isNotEmpty(), *consolidatedDrops.toTypedArray())
+
+        // 2. Prevent collection if inventory would overflow.
+        if (remainingSpace < 0) {
+            if (MainActivity.shownDialogFullStorage != null) return
+            val context = fragment.context ?: return
+            val dialog = UIUtils.getInfoDialog(
+                context,
+                R.string.no_storage_space_title,
+                String.format(fragment.getString(R.string.no_storage_space_body_loot), -remainingSpace),
+                false
+            )
+            MainActivity.shownDialogFullStorage = dialog
+            dialog.setOnDismissListener { MainActivity.shownDialogFullStorage = null }
+            dialog.show()
+            return
+        }
+
+        // 3. Pet auto-feeding across pooled food.
+        var feedPower = 0
+        for (item in consolidatedDrops) {
+            if (favPets.isEmpty() || item !is Food) {
+                collectItem(item, MainActivity.data.items)
+            } else {
+                feedPower += item.getFeedPower() * item.getStack()
+            }
+        }
+        if (favPets.isNotEmpty() && feedPower > 0) {
+            val effectiveFeedPower = effectiveAutoFeedPower(feedPower)
+            val perPet = effectiveFeedPower / favPets.size
+            for (pet in favPets) {
+                pet.feed(perPet)
+            }
+        }
+
+        // 4. Merge the adventure recaps into a single consolidated guild report.
+        val mergedRecap = mergeAdventureRecaps(activeDungeons)
+
+        // 5. Clear collected dungeon state.
+        for (area in activeDungeons) {
+            area.adventureRecap = AdventureRecap()
+            area.drops.clear()
+            area.refreshLoot()
+        }
+
+        // 6. Present the consolidated claim dialog.
+        val dialogCollectDrops = DialogCollectDrops()
+        dialogCollectDrops.isCancelable = false
+        dialogCollectDrops.drops = consolidatedDrops
+        dialogCollectDrops.sourceArea = fragment.getString(R.string.all_dungeons)
+        dialogCollectDrops.recap = mergedRecap
+        dialogCollectDrops.show(fragment.parentFragmentManager, "dialog_collect_all_drops")
+
+        MainActivity.headquartersFragment?.refresh()
+    }
+
+    /** Merges identical item stacks from the given areas into a single list. */
+    @JvmStatic
+    fun consolidateDropsForClaim(areas: List<Area>): MutableList<Item> {
+        val consolidatedDrops = ArrayList<Item>()
+        for (area in areas) {
+            for (item in area.drops) {
+                val existing = consolidatedDrops.find { it.getTrueClass() == item.getTrueClass() }
+                if (existing != null) {
+                    existing.setStack(existing.getStack() + item.getStack())
+                } else {
+                    val newItem = Item.getInstance(item.getTrueClass() ?: "", item.getStack()) ?: item
+                    consolidatedDrops.add(newItem)
+                }
+            }
+        }
+        return consolidatedDrops
+    }
+
+    /** Aggregates several adventure recaps into one consolidated guild report. */
+    @JvmStatic
+    fun mergeAdventureRecaps(areas: List<Area>): AdventureRecap {
+        val mergedRecap = AdventureRecap()
+        mergedRecap.secondsPassed = areas.maxOfOrNull { it.adventureRecap.secondsPassed } ?: 0
+        mergedRecap.areasCleared = areas.sumOf { it.adventureRecap.areasCleared }
+        mergedRecap.wiped = areas.sumOf { it.adventureRecap.wiped }
+        mergedRecap.expEarned = areas.sumOf { it.adventureRecap.expEarned }
+        mergedRecap.expLost = areas.sumOf { it.adventureRecap.expLost }
+
+        for (area in areas) {
+            for (counter in area.adventureRecap.enemiesKilled) {
+                val existing = mergedRecap.enemiesKilled.find { it.enemy == counter.enemy }
+                if (existing != null) {
+                    existing.timesSlain += counter.timesSlain
+                } else {
+                    mergedRecap.enemiesKilled.add(EnemyCounter(counter.enemy, counter.timesSlain))
+                }
+            }
+        }
+        return mergedRecap
     }
 
     @JvmStatic

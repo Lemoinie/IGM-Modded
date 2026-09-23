@@ -344,7 +344,7 @@ class ModFeaturesTest {
     fun testModAboutChangelogEntries() {
         val entries = ModChangelog.parseVersionEntries()
         assertTrue(entries.isNotEmpty())
-        assertTrue("Top entry must be 1.3.10.4", entries[0].title.startsWith("1.3.10.4"))
+        assertTrue("Top entry must be 1.3.11.2", entries[0].title.startsWith("1.3.11.2"))
         assertTrue("Bottom entry must be 1.0.0.0", entries.last().title.startsWith("1.0.0.0"))
     }
 
@@ -1477,5 +1477,66 @@ class ModFeaturesTest {
         assertEquals(Skills.PASSIVE_THREATENING_II, nightmare.passiveSkill)
         assertEquals(Skills.ACTIVE_NONE, nightmare.activeSkill)
         assertEquals(EnemyType.UNDEAD, nightmare.getEnemyType())
+    }
+
+    @Test
+    fun testConsolidateDropsForClaimMergesStacks() {
+        val d1 = EnchantedForest()
+        val d2 = TheGoldenCity()
+        d1.drops.add(Item.getInstance("CopperSword", 2)!!)
+        d2.drops.add(Item.getInstance("CopperSword", 3)!!)
+        d2.drops.add(Item.getInstance("GoldScraps", 5)!!)
+
+        val consolidated = Utils.consolidateDropsForClaim(listOf<Area>(d1, d2))
+        assertEquals("Identical drops must merge into a single slot", 2, consolidated.size)
+        val sword = consolidated.find { it.getTrueClass() == "CopperSword" }
+        assertNotNull(sword)
+        assertEquals(5, sword!!.getStack())
+        assertEquals(5, consolidated.find { it.getTrueClass() == "GoldScraps" }!!.getStack())
+    }
+
+    @Test
+    fun testMergeAdventureRecapsAggregates() {
+        val d1 = EnchantedForest()
+        val d2 = TheGoldenCity()
+        d1.adventureRecap.secondsPassed = 100
+        d1.adventureRecap.areasCleared = 7
+        d1.adventureRecap.wiped = 1
+        d1.adventureRecap.expEarned = 500
+        d1.adventureRecap.expLost = 40
+        d1.adventureRecap.addEnemyKilled(Enemy.getInstance("Wolf"))
+        d1.adventureRecap.addEnemyKilled(Enemy.getInstance("Wolf"))
+        d1.adventureRecap.addEnemyKilled(Enemy.getInstance("Slime"))
+
+        d2.adventureRecap.secondsPassed = 130
+        d2.adventureRecap.areasCleared = 12
+        d2.adventureRecap.wiped = 2
+        d2.adventureRecap.expEarned = 900
+        d2.adventureRecap.expLost = 30
+        d2.adventureRecap.addEnemyKilled(Enemy.getInstance("Wolf"))
+        d2.adventureRecap.addEnemyKilled(Enemy.getInstance("Boar"))
+
+        val merged = Utils.mergeAdventureRecaps(listOf<Area>(d1, d2))
+        assertEquals("Duration must be the longest active dungeon", 130, merged.secondsPassed)
+        assertEquals(19, merged.areasCleared)
+        assertEquals(3, merged.wiped)
+        assertEquals(1400, merged.expEarned)
+        assertEquals(70, merged.expLost)
+        assertEquals("Wolf kills must combine across dungeons", 3, merged.enemiesKilled.find { it.enemy == "Wolf" }!!.timesSlain)
+        assertEquals(1, merged.enemiesKilled.count { it.enemy == "Slime" })
+        assertEquals(1, merged.enemiesKilled.count { it.enemy == "Boar" })
+    }
+
+    @Test
+    fun testClaimAllFullInventoryRejectsCollection() {
+        MainActivity.data.items.clear()
+        val capacity = Formulas.storageSpaces()
+        for (i in 0 until capacity) {
+            MainActivity.data.items.add(Item.getInstance("CopperSword", 1)!!)
+        }
+        assertEquals(capacity, MainActivity.data.items.size)
+        val extraDrop = Item.getInstance("GoldScraps", 1)!!
+        val space = Utils.remainingInventorySpaceAfterCollecting(false, extraDrop)
+        assertTrue("A drop on top of a full inventory must report negative space (space=$space)", space < 0)
     }
 }

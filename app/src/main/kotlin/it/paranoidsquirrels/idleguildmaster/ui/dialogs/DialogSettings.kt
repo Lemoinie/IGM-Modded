@@ -25,6 +25,7 @@ class DialogSettings : CustomDialog() {
     private var autoOpenDungeonDetail: Boolean = false
     @JvmField
     var binding: DialogSettingsBinding? = null
+    private var claimAllChests: Boolean = false
     private var colorblindMode: Boolean = false
     private var confirmRetreat: Boolean = false
     private var confirmSwap: Boolean = false
@@ -80,6 +81,7 @@ class DialogSettings : CustomDialog() {
         autoOpenDungeonDetail = MainActivity.data.isSettingAutoOpenDungeonDetail
         verboseLogs = MainActivity.data.isSettingVerboseLogs
         colorblindMode = MainActivity.data.isSettingColorblindMode
+        claimAllChests = MainActivity.data.isSettingClaimAllChests
 
         val ctx = requireContext()
         val adapter = ArrayAdapter.createFromResource(ctx, R.array.drawer_settings_languages, android.R.layout.simple_spinner_item)
@@ -106,6 +108,7 @@ class DialogSettings : CustomDialog() {
         b.valueAutoOpenDungeon.setText(if (autoOpenDungeonDetail) R.string.yes else R.string.no)
         b.valueVerboseLogs.setText(if (verboseLogs) R.string.yes else R.string.no)
         b.valueColorblindMode.setText(if (colorblindMode) R.string.yes else R.string.no)
+        b.valueClaimAllChests.setText(if (claimAllChests) R.string.yes else R.string.no)
     }
 
     override fun attachListeners() {
@@ -148,6 +151,10 @@ class DialogSettings : CustomDialog() {
             colorblindMode = !colorblindMode
             refreshValues()
         }
+        b.valueClaimAllChests.setOnClickListener {
+            claimAllChests = !claimAllChests
+            refreshValues()
+        }
         b.cancel.setOnClickListener {
             dismiss()
         }
@@ -160,6 +167,7 @@ class DialogSettings : CustomDialog() {
             MainActivity.data.isSettingAutoOpenDungeonDetail = autoOpenDungeonDetail
             MainActivity.data.isSettingVerboseLogs = verboseLogs
             MainActivity.data.isSettingColorblindMode = colorblindMode
+            MainActivity.data.isSettingClaimAllChests = claimAllChests
 
             if (language != MainActivity.data.settingsLanguage) {
                 MainActivity.data.settingsLanguage = language

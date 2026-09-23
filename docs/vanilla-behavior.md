@@ -130,6 +130,15 @@ source tree (no injected patches). They are concentrated in a few places:
   lists every item for the Bestiary.
 - Branding: `app_name` = "IGM Modded", launcher icon `@drawable/unit_balrog`,
   `versionName`/APK name from `app/build.gradle.kts`.
+- **Claim all chests (v1.3.11.0)** — new `isSettingClaimAllChests` setting toggle
+  (`settingClaimAllChests` save key). When ON, tapping any dungeon's loot chest calls
+  `Utils.collectAllDungeonDrops()` instead of the single-drop `Utils.collectDrops()`:
+  it gathers every active dungeon with loot, consolidates identical stacks via
+  `Utils.consolidateDropsForClaim()`, runs the same full-inventory guard / pet
+  auto-feeding as the single flow, merges all `AdventureRecap`s into one
+  `Utils.mergeAdventureRecaps()` (duration = max, rooms/wipes/EXP = sums, kill counts
+  combined), clears each collected dungeon's drops/recap, and shows one
+  `DialogCollectDrops` titled "All Dungeons".
 - Ads/IAP are stubbed and hidden from the UI (see
   [known-uncertainties.md](known-uncertainties.md), item 2).
 - Save tooling (`scripts/save/`, `save_editor/`) operates on saved games outside
