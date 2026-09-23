@@ -70,7 +70,11 @@ class DungeonsFragment : Fragment() {
             }
             area.getLayout().lootImage.setOnClickListener {
                 if (MainActivity.shownDialogCollectDrops == null) {
-                    Utils.collectDrops(this, area)
+                    if (MainActivity.data.isSettingClaimAllChests) {
+                        Utils.collectAllDungeonDrops(this)
+                    } else {
+                        Utils.collectDrops(this, area)
+                    }
                 }
             }
         }

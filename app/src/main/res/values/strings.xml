@@ -1472,6 +1472,8 @@ Tap on \"Raids\" at the bottom of the screen to see the unlocked raid!"</string>
     <string name="drawer_redeem_gems">+%s gems</string>
     <string name="drawer_settings_auto_open_dungeon">Open dungeon view after sending a team:</string>
     <string name="drawer_settings_colorblind_mode">Colorblind mode:</string>
+<string name="drawer_settings_claim_all_chests">Claim all chests:</string>
+    <string name="all_dungeons">All Dungeons</string>
     <string name="drawer_settings_confirm_retreat">Confirm before retreating:</string>
     <string name="drawer_settings_confirm_swap_equipment">Confirm before swapping equipment:</string>
     <string name="drawer_settings_confirm_upgrade">Confirm before upgrading guild buildings:</string>

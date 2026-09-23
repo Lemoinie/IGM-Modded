@@ -193,6 +193,7 @@ class DataDeserializer : JsonDeserializer<Data> {
         this.data.isSettingAutoOpenDungeonDetail = asJsonObject.get("settingAutoOpenDungeonDetail").asBoolean
         this.data.isSettingVerboseLogs = !asJsonObject.has("settingVerboseLogs") || asJsonObject.get("settingVerboseLogs").asBoolean
         this.data.isSettingColorblindMode = asJsonObject.has("settingColorblindMode") && asJsonObject.get("settingColorblindMode").asBoolean
+        this.data.isSettingClaimAllChests = asJsonObject.has("settingClaimAllChests") && asJsonObject.get("settingClaimAllChests").asBoolean
         this.data.isStarterPackPurchased = asJsonObject.has("starterPackPurchased") && asJsonObject.get("starterPackPurchased").asBoolean
         this.data.isAdventurerPackPurchased = asJsonObject.has("adventurerPackPurchased") && asJsonObject.get("adventurerPackPurchased").asBoolean
         this.data.isMerchantPackPurchased = asJsonObject.has("merchantPackPurchased") && asJsonObject.get("merchantPackPurchased").asBoolean
