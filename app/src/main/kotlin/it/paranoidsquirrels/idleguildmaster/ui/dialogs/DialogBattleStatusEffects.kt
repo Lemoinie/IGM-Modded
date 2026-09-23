@@ -96,6 +96,8 @@ class DialogBattleStatusEffects : CustomDialog() {
     private fun addUnitRow(entity: Entity) {
         val b = binding ?: return
         val theme = context?.theme
+        // inflate(..., attachToRoot = false) only builds the view tree; the root must be
+        // attached to the list container explicitly or the row is never rendered.
         val row = ItemUnitStatusEffectsBinding.inflate(layoutInflater, b.battleStatusList, false)
         row.battleUnitImage.setImageDrawable(ResourcesCompat.getDrawable(resources, entity.imageId, theme))
         row.battleUnitName.text = getString(entity.idName)
@@ -108,11 +110,14 @@ class DialogBattleStatusEffects : CustomDialog() {
         for (effect in entity.negativeStatusEffects) {
             addEffectLine(row, effect)
         }
+        b.battleStatusList.addView(row.root)
     }
 
     private fun addEffectLine(row: ItemUnitStatusEffectsBinding, effect: StatusEffect) {
         val type = effect.type ?: return
         val theme = context?.theme
+        // Same attach-to-container requirement as addUnitRow: without this the effect
+        // line is inflated but never rendered inside the unit's effects column.
         val line = ItemBattleStatusEffectBinding.inflate(layoutInflater, row.battleUnitEffects, false)
         line.battleEffectIcon.setImageDrawable(ResourcesCompat.getDrawable(resources, type.icon, theme))
         val durationKey = statusTurnsLeftLabelResource(effect.turnsLeft)
@@ -129,6 +134,7 @@ class DialogBattleStatusEffects : CustomDialog() {
         line.battleEffectDescription.setTextColor(
             resources.getColor(if (type.negative) R.color.failure else R.color.success, theme)
         )
+        row.battleUnitEffects.addView(line.root)
     }
 
     override fun onStart() {

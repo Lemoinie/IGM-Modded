@@ -3882,6 +3882,26 @@ POISON: damage reduced by 20%"</string>
     <string name="status_turns_left">%d turns left</string>
     <string name="status_unit_hp">HP %1$d/%2$d · Shield %3$d · %4$d%%</string>
     <string name="status_by_cause">by %s</string>
+    <string name="auto_raid_title">Auto-Raid</string>
+    <string name="auto_raid_start">START AUTO-RAID</string>
+    <string name="auto_raid_stop">STOP AUTO-RAID</string>
+    <string name="auto_raid_badge">AUTO</string>
+    <string name="auto_raid_runs">%d Runs</string>
+    <string name="auto_raid_unlimited">Unlimited</string>
+    <string name="auto_raid_current_gems">Current Gems: %d</string>
+    <string name="auto_raid_cost_per_run">Cost per run: %d gems</string>
+    <string name="auto_raid_affordable_runs">Max affordable: %d runs</string>
+    <string name="auto_raid_runs_remaining">Auto-Raid: %d runs left</string>
+    <string name="auto_raid_runs_unlimited">Auto-Raid: Unlimited</string>
+    <string name="auto_raid_stop_on_wipe">Stop on party wipe:</string>
+    <string name="auto_raid_stopped_wipe">Auto-Raid stopped: Team was defeated.</string>
+    <string name="auto_raid_stopped_completed">Auto-Raid completed: All target runs finished.</string>
+    <string name="auto_raid_stopped_no_gems">Auto-Raid stopped: Insufficient gems.</string>
+    <string name="auto_raid_stopped_storage_full">Auto-Raid stopped: Guild storage is full.</string>
+    <string name="auto_raid_dungeon_on">[AUTO: ON (%d runs left)]</string>
+    <string name="auto_raid_dungeon_on_unlimited">[AUTO: ON (Unlimited)]</string>
+    <string name="auto_raid_dungeon_off">[AUTO: OFF]</string>
+    <string name="log_auto_raid_dispatch">Auto-Raid: Run %d dispatched</string>
     <string name="raid_time_description">NEW TRIES IN:</string>
     <string name="raids_help_body">"You unlocked your first Raid!
 

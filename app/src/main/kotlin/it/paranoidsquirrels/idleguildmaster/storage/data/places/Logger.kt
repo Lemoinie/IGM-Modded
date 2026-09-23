@@ -30,6 +30,8 @@ object Logger {
     const val SCARLET_AEONIA = 129
     const val BLOOD_CONVOCATION = 130
     const val SINISTER_CURSE_REANIMATE = 131
+    const val AUTO_RAID_DISPATCH = 132
+    const val AUTO_RAID_STOPPED = 133
     const val BOTCHED_OFFERING = 115
     private const val COLOR_FORMAT = "<font color=%s><strong>%s</strong></font>"
     const val DARKNESS_DESCRIPTION = 1
@@ -861,6 +863,12 @@ object Logger {
                         ),
                         getRed()
                     )
+                }
+                AUTO_RAID_DISPATCH -> {
+                    strWrap = wrap(String.format(RESOURCES!!.getString(R.string.log_auto_raid_dispatch), (objArr[0] as Number).toInt()), YELLOW)
+                }
+                AUTO_RAID_STOPPED -> {
+                    strWrap = wrap(RESOURCES!!.getString((objArr[0] as Number).toInt()), YELLOW)
                 }
             }
             if (strWrap != null) {

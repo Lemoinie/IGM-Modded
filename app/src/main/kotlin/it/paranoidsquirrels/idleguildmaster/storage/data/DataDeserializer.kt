@@ -613,6 +613,10 @@ this.data.theTower = getArea(TheTower::class.java, asJsonObject, "theTower")
                 tNewInstance.maxProgress = asJsonObject.get("maxProgress").asInt
                 tNewInstance.isUnlocked = if (asJsonObject.has("unlocked")) asJsonObject.get("unlocked").asBoolean else if (asJsonObject.has("isUnlocked")) asJsonObject.get("isUnlocked").asBoolean else false
                 tNewInstance.triesAvailable = asJsonObject.get("triesAvailable").asBoolean
+                tNewInstance.isAutoRaidActive = if (asJsonObject.has("isAutoRaidActive")) asJsonObject.get("isAutoRaidActive").asBoolean else false
+                tNewInstance.autoRaidRunsRemaining = if (asJsonObject.has("autoRaidRunsRemaining")) asJsonObject.get("autoRaidRunsRemaining").asInt else -1
+                tNewInstance.autoRaidRunsCompleted = if (asJsonObject.has("autoRaidRunsCompleted")) asJsonObject.get("autoRaidRunsCompleted").asInt else 0
+                tNewInstance.autoRaidStopOnWipe = if (asJsonObject.has("autoRaidStopOnWipe")) asJsonObject.get("autoRaidStopOnWipe").asBoolean else true
                 val adventureRecap = AdventureRecap()
                 if (asJsonObject.has("adventureRecap")) {
                     val asJsonObject2 = asJsonObject.get("adventureRecap").asJsonObject

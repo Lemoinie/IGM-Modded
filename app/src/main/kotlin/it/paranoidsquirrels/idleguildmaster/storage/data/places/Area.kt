@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 import android.animation.ValueAnimator
 import android.content.res.Resources
+import android.view.View
 import android.view.animation.LinearInterpolator
 import androidx.core.content.res.ResourcesCompat
 import it.paranoidsquirrels.idleguildmaster.MainActivity
@@ -26,6 +27,7 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.items.Item
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.ItemWrapper
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Accessory
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Armor
+import it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Food
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Weapon
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.instances.AmuletOfResurrection
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.instances.SkeletonKey
@@ -118,6 +120,13 @@ abstract class Area {
     open var triesAvailable: Boolean = false
     open var turnsFighting: Int = 0
 
+    // Auto-Raid State (mod)
+    open var isAutoRaidActive: Boolean = false
+    open var autoRaidRunsRemaining: Int = -1      // -1 = Unlimited (until out of gems), or positive count
+    open var autoRaidRunsCompleted: Int = 0       // Session counter
+    open var autoRaidStopOnWipe: Boolean = true   // Safety: stop if team dies to prevent wasting gems
+    open var autoRaidGemsSpent: Int = 0           // Session gem expense tracking
+
     @SerializedName("unlocked")
     open var isUnlocked: Boolean = false
 
@@ -193,6 +202,9 @@ abstract class Area {
             return
         }
         if (this.terminationRequested) {
+            if (this.isAutoRaidActive && handleAutoRaidCycle()) {
+                return // Auto-Raid dispatched the next run; keep the area alive.
+            }
             terminate()
             return
         }
@@ -273,6 +285,115 @@ abstract class Area {
         }
         refreshActionDisplayed()
         refreshAdventurers()
+    }
+
+    /**
+     * Auto-Raid cycle. Called from tick() when a raid run concludes (victory or wipe)
+     * while Auto-Raid is active. Stashes loot, pays for the next try, and re-dispatches
+     * the saved team. Returns true when the next run was dispatched (area stays alive).
+     */
+    fun handleAutoRaidCycle(): Boolean {
+        if (!isAutoRaidActive || getAreaType() != TYPE_RAID || savedAdventurersIds.isEmpty()) {
+            isAutoRaidActive = false
+            return false
+        }
+
+        // 1. Stop on wipe (safety: never waste gems sending a dead team back in).
+        if (adventurersAlive() == 0 && autoRaidStopOnWipe) {
+            stopAutoRaid(R.string.auto_raid_stopped_wipe)
+            return false
+        }
+
+        // 2. Decrement the run counter before starting the next run.
+        if (autoRaidRunsRemaining > 0) {
+            autoRaidRunsRemaining--
+            if (autoRaidRunsRemaining == 0) {
+                stopAutoRaid(R.string.auto_raid_stopped_completed)
+                return false
+            }
+        }
+
+        // 3. Stash loot to prevent overflowing the area loot cap (2,000 cap).
+        val favPets = MainActivity.data.pets.filter { it.favourite }
+        val remainingSpace = Utils.remainingInventorySpaceAfterCollecting(favPets.isNotEmpty(), *drops.toTypedArray())
+        if (remainingSpace < 0) {
+            stopAutoRaid(R.string.auto_raid_stopped_storage_full)
+            return false
+        }
+        stashDropsDirectly()
+
+        // 4. Verify & deduct gems (or consume a free daily try when available).
+        if (!triesAvailable) {
+            val cost = costToRefresh()
+            if (MainActivity.data.gems < cost.toLong()) {
+                stopAutoRaid(R.string.auto_raid_stopped_no_gems)
+                return false
+            }
+            MainActivity.data.gems -= cost.toLong()
+            autoRaidGemsSpent += cost
+            (MainActivity.raidsFragment?.activity as? MainActivity)?.refreshGems()
+        } else {
+            triesAvailable = false
+        }
+
+        // 5. Re-dispatch the saved team.
+        autoRaidRunsCompleted++
+        Logger.log(this, Logger.AUTO_RAID_DISPATCH, autoRaidRunsCompleted)
+
+        adventurersExploringIds = CopyOnWriteArrayList(savedAdventurersIds)
+        petExploringId = savedPetId
+        terminationRequested = false
+        progress = 0
+        action = null // Triggers fresh Action(0) and resetAdventurers(true) on the next tick.
+        event = null
+
+        setupAdventurers(MainActivity.data.adventurers, MainActivity.data.pets)
+        refreshActionDisplayed()
+        refreshAdventurers()
+        refreshTries()
+        refreshAutoRaidIndicator()
+        return true
+    }
+
+    /** Deactivates Auto-Raid and logs the given stop reason to the battle log. */
+    fun stopAutoRaid(reasonResId: Int) {
+        isAutoRaidActive = false
+        Logger.log(this, Logger.AUTO_RAID_STOPPED, reasonResId)
+        (MainActivity.raidsFragment?.activity as? MainActivity)?.runOnUiThread {
+            MainActivity.raidsFragment?.refresh()
+        }
+    }
+
+    /**
+     * Moves every drop straight into the player's inventory, auto-feeding favourite pets
+     * with food drops first. Called by the Auto-Raid cycle so loot never piles up in
+     * area.drops across many consecutive runs.
+     */
+    fun stashDropsDirectly() {
+        if (drops.isEmpty()) return
+
+        val favPets = MainActivity.data.pets.filter { it.favourite }
+        var feedPower = 0
+
+        for (item in drops) {
+            if (favPets.isEmpty() || item !is Food) {
+                Utils.collectItem(item, MainActivity.data.items)
+            } else {
+                feedPower += item.getFeedPower() * item.getStack()
+            }
+        }
+
+        if (favPets.isNotEmpty() && feedPower > 0) {
+            val effectiveFeedPower = Utils.effectiveAutoFeedPower(feedPower)
+            val perPet = effectiveFeedPower / favPets.size
+            for (pet in favPets) {
+                pet.feed(perPet)
+            }
+        }
+
+        drops.clear()
+        refreshLoot()
+        MainActivity.headquartersFragment?.refresh()
     }
 
     private fun setupArea() {
@@ -3539,8 +3660,19 @@ abstract class Area {
             return
         }
         try {
+            val res = MainActivity.dungeonsFragment.resources
             val layout = getLayout()
-            layout.actionDescription.setText(this.action!!.name)
+            val actionName = res.getString(this.action!!.name)
+            layout.actionDescription.setText(
+                if (isAutoRaidActive) {
+                    val autoRaidText =
+                        if (autoRaidRunsRemaining < 0) res.getString(R.string.auto_raid_runs_unlimited)
+                        else String.format(res.getString(R.string.auto_raid_runs_remaining), autoRaidRunsRemaining)
+                    actionName + " · " + autoRaidText
+                } else {
+                    actionName
+                }
+            )
             if (this.animator == null || this.animationInvalidationRequested) {
                 this.animationInvalidationRequested = false
                 val valueAnimatorOfInt = ValueAnimator.ofInt(0, 1000)
@@ -3575,6 +3707,18 @@ abstract class Area {
                 MainActivity.raidsFragment.context!!.theme
             )
         )
+    }
+
+    /** Refreshes the raid card AUTO badge while Auto-Raid is active. */
+    open fun refreshAutoRaidIndicator() {
+        if (!Utils.isMainLooper() || MainActivity.raidsFragment == null || MainActivity.raidsFragment.context == null || MainActivity.raidsFragment.binding == null) {
+            return
+        }
+        try {
+            val layout = getLayout()
+            layout.autoRaidBadge.visibility = if (isAutoRaidActive) View.VISIBLE else View.GONE
+        } catch (unused: Exception) {
+        }
     }
 
     open fun invalidateAnimator() {

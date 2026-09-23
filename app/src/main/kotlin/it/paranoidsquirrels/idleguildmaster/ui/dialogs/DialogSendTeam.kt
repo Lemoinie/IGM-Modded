@@ -70,6 +70,7 @@ class DialogSendTeam : CustomDialog() {
                 slots[i].root.visibility = 8
             }
         }
+        b.autoRaid.visibility = if (a.getAreaType() == 1 && a.canRefillWithGems()) View.VISIBLE else View.GONE
         setupAdventurers()
     }
 
@@ -151,6 +152,16 @@ class DialogSendTeam : CustomDialog() {
                 }
             }
             dismiss()
+        }
+        b.autoRaid.setOnClickListener {
+            if (selectedAdventurersId.size > 0) {
+                a.savedAdventurersIds.clear()
+                a.savedAdventurersIds.addAll(selectedAdventurersId)
+                a.savedPetId = selectedPetId
+                val dialog = DialogAutoRaidConfig()
+                dialog.area = a
+                dialog.show(parentFragmentManager, "dialog_auto_raid_config")
+            }
         }
         b.petContainer.setOnClickListener {
             if (MainActivity.shownDialogChoosePet == null) {

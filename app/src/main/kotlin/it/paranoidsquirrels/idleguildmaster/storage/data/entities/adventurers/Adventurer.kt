@@ -66,70 +66,167 @@ abstract class Adventurer : Entity() {
         }
     }
 
-    @JvmField var accessory: Accessory? = null
-    @JvmField var armor: Armor? = null
-    @JvmField @Transient var armorType: Int = 0
-    @JvmField var ascended: Boolean = false
-    @JvmField var doctrine: Doctrine? = null
-    @JvmField var experience: Int = 0
-    @JvmField var id: Int = 0
-    @JvmField var level: Int = 0
-    @JvmField @Transient var maxLevel: Int = 0
-    @JvmField var minionBound: Adventurer? = null
-    @JvmField @Transient var potionDrinkerType: PotionDrinkerType? = null
-    @JvmField var potionsDrank: PotionsDrank? = null
-    @JvmField var seen: Boolean = false
-    @JvmField var timeWhenDismissed: Long = 0L
-    @JvmField var traitCommon: Trait? = null
-    @JvmField var traitRare: Trait? = null
-    @JvmField var weapon: Weapon? = null
-    @JvmField @Transient var weaponType: Int = 0
-    @JvmField @Transient var healsMinionBound: Boolean = false
-    @JvmField @Transient var summonedMinion: Boolean = false
-    @JvmField @Transient var darknessReduction: Int = 0
-    @JvmField @Transient var saboteur: Boolean = false
-    @JvmField @Transient var nightVision: Boolean = false
-    @JvmField @Transient var nextClasses: MutableList<String> = ArrayList()
+    @JvmField
+    var accessory: Accessory? = null
+
+    @JvmField
+    var armor: Armor? = null
+
+    @JvmField
+    @Transient
+    var armorType: Int = 0
+
+    @JvmField
+    var ascended: Boolean = false
+
+    @JvmField
+    var doctrine: Doctrine? = null
+
+    @JvmField
+    var experience: Int = 0
+
+    @JvmField
+    var id: Int = 0
+
+    @JvmField
+    var level: Int = 0
+
+    @JvmField
+    @Transient
+    var maxLevel: Int = 0
+
+    @JvmField
+    var minionBound: Adventurer? = null
+
+    @JvmField
+    @Transient
+    var potionDrinkerType: PotionDrinkerType? = null
+
+    @JvmField
+    var potionsDrank: PotionsDrank? = null
+
+    @JvmField
+    var seen: Boolean = false
+
+    @JvmField
+    var timeWhenDismissed: Long = 0L
+
+    @JvmField
+    var traitCommon: Trait? = null
+
+    @JvmField
+    var traitRare: Trait? = null
+
+    @JvmField
+    var weapon: Weapon? = null
+
+    @JvmField
+    @Transient
+    var weaponType: Int = 0
+
+    @JvmField
+    @Transient
+    var healsMinionBound: Boolean = false
+
+    @JvmField
+    @Transient
+    var summonedMinion: Boolean = false
+
+    @JvmField
+    @Transient
+    var darknessReduction: Int = 0
+
+    @JvmField
+    @Transient
+    var saboteur: Boolean = false
+
+    @JvmField
+    @Transient
+    var nightVision: Boolean = false
+
+    @JvmField
+    @Transient
+    var nextClasses: MutableList<String> = ArrayList()
 
     /**
      * Weapon-stat scaling multipliers (default 1.0). Multiplies each stat BEFORE it feeds into
      * the weapon's damage modifier, so a class can scale e.g. Constitution at 150% (1.5).
      * Set inside `configureStatistics()`; never persisted.
      */
-    @Transient open var attackConstitutionScaling: Double = 1.0
-    @Transient open var attackIntelligenceScaling: Double = 1.0
-    @Transient open var attackDexterityScaling: Double = 1.0
+    @Transient
+    open var attackConstitutionScaling: Double = 1.0
+
+    @Transient
+    open var attackIntelligenceScaling: Double = 1.0
+
+    @Transient
+    open var attackDexterityScaling: Double = 1.0
 
     protected abstract fun configureStatistics()
 
     override fun getTeam(): Int = 0
 
     open fun getId(): Int = id
-    open fun setId(i: Int) { id = i }
+    open fun setId(i: Int) {
+        id = i
+    }
+
     open fun isSeen(): Boolean = seen
-    open fun setSeen(z: Boolean) { seen = z }
+    open fun setSeen(z: Boolean) {
+        seen = z
+    }
+
     open fun getTimeWhenDismissed(): Long = timeWhenDismissed
-    open fun setTimeWhenDismissed(j: Long) { timeWhenDismissed = j }
+    open fun setTimeWhenDismissed(j: Long) {
+        timeWhenDismissed = j
+    }
+
     open fun getLevel(): Int = level
-    open fun setLevel(i: Int) { level = i }
+    open fun setLevel(i: Int) {
+        level = i
+    }
+
     open fun getMaxLevel(): Int = maxLevel
-    open fun setMaxLevel(i: Int) { maxLevel = i }
+    open fun setMaxLevel(i: Int) {
+        maxLevel = i
+    }
+
     open fun getExperience(): Int = experience
-    open fun setExperience(i: Int) { experience = i }
+    open fun setExperience(i: Int) {
+        experience = i
+    }
+
     open fun getWeapon(): Weapon? = weapon
-    open fun setWeapon(weapon: Weapon?) { this.weapon = weapon }
+    open fun setWeapon(weapon: Weapon?) {
+        this.weapon = weapon
+    }
+
     open fun getArmor(): Armor? = armor
-    open fun setArmor(armor: Armor?) { this.armor = armor }
+    open fun setArmor(armor: Armor?) {
+        this.armor = armor
+    }
+
     open fun getAccessory(): Accessory? = accessory
-    open fun setAccessory(accessory: Accessory?) { this.accessory = accessory }
+    open fun setAccessory(accessory: Accessory?) {
+        this.accessory = accessory
+    }
+
     open fun getTraitCommon(): Trait? = traitCommon
     open fun getTraitRare(): Trait? = traitRare
     open fun getPotionsDrank(): PotionsDrank? = potionsDrank
-    open fun setPotionsDrank(potionsDrank: PotionsDrank?) { this.potionsDrank = potionsDrank }
+    open fun setPotionsDrank(potionsDrank: PotionsDrank?) {
+        this.potionsDrank = potionsDrank
+    }
+
     open fun getDoctrine(): Doctrine? = doctrine
-    open fun setDoctrine(doctrine: Doctrine?) { this.doctrine = doctrine }
+    open fun setDoctrine(doctrine: Doctrine?) {
+        this.doctrine = doctrine
+    }
+
     open fun isAscended(): Boolean = ascended
-    open fun setAscended(z: Boolean) { ascended = z }
+    open fun setAscended(z: Boolean) {
+        ascended = z
+    }
 
     open fun calculateMaxPotions(i: Int): Int {
         val pdt = potionDrinkerType ?: return 0
@@ -139,7 +236,10 @@ abstract class Adventurer : Entity() {
     open fun getWeaponType(): Int = weaponType
     open fun getArmorType(): Int = armorType
     open fun getMinionBound(): Adventurer? = minionBound
-    open fun setMinionBound(adventurer: Adventurer?) { minionBound = adventurer }
+    open fun setMinionBound(adventurer: Adventurer?) {
+        minionBound = adventurer
+    }
+
     open fun isHealsMinionBound(): Boolean = healsMinionBound
     open fun isSummonedMinion(): Boolean = summonedMinion
     open fun getNextClasses(): List<String> = nextClasses
@@ -446,9 +546,14 @@ abstract class Adventurer : Entity() {
     }
 
     open fun isSaboteur(): Boolean = saboteur
-    open fun setSaboteur(z: Boolean) { saboteur = z }
+    open fun setSaboteur(z: Boolean) {
+        saboteur = z
+    }
+
     open fun isNightVision(): Boolean = nightVision
-    open fun setNightVision(z: Boolean) { nightVision = z }
+    open fun setNightVision(z: Boolean) {
+        nightVision = z
+    }
 
     open fun decay(): Int {
         val totalMaxHp = calculateTotalMaxHp()
@@ -676,21 +781,27 @@ abstract class Adventurer : Entity() {
         val tc = traitCommon
         if (tc != null) {
             when (tc) {
-                Trait.BOOKWORM -> if (i == 0) d = 1.15
-                Trait.FERAL -> if (i == 2) d = 1.15
-                Trait.BRUTE -> if (i == 1) d = 1.15
-                Trait.BOOKWORM_PLUS -> {
-                    if (i == 0) d = 1.2
-                    else if (i == 1 || i == 2) d = 0.95
-                }
-                Trait.FERAL_PLUS -> {
-                    if (i == 2) d = 1.2
-                    else if (i == 0 || i == 1) d = 0.95
-                }
-                Trait.BRUTE_PLUS -> {
-                    if (i == 1) d = 1.2
+                Trait.BOOKWORM -> {
+                    if (i == 1) d = 1.1
                     else if (i == 0 || i == 2) d = 0.95
                 }
+
+                Trait.FERAL -> {
+                    if (i == 2) d = 1.1
+                    else if (i == 0 || i == 1) d = 0.95
+                }
+
+                Trait.BRUTE -> {
+                    if (i == 0) d = 1.1
+                    else if (i == 1 || i == 2) d = 0.95
+                }
+
+                Trait.BOOKWORM_PLUS -> if (i == 1) d = 1.2
+
+                Trait.FERAL_PLUS -> if (i == 2) d = 1.2
+
+                Trait.BRUTE_PLUS -> if (i == 0) d = 1.2
+
                 else -> {}
             }
         }

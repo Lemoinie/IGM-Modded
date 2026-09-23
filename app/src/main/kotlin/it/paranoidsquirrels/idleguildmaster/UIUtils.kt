@@ -424,6 +424,18 @@ object UIUtils {
                 // Guild activities: 1 try per reroll, no gem refill.
                 return
             }
+            // Streamlined refill: a raid with a saved team skips the double-tap gem-refill
+            // dialog and goes straight to team selection, where both Send and Auto-Raid sit.
+            if (area.savedAdventurersIds.isNotEmpty()) {
+                if (MainActivity.shownDialogSendTeam != null) {
+                    return
+                }
+                val dialog = DialogSendTeam()
+                dialog.area = area
+                MainActivity.shownDialogSendTeam = dialog
+                dialog.show(fragment.parentFragmentManager, "dialog_send_team")
+                return
+            }
             if (MainActivity.shownDialogRefillRaidTry != null) {
                 return
             }

@@ -122,6 +122,9 @@ class MainActivity : AppCompatActivity() {
         var shownStatusDialog: DialogBattleStatusEffects? = null
 
         @JvmField
+        var shownAutoRaidConfig: DialogAutoRaidConfig? = null
+
+        @JvmField
         var shownDialogConsumeEvo23: DialogConsumeEvo23? = null
 
         @JvmField
