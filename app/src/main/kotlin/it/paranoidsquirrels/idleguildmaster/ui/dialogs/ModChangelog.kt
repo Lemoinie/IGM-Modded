@@ -436,7 +436,10 @@ object ModChangelog {
         "- Fixed the loot claim dialog when a huge haul is pending: the item grid is now height-constrained and scrolls internally, so the REPORT and CLOSE buttons stay pinned and tappable at the bottom of the screen.\n" +
         "\n" +
         "1.3.11.2 (23/9/2026):\n" +
-        "- Applied the same fix to the adventure report dialog: a long enemy-slay list now scrolls inside a height-constrained grid, keeping the CLOSE button pinned and tappable."
+        "- Applied the same fix to the adventure report dialog: a long enemy-slay list now scrolls inside a height-constrained grid, keeping the CLOSE button pinned and tappable.\n" +
+        "\n" +
+        "1.3.12.0 (23/9/2026):\n" +
+        "- Added a live Battle Status Effects Inspector: a STATUS button in the dungeon-detail view opens a dialog listing every active positive and negative status effect (icon, name, remaining turns, cause) for all allies and enemies, refreshing in real time each combat turn."
 
     private val MOD_VERSION_LIST: List<VersionEntry> by lazy { parseVersionEntries() }
 

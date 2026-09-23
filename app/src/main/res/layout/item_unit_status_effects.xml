@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:background="@drawable/object_border_dim_white" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView android:padding="2.0dip" android:id="@+id/battle_unit_image" android:layout_width="48.0dip" android:layout_height="48.0dip" android:layout_marginEnd="8.0dip" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent" />
+    <TextView android:textStyle="bold" android:id="@+id/battle_unit_name" android:layout_width="0.0dip" android:layout_height="wrap_content" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toEndOf="@id/battle_unit_image" app:layout_constraintTop_toTopOf="parent" />
+    <TextView android:id="@+id/battle_unit_hp" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toEndOf="@id/battle_unit_image" app:layout_constraintTop_toBottomOf="@id/battle_unit_name" />
+    <LinearLayout android:orientation="vertical" android:id="@+id/battle_unit_effects" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginTop="4.0dip" android:divider="@drawable/object_empty_space_8dp" android:showDividers="middle" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/battle_unit_image" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -27,6 +27,7 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.places.Area
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.dungeons.TheGoldenCity
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.dungeons.EnchantedForest
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.raids.SanguineCrucible
+import it.paranoidsquirrels.idleguildmaster.ui.dialogs.DialogBattleStatusEffects
 import it.paranoidsquirrels.idleguildmaster.ui.dialogs.ModChangelog
 import org.junit.Assert.*
 import org.junit.Before
@@ -344,7 +345,7 @@ class ModFeaturesTest {
     fun testModAboutChangelogEntries() {
         val entries = ModChangelog.parseVersionEntries()
         assertTrue(entries.isNotEmpty())
-        assertTrue("Top entry must be 1.3.11.2", entries[0].title.startsWith("1.3.11.2"))
+        assertTrue("Top entry must be 1.3.12.0", entries[0].title.startsWith("1.3.12.0"))
         assertTrue("Bottom entry must be 1.0.0.0", entries.last().title.startsWith("1.0.0.0"))
     }
 
@@ -1538,5 +1539,27 @@ class ModFeaturesTest {
         val extraDrop = Item.getInstance("GoldScraps", 1)!!
         val space = Utils.remainingInventorySpaceAfterCollecting(false, extraDrop)
         assertTrue("A drop on top of a full inventory must report negative space (space=$space)", space < 0)
+    }
+
+    @Test
+    fun testStatusEffectTurnsLeftLabelResource() {
+        assertEquals("Permanent effects must use the permanent label", R.string.status_permanent, DialogBattleStatusEffects.statusTurnsLeftLabelResource(999))
+        assertEquals("Single-turn effects must use the singular label", R.string.status_turn_left, DialogBattleStatusEffects.statusTurnsLeftLabelResource(1))
+        assertEquals("Multi-turn effects must use the plural label", R.string.status_turns_left, DialogBattleStatusEffects.statusTurnsLeftLabelResource(3))
+    }
+
+    @Test
+    fun testStatusEffectListsExposeTurnsLeft() {
+        val target = Enemy.getInstance("Wolf")!!
+        target.addStatusEffect(StatusEffect(StatusEffectType.BLEED, null, 5, 1.0), 1.0)
+        target.addStatusEffect(StatusEffect(StatusEffectType.REGENERATION, null, 2, 1.0), 1.0)
+
+        val bleed = target.negativeStatusEffects.find { it.type == StatusEffectType.BLEED }
+        assertNotNull("Bleed must be listed as a negative effect", bleed)
+        assertEquals(5, bleed!!.turnsLeft)
+
+        val regen = target.positiveStatusEffects.find { it.type == StatusEffectType.REGENERATION }
+        assertNotNull("Regeneration must be listed as a positive effect", regen)
+        assertEquals(2, regen!!.turnsLeft)
     }
 }

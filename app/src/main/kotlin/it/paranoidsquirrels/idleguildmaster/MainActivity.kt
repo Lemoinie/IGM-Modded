@@ -119,6 +119,9 @@ class MainActivity : AppCompatActivity() {
         var shownDialogCollectDrops: DialogCollectDrops? = null
 
         @JvmField
+        var shownStatusDialog: DialogBattleStatusEffects? = null
+
+        @JvmField
         var shownDialogConsumeEvo23: DialogConsumeEvo23? = null
 
         @JvmField

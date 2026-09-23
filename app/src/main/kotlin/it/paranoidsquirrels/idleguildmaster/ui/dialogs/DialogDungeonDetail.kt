@@ -96,6 +96,14 @@ class DialogDungeonDetail : CustomDialog() {
             dialog.setOnDismissListener { darknessDialog = null }
             dialog.show()
         }
+        b.btnStatusEffects.setOnClickListener {
+            if (MainActivity.shownStatusDialog == null) {
+                val dialog = DialogBattleStatusEffects()
+                MainActivity.shownStatusDialog = dialog
+                dialog.area = a
+                dialog.show(parentFragmentManager, "battle_status_effects")
+            }
+        }
     }
 
     fun refreshDarkness() {
@@ -146,6 +154,8 @@ class DialogDungeonDetail : CustomDialog() {
             }
         }
         b.pet.visibility = if (pet == null) 4 else 0
+        // Keep the open Status Effects inspector in sync with every unit refresh.
+        MainActivity.shownStatusDialog?.refreshStatusList()
     }
 
     private fun refreshUnit(isAdventurer: Boolean, slot: Int, count: Int) {
