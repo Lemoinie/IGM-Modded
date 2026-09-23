@@ -3,6 +3,7 @@ package it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.units
 import it.paranoidsquirrels.idleguildmaster.R
 import it.paranoidsquirrels.idleguildmaster.Utils
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.Skills
+import it.paranoidsquirrels.idleguildmaster.storage.data.entities.StatusEffectType
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.Enemy
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.ItemWrapper
 import java.util.ArrayList
@@ -12,17 +13,17 @@ class ArchmagusValthex : Enemy() {
     override fun getMaxDamage(): Int = 250
     override fun getMinDamage(): Int = 200
     override fun isMagic(): Boolean = true
-    override fun isRanged(): Boolean = false
+    override fun isRanged(): Boolean = true
 
     override fun configureStatistics() {
-        baseMaxHp = 120000
+        baseMaxHp = 150000
         baseConstitution = 100
         baseDexterity = 300
         baseIntelligence = 600
         baseDefense = 10
         baseMagicDefense = 90
         baseLifesteal = 150
-        immunityToStatus = 1.0
+        immunityToStatus = 0.0
         criticalDamage = 1.5
         // Casts Scarlet Aeonia immediately on turn 1 (like Bleak Disciple).
         currentMana = 100
@@ -34,6 +35,10 @@ class ArchmagusValthex : Enemy() {
         activeSkill = Skills.ACTIVE_SCARLET_AEONIA
         rarity = 1
         expGiven = 50000
+        onTargetHit = StatusEffect(StatusEffectType.BLOODFLAME, this, 3, 1.0)
+
+        statusImmunities.add(StatusEffectType.ABLAZE)
+        statusImmunities.add(StatusEffectType.BLOODFLAME)
     }
 
     /** All drops listed for the Bestiary / inspection UI. */

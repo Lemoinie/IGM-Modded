@@ -12,7 +12,8 @@ import java.util.Collections
 import java.util.LinkedHashMap
 
 class HeadlessKnight : Enemy() {
-    @Transient private var customEndOfTurnActions: List<EndOfTurnAction>? = null
+    @Transient
+    private var customEndOfTurnActions: List<EndOfTurnAction>? = null
     override fun getMaxDamage(): Int = 1800
     override fun getMinDamage(): Int = 1650
     override fun isMagic(): Boolean = false
@@ -35,6 +36,7 @@ class HeadlessKnight : Enemy() {
         activeSkill = Skills.ACTIVE_NONE
         rarity = 1
         expGiven = 10000
+
     }
 
     override fun listDrops(i: Int): LinkedHashMap<ItemWrapper, Int> {
@@ -42,6 +44,7 @@ class HeadlessKnight : Enemy() {
         linkedHashMap.put(ItemWrapper.getInstance("DreadfulMorningstar", 1), 75)
         return linkedHashMap
     }
+
     override fun endOfTurnActions(): List<EndOfTurnAction> = customEndOfTurnActions ?: emptyList()
 
     override fun calculateCriticalChance(): Double = 1.0
