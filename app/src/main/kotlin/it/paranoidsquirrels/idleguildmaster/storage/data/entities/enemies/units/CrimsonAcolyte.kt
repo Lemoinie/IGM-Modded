@@ -19,7 +19,7 @@ class CrimsonAcolyte : Enemy() {
     override fun configureStatistics() {
         baseMaxHp = 3000
         baseConstitution = 80
-        baseDexterity = 250
+        baseDexterity = 50
         baseIntelligence = 200
         baseDefense = 0
         baseMagicDefense = 60
