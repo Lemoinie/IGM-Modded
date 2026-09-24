@@ -142,16 +142,17 @@ class DialogSendTeam : CustomDialog() {
         }
         b.send.setOnClickListener {
             if (selectedAdventurersId.size > 0) {
-                a.terminationRequested = false
-                a.adventurersExploringIds = selectedAdventurersId
-                a.petExploringId = selectedPetId
-                a.triesAvailable = false
-                a.refreshTries()
-                if (MainActivity.data.isSettingAutoOpenDungeonDetail) {
-                    UIUtils.clickArea(MainActivity.dungeonsFragment, a)
+                // No free daily try left: ask the player to buy the next try with the
+                // vanilla "Buy extra chance" confirmation popup, so the gem spend is
+                // always explicit before the team is sent.
+                if (a.needsPaidTryDispatch()) {
+                    confirmAndBuyTry { dispatchSelectedTeam() }
+                    return@setOnClickListener
                 }
+                dispatchSelectedTeam()
+            } else {
+                dismiss()
             }
-            dismiss()
         }
         b.autoRaid.setOnClickListener {
             if (selectedAdventurersId.size > 0) {
@@ -170,6 +171,43 @@ class DialogSendTeam : CustomDialog() {
                 dialog.show(parentFragmentManager, "dialog_choose_pet")
             }
         }
+    }
+
+    private fun dispatchSelectedTeam() {
+        val a = area ?: return
+        a.terminationRequested = false
+        a.adventurersExploringIds = selectedAdventurersId
+        a.petExploringId = selectedPetId
+        a.triesAvailable = false
+        a.refreshTries()
+        if (MainActivity.data.isSettingAutoOpenDungeonDetail) {
+            UIUtils.clickArea(MainActivity.dungeonsFragment, a)
+        }
+        dismiss()
+    }
+
+    /** Shows the vanilla "Buy extra chance" popup; onPurchased runs after the gems are taken. */
+    private fun confirmAndBuyTry(onPurchased: () -> Unit) {
+        val a = area ?: return
+        if (MainActivity.shownDialogRefillRaidTry != null) return
+        val cost = a.costToRefresh()
+        val dialog = DialogRefillRaidTry()
+        dialog.title = getString(R.string.gems_replenish_raid_tries_title)
+        dialog.description = String.format(getString(R.string.gems_replenish_raid_tries_body), cost)
+        dialog.cost = cost
+        dialog.callback = java.util.function.BooleanSupplier {
+            if (MainActivity.data.gems < cost.toLong()) {
+                MainActivity.shownDialogRefillRaidTry?.displayError()
+                false
+            } else {
+                MainActivity.data.gems -= cost.toLong()
+                (activity as? MainActivity)?.refreshGems()
+                onPurchased()
+                true
+            }
+        }
+        MainActivity.shownDialogRefillRaidTry = dialog
+        dialog.show(parentFragmentManager, "dialog_spend_gems")
     }
 
     private fun blink(textView: TextView, success: Boolean) {

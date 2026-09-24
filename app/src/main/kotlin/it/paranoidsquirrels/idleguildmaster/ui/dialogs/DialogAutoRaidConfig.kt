@@ -61,6 +61,7 @@ class DialogAutoRaidConfig : CustomDialog() {
         runsSelected = 5
         unlimited = false
         stopOnWipe = a.autoRaidStopOnWipe
+        b.stopOnWipeToggle.isChecked = stopOnWipe
         refreshSelection()
         refreshStepper()
     }
@@ -95,13 +96,8 @@ class DialogAutoRaidConfig : CustomDialog() {
                 refreshStepper()
             }
         }
-        b.stopOnWipeYes.setOnClickListener {
-            stopOnWipe = true
-            refreshSelection()
-        }
-        b.stopOnWipeNo.setOnClickListener {
-            stopOnWipe = false
-            refreshSelection()
+        b.stopOnWipeToggle.setOnCheckedChangeListener { _, checked ->
+            stopOnWipe = checked
         }
         b.cancel.setOnClickListener {
             dismiss()
@@ -129,8 +125,6 @@ class DialogAutoRaidConfig : CustomDialog() {
         b.chip10.setTextColor(if (!unlimited && runsSelected == 10) brass else dim)
         b.chip25.setTextColor(if (!unlimited && runsSelected == 25) brass else dim)
         b.chipUnlimited.setTextColor(if (unlimited) brass else dim)
-        b.stopOnWipeYes.setTextColor(if (stopOnWipe) brass else dim)
-        b.stopOnWipeNo.setTextColor(if (!stopOnWipe) brass else dim)
     }
 
     private fun refreshStepper() {
@@ -152,12 +146,56 @@ class DialogAutoRaidConfig : CustomDialog() {
         a.autoRaidGemsSpent = 0
         a.terminationRequested = false
         if (a.adventurersExploringIds.isEmpty()) {
-            // Started from the send-team dialog: dispatch the first run now, consuming
-            // the free try exactly like the vanilla Send button.
-            a.adventurersExploringIds = CopyOnWriteArrayList(a.savedAdventurersIds)
-            a.petExploringId = a.savedPetId
-            a.triesAvailable = false
+            // Started from the send-team dialog: the first run dispatches now. With no free
+            // daily try left, the player confirms the paid try via the vanilla "Buy extra
+            // chance" popup first, so the gem spend is always explicit.
+            if (a.needsPaidTryDispatch()) {
+                confirmAndBuyTry { dispatchFirstRunAndFinish() }
+                return
+            }
+            dispatchFirstRunAndFinish()
+            return
         }
+        finishAutoRaidStart()
+    }
+
+    /** Shows the vanilla "Buy extra chance" popup; onPurchased runs after the gems are taken. */
+    private fun confirmAndBuyTry(onPurchased: () -> Unit) {
+        val a = area ?: return
+        if (MainActivity.shownDialogRefillRaidTry != null) return
+        val cost = a.costToRefresh()
+        val dialog = DialogRefillRaidTry()
+        dialog.title = getString(R.string.gems_replenish_raid_tries_title)
+        dialog.description = String.format(getString(R.string.gems_replenish_raid_tries_body), cost)
+        dialog.cost = cost
+        dialog.callback = java.util.function.BooleanSupplier {
+            if (MainActivity.data.gems < cost.toLong()) {
+                MainActivity.shownDialogRefillRaidTry?.displayError()
+                false
+            } else {
+                MainActivity.data.gems -= cost.toLong()
+                a.autoRaidGemsSpent += cost
+                (activity as? MainActivity)?.refreshGems()
+                onPurchased()
+                true
+            }
+        }
+        MainActivity.shownDialogRefillRaidTry = dialog
+        dialog.show(parentFragmentManager, "dialog_spend_gems")
+    }
+
+    /** Dispatches the first Auto-Raid run (counts as attempt #1 for the report). */
+    private fun dispatchFirstRunAndFinish() {
+        val a = area ?: return
+        a.adventurersExploringIds = CopyOnWriteArrayList(a.savedAdventurersIds)
+        a.petExploringId = a.savedPetId
+        a.triesAvailable = false
+        a.autoRaidRunsCompleted = 1
+        finishAutoRaidStart()
+    }
+
+    private fun finishAutoRaidStart() {
+        val a = area ?: return
         a.refreshTries()
         a.refreshLoot()
         a.refreshActionDisplayed()

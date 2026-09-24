@@ -3,8 +3,11 @@ package it.paranoidsquirrels.idleguildmaster
 import it.paranoidsquirrels.idleguildmaster.storage.data.Data
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.Adventurer
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.PotionsDrank
+import it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.Enemy
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.Item
-import it.paranoidsquirrels.idleguildmaster.storage.data.pets.Pet
+import it.paranoidsquirrels.idleguildmaster.storage.data.places.Area
+import it.paranoidsquirrels.idleguildmaster.storage.data.places.Event
+import it.paranoidsquirrels.idleguildmaster.storage.data.places.raids.SanguineCrucible
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.raids.TheTower
 import org.junit.Assert.*
 import org.junit.Before
@@ -79,6 +82,27 @@ class AutoRaidTest {
     }
 
     @Test
+    fun testRaidNeedsPaidTryDispatchWhenFreeTrySpent() {
+        val tower = newTowerWithTeam()
+        tower.triesAvailable = false
+        assertTrue("A raid with no free try needs a paid try before dispatching", tower.needsPaidTryDispatch())
+
+        tower.triesAvailable = true
+        assertFalse("An available free try must not require a paid try", tower.needsPaidTryDispatch())
+    }
+
+    @Test
+    fun testPaidTryDispatchNeverAppliesToFreeAreas() {
+        val forest = it.paranoidsquirrels.idleguildmaster.storage.data.places.dungeons.EnchantedForest()
+        forest.triesAvailable = false
+        assertFalse("Dungeons must always dispatch free", forest.needsPaidTryDispatch())
+
+        val request = it.paranoidsquirrels.idleguildmaster.storage.data.places.raids.GuildRequestArea()
+        request.triesAvailable = false
+        assertFalse("Guild activities must never ask for a paid try", request.needsPaidTryDispatch())
+    }
+
+    @Test
     fun testAutoRaidStopsOnWipeWithoutSpendingGems() {
         val tower = newTowerWithTeam()
         tower.adventurersExploring[0].currentHp = 0
@@ -92,6 +116,8 @@ class AutoRaidTest {
         assertFalse("Auto-Raid must be deactivated", tower.isAutoRaidActive)
         assertEquals("No gems may be spent after a wipe stop", 100L, MainActivity.data.gems)
         assertEquals(0, tower.autoRaidRunsCompleted)
+        assertEquals("Wipe stop reason must be recorded for the report",
+            it.paranoidsquirrels.idleguildmaster.R.string.auto_raid_report_reason_wipe, tower.autoRaidStopReasonRes)
     }
 
     @Test
@@ -106,6 +132,8 @@ class AutoRaidTest {
         assertFalse("Out-of-gems must halt the loop", tower.handleAutoRaidCycle())
         assertFalse(tower.isAutoRaidActive)
         assertEquals("Gems must not go negative", 5L, MainActivity.data.gems)
+        assertEquals("No-gems stop reason must be recorded for the report",
+            it.paranoidsquirrels.idleguildmaster.R.string.auto_raid_report_reason_no_gems, tower.autoRaidStopReasonRes)
     }
 
     @Test
@@ -121,48 +149,73 @@ class AutoRaidTest {
         assertFalse(tower.isAutoRaidActive)
         assertEquals("The final run's gem cost must not be paid", 100L, MainActivity.data.gems)
         assertEquals(0, tower.autoRaidRunsCompleted)
+        assertEquals("Completed stop reason must be recorded for the report",
+            it.paranoidsquirrels.idleguildmaster.R.string.auto_raid_report_reason_completed, tower.autoRaidStopReasonRes)
     }
 
     @Test
-    fun testAutoRaidStopsOnFullStorageWithoutItemLoss() {
+    fun testAutoRaidStopsWhenAreaLootCapReached() {
         val tower = newTowerWithTeam()
-        val capacity = Formulas.storageSpaces()
-        for (i in 0 until capacity) {
-            MainActivity.data.items.add(Item.getInstance("CopperSword", 1)!!)
-        }
-        tower.drops.add(Item.getInstance("GoldScraps", 2)!!)
+        // Fill the raid's loot chest up to the area loot cap across the run's drops.
+        tower.drops.add(Item.getInstance("GoldScraps", tower.getLootCap())!!)
         tower.isAutoRaidActive = true
         tower.autoRaidRunsRemaining = 3
         tower.autoRaidStopOnWipe = true
         tower.triesAvailable = false
         MainActivity.data.gems = 100L
 
-        assertFalse("Full storage must halt the loop", tower.handleAutoRaidCycle())
+        assertFalse("A full loot chest must halt the loop", tower.handleAutoRaidCycle())
         assertFalse(tower.isAutoRaidActive)
-        assertEquals("Drops must not be lost when storage is full", 1, tower.drops.size)
-        assertEquals(100L, MainActivity.data.gems)
+        assertEquals("Drops must be kept in the chest when the loop halts", 1, tower.drops.size)
+        assertEquals("Gems must not be spent after a loot-cap stop", 100L, MainActivity.data.gems)
+        assertEquals("Storage-full stop reason must be recorded for the report",
+            it.paranoidsquirrels.idleguildmaster.R.string.auto_raid_report_reason_storage_full, tower.autoRaidStopReasonRes)
     }
 
     @Test
-    fun testStashDropsDirectlyDepositsAndFeedsFavouritePets() {
-        val tower = newTowerWithTeam()
-        val pet = Pet.getInstance("Beetle", 1)!!
-        pet.favourite = true
-        MainActivity.data.pets.add(pet)
+    fun testSanguineFreeTryNotRegrantedOnReload() {
+        // A save that already consumed the daily free try (triesAvailable = false) must keep
+        // it consumed after a reload — even though the Sanguine Crucible is unlocked for
+        // saves owning a Scarlet Strand. Only the daily reset grants a new free try.
+        val data = Data().apply {
+            sanguineCrucible?.isUnlocked = true
+            sanguineCrucible?.triesAvailable = false
+            seenItems.add("ScarletStrand")
+        }
+        val gson = com.google.gson.GsonBuilder()
+            .registerTypeAdapter(Data::class.java, it.paranoidsquirrels.idleguildmaster.storage.data.DataDeserializer())
+            .create()
+        val json = com.google.gson.Gson().toJson(data)
+        val loaded = gson.fromJson(json, Data::class.java)
+        assertTrue("The area must stay unlocked after reload", loaded.sanguineCrucible?.isUnlocked == true)
+        assertFalse("The consumed free try must not be re-granted on reload", loaded.sanguineCrucible!!.triesAvailable)
+    }
 
-        tower.drops.add(Item.getInstance("GoldScraps", 1)!!)
-        tower.drops.add(Item.getInstance("Apple", 2)!!)
-
-        tower.stashDropsDirectly()
-
-        assertEquals("Drops must be cleared after stashing", 0, tower.drops.size)
-        assertTrue(
-            "Non-food drops must be deposited into the guild inventory",
-            MainActivity.data.items.any { it.getTrueClass() == "GoldScraps" }
+    @Test
+    fun testBloodConvocationSummonChance() {
+        assertEquals(
+            "Blood Convocation must summon a Crimson Acolyte on 36% of hits",
+            0.36,
+            Area.BLOOD_CONVOCATION_SUMMON_CHANCE,
+            0.0
         )
-        assertTrue(
-            "Food drops must be fed to favourite pets",
-            pet.food > 0 || pet.level > 1
-        )
+    }
+
+    @Test
+    fun testSanguineCrucibleBossKillDoesNotEndRunBeforeLoot() {
+        // Sanctum state: the boss room has been reached.
+        val crucible = SanguineCrucible()
+        crucible.progress = 1
+        crucible.event = Event(Event.HALLS_EXPLORATION)
+        crucible.event?.progress = 1
+
+        // The boss dies mid-fight: the run must NOT be terminated here, otherwise the
+        // Victory -> Experience -> Loot actions never run (no drops, no XP).
+        val boss = Enemy.getInstance("ArchmagusValthex")!!
+        crucible.enemies.add(boss)
+        boss.currentHp = 0
+        crucible.checkDeath(boss)
+        assertFalse("Boss death alone must not terminate the raid (it would void loot/XP)", crucible.terminationRequested)
+        assertTrue("The boss must be stashed as a corpse for the loot action", crucible.corpses.contains(boss))
     }
 }

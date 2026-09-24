@@ -12,6 +12,12 @@ import java.util.LinkedHashMap
 import java.util.concurrent.CopyOnWriteArrayList
 
 class SanguineCrucible : Area() {
+    // Whether the boss has been slain during this run. Used to let the standard
+    // Victory -> Experience -> Loot action sequence finish before the raid ends, so a
+    // successful boss kill still pays out its drops and XP.
+    @Transient
+    private var bossDefeated: Boolean = false
+
     // Party cap matches the engine's 14 adventurer slots (same as The Tower).
     override fun adventurersNumber(): Int = 14
 
@@ -29,6 +35,13 @@ class SanguineCrucible : Area() {
 
     override fun rollEnemies(): MutableList<Enemy> {
         val ev = event ?: return CopyOnWriteArrayList()
+        // The boss has already been slain: instead of re-spawning the sanctum wave, end the
+        // run right after the last fight's loot was rolled.
+        if (bossDefeated) {
+            bossDefeated = false
+            terminationRequested = true
+            return CopyOnWriteArrayList()
+        }
         // Inner sanctum: Archmagus Valthex flanked by 4 Crimson Acolytes (Valthex in the middle).
         if (progress >= ev.progress) {
             return CopyOnWriteArrayList(listOfNotNull(
@@ -73,12 +86,17 @@ class SanguineCrucible : Area() {
                     event = Event(Event.HALLS_EXPLORATION)
                     // bossRoomThreshold = 5 + random(0..10) -> 5 to 15 rooms.
                     event?.progress = 5 + (Utils.random() * 11).toInt()
+                    // Fresh run: the previous run's boss-kill flag must not be carried over.
+                    bossDefeated = false
                 } else if (event != null && progress >= event!!.progress) {
                     Logger.log(this, Logger.EVENT_SIGNIFICANT, R.string.log_sanguine_crucible_sanctum)
                 }
             }
             "kill_ArchmagusValthex" -> {
-                terminationRequested = true
+                // Do NOT terminate here: that would preempt the Victory -> Experience ->
+                // Loot actions, ending the run with no loot and no XP. Mark the boss as
+                // defeated and let rollEnemies() close the raid right after the loot tick.
+                bossDefeated = true
             }
             "enter_dungeon" -> {
                 Logger.log(this, 100, R.string.log_sanguine_crucible_enter)

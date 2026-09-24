@@ -193,24 +193,38 @@ object GuildActivitiesManager {
         MainActivity.guildActivitiesFragment.refresh()
     }
 
+    /** Reentrancy guard: `GuildSiegeArea.listEnemies()` delegates here, so guard against
+     * any area (current or future) whose `listEnemies()` funnels back into this method —
+     * returning the fallback list instead of recursing into a StackOverflowError. */
+    @JvmStatic
+    private val siegeEnemyBuilding = ThreadLocal<Boolean>()
+
     @JvmStatic
     fun getEligibleSiegeEnemies(): List<String> {
-        val result = mutableListOf<String>()
-        // Exclude the guild activity areas themselves: GuildSiegeArea.listEnemies()
-        // delegates here, so iterating it would recurse forever.
-        val areas = Utils.compileDungeonRaidList().filter { it.isUnlocked && it !is GuildSiegeArea && it !is GuildRequestArea }
-        for (area in areas) {
-            for (enemy in area.listEnemies()) {
-                val tc = enemy.getTrueClass() ?: continue
-                if (enemy.getRarity() < 2 && !KNOWN_BOSSES.contains(tc) && !result.contains(tc)) {
-                    result.add(tc)
+        if (siegeEnemyBuilding.get() == true) {
+            return listOf("Slime", "FireSlime", "ElectricSlime", "FrozenSlime", "VoidSlime")
+        }
+        siegeEnemyBuilding.set(true)
+        try {
+            val result = mutableListOf<String>()
+            // Exclude the guild activity areas themselves: GuildSiegeArea.listEnemies()
+            // delegates here, so iterating it would recurse forever.
+            val areas = Utils.compileDungeonRaidList().filter { it.isUnlocked && it !is GuildSiegeArea && it !is GuildRequestArea }
+            for (area in areas) {
+                for (enemy in area.listEnemies()) {
+                    val tc = enemy.getTrueClass() ?: continue
+                    if (enemy.getRarity() < 2 && !KNOWN_BOSSES.contains(tc) && !result.contains(tc)) {
+                        result.add(tc)
+                    }
                 }
             }
+            if (result.isEmpty()) {
+                result.addAll(listOf("Slime", "FireSlime", "ElectricSlime", "FrozenSlime", "VoidSlime"))
+            }
+            return result
+        } finally {
+            siegeEnemyBuilding.set(false)
         }
-        if (result.isEmpty()) {
-            result.addAll(listOf("Slime", "FireSlime", "ElectricSlime", "FrozenSlime", "VoidSlime"))
-        }
-        return result
     }
 
     @JvmStatic

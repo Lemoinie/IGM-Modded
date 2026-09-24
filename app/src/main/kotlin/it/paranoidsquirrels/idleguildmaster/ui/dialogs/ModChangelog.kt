@@ -445,7 +445,29 @@ object ModChangelog {
         "- Fixed the Battle Status Effects Inspector showing no status effects: unit rows and status rows were inflated but never attached to the dialog's scrollable list, so only the Allies/Enemies headers appeared. Every active positive and negative effect (icon, name, remaining turns, cause) now renders for all living allies and enemies.\n" +
         "\n" +
         "1.3.13.0 (23/9/2026):\n" +
-        "- Added the Auto-Raid system: repeatable normal raids (The Tower, Sleeping Planet, Kaunis, The Slime Pond, The Lost Expedition, The Cultist Rebels, Celestial Mothership, Ancient Grave Digging, The Sanguine Crucible) can now be queued for 5/10/25/Unlimited consecutive runs. Each finished run auto-stashes loot into the guild inventory (feeding favourite pets), pays the next run with gems (or the free daily try), and instantly re-dispatches the saved team — in the foreground and during offline idle progress. Safety stops: on party wipe, on full storage, when out of gems, or when the target run count is reached. Controlled from a new AUTO-RAID button in the team-select dialog, an [AUTO: ON/OFF] toggle during combat, and an AUTO badge on the raid cards."
+        "- Added the Auto-Raid system: repeatable normal raids (The Tower, Sleeping Planet, Kaunis, The Slime Pond, The Lost Expedition, The Cultist Rebels, Celestial Mothership, Ancient Grave Digging, The Sanguine Crucible) can now be queued for 5/10/25/Unlimited consecutive runs. Each finished run auto-stashes loot into the guild inventory (feeding favourite pets), pays the next run with gems (or the free daily try), and instantly re-dispatches the saved team — in the foreground and during offline idle progress. Safety stops: on party wipe, on full storage, when out of gems, or when the target run count is reached. Controlled from a new AUTO-RAID button in the team-select dialog, an [AUTO: ON/OFF] toggle during combat, and an AUTO badge on the raid cards.\n" +
+        "\n" +
+        "1.3.13.5 (24/9/2026):\n" +
+        "- Sending a team (or starting Auto-Raid) when the daily free try is already spent now shows the vanilla \"Buy extra chance for 30 gems\" confirmation popup before any gems are deducted — the player always explicitly confirms the refill cost, exactly like raids worked before Auto-Raid. (1.3.13.4 deducted the gems silently.)\n" +
+        "\n" +
+        "1.3.13.4 (24/9/2026):\n" +
+        "- Fixed raids becoming free after the daily free try is used: the streamlined refill flow (introduced with Auto-Raid) opens the team-select dialog instead of the gem-refill dialog, but dispatch never charged. Sending a team — or starting an Auto-Raid — now deducts costToRefresh() gems (30) when no free try is available and refuses the dispatch with a \"Not enough gems\" warning when it can't be afforded, matching the vanilla refill price.\n" +
+        "\n" +
+        "1.3.13.3 (24/9/2026):\n" +
+        "- Fixed a crash when pressing AUTO-RAID in the team-select dialog: the \"Stop on party wipe\" toggle was rendered with SwitchCompat, but the vanilla game does not ship its Material switch-thumb drawable (InflateException: abc_switch_thumb_material), so opening the Auto-Raid config dialog crashed the app. It is now a plain CheckBox (the game's own toggle widget) and the dialog opens reliably.\n" +
+        "\n" +
+        "1.3.13.2 (24/9/2026):\n" +
+        "- Fixed The Sanguine Crucible's daily free try reappearing after relaunching the game: the save loader no longer forces triesAvailable = true on every launch, so a consumed free try stays consumed until the next daily reset.\n" +
+        "- Auto-Raid no longer auto-stashes each run's loot straight into the guild inventory. Loot now stays in the raid's chest and Auto-Raid automatically stops when the area loot cap is reached — collect the chest to continue.\n" +
+        "- Auto-Raid no longer prints stop text on the after-run summary. The session stats now live in a new AUTO RAID REPORT button inside the loot-collection dialog, showing total attempts, gems spent, and the reason the loop stopped.\n" +
+        "- The \"Stop on party wipe\" option is now a simple switch instead of the YES/NO picker.\n" +
+        "- Removed the [AUTO: ON / OFF] toggle from the dungeon-detail dialog; the RETREAT button now stops an active Auto-Raid (even mid-run).\n" +
+        "- Fixed blank gaps under raid cards when starting Auto-Raid: locked/completed raid cards are now hidden without reserving space.\n" +
+        "\n" +
+        "1.3.13.1 (24/9/2026):\n" +
+        "- Fixed a crash after letting Auto-Raid idle for a long time (it appeared on \"Load Idle Progress\"): finishing a run refreshed the UI straight from the reporting/offline thread — the gem counter (`refreshGems`) and the Headquarters summary (`HeadquartersFragment.refresh`) both write to views from a background thread. Both refreshes now run on the main UI thread.\n" +
+        "- Fixed The Sanguine Crucible ending the moment the boss died: the run was terminated on Archmagus Valthex's death before the Victory — Experience — Loot actions ran, so winning runs dropped no loot and granted no XP. The run now completes the loot/XP sequence and only then closes or re-dispatches.\n" +
+        "- Buffed Archmagus Valthex's Blood Convocation from a 20% chance to a 36% chance to summon a Crimson Acolyte when he takes damage."
 
     private val MOD_VERSION_LIST: List<VersionEntry> by lazy { parseVersionEntries() }
 

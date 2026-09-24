@@ -2,6 +2,7 @@ package it.paranoidsquirrels.idleguildmaster.ui.dialogs
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.viewbinding.ViewBinding
 import it.paranoidsquirrels.idleguildmaster.MainActivity
@@ -20,6 +21,16 @@ class DialogCollectDrops : CustomDialog() {
     var recap: AdventureRecap? = null
     @JvmField
     var sourceArea: String? = null
+    // Auto-Raid session report (shown on the AUTO RAID REPORT button when present).
+    @JvmField
+    var autoRaidAttempts: Int = 0
+    @JvmField
+    var autoRaidGemsSpent: Int = 0
+    @JvmField
+    var autoRaidStopReasonRes: Int = 0
+
+    private fun hasAutoRaidReport(): Boolean =
+        autoRaidAttempts > 0 || autoRaidGemsSpent > 0 || autoRaidStopReasonRes != 0
 
     override fun getBinding(): ViewBinding = binding!!
 
@@ -39,6 +50,7 @@ class DialogCollectDrops : CustomDialog() {
         val b = binding ?: return
         drops?.sortWith(compareByDescending { it.getRarity() })
         b.itemGrid.adapter = UIUtils.getItemsGridAdapter(context, drops)
+        b.autoRaidReport.visibility = if (hasAutoRaidReport()) View.VISIBLE else View.GONE
     }
 
     override fun attachListeners() {
@@ -54,6 +66,14 @@ class DialogCollectDrops : CustomDialog() {
                 dialogSell.show(parentFragmentManager, "sell")
             }
             true
+        }
+        b.autoRaidReport.setOnClickListener {
+            val reason = if (autoRaidStopReasonRes != 0) getString(autoRaidStopReasonRes)
+            else getString(R.string.auto_raid_report_reason_manual)
+            val body = getString(R.string.auto_raid_report_attempts, autoRaidAttempts) + "\n" +
+                getString(R.string.auto_raid_report_gems_spent, autoRaidGemsSpent) + "\n" +
+                getString(R.string.auto_raid_report_stopped_reason, reason)
+            UIUtils.getInfoDialog(context, R.string.auto_raid_report_title, body, false).show()
         }
         b.report.setOnClickListener {
             if (MainActivity.shownDialogReport != null) return@setOnClickListener

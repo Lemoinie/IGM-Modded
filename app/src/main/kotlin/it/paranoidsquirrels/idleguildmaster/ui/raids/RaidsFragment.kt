@@ -57,7 +57,7 @@ class RaidsFragment : Fragment() {
                 ResourcesCompat.getDrawable(resources, area.getSummaryDrawable(), requireContext().theme)
             )
             layout.dungeonTitle.setText(area.getName())
-            layout.root.visibility = if (!area.isUnlocked || area.completed()) View.INVISIBLE else View.VISIBLE
+            layout.root.visibility = if (!area.isUnlocked || area.completed()) View.GONE else View.VISIBLE
             layout.raidTryAvailable.visibility = View.VISIBLE
             layout.epicRaid.visibility = if (area.getAreaType() == 2) View.VISIBLE else View.GONE
             area.refreshAdventurers()

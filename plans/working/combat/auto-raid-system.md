@@ -71,10 +71,9 @@ graph TD
     D -->|YES| E[Stop Auto-Raid: Reason Party Wiped]
     D -->|NO| F{Runs Remaining == 0?}
     F -->|YES| G[Stop Auto-Raid: Reason Target Runs Reached]
-    F -->|NO| H{Check Guild Inventory Space}
-    H -->|Storage Full| I[Stop Auto-Raid: Reason Storage Full]
-    H -->|Space Available| J[Stash Drops to Inventory & Feed Favorite Pets]
-    J --> K{Free Try Available?}
+    F -->|NO| H{Area Loot Chest Full?}
+    H -->|YES| I[Stop Auto-Raid: Reason Storage Full — collect the chest to continue]
+    H -->|NO| K{Free Try Available?}
     K -->|YES| L[Consume Free Try: triesAvailable = false]
     K -->|NO| M{Gems >= costToRefresh?}
     M -->|NO| N[Stop Auto-Raid: Reason Insufficient Gems]
@@ -87,6 +86,12 @@ graph TD
     I --> C
     N --> C
 ```
+
+> v1.3.13.2 change: the loop no longer auto-stashes loot into the guild inventory.
+> Drops accumulate in the raid's chest (`area.drops`) and Auto-Raid halts when the
+> chest reaches the area loot cap (`fullChest()`). Stopped sessions record their
+> attempts / gems / stop reason for the chest's AUTO RAID REPORT button; stop text is
+> no longer printed on the after-run summary.
 
 ---
 
@@ -102,6 +107,7 @@ var autoRaidRunsRemaining: Int = -1      // -1 = Unlimited (until out of gems), 
 var autoRaidRunsCompleted: Int = 0       // Session counter
 var autoRaidStopOnWipe: Boolean = true   // Safety: stop if team dies to prevent wasting gems
 var autoRaidGemsSpent: Int = 0           // Session gem expense tracking
+var autoRaidStopReasonRes: Int = 0       // Stop reason shown in the AUTO RAID REPORT (0 = none)
 ```
 
 #### Serialization (`DataDeserializer.kt`)
@@ -148,7 +154,7 @@ private fun handleAutoRaidCycle(): Boolean {
 
     // 1. Stop on Wipe Check
     if (wiped && autoRaidStopOnWipe) {
-        stopAutoRaid(R.string.auto_raid_stopped_wipe)
+        stopAutoRaid(R.string.auto_raid_report_reason_wipe)
         return false
     }
 
@@ -156,25 +162,23 @@ private fun handleAutoRaidCycle(): Boolean {
     if (autoRaidRunsRemaining > 0) {
         autoRaidRunsRemaining--
         if (autoRaidRunsRemaining == 0) {
-            stopAutoRaid(R.string.auto_raid_stopped_completed)
+            stopAutoRaid(R.string.auto_raid_report_reason_completed)
             return false
         }
     }
 
-    // 3. Stash Loot to Prevent Overflowing Area Loot Cap (2,000 cap)
-    val favPets = MainActivity.data.pets.filter { it.favourite }
-    val remainingSpace = Utils.remainingInventorySpaceAfterCollecting(favPets.isNotEmpty(), *this.drops.toTypedArray())
-    if (remainingSpace < 0) {
-        stopAutoRaid(R.string.auto_raid_stopped_storage_full)
+    // 3. Stop when the Area Loot Chest is Full (v1.3.13.2: no more auto-stash — drops
+    //    accumulate in this area's chest and must be collected before more runs queue).
+    if (fullChest()) {
+        stopAutoRaid(R.string.auto_raid_report_reason_storage_full)
         return false
     }
-    stashDropsDirectly()
 
     // 4. Verify & Deduct Gems
     if (!this.triesAvailable) {
         val cost = costToRefresh()
         if (MainActivity.data.gems < cost) {
-            stopAutoRaid(R.string.auto_raid_stopped_no_gems)
+            stopAutoRaid(R.string.auto_raid_report_reason_no_gems)
             return false
         }
         MainActivity.data.gems -= cost
@@ -202,8 +206,9 @@ private fun handleAutoRaidCycle(): Boolean {
 }
 
 private fun stopAutoRaid(reasonResId: Int) {
+    if (!this.isAutoRaidActive) return
     this.isAutoRaidActive = false
-    Logger.log(this, 106, reasonResId)
+    this.autoRaidStopReasonRes = reasonResId      // recorded for the AUTO RAID REPORT
     (MainActivity.raidsFragment?.activity as? MainActivity)?.runOnUiThread {
         MainActivity.raidsFragment?.refresh()
     }
@@ -212,37 +217,15 @@ private fun stopAutoRaid(reasonResId: Int) {
 
 ---
 
-### 4.3 Stashing Drops Directly (`Area.stashDropsDirectly`)
+### 4.3 Auto-Raid Loot & Report (v1.3.13.2)
 
-To ensure loot doesn't pile up in `area.drops` over 20+ runs and risk hitting the area loot cap:
-```kotlin
-fun stashDropsDirectly() {
-    if (this.drops.isEmpty()) return
-
-    val favPets = MainActivity.data.pets.filter { it.favourite }
-    var feedPower = 0
-
-    for (item in this.drops) {
-        if (favPets.isEmpty() || item !is Food) {
-            Utils.collectItem(item, MainActivity.data.items)
-        } else {
-            feedPower += item.getFeedPower() * item.getStack()
-        }
-    }
-
-    if (favPets.isNotEmpty() && feedPower > 0) {
-        val effectiveFeedPower = Utils.effectiveAutoFeedPower(feedPower)
-        val perPet = effectiveFeedPower / favPets.size
-        for (pet in favPets) {
-            pet.feed(perPet)
-        }
-    }
-
-    this.drops.clear()
-    refreshLoot()
-    MainActivity.headquartersFragment?.refresh()
-}
-```
+Auto-Raid **no longer stashes drops directly** (`Area.stashDropsDirectly` was removed).
+Each finished run's loot stays in `area.drops` (the raid's chest), and the cycle stops
+once the chest is full (`fullChest()` — area loot cap). The player collects the chest
+later via `Utils.collectDrops`, whose `DialogCollectDrops` surfaced an **AUTO RAID
+REPORT** button (attempts / gems spent / stop reason) whenever the session recorded a
+stop. The report data lives on `Area` (`autoRaidRunsCompleted`, `autoRaidGemsSpent`,
+`autoRaidStopReasonRes`) and is cleared once it is handed to the collect dialog.
 
 ---
 
@@ -259,8 +242,10 @@ A dedicated dialog opened when tapping **"AUTO-RAID"** in `DialogSendTeam` or on
   - Preset Chips: `[5 Runs]`, `[10 Runs]`, `[25 Runs]`, `[Unlimited / All Gems]`
   - Stepper buttons (`-` / `+`) to fine-tune exact count.
 - **Safety Toggles**:
-  - `Stop on Team Wipe`: YES / NO (default YES).
-  - `Stop on Full Storage`: Always ON (protected).
+  - `Stop on Team Wipe`: a `CheckBox` toggle (default ON). v1.3.13.2 replaced the YES/NO
+    picker with `SwitchCompat`, but the vanilla release ships no Material switch-thumb
+    drawable, so that class crashes on inflate (`abc_switch_thumb_material`
+    NotFoundException) — v1.3.13.3 switched it to the game's own `CheckBox` widget.
 - **Buttons**:
   - `Cancel`
   - `Start Auto-Raid` (Highlighted in Brass)
@@ -271,14 +256,16 @@ A dedicated dialog opened when tapping **"AUTO-RAID"** in `DialogSendTeam` or on
   - Tapping `autoRaid` checks if at least 1 adventurer is selected; then opens `DialogAutoRaidConfig` with the chosen team.
 
 #### C. `DialogDungeonDetail.kt` Integration
-- When viewing an active raid run in `DialogDungeonDetail`:
-  - If Auto-Raid is ON: Displays `[AUTO: ON (Runs left: X)]` in brass. Tapping it toggles Auto-Raid OFF.
-  - If Auto-Raid is OFF: Displays `[AUTO: OFF]`. Tapping it opens `DialogAutoRaidConfig` to enable Auto-Raid for subsequent runs without aborting the current battle!
+- The `[AUTO: ON/OFF]` toggle was **removed** (v1.3.13.2 — it looked cluttered and the
+  run now has a clean stop path): while an Auto-Raid is active the **RETREAT** button
+  stops it (recording "Stopped manually" for the report) in addition to ending the run.
 
 #### D. Raid Card Visuals (`RaidsFragment` / `layout_dungeon.xml`)
 - When `area.isAutoRaidActive`:
   - A glowing brass badge `[AUTO]` displays in top-right next to `raid_try_available`.
-  - Action progress text shows: `Auto-Raid #X ([Y] left)`.
+  - The action progress text stays the plain action name (v1.3.13.2: the "runs left /
+    Unlimited" suffix was removed from the display; run counts live in the AUTO RAID
+    REPORT dialog).
 
 ---
 
@@ -293,6 +280,14 @@ With Auto-Raid:
     - Add an **"Auto-Raid"** option directly in `DialogRefillRaidTry`, or allow opening `DialogSendTeam` directly where the player can see both "Send (X 💎)" and "Auto-Raid".
   - This eliminates the awkward double-dialog tap flow!
 
+> v1.3.13.4 restored payment but deducted the gems silently; v1.3.13.5 shows the vanilla
+> "Buy extra chance for 30 gems" confirmation popup first: `Area.needsPaidTryDispatch()`
+> detects the spent free try on the Send button and the first Auto-Raid dispatch, and both
+> open `DialogRefillRaidTry` (cost + "Not enough gems" inline error) — the team only
+> dispatches after the player confirms the purchase. The Auto-Raid loop charges every
+> later run itself. This fixed raids silently becoming free after the daily free try had
+> been used.
+
 ---
 
 ## 5. Offline & Background Simulation
@@ -305,10 +300,10 @@ for (area in list) {
 ```
 for every offline idle second up to the player's idle cap:
 - **Offline Auto-Raids work 100% out of the box!**
-- A player can queue 20 runs, exit the app, and offline progression ticks the encounters, defeats bosses, deducts gems, auto-stashes loot, and terminates cleanly when the 20 runs are completed.
+- A player can queue 20 runs, exit the app, and offline progression ticks the encounters, defeats bosses, deducts gems, and re-dispatches runs until the target count, a wipe, a full raid chest, or a gem shortage stops the loop (v1.3.13.2: loot stays in the raid's chest instead of being auto-stashed to the inventory).
 - Upon re-opening the app, the player sees:
-  - Total runs completed in combat logs.
-  - All rare items, equipment, and materials safely stashed in inventory.
+  - The total attempts / gems spent / stop reason via the chest's AUTO RAID REPORT.
+  - All rare items, equipment, and materials safely waiting in the raid's chest.
   - Accurate gem deduction.
   - Hero levels and EXP updated.
 
@@ -321,16 +316,23 @@ for every offline idle second up to the player's idle cap:
 <string name="auto_raid_start">START AUTO-RAID</string>
 <string name="auto_raid_stop">STOP AUTO-RAID</string>
 <string name="auto_raid_badge">AUTO</string>
-<string name="auto_raid_runs_remaining">Auto-Raid: %d runs left</string>
-<string name="auto_raid_runs_unlimited">Auto-Raid: Unlimited</string>
 <string name="auto_raid_cost_per_run">Cost per run: %d gems</string>
 <string name="auto_raid_affordable_runs">Max affordable: %d runs</string>
 <string name="auto_raid_stop_on_wipe">Stop on party wipe:</string>
-<string name="auto_raid_stopped_wipe">Auto-Raid stopped: Team was defeated.</string>
-<string name="auto_raid_stopped_completed">Auto-Raid completed: All target runs finished.</string>
-<string name="auto_raid_stopped_no_gems">Auto-Raid stopped: Insufficient gems.</string>
-<string name="auto_raid_stopped_storage_full">Auto-Raid stopped: Guild storage is full.</string>
+<string name="auto_raid_report_title">AUTO RAID REPORT</string>
+<string name="auto_raid_report_attempts">Attempts: %d</string>
+<string name="auto_raid_report_gems_spent">Gems spent: %d</string>
+<string name="auto_raid_report_stopped_reason">Reason stopped: %s</string>
+<string name="auto_raid_report_reason_completed">All target runs finished.</string>
+<string name="auto_raid_report_reason_wipe">Team was defeated.</string>
+<string name="auto_raid_report_reason_no_gems">Insufficient gems.</string>
+<string name="auto_raid_report_reason_storage_full">Guild storage is full.</string>
+<string name="auto_raid_report_reason_manual">Stopped manually.</string>
 ```
+> v1.3.13.2 dropped `auto_raid_runs_remaining`, `auto_raid_runs_unlimited`,
+> `auto_raid_stopped_*` and the `auto_raid_dungeon_on/off` strings from display:
+> nothing is printed on the after-run summary anymore, and run counts/stop reasons
+> are only surfaced by the AUTO RAID REPORT button.
 
 ---
 

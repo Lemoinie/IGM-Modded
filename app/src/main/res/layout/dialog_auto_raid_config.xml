@@ -179,33 +179,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/stepper_container" />
 
-    <LinearLayout
-        android:id="@+id/stop_on_wipe_selector"
+    <!-- The vanilla game ships no Material switch-thumb drawable, so SwitchCompat can't
+         be inflated (crashes with abc_switch_thumb_material NotFoundException). A plain
+         CheckBox is the game's own toggle widget (see dialog_consume_food feed_all). -->
+    <CheckBox
+        android:id="@+id/stop_on_wipe_toggle"
         android:layout_width="wrap_content"
-        android:layout_height="44dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:orientation="horizontal"
-        android:background="@drawable/object_border_dim_white"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/stop_on_wipe_label">
-
-        <TextView
-            android:id="@+id/stop_on_wipe_yes"
-            android:layout_width="72dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="@string/yes"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/stop_on_wipe_no"
-            android:layout_width="72dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="@string/no"
-            android:textStyle="bold" />
-
-    </LinearLayout>
+        app:layout_constraintTop_toBottomOf="@id/stop_on_wipe_label" />
 
 
     <!-- ==================== ACTIONS ==================== -->
@@ -219,7 +203,7 @@
         android:gravity="center_vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/stop_on_wipe_selector"
+        app:layout_constraintTop_toBottomOf="@id/stop_on_wipe_toggle"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <TextView

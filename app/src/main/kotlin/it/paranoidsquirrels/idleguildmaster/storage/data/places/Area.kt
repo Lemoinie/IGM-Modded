@@ -27,7 +27,6 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.items.Item
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.ItemWrapper
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Accessory
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Armor
-import it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Food
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Weapon
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.instances.AmuletOfResurrection
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.instances.SkeletonKey
@@ -48,6 +47,9 @@ abstract class Area {
         const val BEHAVIOUR_SKIP = 2
         const val EFFECT_PROBABILITY = 0.1
         const val MAX_SIGNIFICANT_PROGRESS = 250
+
+        /** Blood Convocation: chance for Archmagus Valthex to summon a Crimson Acolyte when hit. */
+        const val BLOOD_CONVOCATION_SUMMON_CHANCE = 0.36
 
         @JvmField
         val TARGET_ALL = "all"
@@ -126,6 +128,7 @@ abstract class Area {
     open var autoRaidRunsCompleted: Int = 0       // Session counter
     open var autoRaidStopOnWipe: Boolean = true   // Safety: stop if team dies to prevent wasting gems
     open var autoRaidGemsSpent: Int = 0           // Session gem expense tracking
+    open var autoRaidStopReasonRes: Int = 0       // Stop reason shown in the AUTO RAID REPORT (0 = none)
 
     @SerializedName("unlocked")
     open var isUnlocked: Boolean = false
@@ -179,6 +182,11 @@ abstract class Area {
 
     /** Whether the player may spend gems to refill tries. Guild activities disallow this. */
     open fun canRefillWithGems(): Boolean = true
+
+    /** Whether re-dispatching this area (Send button / first Auto-Raid run) requires
+     *  buying a paid try because the daily free try is already spent. Dungeons (type 0)
+     *  and guild activities (canRefillWithGems == false) never need a paid try. */
+    fun needsPaidTryDispatch(): Boolean = getAreaType() != 0 && !triesAvailable && canRefillWithGems()
 
     /** Called when the player retreats from this area (default: no side effects). */
     open fun onRetreat() {
@@ -300,7 +308,7 @@ abstract class Area {
 
         // 1. Stop on wipe (safety: never waste gems sending a dead team back in).
         if (adventurersAlive() == 0 && autoRaidStopOnWipe) {
-            stopAutoRaid(R.string.auto_raid_stopped_wipe)
+            stopAutoRaid(R.string.auto_raid_report_reason_wipe)
             return false
         }
 
@@ -308,30 +316,33 @@ abstract class Area {
         if (autoRaidRunsRemaining > 0) {
             autoRaidRunsRemaining--
             if (autoRaidRunsRemaining == 0) {
-                stopAutoRaid(R.string.auto_raid_stopped_completed)
+                stopAutoRaid(R.string.auto_raid_report_reason_completed)
                 return false
             }
         }
 
-        // 3. Stash loot to prevent overflowing the area loot cap (2,000 cap).
-        val favPets = MainActivity.data.pets.filter { it.favourite }
-        val remainingSpace = Utils.remainingInventorySpaceAfterCollecting(favPets.isNotEmpty(), *drops.toTypedArray())
-        if (remainingSpace < 0) {
-            stopAutoRaid(R.string.auto_raid_stopped_storage_full)
+        // 3. Stop when the raid's loot chest is full: drops accumulate in this area across
+        //    runs (no more auto-stashing into the guild inventory), so the player must
+        //    collect the chest before Auto-Raid can safely queue another run.
+        if (fullChest()) {
+            stopAutoRaid(R.string.auto_raid_report_reason_storage_full)
             return false
         }
-        stashDropsDirectly()
 
         // 4. Verify & deduct gems (or consume a free daily try when available).
         if (!triesAvailable) {
             val cost = costToRefresh()
             if (MainActivity.data.gems < cost.toLong()) {
-                stopAutoRaid(R.string.auto_raid_stopped_no_gems)
+                stopAutoRaid(R.string.auto_raid_report_reason_no_gems)
                 return false
             }
             MainActivity.data.gems -= cost.toLong()
             autoRaidGemsSpent += cost
-            (MainActivity.raidsFragment?.activity as? MainActivity)?.refreshGems()
+            // Never touch the UI from the reporting/offline thread: refreshGems() reads the
+            // gem TextView, so it must run on the main looper (all other refresh* helpers in
+            // this method already early-return when not on the main looper).
+            val mainActivity = MainActivity.raidsFragment?.activity as? MainActivity
+            mainActivity?.runOnUiThread { mainActivity.refreshGems() }
         } else {
             triesAvailable = false
         }
@@ -355,45 +366,14 @@ abstract class Area {
         return true
     }
 
-    /** Deactivates Auto-Raid and logs the given stop reason to the battle log. */
+    /** Deactivates Auto-Raid and records why, for the collect-chest AUTO RAID REPORT. */
     fun stopAutoRaid(reasonResId: Int) {
+        if (!isAutoRaidActive) return
         isAutoRaidActive = false
-        Logger.log(this, Logger.AUTO_RAID_STOPPED, reasonResId)
+        autoRaidStopReasonRes = reasonResId
         (MainActivity.raidsFragment?.activity as? MainActivity)?.runOnUiThread {
             MainActivity.raidsFragment?.refresh()
         }
-    }
-
-    /**
-     * Moves every drop straight into the player's inventory, auto-feeding favourite pets
-     * with food drops first. Called by the Auto-Raid cycle so loot never piles up in
-     * area.drops across many consecutive runs.
-     */
-    fun stashDropsDirectly() {
-        if (drops.isEmpty()) return
-
-        val favPets = MainActivity.data.pets.filter { it.favourite }
-        var feedPower = 0
-
-        for (item in drops) {
-            if (favPets.isEmpty() || item !is Food) {
-                Utils.collectItem(item, MainActivity.data.items)
-            } else {
-                feedPower += item.getFeedPower() * item.getStack()
-            }
-        }
-
-        if (favPets.isNotEmpty() && feedPower > 0) {
-            val effectiveFeedPower = Utils.effectiveAutoFeedPower(feedPower)
-            val perPet = effectiveFeedPower / favPets.size
-            for (pet in favPets) {
-                pet.feed(perPet)
-            }
-        }
-
-        drops.clear()
-        refreshLoot()
-        MainActivity.headquartersFragment?.refresh()
     }
 
     private fun setupArea() {
@@ -969,7 +949,8 @@ abstract class Area {
                         }
                     }
                 } else if (endOfTurnAction.procsOnMelee == null || endOfTurnAction.procsOnMelee != curActing.isRanged()) {
-                    val listSelectTargets3 = selectTargets(curActing, attackTargetStrategy(curActing), endOfTurnAction.forceRange)
+                    val listSelectTargets3 =
+                        selectTargets(curActing, attackTargetStrategy(curActing), endOfTurnAction.forceRange)
                     if (listSelectTargets3 != null) {
                         val entity6 = listSelectTargets3[0]
                         if (entity6.currentHp > 0) {
@@ -1015,7 +996,7 @@ abstract class Area {
         if (pet == null || this.enemies.isEmpty() || curActing !is Adventurer || pet.fighter <= 0.0 || this.turnEndRequested) {
             return
         }
-        val fighter = pet.fighter * ((curActing.livingCompanionBonusDamage.toDouble() * 0.01) + 1.0)
+        val fighter = pet.fighter * ((curActing.getLivingCompanionBonusDamage().toDouble() * 0.01) + 1.0)
         val entitySelectPetTarget = selectPetTarget()
         if (entitySelectPetTarget != null) {
             val damage = Utils.round(Math.max(1.0, (0.9 * fighter) + (Utils.random() * fighter * 0.2)))
@@ -2416,7 +2397,7 @@ abstract class Area {
         if (skill == null || skill.healing) return false
         val mode = skill.targetSelectionMode
         return mode == TARGET_ALL || mode == TARGET_ALL_ENEMIES || mode == TARGET_ALL_EXCEPT_SELF ||
-            (mode.toIntOrNull() ?: 1) > 1
+                (mode.toIntOrNull() ?: 1) > 1
     }
 
     open fun dealDamage(entity: Entity, entity2: Entity, skill: Skill?, endOfTurnAction: EndOfTurnAction?) {
@@ -2465,7 +2446,7 @@ abstract class Area {
         val flatDamage = endOfTurnAction != null && endOfTurnAction.flatDamage
         var livingCompanionBonusDamage = skill?.damageAmplification ?: 1.0
         if (endOfTurnAction != null && endOfTurnAction.fromLivingCompanion) {
-            livingCompanionBonusDamage = (entity.livingCompanionBonusDamage.toDouble() * 0.01) + 1.0
+            livingCompanionBonusDamage = (entity.getLivingCompanionBonusDamage().toDouble() * 0.01) + 1.0
         }
         if (entity.isMoreDamageWhenHalfLife() && entity.currentHp.toDouble() <= entity.calculateTotalMaxHp()
                 .toDouble() * 0.5
@@ -2550,7 +2531,7 @@ abstract class Area {
         }
 
         val rawDamage = (dRollAttackDamage * dCalculateCriticalMultiplier * livingCompanionBonusDamage *
-            dCalculateTotalDarknessDamageAmplification * statusDamageMultiplier * dMagicDamageAmplification)
+                dCalculateTotalDarknessDamageAmplification * statusDamageMultiplier * dMagicDamageAmplification)
 
         // Angel of War branch: same-row AoE interception (Shared Burden). When an enemy
         // performs an AoE attack against an adventurer, all alive branch units in the same
@@ -2737,11 +2718,11 @@ abstract class Area {
 
         checkDeath(entity2)
 
-        // Blood Convocation: whenever Archmagus Valthex takes damage there is a 20% chance to
+        // Blood Convocation: whenever Archmagus Valthex takes damage there is a 36% chance to
         // summon a fresh Crimson Acolyte into the fight while the formation has room (max 5).
         if (entity2 is Enemy && entity2.currentHp > 0 &&
             entity2.passiveSkill == Skills.PASSIVE_BLOOD_CONVOCATION &&
-            this.enemies.size < 5 && Utils.random() < 0.2
+            this.enemies.size < 5 && Utils.random() < BLOOD_CONVOCATION_SUMMON_CHANCE
         ) {
             val acolyte = Enemy.getInstance("CrimsonAcolyte")
             if (acolyte != null) {
@@ -2828,7 +2809,8 @@ abstract class Area {
                         minion.currentHp = 0
                         checkDeath(minion)
                     }
-                    val sinisterCursed = adventurer.negativeStatusEffects.any { it.type == StatusEffectType.SINISTER_CURSE }
+                    val sinisterCursed =
+                        adventurer.negativeStatusEffects.any { it.type == StatusEffectType.SINISTER_CURSE }
                     adventurer.positiveStatusEffects.clear()
                     adventurer.negativeStatusEffects.clear()
                     // Sinister Curse: the soul of a cursed adventurer is reaped into an
@@ -3663,16 +3645,7 @@ abstract class Area {
             val res = MainActivity.dungeonsFragment.resources
             val layout = getLayout()
             val actionName = res.getString(this.action!!.name)
-            layout.actionDescription.setText(
-                if (isAutoRaidActive) {
-                    val autoRaidText =
-                        if (autoRaidRunsRemaining < 0) res.getString(R.string.auto_raid_runs_unlimited)
-                        else String.format(res.getString(R.string.auto_raid_runs_remaining), autoRaidRunsRemaining)
-                    actionName + " · " + autoRaidText
-                } else {
-                    actionName
-                }
-            )
+            layout.actionDescription.setText(actionName)
             if (this.animator == null || this.animationInvalidationRequested) {
                 this.animationInvalidationRequested = false
                 val valueAnimatorOfInt = ValueAnimator.ofInt(0, 1000)
