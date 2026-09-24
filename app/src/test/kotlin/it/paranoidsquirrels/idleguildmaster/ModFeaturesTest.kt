@@ -345,7 +345,9 @@ class ModFeaturesTest {
     fun testModAboutChangelogEntries() {
         val entries = ModChangelog.parseVersionEntries()
         assertTrue(entries.isNotEmpty())
-        assertTrue("Top entry must be 1.3.13.1", entries[0].title.startsWith("1.3.13.1"))
+        val rawVersion = BuildConfig.VERSION_NAME
+        val modVersion = if (rawVersion.contains("mod-")) rawVersion.substringAfter("mod-") else rawVersion
+        assertTrue("Top entry must be $modVersion", entries[0].title.startsWith(modVersion))
         assertTrue("Bottom entry must be 1.0.0.0", entries.last().title.startsWith("1.0.0.0"))
     }
 

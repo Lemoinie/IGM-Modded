@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
@@ -18,12 +19,14 @@ import it.paranoidsquirrels.idleguildmaster.BuildConfig
 import it.paranoidsquirrels.idleguildmaster.R
 
 /**
- * "Mod info" dialog — a scrollable version list plus scrollable per-version details.
+ * "Mod info" dialog — the dedicated dark-theme XML layout (`dialog_mod_info.xml`) with
+ * the app/version header, the Latest Highlights card and the Contributor credits, plus
+ * the scrollable version-list changelog and per-version detail dialogs.
  *
- * Each version row shows its **change count**, and tapping a version opens a
- * scrollable list where every change bullet is its own row, so long changelogs
- * (10+ entries) are easy to scan instead of being crammed into one cut-off message.
- * Opened from the navigation drawer (`R.id.mod_about`).
+ * The changelog window lists every version (its title carries the total version count);
+ * each version row shows its **change count**, and tapping a version opens a scrollable
+ * list where every change bullet is its own row, so long changelogs are easy to scan.
+ * Opened from the navigation drawer (`R.id.mod_about` and `R.id.mod_changelog`).
  */
 object DialogModAbout {
 
@@ -61,98 +64,75 @@ object DialogModAbout {
         return rows
     }
 
-    private fun newCloseButton(ctx: Context): TextView {
-        val close = TextView(ctx)
-        close.setText(R.string.close)
-        close.textSize = 14f
-        close.typeface = Typeface.DEFAULT_BOLD
-        close.setTextColor(-0x4f4f50) // 0xFFB0B0B0
-        close.gravity = Gravity.CENTER_HORIZONTAL
-        close.setPadding(0, sp(ctx, 12f), 0, sp(ctx, 12f))
-        close.setOnClickListener {
-            shownVersionDetailDialog?.dismiss()
-            shownVersionDetailDialog = null
+    /** Dismisses both the version-detail dialog and the Mod Info / Changelog dialog. */
+    private fun closeBothDialogs() {
+        shownVersionDetailDialog?.dismiss()
+        shownVersionDetailDialog = null
+        shownModAboutDialog?.dismiss()
+        shownModAboutDialog = null
+    }
+
+    /** The mod part of `versionName` (e.g. `1.3.13.7` from `2.148-mod-1.3.13.7`). */
+    private fun modVersion(): String {
+        val raw = BuildConfig.VERSION_NAME
+        return if (raw != null && raw.contains("mod-")) {
+            raw.substring(raw.indexOf("mod-") + 4)
+        } else {
+            raw ?: "1.3.13.7"
+        }
+    }
+
+@JvmStatic
+fun show(activity: Activity) {
+    if (activity.isFinishing || shownModAboutDialog != null) return
+
+    try {
+        val ctx = activity
+        val root = LayoutInflater.from(ctx).inflate(R.layout.dialog_mod_info, null)
+
+        root.findViewById<TextView>(R.id.button_view_changelog).setOnClickListener {
             shownModAboutDialog?.dismiss()
             shownModAboutDialog = null
+            showChangelog(ctx)
         }
-        return close
-    }
 
-    /** Close button used inside the version-detail dialog: only closes the detail. */
-    private fun newDetailCloseButton(ctx: Context): TextView {
-        val close = TextView(ctx)
-        close.setText(R.string.close)
-        close.textSize = 14f
-        close.typeface = Typeface.DEFAULT_BOLD
-        close.setTextColor(-0x4f4f50) // 0xFFB0B0B0
-        close.gravity = Gravity.CENTER_HORIZONTAL
-        close.setPadding(0, sp(ctx, 12f), 0, sp(ctx, 12f))
-        close.setOnClickListener {
-            shownVersionDetailDialog?.dismiss()
-            shownVersionDetailDialog = null
+        root.findViewById<TextView>(R.id.button_close).setOnClickListener {
+            closeBothDialogs()
         }
-        return close
+
+        val dialog = AlertDialog.Builder(ctx, R.style.AlertDialog)
+            .setView(root)
+            .setCancelable(true)
+            .create()
+
+        dialog.window?.setBackgroundDrawableResource(R.drawable.dialog_border)
+        dialog.setOnDismissListener {
+            shownModAboutDialog = null
+        }
+
+        shownModAboutDialog = dialog
+        dialog.show()
+
+        dialog.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        dialog.window?.decorView?.setPadding(0, 0, 0, 0)
+
+    } catch (t: Throwable) {
+        t.printStackTrace()
+        shownModAboutDialog = null
     }
-
-    @JvmStatic
-    fun show(activity: Activity) {
-        if (activity.isFinishing || shownModAboutDialog != null) return
-        try {
-            val ctx = activity
-            val pad8 = sp(ctx, 8f)
-
-            val appTitle = TextView(ctx)
-            appTitle.text = "IGM+"
-            appTitle.textSize = 26f
-            appTitle.typeface = Typeface.DEFAULT_BOLD
-            appTitle.setTextColor(-0x171718) // 0xFFE8E8E8
-            appTitle.gravity = Gravity.CENTER_HORIZONTAL
-            appTitle.setPadding(0, pad8, 0, pad8)
-
-            val rawVersion = BuildConfig.VERSION_NAME
-            val version = if (rawVersion != null && rawVersion.contains("mod-")) {
-                rawVersion.substring(rawVersion.indexOf("mod-") + 4)
-            } else {
-                rawVersion ?: "1.3.6.0"
-            }
-            val versionText = TextView(ctx)
-            versionText.text = "Version: " + version
-            versionText.textSize = 14f
-            versionText.setTextColor(-0x4f4f50) // 0xFFB0B0B0
-            versionText.gravity = Gravity.CENTER_HORIZONTAL
-            versionText.setPadding(0, pad8, 0, pad8)
-
-            val devText = TextView(ctx)
-            devText.text = "Developer: Lemoinie"
-            devText.textSize = 14f
-            devText.setTextColor(-0x4f4f50) // 0xFFB0B0B0
-            devText.gravity = Gravity.CENTER_HORIZONTAL
-            devText.setPadding(0, pad8, 0, pad8)
-
-            val changelogButton = TextView(ctx)
-            changelogButton.text = "Changelog"
-            changelogButton.textSize = 16f
-            changelogButton.typeface = Typeface.DEFAULT_BOLD
-            changelogButton.setTextColor(-0x171718) // 0xFFE8E8E8
-            changelogButton.gravity = Gravity.CENTER_HORIZONTAL
-            changelogButton.setPadding(0, pad8, 0, pad8)
-            changelogButton.setOnClickListener {
+}
+            root.findViewById<TextView>(R.id.button_view_changelog).setOnClickListener {
                 shownModAboutDialog?.dismiss()
                 shownModAboutDialog = null
                 showChangelog(ctx)
             }
-
-            val body = LinearLayout(ctx)
-            body.orientation = LinearLayout.VERTICAL
-            body.addView(appTitle, LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT))
-            body.addView(versionText, LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT))
-            body.addView(devText, LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT))
-            body.addView(changelogButton, LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT))
-            body.addView(newCloseButton(ctx), LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT))
+            root.findViewById<TextView>(R.id.button_close).setOnClickListener { closeBothDialogs() }
 
             val dialog = AlertDialog.Builder(ctx, R.style.AlertDialog)
-                .setTitle(R.string.drawer_mod_info_title)
-                .setView(body)
+                .setView(root)
                 .setCancelable(true)
                 .create()
             dialog.window?.setBackgroundDrawableResource(R.drawable.dialog_border)
@@ -208,7 +188,36 @@ object DialogModAbout {
             shownModAboutDialog = null
         }
     }
-private class ModAboutAdapter(
+
+    private fun newCloseButton(ctx: Context): TextView {
+        val close = TextView(ctx)
+        close.setText(R.string.close)
+        close.textSize = 14f
+        close.typeface = Typeface.DEFAULT_BOLD
+        close.setTextColor(-0x4f4f50) // 0xFFB0B0B0
+        close.gravity = Gravity.CENTER_HORIZONTAL
+        close.setPadding(0, sp(ctx, 12f), 0, sp(ctx, 12f))
+        close.setOnClickListener { closeBothDialogs() }
+        return close
+    }
+
+    /** Close button used inside the version-detail dialog: only closes the detail. */
+    private fun newDetailCloseButton(ctx: Context): TextView {
+        val close = TextView(ctx)
+        close.setText(R.string.close)
+        close.textSize = 14f
+        close.typeface = Typeface.DEFAULT_BOLD
+        close.setTextColor(-0x4f4f50) // 0xFFB0B0B0
+        close.gravity = Gravity.CENTER_HORIZONTAL
+        close.setPadding(0, sp(ctx, 12f), 0, sp(ctx, 12f))
+        close.setOnClickListener {
+            shownVersionDetailDialog?.dismiss()
+            shownVersionDetailDialog = null
+        }
+        return close
+    }
+
+    private class ModAboutAdapter(
         private val ctx: Context,
         private val versions: List<ModChangelog.VersionEntry>
     ) : BaseAdapter() {
@@ -243,7 +252,8 @@ private class ModAboutAdapter(
             return row
         }
     }
-@JvmStatic
+
+    @JvmStatic
     fun showVersionDetail(context: Context, entry: ModChangelog.VersionEntry) {
         if (shownVersionDetailDialog != null) return
         try {
