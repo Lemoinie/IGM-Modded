@@ -19,7 +19,7 @@ class ArchmagusValthex : Enemy() {
     override fun configureStatistics() {
         baseMaxHp = 150000
         baseConstitution = 100
-        baseDexterity = 300
+        baseDexterity = 60
         baseIntelligence = 600
         baseDefense = 10
         baseMagicDefense = 90
