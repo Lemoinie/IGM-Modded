@@ -347,8 +347,12 @@ object ModChangelogActive {
         "- Removed the brass AUTO badge that used to permanently appear on the summary cards of dungeons and guild activities (they share the raid-card layout, whose AUTO label defaulted to visible). The badge now only shows on normal raid cards while an Auto-Raid is active.\n" +
         "\n" +
         "1.3.13.7 (24/9/2026):\n" +
-        "- Mod Info UI overhaul: the programmatic title/version/developer block is replaced by a dedicated dark-theme layout (dialog_mod_info.xml) with an app/version header, a Latest Highlights card (newest version title + its first 3 changes pulled straight from the changelog) and a Contributors & Credits section.\n" +
+        "- Mod Info UI overhaul: the programmatic title/version/developer block is replaced by a dedicated dark-theme layout (dialog_mod_info.xml) with an app/version header and a Contributors & Credits section.\n" +
         "- Added the ModContributors registry (ModContributor + ContributorRole with colored role badges) and the item_mod_contributor.xml card: new contributors are a one-line addition to ModContributors.ALL.\n" +
         "- The changelog is now split into an active era file (v1.3.x, changelog/ModChangelogActive.kt) and a static archive (v1.0.x - v1.2.x, changelog/ModChangelogArchive.kt) behind the unchanged ModChangelog facade (allEntries()/VersionEntry), so future mod releases only touch the active file.\n" +
-        "- Mod Info now offers View Full Changelog (the existing version browser) and Close; the planned Support / Community button is deferred to a future release."
+        "- Mod Info now offers the header/version info and contributor credits with a Close button; the full changelog stays available through the sidebar's Changelog entry. The planned Support / Community button is deferred to a future release.\n" +
+        "\n" +
+        "1.3.13.8 (25/9/2026):\n" +
+        "- Mod Info screen now fills the full device width: its dialog window is sized to the exact screen width (the vanilla dialog windows use 90%), and the Changelog list and per-version detail windows use the same full-width behaviour.\n" +
+        "- The Mod Info content (app/version header, developer line and contributor credits) renders reliably inside the scrollable area."
 }
