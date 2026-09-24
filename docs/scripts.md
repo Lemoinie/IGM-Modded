@@ -13,6 +13,7 @@ scripts/
 ├── build_release.bat        Quick build release APK (double-clickable)
 ├── install_debug.bat        Install newest debug APK to connected device & launch
 ├── pair_and_connect.bat     Two-step wireless ADB pair then connect (reads wireless_debug.txt)
+├── pull_save.bat            Pull save from connected device to save.json & backup
 ├── wireless_debug.txt       Connection info (pair IP:port, connect IP:port, pairing code)
 ├── build/
 │   └── build.ps1            Build, test & deploy pipeline for the Android app

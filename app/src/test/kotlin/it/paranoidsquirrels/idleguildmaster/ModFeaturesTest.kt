@@ -345,7 +345,7 @@ class ModFeaturesTest {
     fun testModAboutChangelogEntries() {
         val entries = ModChangelog.parseVersionEntries()
         assertTrue(entries.isNotEmpty())
-        assertTrue("Top entry must be 1.3.13.0", entries[0].title.startsWith("1.3.13.0"))
+        assertTrue("Top entry must be 1.3.13.1", entries[0].title.startsWith("1.3.13.1"))
         assertTrue("Bottom entry must be 1.0.0.0", entries.last().title.startsWith("1.0.0.0"))
     }
 
@@ -1386,7 +1386,7 @@ class ModFeaturesTest {
         assertNotNull(boss)
         assertEquals(150000, boss!!.baseMaxHp)
         assertEquals(600, boss.baseIntelligence)
-        assertEquals(300, boss.baseDexterity)
+        assertEquals(60, boss.baseDexterity)
         assertEquals(150, boss.baseLifesteal)
         assertEquals(0.0, boss.immunityToStatus, 0.0)
         assertTrue(boss.statusImmunities.contains(StatusEffectType.ABLAZE))

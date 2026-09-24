@@ -112,8 +112,8 @@ source tree (no injected patches). They are concentrated in a few places:
   or `DataDeserializer` for saves that already own a Scarlet Strand. Base stats: Valthex
   120k HP / 200-250 damage / 600 INT / 150% crit / 50,000 XP with `ACTIVE_SCARLET_AEONIA`
   (AoE: Sinister Curse → 120% magic damage → Bloodflame) and `PASSIVE_BLOOD_CONVOCATION`
-  (20% on-hit summon of a `CrimsonAcolyte` while `enemies.size < 5`, wired into
-  `Area.dealDamage()`); Acolytes 6k HP / 100-200 damage / 250 DEX / 2,500 XP with
+  (36% on-hit summon of a `CrimsonAcolyte` while `enemies.size < 5`, wired into
+  `Area.dealDamage()`; buffed from 20% in v1.3.13.1); Acolytes 6k HP / 100-200 damage / 250 DEX / 2,500 XP with
   `ACTIVE_SANGUINE_PYRE` (50% AoE + 3-turn Bloodflame) and `PASSIVE_MARTYRS_PACT`. Acolyte
   deaths apply permanent, stackable `SANGUINE_FERVOR` (+5% damage dealt per stack, no turn
   duration) to surviving enemies via `calculateOnDeathEffectsOnAllies()`; the stack
@@ -146,20 +146,39 @@ source tree (no injected patches). They are concentrated in a few places:
   `DialogDungeonDetail.refreshUnits()` notifies the open inspector each combat turn so
   counts tick down in real time.
 - **Auto-Raid (v1.3.13.0)** — repeatable normal raids (`getAreaType() == 1` &&
-  `canRefillWithGems()`) can be queued for 5/10/25/Unlimited consecutive runs via a
-  new `DialogAutoRaidConfig` (opened from the `DialogSendTeam` AUTO-RAID button, the
-  dungeon-detail `[AUTO: ON/OFF]` toggle, or the streamlined no-try raid tap when a
-  team is saved). Per-run state lives on `Area` (`isAutoRaidActive`,
-  `autoRaidRunsRemaining` = -1 for unlimited, `autoRaidRunsCompleted`,
-  `autoRaidStopOnWipe`, `autoRaidGemsSpent`) and is persisted by `DataDeserializer`.
-  When a run concludes, `Area.tick()` detects `terminationRequested` + active Auto-Raid
-  and calls `handleAutoRaidCycle()`: stop-on-wipe check → run counter → storage-full
-  check (`Utils.remainingInventorySpaceAfterCollecting`) → `stashDropsDirectly()`
-  (moves drops into inventory / feeds favourite pets via `Utils.effectiveAutoFeedPower`)
-  → consume `triesAvailable` or deduct `costToRefresh()` gems → re-dispatch
+  `canRefillWithGems()`) can be queued for 5/10/25/Unlimited consecutive runs via
+  `DialogAutoRaidConfig` (opened from the `DialogSendTeam` AUTO-RAID button, or the
+  streamlined no-try raid tap when a team is saved). Per-run state lives on `Area`
+  (`isAutoRaidActive`, `autoRaidRunsRemaining` = -1 for unlimited,
+  `autoRaidRunsCompleted`, `autoRaidStopOnWipe`, `autoRaidGemsSpent`,
+  `autoRaidStopReasonRes`) and is persisted by `DataDeserializer`. When a run
+  concludes, `Area.tick()` detects `terminationRequested` + active Auto-Raid and
+  calls `handleAutoRaidCycle()`: stop-on-wipe check → run counter → **area loot-chest
+  cap check** (`fullChest()`, v1.3.13.2 the loot is no longer auto-stashed into the
+  guild inventory — it stays in the raid's chest and the loop halts when the chest is
+  full) → consume `triesAvailable` or deduct `costToRefresh()` gems → re-dispatch
   `savedAdventurersIds`/`savedPetId` with `progress`/`action`/`event` reset. Works in
   the foreground and during offline idle (each `tick()` call can chain the next run).
-  The raid card shows a brass AUTO badge while active.
+  The raid card shows a brass AUTO badge while active. A session that stops records
+  its reason, attempts and gem spend; the loot chest's `DialogCollectDrops` shows an
+  **AUTO RAID REPORT** button with those stats (v1.3.13.2 — the stop text is no
+  longer printed on the after-run summary). v1.3.13.1: the per-run UI
+  refreshes (gem counter + Headquarters summary) are posted to the main UI thread —
+  offline/idle processing no longer touches views from the reporting thread, which
+  crashed the app during "Load Idle Progress" — and The Sanguine Crucible
+  now completes its Victory → Experience → Loot sequence before the run closes — a dead
+  boss marks the run as defeated (`SanguineCrucible.bossDefeated`) instead of setting
+  `terminationRequested` mid-fight, so the raid pays out its drops and XP. v1.3.13.2
+  also removed the dungeon-detail `[AUTO: ON/OFF]` toggle (RETREAT stops an active
+  Auto-Raid) and fixed The Sanguine Crucible's daily free try being re-granted on
+  every save load (<code>DataDeserializer</code> no longer forces
+  `triesAvailable = true` for it). v1.3.13.4: the streamlined refill flow (open the
+  team-select dialog instead of the gem-refill dialog when a team is saved) no longer
+  makes raids free — sending a team or the first Auto-Raid dispatch pays
+  `costToRefresh()` gems whenever the daily free try is spent. v1.3.13.5: that payment
+  is preceded by the vanilla **"Buy extra chance for 30 gems"** confirmation popup
+  (`DialogRefillRaidTry`) so the cost is always explicitly acknowledged before gems
+  are deducted.
 - Ads/IAP are stubbed and hidden from the UI (see
   [known-uncertainties.md](known-uncertainties.md), item 2).
 - Save tooling (`scripts/save/`, `save_editor/`) operates on saved games outside

@@ -443,9 +443,11 @@ this.data.theTower = getArea(TheTower::class.java, asJsonObject, "theTower")
             this.data.guildActivitiesState = GuildActivitiesState()
         }
         // The Sanguine Crucible unlocks for saves that have already acquired a Scarlet Strand.
+        // Only the unlock is propagated here. Forcing triesAvailable = true used to re-grant
+        // the daily free try on every launch after it had been consumed; the daily reset in
+        // Utils.tick24Hours is the only thing that may hand out a new free try.
         if (this.data.seenItems.contains("ScarletStrand")) {
             this.data.sanguineCrucible?.isUnlocked = true
-            this.data.sanguineCrucible?.triesAvailable = true
         }
         return this.data
     }
@@ -617,6 +619,7 @@ this.data.theTower = getArea(TheTower::class.java, asJsonObject, "theTower")
                 tNewInstance.autoRaidRunsRemaining = if (asJsonObject.has("autoRaidRunsRemaining")) asJsonObject.get("autoRaidRunsRemaining").asInt else -1
                 tNewInstance.autoRaidRunsCompleted = if (asJsonObject.has("autoRaidRunsCompleted")) asJsonObject.get("autoRaidRunsCompleted").asInt else 0
                 tNewInstance.autoRaidStopOnWipe = if (asJsonObject.has("autoRaidStopOnWipe")) asJsonObject.get("autoRaidStopOnWipe").asBoolean else true
+                tNewInstance.autoRaidStopReasonRes = if (asJsonObject.has("autoRaidStopReasonRes")) asJsonObject.get("autoRaidStopReasonRes").asInt else 0
                 val adventureRecap = AdventureRecap()
                 if (asJsonObject.has("adventureRecap")) {
                     val asJsonObject2 = asJsonObject.get("adventureRecap").asJsonObject

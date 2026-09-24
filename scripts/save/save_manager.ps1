@@ -95,6 +95,7 @@ switch ($Command.ToLower()) {
             & $adb -s $target shell "rm /data/local/tmp/data_pull.txt"
         }
 
+        $raw = Get-Content "$saveFile.tmp" -Raw
         $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
         [System.IO.File]::WriteAllText($saveFile, $raw, $utf8NoBom)
         Remove-Item "$saveFile.tmp" -Force -ErrorAction SilentlyContinue

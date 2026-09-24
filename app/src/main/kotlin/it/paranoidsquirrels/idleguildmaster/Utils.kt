@@ -1090,6 +1090,14 @@ object Utils {
         dialogCollectDrops.sourceArea = fragment.getString(area.getName())
         dialogCollectDrops.recap = area.adventureRecap
         area.adventureRecap = AdventureRecap()
+        // Hand the Auto-Raid session report over to the collect dialog, then clear the
+        // session counters so a later manual claim doesn't re-show the same report.
+        dialogCollectDrops.autoRaidAttempts = area.autoRaidRunsCompleted
+        dialogCollectDrops.autoRaidGemsSpent = area.autoRaidGemsSpent
+        dialogCollectDrops.autoRaidStopReasonRes = area.autoRaidStopReasonRes
+        area.autoRaidRunsCompleted = 0
+        area.autoRaidGemsSpent = 0
+        area.autoRaidStopReasonRes = 0
         dialogCollectDrops.show(fragment.parentFragmentManager, "dialog_collect_drops")
         var feedPower = 0
         for (item in area.drops) {

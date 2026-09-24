@@ -76,6 +76,7 @@ class DialogDungeonDetail : CustomDialog() {
             if (MainActivity.data.isSettingConfirmRetreat) {
                 if (retreatDialog != null) return@setOnClickListener
                 val dialog = UIUtils.getActionDialog(context, R.string.retreat, getString(R.string.retreat_confirmation), R.string.yes) { _, _ ->
+                    if (a.isAutoRaidActive) a.stopAutoRaid(R.string.auto_raid_report_reason_manual)
                     a.onRetreat()
                     a.terminationRequested = true
                     dismiss()
@@ -85,6 +86,7 @@ class DialogDungeonDetail : CustomDialog() {
                 dialog.show()
                 return@setOnClickListener
             }
+            if (a.isAutoRaidActive) a.stopAutoRaid(R.string.auto_raid_report_reason_manual)
             a.onRetreat()
             a.terminationRequested = true
             dismiss()
@@ -102,20 +104,6 @@ class DialogDungeonDetail : CustomDialog() {
                 MainActivity.shownStatusDialog = dialog
                 dialog.area = a
                 dialog.show(parentFragmentManager, "battle_status_effects")
-            }
-        }
-        b.autoRaidToggle.setOnClickListener {
-            if (a.getAreaType() != 1 || !a.canRefillWithGems()) return@setOnClickListener
-            if (a.isAutoRaidActive) {
-                a.isAutoRaidActive = false
-                refreshAutoRaidToggle()
-                MainActivity.raidsFragment?.refresh()
-            } else {
-                if (MainActivity.shownAutoRaidConfig != null) return@setOnClickListener
-                val dialog = DialogAutoRaidConfig()
-                MainActivity.shownAutoRaidConfig = dialog
-                dialog.area = a
-                dialog.show(parentFragmentManager, "dialog_auto_raid_config")
             }
         }
     }
@@ -170,26 +158,6 @@ class DialogDungeonDetail : CustomDialog() {
         b.pet.visibility = if (pet == null) 4 else 0
         // Keep the open Status Effects inspector in sync with every unit refresh.
         MainActivity.shownStatusDialog?.refreshStatusList()
-        refreshAutoRaidToggle()
-    }
-
-    private fun refreshAutoRaidToggle() {
-        val b = binding ?: return
-        val a = area ?: return
-        if (a.getAreaType() != 1 || !a.canRefillWithGems()) {
-            b.autoRaidToggle.visibility = 8
-            return
-        }
-        b.autoRaidToggle.visibility = 0
-        val theme = context?.theme
-        if (a.isAutoRaidActive) {
-            b.autoRaidToggle.text = if (a.autoRaidRunsRemaining < 0) getString(R.string.auto_raid_dungeon_on_unlimited)
-            else String.format(getString(R.string.auto_raid_dungeon_on), a.autoRaidRunsRemaining)
-            b.autoRaidToggle.setTextColor(resources.getColor(R.color.brass_border, theme))
-        } else {
-            b.autoRaidToggle.text = getString(R.string.auto_raid_dungeon_off)
-            b.autoRaidToggle.setTextColor(resources.getColor(R.color.dim_white, theme))
-        }
     }
 
     private fun refreshUnit(isAdventurer: Boolean, slot: Int, count: Int) {
