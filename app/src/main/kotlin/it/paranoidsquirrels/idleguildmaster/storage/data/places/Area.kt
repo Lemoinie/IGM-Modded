@@ -3682,14 +3682,16 @@ abstract class Area {
         )
     }
 
-    /** Refreshes the raid card AUTO badge while Auto-Raid is active. */
+    /** Refreshes the raid card AUTO badge while Auto-Raid is active (raids only — the
+     *  badge defaults to gone on the shared card layout, so dungeon and guild-activity
+     *  cards never show it). */
     open fun refreshAutoRaidIndicator() {
         if (!Utils.isMainLooper() || MainActivity.raidsFragment == null || MainActivity.raidsFragment.context == null || MainActivity.raidsFragment.binding == null) {
             return
         }
         try {
             val layout = getLayout()
-            layout.autoRaidBadge.visibility = if (isAutoRaidActive) View.VISIBLE else View.GONE
+            layout.autoRaidBadge.visibility = if (isAutoRaidActive && getAreaType() == 1) View.VISIBLE else View.GONE
         } catch (unused: Exception) {
         }
     }

@@ -261,11 +261,14 @@ A dedicated dialog opened when tapping **"AUTO-RAID"** in `DialogSendTeam` or on
   stops it (recording "Stopped manually" for the report) in addition to ending the run.
 
 #### D. Raid Card Visuals (`RaidsFragment` / `layout_dungeon.xml`)
-- When `area.isAutoRaidActive`:
+- When `area.isAutoRaidActive && area.getAreaType() == 1`:
   - A glowing brass badge `[AUTO]` displays in top-right next to `raid_try_available`.
   - The action progress text stays the plain action name (v1.3.13.2: the "runs left /
     Unlimited" suffix was removed from the display; run counts live in the AUTO RAID
     REPORT dialog).
+> v1.3.13.6: the badge element (`layout_dungeon.xml` `auto_raid_badge`) now defaults to
+> `gone`, so the shared card layout shows it on neither dungeons nor guild activities
+> (which never run Auto-Raid); only active raid cards reveal it.
 
 ---
 
