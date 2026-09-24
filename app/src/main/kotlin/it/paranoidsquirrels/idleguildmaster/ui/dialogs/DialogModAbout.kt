@@ -10,11 +10,13 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.BaseAdapter
 import android.widget.LinearLayout
 import android.widget.ListView
 import android.widget.ScrollView
 import android.widget.TextView
+import androidx.fragment.app.FragmentActivity
 import it.paranoidsquirrels.idleguildmaster.BuildConfig
 import it.paranoidsquirrels.idleguildmaster.R
 
@@ -72,78 +74,23 @@ object DialogModAbout {
         shownModAboutDialog = null
     }
 
-    /** The mod part of `versionName` (e.g. `1.3.13.7` from `2.148-mod-1.3.13.7`). */
-    private fun modVersion(): String {
+    /** The mod part of `versionName` (e.g. `1.3.13.8` from `2.148-mod-1.3.13.8`). */
+    fun modVersion(): String {
         val raw = BuildConfig.VERSION_NAME
-        return if (raw != null && raw.contains("mod-")) {
+        return if (raw.contains("mod-")) {
             raw.substring(raw.indexOf("mod-") + 4)
         } else {
-            raw ?: "1.3.13.7"
+            raw
         }
     }
 
-@JvmStatic
-fun show(activity: Activity) {
-    if (activity.isFinishing || shownModAboutDialog != null) return
-
-    try {
-        val ctx = activity
-        val root = LayoutInflater.from(ctx).inflate(R.layout.dialog_mod_info, null)
-
-        root.findViewById<TextView>(R.id.button_view_changelog).setOnClickListener {
-            shownModAboutDialog?.dismiss()
-            shownModAboutDialog = null
-            showChangelog(ctx)
-        }
-
-        root.findViewById<TextView>(R.id.button_close).setOnClickListener {
-            closeBothDialogs()
-        }
-
-        val dialog = AlertDialog.Builder(ctx, R.style.AlertDialog)
-            .setView(root)
-            .setCancelable(true)
-            .create()
-
-        dialog.window?.setBackgroundDrawableResource(R.drawable.dialog_border)
-        dialog.setOnDismissListener {
-            shownModAboutDialog = null
-        }
-
-        shownModAboutDialog = dialog
-        dialog.show()
-
-        dialog.window?.setLayout(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
-        dialog.window?.decorView?.setPadding(0, 0, 0, 0)
-
-    } catch (t: Throwable) {
-        t.printStackTrace()
-        shownModAboutDialog = null
-    }
-}
-            root.findViewById<TextView>(R.id.button_view_changelog).setOnClickListener {
-                shownModAboutDialog?.dismiss()
-                shownModAboutDialog = null
-                showChangelog(ctx)
-            }
-            root.findViewById<TextView>(R.id.button_close).setOnClickListener { closeBothDialogs() }
-
-            val dialog = AlertDialog.Builder(ctx, R.style.AlertDialog)
-                .setView(root)
-                .setCancelable(true)
-                .create()
-            dialog.window?.setBackgroundDrawableResource(R.drawable.dialog_border)
-            dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            dialog.window?.decorView?.setPadding(0, 0, 0, 0)
-            dialog.setOnDismissListener { shownModAboutDialog = null }
-            shownModAboutDialog = dialog
-            dialog.show()
-        } catch (t: Throwable) {
-            t.printStackTrace()
-            shownModAboutDialog = null
+    @JvmStatic
+    fun show(activity: Activity) {
+        if (activity.isFinishing) return
+        if (activity is FragmentActivity) {
+            val fm = activity.supportFragmentManager
+            if (fm.findFragmentByTag("dialog_mod_info") != null) return
+            DialogModInfo().show(fm, "dialog_mod_info")
         }
     }
 
@@ -177,12 +124,27 @@ fun show(activity: Activity) {
                 .setView(body)
                 .setCancelable(true)
                 .create()
-            dialog.window?.setBackgroundDrawableResource(R.drawable.dialog_border)
-            dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            dialog.window?.decorView?.setPadding(0, 0, 0, 0)
             dialog.setOnDismissListener { shownModAboutDialog = null }
+            dialog.setOnShowListener {
+                dialog.window?.apply {
+                    setBackgroundDrawable(ColorDrawable(0))
+                    setBackgroundDrawableResource(R.drawable.dialog_border)
+                    decorView.setPadding(0, 0, 0, 0)
+                    setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                    val wm = ctx.getSystemService(Context.WINDOW_SERVICE) as? WindowManager
+                    wm?.updateViewLayout(decorView, attributes)
+                }
+            }
             shownModAboutDialog = dialog
             dialog.show()
+            dialog.window?.apply {
+                setBackgroundDrawable(ColorDrawable(0))
+                setBackgroundDrawableResource(R.drawable.dialog_border)
+                decorView.setPadding(0, 0, 0, 0)
+                setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                val wm = ctx.getSystemService(Context.WINDOW_SERVICE) as? WindowManager
+                wm?.updateViewLayout(decorView, attributes)
+            }
         } catch (t: Throwable) {
             t.printStackTrace()
             shownModAboutDialog = null
@@ -304,12 +266,27 @@ fun show(activity: Activity) {
                 .setView(body)
                 .setCancelable(true)
                 .create()
-            detail.window?.setBackgroundDrawableResource(R.drawable.dialog_border)
-            detail.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            detail.window?.decorView?.setPadding(0, 0, 0, 0)
             detail.setOnDismissListener { shownVersionDetailDialog = null }
+            detail.setOnShowListener {
+                detail.window?.apply {
+                    setBackgroundDrawable(ColorDrawable(0))
+                    setBackgroundDrawableResource(R.drawable.dialog_border)
+                    decorView.setPadding(0, 0, 0, 0)
+                    setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                    val wm = ctx.getSystemService(Context.WINDOW_SERVICE) as? WindowManager
+                    wm?.updateViewLayout(decorView, attributes)
+                }
+            }
             shownVersionDetailDialog = detail
             detail.show()
+            detail.window?.apply {
+                setBackgroundDrawable(ColorDrawable(0))
+                setBackgroundDrawableResource(R.drawable.dialog_border)
+                decorView.setPadding(0, 0, 0, 0)
+                setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                val wm = ctx.getSystemService(Context.WINDOW_SERVICE) as? WindowManager
+                wm?.updateViewLayout(decorView, attributes)
+            }
         } catch (t: Throwable) {
             t.printStackTrace()
             shownVersionDetailDialog = null

@@ -8,7 +8,8 @@ enum class ContributorRole(val title: String, val badgeColor: Int) {
     LEAD_DEV("Lead Developer", 0xFFFFD700.toInt()),       // Gold
     CORE_DEV("Core Developer", 0xFF00BFFF.toInt()),       // Light Blue
     CONTRIBUTOR("Contributor", 0xFF66BB6A.toInt()),       // Green
-    SPECIAL_THANKS("Special Thanks", 0xFFBA68C8.toInt())  // Purple
+    SPECIAL_THANKS("Special Thanks", 0xFFBA68C8.toInt()),  // Purple
+    ARTIST("Artist", 0xFFFF7043.toInt()),                 // Coral Orange
 }
 
 /** Structured profile of a single contributor rendered by the Mod Info dialog. */
@@ -16,7 +17,8 @@ data class ModContributor(
     val name: String,
     val role: ContributorRole,
     val description: String,
-    val github: String? = null
+    val github: String? = null,
+    val discord: String? = null,
 )
 
 /**
@@ -28,9 +30,22 @@ object ModContributors {
         ModContributor(
             name = "Lemoinie",
             role = ContributorRole.LEAD_DEV,
-            description = "Mod creator, Kotlin reconstruction, combat systems & Auto-Raid architecture.",
-            github = "Lemoinie"
-        )
+            description = "Mod creator, Kotlin reconstruction.",
+            github = "Lemoinie",
+            discord = "https://discord.gg/qj7b4b7h"
+        ),
         // New contributors can be added here cleanly as 1 line
+        ModContributor(
+            name = "Taine.Andrew",
+            role = ContributorRole.ARTIST,
+            description = "Made the pixel art for the mod.",
+            discord = "lordkangora"
+        ),
+        ModContributor(
+            name = "Semi",
+            role = ContributorRole.SPECIAL_THANKS,
+            description = "Tester",
+            discord = "semi2512"
+        )
     )
 }
