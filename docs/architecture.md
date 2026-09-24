@@ -219,9 +219,14 @@ injected patches. The remaining "mod-specific" surface is thin and clearly locat
   vs-Undead via `Skill.setUndeadDamageMultiplier(1.5)`; `Area.dealDamage` applies
   both the skill undead multiplier and the aura's undead bonus (checked against
   `Enemy.getEnemyType()`).
-- **Changelog / info UI** — `ui/dialogs/ModChangelog.kt` (version entries) and
-  `ui/dialogs/DialogModAbout.kt` (info + version detail dialogs, reachable from the
-  nav drawer `R.id.mod_about`).
+- **Changelog / info UI** — era-split changelog files
+  `ui/dialogs/changelog/ModChangelogActive.kt` (v1.3.x, the only file developers edit per
+  release) and `ui/dialogs/changelog/ModChangelogArchive.kt` (v1.0.x – v1.2.x, immutable
+  history) behind the `ui/dialogs/ModChangelog.kt` facade (`allEntries()`, `latestEntry()`,
+  `MOD_ABOUT_TEXT`), the `ui/dialogs/ModContributors.kt` credits registry (roles + badges),
+  and `ui/dialogs/DialogModAbout.kt` (Mod Info layout `dialog_mod_info.xml` +
+  `item_mod_contributor.xml` + version-list/detail dialogs, reachable from the nav drawer
+  `R.id.mod_about` / `R.id.mod_changelog`).
 - **Branding** — `app/build.gradle.kts` (`modVersion`, `versionName = "$gameVersion-mod-$modVersion"`,
   custom APK name), `app/src/main/AndroidManifest.xml` (launcher icon =
   `@drawable/unit_balrog`), `app/src/main/res/values*/strings.xml` (`app_name` = "IGM Modded").
