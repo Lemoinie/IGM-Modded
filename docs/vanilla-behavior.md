@@ -178,7 +178,10 @@ source tree (no injected patches). They are concentrated in a few places:
   `costToRefresh()` gems whenever the daily free try is spent. v1.3.13.5: that payment
   is preceded by the vanilla **"Buy extra chance for 30 gems"** confirmation popup
   (`DialogRefillRaidTry`) so the cost is always explicitly acknowledged before gems
-  are deducted.
+  are deducted. v1.3.13.6: the brass AUTO badge learned to stay off — the shared card
+  layout (`layout_dungeon.xml`) now hides it by default, and
+  `Area.refreshAutoRaidIndicator()` only reveals it on raid cards (type 1) with an
+  active Auto-Raid, so dungeon and guild-activity cards never show it.
 - Ads/IAP are stubbed and hidden from the UI (see
   [known-uncertainties.md](known-uncertainties.md), item 2).
 - Save tooling (`scripts/save/`, `save_editor/`) operates on saved games outside
