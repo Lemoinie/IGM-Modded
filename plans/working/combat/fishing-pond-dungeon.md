@@ -153,12 +153,12 @@ Implement 6 new food items extending [`Food`](file:///c:/Repositories/IGM-Modded
 
 ## 6. Verification Checklist
 
-- [ ] Gradle build succeeds (`./gradlew compileDebugSources`).
-- [ ] The Slumbering Shallows appears in the **Guild Activities tab** (not Dungeons).
-- [ ] All 7 unit sprites (`perch`, `blue_trout`, `angelfish`, `winged_ray`, `blue_shark`, `magma_shark`, `chorus_the_drowned`) render properly.
-- [ ] Defeating any fish drops **only that fish** as a Food item.
-- [ ] No made-up items exist: no `DrownedLantern`, `ChorusScythe`, `AbyssalSeashell`, or `SharkTooth`.
-- [ ] `searchRoom()` yields ambient `Perch` or `CoinPurse`.
-- [ ] Magma Shark functions as a standard high-tier fish, not a mini-boss.
-- [ ] There is no final room or floor boss; Chorus the Drowned has a strict 0.1% chance to spawn on any cast and deals 70–100 damage.
-- [ ] Unit tests pass (`./gradlew testDebugUnitTest`).
+- [x] Gradle build succeeds (`./gradlew compileDebugSources`).
+- [x] The Slumbering Shallows appears in the **Guild Activities tab** (not Dungeons).
+- [x] All 7 unit sprites (`perch`, `blue_trout`, `angelfish`, `winged_ray`, `blue_shark`, `magma_shark`, `chorus_the_drowned`) render properly.
+- [x] Defeating any fish drops **only that fish** as a Food item.
+- [x] No made-up items exist: no `DrownedLantern`, `ChorusScythe`, `AbyssalSeashell`, or `SharkTooth`.
+- [x] `searchRoom()` yields ambient `Perch` or `CoinPurse`.
+- [x] Magma Shark functions as a standard high-tier fish, not a mini-boss.
+- [x] There is no final room or floor boss; Chorus the Drowned has a strict 0.1% chance to spawn on any cast and deals 70–100 damage.
+- [x] Unit tests pass (`./gradlew testDebugUnitTest`).

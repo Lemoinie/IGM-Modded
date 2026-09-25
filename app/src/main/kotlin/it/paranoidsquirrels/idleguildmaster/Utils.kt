@@ -1415,10 +1415,10 @@ object Utils {
         return raidsList!!
     }
 
-    /** The guild-activity areas (The Hunt / The Siege), shown on the 5th Guild Activities tab. */
+    /** The guild-activity areas (The Hunt / The Siege / The Slumbering Shallows), shown on the 5th Guild Activities tab. */
     @JvmStatic
     fun compileGuildActivitiesList(): List<Area> {
-        return listOfNotNull(MainActivity.data.guildRequest, MainActivity.data.guildSiege)
+        return listOfNotNull(MainActivity.data.guildRequest, MainActivity.data.guildSiege, MainActivity.data.theSlumberingShallows)
     }
 
     @JvmStatic

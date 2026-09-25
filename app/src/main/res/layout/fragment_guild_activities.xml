@@ -5,6 +5,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
             <include android:id="@id/guild_request" android:layout_width="0.0dip" android:layout_height="wrap_content" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent" layout="@layout/layout_dungeon" />
             <include android:id="@id/guild_siege" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginTop="16.0dip" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/guild_request" layout="@layout/layout_dungeon" />
+            <include android:id="@+id/the_slumbering_shallows" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginTop="16.0dip" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/guild_siege" layout="@layout/layout_dungeon" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
     <androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/container_guild_refreshes" android:background="@color/lower_drawer_body" android:padding="8.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent">

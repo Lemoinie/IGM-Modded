@@ -15,6 +15,7 @@ Originally developed as bytecode and smali injections, this repository represent
 - [What's Changed (New Mod Features)](#whats-changed-new-mod-features)
   - [Custom Adventurers & Units](#custom-adventurers--units)
   - [Custom Bosses & Encounters](#custom-bosses--encounters)
+  - [Custom Guild Activity](#custom-guild-activity)
   - [Custom Equipment](#custom-equipment)
   - [Custom Consumables & Dialogs](#custom-consumables--dialogs)
   - [New Pets](#new-pets)
@@ -46,6 +47,12 @@ Originally developed as bytecode and smali injections, this repository represent
   * **Passive: Armored (`PASSIVE_ARMORED`)**: 50% chance to reduce physical damage taken by 50%. Drops Green Slime and Iron Helms.
 * **Elite Enemy System (`storage.data.entities.enemies.EliteEnemy`)**:
   * Dynamic scaling wrapper that doubles HP, stat pools, damage, and rewards for any base enemy. Seamlessly integrates with `Enemy.getInstance("Elite_<Base>")`.
+
+### Custom Guild Activity
+* **The Slumbering Shallows (`storage.data.places.raids.TheSlumberingShallowsArea`)**:
+  * A third, always-accessible activity in the **Guild Activities** tab: a 4-adventurer party fishes an enchanted, murky pond continuously until recalled or wiped.
+  * **6 catchable fish** (Perch, Blue Trout, Angelfish, Winged Ray, Blue Shark, Magma Shark): very low damage/low HP but very high DEX dodge; each drops strictly its own `Food` item (Winged Ray is Flying).
+  * **Ultra-rare hazard**: Chorus the Drowned has a strict **0.1% hook chance** per cast, hits for 70–100 damage, and drops a guaranteed vanilla `CoinPurse` (no fabricated boss gear).
 
 ### Custom Equipment
 * **Captain's Sword (`CaptainsSword`)**:
