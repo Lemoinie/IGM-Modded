@@ -144,8 +144,9 @@ The in-game Redeem Code dialog (`DialogRedeemCode`) includes a command dispatche
 ## Build & Deployment
 
 ### Requirements
-* **JDK 17**
-* **Android SDK Platform 35** (`platforms;android-35`, `build-tools;35.0.0`)
+* **JDK 21**
+* **Android SDK Platform 34**
+* **Android SDK Build-Tools 34.x**
 * **Gradle 8.9** (bundled with `gradlew.bat`)
 
 ### Commands
