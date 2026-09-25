@@ -25,7 +25,7 @@ class GuildRequestArea : Area() {
 
     override fun getName(): Int = R.string.guild_request_name
 
-    override fun getSummaryDrawable(): Int = R.drawable.test_area_image_summary_forest
+    override fun getSummaryDrawable(): Int = R.drawable.summary_request
 
     override fun getDetailDrawable(): Int = R.drawable.area_request
 
