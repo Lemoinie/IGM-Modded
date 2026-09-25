@@ -24,6 +24,7 @@ abstract class Entity {
     @JvmField var currentMana: Int = 0
     @JvmField var currentShield: Int = 0
     @JvmField @Transient var endOfTurnAction: EndOfTurnAction? = null
+    @JvmField @Transient var endOfTurnActionProbability: Double = 1.0
     @JvmField @Transient var enemy: Int = 0
     @JvmField @Transient var idDescription: Int = 0
     @JvmField @Transient var idName: Int = 0

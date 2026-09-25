@@ -106,7 +106,7 @@ abstract class Enemy : Entity() {
     override fun endOfTurnActions(): List<EndOfTurnAction> {
         val arrayList = ArrayList<EndOfTurnAction>()
         val action = endOfTurnAction
-        if (action != null) {
+        if (action != null && (endOfTurnActionProbability >= 1.0 || Utils.random() < endOfTurnActionProbability)) {
             arrayList.add(action)
         }
         return arrayList
