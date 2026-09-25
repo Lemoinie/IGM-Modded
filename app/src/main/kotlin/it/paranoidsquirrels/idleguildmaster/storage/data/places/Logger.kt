@@ -846,10 +846,13 @@ object Logger {
                 }
                 BLOOD_CONVOCATION -> {
                     val casterConvocation = objArr[0] as Entity
+                    val minion = if (objArr.size > 1) objArr[1] as? Entity else null
+                    val minionName = minion?.idName?.let { RESOURCES!!.getString(it) } ?: "minion"
                     strWrap = wrap(
                         String.format(
                             RESOURCES!!.getString(R.string.log_sanguine_convocation),
-                            RESOURCES!!.getString(casterConvocation.idName)
+                            RESOURCES!!.getString(casterConvocation.idName),
+                            minionName
                         ),
                         getRed()
                     )

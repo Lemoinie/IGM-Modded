@@ -43,7 +43,8 @@ object EnemyTypeRegistry {
         "Imp" to EnemyType.DEMON,
         "SandDemon" to EnemyType.DEMON,
 
-        // CONSTRUCT (9)
+        // CONSTRUCT (10)
+        "BloodstoneColossus" to EnemyType.CONSTRUCT,
         "DreamwroughtForge" to EnemyType.CONSTRUCT,
         "Gcss" to EnemyType.CONSTRUCT,
         "MagicArmor" to EnemyType.CONSTRUCT,

@@ -2719,16 +2719,18 @@ abstract class Area {
         checkDeath(entity2)
 
         // Blood Convocation: whenever Archmagus Valthex takes damage there is a 36% chance to
-        // summon a fresh Crimson Acolyte into the fight while the formation has room (max 5).
+        // summon a minion into the fight while the formation has room (max 5). The summon
+        // rolls 60% Bloodstone Colossus and 40% Crimson Acolyte.
         if (entity2 is Enemy && entity2.currentHp > 0 &&
             entity2.passiveSkill == Skills.PASSIVE_BLOOD_CONVOCATION &&
             this.enemies.size < 5 && Utils.random() < BLOOD_CONVOCATION_SUMMON_CHANCE
         ) {
-            val acolyte = Enemy.getInstance("CrimsonAcolyte")
-            if (acolyte != null) {
-                this.enemies.add(acolyte)
-                this.fightingGroup.add(acolyte)
-                Logger.log(this, Logger.BLOOD_CONVOCATION, entity2)
+            val minionClass = if (Utils.random() < 0.6) "BloodstoneColossus" else "CrimsonAcolyte"
+            val minion = Enemy.getInstance(minionClass)
+            if (minion != null) {
+                this.enemies.add(minion)
+                this.fightingGroup.add(minion)
+                Logger.log(this, Logger.BLOOD_CONVOCATION, entity2, minion)
             }
         }
 

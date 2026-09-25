@@ -453,6 +453,7 @@ class Data {
 
         enchantedForest?.isUnlocked = true
         seenItems.add("ScarletStrand")
+        seenItems.add("ScarletDebris")
         seenItems.add("Intercession")
         seenItems.add("Dreamcatcher")
         seenItems.add("UpgradeMarketQueue")

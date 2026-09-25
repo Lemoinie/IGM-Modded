@@ -52,15 +52,18 @@ class SanguineCrucible : Area() {
                 Enemy.getInstance("CrimsonAcolyte")
             ))
         }
-        // Wandering corridor: 80% combat chamber (1-5 Acolytes), 20% atmospheric chamber.
+        // Wandering corridor: 80% combat chamber, 20% atmospheric chamber. Combat chambers
+        // roll 50% for an all-Bloodstone Colossus wave and 50% for an all-Crimson Acolyte
+        // wave, then roll the enemy count (1-5) — waves are never mixed.
         if (Utils.random() < 0.8) {
+            val enemyName = if (Utils.random() < 0.5) "BloodstoneColossus" else "CrimsonAcolyte"
             val count = 1 + (Utils.random() * 5).toInt()
-            val acolytes = CopyOnWriteArrayList<Enemy>()
+            val wave = CopyOnWriteArrayList<Enemy>()
             for (i in 0 until count) {
-                Enemy.getInstance("CrimsonAcolyte")?.let { acolytes.add(it) }
+                Enemy.getInstance(enemyName)?.let { wave.add(it) }
             }
             Logger.log(this, Logger.EVENT_HARMFUL, R.string.log_sanguine_crucible_combat_chamber)
-            return acolytes
+            return wave
         }
         val dRandom = Utils.random()
         val msgRes = if (dRandom < 0.5) {
@@ -108,6 +111,7 @@ class SanguineCrucible : Area() {
 
     override fun listEnemies(): List<Enemy> {
         return listOfNotNull(
+            Enemy.getInstance("BloodstoneColossus"),
             Enemy.getInstance("CrimsonAcolyte"),
             Enemy.getInstance("ArchmagusValthex")
         )
