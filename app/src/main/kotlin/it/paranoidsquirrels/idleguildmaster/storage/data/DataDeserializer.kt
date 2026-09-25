@@ -430,6 +430,12 @@ this.data.theTower = getArea(TheTower::class.java, asJsonObject, "theTower")
         }
         this.data.guildSiege?.isUnlocked = true
 
+        this.data.theSlumberingShallows = getArea(TheSlumberingShallowsArea::class.java, asJsonObject, "theSlumberingShallows")
+        if (this.data.theSlumberingShallows == null) {
+            this.data.theSlumberingShallows = TheSlumberingShallowsArea()
+        }
+        this.data.theSlumberingShallows?.isUnlocked = true
+
         if (asJsonObject.has("guildActivitiesState") && !asJsonObject.get("guildActivitiesState").isJsonNull) {
             try {
                 this.data.guildActivitiesState = jsonDeserializationContext.deserialize<GuildActivitiesState>(

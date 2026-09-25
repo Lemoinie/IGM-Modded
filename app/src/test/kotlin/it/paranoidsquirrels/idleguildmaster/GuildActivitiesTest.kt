@@ -9,12 +9,22 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.Po
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.Enemy
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.units.Shadow
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.units.VoidSlime
+import it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.units.Angelfish
+import it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.units.BlueShark
+import it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.units.BlueTrout
+import it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.units.ChorusTheDrowned
+import it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.units.MagmaShark
+import it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.units.Perch
+import it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.units.WingedRay
+import it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Food
+import it.paranoidsquirrels.idleguildmaster.storage.data.items.instances.CoinPurse
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.instances.Geode
 import it.paranoidsquirrels.idleguildmaster.storage.data.pets.Pet
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.Action
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.Area
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.raids.GuildRequestArea
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.raids.GuildSiegeArea
+import it.paranoidsquirrels.idleguildmaster.storage.data.places.raids.TheSlumberingShallowsArea
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
@@ -26,6 +36,8 @@ class GuildActivitiesTest {
         MainActivity.data = Data()
         MainActivity.data.guildRequest = GuildRequestArea()
         MainActivity.data.guildSiege = GuildSiegeArea()
+        MainActivity.data.theSlumberingShallows = TheSlumberingShallowsArea()
+        MainActivity.data.theSlumberingShallows?.isUnlocked = true
         MainActivity.data.guildActivitiesState = GuildActivitiesState()
     }
 
@@ -62,7 +74,7 @@ class GuildActivitiesTest {
         val req = MainActivity.data.guildRequest!!
         assertEquals(5, req.adventurersNumber())
         assertEquals(R.drawable.area_request, req.getDetailDrawable())
-        assertEquals(R.drawable.test_area_image_summary_forest, req.getSummaryDrawable())
+        assertEquals(R.drawable.summary_request, req.getSummaryDrawable())
 
         // Bestiary "Other" lists only new monsters (not Void Slime, which is in TheSlimePond).
         val bestiary = req.listEnemies()
@@ -87,7 +99,7 @@ class GuildActivitiesTest {
         val siege = MainActivity.data.guildSiege!!
         assertEquals(10, siege.adventurersNumber())
         assertEquals(R.drawable.area_the_siege, siege.getDetailDrawable())
-        assertEquals(R.drawable.test_area_image_summary_forest, siege.getSummaryDrawable())
+        assertEquals(R.drawable.summary_the_siege, siege.getSummaryDrawable())
 
         // Unlock every area so the wave planner sees its full pool.
         val req = MainActivity.data.guildRequest!!
@@ -304,5 +316,113 @@ class GuildActivitiesTest {
         val all = Utils.compileDungeonRaidList()
         assertTrue("Aggregate list must include The Hunt", all.any { it is GuildRequestArea })
         assertTrue("Aggregate list must include The Siege", all.any { it is GuildSiegeArea })
+    }
+@Test
+    fun testTheSlumberingShallowsAreaConfiguration() {
+        val area = MainActivity.data.theSlumberingShallows!!
+        assertEquals("The Slumbering Shallows must host exactly 4 adventurers", 4, area.adventurersNumber())
+        assertEquals("Must be a dungeon-style continuous loop (type 0)", 0, area.getAreaType())
+        assertFalse("Always-accessible guild activity must not allow gem refills", area.canRefillWithGems())
+        assertEquals(R.drawable.area_fishing_pond, area.getDetailDrawable())
+        assertEquals(R.drawable.summary_fishing_pond, area.getSummaryDrawable())
+        assertTrue("Must start unlocked", area.isUnlocked)
+    }
+
+    @Test
+    fun testFishEnemiesStatsAndInstantiation() {
+        assertFish("Perch", 16, 1, 2, 60, false, { e -> e is Perch })
+        assertFish("BlueTrout", 24, 1, 2, 90, false, { e -> e is BlueTrout })
+        assertFish("Angelfish", 20, 1, 2, 120, false, { e -> e is Angelfish })
+        assertFish("WingedRay", 45, 2, 3, 160, true, { e -> e is WingedRay })
+        assertFish("BlueShark", 85, 2, 4, 220, false, { e -> e is BlueShark })
+        assertFish("MagmaShark", 260, 4, 7, 300, false, { e -> e is MagmaShark })
+    }
+
+    private fun assertFish(className: String, hp: Int, minDmg: Int, maxDmg: Int, dex: Int, flying: Boolean, typeCheck: (Enemy) -> Boolean) {
+        val enemy = Enemy.getInstance(className)
+        assertNotNull("$className must be instantiable via Enemy.getInstance", enemy)
+        val e = enemy!!
+        assertTrue("$className must map to its own unit class", typeCheck(e))
+        assertEquals("$className HP", hp, e.calculateTotalMaxHp())
+        assertEquals("$className min damage", minDmg, e.calculateMinAttackDamage())
+        assertEquals("$className max damage", maxDmg, e.calculateMaxAttackDamage())
+        assertEquals("$className DEX (dodge driver)", dex, e.calculateTotalDexterity())
+        assertEquals("$className flying flag", flying, e.isFlying())
+        assertFalse("$className must never be magic", e.isMagic())
+    }
+
+    @Test
+    fun testChorusTheDrownedStatsAndDrop() {
+        val chorus = Enemy.getInstance("ChorusTheDrowned") as? ChorusTheDrowned
+        assertNotNull("Chorus the Drowned must be instantiable via Enemy.getInstance", chorus)
+        val c = chorus!!
+        assertEquals("Chorus HP", 1850, c.calculateTotalMaxHp())
+        assertEquals("Chorus min damage", 70, c.calculateMinAttackDamage())
+        assertEquals("Chorus max damage", 100, c.calculateMaxAttackDamage())
+        assertEquals("Chorus DEX", 45, c.calculateTotalDexterity())
+
+        val drops = c.listDrops(0)
+        assertNotNull("Chorus must have a drop table", drops)
+        assertEquals("Chorus must drop exactly one item", 1, drops.size)
+        val wrapper = drops.keys.first()
+        assertTrue("Chorus must drop a vanilla CoinPurse, not fabricated gear", wrapper.item is CoinPurse)
+        assertEquals("CoinPurse must be guaranteed (weight 1000)", 1000, drops.values.first())
+    }
+
+    @Test
+    fun testFishDropOnlyTheFish() {
+        val specs = mapOf(
+            "Perch" to "Perch",
+            "BlueTrout" to "BlueTrout",
+            "Angelfish" to "Angelfish",
+            "WingedRay" to "WingedRay",
+            "BlueShark" to "BlueShark",
+            "MagmaShark" to "MagmaShark"
+        )
+        for ((enemyName, itemName) in specs) {
+            val enemy = Enemy.getInstance(enemyName)
+            assertNotNull("$enemyName must be instantiable", enemy)
+            val drops = enemy?.listDrops(0)
+            assertNotNull("$enemyName must have a drop table", drops)
+            assertEquals("$enemyName must drop exactly its own Food", 1, drops?.size)
+            val item = drops?.keys?.first()?.item
+            assertTrue("$enemyName's drop must be a Food item", item is Food)
+            assertEquals("$enemyName must drop only itself", itemName, item?.getTrueClass())
+        }
+    }
+
+    @Test
+    fun testTheSlumberingShallowsWaveComposition() {
+        val area = MainActivity.data.theSlumberingShallows!!
+        val allowed = setOf("Perch", "BlueTrout", "Angelfish", "WingedRay", "BlueShark", "MagmaShark", "ChorusTheDrowned")
+        repeat(600) {
+            val wave = area.rollEnemies()
+            assertTrue("Wave size must be 1..3, got ${wave.size}", wave.size in 1..3)
+            assertTrue("Every catch must be an aquatic unit of the shallows", wave.all { allowed.contains(it.getTrueClass()) })
+        }
+    }
+
+    @Test
+    fun testTheSlumberingShallowsSearchRoom() {
+        val area = MainActivity.data.theSlumberingShallows!!
+        area.drops.clear()
+        repeat(500) { area.searchRoom() }
+        assertTrue(
+            "Idle gathering must only ever add Perch or CoinPurse to the chest",
+            area.drops.all { val tc = it.getTrueClass(); tc == "Perch" || tc == "CoinPurse" }
+        )
+        assertTrue("Over 500 searches the ambient catches must land at least once", area.drops.isNotEmpty())
+    }
+
+    @Test
+    fun testSlumberingShallowsLivesInGuildActivitiesList() {
+        val raids = Utils.compileRaidList()
+        assertFalse("Raids tab must NOT include The Slumbering Shallows", raids.any { it is TheSlumberingShallowsArea })
+
+        val guild = Utils.compileGuildActivitiesList()
+        assertTrue("Guild Activities list must include The Slumbering Shallows", guild.any { it is TheSlumberingShallowsArea })
+
+        val all = Utils.compileDungeonRaidList()
+        assertTrue("Aggregate list must include The Slumbering Shallows", all.any { it is TheSlumberingShallowsArea })
     }
 }

@@ -1,0 +1,211 @@
+============================================================
+          IGM Modded - Build Release APK
+============================================================
+Workspace: C:\Repositories\IGM-Modded
+
+Running: gradlew.bat assembleRelease...
+
+
+> Task :app:mergeReleaseResources
+C:\Repositories\IGM-Modded\app\src\main\res\values\strings.xml: Multiple substitutions specified in non-positional format of string resource string/accessory_abyssal_scarlet_mantle_effect. Did you mean to add the formatted="false" attribute?
+C:\Repositories\IGM-Modded\app\src\main\res\values\strings.xml: Multiple substitutions specified in non-positional format of string resource string/armor_heavy_scarlet_oni_effect. Did you mean to add the formatted="false" attribute?
+C:\Repositories\IGM-Modded\app\src\main\res\values\strings.xml: Multiple substitutions specified in non-positional format of string resource string/armor_heavy_scarlet_oni_juggernaut_effect. Did you mean to add the formatted="false" attribute?
+C:\Repositories\IGM-Modded\app\src\main\res\values\strings.xml: Multiple substitutions specified in non-positional format of string resource string/passive_blood_convocation_description. Did you mean to add the formatted="false" attribute?
+
+> Task :app:compileReleaseKotlin
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/MainActivity.kt:14:21 'MutableBoolean' is deprecated. Deprecated in Java
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/MainActivity.kt:15:21 'MutableLong' is deprecated. Deprecated in Java
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/MainActivity.kt:251:32 'MutableBoolean' is deprecated. Deprecated in Java
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/MainActivity.kt:251:49 'constructor MutableBoolean(Boolean)' is deprecated. Deprecated in Java
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/MainActivity.kt:251:49 'MutableBoolean' is deprecated. Deprecated in Java
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/MainActivity.kt:254:35 'MutableBoolean' is deprecated. Deprecated in Java
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/MainActivity.kt:254:52 'constructor MutableBoolean(Boolean)' is deprecated. Deprecated in Java
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/MainActivity.kt:254:52 'MutableBoolean' is deprecated. Deprecated in Java
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/MainActivity.kt:282:27 The corresponding parameter in the supertype 'AppCompatActivity' is named 'savedInstanceState'. This may cause problems when calling this function with named arguments.
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/MainActivity.kt:308:72 Unnecessary safe call on a non-null receiver of type AdventurersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/MainActivity.kt:309:74 Unnecessary safe call on a non-null receiver of type HeadquartersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/MainActivity.kt:319:19 'updateConfiguration(Configuration!, DisplayMetrics!): Unit' is deprecated. Deprecated in Java
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/MainActivity.kt:492:17 'startActivityForResult(Intent, Int): Unit' is deprecated. Deprecated in Java
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/MainActivity.kt:501:63 No cast needed
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/MainActivity.kt:504:69 No cast needed
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/MainActivity.kt:669:27 'value: Boolean' is deprecated. Deprecated in Java
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/MainActivity.kt:682:27 'value: Boolean' is deprecated. Deprecated in Java
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/MainActivity.kt:731:27 'constructor MutableLong(Long)' is deprecated. Deprecated in Java
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/MainActivity.kt:731:27 'MutableLong' is deprecated. Deprecated in Java
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/MainActivity.kt:739:43 'value: Boolean' is deprecated. Deprecated in Java
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/MainActivity.kt:745:33 'value: Long' is deprecated. Deprecated in Java
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/MainActivity.kt:749:42 'value: Boolean' is deprecated. Deprecated in Java
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/MainActivity.kt:758:30 'constructor MutableBoolean(Boolean)' is deprecated. Deprecated in Java
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/MainActivity.kt:758:30 'MutableBoolean' is deprecated. Deprecated in Java
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/MainActivity.kt:759:31 'constructor MutableBoolean(Boolean)' is deprecated. Deprecated in Java
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/MainActivity.kt:759:31 'MutableBoolean' is deprecated. Deprecated in Java
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/MainActivity.kt:765:54 Unnecessary safe call on a non-null receiver of type HeadquartersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/MainActivity.kt:766:46 Unnecessary safe call on a non-null receiver of type DungeonsFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/MainActivity.kt:767:69 Unnecessary safe call on a non-null receiver of type RaidsFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/MainActivity.kt:768:49 Unnecessary safe call on a non-null receiver of type AdventurersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/MainActivity.kt:770:46 'value: Boolean' is deprecated. Deprecated in Java
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/MainActivity.kt:771:45 'value: Boolean' is deprecated. Deprecated in Java
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/MainActivity.kt:772:45 'value: Boolean' is deprecated. Deprecated in Java
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/MainActivity.kt:776:73 'value: Boolean' is deprecated. Deprecated in Java
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/MainActivity.kt:778:80 'value: Long' is deprecated. Deprecated in Java
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/MainActivity.kt:781:36 'value: Boolean' is deprecated. Deprecated in Java
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/MainActivity.kt:791:29 Unnecessary safe call on a non-null receiver of type HeadquartersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/MainActivity.kt:792:25 Unnecessary safe call on a non-null receiver of type DungeonsFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/MainActivity.kt:793:25 Unnecessary safe call on a non-null receiver of type DungeonsFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/MainActivity.kt:795:26 Unnecessary safe call on a non-null receiver of type RaidsFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/MainActivity.kt:796:26 Unnecessary safe call on a non-null receiver of type RaidsFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/MainActivity.kt:798:28 Unnecessary safe call on a non-null receiver of type AdventurersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/MainActivity.kt:817:29 Unnecessary safe call on a non-null receiver of type HeadquartersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/MainActivity.kt:818:28 Unnecessary safe call on a non-null receiver of type AdventurersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/MainActivity.kt:819:25 Unnecessary safe call on a non-null receiver of type DungeonsFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/MainActivity.kt:824:22 Unnecessary safe call on a non-null receiver of type RaidsFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/MainActivity.kt:829:32 Unnecessary safe call on a non-null receiver of type GuildActivitiesFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/MainActivity.kt:885:17 'startActivityForResult(Intent, Int): Unit' is deprecated. Deprecated in Java
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/UIUtils.kt:125:13 Name shadowed: context
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/UIUtils.kt:152:13 Name shadowed: context
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/UIUtils.kt:177:13 Name shadowed: context
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/UIUtils.kt:218:30 Parameter 'i' is never used
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/UIUtils.kt:250:148 Unnecessary non-null assertion (!!) on a non-null receiver of type Trait
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/UIUtils.kt:257:26 'setter for systemUiVisibility: Int' is deprecated. Deprecated in Java
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/UIUtils.kt:262:13 Name shadowed: item
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/UIUtils.kt:267:74 Unnecessary safe call on a non-null receiver of type HeadquartersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/UIUtils.kt:267:98 Elvis operator (?:) always returns the left operand of non-nullable type FragmentManager
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/UIUtils.kt:314:13 Name shadowed: resources
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/UIUtils.kt:326:13 Name shadowed: context
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/UIUtils.kt:331:22 'vibrate(Long): Unit' is deprecated. Deprecated in Java
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/UIUtils.kt:393:13 Condition 'MainActivity.dungeonsFragment != null' is always 'true'
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/UIUtils.kt:399:13 Condition 'MainActivity.raidsFragment == null' is always 'false'
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/UIUtils.kt:489:54 Unnecessary safe call on a non-null receiver of type HeadquartersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/UIUtils.kt:489:78 Elvis operator (?:) always returns the left operand of non-nullable type FragmentManager
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/UIUtils.kt:554:13 Name shadowed: context
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/UIUtils.kt:703:63 Unnecessary safe call on a non-null receiver of type HeadquartersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/UIUtils.kt:703:87 Elvis operator (?:) always returns the left operand of non-nullable type FragmentManager
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/UIUtils.kt:720:13 Name shadowed: context
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/UIUtils.kt:833:13 Name shadowed: context
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/Utils.kt:402:43 Unnecessary safe call on a non-null receiver of type DungeonsFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/Utils.kt:425:50 Unnecessary safe call on a non-null receiver of type HeadquartersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/Utils.kt:426:50 Unnecessary safe call on a non-null receiver of type HeadquartersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/Utils.kt:458:46 Unnecessary safe call on a non-null receiver of type HeadquartersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/Utils.kt:459:46 Unnecessary safe call on a non-null receiver of type HeadquartersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/Utils.kt:488:46 Unnecessary safe call on a non-null receiver of type HeadquartersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/Utils.kt:489:46 Unnecessary safe call on a non-null receiver of type HeadquartersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/Utils.kt:548:39 Unnecessary safe call on a non-null receiver of type DungeonsFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/Utils.kt:550:39 Unnecessary safe call on a non-null receiver of type DungeonsFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/Utils.kt:565:39 Unnecessary safe call on a non-null receiver of type DungeonsFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/Utils.kt:582:83 No cast needed
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/Utils.kt:609:85 No cast needed
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/Utils.kt:657:39 Unnecessary safe call on a non-null receiver of type DungeonsFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/Utils.kt:675:81 No cast needed
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/Utils.kt:792:60 Unnecessary safe call on a non-null receiver of type HeadquartersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/Utils.kt:793:61 Unnecessary safe call on a non-null receiver of type HeadquartersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/Utils.kt:798:54 No cast needed
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/Utils.kt:840:43 Unnecessary safe call on a non-null receiver of type RaidsFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/Utils.kt:865:22 Unnecessary safe call on a non-null receiver of type RaidsFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/Utils.kt:1132:42 Unnecessary safe call on a non-null receiver of type HeadquartersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/Utils.kt:1202:42 Unnecessary safe call on a non-null receiver of type HeadquartersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/adventurers/units/Berserker.kt:32:33 Unnecessary safe call on a non-null receiver of type List<EndOfTurnAction>
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/enemies/units/ImperialCaptain.kt:39:28 The corresponding parameter in the supertype 'Enemy' is named 'i'. This may cause problems when calling this function with named arguments.
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/enemies/units/KnightSlime.kt:31:28 The corresponding parameter in the supertype 'Enemy' is named 'i'. This may cause problems when calling this function with named arguments.
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/places/Area.kt:244:21 Condition 'MainActivity.headquartersFragment != null' is always 'true'
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/places/Area.kt:344:58 Unnecessary safe call on a non-null receiver of type RaidsFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/places/Area.kt:374:36 Unnecessary safe call on a non-null receiver of type RaidsFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/places/Area.kt:375:39 Unnecessary safe call on a non-null receiver of type RaidsFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/places/Area.kt:776:42 Condition 'MainActivity.adventurersFragment != null' is always 'true'
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/places/Area.kt:804:57 Condition 'MainActivity.dungeonsFragment != null' is always 'true'
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/places/Area.kt:1222:29 Name shadowed: cause
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/places/Area.kt:1357:21 Name shadowed: cause
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/places/Area.kt:1721:17 Variable 'd' initializer is redundant
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/places/Area.kt:1738:21 The value '0.0' assigned to 'var d: Double defined in it.paranoidsquirrels.idleguildmaster.storage.data.places.Area.trapEncounter' is never used
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/places/Area.kt:2661:52 No cast needed
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/places/Area.kt:3243:46 Projection is redundant: the corresponding type parameter of List has the same variance
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/places/Area.kt:3255:54 Projection is redundant: the corresponding type parameter of List has the same variance
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/places/Area.kt:3384:38 Condition 'MainActivity.dungeonsFragment == null' is always 'false'
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/places/Area.kt:3573:38 Condition 'MainActivity.dungeonsFragment == null' is always 'false'
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/places/Area.kt:3604:38 Condition 'MainActivity.dungeonsFragment == null' is always 'false'
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/places/Area.kt:3643:38 Condition 'MainActivity.dungeonsFragment == null' is always 'false'
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/places/Area.kt:3657:56 'value: Boolean' is deprecated. Deprecated in Java
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/places/Area.kt:3675:38 Condition 'MainActivity.raidsFragment == null' is always 'false'
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/places/Area.kt:3691:38 Condition 'MainActivity.raidsFragment == null' is always 'false'
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/places/Logger.kt:119:21 Condition 'frag == null' is always 'false'
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/places/Logger.kt:125:17 Variable 'res' is never used
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/places/Logger.kt:130:35 Variable 'entity' initializer is redundant
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/places/Logger.kt:131:47 Variable 'statusEffect' initializer is redundant
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/places/Logger.kt:132:36 Variable 'entity2' initializer is redundant
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/places/Logger.kt:133:48 Variable 'statusEffect2' initializer is redundant
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/places/Logger.kt:134:23 Variable 'red' initializer is redundant
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/places/Logger.kt:135:24 Variable 'red2' initializer is redundant
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/places/Logger.kt:136:24 Variable 'red3' initializer is redundant
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/places/Logger.kt:137:24 Variable 'red4' initializer is redundant
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/adventurers/AdventurersFragment.kt:258:42 Unnecessary safe call on a non-null receiver of type HeadquartersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogAutoRaidConfig.kt:204:35 Unnecessary safe call on a non-null receiver of type RaidsFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogBlackMarket.kt:37:26 The corresponding parameter in the supertype 'CustomDialog' is named 'inflater'. This may cause problems when calling this function with named arguments.
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogBlackMarket.kt:37:58 The corresponding parameter in the supertype 'CustomDialog' is named 'container'. This may cause problems when calling this function with named arguments.
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogBlackMarket.kt:52:74 No cast needed
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogBlackMarket.kt:137:24 No cast needed
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogBlackMarket.kt:142:42 Unnecessary safe call on a non-null receiver of type HeadquartersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogChangeTraitCommon.kt:107:42 Unnecessary safe call on a non-null receiver of type HeadquartersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogChangeTraitCommon.kt:108:41 Unnecessary safe call on a non-null receiver of type AdventurersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogChangeTraitRare.kt:82:50 Unnecessary safe call on a non-null receiver of type HeadquartersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogChangeTraitRare.kt:83:49 Unnecessary safe call on a non-null receiver of type AdventurersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogConsumeEvo22.kt:61:50 Unnecessary safe call on a non-null receiver of type HeadquartersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogConsumeEvo23.kt:62:50 Unnecessary safe call on a non-null receiver of type HeadquartersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogConsumeFood.kt:65:50 Unnecessary safe call on a non-null receiver of type HeadquartersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogConsumeIntercession.kt:60:57 Unnecessary safe call on a non-null receiver of type AdventurersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogConsumePotion.kt:91:54 Unnecessary safe call on a non-null receiver of type HeadquartersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogConsumeXPBook.kt:92:46 Unnecessary safe call on a non-null receiver of type HeadquartersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogConsumeXPBook.kt:93:45 Unnecessary safe call on a non-null receiver of type AdventurersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogDoctrine.kt:107:36 The corresponding parameter in the supertype 'CustomDialog' is named 'arguments'. This may cause problems when calling this function with named arguments.
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogDoctrine.kt:275:21 Variable 'colorBrass' is never used
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogDoctrineReset.kt:53:49 Unnecessary safe call on a non-null receiver of type AdventurersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogEntityDetail.kt:67:36 The corresponding parameter in the supertype 'CustomDialog' is named 'arguments'. This may cause problems when calling this function with named arguments.
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogItemDetail.kt:72:36 The corresponding parameter in the supertype 'CustomDialog' is named 'arguments'. This may cause problems when calling this function with named arguments.
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogMarket.kt:53:36 The corresponding parameter in the supertype 'CustomDialog' is named 'arguments'. This may cause problems when calling this function with named arguments.
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogMerchant.kt:32:26 The corresponding parameter in the supertype 'CustomDialog' is named 'inflater'. This may cause problems when calling this function with named arguments.
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogMerchant.kt:32:58 The corresponding parameter in the supertype 'CustomDialog' is named 'container'. This may cause problems when calling this function with named arguments.
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogMerchant.kt:50:88 No cast needed
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogMerchant.kt:56:88 No cast needed
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogMerchant.kt:143:24 No cast needed
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogMerchant.kt:148:42 Unnecessary safe call on a non-null receiver of type HeadquartersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogMergePet.kt:107:46 Unnecessary safe call on a non-null receiver of type HeadquartersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogPetDetail.kt:178:58 Unnecessary safe call on a non-null receiver of type HeadquartersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogPromotionChoices.kt:59:49 Unnecessary safe call on a non-null receiver of type AdventurersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogPromotionChoices.kt:129:26 The corresponding parameter in the supertype 'CustomDialog' is named 'inflater'. This may cause problems when calling this function with named arguments.
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogPromotionChoices.kt:129:58 The corresponding parameter in the supertype 'CustomDialog' is named 'container'. This may cause problems when calling this function with named arguments.
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogQuarters.kt:80:46 Unnecessary safe call on a non-null receiver of type HeadquartersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogQuests.kt:128:51 Unnecessary safe call on a non-null receiver of type DungeonsFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogRecallAdventurers.kt:96:46 Unnecessary safe call on a non-null receiver of type HeadquartersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogRecallAdventurers.kt:97:45 Unnecessary safe call on a non-null receiver of type AdventurersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogRecallAdventurers.kt:98:45 Unnecessary safe call on a non-null receiver of type AdventurersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogRecipes.kt:35:26 The corresponding parameter in the supertype 'CustomDialog' is named 'inflater'. This may cause problems when calling this function with named arguments.
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogRecipes.kt:35:58 The corresponding parameter in the supertype 'CustomDialog' is named 'container'. This may cause problems when calling this function with named arguments.
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogSelectEquipment.kt:70:36 The corresponding parameter in the supertype 'CustomDialog' is named 'arguments'. This may cause problems when calling this function with named arguments.
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogSell.kt:84:46 Unnecessary safe call on a non-null receiver of type HeadquartersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogSettings.kt:50:26 The corresponding parameter in the supertype 'CustomDialog' is named 'inflater'. This may cause problems when calling this function with named arguments.
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogSettings.kt:50:58 The corresponding parameter in the supertype 'CustomDialog' is named 'container'. This may cause problems when calling this function with named arguments.
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogShelter.kt:41:26 The corresponding parameter in the supertype 'CustomDialog' is named 'inflater'. This may cause problems when calling this function with named arguments.
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogShelter.kt:41:58 The corresponding parameter in the supertype 'CustomDialog' is named 'container'. This may cause problems when calling this function with named arguments.
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogShelter.kt:171:46 Unnecessary safe call on a non-null receiver of type HeadquartersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogShelter.kt:193:46 Unnecessary safe call on a non-null receiver of type HeadquartersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogShop.kt:116:23 'setter for systemUiVisibility: Int' is deprecated. Deprecated in Java
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogShop.kt:116:73 'getter for systemUiVisibility: Int' is deprecated. Deprecated in Java
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogShop.kt:729:131 Unnecessary non-null assertion (!!) on a non-null receiver of type AlertDialog
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogShop.kt:805:53 Unnecessary safe call on a non-null receiver of type AdventurersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogShop.kt:806:54 Unnecessary safe call on a non-null receiver of type HeadquartersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogStorage.kt:54:36 The corresponding parameter in the supertype 'CustomDialog' is named 'arguments'. This may cause problems when calling this function with named arguments.
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogTavern.kt:166:42 Unnecessary safe call on a non-null receiver of type HeadquartersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogTavern.kt:188:42 Unnecessary safe call on a non-null receiver of type HeadquartersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogTavern.kt:214:42 Unnecessary safe call on a non-null receiver of type HeadquartersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogTavern.kt:215:41 Unnecessary safe call on a non-null receiver of type AdventurersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogTavern.kt:216:41 Unnecessary safe call on a non-null receiver of type AdventurersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogTavern.kt:229:42 Unnecessary safe call on a non-null receiver of type HeadquartersFragment
+w: file:///C:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/ui/dialogs/DialogWorkshop.kt:58:36 The corresponding parameter in the supertype 'CustomDialog' is named 'arguments'. This may cause problems when calling this function with named arguments.
+
+BUILD SUCCESSFUL in 1m 8s
+44 actionable tasks: 20 executed, 24 up-to-date
+
+[SUCCESS] Release APK build succeeded
+
+Built APK: C:\Repositories\IGM-Modded\app\build\outputs\apk\release\IdleGuildMaster_v2.148_mod_v1.3.14.0-release.apk
+
+============================================================
+Press any key to continue . . .

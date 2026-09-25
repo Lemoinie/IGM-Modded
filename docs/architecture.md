@@ -176,6 +176,14 @@ injected patches. The remaining "mod-specific" surface is thin and clearly locat
   (10%/20%/70% → 100/50/20). Both areas override `Area.canRefillWithGems()` to `false` —
   extra tries can never be bought with gems (1 try per period; the `REROLL` redeem code
   grants a fresh Hunt + Siege).
+   The Slumbering Shallows (`TheSlumberingShallowsArea`) is a third, always-accessible
+   guild activity: a 4-adventurer continuous fishing pond (dungeon loop,
+   `Area.TYPE_DUNGEON`, `canRefillWithGems() = false`). Each cast rolls 1–3 fish from
+   rarity tiers (50% Common → Perch/Blue Trout, 35% Intermediate → Angelfish/Winged Ray,
+   15% Rare → Blue Shark/Magma Shark) with a strict 0.1% chance to hook the hazard
+   Chorus the Drowned (1,850 HP, 70–100 damage, no mini-boss chamber). Every fish drops
+   only itself as a `Food` item; Chorus drops a guaranteed vanilla `CoinPurse`.
+   `searchRoom()` can pull an ambient Perch or a sunken CoinPurse.
 - **Nightstall / Black Market & Diamond Coin** — `Utils.checkBlackMarketDailyArrival()`
   (10% daily roll + 6-day bad-luck protection, hooked into `Utils.tick24Hours`) and
   `Utils.refreshBlackMarketStock()` fill `Data.blackMarketStock` (up to 12 discounted

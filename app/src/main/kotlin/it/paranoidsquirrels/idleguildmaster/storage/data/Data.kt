@@ -271,6 +271,9 @@ class Data {
     @SerializedName("guildSiege")
     var guildSiege: GuildSiegeArea? = GuildSiegeArea()
 
+    @SerializedName("theSlumberingShallows")
+    var theSlumberingShallows: TheSlumberingShallowsArea? = TheSlumberingShallowsArea()
+
     @SerializedName("guildActivitiesState")
     var guildActivitiesState: GuildActivitiesState = GuildActivitiesState()
 
@@ -447,9 +450,11 @@ class Data {
         sanguineCrucible = SanguineCrucible()
         guildRequest = GuildRequestArea()
         guildSiege = GuildSiegeArea()
+        theSlumberingShallows = TheSlumberingShallowsArea()
         guildActivitiesState = GuildActivitiesState()
         guildRequest?.isUnlocked = true
         guildSiege?.isUnlocked = true
+        theSlumberingShallows?.isUnlocked = true
 
         enchantedForest?.isUnlocked = true
         seenItems.add("ScarletStrand")

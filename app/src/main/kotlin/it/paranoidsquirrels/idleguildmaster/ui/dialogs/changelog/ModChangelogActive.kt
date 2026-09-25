@@ -362,5 +362,11 @@ object ModChangelogActive {
         "- Archmagus Valthex's Blood Convocation now summons a Bloodstone Colossus (60%) or a Crimson Acolyte (40%) whenever it triggers, and the combat log names whichever minion is summoned.\n" +
         "\n" +
         "1.3.13.10 (25/9/2026):\n" +
-        "- Combat Engine: Added probabilistic end-of-turn actions (endOfTurnActionProbability on Entity, defaulting to 1.0) allowing units and enemies to configure chance-based end-of-turn actions (such as extra attacks) cleanly and declaratively."
+        "- Combat Engine: Added probabilistic end-of-turn actions (endOfTurnActionProbability on Entity, defaulting to 1.0) allowing units and enemies to configure chance-based end-of-turn actions (such as extra attacks) cleanly and declaratively.\n" +
+        "\n" +
+        "1.3.14.0 (25/9/2026):\n" +
+        "- New Guild Activity: The Slumbering Shallows — an enchanted, murky fishing pond in the Guild Activities tab (beside The Hunt and The Siege) where a 4-adventurer party casts lines continuously until recalled or wiped. No floors, no boss chambers, no gem refills — always accessible.\n" +
+        "- 6 new catchable fish (Perch, Blue Trout, Angelfish, Winged Ray, Blue Shark, Magma Shark) follow the strict design rule of very low damage, low HP, and very high DEX dodge; every fish drops strictly its own Food item (Winged Ray is Flying).\n" +
+        "- Ultra-rare hazard: Chorus the Drowned — a strict 0.1% hook chance per cast, 1,850 HP, devastates with 70–100 damage, and drops a guaranteed vanilla CoinPurse (no fabricated boss equipment).\n" +
+        "- Idle room searching between casts can pull up an ambient Perch or a sunken CoinPurse."
 }
