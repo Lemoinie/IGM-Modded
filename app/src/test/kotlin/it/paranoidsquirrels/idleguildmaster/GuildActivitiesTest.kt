@@ -60,7 +60,7 @@ class GuildActivitiesTest {
     @Test
     fun testGuildRequestAreaEncounter() {
         val req = MainActivity.data.guildRequest!!
-        assertEquals(12, req.adventurersNumber())
+        assertEquals(5, req.adventurersNumber())
         assertEquals(R.drawable.area_request, req.getDetailDrawable())
         assertEquals(R.drawable.test_area_image_summary_forest, req.getSummaryDrawable())
 

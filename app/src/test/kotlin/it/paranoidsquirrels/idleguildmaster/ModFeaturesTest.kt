@@ -360,6 +360,40 @@ class ModFeaturesTest {
     }
 
     @Test
+    fun testEndOfTurnActionProbability() {
+        val hero = Adventurer.getInstance("Footman", 1, 1, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+        hero.endOfTurnAction = EndOfTurnAction.EXTRA_ATTACK
+
+        // Default probability = 1.0 (guaranteed)
+        assertEquals(1.0, hero.endOfTurnActionProbability, 0.001)
+        val defaultActions = hero.endOfTurnActions()
+        assertEquals(1, defaultActions.count { it == EndOfTurnAction.EXTRA_ATTACK })
+
+        // 0.0 probability (never procs)
+        hero.endOfTurnActionProbability = 0.0
+        val zeroActions = hero.endOfTurnActions()
+        assertEquals(0, zeroActions.count { it == EndOfTurnAction.EXTRA_ATTACK })
+
+        // 25% probability over 2,000 trials
+        hero.endOfTurnActionProbability = 0.25
+        val trials = 2000
+        var procs = 0
+        for (i in 0 until trials) {
+            procs += hero.endOfTurnActions().count { it == EndOfTurnAction.EXTRA_ATTACK }
+        }
+        val rate = procs.toDouble() / trials
+        assertTrue("25% probability should yield ~25% (got $rate)", rate in 0.21..0.29)
+
+        // Enemy test
+        val enemy = Enemy.getInstance("Slime")!!
+        enemy.endOfTurnAction = EndOfTurnAction.EXTRA_ATTACK
+        enemy.endOfTurnActionProbability = 0.0
+        assertEquals(0, enemy.endOfTurnActions().count { it == EndOfTurnAction.EXTRA_ATTACK })
+        enemy.endOfTurnActionProbability = 1.0
+        assertEquals(1, enemy.endOfTurnActions().count { it == EndOfTurnAction.EXTRA_ATTACK })
+    }
+
+    @Test
     fun testCustomEntitiesInstantiation() {
         val berserker = Adventurer.getInstance("Berserker", 1, 45, 0, null, null, null, null, null, PotionsDrank(), null, false)
         assertNotNull(berserker)
