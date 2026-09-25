@@ -18,7 +18,7 @@ class GuildSiegeArea : Area() {
 
     override fun getAreaType(): Int = 1
 
-    override fun getDarkness(): Int = 0
+    override fun getDarkness(): Int = 15
 
     /** The Siege cannot be re-entered by spending gems — 1 try per reroll, period. */
     override fun canRefillWithGems(): Boolean = false
@@ -53,6 +53,7 @@ class GuildSiegeArea : Area() {
             "enter_dungeon" -> {
                 Logger.log(this, Logger.EVENT, R.string.guild_siege_enter_dungeon)
             }
+
             "enter_room" -> {
                 Logger.log(this, Logger.EVENT, R.string.guild_siege_enter_room)
                 if (progress > 10) {
@@ -60,9 +61,11 @@ class GuildSiegeArea : Area() {
                     terminationRequested = true
                 }
             }
+
             "fight_start" -> {
                 Logger.log(this, Logger.YELLOW_LOG, R.string.guild_siege_wave, progress, 10)
             }
+
             "victory" -> {
                 if (progress >= 10) {
                     // Do NOT terminate here: the Area loop still runs the loot() phase for the
@@ -70,6 +73,7 @@ class GuildSiegeArea : Area() {
                     GuildActivitiesManager.onSiegeVictory(this)
                 }
             }
+
             "respawn" -> {
                 GuildActivitiesManager.onSiegeDefeat(this)
                 terminationRequested = true

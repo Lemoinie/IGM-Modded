@@ -24,6 +24,7 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.items.instances.*
 import it.paranoidsquirrels.idleguildmaster.storage.data.pets.Pet
 import it.paranoidsquirrels.idleguildmaster.storage.data.pets.PetAbility
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.Area
+import it.paranoidsquirrels.idleguildmaster.storage.data.places.Event
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.dungeons.TheGoldenCity
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.dungeons.EnchantedForest
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.raids.SanguineCrucible
@@ -186,10 +187,10 @@ class ModFeaturesTest {
         assertNotNull("ScarletOniJuggernaut must have a craft recipe", juggRecipe)
         assertEquals(Recipes.ScarletOniJuggernaut, juggRecipe)
         assertEquals(
-            listOf("ScarletOni", "MysteriousCog", "HeartOfDarkness", "EldritchSeal"),
+            listOf("ScarletOni", "MysteriousCog", "ScarletDebris", "EldritchSeal"),
             juggRecipe?.getIngredients()?.map { it?.getTrueClass() }
         )
-        assertEquals(listOf(1, 5, 10, 1), juggRecipe?.getIngredients()?.map { it?.getStack() })
+        assertEquals(listOf(1, 5, 5, 1), juggRecipe?.getIngredients()?.map { it?.getStack() })
 
         val capeRecipe = Recipes.into(cape)
         assertNotNull("ScarletCape must have a craft recipe", capeRecipe)
@@ -240,10 +241,107 @@ class ModFeaturesTest {
         d.items.clear()
         d.items.add(Item.getInstance("ScarletOni", 2)!!)
         d.items.add(Item.getInstance("MysteriousCog", 11)!!)
-        d.items.add(Item.getInstance("HeartOfDarkness", 25)!!)
+        d.items.add(Item.getInstance("ScarletDebris", 15)!!)
         d.items.add(Item.getInstance("EldritchSeal", 3)!!)
         val recipe = Recipes.into(Item.getInstance("ScarletOniJuggernaut", 1))!!
         assertEquals("4-ingredient craftable amount must scale with the bottleneck ingredient", 2, Utils.maxCraftableAmount(recipe))
+    }
+
+    @Test
+    fun testBloodstoneColossus() {
+        val colossus = Enemy.getInstance("BloodstoneColossus")!!
+        assertEquals("BloodstoneColossus", colossus.trueClass)
+        assertEquals("Tank minion must hold an 8x threat weight", 8, colossus.threat)
+        assertEquals(12000, colossus.baseMaxHp)
+        assertEquals(120, colossus.baseConstitution)
+        assertEquals(30, colossus.baseDexterity)
+        assertEquals(10, colossus.baseIntelligence)
+        assertEquals(80, colossus.baseDefense)
+        assertEquals(40, colossus.baseMagicDefense)
+        assertEquals(Skills.PASSIVE_THREATENING_IV, colossus.passiveSkill)
+        assertEquals(Skills.ACTIVE_NONE, colossus.activeSkill)
+        assertFalse(colossus.isMagic())
+        assertFalse(colossus.isRanged())
+        assertEquals(120, colossus.calculateMinAttackDamage())
+        assertEquals(180, colossus.calculateMaxAttackDamage())
+        assertEquals(EnemyType.CONSTRUCT, colossus.getEnemyType())
+        assertTrue("Colossus must be immune to ABLAZE", colossus.statusImmunities.contains(StatusEffectType.ABLAZE))
+        assertTrue("Colossus must be immune to BLOODFLAME", colossus.statusImmunities.contains(StatusEffectType.BLOODFLAME))
+        assertTrue("Inorganic construct must be immune to BLEED", colossus.statusImmunities.contains(StatusEffectType.BLEED))
+        assertTrue("Inorganic construct must be immune to POISON", colossus.statusImmunities.contains(StatusEffectType.POISON))
+        assertEquals("Bloodstone Colossus must pay 3500 XP", 3500, colossus.getExpGiven())
+    }
+
+    @Test
+    fun testScarletDebrisItem() {
+        val debris = Item.getInstance("ScarletDebris", 1)!!
+        assertEquals("ScarletDebris", debris.getTrueClass())
+        assertEquals(R.string.item_scarlet_debris_name, debris.getIdName())
+        assertEquals(R.drawable.scarlet_debris, debris.getIdImage())
+        assertEquals("Scarlet Debris must be an endgame material", 2500L, debris.getPrice())
+    }
+
+    @Test
+    fun testScarletOniJuggernautRecipeRequiresScarletDebris() {
+        val recipe = Recipes.into(Item.getInstance("ScarletOniJuggernaut", 1))!!
+        val classes = recipe.getIngredients().map { it?.getTrueClass() }
+        assertEquals(listOf("ScarletOni", "MysteriousCog", "ScarletDebris", "EldritchSeal"), classes)
+        assertFalse("Recipe must no longer require Heart of Darkness", classes.contains("HeartOfDarkness"))
+        assertEquals(5, recipe.getIngredients().first { it?.getTrueClass() == "ScarletDebris" }?.getStack())
+    }
+
+    @Test
+    fun testSanguineCrucibleCorridorWavesAreHomogeneous() {
+        // rollEnemies() is protected and SanguineCrucible is final; invoke it reflectively
+        // so the corridor wave behaviour can be verified statistically.
+        val crucible = SanguineCrucible()
+        crucible.progress = 1
+        crucible.event = Event(Event.HALLS_EXPLORATION)
+        crucible.event?.progress = 5
+        val rollMethod = SanguineCrucible::class.java.getDeclaredMethod("rollEnemies")
+        rollMethod.isAccessible = true
+        var colossusWaves = 0
+        var acolyteWaves = 0
+        var totalWaves = 0
+        repeat(2000) {
+            @Suppress("UNCHECKED_CAST")
+            val wave = rollMethod.invoke(crucible) as MutableList<Enemy>
+            if (wave.isEmpty()) return@repeat
+            if (wave.isEmpty()) return@repeat
+            val names = wave.map { it.trueClass }.toSet()
+            assertTrue(
+                "Corridor waves must never mix units (got $names)",
+                names.size == 1 && (names == setOf("BloodstoneColossus") || names == setOf("CrimsonAcolyte"))
+            )
+            assertTrue("Wave size must roll 1..5", wave.size in 1..5)
+            when (wave.first().trueClass) {
+                "BloodstoneColossus" -> colossusWaves++
+                "CrimsonAcolyte" -> acolyteWaves++
+                else -> fail("Unexpected corridor enemy: ${wave.first().trueClass}")
+            }
+            totalWaves++
+        }
+        val colossusRatio = colossusWaves.toDouble() / totalWaves
+        assertTrue(
+            "Roughly half of corridor waves must be Bloodstone Colossus (got ${(colossusRatio * 100).toInt()}%)",
+            colossusRatio in 0.4..0.6
+        )
+        assertTrue("Crimson Acolyte waves must also roll", acolyteWaves > 0)
+    }
+
+    @Test
+    fun testBloodstoneColossusScarletDebrisDropRate() {
+        val colossus = Enemy.getInstance("BloodstoneColossus")!!
+        var drops = 0
+        val trials = 10000
+        repeat(trials) {
+            if (colossus.rollDrops(0).any { it.item?.getTrueClass() == "ScarletDebris" }) drops++
+        }
+        val rate = drops.toDouble() / trials
+        assertTrue(
+            "Scarlet Debris must drop at ~1% (got ${(rate * 100).toString().take(4)}%)",
+            rate in 0.006..0.014
+        )
     }
 
     @Test

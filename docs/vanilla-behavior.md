@@ -182,6 +182,17 @@ source tree (no injected patches). They are concentrated in a few places:
   layout (`layout_dungeon.xml`) now hides it by default, and
   `Area.refreshAutoRaidIndicator()` only reveals it on raid cards (type 1) with an
   active Auto-Raid, so dungeon and guild-activity cards never show it.
+- **Sanguine Crucible: Bloodstone Colossus & Scarlet Debris (v1.3.13.9)** — the pre-boss
+  corridor waves of The Sanguine Crucible now roll a homogeneous pack: 50% of combat
+  chambers are pure `BloodstoneColossus` and 50% pure `CrimsonAcolyte`, then roll a 1–5
+  enemy count (waves are never mixed). The Colossus is an `EnemyType.CONSTRUCT` tank —
+  12,000 HP, 120 CON, 80 DEF, 40 MDEF, `threat = 8`, physical melee 120–180, immune to
+  ABLAZE, BLOODFLAME, BLEED and POISON. Archmagus Valthex's `PASSIVE_BLOOD_CONVOCATION`
+  (36% chance per hit while the formation has fewer than 5 enemies) now summons a
+  `BloodstoneColossus` 60% of the time and a `CrimsonAcolyte` 40% of the time, and its
+  combat-log line names whichever minion is summoned. The Colossus's only drop is the new
+  `ScarletDebris` material (1%, 1 count); `Recipes.ScarletOniJuggernaut` now costs 5 ×
+  `ScarletDebris` instead of 10 × `HeartOfDarkness`.
 - Ads/IAP are stubbed and hidden from the UI (see
   [known-uncertainties.md](known-uncertainties.md), item 2).
 - Save tooling (`scripts/save/`, `save_editor/`) operates on saved games outside

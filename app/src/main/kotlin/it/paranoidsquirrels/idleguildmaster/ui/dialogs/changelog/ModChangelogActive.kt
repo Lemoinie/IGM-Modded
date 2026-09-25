@@ -354,5 +354,10 @@ object ModChangelogActive {
         "\n" +
         "1.3.13.8 (25/9/2026):\n" +
         "- Mod Info screen now fills the full device width: its dialog window is sized to the exact screen width (the vanilla dialog windows use 90%), and the Changelog list and per-version detail windows use the same full-width behaviour.\n" +
-        "- The Mod Info content (app/version header, developer line and contributor credits) renders reliably inside the scrollable area."
+        "- The Mod Info content (app/version header, developer line and contributor credits) renders reliably inside the scrollable area.\n" +
+        "\n" +
+        "1.3.13.9 (25/9/2026):\n" +
+        "- New enemy: Bloodstone Colossus - a high-threat CONSTRUCT tank (8x threat, 12,000 HP, 120 CON, 80 DEF / 40 MDEF, immune to ABLAZE/BLOODFLAME/BLEED/POISON) that now fills half of The Sanguine Crucible's pre-boss corridor waves: each combat chamber rolls 50% for a pure Bloodstone Colossus pack and 50% for a pure Crimson Acolyte pack, then rolls a 1-5 enemy count - waves are never mixed.\n" +
+        "- New material: Scarlet Debris - dropped exclusively by the Bloodstone Colossus at a 1% rate; the Scarlet Oni Juggernaut recipe now requires 5x Scarlet Debris instead of 10x Heart of Darkness.\n" +
+        "- Archmagus Valthex's Blood Convocation now summons a Bloodstone Colossus (60%) or a Crimson Acolyte (40%) whenever it triggers, and the combat log names whichever minion is summoned."
 }

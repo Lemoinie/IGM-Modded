@@ -14,11 +14,11 @@ import java.util.LinkedHashMap
 import java.util.concurrent.CopyOnWriteArrayList
 
 class GuildRequestArea : Area() {
-    override fun adventurersNumber(): Int = 12
+    override fun adventurersNumber(): Int = 5
 
     override fun getAreaType(): Int = 1
 
-    override fun getDarkness(): Int = 0
+    override fun getDarkness(): Int = 50
 
     /** The Hunt cannot be re-entered by spending gems — 1 try per reroll, period. */
     override fun canRefillWithGems(): Boolean = false
@@ -69,17 +69,20 @@ class GuildRequestArea : Area() {
             "enter_dungeon" -> {
                 Logger.log(this, Logger.EVENT, R.string.guild_hunt_enter_dungeon)
             }
+
             "enter_room" -> {
                 Logger.log(this, Logger.EVENT, R.string.guild_hunt_enter_room)
                 if (progress >= 2) {
                     terminationRequested = true
                 }
             }
+
             "victory" -> {
                 // Do NOT terminate here: the Area loop still runs the loot() phase for the
                 // bodies that just died. Terminating immediately skipped loot (no drops).
                 GuildActivitiesManager.onRequestVictory(this)
             }
+
             "respawn" -> {
                 progress = 0
             }
