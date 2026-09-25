@@ -38,14 +38,20 @@ object ModContributors {
         ModContributor(
             name = "Taine.Andrew",
             role = ContributorRole.ARTIST,
-            description = "Made the pixel art for the mod.",
+            description = "Lead Artist for the mod.",
             discord = "lordkangora"
         ),
         ModContributor(
             name = "Semi",
             role = ContributorRole.SPECIAL_THANKS,
-            description = "Tester",
+            description = "Lead Tester and Idea Giver.",
             discord = "semi2512"
+        ),
+        ModContributor(
+            name = "Hau",
+            role = ContributorRole.SPECIAL_THANKS,
+            description = "Tester",
+            discord = "zhauz_"
         )
     )
 }

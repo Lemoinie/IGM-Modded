@@ -32,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <!-- App header: icon + title -->
+            <!-- App header: icon + title on left, version on right -->
             <LinearLayout
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
@@ -48,36 +48,28 @@
 
                 <TextView
                     android:id="@+id/mod_title"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_marginStart="8dp"
                     android:text="@string/app_name"
                     android:textSize="24sp"
                     android:textStyle="bold"
                     android:textColor="@color/dim_white" />
 
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/mod_version_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end|center_vertical"
+                    android:textSize="13sp"
+                    android:textColor="#FFB0B0B0" />
+
             </LinearLayout>
-
-            <!-- Version -->
-            <TextView
-                android:id="@+id/mod_version_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:gravity="center_horizontal"
-                android:textSize="13sp"
-                android:textColor="#FFB0B0B0" />
-
-            <!-- Developer -->
-            <TextView
-                android:id="@+id/mod_developer_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:gravity="center_horizontal"
-                android:textSize="13sp"
-                android:textColor="#FF9E9E9E" />
 
             <!-- Contributors & credits -->
             <TextView

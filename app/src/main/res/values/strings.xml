@@ -4642,6 +4642,7 @@ TAUNT: the taunting unit is always chosen as target"</string>
     <string name="mod_info_developer">Developer: %1$s</string>
     <string name="mod_info_contributors">CONTRIBUTORS &amp; CREDITS</string>
     <string name="mod_info_github">github.com/%1$s</string>
+    <string name="mod_info_discord">Discord: %1$s</string>
     <string name="unit_berserker_name">Berserker</string>
     <string name="unit_berserker_description">A ferocious warrior fueled by unchecked battle frenzy.</string>
     <string name="drawer_settings_reset">START NEW GAME</string>
