@@ -41,4 +41,13 @@
         android:textColor="#FF808080"
         android:visibility="gone" />
 
+    <TextView
+        android:id="@+id/contributor_discord"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2.0dip"
+        android:textSize="11sp"
+        android:textColor="#FF808080"
+        android:visibility="gone" />
+
 </LinearLayout>

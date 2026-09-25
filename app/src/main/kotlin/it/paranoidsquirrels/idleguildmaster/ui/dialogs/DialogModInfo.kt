@@ -1,5 +1,7 @@
 package it.paranoidsquirrels.idleguildmaster.ui.dialogs
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -40,11 +42,6 @@ class DialogModInfo : CustomDialog() {
 
         b.modVersionText.text = ctx.getString(R.string.mod_info_version, "v" + DialogModAbout.modVersion())
 
-        val dev = ModContributors.ALL.firstOrNull()
-        if (dev != null) {
-            b.modDeveloperText.text = ctx.getString(R.string.mod_info_developer, dev.name)
-        }
-
         b.contributorsList.removeAllViews()
         val inflater = LayoutInflater.from(ctx)
         for (contributor in ModContributors.ALL) {
@@ -59,7 +56,33 @@ class DialogModInfo : CustomDialog() {
             if (contributor.github != null) {
                 github.text = ctx.getString(R.string.mod_info_github, contributor.github)
                 github.visibility = View.VISIBLE
+                github.setOnClickListener {
+                    try {
+                        val url = "https://github.com/${contributor.github}"
+                        ctx.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+                    } catch (ignored: Exception) {}
+                }
             }
+
+            val discord = card.findViewById<TextView>(R.id.contributor_discord)
+            if (contributor.discord != null) {
+                val isUrl = contributor.discord.startsWith("http://") || contributor.discord.startsWith("https://")
+                val discordText = if (isUrl) {
+                    contributor.discord
+                } else {
+                    "@" + contributor.discord.removePrefix("@")
+                }
+                discord.text = ctx.getString(R.string.mod_info_discord, discordText)
+                discord.visibility = View.VISIBLE
+                if (isUrl) {
+                    discord.setOnClickListener {
+                        try {
+                            ctx.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(contributor.discord)))
+                        } catch (ignored: Exception) {}
+                    }
+                }
+            }
+
             b.contributorsList.addView(card)
         }
     }
