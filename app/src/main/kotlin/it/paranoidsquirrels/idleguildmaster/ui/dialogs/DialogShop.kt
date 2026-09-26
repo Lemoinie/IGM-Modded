@@ -1,6 +1,7 @@
 package it.paranoidsquirrels.idleguildmaster.ui.dialogs
 
 import android.app.AlertDialog
+import android.content.DialogInterface
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
@@ -14,6 +15,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.viewbinding.ViewBinding
+import it.paranoidsquirrels.idleguildmaster.AchievementsUtils
 import it.paranoidsquirrels.idleguildmaster.MainActivity
 import it.paranoidsquirrels.idleguildmaster.R
 import it.paranoidsquirrels.idleguildmaster.UIUtils
@@ -378,6 +380,15 @@ class DialogShop : CustomDialog() {
             confirmAndPurchase(getString(R.string.shop_title_royal_treasury), 500, MainActivity.data.isRoyalTreasuryPurchased) {
                 MainActivity.data.isRoyalTreasuryPurchased = true
                 MainActivity.data.money += 10_000_000L // 10 Platinum Coins
+                if (MainActivity.data.money > MainActivity.data.maxWealth) {
+                    MainActivity.data.maxWealth = MainActivity.data.money
+                }
+                if (MainActivity.data.money >= 10_000L) {
+                    AchievementsUtils.unlock(AchievementsUtils.ACHIEVEMENT_WEALTHY)
+                }
+                if (MainActivity.data.money >= 1_000_000L) {
+                    AchievementsUtils.unlock(AchievementsUtils.ACHIEVEMENT_FILTHY_RICH)
+                }
                 Utils.collectItem(Item.getInstance("CeremonialCake", 10), MainActivity.data.items)
                 MainActivity.data.amountOfPurchases += 1
             }
@@ -799,11 +810,13 @@ class DialogShop : CustomDialog() {
             .setPositiveButton(android.R.string.ok) { _, _ ->
                 MainActivity.data.gems -= price
                 onPurchase()
-                val act = activity as? MainActivity
+                val act = (activity as? MainActivity) ?: (MainActivity.headquartersFragment.activity as? MainActivity)
                 act?.let {
-                    it.refreshGems()
-                    MainActivity.adventurersFragment?.refresh()
-                    MainActivity.headquartersFragment?.refresh()
+                    it.refresh()
+                    it.refreshMoney()
+                    MainActivity.adventurersFragment.refresh()
+                    MainActivity.headquartersFragment.refresh()
+                    MainActivity.shownDialogStorage?.update()
                     // Loot packs (Deep Pockets / Bottomless Chest) change the dungeon
                     // loot cap: update the dungeon/raid loot displays right away so no
                     // relaunch is needed to see the new cap.
@@ -906,6 +919,13 @@ class DialogShop : CustomDialog() {
         if (MainActivity.data.isIdleHoursPack4Purchased) idleBonus += 48
         if (MainActivity.data.isEternalVigilPurchased) idleBonus += 72
         b.maxIdleTimeValue.text = (Math.min(4, MainActivity.data.amountOfPurchases) + 8 + idleBonus).toString()
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        val act = (activity as? MainActivity) ?: (MainActivity.headquartersFragment.activity as? MainActivity)
+        act?.refresh()
+        act?.refreshMoney()
     }
 
     override fun onStart() {

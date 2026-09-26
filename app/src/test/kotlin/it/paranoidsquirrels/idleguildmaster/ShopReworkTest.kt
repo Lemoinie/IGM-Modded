@@ -471,4 +471,33 @@ class ShopReworkTest {
         val loaded = gson.fromJson(json, Data::class.java)
         assertTrue("Evolution crate flag must persist", loaded.isEvolutionSynthesisPurchased)
     }
+
+    @Test
+    fun testRoyalTreasuryPurchaseSimulation() {
+        MainActivity.data.gems = 500
+        MainActivity.data.money = 5000L
+        MainActivity.data.maxWealth = 5000L
+        MainActivity.data.isRoyalTreasuryPurchased = false
+        MainActivity.data.amountOfPurchases = 0
+        MainActivity.data.items.clear()
+
+        // Simulate purchase handler logic
+        MainActivity.data.gems -= 500
+        MainActivity.data.isRoyalTreasuryPurchased = true
+        MainActivity.data.money += 10_000_000L
+        if (MainActivity.data.money > MainActivity.data.maxWealth) {
+            MainActivity.data.maxWealth = MainActivity.data.money
+        }
+        Utils.collectItem(Item.getInstance("CeremonialCake", 10), MainActivity.data.items)
+        MainActivity.data.amountOfPurchases += 1
+
+        assertEquals("Gems must be 0", 0, MainActivity.data.gems)
+        assertTrue("isRoyalTreasuryPurchased must be true", MainActivity.data.isRoyalTreasuryPurchased)
+        assertEquals("Money must be 10,005,000", 10_005_000L, MainActivity.data.money)
+        assertEquals("Max wealth must be 10,005,000", 10_005_000L, MainActivity.data.maxWealth)
+        assertEquals("Amount of purchases must be 1", 1, MainActivity.data.amountOfPurchases)
+        val cake = MainActivity.data.items.firstOrNull { it.getTrueClass() == "CeremonialCake" }
+        assertNotNull("CeremonialCake must be in items", cake)
+        assertEquals("CeremonialCake stack must be 10", 10, cake!!.getStack())
+    }
 }

@@ -14,6 +14,10 @@ import it.paranoidsquirrels.idleguildmaster.ui.dialogs.ModChangelog.version
 object ModChangelogActive {
 
     val ENTRIES: List<VersionEntry> = listOf(
+        version("1.3.14.2", "26/9/2026",
+            "Fixed coin delay after purchasing Royal Treasury & Feast: purchases in the Shop now immediately update the currency header, headquarters view, and storage without needing to wait or restart the game.",
+            "Closing the Shop dialog now also triggers a full UI currency refresh as a safety measure."
+        ),
         version("1.3.14.1", "26/9/2026",
             "Rebalance the spawn chance of fish in The Slumbering Shallows.",
             "Rebalance the drop chance of fish in The Slumbering Shallows."
