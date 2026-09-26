@@ -1129,6 +1129,42 @@ class ModFeaturesTest {
     }
 
     @Test
+    fun testBlackMarketDepartsWhenNotArriving() {
+        val d = MainActivity.data
+        d.isBlackMarketActive = true
+        d.isNewBlackMarketItems = true
+        Utils.refreshBlackMarketStock()
+        assertTrue("Stock must be populated initially", d.blackMarketStock.isNotEmpty())
+
+        // When the daily roll does not hit (and missedDays < 6), it must depart.
+        var departed = false
+        for (i in 0 until 50) {
+            d.isBlackMarketActive = true
+            d.blackMarketMissedDays = 0
+            Utils.checkBlackMarketDailyArrival()
+            if (!d.isBlackMarketActive) {
+                departed = true
+                assertTrue("Stock must be cleared on departure", d.blackMarketStock.isEmpty())
+                assertFalse("New items flag must be cleared", d.isNewBlackMarketItems)
+                assertEquals("Missed days must increment to 1", 1, d.blackMarketMissedDays)
+                break
+            }
+        }
+        assertTrue("Market must depart when 10% arrival roll does not hit", departed)
+    }
+
+    @Test
+    fun testBlackMarketRedeemCloseCommand() {
+        val d = MainActivity.data
+        d.isBlackMarketActive = true
+        Utils.refreshBlackMarketStock()
+        val result = RedeemCodes.process("BLACK OFF", null)
+        assertNotNull(result)
+        assertFalse("BLACK OFF must deactivate the black market", d.isBlackMarketActive)
+        assertTrue("BLACK OFF must clear stock", d.blackMarketStock.isEmpty())
+    }
+
+    @Test
     fun testMeleeTargetingPrioritizesGroundOverFlying() {
         val area = it.paranoidsquirrels.idleguildmaster.storage.data.places.dungeons.EnchantedForest()
         val meleeAdv = it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.units.Footman()

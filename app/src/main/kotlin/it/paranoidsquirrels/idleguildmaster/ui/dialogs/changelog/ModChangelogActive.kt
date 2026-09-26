@@ -14,6 +14,10 @@ import it.paranoidsquirrels.idleguildmaster.ui.dialogs.ModChangelog.version
 object ModChangelogActive {
 
     val ENTRIES: List<VersionEntry> = listOf(
+         version("1.3.14.3", "26/9/2026",
+            "Fixed Black Market persistence: the Black Market now properly departs at daily reset when its arrival roll misses, instead of remaining active indefinitely after arrival or redeeming the BLACK dev code.",
+            "Added BLACK OFF / BLACK CLOSE dev command to manually close the Black Market.",
+        ),
         version("1.3.14.2", "26/9/2026",
             "Fixed coin delay after purchasing Royal Treasury & Feast: purchases in the Shop now immediately update the currency header, headquarters view, and storage without needing to wait or restart the game.",
             "Closing the Shop dialog now also triggers a full UI currency refresh as a safety measure."

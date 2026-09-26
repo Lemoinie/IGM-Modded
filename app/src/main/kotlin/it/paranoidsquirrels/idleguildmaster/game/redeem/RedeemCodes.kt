@@ -66,11 +66,26 @@ object RedeemCodes {
                 "Cannot reroll while a party is exploring!"
             }
         }
-        if (upper == "BLACK") {
+        if (upper.startsWith("BLACK")) {
+            val parts = upper.split(" ").filter { it.isNotBlank() }
+            if (parts.size > 1 && (parts[1] == "OFF" || parts[1] == "CLOSE")) {
+                return try {
+                    MainActivity.data.isBlackMarketActive = false
+                    MainActivity.data.isNewBlackMarketItems = false
+                    MainActivity.data.blackMarketStock.clear()
+                    MainActivity.shownDialogBlackMarket?.dismiss()
+                    ((MainActivity.dungeonsFragment?.activity as? MainActivity) ?: (MainActivity.headquartersFragment.activity as? MainActivity))?.refreshIcons()
+                    FileManager.saveNow(context)
+                    "The Black Market has departed."
+                } catch (e: Exception) {
+                    "Failed to close the Black Market"
+                }
+            }
             return try {
                 MainActivity.data.isBlackMarketActive = true
+                MainActivity.data.blackMarketMissedDays = 0
                 Utils.refreshBlackMarketStock()
-                (MainActivity.dungeonsFragment?.activity as? MainActivity)?.refreshIcons()
+                ((MainActivity.dungeonsFragment?.activity as? MainActivity) ?: (MainActivity.headquartersFragment.activity as? MainActivity))?.refreshIcons()
                 FileManager.saveNow(context)
                 "The Black Market has arrived!"
             } catch (e: Exception) {
