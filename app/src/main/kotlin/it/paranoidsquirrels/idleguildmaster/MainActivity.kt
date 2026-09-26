@@ -950,7 +950,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun retroactivelyUnlockLast3() {
-        if ((data.theDireDescent?.maxProgress ?: 0) >= 7) {
+        val dd = data.theDireDescent
+        val ddBeaten = (dd?.maxProgress ?: 0) >= 6 ||
+                (dd != null && Utils.gotUniqueDrop("SerpentLunge", dd)) ||
+                data.seenItems.contains("SerpentLunge")
+        if (ddBeaten) {
             val sp = data.sleepingPlanet
             if (sp != null && !sp.isUnlocked) {
                 UIUtils.unlockArea(sp)

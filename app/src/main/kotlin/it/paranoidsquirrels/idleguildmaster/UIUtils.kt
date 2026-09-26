@@ -399,6 +399,7 @@ object UIUtils {
         if (MainActivity.raidsFragment == null || !Utils.isMainLooper()) {
             return
         }
+        MainActivity.raidsFragment.refresh()
         MainActivity.raidsFragment.refreshRaidVisibility()
     }
 

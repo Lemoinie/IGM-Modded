@@ -217,10 +217,10 @@ object AchievementsUtils {
         if ((MainActivity.data.sleepingPlanet?.maxProgress ?: 0) > 14) {
             unlock(ACHIEVEMENT_UNITY)
         }
-        if ((MainActivity.data.sleepingPlanet?.maxProgress ?: 0) > 16) {
+        if ((MainActivity.data.kaunis?.maxProgress ?: 0) > 16) {
             unlock(ACHIEVEMENT_THE_COUNCIL)
         }
-        if ((MainActivity.data.sleepingPlanet?.maxProgress ?: 0) > 35) {
+        if ((MainActivity.data.theTower?.maxProgress ?: 0) > 35) {
             unlock(ACHIEVEMENT_THE_TOWER)
         }
         if (iMax > 1) {
