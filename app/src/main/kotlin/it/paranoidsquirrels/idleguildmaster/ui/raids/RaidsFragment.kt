@@ -128,6 +128,7 @@ class RaidsFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         if (TO_REFRESH) {
+            refresh()
             refreshRaidVisibility()
         }
         val mainActivity = activity as? MainActivity ?: return

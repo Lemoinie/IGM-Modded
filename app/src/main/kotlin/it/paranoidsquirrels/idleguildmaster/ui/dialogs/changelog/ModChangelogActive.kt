@@ -14,6 +14,12 @@ import it.paranoidsquirrels.idleguildmaster.ui.dialogs.ModChangelog.version
 object ModChangelogActive {
 
     val ENTRIES: List<VersionEntry> = listOf(
+        version("1.3.14.5", "27/9/2026",
+            "Fixed Celestial Mothership encounter spawning: removed leftover one-time raid checks so all encounters and Legate Hadrian spawn reliably on every run, preventing empty runs when retreating after the boss fight.",
+            "Fixed The Dire Descent raid unlocks: defeating the Heralds in Room 5 now immediately unlocks Sleeping Planet, Kaunis, and The Tower, ensuring players who retreat during the loot phase or succumb to status effects do not miss their unlock.",
+            "Retroactive Raid Unlocks: loading a save now retroactively unlocks Sleeping Planet, Kaunis, and The Tower if The Dire Descent was defeated or Serpent's Lunge was obtained.",
+            "Fixed retroactive achievement checks in AchievementsUtils for The Council (Kaunis) and The Tower."
+        ),
         version("1.3.14.4", "26/9/2026",
             "Adventurer Promotion Equipment Compatibility: Promoting, ascending, or rejuvenating an adventurer now automatically unequips and refunds incompatible weapons and armor to storage instead of keeping illegal equipment.",
             "Storage Full Interception: If storage does not have enough space for unequipped weapons or armor, promotion warns with a Full Storage dialog and is blocked until space is freed, preventing item loss or overflow.",

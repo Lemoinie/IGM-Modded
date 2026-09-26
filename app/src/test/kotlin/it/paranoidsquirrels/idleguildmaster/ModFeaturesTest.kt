@@ -1851,6 +1851,48 @@ class ModFeaturesTest {
         val needed = (MainActivity.data.items.size + extraItems) - maxSpaces
         assertEquals("Needed space must be 2", 2, needed)
     }
+
+    @Test
+    fun testCelestialMothershipRollEnemiesRegardlessOfMaxProgress() {
+        val mothership = it.paranoidsquirrels.idleguildmaster.storage.data.places.raids.CelestialMothership()
+        mothership.maxProgress = 18
+
+        // Room 2 (Oculus)
+        mothership.progress = 2
+        val enemiesRoom2 = mothership.rollEnemies()
+        assertEquals(1, enemiesRoom2.size)
+        assertEquals("Oculus", enemiesRoom2[0].getTrueClass())
+
+        // Room 17 (Legate Hadrian) even when maxProgress is 18 (e.g. player retreated after killing him previously)
+        mothership.progress = 17
+        val enemiesRoom17 = mothership.rollEnemies()
+        assertEquals(1, enemiesRoom17.size)
+        assertEquals("LegateHadrian", enemiesRoom17[0].getTrueClass())
+    }
+
+    @Test
+    fun testTheDireDescentVictoryAndRoom6Unlocks() {
+        val dire = it.paranoidsquirrels.idleguildmaster.storage.data.places.raids.TheDireDescent()
+        val sleeping = MainActivity.data.sleepingPlanet!!
+        val kaunis = MainActivity.data.kaunis!!
+        val tower = MainActivity.data.theTower!!
+
+        sleeping.isUnlocked = false
+        kaunis.isUnlocked = false
+        tower.isUnlocked = false
+
+        // Victory event at Room 5 unlocks all 3 immediately
+        dire.progress = 5
+        dire.triggerEvent("victory")
+        assertTrue("Sleeping Planet must unlock on victory", sleeping.isUnlocked)
+        assertTrue("Kaunis must unlock on victory", kaunis.isUnlocked)
+        assertTrue("The Tower must unlock on victory", tower.isUnlocked)
+
+        // Completed condition is satisfied with maxProgress >= 6 and empty drops
+        dire.maxProgress = 6
+        dire.drops.clear()
+        assertTrue("The Dire Descent should be marked completed at maxProgress 6 with no drops", dire.completed())
+    }
 }
 
 

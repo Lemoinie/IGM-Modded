@@ -28,9 +28,6 @@ class CelestialMothership : Area() {
     override fun getLayout(): LayoutDungeonBinding = MainActivity.raidsFragment.binding!!.celestialMothership
 
     public override fun rollEnemies(): MutableList<Enemy> {
-        if (progress < maxProgress) {
-            return CopyOnWriteArrayList()
-        }
         val i = progress
         if (i == 2) {
             return CopyOnWriteArrayList(listOfNotNull(Enemy.getInstance("Oculus")))

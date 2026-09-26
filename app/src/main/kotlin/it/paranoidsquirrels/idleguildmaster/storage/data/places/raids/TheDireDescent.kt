@@ -3,6 +3,7 @@ package it.paranoidsquirrels.idleguildmaster.storage.data.places.raids
 import it.paranoidsquirrels.idleguildmaster.AchievementsUtils
 import it.paranoidsquirrels.idleguildmaster.MainActivity
 import it.paranoidsquirrels.idleguildmaster.R
+import it.paranoidsquirrels.idleguildmaster.UIUtils
 import it.paranoidsquirrels.idleguildmaster.Utils
 import it.paranoidsquirrels.idleguildmaster.databinding.LayoutDungeonBinding
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.Enemy
@@ -44,7 +45,7 @@ class TheDireDescent : Area() {
         Logger.log(this, 41)
     }
 
-    override fun triggerEvent(str: String) {
+    public override fun triggerEvent(str: String) {
         when (str) {
             "enter_room" -> {
                 when (progress) {
@@ -69,6 +70,11 @@ class TheDireDescent : Area() {
                     Logger.log(this, 101, R.string.log_the_dire_descent_encounter_1)
                 }
             }
+            "victory" -> {
+                MainActivity.data.sleepingPlanet?.let { if (!it.isUnlocked) UIUtils.unlockArea(it) }
+                MainActivity.data.kaunis?.let { if (!it.isUnlocked) UIUtils.unlockArea(it) }
+                MainActivity.data.theTower?.let { if (!it.isUnlocked) UIUtils.unlockArea(it) }
+            }
             "enter_dungeon" -> {
                 Logger.log(this, 100, R.string.log_the_dire_descent_enter)
             }
@@ -77,9 +83,9 @@ class TheDireDescent : Area() {
 
     override fun listAreasUnlocked(): LinkedHashMap<Area, Int> {
         val linkedHashMap = LinkedHashMap<Area, Int>()
-        MainActivity.data.sleepingPlanet?.let { linkedHashMap[it] = 7 }
-        MainActivity.data.kaunis?.let { linkedHashMap[it] = 7 }
-        MainActivity.data.theTower?.let { linkedHashMap[it] = 7 }
+        MainActivity.data.sleepingPlanet?.let { linkedHashMap[it] = 6 }
+        MainActivity.data.kaunis?.let { linkedHashMap[it] = 6 }
+        MainActivity.data.theTower?.let { linkedHashMap[it] = 6 }
         return linkedHashMap
     }
 
@@ -92,6 +98,6 @@ class TheDireDescent : Area() {
     }
 
     override fun completed(): Boolean {
-        return maxProgress >= 7 && drops.isEmpty()
+        return (maxProgress >= 6 || Utils.gotUniqueDrop("SerpentLunge", this)) && drops.isEmpty()
     }
 }
