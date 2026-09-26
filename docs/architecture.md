@@ -242,6 +242,7 @@ injected patches. The remaining "mod-specific" surface is thin and clearly locat
   the UI hides them (see [known-uncertainties.md](known-uncertainties.md), item 2).
 - **Save tooling** — `scripts/save/`, `save_editor/`, `scripts/build/` operate on
   save files outside the app (see [scripts.md](scripts.md)).
+- **Time & Tick Engine** — active 1-second loop, minute clock synchronization, offline simulation, and hourly/daily/weekly milestone resets (see [time-and-tick-systems.md](time-and-tick-systems.md)).
 
 ## Testing
 

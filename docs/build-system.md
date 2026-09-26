@@ -31,7 +31,7 @@ app/
 | minSdk             | `26`                                               |
 | targetSdk          | `34`                                               |
 | versionCode        | `162`                                              |
-| versionName        | `2.148-mod-1.3.14.0` (gameVersion-mod-modVersion) |
+| versionName        | `2.148-mod-1.3.14.1` (gameVersion-mod-modVersion) |
 | Java/Kotlin target | `21` (jvmTarget = 21)                              |
 | build features     | `dataBinding`, `viewBinding`, `buildConfig`        |
 | minify             | disabled (debug & release)                          |
@@ -43,7 +43,7 @@ Version branding is driven by three values at the top of `app/build.gradle.kts`:
 ```kotlin
 val gameName = "IdleGuildMaster"   // base game name
 val gameVersion = "2.148"          // vanilla version the reconstruction targets
-val modVersion = "1.3.14.0"        // mod version — bump for every mod release
+val modVersion = "1.3.14.1"        // mod version — bump for every mod release
 ```
 
 ## Root Configuration

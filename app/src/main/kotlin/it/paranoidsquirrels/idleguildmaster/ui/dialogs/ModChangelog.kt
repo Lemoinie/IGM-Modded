@@ -25,7 +25,7 @@ object ModChangelog {
             changes = body.split("\n").map { it.trim().removePrefix("-").trim() }.filter { it.isNotEmpty() }
         )
 
-        /** Backward-compatible title: "1.3.14.0 (25/9/2026)" or "1.3.14.0" */
+        /** Backward-compatible title: "1.3.14.1 (26/9/2026)" or "1.3.14.1" */
         val title: String
             get() = if (date.isNotBlank()) "$version ($date)" else version
 

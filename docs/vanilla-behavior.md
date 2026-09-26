@@ -16,7 +16,7 @@ behavior (see "Mod Interface" below).
    or 3,000 (with upgrades).
 
 2. **Offline Idle Time**: Vanilla calculates offline progress up to an 8-hour cap by
-   comparing TrueTime NTP timestamps with local save timestamps.
+   comparing TrueTime NTP timestamps with local save timestamps (see [time-and-tick-systems.md](time-and-tick-systems.md)).
 
 3. **DataBinding vs Manual View Access**: Vanilla mixes generated DataBinding
    bindings with manual `findViewById` queries in certain dialogs.
