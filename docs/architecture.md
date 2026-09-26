@@ -227,9 +227,9 @@ injected patches. The remaining "mod-specific" surface is thin and clearly locat
   vs-Undead via `Skill.setUndeadDamageMultiplier(1.5)`; `Area.dealDamage` applies
   both the skill undead multiplier and the aura's undead bonus (checked against
   `Enemy.getEnemyType()`).
-- **Changelog / info UI** — era-split changelog files
+- **Changelog / info UI** — era-split changelog files using a clean declarative DSL (`version("1.3.x", "date", "change 1", ...)`, ordered newest-first)
   `ui/dialogs/changelog/ModChangelogActive.kt` (v1.3.x, the only file developers edit per
-  release) and `ui/dialogs/changelog/ModChangelogArchive.kt` (v1.0.x – v1.2.x, immutable
+  release, adding new entries at the top) and `ui/dialogs/changelog/ModChangelogArchive.kt` (v1.0.x – v1.2.x, immutable
   history) behind the `ui/dialogs/ModChangelog.kt` facade (`allEntries()`, `latestEntry()`,
   `MOD_ABOUT_TEXT`), the `ui/dialogs/ModContributors.kt` credits registry (roles + badges),
   and `ui/dialogs/DialogModAbout.kt` (Mod Info layout `dialog_mod_info.xml` +

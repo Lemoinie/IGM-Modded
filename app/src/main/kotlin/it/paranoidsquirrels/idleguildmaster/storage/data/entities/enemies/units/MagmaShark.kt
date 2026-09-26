@@ -29,10 +29,10 @@ class MagmaShark : Enemy() {
         expGiven = 60
     }
 
-    /** "Fish only drops the fish": a Magma Shark always drops itself as Magma Shark food (~60%). */
+    /** "Fish only drops the fish": a Magma Shark always drops itself as Magma Shark food (~30%). */
     override fun listDrops(i: Int): LinkedHashMap<ItemWrapper, Int> {
         val drops = LinkedHashMap<ItemWrapper, Int>()
-        drops.put(ItemWrapper.getInstance("MagmaShark", 1), 600)
+        drops.put(ItemWrapper.getInstance("MagmaShark", 1), 300)
         return drops
     }
 }
