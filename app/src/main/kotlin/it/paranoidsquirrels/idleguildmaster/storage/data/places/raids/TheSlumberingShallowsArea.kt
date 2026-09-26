@@ -38,7 +38,8 @@ class TheSlumberingShallowsArea : Area() {
 
     override fun getDetailDrawable(): Int = R.drawable.area_fishing_pond
 
-    override fun getLayout(): LayoutDungeonBinding = MainActivity.guildActivitiesFragment.binding!!.theSlumberingShallows
+    override fun getLayout(): LayoutDungeonBinding =
+        MainActivity.guildActivitiesFragment.binding!!.theSlumberingShallows
 
     override fun listAreasUnlocked(): LinkedHashMap<Area, Int> = LinkedHashMap()
 
@@ -74,14 +75,16 @@ class TheSlumberingShallowsArea : Area() {
 
     private fun rollFishType(): String {
         val r = Utils.random()
-        if (r < 0.50) {
-            return if (Utils.random() < 0.5) "Perch" else "BlueTrout"
+        return when {
+            r < 0.30 -> "Perch"         // 30%
+            r < 0.55 -> "BlueTrout"     // 25% (0.55 - 0.30)
+            r < 0.75 -> "Angelfish"     // 20% (0.75 - 0.55)
+            r < 0.88 -> "WingedRay"     // 13% (0.88 - 0.75)
+            r < 0.95 -> "BlueShark"     //  7% (0.95 - 0.88)
+            else -> "MagmaShark"    //  5% (1.00 - 0.95)
         }
-        if (r < 0.85) {
-            return if (Utils.random() < 0.5) "Angelfish" else "WingedRay"
-        }
-        return if (Utils.random() < 0.5) "BlueShark" else "MagmaShark"
     }
+
 
     /** Ambient gathering between casts: 25% Perch, 10% sunken CoinPurse. */
     public override fun searchRoom() {
