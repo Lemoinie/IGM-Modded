@@ -1,88 +1,187 @@
 # Implementation Plan - Whisper Evolution Line Rebalance
 
-Perform a comprehensive overhaul and rebalance of the underperforming **Whisper Branch** (Thief $\to$ Rogue $\to$ Shadow $\to$ Assassin $\to$ Spire Line $\to$ Whisper).
+Perform a comprehensive overhaul and rebalance of the underperforming **Whisper Branch** (starting at **Tier 5 `SpireInitiate`** up to **Tier 9 `Whisper`**).
 
 ---
 
-## Goal & Design Philosophy
+## 1. Goal & Design Philosophy
 
-- **Problem**: Zero combat-relevant passives (only trap disarm and target selection); dagger scaling is pure DEX/CON with low base damage; `Eclipse` execution threshold (<25%) and on-kill recasting are completely ineffective in prolonged boss fights.
-- **Rework**: Transform into the ultimate **Phantom Executioner / Crit Assassin**. Gains combat passives (Crit Chance, Armor Piercing, Missing-HP Damage Amplification), and an active `Eclipse` rework that deals escalating damage against wounded targets and executes without being dead weight on bosses.
-
----
-
-## User Review Required
-
-> [!IMPORTANT]
-> **Whisper Scaling Philosophy**:
-> - **Missing HP Scaling**: Whisper gains up to **+75% bonus damage** based on how low the target's HP is (`1.0 + 0.75 * missingHp%`), with guaranteed Critical Strikes on targets below 25% HP.
-
----
-
-## Detailed Mechanics & Formulas
-
-### 1. Stat & Scaling Profile
-- **Weapon Scaling**: Daggers scale with **100% DEX + 60% CON**.
-- **Innate Trait**: Retains `saboteur = true` and `flatDodgeChance = 0.15` (stealth avoidance).
-
-### 2. Combat Passives Rework
-- **T4 (`Assassin`)**: **Shadow Stalker I** (+10% Crit Chance, ignores 20% Enemy DEF).
-- **T5 (`SpireInitiate`)**: **Shadow Stalker II** (+15% Crit Chance, ignores 25% Enemy DEF).
-- **T6 (`SpireAcolyte`)**: **Cull the Weak I** (+15% Crit Chance, ignores 30% Enemy DEF, attacks deal up to **+30% damage** against targets with missing HP: $\text{dmg} \times (1.0 + 0.3 \times \text{missingHP\%})$).
-- **T7 (`SpireLeader`)**: **Cull the Weak II** (+20% Crit Chance, ignores 35% Enemy DEF, up to **+45% damage** against missing HP).
-- **T8 (`SpireSage`)**: **Phantom Lethality I** (+20% Crit Chance, ignores 40% Enemy DEF, up to **+60% damage** against missing HP, trap disarm retained).
-- **T9 (`Whisper`)**: **Phantom Lethality II**:
-  - **+25% Crit Chance**, **ignores 50% Enemy DEF**, trap disarm retained.
-  - **Execution Stance**: Attacks deal up to **+75% damage** scaled by missing HP. Targets below 25% HP suffer guaranteed Critical Strikes that bypass all shields.
-
-### 3. Active Skill: `ACTIVE_ECLIPSE` Rework
-Instead of being a dead skill until 25% HP:
-- **Damage**: Deals **300% Physical Damage** with **3.0x Critical Amplification**.
-- **Culling Strike**: Deals $+1\%$ extra damage per $1\%$ missing target HP (up to 2x damage on low HP).
-- **Execute & Chain**: If target's HP is below threshold (T5: 10%, T6: 15%, T7: 20%, T8: 25%, T9: 30%), the target is instantly executed. If killed, recasts on the next lowest HP target.
-- **Boss Synergy**: If the target does not die, grants Whisper **Shadow Cloak** for 1 turn (100% dodge against next attack) and refunds 50% cooldown.
+- **Problem in Vanilla**: 
+  - Zero offensive combat passives (only trap disarm and target selection).
+  - `Eclipse` execution threshold (<25%) and on-kill recasting are completely ineffective in prolonged boss fights.
+  - As a squishy melee assassin, Whisper takes heavy retaliation damage when attacking bosses without defensive tools.
+- **Rework Identity: Phantom Duelist & Riposte Assassin**:
+  - **Branch Scope**: Starts at **Tier 5 (`SpireInitiate`)**, leaving **Tier 4 `Assassin`** untouched so its shared branch into `RedStalker` remains vanilla.
+  - **New Status Effect: Riposte**: Instead of passive damage reduction, the Spire/Whisper line dodges incoming attacks by 100% and immediately counter-attacks, stacking up to 5 times.
+  - **Synergy with Doctrine of Illusion**: Because Riposte triggers as a genuine dodge, it allows dodge-based mechanics like **False Life** (from the Doctrine of Illusion) to trigger.
+  - **No Crit Bloat**: Crit chance is removed from passives; damage relies on weapon stats, natural DEX crit scaling, armor penetration, and missing-HP damage amplification.
+  - **Controlled Active Scaling**: `ACTIVE_ECLIPSE` increases by exactly **10% (+0.10x) per tier** (1.10x $\to$ 1.40x) with built-in **3.0x Critical Amplification**.
 
 ---
 
-## Tier-by-Tier Evolution Summary
+## 2. Targeting Behavior Clarification
 
-| Tier | Unit | Weapon Scaling | Passive | Active Skill |
+> [!NOTE]
+> ### How "Lowest Health Enemy" Works in the Combat Engine
+> In `Area.kt` (lines 987–988, 3093, and 3297–3302), `PASSIVE_DESPISE_WEAKNESS` sets target selection to `TARGET_LOWEST_RELATIVE_ENEMY`:
+> ```kotlin
+> // Area.kt selectLowestHpTarget:
+> candidate.currentHp.toDouble() / candidate.calculateTotalMaxHp().toDouble() < 
+>     entity2.currentHp.toDouble() / entity2.calculateTotalMaxHp().toDouble()
+> ```
+> This is strictly **Relative Percentage HP (% HP)**, NOT flat HP.
+> - **Example**: An Elite Boss at **500 / 1,000 HP** (**50%**) will be targeted before a minion with **70 / 100 HP** (**70%**), even though the minion has fewer flat hit points.
+> - This ensures the Whisper line systematically finishes off the most wounded enemy.
+
+---
+
+## 3. Stat & Scaling Profile
+
+### 3.1 Dagger Scaling (Vanilla Baseline Kept)
+- In `Dagger.kt`:
+  ```kotlin
+  override fun getDamageModifier(i: Int, i2: Int, i3: Int): Int = i + i3
+  ```
+  Where `i = CON` and `i3 = DEX`.
+- **Daggers inherently scale off 100% Constitution + 100% Dexterity**.
+- This plan **maintains 100% CON + 100% DEX** dagger scaling without alteration.
+
+### 3.2 Innate Avoidance & Sabotage
+- `saboteur = true` (Trap disarm retained from T5 through T9).
+- `flatDodgeChance = 0.15` (Innate +15% dodge chance representing phantom evasion).
+
+---
+
+## 4. New Status Effect: Riposte
+
+### 4.1 Riposte Mechanics
+- **Definition**: A positive status effect (`StatusEffectType.RIPOSTE`), stacking up to **5 stacks** (stored in `turnsLeft`).
+- **On Incoming Attack**:
+  1. **100% Dodge**: Attack is automatically dodged (`dodge(...)` returns `true`).
+  2. **Dodge Synergy**: Counts as an authentic dodge event, permitting synergies like Doctrine of Illusion's `False Life` on dodge and quest progress (`hitOrMiss`).
+  3. **Immediate Counterattack**: The defender counter-attacks the attacker with a basic attack:
+     ```kotlin
+     dealDamage(defender, attacker, null, null)
+     ```
+  4. **Stack Consumption**: Consumes exactly 1 stack of Riposte. The effect is removed when stacks reach 0.
+
+### 4.2 Gaining Riposte (Whisper Branch T5–T9)
+- **On Skill Use (`Eclipse`)**: +1 stack of Riposte.
+- **On Enemy Kill**: +1 stack of Riposte.
+- **Chaining Examples**:
+  - Cast `Eclipse` on an enemy and kill it: +1 (skill) + +1 (kill) = **2 stacks**.
+  - `Eclipse` recasts on a second enemy and kills it: +1 (recast) + +1 (kill) = +2 stacks (total **4 stacks**).
+  - If the second enemy survives: +1 (recast only) = total **3 stacks**.
+  - Maximum cap: **5 stacks**.
+
+---
+
+## 5. Combat Passives Rework (T5 through T9)
+
+No passive crit chance bloat. Passives grant **Relative % HP Targeting**, **DEF Ignore**, **Missing-HP Damage Amplification**, and **Riposte on Kill**:
+
+- **T4 (`Assassin`)**: **UNTOUCHED (Vanilla)**
+  - Retains `PASSIVE_INFILTRATOR` and `ACTIVE_BACKSTAB_III`.
+- **T5 (`SpireInitiate`)**: **Phantom Instinct I**
+  - Targets lowest relative % HP enemy.
+  - Ignores **20% Enemy DEF**.
+  - Attacks deal up to **+45% bonus damage** scaled by missing target HP ($\text{dmg} \times (1.0 + 0.45 \times \text{missingHP\%})$).
+  - On enemy kill: gains **+1 stack of Riposte** (max 5).
+  - Trap disarm (`saboteur = true`).
+- **T6 (`SpireAcolyte`)**: **Phantom Instinct II**
+  - Targets lowest relative % HP enemy.
+  - Ignores **25% Enemy DEF**.
+  - Attacks deal up to **+50% bonus damage** scaled by missing target HP.
+  - On enemy kill: gains **+1 stack of Riposte** (max 5).
+  - Trap disarm (`saboteur = true`).
+- **T7 (`SpireLeader`)**: **Phantom Instinct III**
+  - Targets lowest relative % HP enemy.
+  - Ignores **30% Enemy DEF**.
+  - Attacks deal up to **+55% bonus damage** scaled by missing target HP.
+  - On enemy kill: gains **+1 stack of Riposte** (max 5).
+  - Trap disarm (`saboteur = true`).
+- **T8 (`SpireSage`)**: **Phantom Lethality I**
+  - Targets lowest relative % HP enemy.
+  - Ignores **35% Enemy DEF**.
+  - Attacks deal up to **+60% bonus damage** scaled by missing target HP.
+  - On enemy kill: gains **+1 stack of Riposte** (max 5).
+  - Trap disarm (`saboteur = true`).
+- **T9 (`Whisper`)**: **Phantom Lethality II**
+  - Targets lowest relative % HP enemy.
+  - Ignores **40% Enemy DEF**.
+  - Attacks deal up to **+70% bonus damage** scaled by missing target HP.
+  - On enemy kill: gains **+1 stack of Riposte** (max 5).
+  - Trap disarm (`saboteur = true`).
+
+---
+
+## 6. Active Skill: `ACTIVE_ECLIPSE` (+10% per Tier)
+
+Base damage increases by strictly **10% (+0.10x) per tier**, featuring **3.0x Critical Amplification** and granting **Riposte**:
+
+- **`ACTIVE_ECLIPSE_I` (T5 `SpireInitiate`)**:
+  - **1.10x Physical Damage**, **3.0x Critical Amplification**.
+  - Grants **+1 stack of Riposte** on cast (plus +1 if it kills).
+  - Executes targets below **10% HP**, recasts on kill.
+- **`ACTIVE_ECLIPSE_II` (T6 `SpireAcolyte`)**:
+  - **1.20x Physical Damage** (+10%), **3.0x Critical Amplification**.
+  - Grants **+1 stack of Riposte** on cast.
+  - Executes targets below **15% HP**, recasts on kill.
+- **`ACTIVE_ECLIPSE_III` (T7 `SpireLeader` & T8 `SpireSage`)**:
+  - **1.30x Physical Damage** (+10%), **3.0x Critical Amplification**.
+  - Grants **+1 stack of Riposte** on cast.
+  - Executes targets below **20% HP**, recasts on kill.
+- **`ACTIVE_ECLIPSE_IV` (T9 `Whisper`)**:
+  - **1.40x Physical Damage** (+10%), **3.0x Critical Amplification**.
+  - Grants **+1 stack of Riposte** on cast.
+  - Executes targets below **25% HP**, recasts on kill.
+
+---
+
+## 7. Tier-by-Tier Evolution Summary
+
+| Tier | Unit | Weapon Scaling | Passive Ability | Active Skill |
 | :--- | :--- | :--- | :--- | :--- |
-| **T4** | `Assassin` | 100% DEX, 50% CON | Shadow Stalker I (+10% Crit, 20% Armor Pen) | Backstab III (3.0x crit amp) |
-| **T5** | `SpireInitiate` | 100% DEX, 50% CON | Shadow Stalker II (+15% Crit, 25% Armor Pen) | Eclipse I (250% dmg, execute <10%) |
-| **T6** | `SpireAcolyte` | 100% DEX, 60% CON | Cull the Weak I (+15% Crit, 30% Armor Pen, +30% vs wounded) | Eclipse II (275% dmg, execute <15%) |
-| **T7** | `SpireLeader` | 100% DEX, 60% CON | Cull the Weak II (+20% Crit, 35% Armor Pen, +45% vs wounded) | Eclipse III (300% dmg, execute <20%) |
-| **T8** | `SpireSage` | 100% DEX, 60% CON | Phantom Lethality I (+20% Crit, 40% Armor Pen, +60% vs wounded, Trap Disarm) | Eclipse III (325% dmg, execute <25%) |
-| **T9** | `Whisper` | 100% DEX, 60% CON | Phantom Lethality II (+25% Crit, 50% Armor Pen, +75% vs wounded, True Execute <25%) | Eclipse IV (350% dmg, execute <30%, recast on kill) |
+| **T4** | `Assassin` | 100% DEX + 100% CON | *Vanilla Untouched* (`PASSIVE_INFILTRATOR`) | `ACTIVE_BACKSTAB_III` |
+| **T5** | `SpireInitiate` | 100% DEX + 100% CON | Phantom Instinct I (Lowest % HP, 20% DEF ignore, +45% vs wounded, Riposte on kill) | Eclipse I (1.10x dmg, 3.0x crit amp, +1 Riposte, execute <10%) |
+| **T6** | `SpireAcolyte` | 100% DEX + 100% CON | Phantom Instinct II (Lowest % HP, 25% DEF ignore, +50% vs wounded, Riposte on kill) | Eclipse II (1.20x dmg, 3.0x crit amp, +1 Riposte, execute <15%) |
+| **T7** | `SpireLeader` | 100% DEX + 100% CON | Phantom Instinct III (Lowest % HP, 30% DEF ignore, +55% vs wounded, Riposte on kill) | Eclipse III (1.30x dmg, 3.0x crit amp, +1 Riposte, execute <20%) |
+| **T8** | `SpireSage` | 100% DEX + 100% CON | Phantom Lethality I (Lowest % HP, 35% DEF ignore, +60% vs wounded, Riposte on kill) | Eclipse III (1.30x dmg, 3.0x crit amp, +1 Riposte, execute <20%) |
+| **T9** | `Whisper` | 100% DEX + 100% CON | Phantom Lethality II (Lowest % HP, 40% DEF ignore, +70% vs wounded, Riposte on kill) | Eclipse IV (1.40x dmg, 3.0x crit amp, +1 Riposte, execute <25%, recast on kill) |
 
 ---
 
-## Proposed Changes
+## 8. Implementation Checklist
 
-### Resources & Localization
-- Add string resources in `strings.xml`:
-  - `passive_shadow_stalker_i_name` / `_description`
-  - `passive_cull_the_weak_i_name` / `_description`
-  - `passive_phantom_lethality_name` / `_description`
+### Phase 1: Status Effect & Strings
+- [ ] Add `RIPOSTE` to `StatusEffectType`:
+  - `status_effect_riposte` ("Riposte")
+  - `status_effect_riposte_description` ("Dodges the next incoming attack by 100% and immediately counter-attacks. Stacks up to 5.")
+  - Vector/drawable icon `icon_effect_riposte`.
+- [ ] Add passive strings for `Phantom Instinct I–III` and `Phantom Lethality I–II` in `strings.xml`.
+- [ ] Register new passives in `Skills.kt`.
 
-### Skills & Enums
-- Add in `Skills.kt`:
-  - `PASSIVE_SHADOW_STALKER_I`, `PASSIVE_SHADOW_STALKER_II`
-  - `PASSIVE_CULL_THE_WEAK_I`, `PASSIVE_CULL_THE_WEAK_II`
-  - `PASSIVE_PHANTOM_LETHALITY_I`, `PASSIVE_PHANTOM_LETHALITY_II`
+### Phase 2: Combat Engine (`Area.kt`)
+- [ ] **Riposte Resolution in `dealDamage()` / `dodge()`**:
+  - If defender has `StatusEffectType.RIPOSTE`:
+    - Automatically succeeds dodge check (`100%`).
+    - Consumes 1 stack of Riposte (removes if stacks == 0).
+    - Triggers counterattack: `dealDamage(defender, attacker, null, null)`.
+    - Triggers dodge hooks (e.g. Doctrine of Illusion's False Life).
+- [ ] **Riposte Gain Hooks**:
+  - In `cast()` for `ACTIVE_ECLIPSE_I..IV`: Add +1 stack of Riposte to caster (cap 5).
+  - In `checkDeath()` / on kill: If killer has `Phantom Instinct` or `Phantom Lethality`, add +1 stack of Riposte (cap 5).
+- [ ] **Active Eclipse Damage Multipliers**:
+  - `1.10x` (T5), `1.20x` (T6), `1.30x` (T7/T8), `1.40x` (T9).
 
-### Adventurer Units
-- Assign new passives, base stats, and weapon scalings in `Assassin.kt`, `SpireInitiate.kt`, `SpireAcolyte.kt`, `SpireLeader.kt`, `SpireSage.kt`, and `Whisper.kt`.
+### Phase 3: Unit Configuration
+- [ ] Configure `SpireInitiate.kt`, `SpireAcolyte.kt`, `SpireLeader.kt`, `SpireSage.kt`, and `Whisper.kt`.
+- [ ] Leave `Assassin.kt` untouched.
 
-### Combat Engine (`Area.kt` & `Entity.kt`)
-- In `Area.kt`: implement missing-HP damage amplification, defense ignore calculation, and Eclipse execution chaining in `cast()`.
-
----
-
-## Verification Plan
-
-### Automated Tests
-- Unit tests in `app/src/test/kotlin/`:
-  - Verify missing-HP damage scaling against targets at various HP levels.
-  - Verify 50% defense penetration on Whisper.
-  - Verify Eclipse instant execution and recast-on-kill chaining.
+### Phase 4: Unit Tests
+- [ ] Unit tests for:
+  - Riposte stack capping (max 5).
+  - Guaranteed dodge and immediate counterattack on incoming attack.
+  - Stack accumulation on skill use and on kill (1 kill = 2 stacks, 2 kills via recast = 4 stacks).
+  - Doctrine of Illusion False Life triggering from Riposte dodge.
+  - Active damage progression (+10% per tier).

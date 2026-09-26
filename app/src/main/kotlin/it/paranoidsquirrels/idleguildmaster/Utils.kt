@@ -652,9 +652,13 @@ object Utils {
             d.blackMarketMissedDays = 0
             refreshBlackMarketStock()
         } else {
+            d.isBlackMarketActive = false
+            d.isNewBlackMarketItems = false
+            d.blackMarketStock.clear()
             d.blackMarketMissedDays += 1
+            MainActivity.shownDialogBlackMarket?.dismiss()
         }
-        (MainActivity.dungeonsFragment?.activity as? MainActivity)?.refreshIcons()
+        ((MainActivity.dungeonsFragment?.activity as? MainActivity) ?: (MainActivity.headquartersFragment.activity as? MainActivity))?.refreshIcons()
     }
 
     /**
