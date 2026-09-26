@@ -20,7 +20,8 @@ object ModChangelogActive {
         ),
         version("1.3.14.1", "26/9/2026",
             "Rebalance the spawn chance of fish in The Slumbering Shallows.",
-            "Rebalance the drop chance of fish in The Slumbering Shallows."
+            "Rebalance the drop chance of fish in The Slumbering Shallows.",
+            "Rebalance the drop chance of Coin Purse"
         ),
         version("1.3.14.0", "25/9/2026",
             "New Guild Activity: The Slumbering Shallows — an enchanted, murky fishing pond in the Guild Activities tab (beside The Hunt and The Siege) where a 4-adventurer party casts lines continuously until recalled or wiped. No floors, no boss chambers, no gem refills — always accessible.",
