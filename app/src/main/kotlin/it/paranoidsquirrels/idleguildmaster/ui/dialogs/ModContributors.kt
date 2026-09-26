@@ -34,6 +34,12 @@ object ModContributors {
             github = "Lemoinie",
             discord = "https://discord.gg/qj7b4b7h"
         ),
+            ModContributor(
+            name = "Angyy",
+            role = ContributorRole.CORE_DEV,
+            description = "Programmer.",
+            discord = "kindanotfun"
+        ),
         // New contributors can be added here cleanly as 1 line
         ModContributor(
             name = "Taine.Andrew",
