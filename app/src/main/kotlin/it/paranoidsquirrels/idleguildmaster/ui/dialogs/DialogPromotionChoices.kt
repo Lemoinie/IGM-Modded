@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
 import androidx.viewbinding.ViewBinding
 import it.paranoidsquirrels.idleguildmaster.AchievementsUtils
+import it.paranoidsquirrels.idleguildmaster.Formulas
 import it.paranoidsquirrels.idleguildmaster.MainActivity
 import it.paranoidsquirrels.idleguildmaster.R
 import it.paranoidsquirrels.idleguildmaster.UIUtils
@@ -41,6 +42,40 @@ class DialogPromotionChoices : CustomDialog() {
             }
             val context = customDialog.context ?: return
             val isAscension = adventurer2.isAscended() && !adventurer.isAscended()
+
+            var extraItems = 0
+            val oldWeapon = adventurer.weapon
+            if (!adventurer2.isWeaponSuitable(oldWeapon)) {
+                if (oldWeapon != null && !Utils.isDefaultWeapon(oldWeapon) && !MainActivity.data.items.contains(oldWeapon)) {
+                    extraItems++
+                }
+            }
+            val oldArmor = adventurer.armor
+            if (!adventurer2.isArmorSuitable(oldArmor)) {
+                if (oldArmor != null && !MainActivity.data.items.contains(oldArmor)) {
+                    extraItems++
+                }
+            }
+            val storageSpaces = Formulas.storageSpaces()
+            val needed = (MainActivity.data.items.size + extraItems) - storageSpaces
+            if (needed > 0) {
+                if (MainActivity.shownDialogFullStorage != null) {
+                    return
+                }
+                val dialog = UIUtils.getInfoDialog(
+                    context,
+                    R.string.no_storage_space_title,
+                    String.format(context.getString(R.string.no_storage_space_body_promote), needed),
+                    false
+                )
+                MainActivity.shownDialogFullStorage = dialog
+                dialog.setOnDismissListener {
+                    MainActivity.shownDialogFullStorage = null
+                }
+                dialog.show()
+                return
+            }
+
             var message = String.format(
                 context.getString(if (isAscension) R.string.adventurers_dialog_confirm_ascension_message else R.string.adventurers_dialog_confirm_promotion_message),
                 context.getString(adventurer.idName),
@@ -55,8 +90,31 @@ class DialogPromotionChoices : CustomDialog() {
                 message,
                 if (isAscension) R.string.adventurers_dialog_confirm_ascension_ok else R.string.adventurers_dialog_confirm_promotion_ok
             ) { _, _ ->
+                val oldWeapon = adventurer.weapon
+                if (!adventurer2.isWeaponSuitable(oldWeapon)) {
+                    if (oldWeapon != null && !Utils.isDefaultWeapon(oldWeapon)) {
+                        Utils.collectItem(oldWeapon, MainActivity.data.items)
+                    }
+                    adventurer2.weapon = Utils.getDefaultWeapon(adventurer2.weaponType)
+                }
+
+                val oldArmor = adventurer.armor
+                if (!adventurer2.isArmorSuitable(oldArmor)) {
+                    if (oldArmor != null) {
+                        Utils.collectItem(oldArmor, MainActivity.data.items)
+                    }
+                    adventurer2.armor = null
+                }
+
+                val totalMaxHp = adventurer2.calculateTotalMaxHp()
+                if (adventurer2.currentHp > totalMaxHp) {
+                    adventurer2.currentHp = totalMaxHp
+                }
+
                 MainActivity.data.adventurers[index] = adventurer2
                 MainActivity.adventurersFragment?.refresh()
+                MainActivity.headquartersFragment?.refresh()
+                MainActivity.shownDialogStorage?.update()
                 unlockTierAchievements(adventurer2.maxLevel / 5)
                 if (!MainActivity.data.isEverAscended && isAscension) {
                     MainActivity.data.isEverAscended = true
@@ -151,6 +209,12 @@ class DialogPromotionChoices : CustomDialog() {
                 adv.doctrine,
                 adv.isAscended()
             ) ?: continue
+            if (!nextAdv.isWeaponSuitable(nextAdv.weapon)) {
+                nextAdv.weapon = Utils.getDefaultWeapon(nextAdv.weaponType)
+            }
+            if (!nextAdv.isArmorSuitable(nextAdv.armor)) {
+                nextAdv.armor = null
+            }
             val promoBinding = LayoutAdventurerPromotionBinding.inflate(layoutInflater, b.promotionPossibilities, false)
             if (nextAdv.isAscended()) {
                 promoBinding.containerAdventurer.setBackgroundResource(R.drawable.object_border_ascended)

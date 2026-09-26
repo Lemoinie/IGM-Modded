@@ -14,6 +14,12 @@ import it.paranoidsquirrels.idleguildmaster.ui.dialogs.ModChangelog.version
 object ModChangelogActive {
 
     val ENTRIES: List<VersionEntry> = listOf(
+        version("1.3.14.4", "26/9/2026",
+            "Adventurer Promotion Equipment Compatibility: Promoting, ascending, or rejuvenating an adventurer now automatically unequips and refunds incompatible weapons and armor to storage instead of keeping illegal equipment.",
+            "Storage Full Interception: If storage does not have enough space for unequipped weapons or armor, promotion warns with a Full Storage dialog and is blocked until space is freed, preventing item loss or overflow.",
+            "Default starter weapons (Spade, Cane, Sickle, TrainingBow) are cleanly swapped without cluttering storage, while crafted/found weapons and armor are safely collected back into inventory.",
+            "Save Load Auto-Sanitization: Loading a save file automatically validates and refunds any incompatible equipment on adventurers."
+        ),
          version("1.3.14.3", "26/9/2026",
             "Fixed Black Market persistence: the Black Market now properly departs at daily reset when its arrival roll misses, instead of remaining active indefinitely after arrival or redeeming the BLACK dev code.",
             "Added BLACK OFF / BLACK CLOSE dev command to manually close the Black Market.",

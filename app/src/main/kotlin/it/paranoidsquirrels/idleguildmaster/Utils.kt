@@ -1051,6 +1051,13 @@ object Utils {
         }
     }
 
+    @JvmStatic
+    fun isDefaultWeapon(weapon: Weapon?): Boolean {
+        if (weapon == null) return false
+        val defaultForType = getDefaultWeapon(weapon.printType())
+        return defaultForType != null && defaultForType.getTrueClass() == weapon.getTrueClass()
+    }
+
     /**
      * Scales a raw auto-feed feed-power amount by the Shelter Effectiveness bonus
      * (Formulas.getShelterEffectivenessPercent), rounded to the nearest integer.

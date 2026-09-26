@@ -3185,6 +3185,7 @@ Adventurers' HP are fully restored."</string>
     <string name="no_storage_space_body_craft">You need to free 1 storage space before you can collect this item.</string>
     <string name="no_storage_space_body_dismiss">You need to free %d storage space before you can dismiss this adventurer.</string>
     <string name="no_storage_space_body_loot">You need to free %d storage space before you can collect this loot.</string>
+    <string name="no_storage_space_body_promote">You need to free %d storage space before you can promote this adventurer.</string>
     <string name="no_storage_space_body_swap">You need to free 1 storage space before you can equip this item.</string>
     <string name="no_storage_space_body_unequip">You need to free 1 storage space before you can un-equip this item.</string>
     <string name="no_storage_space_title">Full Storage!</string>

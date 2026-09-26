@@ -1732,4 +1732,125 @@ class ModFeaturesTest {
         assertNotNull("Regeneration must be listed as a positive effect", regen)
         assertEquals(2, regen!!.turnsLeft)
     }
+
+    @Test
+    fun testIsDefaultWeapon() {
+        val spade = Item.getInstance("Spade") as? it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Weapon
+        val cane = Item.getInstance("Cane") as? it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Weapon
+        val sickle = Item.getInstance("Sickle") as? it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Weapon
+        val bow = Item.getInstance("TrainingBow") as? it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Weapon
+        val copperSword = Item.getInstance("CopperSword") as? it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Weapon
+
+        assertTrue(Utils.isDefaultWeapon(spade))
+        assertTrue(Utils.isDefaultWeapon(cane))
+        assertTrue(Utils.isDefaultWeapon(sickle))
+        assertTrue(Utils.isDefaultWeapon(bow))
+        assertFalse(Utils.isDefaultWeapon(copperSword))
+        assertFalse(Utils.isDefaultWeapon(null))
+    }
+
+    @Test
+    fun testEquipmentSuitabilityHelpers() {
+        val footman = Adventurer.getInstance("Footman", 1, 1, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+        val spade = Item.getInstance("Spade") as? it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Weapon
+        val cane = Item.getInstance("Cane") as? it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Weapon
+        val heavyArmor = Item.getInstance("CopperArmor") as? it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Armor
+        val lightArmor = Item.getInstance("ClothRobe") as? it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Armor
+
+        assertTrue("Footman must accept sword", footman.isWeaponSuitable(spade))
+        assertFalse("Footman must reject staff", footman.isWeaponSuitable(cane))
+        assertFalse("Null weapon is not suitable", footman.isWeaponSuitable(null))
+
+        assertTrue("Footman must accept heavy armor", footman.isArmorSuitable(heavyArmor))
+        assertFalse("Footman must reject light armor", footman.isArmorSuitable(lightArmor))
+        assertTrue("Null armor is always allowed", footman.isArmorSuitable(null))
+    }
+
+    @Test
+    fun testPromotionUnequipsIncompatibleGearAndCollectsToStorage() {
+        val copperSword = Item.getInstance("CopperSword") as it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Weapon
+        val copperArmor = Item.getInstance("CopperArmor") as it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Armor
+        val oldAdv = Adventurer.getInstance("Footman", 1, 1, 0, copperSword, copperArmor, null, null, null, PotionsDrank(), null, false)!!
+        val newAdv = Adventurer.getInstance("Apprentice", 1, 1, 0, oldAdv.weapon, oldAdv.armor, null, null, null, PotionsDrank(), null, false)!!
+
+        MainActivity.data.items.clear()
+
+        // Simulate promotion check logic from DialogPromotionChoices
+        val oldWeapon = oldAdv.weapon
+        if (!newAdv.isWeaponSuitable(oldWeapon)) {
+            if (oldWeapon != null && !Utils.isDefaultWeapon(oldWeapon)) {
+                Utils.collectItem(oldWeapon, MainActivity.data.items)
+            }
+            newAdv.weapon = Utils.getDefaultWeapon(newAdv.weaponType)
+        }
+
+        val oldArmor = oldAdv.armor
+        if (!newAdv.isArmorSuitable(oldArmor)) {
+            if (oldArmor != null) {
+                Utils.collectItem(oldArmor, MainActivity.data.items)
+            }
+            newAdv.armor = null
+        }
+
+        assertEquals("New class must receive Cane default staff", "Cane", newAdv.weapon?.getTrueClass())
+        assertNull("New class must have null armor after incompatible heavy armor unequip", newAdv.armor)
+        assertTrue("CopperSword must be collected into storage", MainActivity.data.items.any { it.getTrueClass() == "CopperSword" })
+        assertTrue("CopperArmor must be collected into storage", MainActivity.data.items.any { it.getTrueClass() == "CopperArmor" })
+    }
+
+    @Test
+    fun testPromotionDefaultWeaponNotCollectedToStorage() {
+        val spade = Item.getInstance("Spade") as it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Weapon
+        val oldAdv = Adventurer.getInstance("Footman", 1, 1, 0, spade, null, null, null, null, PotionsDrank(), null, false)!!
+        val newAdv = Adventurer.getInstance("Apprentice", 1, 1, 0, oldAdv.weapon, null, null, null, null, PotionsDrank(), null, false)!!
+
+        MainActivity.data.items.clear()
+
+        val oldWeapon = oldAdv.weapon
+        if (!newAdv.isWeaponSuitable(oldWeapon)) {
+            if (oldWeapon != null && !Utils.isDefaultWeapon(oldWeapon)) {
+                Utils.collectItem(oldWeapon, MainActivity.data.items)
+            }
+            newAdv.weapon = Utils.getDefaultWeapon(newAdv.weaponType)
+        }
+
+        assertEquals("New class must receive Cane", "Cane", newAdv.weapon?.getTrueClass())
+        assertTrue("Default Spade must not be collected into storage", MainActivity.data.items.none { it.getTrueClass() == "Spade" })
+    }
+
+    @Test
+    fun testPromotionStorageFullCheck() {
+        val copperSword = Item.getInstance("CopperSword") as it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Weapon
+        val copperArmor = Item.getInstance("CopperArmor") as it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Armor
+        val oldAdv = Adventurer.getInstance("Footman", 1, 1, 0, copperSword, copperArmor, null, null, null, PotionsDrank(), null, false)!!
+        val newAdv = Adventurer.getInstance("Apprentice", 1, 1, 0, oldAdv.weapon, oldAdv.armor, null, null, null, PotionsDrank(), null, false)!!
+
+        // Fill storage to max capacity with dummy items
+        val maxSpaces = Formulas.storageSpaces()
+        MainActivity.data.items.clear()
+        for (i in 0 until maxSpaces) {
+            MainActivity.data.items.add(Item.getInstance("Wood", 1)!!)
+        }
+        assertEquals(maxSpaces, MainActivity.data.items.size)
+
+        var extraItems = 0
+        val oldWeapon = oldAdv.weapon
+        if (!newAdv.isWeaponSuitable(oldWeapon)) {
+            if (oldWeapon != null && !Utils.isDefaultWeapon(oldWeapon) && !MainActivity.data.items.contains(oldWeapon)) {
+                extraItems++
+            }
+        }
+        val oldArmor = oldAdv.armor
+        if (!newAdv.isArmorSuitable(oldArmor)) {
+            if (oldArmor != null && !MainActivity.data.items.contains(oldArmor)) {
+                extraItems++
+            }
+        }
+
+        assertEquals("Two items need to be returned to storage", 2, extraItems)
+        val needed = (MainActivity.data.items.size + extraItems) - maxSpaces
+        assertEquals("Needed space must be 2", 2, needed)
+    }
 }
+
+

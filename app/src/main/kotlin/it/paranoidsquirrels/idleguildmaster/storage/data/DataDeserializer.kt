@@ -10,6 +10,7 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.google.gson.JsonParseException
 import it.paranoidsquirrels.idleguildmaster.KingMessage
+import it.paranoidsquirrels.idleguildmaster.Utils
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.StatusEffect
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.StatusEffectType
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.Adventurer
@@ -455,6 +456,25 @@ this.data.theTower = getArea(TheTower::class.java, asJsonObject, "theTower")
         if (this.data.seenItems.contains("ScarletStrand")) {
             this.data.sanguineCrucible?.isUnlocked = true
         }
+
+        // Sanitize adventurer equipment in case a class promotion or mod update altered weapon/armor restrictions
+        for (adv in this.data.adventurers) {
+            val weapon = adv.weapon
+            if (!adv.isWeaponSuitable(weapon)) {
+                if (weapon != null && !Utils.isDefaultWeapon(weapon)) {
+                    Utils.collectItem(weapon, this.data.items)
+                }
+                adv.weapon = Utils.getDefaultWeapon(adv.weaponType)
+            }
+            val armor = adv.armor
+            if (!adv.isArmorSuitable(armor)) {
+                if (armor != null) {
+                    Utils.collectItem(armor, this.data.items)
+                }
+                adv.armor = null
+            }
+        }
+
         return this.data
     }
 
