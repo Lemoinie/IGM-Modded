@@ -86,13 +86,13 @@ class TheSlumberingShallowsArea : Area() {
     }
 
 
-    /** Ambient gathering between casts: 25% Perch, 10% sunken CoinPurse. */
+    /** Ambient gathering between casts: 25% Perch, 5% sunken CoinPurse. */
     public override fun searchRoom() {
         val dRandom = Utils.random() * 1000.0
         if (dRandom < 250.0) {
             Logger.log(this, Logger.EVENT_BENEFICIAL, R.string.log_slumbering_shallows_found_perch)
             Item.getInstance("Perch", 1)?.let { collectItemFromGround(it) }
-        } else if (dRandom < 350.0) {
+        } else if (dRandom < 300.0) {
             Logger.log(this, Logger.EVENT_BENEFICIAL, R.string.log_slumbering_shallows_found_coin_purse)
             Item.getInstance("CoinPurse", 1)?.let { collectItemFromGround(it) }
         } else {
