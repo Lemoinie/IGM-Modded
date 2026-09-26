@@ -235,6 +235,17 @@ abstract class Adventurer : Entity() {
 
     open fun getWeaponType(): Int = weaponType
     open fun getArmorType(): Int = armorType
+
+    open fun isWeaponSuitable(w: Weapon?): Boolean {
+        if (w == null) return false
+        if (doctrine?.canUseAllWeapons() == true) return true
+        return w.printType() == weaponType
+    }
+
+    open fun isArmorSuitable(a: Armor?): Boolean {
+        if (a == null) return true
+        return a.printType() == armorType
+    }
     open fun getMinionBound(): Adventurer? = minionBound
     open fun setMinionBound(adventurer: Adventurer?) {
         minionBound = adventurer
