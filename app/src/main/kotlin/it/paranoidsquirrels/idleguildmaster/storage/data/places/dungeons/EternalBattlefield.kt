@@ -29,11 +29,7 @@ class EternalBattlefield : Area() {
     override fun rollEnemies(): MutableList<Enemy> {
         val dRandom = Utils.random() * 1000.0
         val key = event?.key ?: 0
-        if (key != 0) {
-            if (key == 1) {
-                return CopyOnWriteArrayList(listOfNotNull(Enemy.getInstance("WillOWisp")))
-            }
-        } else {
+        if (key == 0 || key == 1) {
             if (dRandom >= 580.0) {
                 return CopyOnWriteArrayList()
             }
