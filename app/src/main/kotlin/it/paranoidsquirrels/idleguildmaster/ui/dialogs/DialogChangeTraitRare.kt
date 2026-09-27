@@ -46,7 +46,8 @@ class DialogChangeTraitRare : CustomDialog() {
             Trait.EMPATHETIC, Trait.GIFTED, Trait.INTIMIDATING, Trait.FOCUSED,
             Trait.DRAGON_BLOOD, Trait.CURSED, Trait.REACTIVE, Trait.NOCTURNAL,
             Trait.MINDFUL, Trait.TROLL_BLOOD, Trait.NIMBLE, Trait.RUTHLESS,
-            Trait.BLESSED, Trait.ALERT, Trait.RUTHLESS_PLUS
+            Trait.BLESSED, Trait.ALERT, Trait.RUTHLESS_PLUS,
+            Trait.DEADEYE, Trait.SUNDERING, Trait.FORTIFIED, Trait.RECKLESS, Trait.LONE_WOLF
         )
         adv.traitRare?.let { traits.remove(it) }
         b.list.removeAllViews()

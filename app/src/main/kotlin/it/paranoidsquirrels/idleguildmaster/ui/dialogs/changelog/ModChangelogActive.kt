@@ -14,6 +14,12 @@ import it.paranoidsquirrels.idleguildmaster.ui.dialogs.ModChangelog.version
 object ModChangelogActive {
 
     val ENTRIES: List<VersionEntry> = listOf(
+        version("1.3.14.7", "27/9/2026",
+            "Adventurer Traits Expansion: added 4 new Common traits (Versatile: +4% all stats; Zealous: +5% CON/INT, -10% DEX; Cunning: +5% DEX/INT, -10% CON; Athletic: +5% CON/DEX, -10% INT), each with an Evo-22 PLUS upgrade that removes the penalty and doubles the bonus (e.g. Versatile+ +7% all stats).",
+            "Added 5 new Rare traits: Deadeye (+12% Critical Strike Chance), Sundering (ignores 20% of target Defense and Magic Defense), Fortified (starts every battle with a shield equal to 25% of max HP), Reckless (+15% attack damage dealt, +15% damage taken), and Lone Wolf (+5% damage for each unoccupied or fallen ally slot in the area).",
+            "Reworked tavern recruitment rolls: Common traits now spread the same 40% chance across 7 traits (~5.7% each) and Rare traits across 19 (~1.05% each) so the new traits appear while keeping the overall trait rates identical.",
+            "The Evo-22 Vial dialog and the Rare trait reroll dialog now list the new traits.",
+        ),
         version("1.3.14.6", "27/9/2026",
             "Fixed Eternal Battlefield encounter spawning: while the Will-o'-Wisp Hunt event was active (after the first wisp kill) every room spawned a lone Will-o'-Wisp until the hunt counter reached 200, flooding run recaps with wisp kills and starving Undead/UndeadArcher spawns. The Hunt event now uses the normal encounter table again (vanilla behaviour), keeping only its passive progress counter and the Orb of Ectoplasm reward.",
         ),

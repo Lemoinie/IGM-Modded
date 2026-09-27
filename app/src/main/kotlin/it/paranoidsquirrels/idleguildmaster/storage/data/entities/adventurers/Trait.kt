@@ -13,6 +13,14 @@ enum class Trait(
     BOOKWORM_PLUS(R.string.trait_bookworm_plus_name, R.string.trait_bookworm_plus_description),
     BRUTE_PLUS(R.string.trait_brute_plus_name, R.string.trait_brute_plus_description),
     FERAL_PLUS(R.string.trait_feral_plus_name, R.string.trait_feral_plus_description),
+    VERSATILE(R.string.trait_versatile_name, R.string.trait_versatile_description),
+    VERSATILE_PLUS(R.string.trait_versatile_plus_name, R.string.trait_versatile_plus_description),
+    ZEALOUS(R.string.trait_zealous_name, R.string.trait_zealous_description),
+    ZEALOUS_PLUS(R.string.trait_zealous_plus_name, R.string.trait_zealous_plus_description),
+    CUNNING(R.string.trait_cunning_name, R.string.trait_cunning_description),
+    CUNNING_PLUS(R.string.trait_cunning_plus_name, R.string.trait_cunning_plus_description),
+    ATHLETIC(R.string.trait_athletic_name, R.string.trait_athletic_description),
+    ATHLETIC_PLUS(R.string.trait_athletic_plus_name, R.string.trait_athletic_plus_description),
     EMPATHETIC(R.string.trait_empathetic_name, R.string.trait_empathetic_description),
     GIFTED(R.string.trait_gifted_name, R.string.trait_gifted_description),
     INTIMIDATING(R.string.trait_intimidating_name, R.string.trait_intimidating_description),
@@ -27,6 +35,11 @@ enum class Trait(
     RUTHLESS(R.string.trait_ruthless_name, R.string.trait_ruthless_description),
     BLESSED(R.string.trait_blessed_name, R.string.trait_blessed_description),
     ALERT(R.string.trait_alert_name, R.string.trait_alert_description),
+    DEADEYE(R.string.trait_deadeye_name, R.string.trait_deadeye_description),
+    SUNDERING(R.string.trait_sundering_name, R.string.trait_sundering_description),
+    FORTIFIED(R.string.trait_fortified_name, R.string.trait_fortified_description),
+    RECKLESS(R.string.trait_reckless_name, R.string.trait_reckless_description),
+    LONE_WOLF(R.string.trait_lone_wolf_name, R.string.trait_lone_wolf_description),
     RUTHLESS_PLUS(R.string.trait_ruthless_plus_name, R.string.trait_ruthless_plus_description);
 
     companion object {

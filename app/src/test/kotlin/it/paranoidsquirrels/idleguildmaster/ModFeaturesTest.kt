@@ -24,6 +24,7 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.items.instances.*
 import it.paranoidsquirrels.idleguildmaster.storage.data.pets.Pet
 import it.paranoidsquirrels.idleguildmaster.storage.data.pets.PetAbility
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.Area
+import it.paranoidsquirrels.idleguildmaster.storage.data.places.Action
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.Event
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.dungeons.TheGoldenCity
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.dungeons.EnchantedForest
@@ -1892,6 +1893,235 @@ class ModFeaturesTest {
         dire.maxProgress = 6
         dire.drops.clear()
         assertTrue("The Dire Descent should be marked completed at maxProgress 6 with no drops", dire.completed())
+    }
+
+    // ==================== 1.3.14.7 Adventurer Traits Expansion ====================
+
+    @Test
+    fun testVersatileStatScaling() {
+        val raw = Adventurer.getInstance("Footman", 1, 40, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+        val con = raw.calculateTotalConstitution()
+        val int = raw.calculateTotalIntelligence()
+        val dex = raw.calculateTotalDexterity()
+
+        val base = Adventurer.getInstance("Footman", 1, 40, 0, null, null, null, Trait.VERSATILE, null, PotionsDrank(), null, false)!!
+        assertEquals(Utils.round(con * 1.04), base.calculateTotalConstitution())
+        assertEquals(Utils.round(int * 1.04), base.calculateTotalIntelligence())
+        assertEquals(Utils.round(dex * 1.04), base.calculateTotalDexterity())
+
+        val plus = Adventurer.getInstance("Footman", 1, 40, 0, null, null, null, Trait.VERSATILE_PLUS, null, PotionsDrank(), null, false)!!
+        assertEquals(Utils.round(con * 1.07), plus.calculateTotalConstitution())
+        assertEquals(Utils.round(int * 1.07), plus.calculateTotalIntelligence())
+        assertEquals(Utils.round(dex * 1.07), plus.calculateTotalDexterity())
+    }
+
+    @Test
+    fun testZealousStatScaling() {
+        val raw = Adventurer.getInstance("Footman", 1, 40, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+        val con = raw.calculateTotalConstitution()
+        val int = raw.calculateTotalIntelligence()
+        val dex = raw.calculateTotalDexterity()
+
+        val base = Adventurer.getInstance("Footman", 1, 40, 0, null, null, null, Trait.ZEALOUS, null, PotionsDrank(), null, false)!!
+        assertEquals(Utils.round(con * 1.05), base.calculateTotalConstitution())
+        assertEquals(Utils.round(int * 1.05), base.calculateTotalIntelligence())
+        assertEquals(Utils.round(dex * 0.90), base.calculateTotalDexterity())
+
+        val plus = Adventurer.getInstance("Footman", 1, 40, 0, null, null, null, Trait.ZEALOUS_PLUS, null, PotionsDrank(), null, false)!!
+        assertEquals(Utils.round(con * 1.10), plus.calculateTotalConstitution())
+        assertEquals(Utils.round(int * 1.10), plus.calculateTotalIntelligence())
+        assertEquals(dex, plus.calculateTotalDexterity())
+    }
+
+    @Test
+    fun testCunningStatScaling() {
+        val raw = Adventurer.getInstance("Footman", 1, 40, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+        val con = raw.calculateTotalConstitution()
+        val int = raw.calculateTotalIntelligence()
+        val dex = raw.calculateTotalDexterity()
+
+        val base = Adventurer.getInstance("Footman", 1, 40, 0, null, null, null, Trait.CUNNING, null, PotionsDrank(), null, false)!!
+        assertEquals(Utils.round(con * 0.90), base.calculateTotalConstitution())
+        assertEquals(Utils.round(int * 1.05), base.calculateTotalIntelligence())
+        assertEquals(Utils.round(dex * 1.05), base.calculateTotalDexterity())
+
+        val plus = Adventurer.getInstance("Footman", 1, 40, 0, null, null, null, Trait.CUNNING_PLUS, null, PotionsDrank(), null, false)!!
+        assertEquals(con, plus.calculateTotalConstitution())
+        assertEquals(Utils.round(int * 1.10), plus.calculateTotalIntelligence())
+        assertEquals(Utils.round(dex * 1.10), plus.calculateTotalDexterity())
+    }
+
+    @Test
+    fun testAthleticStatScaling() {
+        val raw = Adventurer.getInstance("Footman", 1, 40, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+        val con = raw.calculateTotalConstitution()
+        val int = raw.calculateTotalIntelligence()
+        val dex = raw.calculateTotalDexterity()
+
+        val base = Adventurer.getInstance("Footman", 1, 40, 0, null, null, null, Trait.ATHLETIC, null, PotionsDrank(), null, false)!!
+        assertEquals(Utils.round(con * 1.05), base.calculateTotalConstitution())
+        assertEquals(Utils.round(int * 0.90), base.calculateTotalIntelligence())
+        assertEquals(Utils.round(dex * 1.05), base.calculateTotalDexterity())
+
+        val plus = Adventurer.getInstance("Footman", 1, 40, 0, null, null, null, Trait.ATHLETIC_PLUS, null, PotionsDrank(), null, false)!!
+        assertEquals(Utils.round(con * 1.10), plus.calculateTotalConstitution())
+        assertEquals(int, plus.calculateTotalIntelligence())
+        assertEquals(Utils.round(dex * 1.10), plus.calculateTotalDexterity())
+    }
+
+    @Test
+    fun testDeadeyeCritChance() {
+        val hero = Adventurer.getInstance("Footman", 1, 40, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+        val base = hero.calculateCriticalChance()
+        hero.traitRare = Trait.DEADEYE
+        assertEquals("Deadeye must add +12% crit chance", base + 0.12, hero.calculateCriticalChance(), 0.0001)
+    }
+
+    @Test
+    fun testSunderingArmorIgnored() {
+        val hero = Adventurer.getInstance("Footman", 1, 40, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+        val base = hero.getArmorIgnored()
+        hero.traitRare = Trait.SUNDERING
+        assertEquals("Sundering must ignore +20% armor", base + 0.20, hero.getArmorIgnored(), 0.0001)
+    }
+
+    @Test
+    fun testFortifiedBattleStartShield() {
+        val area = MainActivity.data.enchantedForest!!
+        // event key 1 makes EnchantedForest.rollEnemies() deterministically spawn a ForestSpirit
+        area.event = Event(Event.ENRAGED_SPIRIT)
+        val hero = Adventurer.getInstance("Footman", 1, 40, 0, null, null, null, null, Trait.FORTIFIED, PotionsDrank(), null, false)!!
+        hero.currentHp = hero.calculateTotalMaxHp()
+        MainActivity.data.adventurers.add(hero)
+        area.adventurersExploring.add(hero)
+        area.adventurersExploringIds.add(hero.id)
+        area.action = Action(Action.ENTER_ROOM)
+        // ENTER_ROOM completes after 5 ticks and calls initializeFight() which grants the shield
+        repeat(5) { area.tick() }
+        assertEquals(
+            "Fortified must start battle with a shield equal to 25% of max HP",
+            Utils.round(hero.calculateTotalMaxHp() * 0.25),
+            hero.currentShield
+        )
+    }
+
+    @Test
+    fun testRecklessDamageAndIncoming() {
+        val weapon = Item.getInstance("CopperSword", 1) as? it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Weapon
+        val plain = Adventurer.getInstance("Footman", 1, 40, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+        plain.weapon = weapon
+        val reckless = Adventurer.getInstance("Footman", 1, 40, 0, null, null, null, null, Trait.RECKLESS, PotionsDrank(), null, false)!!
+        reckless.weapon = weapon
+
+        val minPlain = plain.calculateMinAttackDamage()
+        val maxPlain = plain.calculateMaxAttackDamage()
+        // +15% outgoing attack damage (allow ±1 for float/double rounding)
+        assertTrue(
+            "Reckless min damage (${reckless.calculateMinAttackDamage()}) must be ~15% above plain ($minPlain)",
+            Math.abs(reckless.calculateMinAttackDamage() - Utils.round(minPlain * 1.15)) <= 1
+        )
+        assertTrue(
+            "Reckless max damage (${reckless.calculateMaxAttackDamage()}) must be ~15% above plain ($maxPlain)",
+            Math.abs(reckless.calculateMaxAttackDamage() - Utils.round(maxPlain * 1.15)) <= 1
+        )
+
+        // +15% incoming damage taken, with zero DEF/CON so the math is exact.
+        val plainHit = Adventurer.getInstance("Footman", 1, 40, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+        plainHit.baseDefense = 0
+        plainHit.baseConstitution = 0
+        plainHit.currentHp = 99999
+        val recklessHit = Adventurer.getInstance("Footman", 1, 40, 0, null, null, null, null, Trait.RECKLESS, PotionsDrank(), null, false)!!
+        recklessHit.baseDefense = 0
+        recklessHit.baseConstitution = 0
+        recklessHit.currentHp = 99999
+        val plainDmg = plainHit.applyDamage(1000.0, false, 0, 0.0)
+        val recklessDmg = recklessHit.applyDamage(1000.0, false, 0, 0.0)
+        assertEquals(1000, plainDmg)
+        assertEquals(Utils.round(1000 * 1.15), recklessDmg)
+    }
+
+    private fun loneWolfHero(): Adventurer {
+        val h = Adventurer.getInstance("Footman", 1, 40, 0, null, null, null, null, Trait.LONE_WOLF, PotionsDrank(), null, false)!!
+        h.alwaysHits = true
+        h.currentHp = 1000
+        return h
+    }
+
+    private fun loneWolfTarget(): Enemy {
+        val w = Enemy.getInstance("Wolf")!!
+        w.baseDefense = 0
+        w.baseMagicDefense = 0
+        w.baseConstitution = 0
+        w.currentHp = 999999
+        return w
+    }
+
+    @Test
+    fun testLoneWolfDynamicScaling() {
+        // 4-man dungeon, solo (0 living allies) -> +15%
+        val area4 = TheGoldenCity()
+        val solo = loneWolfHero()
+        val wolf1 = loneWolfTarget()
+        area4.adventurersExploring.add(solo)
+        area4.dealDamage(solo, wolf1, null, EndOfTurnAction.EXTRA_ATTACK_HP_TO_DAMAGE)
+        assertEquals("4-man solo = +15%", Utils.round(1000 * 1.15), 999999 - wolf1.currentHp)
+
+        // Full 4-man party, all allies alive -> +0%
+        val areaFull = TheGoldenCity()
+        val full = loneWolfHero()
+        val wolf2 = loneWolfTarget()
+        areaFull.adventurersExploring.add(full)
+        repeat(3) { areaFull.adventurersExploring.add(loneWolfHero().apply { currentHp = 99999 }) }
+        areaFull.dealDamage(full, wolf2, null, EndOfTurnAction.EXTRA_ATTACK_HP_TO_DAMAGE)
+        assertEquals("Full party disables the Lone Wolf bonus", Utils.round(1000 * 1.0), 999999 - wolf2.currentHp)
+
+        // 14-man raid, solo runner (13 empty slots) -> +65%
+        val area14 = SanguineCrucible()
+        val solo14 = loneWolfHero()
+        val wolf3 = loneWolfTarget()
+        area14.adventurersExploring.add(solo14)
+        area14.dealDamage(solo14, wolf3, null, EndOfTurnAction.EXTRA_ATTACK_HP_TO_DAMAGE)
+        assertEquals("14-man solo = +65%", Utils.round(1000 * 1.65), 999999 - wolf3.currentHp)
+
+        // 14-man raid, full roster with 3 fallen allies -> +15%
+        val area14b = SanguineCrucible()
+        val squad = loneWolfHero()
+        val wolf4 = loneWolfTarget()
+        area14b.adventurersExploring.add(squad)
+        repeat(10) { area14b.adventurersExploring.add(loneWolfHero().apply { currentHp = 99999 }) } // 10 alive
+        repeat(3) { area14b.adventurersExploring.add(loneWolfHero().apply { currentHp = 0 }) } // 3 fallen
+        area14b.dealDamage(squad, wolf4, null, EndOfTurnAction.EXTRA_ATTACK_HP_TO_DAMAGE)
+        assertEquals("14-man with 3 fallen = +15%", Utils.round(1000 * 1.15), 999999 - wolf4.currentHp)
+    }
+
+    @Test
+    fun testNewTraitsSerialization() {
+        val names = listOf(
+            "VERSATILE", "VERSATILE_PLUS", "ZEALOUS", "ZEALOUS_PLUS", "CUNNING", "CUNNING_PLUS",
+            "ATHLETIC", "ATHLETIC_PLUS", "DEADEYE", "SUNDERING", "FORTIFIED", "RECKLESS", "LONE_WOLF"
+        )
+        for (name in names) {
+            val trait = checkNotNull(Trait.fromString(name)) { "$name must deserialize via Trait.fromString" }
+            assertEquals(name, trait.name)
+        }
+    }
+
+    @Test
+    fun testNewCommonTraitEvo22UpgradeForms() {
+        val base = mapOf(
+            "VERSATILE" to "VERSATILE_PLUS",
+            "ZEALOUS" to "ZEALOUS_PLUS",
+            "CUNNING" to "CUNNING_PLUS",
+            "ATHLETIC" to "ATHLETIC_PLUS"
+        )
+        for ((baseName, plusName) in base) {
+            val baseTrait = checkNotNull(Trait.fromString(baseName)) { "$baseName must exist" }
+            val plusTrait = checkNotNull(Trait.fromString(plusName)) { "$plusName must exist" }
+            // The PLUS form's enhanced stat multipliers are covered by the stat-scaling tests;
+            // here we verify the save wire format round-trips on both ends.
+            assertEquals(baseTrait.name, Trait.fromString(baseTrait.name)?.name)
+            assertEquals(plusTrait.name, Trait.fromString(plusTrait.name)?.name)
+        }
     }
 }
 

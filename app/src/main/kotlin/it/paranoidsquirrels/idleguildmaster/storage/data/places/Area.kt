@@ -638,6 +638,13 @@ abstract class Area {
         this.fightRarity = UIUtils.getFightRarity(this.enemies)
         this.fightingGroup = ArrayList()
         applyRadiantBlessing()
+        // Fortified: starts every battle with a shield equal to 25% of Max HP.
+        for (adventurer in this.adventurersExploring) {
+            if (adventurer.currentHp > 0 && adventurer.traitRare == Trait.FORTIFIED) {
+                val shieldAmount = Utils.round(adventurer.calculateTotalMaxHp() * 0.25)
+                adventurer.currentShield = maxOf(adventurer.currentShield, shieldAmount)
+            }
+        }
     }
 
     /** Holy Knight-branch units radiate Radiant Blessing to the whole party at battle start. */
@@ -2462,6 +2469,14 @@ abstract class Area {
         // Radiant skills deal +50% bonus damage against Undead (T6-T9 actives).
         if (skill != null && entity2 is Enemy && entity2.getEnemyType() == EnemyType.UNDEAD) {
             livingCompanionBonusDamage *= skill.undeadDamageMultiplier
+        }
+        // Lone Wolf: +5% damage for each unoccupied or fallen ally slot in the area.
+        if (entity is Adventurer && entity.traitRare == Trait.LONE_WOLF) {
+            val livingAllies = this.adventurersExploring.count { it !== entity && it.currentHp > 0 }
+            val missingAllySlots = maxOf(0, adventurersNumber() - 1 - livingAllies)
+            if (missingAllySlots > 0) {
+                livingCompanionBonusDamage *= (1.0 + (missingAllySlots * 0.05))
+            }
         }
 
         var dCalculateCriticalMultiplier =
