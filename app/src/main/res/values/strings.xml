@@ -2002,6 +2002,12 @@ If you see an interesting unit but you prefer to recruit it later, you can freez
     <string name="headquarters_tavern_name">TAVERN</string>
     <string name="headquarters_tavern_upgrade_capacity">Capacity +1</string>
     <string name="headquarters_tavern_upgrade_time">Wait time -10%</string>
+    <string name="headquarters_tavern_attract_guest">Attract Guest</string>
+    <string name="headquarters_tavern_attract_guest_confirm_title">Attract Visitor</string>
+    <string name="headquarters_tavern_attract_guest_confirm_body" formatted="false">Spend %d Gems to summon a new adventurer to the Tavern immediately?</string>
+    <string name="headquarters_tavern_attract_guest_full_warning" formatted="false">Your Tavern is currently full. Summoning a new visitor will discard the oldest guest (%s). Proceed?</string>
+    <string name="headquarters_tavern_attract_guest_locked_title">Tavern Locked</string>
+    <string name="headquarters_tavern_attract_guest_locked_body">The Tavern is currently locked, so visitors would not normally arrive. Summon a new adventurer anyway?</string>
     <string name="headquarters_workshop_description_long_1">Queue slots: %d</string>
     <string name="headquarters_workshop_description_long_2">Speed modifier: × %s</string>
     <string name="headquarters_workshop_description_short" formatted="false">%d/%d completed</string>

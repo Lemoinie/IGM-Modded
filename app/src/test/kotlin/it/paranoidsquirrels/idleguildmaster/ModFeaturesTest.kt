@@ -30,6 +30,7 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.places.dungeons.TheGold
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.dungeons.EnchantedForest
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.raids.SanguineCrucible
 import it.paranoidsquirrels.idleguildmaster.ui.dialogs.DialogBattleStatusEffects
+import it.paranoidsquirrels.idleguildmaster.ui.dialogs.DialogTavern
 import it.paranoidsquirrels.idleguildmaster.ui.dialogs.ModChangelog
 import org.junit.Assert.*
 import org.junit.Before
@@ -2122,6 +2123,80 @@ class ModFeaturesTest {
             assertEquals(baseTrait.name, Trait.fromString(baseTrait.name)?.name)
             assertEquals(plusTrait.name, Trait.fromString(plusTrait.name)?.name)
         }
+    }
+
+    // ==================== 1.3.15.0 Tavern Instant Recruitment ====================
+
+    @Test
+    fun testTavernDevCodeFillsCapacity() {
+        MainActivity.data.tavernGuests.clear()
+        MainActivity.data.gems = 0L
+        val res = RedeemCodes.process("TAVERN", null)
+        assertEquals("Summoned ${Formulas.getTavernCapacity()} new Tavern visitor(s)!", res)
+        assertEquals(Formulas.getTavernCapacity(), MainActivity.data.tavernGuests.size)
+    }
+
+    @Test
+    fun testTavernDevCodeSingleAddsAtIndexZero() {
+        MainActivity.data.tavernGuests.clear()
+        val res = RedeemCodes.process("TAVERN 1", null)
+        assertEquals("Summoned 1 new Tavern visitor(s)!", res)
+        assertEquals(1, MainActivity.data.tavernGuests.size)
+        assertNotNull("New visitor must be placed at index 0", MainActivity.data.tavernGuests[0])
+    }
+
+    @Test
+    fun testTavernCapacityOverflowPushesOutOldest() {
+        val data = MainActivity.data
+        data.tavernGuests.clear()
+        data.levelTavernCapacity = 2 // capacity = level 2 + 1 base = 3
+        assertEquals(3, Formulas.getTavernCapacity())
+        val a = Adventurer.getInstance("Footman", -1, 1, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+        val b = Adventurer.getInstance("Rogue", -1, 1, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+        val c = Adventurer.getInstance("Archer", -1, 1, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+        // Tavern list order: newest guest at index 0, oldest guest at the bottom (last index).
+        data.tavernGuests.add(c) // newest at index 0
+        data.tavernGuests.add(b)
+        data.tavernGuests.add(a) // oldest, bottom of the list
+        assertSame(c, data.tavernGuests[0])
+        assertSame(a, data.tavernGuests[2])
+
+        Utils.newTavernVisitor() // a new visitor arrives at the front
+
+        assertEquals(3, data.tavernGuests.size)
+        assertTrue("Oldest guest must have been pushed out", data.tavernGuests.none { it === a })
+        // Newest stays, and the pushed list keeps order: [new, c, b]
+        assertSame(c, data.tavernGuests[1])
+        assertSame(b, data.tavernGuests[2])
+    }
+
+    @Test
+    fun testAttractGuestSpendsGemsAndResetsTimer() {
+        val data = MainActivity.data
+        data.tavernGuests.clear()
+        data.gems = 100L
+        data.nextTavernVisit = 123L
+        assertTrue(DialogTavern.applyAttractGuest(Formulas.TAVERN_RUSH_GEM_COST))
+        assertEquals("Flat 50 gem cost must be deducted", 100L - Formulas.TAVERN_RUSH_GEM_COST, data.gems)
+        assertEquals(1, data.tavernGuests.size)
+        assertEquals(
+            "Arrival timer must reset to the full interval",
+            Formulas.getTavernVisitorInterval() / 1000L,
+            data.nextTavernVisit
+        )
+    }
+
+    @Test
+    fun testAttractGuestFailsWithoutGems() {
+        val data = MainActivity.data
+        data.tavernGuests.clear()
+        data.gems = Formulas.TAVERN_RUSH_GEM_COST - 1L
+        data.nextTavernVisit = 4321L
+        val before = data.gems
+        assertFalse(DialogTavern.applyAttractGuest(Formulas.TAVERN_RUSH_GEM_COST))
+        assertEquals("Gems must not change on failure", before, data.gems)
+        assertEquals(0, data.tavernGuests.size)
+        assertEquals(4321L, data.nextTavernVisit)
     }
 }
 

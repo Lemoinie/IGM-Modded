@@ -2,6 +2,7 @@ package it.paranoidsquirrels.idleguildmaster.game.redeem
 
 import android.content.Context
 import it.paranoidsquirrels.idleguildmaster.BuildConfig
+import it.paranoidsquirrels.idleguildmaster.Formulas
 import it.paranoidsquirrels.idleguildmaster.MainActivity
 import it.paranoidsquirrels.idleguildmaster.Utils
 import it.paranoidsquirrels.idleguildmaster.game.activities.GuildActivitiesManager
@@ -33,12 +34,14 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.quests.QuestsManager
  * - `ITEM <Name> [count]`    – grant an item
  * - `HERO <Class> [level] [trait] [trait]` – create an adventurer
  * - `PET <Class> [level]`    – add a pet to the shelter
+ * - `TAVERN [count]`        – force new visitors into the Tavern (defaults to the current tavern capacity)
  */
 object RedeemCodes {
 
     val DEV_CODES = setOf(
         "REROLL", "BLACK", "SHOP", "QUEST", "GOLD", "STORAGE",
-        "IDLETIME", "LOOTCAP", "RESETCAPS", "KILLS", "SETKILLS", "ITEM", "HERO", "PET"
+        "IDLETIME", "LOOTCAP", "RESETCAPS", "KILLS", "SETKILLS", "ITEM", "HERO", "PET",
+        "TAVERN"
     )
 
     @JvmStatic
@@ -190,6 +193,26 @@ object RedeemCodes {
         }
         if (upper.startsWith("PET ")) {
             return spawnPet(code.substring(4).trim(), context)
+        }
+        if (upper.startsWith("TAVERN")) {
+            val parts = upper.split(" ").filter { it.isNotBlank() }
+            val defaultCount = Formulas.getTavernCapacity()
+            val count = if (parts.size > 1) {
+                parts[1].toIntOrNull()?.coerceIn(1, 50) ?: defaultCount
+            } else {
+                defaultCount
+            }
+
+            repeat(count) {
+                Utils.newTavernVisitor()
+            }
+
+            MainActivity.shownDialogTavern?.refreshAdventurers()
+            MainActivity.shownDialogTavern?.refreshProgressBar()
+            MainActivity.headquartersFragment?.refresh()
+            FileManager.saveNow(context)
+
+            return "Summoned $count new Tavern visitor(s)!"
         }
 
         return null

@@ -14,6 +14,10 @@ import it.paranoidsquirrels.idleguildmaster.ui.dialogs.ModChangelog.version
 object ModChangelogActive {
 
     val ENTRIES: List<VersionEntry> = listOf(
+        version("1.3.15.0", "27/9/2026",
+            "Tavern Instant Recruitment: the Tavern now has an Attract Guest button that summons a new Level 1 adventurer immediately for a flat 50 Gems (instead of waiting for the 8-hour arrival timer). While the Tavern is locked, or full, you are warned first — summoning into a full Tavern pushes out the oldest guest.",
+            "New TAVERN dev redeem code forces new Tavern visitors instantly: TAVERN fills the whole tavern capacity, TAVERN <1-50> summons an exact count (clamped).",
+        ),
         version("1.3.14.7", "27/9/2026",
             "Adventurer Traits Expansion: added 4 new Common traits (Versatile: +4% all stats; Zealous: +5% CON/INT, -10% DEX; Cunning: +5% DEX/INT, -10% CON; Athletic: +5% CON/DEX, -10% INT), each with an Evo-22 PLUS upgrade that removes the penalty and doubles the bonus (e.g. Versatile+ +7% all stats).",
             "Added 5 new Rare traits: Deadeye (+12% Critical Strike Chance), Sundering (ignores 20% of target Defense and Magic Defense), Fortified (starts every battle with a shield equal to 25% of max HP), Reckless (+15% attack damage dealt, +15% damage taken), and Lone Wolf (+5% damage for each unoccupied or fallen ally slot in the area).",

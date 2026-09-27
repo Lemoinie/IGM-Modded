@@ -12,6 +12,7 @@ import it.paranoidsquirrels.idleguildmaster.MainActivity
 import it.paranoidsquirrels.idleguildmaster.R
 import it.paranoidsquirrels.idleguildmaster.UIUtils
 import it.paranoidsquirrels.idleguildmaster.Utils
+import it.paranoidsquirrels.idleguildmaster.storage.FileManager
 import it.paranoidsquirrels.idleguildmaster.databinding.DialogTavernBinding
 import it.paranoidsquirrels.idleguildmaster.databinding.LayoutTavernAdventurerBinding
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.Adventurer
@@ -20,6 +21,21 @@ class DialogTavern : CustomDialog() {
     companion object {
         private const val MAX_LEVEL_TAVERN_CAPACITY = 7
         private const val MAX_LEVEL_TAVERN_TIME = 20
+
+        /** Shared Attract Guest core (used by [executeAttractGuest] and unit tests):
+         *  deducts the flat gem cost, summons a new visitor at index 0 (pushing out the
+         *  oldest guest when the tavern is full) and resets the arrival timer so the next
+         *  natural visitor still arrives on schedule. Returns false when the player cannot
+         *  afford the cost. */
+        @JvmStatic
+        fun applyAttractGuest(cost: Int = Formulas.TAVERN_RUSH_GEM_COST): Boolean {
+            val data = MainActivity.data ?: return false
+            if (data.gems < cost.toLong()) return false
+            data.gems -= cost.toLong()
+            Utils.newTavernVisitor()
+            data.nextTavernVisit = Formulas.getTavernVisitorInterval() / 1000L
+            return true
+        }
     }
 
     @JvmField
@@ -27,6 +43,7 @@ class DialogTavern : CustomDialog() {
     private var recruitUnavailableDialog: AlertDialog? = null
     private var help: AlertDialog? = null
     private var upgradeConfirm: AlertDialog? = null
+    private var attractErrorDialog: AlertDialog? = null
 
     override fun getBinding(): ViewBinding = binding!!
 
@@ -56,6 +73,7 @@ class DialogTavern : CustomDialog() {
         b.buttonUpgradeTime.visibility = if (MainActivity.data.levelTavernTime >= MAX_LEVEL_TAVERN_TIME) 8 else 0
 
         b.lock.background = ResourcesCompat.getDrawable(resources, if (MainActivity.data.isTavernLocked) R.drawable.lock_close else R.drawable.lock_open, theme)
+        b.attractGuestPrice.text = Formulas.TAVERN_RUSH_GEM_COST.toString()
         refreshProgressBar()
         refreshAdventurers()
     }
@@ -154,6 +172,9 @@ class DialogTavern : CustomDialog() {
             dialog.setOnDismissListener { help = null }
             dialog.show()
         }
+        b.buttonAttractGuest.setOnClickListener {
+            attractGuestFlow()
+        }
     }
 
     private fun levelUpTavernCapacity() {
@@ -214,6 +235,79 @@ class DialogTavern : CustomDialog() {
         MainActivity.headquartersFragment?.refresh()
         MainActivity.adventurersFragment?.refresh()
         MainActivity.adventurersFragment?.switchMode(0)
+    }
+
+    /** "Attract Guest" button flow: gems check, tavern-lock warning, full-capacity
+     *  warning, then the costly confirmation dialog. */
+    private fun attractGuestFlow() {
+        if (MainActivity.data.gems < Formulas.TAVERN_RUSH_GEM_COST.toLong()) {
+            showAttractErrorDialog(getString(R.string.error_not_enough_gems))
+            return
+        }
+        if (MainActivity.data.isTavernLocked) {
+            UIUtils.getActionDialog(
+                context,
+                R.string.headquarters_tavern_attract_guest_locked_title,
+                getString(R.string.headquarters_tavern_attract_guest_locked_body),
+                R.string.yes
+            ) { dialogInterface, _ ->
+                dialogInterface.dismiss()
+                confirmAttractGuest()
+            }.show()
+            return
+        }
+        confirmAttractGuest()
+    }
+
+    private fun confirmAttractGuest() {
+        if (MainActivity.data.tavernGuests.size >= Formulas.getTavernCapacity()) {
+            val oldestName = MainActivity.data.tavernGuests.lastOrNull()?.let { getString(it.idName) }
+                ?: getString(R.string.trait_null_name)
+            val message = String.format(getString(R.string.headquarters_tavern_attract_guest_full_warning), oldestName)
+            UIUtils.getActionDialog(
+                context,
+                R.string.headquarters_tavern_attract_guest_confirm_title,
+                message,
+                R.string.yes
+            ) { dialogInterface, _ ->
+                dialogInterface.dismiss()
+                confirmAttractGuestPayment()
+            }.show()
+        } else {
+            confirmAttractGuestPayment()
+        }
+    }
+
+    private fun confirmAttractGuestPayment() {
+        val message = String.format(
+            getString(R.string.headquarters_tavern_attract_guest_confirm_body),
+            Formulas.TAVERN_RUSH_GEM_COST
+        )
+        UIUtils.getActionDialog(
+            context,
+            R.string.headquarters_tavern_attract_guest_confirm_title,
+            message,
+            R.string.yes
+        ) { dialogInterface, _ ->
+            executeAttractGuest(Formulas.TAVERN_RUSH_GEM_COST)
+            dialogInterface.dismiss()
+        }.show()
+    }
+
+    private fun showAttractErrorDialog(message: String) {
+        if (attractErrorDialog != null) return
+        val dialog = UIUtils.getInfoDialog(context, R.string.headquarters_tavern_attract_guest_confirm_title, message, false)
+        attractErrorDialog = dialog
+        dialog.setOnDismissListener { attractErrorDialog = null }
+        dialog.show()
+    }
+
+    private fun executeAttractGuest(cost: Int) {
+        if (!applyAttractGuest(cost)) return
+        refreshAdventurers()
+        refreshProgressBar()
+        (activity as? MainActivity)?.refresh()
+        FileManager.saveNow(context)
     }
 
     override fun onStart() {
