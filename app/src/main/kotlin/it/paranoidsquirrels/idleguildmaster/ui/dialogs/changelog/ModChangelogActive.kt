@@ -14,6 +14,9 @@ import it.paranoidsquirrels.idleguildmaster.ui.dialogs.ModChangelog.version
 object ModChangelogActive {
 
     val ENTRIES: List<VersionEntry> = listOf(
+        version("1.3.14.6", "27/9/2026",
+            "Fixed Eternal Battlefield encounter spawning: while the Will-o'-Wisp Hunt event was active (after the first wisp kill) every room spawned a lone Will-o'-Wisp until the hunt counter reached 200, flooding run recaps with wisp kills and starving Undead/UndeadArcher spawns. The Hunt event now uses the normal encounter table again (vanilla behaviour), keeping only its passive progress counter and the Orb of Ectoplasm reward.",
+        ),
         version("1.3.14.5", "27/9/2026",
             "Fixed Celestial Mothership encounter spawning: removed leftover one-time raid checks so all encounters and Legate Hadrian spawn reliably on every run, preventing empty runs when retreating after the boss fight.",
             "Fixed The Dire Descent raid unlocks: defeating the Heralds in Room 5 now immediately unlocks Sleeping Planet, Kaunis, and The Tower, ensuring players who retreat during the loot phase or succumb to status effects do not miss their unlock.",
