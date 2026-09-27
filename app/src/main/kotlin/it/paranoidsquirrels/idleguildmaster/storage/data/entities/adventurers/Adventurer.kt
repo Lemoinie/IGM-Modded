@@ -268,6 +268,9 @@ abstract class Adventurer : Entity() {
         if (w is SerpentBite) {
             damageModifier *= getThreat().toFloat()
         }
+        if (traitRare == Trait.RECKLESS) {
+            damageModifier *= 1.15f
+        }
         return Utils.round(damageModifier.toDouble() * (1.0 - w.damageDelta()))
     }
 
@@ -279,6 +282,9 @@ abstract class Adventurer : Entity() {
         var damageModifier = w.getDamageModifier(con, int, dex).toFloat()
         if (w is SerpentBite) {
             damageModifier *= getThreat().toFloat()
+        }
+        if (traitRare == Trait.RECKLESS) {
+            damageModifier *= 1.15f
         }
         return Utils.round(damageModifier.toDouble() * (w.damageDelta() + 1.0))
     }
@@ -342,7 +348,8 @@ abstract class Adventurer : Entity() {
     }
 
     override fun getArmorIgnored(): Double {
-        return armorIgnored + ((doctrine?.ignoreArmorPercentage() ?: 0).toDouble() * 0.01)
+        val base = armorIgnored + ((doctrine?.ignoreArmorPercentage() ?: 0).toDouble() * 0.01)
+        return if (traitRare == Trait.SUNDERING) base + 0.20 else base
     }
 
     override fun isForcesTargetToCounterattack(): Boolean {
@@ -553,6 +560,9 @@ abstract class Adventurer : Entity() {
         if (a != null) cc += a.getCriticalChance()
         val acc = accessory
         if (acc != null) cc += acc.getCriticalChance()
+        if (traitRare == Trait.DEADEYE) {
+            cc += 0.12
+        }
         return cc + ((doctrine?.bonusCritChance() ?: 0).toDouble() * 0.01)
     }
 
@@ -812,6 +822,20 @@ abstract class Adventurer : Entity() {
                 Trait.FERAL_PLUS -> if (i == 2) d = 1.2
 
                 Trait.BRUTE_PLUS -> if (i == 0) d = 1.2
+
+                // Tri-Stat All-Rounder
+                Trait.VERSATILE -> d = 1.04
+                Trait.VERSATILE_PLUS -> d = 1.07
+
+                // Dual-Stat Base
+                Trait.ZEALOUS -> if (i == 0 || i == 1) d = 1.05 else if (i == 2) d = 0.90
+                Trait.CUNNING -> if (i == 1 || i == 2) d = 1.05 else if (i == 0) d = 0.90
+                Trait.ATHLETIC -> if (i == 0 || i == 2) d = 1.05 else if (i == 1) d = 0.90
+
+                // Dual-Stat PLUS (Evo-22 Upgrades)
+                Trait.ZEALOUS_PLUS -> if (i == 0 || i == 1) d = 1.10
+                Trait.CUNNING_PLUS -> if (i == 1 || i == 2) d = 1.10
+                Trait.ATHLETIC_PLUS -> if (i == 0 || i == 2) d = 1.10
 
                 else -> {}
             }

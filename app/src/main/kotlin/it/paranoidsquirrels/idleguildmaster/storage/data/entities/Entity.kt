@@ -195,6 +195,9 @@ abstract class Entity {
             val tier = maxLevel / 5
             damageAfterArmor *= Math.max(0.0, 1.0 - (tier.toDouble() * 0.01))
         }
+        if (this is Adventurer && traitRare == Trait.RECKLESS) {
+            damageAfterArmor *= 1.15
+        }
         val totalReduction = calculateFlatDamageReduction().toDouble() + flatReduction.toDouble()
         val iRound = Utils.round(Math.max(1.0, damageAfterArmor - totalReduction))
 

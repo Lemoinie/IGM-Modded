@@ -50,6 +50,10 @@ class DialogChangeTraitCommon : CustomDialog() {
             Trait.BRUTE -> upgradeOptions.add(Trait.BRUTE_PLUS)
             Trait.FERAL -> upgradeOptions.add(Trait.FERAL_PLUS)
             Trait.BOOKWORM -> upgradeOptions.add(Trait.BOOKWORM_PLUS)
+            Trait.VERSATILE -> upgradeOptions.add(Trait.VERSATILE_PLUS)
+            Trait.ZEALOUS -> upgradeOptions.add(Trait.ZEALOUS_PLUS)
+            Trait.CUNNING -> upgradeOptions.add(Trait.CUNNING_PLUS)
+            Trait.ATHLETIC -> upgradeOptions.add(Trait.ATHLETIC_PLUS)
             else -> {}
         }
 

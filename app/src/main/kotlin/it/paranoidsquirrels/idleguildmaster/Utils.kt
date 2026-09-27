@@ -61,8 +61,8 @@ object Utils {
     private const val PET_ABILITY_INDIVIDUAL_PROBABILITY: Double = 0.0625
     private const val POTION_INDIVIDUAL_PROBABILITY: Double = 0.09090909090909091
     private const val SPECIAL_FOOD_INDIVIDUAL_PROBABILITY: Double = 0.16666666666666666
-    private const val TRAIT_COMMON_INDIVIDUAL_PROBABILITY: Double = 0.13333333333333333
-    private const val TRAIT_RARE_INDIVIDUAL_PROBABILITY: Double = 0.014285714285714287
+    private const val TRAIT_COMMON_INDIVIDUAL_PROBABILITY: Double = 0.05714285714285714
+    private const val TRAIT_RARE_INDIVIDUAL_PROBABILITY: Double = 0.010526315789473686
 
     private var dungeonsList: List<Area>? = null
     private var dungeonsRaidsList: MutableList<Area>? = null
@@ -190,8 +190,12 @@ object Utils {
         val dRandom = random()
         return when {
             dRandom < TRAIT_COMMON_INDIVIDUAL_PROBABILITY -> Trait.BOOKWORM
-            dRandom < 0.26666666666666666 -> Trait.BRUTE
-            dRandom < 0.4 -> Trait.FERAL
+            dRandom < 0.11428571428571428 -> Trait.BRUTE
+            dRandom < 0.17142857142857143 -> Trait.FERAL
+            dRandom < 0.22857142857142856 -> Trait.VERSATILE
+            dRandom < 0.2857142857142857 -> Trait.ZEALOUS
+            dRandom < 0.34285714285714286 -> Trait.CUNNING
+            dRandom < 0.4 -> Trait.ATHLETIC
             else -> null
         }
     }
@@ -200,19 +204,24 @@ object Utils {
         val dRandom = random()
         return when {
             dRandom < TRAIT_RARE_INDIVIDUAL_PROBABILITY -> Trait.EMPATHETIC
-            dRandom < 0.028571428571428574 -> Trait.GIFTED
-            dRandom < 0.04285714285714286 -> Trait.INTIMIDATING
-            dRandom < 0.05714285714285715 -> Trait.FOCUSED
-            dRandom < 0.07142857142857144 -> Trait.DRAGON_BLOOD
-            dRandom < 0.08571428571428572 -> Trait.CURSED
-            dRandom < 0.1 -> Trait.REACTIVE
-            dRandom < 0.1142857142857143 -> Trait.NOCTURNAL
-            dRandom < 0.1285714285714286 -> Trait.MINDFUL
-            dRandom < 0.14285714285714288 -> Trait.TROLL_BLOOD
-            dRandom < 0.15714285714285717 -> Trait.RUTHLESS
-            dRandom < 0.17142857142857143 -> Trait.BLESSED
-            dRandom < 0.18571428571428572 -> Trait.ALERT
-            dRandom < 0.2 -> Trait.NIMBLE
+            dRandom < 0.021052631578947368 -> Trait.GIFTED
+            dRandom < 0.031578947368421054 -> Trait.INTIMIDATING
+            dRandom < 0.042105263157894736 -> Trait.FOCUSED
+            dRandom < 0.05263157894736842 -> Trait.DRAGON_BLOOD
+            dRandom < 0.06315789473684211 -> Trait.CURSED
+            dRandom < 0.07368421052631579 -> Trait.REACTIVE
+            dRandom < 0.08421052631578947 -> Trait.NOCTURNAL
+            dRandom < 0.09473684210526316 -> Trait.MINDFUL
+            dRandom < 0.10526315789473684 -> Trait.TROLL_BLOOD
+            dRandom < 0.11578947368421052 -> Trait.RUTHLESS
+            dRandom < 0.12631578947368421 -> Trait.BLESSED
+            dRandom < 0.1368421052631579 -> Trait.ALERT
+            dRandom < 0.14736842105263157 -> Trait.NIMBLE
+            dRandom < 0.15789473684210525 -> Trait.DEADEYE
+            dRandom < 0.16842105263157894 -> Trait.SUNDERING
+            dRandom < 0.17894736842105263 -> Trait.FORTIFIED
+            dRandom < 0.18947368421052632 -> Trait.RECKLESS
+            dRandom < 0.2 -> Trait.LONE_WOLF
             else -> null
         }
     }

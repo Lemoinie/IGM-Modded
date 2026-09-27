@@ -4602,6 +4602,32 @@ TAUNT: the taunting unit is always chosen as target"</string>
     <string name="log_the_golden_city_threat">The Imperial Guard is rallying, Imperial Captain threat level: [%d/100]</string>
     <string name="trait_ruthless_plus_name">Ruthless+</string>
     <string name="trait_ruthless_plus_description" formatted="false">Critical damage +30% (multiplicative).</string>
+    <string name="trait_versatile_name">Versatile</string>
+    <string name="trait_versatile_description" formatted="false">All stats increased by 4%.</string>
+    <string name="trait_versatile_plus_name">Versatile+</string>
+    <string name="trait_versatile_plus_description" formatted="false">All stats increased by 7%.</string>
+    <string name="trait_zealous_name">Zealous</string>
+    <string name="trait_zealous_description" formatted="false">Constitution increased by 5%, intelligence increased by 5%, dexterity decreased by 10%.</string>
+    <string name="trait_zealous_plus_name">Zealous+</string>
+    <string name="trait_zealous_plus_description" formatted="false">Constitution increased by 10%, intelligence increased by 10%.</string>
+    <string name="trait_cunning_name">Cunning</string>
+    <string name="trait_cunning_description" formatted="false">Dexterity increased by 5%, intelligence increased by 5%, constitution decreased by 10%.</string>
+    <string name="trait_cunning_plus_name">Cunning+</string>
+    <string name="trait_cunning_plus_description" formatted="false">Dexterity increased by 10%, intelligence increased by 10%.</string>
+    <string name="trait_athletic_name">Athletic</string>
+    <string name="trait_athletic_description" formatted="false">Constitution increased by 5%, dexterity increased by 5%, intelligence decreased by 10%.</string>
+    <string name="trait_athletic_plus_name">Athletic+</string>
+    <string name="trait_athletic_plus_description" formatted="false">Constitution increased by 10%, dexterity increased by 10%.</string>
+    <string name="trait_deadeye_name">Deadeye</string>
+    <string name="trait_deadeye_description" formatted="false">Critical strike chance increased by 12%.</string>
+    <string name="trait_sundering_name">Sundering</string>
+    <string name="trait_sundering_description" formatted="false">Ignores 20% of target Defense and Magic Defense.</string>
+    <string name="trait_fortified_name">Fortified</string>
+    <string name="trait_fortified_description" formatted="false">Starts every battle with a shield equal to 25% of max HP.</string>
+    <string name="trait_reckless_name">Reckless</string>
+    <string name="trait_reckless_description" formatted="false">Deals 15% more attack damage, but takes 15% more damage.</string>
+    <string name="trait_lone_wolf_name">Lone Wolf</string>
+    <string name="trait_lone_wolf_description" formatted="false">Gains 5% damage for each unoccupied or fallen ally slot in the area.</string>
     <string name="guild_request_name">The Hunt</string>
     <string name="guild_siege_name">The Siege</string>
     <string name="fragment_name_guild_activities">Guild Activities</string>
