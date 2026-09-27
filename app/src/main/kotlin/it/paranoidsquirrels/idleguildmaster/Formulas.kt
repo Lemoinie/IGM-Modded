@@ -9,6 +9,9 @@ object Formulas {
     private const val BASE_STORAGE_SPACES = 35
     private const val BASE_TAVERN_SPACES = 1
     private const val BASE_TAVERN_VISITOR_INTERVAL = 28800L
+
+    /** Flat gem cost of the Tavern's instant "Attract Guest" summon. */
+    const val TAVERN_RUSH_GEM_COST: Int = 50
     private const val BASE_WORKSHOP_SPACES = 1
     private const val IMPOSSIBLY_HIGH_PRICE = 99999999999999L
 
