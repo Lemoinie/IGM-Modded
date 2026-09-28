@@ -239,6 +239,10 @@ class Data {
     var isMaxLootPack2Purchased: Boolean = false
     @SerializedName("evolutionSynthesisPurchased")
     var isEvolutionSynthesisPurchased: Boolean = false
+    @SerializedName("evolutionVialCratePurchased")
+    var isEvolutionVialCratePurchased: Boolean = false
+    @SerializedName("evolutionVialStarterPurchased")
+    var isEvolutionVialStarterPurchased: Boolean = false
     @SerializedName("storagePack100Purchased")
     var isStoragePack100Purchased: Boolean = false
     @SerializedName("storagePack150Purchased")

@@ -4070,6 +4070,8 @@ I apologize for the inconvenience."</string>
     <string name="shop_title_storage_150">INFINITE HOARD</string>
     <string name="shop_storage_desc_150">+150 Storage Spaces</string>
     <string name="shop_title_evolution_crate">EVOLUTIONARY SYNTHESIS CRATE</string>
+    <string name="shop_title_evolution_vial_crate">EVOLUTION VIAL CRATE</string>
+    <string name="shop_title_evolution_vial_starter">EVOLUTION VIAL STARTER SET</string>
     <string name="shop_evolution_crate_desc">1x Evo-22 Vial + 1x Evo-23 Vial + 2x Dreamcatcher</string>
     <string name="shop_platinum_coins">10 Platinum Coins</string>
     <string name="shop_shelter_space">Shelter Capacity +1</string>

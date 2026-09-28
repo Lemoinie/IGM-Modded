@@ -565,13 +565,13 @@ class ModFeaturesTest {
         val drops = legate.listDrops(0)
         assertEquals(2, drops.size)
         val evo23Entry = drops.entries.find { it.key.item?.getTrueClass() == "Evo23Vial" }
-        val evo22Entry = drops.entries.find { it.key.item?.getTrueClass() == "Evo22Vial" }
+        val evo21Entry = drops.entries.find { it.key.item?.getTrueClass() == "Evo21Vial" }
         assertNotNull("Evo23Vial must be in drop table", evo23Entry)
-        assertNotNull("Evo22Vial must be in drop table", evo22Entry)
+        assertNotNull("Evo21Vial must be in drop table (replaced Evo-22 in v1.3.15.4)", evo21Entry)
         assertEquals("Evo23Vial drop rate must be 10% (weight 100)", 100, evo23Entry?.value)
-        assertEquals("Evo22Vial drop rate must be 10% (weight 100)", 100, evo22Entry?.value)
+        assertEquals("Evo21Vial drop rate must be 10% (weight 100)", 100, evo21Entry?.value)
         assertTrue("Evo23 stack must be 1..3", (evo23Entry?.key?.item?.getStack() ?: 0) in 1..3)
-        assertTrue("Evo22 stack must be 1..3", (evo22Entry?.key?.item?.getStack() ?: 0) in 1..3)
+        assertTrue("Evo21 stack must be 1..3", (evo21Entry?.key?.item?.getStack() ?: 0) in 1..3)
     }
 
     @Test
