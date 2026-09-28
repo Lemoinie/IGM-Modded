@@ -263,7 +263,8 @@ class ModFeaturesTest {
         assertEquals(30, colossus.baseDexterity)
         assertEquals(10, colossus.baseIntelligence)
         assertEquals(80, colossus.baseDefense)
-        assertEquals(40, colossus.baseMagicDefense)
+        // Magic Defense was intentionally reduced to 5 (commit 6ac1d165 - Bloodstone Colossus balance).
+        assertEquals(5, colossus.baseMagicDefense)
         assertEquals(Skills.PASSIVE_THREATENING_IV, colossus.passiveSkill)
         assertEquals(Skills.ACTIVE_NONE, colossus.activeSkill)
         assertFalse(colossus.isMagic())
