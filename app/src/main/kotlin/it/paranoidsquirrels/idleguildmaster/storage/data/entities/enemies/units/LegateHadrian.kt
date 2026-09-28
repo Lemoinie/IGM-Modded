@@ -43,9 +43,9 @@ class LegateHadrian : Enemy() {
     override fun listDrops(i: Int): LinkedHashMap<ItemWrapper, Int> {
         val linkedHashMap = LinkedHashMap<ItemWrapper, Int>()
         val count23 = 1 + (Utils.random() * 3).toInt()
-        val count22 = 1 + (Utils.random() * 3).toInt()
+        val count21 = 1 + (Utils.random() * 3).toInt()
         linkedHashMap.put(ItemWrapper.getInstance("Evo23Vial", count23), 100)
-        linkedHashMap.put(ItemWrapper.getInstance("Evo22Vial", count22), 100)
+        linkedHashMap.put(ItemWrapper.getInstance("Evo21Vial", count21), 100)
         return linkedHashMap
     }
     override fun calculateFlatDamageReduction(): Int = super.calculateFlatDamageReduction() + 15
