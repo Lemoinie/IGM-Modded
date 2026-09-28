@@ -14,6 +14,9 @@ import it.paranoidsquirrels.idleguildmaster.ui.dialogs.ModChangelog.version
 object ModChangelogActive {
 
     val ENTRIES: List<VersionEntry> = listOf(
+        version("1.3.15.9", "28/9/2026",
+            "Intimidating now grants +2 Threat and Intimidating+ grants +4 Threat instead of +1 Threat / Threat x 4, and their trait descriptions were updated to match (+2 threat / +4 threat).",
+        ),
         version("1.3.15.8", "28/9/2026",
             "Fixed the Doctrine of Affliction's Genus Vampyri not granting a shield when lifesteal overheals: the combat lifesteal block was reading the raw maxLifestealOverheal field (always 0) instead of the computed getMaxLifestealOverheal(), so the shield check never triggered. Lifesteal now converts overheal into a shield of up to 20% of max HP (at level 1 of Genus Vampyri) as intended.",
         ),

@@ -172,7 +172,7 @@ flowchart TD
 | **Empathetic** | `EMPATHETIC_PLUS` | Outgoing healing $+20\%$ | **Outgoing healing $+40\%$** | `calculateHealingModifier()`: `dBonus * 1.4` |
 | **Nocturnal** | `NOCTURNAL_PLUS` | Damage $+[1 \times \text{Darkness}]\%$ | **Damage increased by $[2 \times \text{Darkness}]\%$** | `calculateTotalDarknessDamageAmplification()`: `dda += 0.02` |
 | **Gifted** | `GIFTED_PLUS` | Mana regen $+2$ | **MP regenerate $+4$** | `calculateManaRegen()`: `mr += 4` |
-| **Intimidating** | `INTIMIDATING_PLUS` | Threat $+1$ | **Threat $\times 4$** | `getThreat()`: `t *= 4` |
+| **Intimidating** | `INTIMIDATING_PLUS` | Threat $+2$ | **Threat $+4$** | `getThreat()`: `t += 4` |
 | **Cursed** | `CURSED_PLUS` | $-2\%$ HP decay / turn, $+20\%$ Lifesteal | **$-1\%$ HP decay / turn, Lifesteal $+30\%$** | `decay()`: `totalMaxHp * 0.01`<br>`calculateTotalLifesteal()`: `+30` |
 
 ---
@@ -327,7 +327,7 @@ when (item) {
 - `trait_empathetic_plus_name` ("Empathetic+") / `trait_empathetic_plus_description` ("Outgoing healing +40%.")
 - `trait_nocturnal_plus_name` ("Nocturnal+") / `trait_nocturnal_plus_description` ("Damage increased by [2 x Darkness]%.")
 - `trait_gifted_plus_name` ("Gifted+") / `trait_gifted_plus_description` ("MP regenerate +4.")
-- `trait_intimidating_plus_name` ("Intimidating+") / `trait_intimidating_plus_description` ("Threat x 4.")
+- `trait_intimidating_plus_name` ("Intimidating+") / `trait_intimidating_plus_description` ("+4 threat")
 - `trait_cursed_plus_name` ("Cursed+") / `trait_cursed_plus_description` ("-1% HP each turn. Lifesteal +30%.")
 - `trait_locked_plus` ("Locked: PLUS traits cannot be switched.")
 
@@ -363,7 +363,7 @@ when (item) {
    - **`EMPATHETIC_PLUS`**: Multiplies healing by $1.4$ ($+40\%$).
    - **`NOCTURNAL_PLUS`**: Adds $+0.02$ per darkness point ($[2 \times \text{Darkness}]\%$).
    - **`GIFTED_PLUS`**: Increases mana regen by $+4$.
-   - **`INTIMIDATING_PLUS`**: Multiplies threat by $4$.
+   - **`INTIMIDATING_PLUS`**: Adds $+4$ threat.
    - **`CURSED_PLUS`**: Lifesteal increases by $+30$; turn decay applies $1\%$ max HP instead of $2\%$.
 6. **Full Unit Test Pass**:
    - Run `./gradlew.bat testDebugUnitTest` to verify no regressions across combat and unit logic.

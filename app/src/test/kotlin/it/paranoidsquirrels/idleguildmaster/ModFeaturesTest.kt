@@ -2359,9 +2359,9 @@ class ModFeaturesTest {
         assertEquals(base.calculateTotalDarknessDamageAmplification() + 0.01, hero(Trait.NOCTURNAL).calculateTotalDarknessDamageAmplification(), 0.0001)
         assertEquals(base.calculateTotalDarknessDamageAmplification() + 0.02, hero(Trait.NOCTURNAL_PLUS).calculateTotalDarknessDamageAmplification(), 0.0001)
 
-        // Intimidating+ multiplies threat by 4 (Intimidating adds +1).
-        assertEquals(base.getThreat() + 1, hero(Trait.INTIMIDATING).getThreat())
-        assertEquals(base.getThreat() * 4, hero(Trait.INTIMIDATING_PLUS).getThreat())
+        // Intimidating+ adds +4 threat (Intimidating adds +2).
+        assertEquals(base.getThreat() + 2, hero(Trait.INTIMIDATING).getThreat())
+        assertEquals(base.getThreat() + 4, hero(Trait.INTIMIDATING_PLUS).getThreat())
 
         // Cursed+ lifesteal +30 and -1% max HP decay (Cursed: +20 / -2%).
         assertEquals(base.calculateTotalLifesteal() + 20, hero(Trait.CURSED).calculateTotalLifesteal())
@@ -2390,11 +2390,11 @@ class ModFeaturesTest {
         assertEquals(3, fortitude.bonusThreat())
         assertEquals(baseThreat + 3, hero(null, fortitude, null).getThreat())
 
-        // INTIMIDATING adds +1; INTIMIDATING_PLUS multiplies the total (equipment is applied
-        // before the multiplier, the doctrine bonus after it).
-        assertEquals(baseThreat + 1, hero(null, null, Trait.INTIMIDATING).getThreat())
-        assertEquals(baseThreat * 4, hero(null, null, Trait.INTIMIDATING_PLUS).getThreat())
-        assertEquals((baseThreat + 2) * 4 + 3, hero(sword, fortitude, Trait.INTIMIDATING_PLUS).getThreat())
+        // INTIMIDATING adds +2 threat; INTIMIDATING_PLUS adds +4. Equipment, trait and
+        // doctrine bonus are all additive now.
+        assertEquals(baseThreat + 2, hero(null, null, Trait.INTIMIDATING).getThreat())
+        assertEquals(baseThreat + 4, hero(null, null, Trait.INTIMIDATING_PLUS).getThreat())
+        assertEquals(baseThreat + 2 + 4 + 3, hero(sword, fortitude, Trait.INTIMIDATING_PLUS).getThreat())
     }
 
     @Test
