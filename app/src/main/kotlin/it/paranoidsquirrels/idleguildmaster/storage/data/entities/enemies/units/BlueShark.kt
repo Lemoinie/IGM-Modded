@@ -28,10 +28,10 @@ class BlueShark : Enemy() {
         expGiven = 35
     }
 
-    /** "Fish only drops the fish": a Blue Shark always drops itself as Blue Shark food (~40%). */
+    /** "Fish only drops the fish": a Blue Shark always drops itself as Blue Shark food (~30%). */
     override fun listDrops(i: Int): LinkedHashMap<ItemWrapper, Int> {
         val drops = LinkedHashMap<ItemWrapper, Int>()
-        drops.put(ItemWrapper.getInstance("BlueShark", 1), 400)
+        drops.put(ItemWrapper.getInstance("BlueShark", 1), 300)
         return drops
     }
 }

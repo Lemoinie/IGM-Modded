@@ -2360,6 +2360,20 @@ class ModFeaturesTest {
         assertEquals(Utils.round(Math.max(1.0, maxHp * 0.02)), hero(Trait.CURSED).decay())
         assertEquals(Utils.round(Math.max(1.0, maxHp * 0.01)), hero(Trait.CURSED_PLUS).decay())
     }
+
+    @Test
+    fun testFullEvolutionVialSetRedeemCode() {
+        val data = MainActivity.data
+        data.items.clear()
+        val res = RedeemCodes.process("5PJI5NVK", null)
+        assertNotNull("Code must return a message", res)
+        assertTrue("Code must be marked redeemed", data.isRedeemed_5pji5nvk)
+        for (vial in listOf("Evo20Vial", "Evo21Vial", "Evo22Vial", "Evo23Vial", "Evo24Vial")) {
+            assertTrue("Code must grant 1x $vial", data.items.any { it.getTrueClass() == vial && it.getStack() >= 1 })
+        }
+        // One-time: a second redeem must not grant anything new.
+        assertEquals("Code already redeemed!", RedeemCodes.process("5PJI5NVK", null))
+    }
 }
 
 

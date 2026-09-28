@@ -56,12 +56,12 @@ class TheSlumberingShallowsArea : Area() {
     }
 
     /**
-     * Rolls a cast: 0.1% chance for Chorus the Drowned, otherwise a standard
+     * Rolls a cast: 1% chance for Chorus the Drowned, otherwise a standard
      * wave of 1–3 fish from the rarity tiers (50% Common / 35% Intermediate /
      * 15% Rare).
      */
     public override fun rollEnemies(): MutableList<Enemy> {
-        if (Utils.random() < 0.001) {
+        if (Utils.random() < 0.01) {
             Logger.log(this, Logger.EVENT, R.string.log_slumbering_shallows_chorus)
             return CopyOnWriteArrayList(listOfNotNull(Enemy.getInstance("ChorusTheDrowned")))
         }
@@ -86,13 +86,13 @@ class TheSlumberingShallowsArea : Area() {
     }
 
 
-    /** Ambient gathering between casts: 25% Perch, 5% sunken CoinPurse. */
+    /** Ambient gathering between casts: 15% Perch, 2% sunken CoinPurse. */
     public override fun searchRoom() {
         val dRandom = Utils.random() * 1000.0
-        if (dRandom < 250.0) {
+        if (dRandom < 150.0) {
             Logger.log(this, Logger.EVENT_BENEFICIAL, R.string.log_slumbering_shallows_found_perch)
             Item.getInstance("Perch", 1)?.let { collectItemFromGround(it) }
-        } else if (dRandom < 300.0) {
+        } else if (dRandom < 170.0) {
             Logger.log(this, Logger.EVENT_BENEFICIAL, R.string.log_slumbering_shallows_found_coin_purse)
             Item.getInstance("CoinPurse", 1)?.let { collectItemFromGround(it) }
         } else {

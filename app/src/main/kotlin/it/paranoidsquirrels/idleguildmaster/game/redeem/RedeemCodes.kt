@@ -114,6 +114,25 @@ object RedeemCodes {
                 "Unable to grant this code"
             }
         }
+        // One-time code: a full Evolution Vial set (Evo-20/21/22/23/24).
+        if (upper == "5PJI5NVK") {
+            return try {
+                val d = MainActivity.data ?: return null
+                if (d.isRedeemed_5pji5nvk) {
+                    return "Code already redeemed!"
+                }
+                for (name in listOf("Evo20Vial", "Evo21Vial", "Evo22Vial", "Evo23Vial", "Evo24Vial")) {
+                    Item.getInstance(name, 1)?.let { Utils.collectItem(it, d.items) }
+                }
+                d.isRedeemed_5pji5nvk = true
+                MainActivity.shownDialogStorage?.update()
+                MainActivity.headquartersFragment?.refresh()
+                FileManager.saveNow(context)
+                "Evolution Vial set granted (Evo-20/21/22/23/24)!"
+            } catch (e: Exception) {
+                "Unable to grant this code"
+            }
+        }
         if (upper == "SHOP") {
             return try {
                 Utils.refreshMerchantRegularStock()
