@@ -33,6 +33,17 @@ if not defined ADB (
 )
 
 :: 2. Find connected device
+set "DEVICE_COUNT=0"
+for /f "tokens=1,2" %%A in ('"%ADB%" devices') do (
+    if "%%B"=="device" set /a DEVICE_COUNT+=1
+)
+if !DEVICE_COUNT! gtr 1 (
+    for /f "tokens=1" %%D in ('"%ADB%" devices ^| findstr /i "_adb-tls-connect"') do (
+        echo [INFO] Disconnecting duplicate mDNS alias: %%D...
+        "%ADB%" disconnect %%D >nul 2>&1
+    )
+)
+
 set "TARGET="
 for /f "tokens=1,2" %%A in ('"%ADB%" devices') do (
     if "%%B"=="device" (
