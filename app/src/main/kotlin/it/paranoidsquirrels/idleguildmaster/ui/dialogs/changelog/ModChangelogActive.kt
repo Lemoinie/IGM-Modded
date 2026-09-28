@@ -14,6 +14,12 @@ import it.paranoidsquirrels.idleguildmaster.ui.dialogs.ModChangelog.version
 object ModChangelogActive {
 
     val ENTRIES: List<VersionEntry> = listOf(
+        version("1.3.15.8", "28/9/2026",
+            "Fixed the Doctrine of Affliction's Genus Vampyri not granting a shield when lifesteal overheals: the combat lifesteal block was reading the raw maxLifestealOverheal field (always 0) instead of the computed getMaxLifestealOverheal(), so the shield check never triggered. Lifesteal now converts overheal into a shield of up to 20% of max HP (at level 1 of Genus Vampyri) as intended.",
+        ),
+        version("1.3.15.7", "28/9/2026",
+            "Fixed Threat not updating from equipment, doctrines or traits: the unit detail dialog and the enemy targeting logic were reading the raw base threat instead of the computed total, so weapon/armor/accessory threat bonuses, the Intimidating / Intimidating+ traits and the Doctrine of Fortitude's Manifest Danger had no effect on the displayed value or on whom enemies target (TAUNT and weighted target selection).",
+        ),
         version("1.3.15.6", "28/9/2026",
             "Evolution Vial pack cards redesigned: the Evolution Vial Starter Set and the two Evolution Vial crates now show their items in a two-column grid (2-2-1 for the Starter Set, 2-1 for the crates) with the Buy button right-aligned on its own row below, matching the Patrician's Wardrobe / Eternal Reliquary / Explorer's Supply Cache packs.",
         ),
