@@ -634,6 +634,15 @@ class ModFeaturesTest {
     }
 
     @Test
+    fun testDoctrineOfAfflictionGenusVampyriLifestealOverhealFlowThroughGetter() {
+        // Affliction abilities: index 5 = GENUS_VAMPYRI (max level 1, +20/level -> 20), so it maps to l6.
+        val affliction = Doctrine.getInstance("DoctrineOfAffliction", 0, 0, 0, 0, 0, 1)!!
+        val hero = Adventurer.getInstance("Footman", 1, 45, 0, null, null, null, null, null, PotionsDrank(), affliction, false)!!
+        assertEquals("Genus Vampyri must grant a 20% lifesteal-overheal shield cap", 20, hero.getMaxLifestealOverheal())
+        assertEquals("raw maxLifestealOverheal field stays 0 — combat MUST read the getter", 0, hero.maxLifestealOverheal)
+    }
+
+    @Test
     fun testDoctrineOfWarTacticalKnowledgeIgnoresArmor() {
         // War abilities: index 3 = TACTICAL_KNOWLEDGE (max level 2, +20/level -> 40 = the advertised 40% armor ignore), so it maps to l4
         val war = Doctrine.getInstance("DoctrineOfWar", 0, 0, 0, 2, 0, 0)!!
@@ -2360,6 +2369,32 @@ class ModFeaturesTest {
         val maxHp = hero(Trait.CURSED_PLUS).calculateTotalMaxHp()
         assertEquals(Utils.round(Math.max(1.0, maxHp * 0.02)), hero(Trait.CURSED).decay())
         assertEquals(Utils.round(Math.max(1.0, maxHp * 0.01)), hero(Trait.CURSED_PLUS).decay())
+    }
+
+    @Test
+    fun testThreatTotalIncludesEquipmentDoctrineAndTrait() {
+        fun hero(weapon: it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Weapon?, doctrine: Doctrine?, rare: Trait?): Adventurer {
+            return Adventurer.getInstance("Footman", 1, 40, 0, weapon, null, null, null, rare, PotionsDrank(), doctrine ?: Doctrine.getInstance("EmptyDoctrine"), false)!!
+        }
+        val base = hero(null, null, null)
+        val baseThreat = base.getThreat()
+
+        // Weapon threat bonus (Equipment#setThreat) is folded into the total.
+        val sword = Item.getInstance("CopperSword") as it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Weapon
+        sword.setThreat(2)
+        assertEquals(baseThreat + 2, hero(sword, null, null).getThreat())
+
+        // Doctrine of Fortitude's Manifest Danger: +1 threat per level
+        // (MANIFEST_DANGER is the 3rd ability of Fortitude, so level 3 => +3).
+        val fortitude = Doctrine.getInstance("DoctrineOfFortitude", 0, 0, 3, 0, 0, 0)!!
+        assertEquals(3, fortitude.bonusThreat())
+        assertEquals(baseThreat + 3, hero(null, fortitude, null).getThreat())
+
+        // INTIMIDATING adds +1; INTIMIDATING_PLUS multiplies the total (equipment is applied
+        // before the multiplier, the doctrine bonus after it).
+        assertEquals(baseThreat + 1, hero(null, null, Trait.INTIMIDATING).getThreat())
+        assertEquals(baseThreat * 4, hero(null, null, Trait.INTIMIDATING_PLUS).getThreat())
+        assertEquals((baseThreat + 2) * 4 + 3, hero(sword, fortitude, Trait.INTIMIDATING_PLUS).getThreat())
     }
 
     @Test

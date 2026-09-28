@@ -155,7 +155,7 @@ class DialogEntityDetail : CustomDialog() {
         b.detailIntelligence.text = String.format(getString(R.string.intelligence_formatted), e.calculateTotalIntelligence())
         b.detailDefense.text = String.format(getString(R.string.defense_formatted), e.calculateTotalDefense())
         b.detailMagicDefense.text = String.format(getString(R.string.magic_defense_formatted), e.calculateTotalMagicDefense())
-        b.detailThreat.text = String.format(getString(R.string.threat_formatted), e.threat)
+        b.detailThreat.text = String.format(getString(R.string.threat_formatted), e.getThreat())
         b.detailDodge.text = String.format(getString(R.string.bonus_dodge_formatted), Utils.round(e.calculateTotalFlatDodgeChance() * 100.0))
         b.detailCritChance.text = String.format(getString(R.string.critical_chance_formatted), Utils.round(e.calculateCriticalChance() * 100.0))
         b.detailCritDamage.text = String.format(getString(R.string.critical_damage_formatted), Utils.round(e.calculateCriticalDamage() * 100.0))

@@ -1104,7 +1104,7 @@ abstract class Area {
         if (dRandom < EFFECT_PROBABILITY) {
             statusEffectType = StatusEffectType.TAUNT
             for (adventurer in this.adventurersExploring) {
-                if (adventurer.currentHp > 0 && (targetAdventurer == null || adventurer.threat > targetAdventurer.threat)) {
+                if (adventurer.currentHp > 0 && (targetAdventurer == null || adventurer.getThreat() > targetAdventurer.getThreat())) {
                     targetAdventurer = adventurer
                 }
             }
@@ -2662,10 +2662,10 @@ abstract class Area {
             val iCalculateTotalMaxHp = entity.calculateTotalMaxHp()
             val iMin = Math.min(iCalculateTotalMaxHp, currentHp + iRound)
             entity.currentHp = iMin
-            if (entity.maxLifestealOverheal > 0) {
+            if (entity.getMaxLifestealOverheal() > 0) {
                 val overheal = Math.max(0, (iRound - iCalculateTotalMaxHp) + currentHp)
                 val shieldCap =
-                    Utils.round(iCalculateTotalMaxHp.toDouble() * 0.01 * entity.maxLifestealOverheal.toDouble())
+                    Utils.round(iCalculateTotalMaxHp.toDouble() * 0.01 * entity.getMaxLifestealOverheal().toDouble())
                 entity.currentShield =
                     Math.max(entity.currentShield, Math.min(entity.currentShield + overheal, shieldCap))
             }
@@ -3259,7 +3259,7 @@ abstract class Area {
         val arrayList = ArrayList<Entity>()
         for (entity in list) {
             if (entity.currentHp > 0) {
-                for (i in 0 until entity.threat) {
+                for (i in 0 until entity.getThreat()) {
                     arrayList.add(entity)
                 }
             }

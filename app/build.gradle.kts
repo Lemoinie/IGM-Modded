@@ -5,7 +5,7 @@ plugins {
 
 val gameName = "IdleGuildMaster"
 val gameVersion = "2.148"
-val modVersion = "1.3.15.6"
+val modVersion = "1.3.15.8"
 
 android {
     namespace = "it.paranoidsquirrels.idleguildmaster"
@@ -15,7 +15,7 @@ android {
         applicationId = "it.paranoidsquirrels.idleguildmaster.rebuilt"
         minSdk = 26
         targetSdk = 34
-        versionCode = 170
+        versionCode = 172
         versionName = "$gameVersion-mod-$modVersion"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
