@@ -14,6 +14,9 @@ import it.paranoidsquirrels.idleguildmaster.ui.dialogs.ModChangelog.version
 object ModChangelogActive {
 
     val ENTRIES: List<VersionEntry> = listOf(
+        version("1.3.15.6", "28/9/2026",
+            "Evolution Vial pack cards redesigned: the Evolution Vial Starter Set and the two Evolution Vial crates now show their items in a two-column grid (2-2-1 for the Starter Set, 2-1 for the crates) with the Buy button right-aligned on its own row below, matching the Patrician's Wardrobe / Eternal Reliquary / Explorer's Supply Cache packs.",
+        ),
         version("1.3.15.5", "28/9/2026",
             "Two new Evolution Vial packs in the Shop: the Evaluation Vial Crate (Utility, 1,000 Gems) grants 1x Evo-20, 1x Evo-21 and 1x Evo-24 Vial; the Evolution Vial Starter Set (Starter, 500 Gems) grants 1x of every Evolution Vial (Evo-20 through Evo-24).",
         ),
