@@ -25,6 +25,9 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.P
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.instances.Evo22Vial
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.instances.Evo23Vial
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.instances.Evo23Vial2
+import it.paranoidsquirrels.idleguildmaster.storage.data.items.instances.Evo20Vial
+import it.paranoidsquirrels.idleguildmaster.storage.data.items.instances.Evo21Vial
+import it.paranoidsquirrels.idleguildmaster.storage.data.items.instances.Evo24Vial
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.instances.Intercession
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.instances.PotionOfClumsiness
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.instances.PotionOfRejuvenation
@@ -361,6 +364,27 @@ class DialogItemDetail : CustomDialog() {
                     val dialog = DialogConsumeEvo23()
                     dialog.alternative = true
                     dialog.show(MainActivity.headquartersFragment.parentFragmentManager, "dialog_consume_evo23")
+                }
+                return@setOnClickListener
+            }
+
+            if (item is Evo20Vial) {
+                if (item.getStack() > 0) {
+                    DialogConsumeEvo20().show(MainActivity.headquartersFragment.parentFragmentManager, "dialog_consume_evo20")
+                }
+                return@setOnClickListener
+            }
+
+            if (item is Evo21Vial) {
+                if (item.getStack() > 0) {
+                    DialogConsumeEvo21().show(MainActivity.headquartersFragment.parentFragmentManager, "dialog_consume_evo21")
+                }
+                return@setOnClickListener
+            }
+
+            if (item is Evo24Vial) {
+                if (item.getStack() > 0) {
+                    DialogConsumeEvo24().show(MainActivity.headquartersFragment.parentFragmentManager, "dialog_consume_evo24")
                 }
                 return@setOnClickListener
             }

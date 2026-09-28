@@ -4580,6 +4580,21 @@ TAUNT: the taunting unit is always chosen as target"</string>
     <string name="consumable_evo22_vial_description">A refined celestial compound that stimulates biological evolution. Permanently upgrades an adventurer\'s common trait into its enhanced PLUS form (Brute+, Feral+, Bookworm+).</string>
     <string name="dialog_consume_evo22_title">Select Adventurer</string>
     <string name="dialog_change_trait_common_title">Upgrade Common Trait</string>
+    <string name="consumable_evo20_vial_name">Evo-20 Vial</string>
+    <string name="consumable_evo20_vial_description" formatted="false">A volatile reagent that rewires a pet\'s biology. Rerolls an unlocked Pet Ability into any other vanilla ability.</string>
+    <string name="consumable_evo21_vial_name">Evo-21 Vial</string>
+    <string name="consumable_evo21_vial_description" formatted="false">A mutagen that resets an adventurer\'s basic nature. Rerolls a base Common trait into any of the 7 Common traits.</string>
+    <string name="consumable_evo24_vial_name">Evo-24 Vial</string>
+    <string name="consumable_evo24_vial_description" formatted="false">A pure amplification catalyst. Permanently upgrades a base Rare trait into its enhanced PLUS form.</string>
+    <string name="dialog_consume_evo20_title">Select Pet</string>
+    <string name="dialog_consume_evo21_title">Select Adventurer</string>
+    <string name="dialog_consume_evo24_title">Select Adventurer</string>
+    <string name="dialog_change_trait_common_select_title">Choose Common Trait</string>
+    <string name="dialog_change_pet_ability_slot" formatted="false">Slot %1$d: %2$s</string>
+    <string name="dialog_consume_evo20_confirm_body" formatted="false">Change %1$s\'s ability using 1x Evo-20 Vial to: %2$s?</string>
+    <string name="dialog_consume_evo21_confirm_body" formatted="false">Reroll %1$s\'s Common trait to %2$s using 1x Evo-21 Vial?</string>
+    <string name="dialog_consume_evo24_confirm_body" formatted="false">Permanently amplify %1$s\'s Rare trait %2$s to %3$s using 1x Evo-24 Vial?</string>
+    <string name="trait_locked_plus">Locked: PLUS traits cannot be switched.</string>
     <string name="weapon_bow_celestial_bow_name">Celestial Bow</string>
     <string name="weapon_bow_celestial_bow_description">A divine celestial bow humming with astral velocity. Allows its wielder to loose a devastating volley of arrows in rapid succession.</string>
     <string name="weapon_bow_celestial_bow_effect">Attack thrice, +10% crit chance and dmg</string>
@@ -4608,6 +4623,16 @@ TAUNT: the taunting unit is always chosen as target"</string>
     <string name="log_the_golden_city_threat">The Imperial Guard is rallying, Imperial Captain threat level: [%d/100]</string>
     <string name="trait_ruthless_plus_name">Ruthless+</string>
     <string name="trait_ruthless_plus_description" formatted="false">Critical damage +30% (multiplicative).</string>
+    <string name="trait_empathetic_plus_name">Empathetic+</string>
+    <string name="trait_empathetic_plus_description" formatted="false">Outgoing healing +40%.</string>
+    <string name="trait_nocturnal_plus_name">Nocturnal+</string>
+    <string name="trait_nocturnal_plus_description" formatted="false">Damage increased by [2 x Darkness]%.</string>
+    <string name="trait_gifted_plus_name">Gifted+</string>
+    <string name="trait_gifted_plus_description" formatted="false">MP regenerate +4.</string>
+    <string name="trait_intimidating_plus_name">Intimidating+</string>
+    <string name="trait_intimidating_plus_description">Threat x 4.</string>
+    <string name="trait_cursed_plus_name">Cursed+</string>
+    <string name="trait_cursed_plus_description" formatted="false">-1% HP each turn. Lifesteal +30%.</string>
     <string name="trait_versatile_name">Versatile</string>
     <string name="trait_versatile_description" formatted="false">All stats increased by 4%.</string>
     <string name="trait_versatile_plus_name">Versatile+</string>

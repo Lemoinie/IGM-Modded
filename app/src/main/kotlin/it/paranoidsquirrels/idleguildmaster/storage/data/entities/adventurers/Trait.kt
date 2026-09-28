@@ -40,7 +40,15 @@ enum class Trait(
     FORTIFIED(R.string.trait_fortified_name, R.string.trait_fortified_description),
     RECKLESS(R.string.trait_reckless_name, R.string.trait_reckless_description),
     LONE_WOLF(R.string.trait_lone_wolf_name, R.string.trait_lone_wolf_description),
-    RUTHLESS_PLUS(R.string.trait_ruthless_plus_name, R.string.trait_ruthless_plus_description);
+    RUTHLESS_PLUS(R.string.trait_ruthless_plus_name, R.string.trait_ruthless_plus_description),
+    EMPATHETIC_PLUS(R.string.trait_empathetic_plus_name, R.string.trait_empathetic_plus_description),
+    NOCTURNAL_PLUS(R.string.trait_nocturnal_plus_name, R.string.trait_nocturnal_plus_description),
+    GIFTED_PLUS(R.string.trait_gifted_plus_name, R.string.trait_gifted_plus_description),
+    INTIMIDATING_PLUS(R.string.trait_intimidating_plus_name, R.string.trait_intimidating_plus_description),
+    CURSED_PLUS(R.string.trait_cursed_plus_name, R.string.trait_cursed_plus_description);
+
+    /** True when this trait is a permanently-amplified PLUS form (e.g. `RUTHLESS_PLUS`). */
+    fun isPlus(): Boolean = this.name.endsWith("_PLUS")
 
     companion object {
         @JvmStatic
@@ -52,6 +60,18 @@ enum class Trait(
                 }
             }
             return null
+        }
+
+        /** Evo-24 upgrade path: maps a base Rare trait to its permanent PLUS form. */
+        @JvmStatic
+        fun getRarePlusUpgrade(baseTrait: Trait?): Trait? = when (baseTrait) {
+            Trait.RUTHLESS -> Trait.RUTHLESS_PLUS
+            Trait.EMPATHETIC -> Trait.EMPATHETIC_PLUS
+            Trait.NOCTURNAL -> Trait.NOCTURNAL_PLUS
+            Trait.GIFTED -> Trait.GIFTED_PLUS
+            Trait.INTIMIDATING -> Trait.INTIMIDATING_PLUS
+            Trait.CURSED -> Trait.CURSED_PLUS
+            else -> null
         }
     }
 }
