@@ -14,8 +14,11 @@ import it.paranoidsquirrels.idleguildmaster.ui.dialogs.ModChangelog.version
 object ModChangelogActive {
 
     val ENTRIES: List<VersionEntry> = listOf(
+        version("1.3.15.4", "28/9/2026",
+            "Legate Hadrian now drop Evo-21 Vial instead of Evo-22 Vial."
+            ),
         version("1.3.15.3", "28/9/2026",
-            "Balanced Fish drop rate and Coin Purse in Slumbering Shallows"
+            "Balanced Fish drop rate and Coin Purse in Slumbering Shallows."
             ),
         version("1.3.15.2", "28/9/2026",
             "Evo-24 Vial now opens a dedicated upgrade dialog (like the Evo-22 Vial): it shows the adventurer's current Rare trait and the enhanced PLUS form with its new stats so you can preview exactly what changes before amplifying.",
