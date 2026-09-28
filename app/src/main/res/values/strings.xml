@@ -4589,6 +4589,7 @@ TAUNT: the taunting unit is always chosen as target"</string>
     <string name="dialog_consume_evo20_title">Select Pet</string>
     <string name="dialog_consume_evo21_title">Select Adventurer</string>
     <string name="dialog_consume_evo24_title">Select Adventurer</string>
+    <string name="dialog_change_trait_rare_upgrade_title">Upgrade Rare Trait</string>
     <string name="dialog_change_trait_common_select_title">Choose Common Trait</string>
     <string name="dialog_change_pet_ability_slot" formatted="false">Slot %1$d: %2$s</string>
     <string name="dialog_consume_evo20_confirm_body" formatted="false">Change %1$s\'s ability using 1x Evo-20 Vial to: %2$s?</string>

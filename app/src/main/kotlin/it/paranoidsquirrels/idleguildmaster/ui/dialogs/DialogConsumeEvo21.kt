@@ -103,4 +103,14 @@ class DialogConsumeEvo21 : CustomDialog() {
             dismiss()
         }
     }
+
+    override fun onStart() {
+        super.onStart()
+        MainActivity.shownDialogConsumeEvo21 = this
+    }
+
+    override fun onStop() {
+        MainActivity.shownDialogConsumeEvo21 = null
+        super.onStop()
+    }
 }

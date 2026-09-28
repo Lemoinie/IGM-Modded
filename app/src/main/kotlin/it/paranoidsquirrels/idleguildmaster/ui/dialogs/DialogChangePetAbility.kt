@@ -149,9 +149,13 @@ class DialogChangePetAbility : CustomDialog() {
             R.string.yes
         ) { dialogInterface, _ ->
             if (applyAbilityChange(p, selectedSlot, ability)) {
+                // Reflect the consumed vial immediately and close the pet select dialog, like Evo-22.
+                MainActivity.shownDialogItemDetail?.initialize(null)
+                MainActivity.shownDialogStorage?.update()
+                MainActivity.headquartersFragment?.refresh()
+                MainActivity.shownDialogConsumeEvo20?.dismiss()
                 FileManager.saveNow(context)
             }
-            MainActivity.shownDialogConsumeEvo20?.reloadPets()
             dialogInterface.dismiss()
             dismiss()
         }
