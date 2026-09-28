@@ -4203,7 +4203,7 @@ I apologize for the inconvenience."</string>
     <string name="trait_focused_name">Focused</string>
     <string name="trait_gifted_description">Gains 2 more mana per turn.</string>
     <string name="trait_gifted_name">Gifted</string>
-    <string name="trait_intimidating_description">2x more likely to be attacked by enemies.</string>
+    <string name="trait_intimidating_description">+2 threat</string>
     <string name="trait_intimidating_name">Intimidating</string>
     <string name="trait_mindful_description">10% status immunity.</string>
     <string name="trait_mindful_name">Mindful</string>
@@ -4633,7 +4633,7 @@ TAUNT: the taunting unit is always chosen as target"</string>
     <string name="trait_gifted_plus_name">Gifted+</string>
     <string name="trait_gifted_plus_description" formatted="false">MP regenerate +4.</string>
     <string name="trait_intimidating_plus_name">Intimidating+</string>
-    <string name="trait_intimidating_plus_description">Threat x 4.</string>
+    <string name="trait_intimidating_plus_description">+4 threat</string>
     <string name="trait_cursed_plus_name">Cursed+</string>
     <string name="trait_cursed_plus_description" formatted="false">-1% HP each turn. Lifesteal +30%.</string>
     <string name="trait_versatile_name">Versatile</string>

@@ -322,8 +322,8 @@ abstract class Adventurer : Entity() {
         if (a != null) t += a.getThreat()
         val acc = accessory
         if (acc != null) t += acc.getThreat()
-        if (traitRare == Trait.INTIMIDATING) t++
-        if (traitRare == Trait.INTIMIDATING_PLUS) t *= 4
+        if (traitRare == Trait.INTIMIDATING) t += 2
+        if (traitRare == Trait.INTIMIDATING_PLUS) t += 4
         return Math.max(1, t + (doctrine?.bonusThreat() ?: 0))
     }
 
