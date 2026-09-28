@@ -238,6 +238,8 @@ class DataDeserializer : JsonDeserializer<Data> {
         this.data.isEternalVigilPurchased = asJsonObject.has("eternalVigilPurchased") && asJsonObject.get("eternalVigilPurchased").asBoolean
         this.data.isMaxLootPack2Purchased = asJsonObject.has("maxLootPack2Purchased") && asJsonObject.get("maxLootPack2Purchased").asBoolean
         this.data.isEvolutionSynthesisPurchased = asJsonObject.has("evolutionSynthesisPurchased") && asJsonObject.get("evolutionSynthesisPurchased").asBoolean
+        this.data.isEvolutionVialCratePurchased = asJsonObject.has("evolutionVialCratePurchased") && asJsonObject.get("evolutionVialCratePurchased").asBoolean
+        this.data.isEvolutionVialStarterPurchased = asJsonObject.has("evolutionVialStarterPurchased") && asJsonObject.get("evolutionVialStarterPurchased").asBoolean
         this.data.isStoragePack100Purchased = asJsonObject.has("storagePack100Purchased") && asJsonObject.get("storagePack100Purchased").asBoolean
         this.data.isStoragePack150Purchased = asJsonObject.has("storagePack150Purchased") && asJsonObject.get("storagePack150Purchased").asBoolean
 

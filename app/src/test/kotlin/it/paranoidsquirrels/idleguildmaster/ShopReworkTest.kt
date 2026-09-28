@@ -473,6 +473,52 @@ class ShopReworkTest {
     }
 
     @Test
+    fun testEvolutionVialCratePack() {
+        // Utility pack: 1x Evo-20/21/24 Vial for 1,000 gems (mirrors the shop handler).
+        MainActivity.data.items.clear()
+        MainActivity.data.isEvolutionVialCratePurchased = false
+        Utils.collectItem(Item.getInstance("Evo20Vial", 1), MainActivity.data.items)
+        Utils.collectItem(Item.getInstance("Evo21Vial", 1), MainActivity.data.items)
+        Utils.collectItem(Item.getInstance("Evo24Vial", 1), MainActivity.data.items)
+        assertEquals(3, MainActivity.data.items.size)
+        assertTrue(MainActivity.data.items.any { it.getTrueClass() == "Evo20Vial" && it.getStack() == 1 })
+        assertTrue(MainActivity.data.items.any { it.getTrueClass() == "Evo21Vial" && it.getStack() == 1 })
+        assertTrue(MainActivity.data.items.any { it.getTrueClass() == "Evo24Vial" && it.getStack() == 1 })
+
+        // One-time: the flag persists through save/load, blocking repeat buys.
+        MainActivity.data.isEvolutionVialCratePurchased = true
+        val gson = com.google.gson.GsonBuilder()
+            .registerTypeAdapter(Data::class.java, it.paranoidsquirrels.idleguildmaster.storage.data.DataDeserializer())
+            .create()
+        val json = com.google.gson.Gson().toJson(MainActivity.data)
+        val loaded = gson.fromJson(json, Data::class.java)
+        assertTrue("Evolution Vial Crate flag must persist", loaded.isEvolutionVialCratePurchased)
+    }
+
+    @Test
+    fun testEvolutionVialStarterPack() {
+        // Starter pack: 1x of every Evolution Vial (Evo-20/21/22/23/24) for 500 gems (mirrors the shop handler).
+        MainActivity.data.items.clear()
+        MainActivity.data.isEvolutionVialStarterPurchased = false
+        val vials = listOf("Evo20Vial", "Evo21Vial", "Evo22Vial", "Evo23Vial", "Evo24Vial")
+        for (name in vials) {
+            Utils.collectItem(Item.getInstance(name, 1), MainActivity.data.items)
+        }
+        assertEquals(5, MainActivity.data.items.size)
+        for (name in vials) {
+            assertTrue("Expected 1x $name", MainActivity.data.items.any { it.getTrueClass() == name && it.getStack() == 1 })
+        }
+
+        MainActivity.data.isEvolutionVialStarterPurchased = true
+        val gson = com.google.gson.GsonBuilder()
+            .registerTypeAdapter(Data::class.java, it.paranoidsquirrels.idleguildmaster.storage.data.DataDeserializer())
+            .create()
+        val json = com.google.gson.Gson().toJson(MainActivity.data)
+        val loaded = gson.fromJson(json, Data::class.java)
+        assertTrue("Evolution Vial Starter flag must persist", loaded.isEvolutionVialStarterPurchased)
+    }
+
+    @Test
     fun testRoyalTreasuryPurchaseSimulation() {
         MainActivity.data.gems = 500
         MainActivity.data.money = 5000L

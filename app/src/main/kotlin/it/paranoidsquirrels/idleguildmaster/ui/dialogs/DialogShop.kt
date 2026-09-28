@@ -239,12 +239,20 @@ class DialogShop : CustomDialog() {
 
         setCountedItemText(b.containerConvertedBundle.royalTreasuryR2Text, 10, R.string.food_ceremonial_cake_name)
         setCountedItemText(b.containerConvertedBundle.scarletShroudR1Text, 1, R.string.armor_medium_scarlet_shroud_name)
+        setCountedItemText(b.containerConvertedBundle.evolutionVialStarterR1Text, 1, R.string.consumable_evo20_vial_name)
+        setCountedItemText(b.containerConvertedBundle.evolutionVialStarterR2Text, 1, R.string.consumable_evo21_vial_name)
+        setCountedItemText(b.containerConvertedBundle.evolutionVialStarterR3Text, 1, R.string.consumable_evo22_vial_name)
+        setCountedItemText(b.containerConvertedBundle.evolutionVialStarterR4Text, 1, R.string.consumable_evo23_vial_name)
+        setCountedItemText(b.containerConvertedBundle.evolutionVialStarterR5Text, 1, R.string.consumable_evo24_vial_name)
 
         // Utility bundle counts
         setCountedItemText(b.containerUtilityExpansionBundle.intercessionTextSacred, 1, R.string.consumable_intercession_name)
         setCountedItemText(b.containerUtilityExpansionBundle.evolutionCrateR1Text, 1, R.string.consumable_evo22_vial_name)
         setCountedItemText(b.containerUtilityExpansionBundle.evolutionCrateR2Text, 1, R.string.consumable_evo23_vial_name)
         setCountedItemText(b.containerUtilityExpansionBundle.evolutionCrateR3Text, 2, R.string.accessory_dreamcatcher_name)
+        setCountedItemText(b.containerUtilityExpansionBundle.evolutionVialCrateR1Text, 1, R.string.consumable_evo20_vial_name)
+        setCountedItemText(b.containerUtilityExpansionBundle.evolutionVialCrateR2Text, 1, R.string.consumable_evo21_vial_name)
+        setCountedItemText(b.containerUtilityExpansionBundle.evolutionVialCrateR3Text, 1, R.string.consumable_evo24_vial_name)
 
         selectCategory(Category.ALL)
         refresh()
@@ -420,6 +428,24 @@ class DialogShop : CustomDialog() {
 
         b.containerConvertedBundle.royalTreasuryR2Icon.setOnClickListener { UIUtils.openItemDetail(Item.getInstance("CeremonialCake")) }
         b.containerConvertedBundle.scarletShroudR1Icon.setOnClickListener { UIUtils.openItemDetail(Item.getInstance("ScarletShroud")) }
+
+        // Evolution Vial Starter Set (Starter) - Evo-20/21/22/23/24
+        b.containerConvertedBundle.evolutionVialStarterR1Icon.setOnClickListener { UIUtils.openItemDetail(Item.getInstance("Evo20Vial")) }
+        b.containerConvertedBundle.evolutionVialStarterR2Icon.setOnClickListener { UIUtils.openItemDetail(Item.getInstance("Evo21Vial")) }
+        b.containerConvertedBundle.evolutionVialStarterR3Icon.setOnClickListener { UIUtils.openItemDetail(Item.getInstance("Evo22Vial")) }
+        b.containerConvertedBundle.evolutionVialStarterR4Icon.setOnClickListener { UIUtils.openItemDetail(Item.getInstance("Evo23Vial")) }
+        b.containerConvertedBundle.evolutionVialStarterR5Icon.setOnClickListener { UIUtils.openItemDetail(Item.getInstance("Evo24Vial")) }
+        b.containerConvertedBundle.evolutionVialStarterBuy.setOnClickListener {
+            confirmAndPurchase(getString(R.string.shop_title_evolution_vial_starter), 500, MainActivity.data.isEvolutionVialStarterPurchased) {
+                MainActivity.data.isEvolutionVialStarterPurchased = true
+                Utils.collectItem(Item.getInstance("Evo20Vial", 1), MainActivity.data.items)
+                Utils.collectItem(Item.getInstance("Evo21Vial", 1), MainActivity.data.items)
+                Utils.collectItem(Item.getInstance("Evo22Vial", 1), MainActivity.data.items)
+                Utils.collectItem(Item.getInstance("Evo23Vial", 1), MainActivity.data.items)
+                Utils.collectItem(Item.getInstance("Evo24Vial", 1), MainActivity.data.items)
+                MainActivity.data.amountOfPurchases += 1
+            }
+        }
 
         // Adventurer Bundle (5,000 Gems each)
         b.imperialVanguardBuy.setOnClickListener {
@@ -719,6 +745,20 @@ class DialogShop : CustomDialog() {
             }
         }
 
+        // Evolution Vial Crate (Utility) - Evo-20/21/24
+        b.containerUtilityExpansionBundle.evolutionVialCrateR1Icon.setOnClickListener { UIUtils.openItemDetail(Item.getInstance("Evo20Vial")) }
+        b.containerUtilityExpansionBundle.evolutionVialCrateR2Icon.setOnClickListener { UIUtils.openItemDetail(Item.getInstance("Evo21Vial")) }
+        b.containerUtilityExpansionBundle.evolutionVialCrateR3Icon.setOnClickListener { UIUtils.openItemDetail(Item.getInstance("Evo24Vial")) }
+        b.containerUtilityExpansionBundle.evolutionVialCrateBuy.setOnClickListener {
+            confirmAndPurchase(getString(R.string.shop_title_evolution_vial_crate), 1000, MainActivity.data.isEvolutionVialCratePurchased) {
+                MainActivity.data.isEvolutionVialCratePurchased = true
+                Utils.collectItem(Item.getInstance("Evo20Vial", 1), MainActivity.data.items)
+                Utils.collectItem(Item.getInstance("Evo21Vial", 1), MainActivity.data.items)
+                Utils.collectItem(Item.getInstance("Evo24Vial", 1), MainActivity.data.items)
+                MainActivity.data.amountOfPurchases += 1
+            }
+        }
+
         // Storage Expansion (plan: Dimensional Vault, Infinite Hoard)
         b.containerStorageExpansionBundle.dimensionalVaultBuy.setOnClickListener {
             confirmAndPurchase(getString(R.string.shop_title_storage_100), 1500, MainActivity.data.isStoragePack100Purchased) {
@@ -854,6 +894,7 @@ class DialogShop : CustomDialog() {
         setPurchasedState(b.containerConvertedBundle.patricianWardrobeBuy, b.containerConvertedBundle.checkPatricianWardrobe, MainActivity.data.isPatricianWardrobePurchased)
         setPurchasedState(b.containerConvertedBundle.royalTreasuryBuy, b.containerConvertedBundle.checkRoyalTreasury, MainActivity.data.isRoyalTreasuryPurchased)
         setPurchasedState(b.containerConvertedBundle.scarletShroudBuy, b.containerConvertedBundle.checkScarletShroud, MainActivity.data.isScarletShroudPurchased)
+    setPurchasedState(b.containerConvertedBundle.evolutionVialStarterBuy, b.containerConvertedBundle.checkEvolutionVialStarter, MainActivity.data.isEvolutionVialStarterPurchased)
 
         // Adventurer Bundle
         setPurchasedState(b.imperialVanguardBuy, b.checkImperialVanguard, MainActivity.data.isImperialVanguardPurchased)
@@ -906,6 +947,7 @@ class DialogShop : CustomDialog() {
         setPurchasedState(b.containerUtilityExpansionBundle.eternalVigilBuy, b.containerUtilityExpansionBundle.checkEternalVigil, MainActivity.data.isEternalVigilPurchased)
         setPurchasedState(b.containerUtilityExpansionBundle.deepPockets2Buy, b.containerUtilityExpansionBundle.checkDeepPockets2, MainActivity.data.isMaxLootPack2Purchased)
         setPurchasedState(b.containerUtilityExpansionBundle.evolutionCrateBuy, b.containerUtilityExpansionBundle.checkEvolutionCrate, MainActivity.data.isEvolutionSynthesisPurchased)
+    setPurchasedState(b.containerUtilityExpansionBundle.evolutionVialCrateBuy, b.containerUtilityExpansionBundle.checkEvolutionVialCrate, MainActivity.data.isEvolutionVialCratePurchased)
 
         // Storage Expansion Bundle
         setPurchasedState(b.containerStorageExpansionBundle.dimensionalVaultBuy, b.containerStorageExpansionBundle.checkDimensionalVault, MainActivity.data.isStoragePack100Purchased)

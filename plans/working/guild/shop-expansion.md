@@ -11,6 +11,7 @@ This expansion includes:
 5. **Storage Expansions**: Higher-tier dedicated storage vaults (+100 and +150 spaces).
 6. **Utility Supplies**: One-time **Evolutionary Synthesis Crate** for key ascension materials.
 7. **Thematic Adventurer Bundles**: Built strictly from real in-game classes.
+8. **Evolution Vial Packs**: The **Evolution Vial Crate** (Utility, **1,000 Gems**) granting `1× Evo20Vial`, `1× Evo21Vial`, `1× Evo24Vial`; and the **Evolution Vial Starter Set** (Starter, **500 Gems**) granting `1× of every Evolution Vial (Evo-20/21/22/23/24)`.
 
 ---
 
@@ -67,6 +68,7 @@ This expansion includes:
 > | **Eternal Vigil (Timeless Continuum)** | `3,000` | One-time | `+72 Max Idle Hours` (Total **168h / 7 Days / 1 Week** cap) | `data.isEternalVigilPurchased` $\rightarrow$ `MainActivity.kt` (+72h) |
 > | **Deep Pockets II (Bottomless Chest)** | `1,000` | One-time | `+1,000 Max Loot Capacity` (Raises dungeon loot cap to 4,000) | `data.isMaxLootPack2Purchased` $\rightarrow$ `Area.kt` `fullChest()` |
 > | **Evolutionary Synthesis Crate** | `1,000` | **One-time** | Grants `1× Evo22Vial`, `1× Evo23Vial`, `2× Dreamcatcher` | Added to inventory on purchase; buy button becomes checkmark |
+> | **Evolution Vial Crate** | `1,000` | **One-time** | Grants `1× Evo20Vial`, `1× Evo21Vial`, `1× Evo24Vial` | `data.isEvolutionVialCratePurchased` → added to inventory; buy button becomes checkmark |
 
 ---
 
