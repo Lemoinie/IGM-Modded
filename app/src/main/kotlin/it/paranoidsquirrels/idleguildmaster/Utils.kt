@@ -740,12 +740,17 @@ object Utils {
             d.blackMarketStock.add(delicacy)
         }
 
-        // Slot 9: Evolution Vial — Evo22Vial (1000) or Evo23Vial (1200) gems.
-        val vial = if (random() < 0.5) Item.getInstance("Evo22Vial") else Item.getInstance("Evo23Vial")
+        // Slot 9: Evolution Vial — rotates between all 5 vials at tiered gem prices.
+        val vialNames = listOf("Evo20Vial", "Evo21Vial", "Evo22Vial", "Evo23Vial", "Evo24Vial")
+        val vial = Item.getInstance(vialNames[(random() * vialNames.size).toInt()])
         if (vial != null) {
             val vialOffer = MerchantOffer(vial)
             vialOffer.isGems = true
-            vialOffer.price = if (vial.getTrueClass() == "Evo22Vial") 1000L else 1200L
+            // Base-trait rerolls (20/21) and common amplification (22) cost 1000; the rare tier (23/24) costs 1200.
+            vialOffer.price = when (vial.getTrueClass()) {
+                "Evo20Vial", "Evo21Vial", "Evo22Vial" -> 1000L
+                else -> 1200L
+            }
             d.blackMarketStock.add(vialOffer)
         }
 

@@ -1,0 +1,17 @@
+package it.paranoidsquirrels.idleguildmaster.storage.data.items.instances
+
+import it.paranoidsquirrels.idleguildmaster.R
+import it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Consumable
+
+class Evo20Vial : Consumable() {
+    override fun configureProperties() {
+        super.configureProperties()
+        idName = R.string.consumable_evo20_vial_name
+        idDescription = R.string.consumable_evo20_vial_description
+        idImage = R.drawable.evo20_vial
+        notSellable = true
+        price = 10L
+    }
+
+    override fun printConsumeImage(): Int = R.drawable.evo20_vial
+}

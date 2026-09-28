@@ -292,6 +292,7 @@ abstract class Adventurer : Entity() {
     override fun calculateManaRegen(): Int {
         var mr = super.calculateManaRegen() + (doctrine?.bonusManaRegen() ?: 0)
         if (traitRare == Trait.GIFTED) mr += 2
+        if (traitRare == Trait.GIFTED_PLUS) mr += 4
         val w = weapon
         if (w != null) mr += w.getManaRegen()
         val a = armor
@@ -322,6 +323,7 @@ abstract class Adventurer : Entity() {
         val acc = accessory
         if (acc != null) t += acc.getThreat()
         if (traitRare == Trait.INTIMIDATING) t++
+        if (traitRare == Trait.INTIMIDATING_PLUS) t *= 4
         return Math.max(1, t + (doctrine?.bonusThreat() ?: 0))
     }
 
@@ -414,7 +416,12 @@ abstract class Adventurer : Entity() {
                 ls += acc.getLifestealWithMinion()
             }
         }
-        return baseLifesteal + ls + (if (traitRare == Trait.CURSED) 20 else 0) + (doctrine?.bonusLifesteal() ?: 0)
+        val cursedLifesteal = when (traitRare) {
+            Trait.CURSED -> 20
+            Trait.CURSED_PLUS -> 30
+            else -> 0
+        }
+        return baseLifesteal + ls + cursedLifesteal + (doctrine?.bonusLifesteal() ?: 0)
     }
 
     override fun calculateTotalDarknessDamageAmplification(): Double {
@@ -426,6 +433,7 @@ abstract class Adventurer : Entity() {
         val acc = accessory
         if (acc != null) dda += acc.getDarknessDamageAmplification()
         if (traitRare == Trait.NOCTURNAL) dda += 0.01
+        if (traitRare == Trait.NOCTURNAL_PLUS) dda += 0.02
         return dda + ((doctrine?.darknessDamageIncrease() ?: 0).toDouble() * 0.001)
     }
 
@@ -482,7 +490,11 @@ abstract class Adventurer : Entity() {
         val acc = accessory
         if (acc != null) hm += acc.getHealingModifier()
         val dBonus = hm + ((doctrine?.bonusHealingModifier() ?: 0).toDouble() * 0.01)
-        return if (traitRare == Trait.EMPATHETIC) dBonus * 1.2 else dBonus
+        return when (traitRare) {
+            Trait.EMPATHETIC -> dBonus * 1.2
+            Trait.EMPATHETIC_PLUS -> dBonus * 1.4
+            else -> dBonus
+        }
     }
 
     override fun calculateImmunityToStatus(): Double {
@@ -590,6 +602,9 @@ abstract class Adventurer : Entity() {
         }
         if (traitRare == Trait.CURSED) {
             d = Math.max(1.0, d + (totalMaxHp.toDouble() * 0.02))
+        }
+        if (traitRare == Trait.CURSED_PLUS) {
+            d = Math.max(1.0, d + (totalMaxHp.toDouble() * 0.01))
         }
         return Utils.round(d)
     }

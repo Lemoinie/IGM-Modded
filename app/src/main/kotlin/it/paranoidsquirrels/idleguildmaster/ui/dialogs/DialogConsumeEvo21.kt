@@ -9,21 +9,35 @@ import androidx.viewbinding.ViewBinding
 import it.paranoidsquirrels.idleguildmaster.MainActivity
 import it.paranoidsquirrels.idleguildmaster.R
 import it.paranoidsquirrels.idleguildmaster.UIUtils
+import it.paranoidsquirrels.idleguildmaster.Utils
 import it.paranoidsquirrels.idleguildmaster.databinding.DialogConsumeEvo23Binding
 import it.paranoidsquirrels.idleguildmaster.databinding.LayoutAdventurerChangeTraitBinding
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.Adventurer
+import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.Trait
+import it.paranoidsquirrels.idleguildmaster.storage.data.items.Item
 
-class DialogConsumeEvo23 : CustomDialog() {
-    @JvmField
-    var alternative: Boolean = false
+class DialogConsumeEvo21 : CustomDialog() {
+    companion object {
+        /** PLUS common traits are permanent (Evo-22 amplification) — cannot be rerolled via Evo-21. */
+        @JvmStatic
+        fun isCommonTraitLocked(adventurer: Adventurer): Boolean = adventurer.traitCommon?.isPlus() == true
+
+        /** Shared Evo-21 core (UI confirmation and unit tests): swaps the base Common trait to any
+         *  of the 7 base traits and consumes 1x Evo-21 Vial. Returns false when the adventurer has a
+         *  locked PLUS common trait or no vial is available. */
+        @JvmStatic
+        fun applyCommonTraitChange(adventurer: Adventurer, newTrait: Trait): Boolean {
+            if (isCommonTraitLocked(adventurer) || newTrait.isPlus()) return false
+            val hasVial = MainActivity.data.items.any { it.getTrueClass() == "Evo21Vial" && it.getStack() > 0 }
+            if (!hasVial) return false
+            adventurer.traitCommon = newTrait
+            Utils.removeItemFromStorage(Item.getInstance("Evo21Vial", 1))
+            return true
+        }
+    }
+
     private var binding: DialogConsumeEvo23Binding? = null
     private var traitLockedDialog: AlertDialog? = null
-
-    companion object {
-        /** PLUS rare traits are permanent: they cannot be rerolled via Evo-23. */
-        @JvmStatic
-        fun isRareTraitLocked(adventurer: Adventurer): Boolean = adventurer.traitRare?.isPlus() == true
-    }
 
     override fun getBinding(): ViewBinding = binding!!
 
@@ -31,7 +45,7 @@ class DialogConsumeEvo23 : CustomDialog() {
         binding = viewBinding as DialogConsumeEvo23Binding
     }
 
-    override fun getTitle(): String = getString(R.string.dialog_consume_evo23_title)
+    override fun getTitle(): String = getString(R.string.dialog_consume_evo21_title)
 
     override fun inflate(inflater: LayoutInflater, container: ViewGroup?, attachToRoot: Boolean): ViewBinding {
         val b = DialogConsumeEvo23Binding.inflate(inflater, container, attachToRoot)
@@ -61,26 +75,22 @@ class DialogConsumeEvo23 : CustomDialog() {
             itemBinding.cardView.visibility = if (adventurer.doctrine?.trueClass == "EmptyDoctrine") 8 else 0
             itemBinding.name.text = getString(adventurer.idName)
             itemBinding.traits.text = UIUtils.traitsToShortString(adventurer, resources)
-            if (isRareTraitLocked(adventurer)) {
-                // PLUS rare traits are permanent (Evo-24 amplification) — cannot be rerolled.
+            if (isCommonTraitLocked(adventurer)) {
+                // PLUS common traits are permanent (Evo-22 amplification) — cannot be rerolled.
                 itemBinding.root.alpha = 0.4f
                 itemBinding.root.setOnClickListener {
                     if (traitLockedDialog != null) return@setOnClickListener
-                    val dialog = UIUtils.getInfoDialog(context, R.string.dialog_consume_evo23_title, getString(R.string.trait_locked_plus), false)
+                    val dialog = UIUtils.getInfoDialog(context, R.string.dialog_consume_evo21_title, getString(R.string.trait_locked_plus), false)
                     traitLockedDialog = dialog
                     dialog.setOnDismissListener { traitLockedDialog = null }
                     dialog.show()
                 }
             } else {
                 itemBinding.root.setOnClickListener {
-                    if (MainActivity.shownDialogChangeTraitRare != null) {
-                        return@setOnClickListener
-                    }
-                    val dialog = DialogChangeTraitRare()
+                    val dialog = DialogChangeTraitCommonSelect()
                     dialog.adventurer = adventurer
-                    dialog.alternative = this.alternative
                     MainActivity.headquartersFragment?.parentFragmentManager?.let { fm ->
-                        dialog.show(fm, "dialog_change_trait_rare")
+                        dialog.show(fm, "dialog_change_trait_common_select")
                     }
                 }
             }
@@ -92,15 +102,5 @@ class DialogConsumeEvo23 : CustomDialog() {
         binding?.close?.setOnClickListener {
             dismiss()
         }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        MainActivity.shownDialogConsumeEvo23 = this
-    }
-
-    override fun onStop() {
-        MainActivity.shownDialogConsumeEvo23 = null
-        super.onStop()
     }
 }

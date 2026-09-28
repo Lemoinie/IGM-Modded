@@ -30,6 +30,10 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.places.dungeons.TheGold
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.dungeons.EnchantedForest
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.raids.SanguineCrucible
 import it.paranoidsquirrels.idleguildmaster.ui.dialogs.DialogBattleStatusEffects
+import it.paranoidsquirrels.idleguildmaster.ui.dialogs.DialogChangePetAbility
+import it.paranoidsquirrels.idleguildmaster.ui.dialogs.DialogConsumeEvo21
+import it.paranoidsquirrels.idleguildmaster.ui.dialogs.DialogConsumeEvo23
+import it.paranoidsquirrels.idleguildmaster.ui.dialogs.DialogConsumeEvo24
 import it.paranoidsquirrels.idleguildmaster.ui.dialogs.DialogTavern
 import it.paranoidsquirrels.idleguildmaster.ui.dialogs.ModChangelog
 import org.junit.Assert.*
@@ -1114,7 +1118,13 @@ class ModFeaturesTest {
         assertTrue("Stock must not be empty", stock.isNotEmpty())
         assertTrue("Stock must fit the 12-slot stall (was ${stock.size})", stock.size <= 12)
         assertTrue("Stock must include a smuggled legendary", stock.any { it.item?.getTrueClass() == "ScarletStrand" || it.item?.getTrueClass() == "Aegis" })
-        assertTrue("Stock must include an evolution vial", stock.any { it.item?.getTrueClass() == "Evo22Vial" || it.item?.getTrueClass() == "Evo23Vial" })
+        assertTrue(
+            "Stock must include an evolution vial (Evo-20/21/22/23/24)",
+            stock.any {
+                val c = it.item?.getTrueClass()
+                c == "Evo20Vial" || c == "Evo21Vial" || c == "Evo22Vial" || c == "Evo23Vial" || c == "Evo24Vial"
+            }
+        )
         assertTrue("Stock must include contraband potions", stock.count { it.item?.getTrueClass()?.contains("PotionOf") == true } >= 1)
         assertTrue("Stock must include a shady delicacy", stock.any { it.item?.getTrueClass() == "GlazedDonut" || it.item?.getTrueClass() == "GourmetIcecream" || it.item?.getTrueClass() == "Maxxiburger" || it.item?.getTrueClass() == "Cheesecake" || it.item?.getTrueClass() == "Ambrosia" || it.item?.getTrueClass() == "CeremonialCake" })
     }
@@ -2197,6 +2207,158 @@ class ModFeaturesTest {
         assertEquals("Gems must not change on failure", before, data.gems)
         assertEquals(0, data.tavernGuests.size)
         assertEquals(4321L, data.nextTavernVisit)
+    }
+
+    // ==================== 1.3.15.1 Evolution Vials Expansion ====================
+
+    @Test
+    fun testEvolutionVialItemsInstantiation() {
+        assertTrue(Item.getInstance("Evo20Vial", 1) is Evo20Vial)
+        assertTrue(Item.getInstance("Evo21Vial", 1) is Evo21Vial)
+        assertTrue(Item.getInstance("Evo24Vial", 1) is Evo24Vial)
+    }
+
+    @Test
+    fun testEvo20PetAbilityDuplicateFiltering() {
+        val data = MainActivity.data
+        data.pets.clear()
+        val pet = Pet.getInstance("Beetle", 1)!!
+        pet.petAbility1 = PetAbility.FIGHTER
+        pet.petAbility2 = PetAbility.HEALER
+        pet.petAbility3 = PetAbility.EMPTY
+        pet.petAbility4 = PetAbility.EMPTY
+
+        val available = DialogChangePetAbility.availableAbilities(pet)
+        assertFalse("FIGHTER must be filtered out (already in slot 1)", available.contains(PetAbility.FIGHTER))
+        assertFalse("HEALER must be filtered out (already in slot 2)", available.contains(PetAbility.HEALER))
+        assertTrue("COUNTERATTACK must be a valid target", available.contains(PetAbility.COUNTERATTACK))
+        assertFalse("EMPTY must never be offered", available.contains(PetAbility.EMPTY))
+        assertEquals(14, available.size) // 16 vanilla - 2 owned
+    }
+
+    @Test
+    fun testEvo20ApplyAbilityChangeConsumesVialAndRecalculates() {
+        val data = MainActivity.data
+        data.items.clear()
+        data.items.add(Item.getInstance("Evo20Vial", 1)!!)
+        val pet = Pet.getInstance("Kitsune", 1)!! // Kitsune unlocks all slots at level 1
+        pet.level = 40
+        pet.petAbility1 = PetAbility.FIGHTER
+        pet.petAbility2 = PetAbility.HEALER
+        pet.petAbility3 = PetAbility.EMPTY
+        pet.petAbility4 = PetAbility.EMPTY
+        pet.refreshAbilities()
+
+        assertTrue(DialogChangePetAbility.applyAbilityChange(pet, 2, PetAbility.COUNTERATTACK))
+        assertEquals(PetAbility.COUNTERATTACK, pet.petAbility2)
+        // Kitsune configures slot 2 with the full level (40): 40 * 0.35 = 14.0
+        assertEquals(14.0, pet.getCounterattack(), 0.001)
+        assertTrue(data.items.none { it.getTrueClass() == "Evo20Vial" && it.getStack() > 0 })
+    }
+
+    @Test
+    fun testEvo20FailsWithoutVialOrLockedSlot() {
+        val data = MainActivity.data
+        data.items.clear() // no vial
+        val pet = Pet.getInstance("Dove", 1)!! // abilityNumber 2 -> slot 3 locked at level 1
+        pet.level = 1
+        assertFalse(DialogChangePetAbility.isSlotUnlocked(3, pet))
+        assertFalse(DialogChangePetAbility.applyAbilityChange(pet, 3, PetAbility.FIGHTER))
+        assertTrue(DialogChangePetAbility.isSlotUnlocked(1, pet))
+        val before = pet.petAbility1
+        assertFalse(DialogChangePetAbility.applyAbilityChange(pet, 1, PetAbility.FIGHTER)) // no vial
+        assertEquals("Slot 1 must stay untouched without a vial", before, pet.petAbility1)
+    }
+
+    @Test
+    fun testEvo21BaseCommonTraitReroll() {
+        val data = MainActivity.data
+        data.items.clear()
+        data.items.add(Item.getInstance("Evo21Vial", 1)!!)
+        val hero = Adventurer.getInstance("Footman", 1, 5, 0, null, null, null, Trait.BOOKWORM, null, PotionsDrank(), null, false)!!
+        assertTrue(DialogConsumeEvo21.applyCommonTraitChange(hero, Trait.FERAL))
+        assertEquals(Trait.FERAL, hero.traitCommon)
+        assertTrue(data.items.none { it.getTrueClass() == "Evo21Vial" && it.getStack() > 0 })
+    }
+
+    @Test
+    fun testEvo21PlusCommonIsPermanent() {
+        val data = MainActivity.data
+        data.items.clear()
+        data.items.add(Item.getInstance("Evo21Vial", 1)!!)
+        val hero = Adventurer.getInstance("Footman", 1, 5, 0, null, null, null, Trait.BRUTE_PLUS, null, PotionsDrank(), null, false)!!
+        assertTrue(DialogConsumeEvo21.isCommonTraitLocked(hero))
+        assertFalse(DialogConsumeEvo21.applyCommonTraitChange(hero, Trait.FERAL))
+        assertEquals("PLUS common trait must stay locked", Trait.BRUTE_PLUS, hero.traitCommon)
+    }
+
+    @Test
+    fun testEvo24RarePlusUpgrade() {
+        val data = MainActivity.data
+        data.items.clear()
+        data.items.add(Item.getInstance("Evo24Vial", 1)!!)
+        val hero = Adventurer.getInstance("Footman", 1, 5, 0, null, null, null, null, Trait.EMPATHETIC, PotionsDrank(), null, false)!!
+        val plus = DialogConsumeEvo24.applyRarePlusUpgrade(hero)
+        assertEquals(Trait.EMPATHETIC_PLUS, plus)
+        assertEquals(Trait.EMPATHETIC_PLUS, hero.traitRare)
+        assertTrue(data.items.none { it.getTrueClass() == "Evo24Vial" && it.getStack() > 0 })
+    }
+
+    @Test
+    fun testEvo24UpgradeMapAndPermanence() {
+        assertEquals(Trait.RUTHLESS_PLUS, Trait.getRarePlusUpgrade(Trait.RUTHLESS))
+        assertEquals(Trait.EMPATHETIC_PLUS, Trait.getRarePlusUpgrade(Trait.EMPATHETIC))
+        assertEquals(Trait.NOCTURNAL_PLUS, Trait.getRarePlusUpgrade(Trait.NOCTURNAL))
+        assertEquals(Trait.GIFTED_PLUS, Trait.getRarePlusUpgrade(Trait.GIFTED))
+        assertEquals(Trait.INTIMIDATING_PLUS, Trait.getRarePlusUpgrade(Trait.INTIMIDATING))
+        assertEquals(Trait.CURSED_PLUS, Trait.getRarePlusUpgrade(Trait.CURSED))
+        assertNull("FOCUSED has no PLUS form", Trait.getRarePlusUpgrade(Trait.FOCUSED))
+        assertNull("Already-PLUS traits cannot be re-amplified", Trait.getRarePlusUpgrade(Trait.RUTHLESS_PLUS))
+        assertTrue(Trait.RUTHLESS_PLUS.isPlus())
+        assertFalse(Trait.RUTHLESS.isPlus())
+
+        // Evo-23 permanence: a PLUS rare cannot be rerolled.
+        val hero = Adventurer.getInstance("Footman", 1, 5, 0, null, null, null, null, Trait.RUTHLESS_PLUS, PotionsDrank(), null, false)!!
+        assertTrue(DialogConsumeEvo23.isRareTraitLocked(hero))
+        // Evo-24 cannot amplify an already-PLUS rare.
+        MainActivity.data.items.clear()
+        MainActivity.data.items.add(Item.getInstance("Evo24Vial", 1)!!)
+        assertNull(DialogConsumeEvo24.applyRarePlusUpgrade(hero))
+        assertEquals(Trait.RUTHLESS_PLUS, hero.traitRare)
+    }
+
+    @Test
+    fun testRarePlusStatEffects() {
+        fun hero(rare: Trait?): Adventurer {
+            val h = Adventurer.getInstance("Footman", 1, 40, 0, null, null, null, null, rare, PotionsDrank(), null, false)!!
+            h.baseConstitution = 100
+            h.baseIntelligence = 100
+            return h
+        }
+        val base = hero(null)
+
+        // Empathetic+ heals 40% more (Empathetic heals 20% more).
+        assertEquals(base.calculateHealingModifier() * 1.2, hero(Trait.EMPATHETIC).calculateHealingModifier(), 0.0001)
+        assertEquals(base.calculateHealingModifier() * 1.4, hero(Trait.EMPATHETIC_PLUS).calculateHealingModifier(), 0.0001)
+
+        // Gifted+ regens 4 more MP (Gifted regens 2 more).
+        assertEquals(base.calculateManaRegen() + 2, hero(Trait.GIFTED).calculateManaRegen())
+        assertEquals(base.calculateManaRegen() + 4, hero(Trait.GIFTED_PLUS).calculateManaRegen())
+
+        // Nocturnal+ adds +0.02 darkness damage per darkness point.
+        assertEquals(base.calculateTotalDarknessDamageAmplification() + 0.01, hero(Trait.NOCTURNAL).calculateTotalDarknessDamageAmplification(), 0.0001)
+        assertEquals(base.calculateTotalDarknessDamageAmplification() + 0.02, hero(Trait.NOCTURNAL_PLUS).calculateTotalDarknessDamageAmplification(), 0.0001)
+
+        // Intimidating+ multiplies threat by 4 (Intimidating adds +1).
+        assertEquals(base.getThreat() + 1, hero(Trait.INTIMIDATING).getThreat())
+        assertEquals(base.getThreat() * 4, hero(Trait.INTIMIDATING_PLUS).getThreat())
+
+        // Cursed+ lifesteal +30 and -1% max HP decay (Cursed: +20 / -2%).
+        assertEquals(base.calculateTotalLifesteal() + 20, hero(Trait.CURSED).calculateTotalLifesteal())
+        assertEquals(base.calculateTotalLifesteal() + 30, hero(Trait.CURSED_PLUS).calculateTotalLifesteal())
+        val maxHp = hero(Trait.CURSED_PLUS).calculateTotalMaxHp()
+        assertEquals(Utils.round(Math.max(1.0, maxHp * 0.02)), hero(Trait.CURSED).decay())
+        assertEquals(Utils.round(Math.max(1.0, maxHp * 0.01)), hero(Trait.CURSED_PLUS).decay())
     }
 }
 

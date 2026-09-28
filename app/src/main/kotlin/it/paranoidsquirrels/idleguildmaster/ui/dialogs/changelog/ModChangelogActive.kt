@@ -14,6 +14,11 @@ import it.paranoidsquirrels.idleguildmaster.ui.dialogs.ModChangelog.version
 object ModChangelogActive {
 
     val ENTRIES: List<VersionEntry> = listOf(
+        version("1.3.15.1", "27/9/2026",
+            "Evolution Vials Expansion — three new vials complete the evolution ecosystem: Evo-20 Vial rerolls an unlocked Pet Ability into any of the 16 vanilla abilities (duplicates are always filtered out); Evo-21 Vial rerolls a base Common trait into any of the 7 Common traits; Evo-24 Vial permanently amplifies a base Rare trait into its PLUS form.",
+            "PLUS traits are now permanent: Evo-21 cannot switch a PLUS Common trait and Evo-23 cannot reroll a PLUS Rare trait — amplified adventurers are locked in the reroll dialogs, and RUTHLESS+ was removed from the Evo-23 reroll pool. Evo-24 introduces 5 new PLUS Rare traits: Empathetic+ (+40% outgoing healing), Nocturnal+ (+2% per darkness point), Gifted+ (+4 MP regen), Intimidating+ (threat x4) and Cursed+ (-1% max HP decay, +30 lifesteal).",
+            "The Black Market's Evolution Vial slot now rotates between all 5 vials (Evo-20 through Evo-24).",
+        ),
         version("1.3.15.0", "27/9/2026",
             "Tavern Instant Recruitment: the Tavern now has an Attract Guest button that summons a new Level 1 adventurer immediately for a flat 50 Gems (instead of waiting for the 8-hour arrival timer). While the Tavern is locked, or full, you are warned first — summoning into a full Tavern pushes out the oldest guest.",
         ),
