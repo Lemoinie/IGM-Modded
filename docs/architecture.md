@@ -172,8 +172,8 @@ injected patches. The remaining "mod-specific" surface is thin and clearly locat
   `GuildActivitiesManager.siegeAllowedMonsters()` (e.g. Divine Archeology = Sand Demon
   only, Ancient Grave Digging excludes Kabar/Necrolith, Dire Descent never spawns).
   The battle UI (`DialogDungeonDetail`) renders up to 10 enemies per wave. Shadow's loot
-  drops a Geode (weight 1000/1000 = guaranteed) with a preset gem yield
-  (10%/20%/70% → 100/50/20). Both areas override `Area.canRefillWithGems()` to `false` —
+  always rolls exactly one Geode stack per kill — 100 (80%), 150 (15%), 200 (4%), 300 (1%).
+  Both areas override `Area.canRefillWithGems()` to `false` —
   extra tries can never be bought with gems (1 try per period; the `REROLL` redeem code
   grants a fresh Hunt + Siege).
    The Slumbering Shallows (`TheSlumberingShallowsArea`) is a third, always-accessible

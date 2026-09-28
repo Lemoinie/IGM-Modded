@@ -45,8 +45,8 @@ abstract class Item {
     @JvmField @Transient protected var notSellable: Boolean = false
     @JvmField @Transient protected var consumable: Boolean = false
     /**
-     * Optional preset gem yield for this item instance (used by Shadow-dropped
-     * Geodes: 10% -> 100, 20% -> 50, 70% -> 20). Null = vanilla behavior.
+     * Optional preset gem yield for this item instance. When set, a consumable like the
+     * Geode grants that value per unit instead of the vanilla 1-gem roll (1% chance of 100).
      * Not @Transient: Gson omits the key unless set, so it survives save/load.
      */
     @JvmField var gemValue: Int? = null

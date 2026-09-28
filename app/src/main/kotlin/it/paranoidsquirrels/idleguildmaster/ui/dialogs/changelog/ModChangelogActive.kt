@@ -14,6 +14,9 @@ import it.paranoidsquirrels.idleguildmaster.ui.dialogs.ModChangelog.version
 object ModChangelogActive {
 
     val ENTRIES: List<VersionEntry> = listOf(
+        version("1.3.15.10", "28/9/2026",
+            "Shadow's Geode drop in The Hunt was reworked: instead of a fixed stack of 3 Geodes with a shared preset gem yield, it now rolls one of four much larger Geode stacks — 50 (80%), 100 (15%), 200 (4%) or 300 (1%) — each Geode resolving on use with the standard vanilla yield (1 Gem, 1% chance of 100 Gems).",
+        ),
         version("1.3.15.9", "28/9/2026",
             "Intimidating now grants +2 Threat and Intimidating+ grants +4 Threat instead of +1 Threat / Threat x 4, and their trait descriptions were updated to match (+2 threat / +4 threat).",
         ),
