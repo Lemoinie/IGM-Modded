@@ -6,6 +6,8 @@ echo ============================================================
 echo           IGM Modded - Wireless ADB Pair ^& Connect
 echo ============================================================
 
+set "ADB_MDNS_AUTO_CONNECT=0"
+
 :: 1. Locate ADB executable
 set "ADB="
 where adb >nul 2>nul
@@ -114,6 +116,12 @@ if %CONNECT_RESULT% equ 0 (
     echo [SUCCESS] Connected successfully!
 ) else (
     echo [WARNING] Connect command returned exit code %CONNECT_RESULT%.
+)
+
+:: 5. Clean up duplicate mDNS auto-connect alias to prevent 2 devices from appearing
+for /f "tokens=1" %%D in ('"%ADB%" devices ^| findstr /i "_adb-tls-connect"') do (
+    echo [INFO] Disconnecting duplicate mDNS alias: %%D...
+    "%ADB%" disconnect %%D >nul 2>&1
 )
 
 echo.
