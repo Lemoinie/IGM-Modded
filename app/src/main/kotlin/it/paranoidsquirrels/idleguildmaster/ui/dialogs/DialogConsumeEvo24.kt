@@ -1,6 +1,5 @@
 package it.paranoidsquirrels.idleguildmaster.ui.dialogs
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -12,7 +11,6 @@ import it.paranoidsquirrels.idleguildmaster.UIUtils
 import it.paranoidsquirrels.idleguildmaster.Utils
 import it.paranoidsquirrels.idleguildmaster.databinding.DialogConsumeEvo23Binding
 import it.paranoidsquirrels.idleguildmaster.databinding.LayoutAdventurerChangeTraitBinding
-import it.paranoidsquirrels.idleguildmaster.storage.FileManager
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.Adventurer
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.Trait
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.Item
@@ -39,7 +37,6 @@ class DialogConsumeEvo24 : CustomDialog() {
     }
 
     private var binding: DialogConsumeEvo23Binding? = null
-    private var confirmDialog: AlertDialog? = null
 
     override fun getBinding(): ViewBinding = binding!!
 
@@ -83,28 +80,11 @@ class DialogConsumeEvo24 : CustomDialog() {
                 itemBinding.root.alpha = 0.4f
             } else {
                 itemBinding.root.setOnClickListener {
-                    if (confirmDialog != null) return@setOnClickListener
-                    val message = String.format(
-                        getString(R.string.dialog_consume_evo24_confirm_body),
-                        getString(adventurer.idName),
-                        getString(adventurer.traitRare?.nameRes ?: R.string.trait_null_name),
-                        getString(plusTrait.nameRes)
-                    )
-                    val dialog = UIUtils.getActionDialog(
-                        context,
-                        R.string.dialog_consume_evo24_title,
-                        message,
-                        R.string.yes
-                    ) { dialogInterface, _ ->
-                        if (applyRarePlusUpgrade(adventurer) != null) {
-                            FileManager.saveNow(context)
-                        }
-                        dialogInterface.dismiss()
-                        dismiss()
+                    val dialog = DialogChangeTraitRareUpgrade()
+                    dialog.adventurer = adventurer
+                    MainActivity.headquartersFragment?.parentFragmentManager?.let { fm ->
+                        dialog.show(fm, "dialog_change_trait_rare_upgrade")
                     }
-                    confirmDialog = dialog
-                    dialog.setOnDismissListener { confirmDialog = null }
-                    dialog.show()
                 }
             }
             b.list.addView(itemBinding.root)
@@ -115,5 +95,15 @@ class DialogConsumeEvo24 : CustomDialog() {
         binding?.close?.setOnClickListener {
             dismiss()
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        MainActivity.shownDialogConsumeEvo24 = this
+    }
+
+    override fun onStop() {
+        MainActivity.shownDialogConsumeEvo24 = null
+        super.onStop()
     }
 }

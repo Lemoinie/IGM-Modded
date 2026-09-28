@@ -14,6 +14,10 @@ import it.paranoidsquirrels.idleguildmaster.ui.dialogs.ModChangelog.version
 object ModChangelogActive {
 
     val ENTRIES: List<VersionEntry> = listOf(
+        version("1.3.15.2", "27/9/2026",
+            "Evo-24 Vial now opens a dedicated upgrade dialog (like the Evo-22 Vial): it shows the adventurer's current Rare trait and the enhanced PLUS form with its new stats so you can preview exactly what changes before amplifying.",
+            "Evo-20, Evo-21 and Evo-24 Vials now behave like the Evo-22 Vial on use: the moment the trait is changed the item count refreshes and the select dialog closes, so the consumed vial is immediately visible.",
+        ),
         version("1.3.15.1", "27/9/2026",
             "Evolution Vials Expansion — three new vials complete the evolution ecosystem: Evo-20 Vial rerolls an unlocked Pet Ability into any of the 16 vanilla abilities (duplicates are always filtered out); Evo-21 Vial rerolls a base Common trait into any of the 7 Common traits; Evo-24 Vial permanently amplifies a base Rare trait into its PLUS form.",
             "PLUS traits are now permanent: Evo-21 cannot switch a PLUS Common trait and Evo-23 cannot reroll a PLUS Rare trait — amplified adventurers are locked in the reroll dialogs, and RUTHLESS+ was removed from the Evo-23 reroll pool. Evo-24 introduces 5 new PLUS Rare traits: Empathetic+ (+40% outgoing healing), Nocturnal+ (+2% per darkness point), Gifted+ (+4 MP regen), Intimidating+ (threat x4) and Cursed+ (-1% max HP decay, +30 lifesteal).",

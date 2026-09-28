@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.viewbinding.ViewBinding
+import it.paranoidsquirrels.idleguildmaster.MainActivity
 import it.paranoidsquirrels.idleguildmaster.R
 import it.paranoidsquirrels.idleguildmaster.UIUtils
 import it.paranoidsquirrels.idleguildmaster.databinding.DialogChangeTraitRareBinding
@@ -64,11 +65,8 @@ class DialogChangeTraitCommonSelect : CustomDialog() {
                     message,
                     R.string.yes
                 ) { dialogInterface, _ ->
-                    if (DialogConsumeEvo21.applyCommonTraitChange(adv, trait)) {
-                        FileManager.saveNow(context)
-                    }
+                    executeChange(adv, trait)
                     dialogInterface.dismiss()
-                    dismiss()
                 }
                 confirmDialog = dialog
                 dialog.setOnDismissListener { confirmDialog = null }
@@ -76,6 +74,18 @@ class DialogChangeTraitCommonSelect : CustomDialog() {
             }
             b.list.addView(itemBinding.root)
         }
+    }
+
+    private fun executeChange(adv: Adventurer, newTrait: Trait) {
+        if (!DialogConsumeEvo21.applyCommonTraitChange(adv, newTrait)) return
+        // Reflect the consumed vial immediately and close the select dialog, like Evo-22.
+        MainActivity.shownDialogItemDetail?.initialize(null)
+        MainActivity.shownDialogStorage?.update()
+        MainActivity.headquartersFragment?.refresh()
+        MainActivity.adventurersFragment?.refresh()
+        MainActivity.shownDialogConsumeEvo21?.dismiss()
+        dismiss()
+        context?.let { FileManager.saveNow(it) }
     }
 
     override fun attachListeners() {

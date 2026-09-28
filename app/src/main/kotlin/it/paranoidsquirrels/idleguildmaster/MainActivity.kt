@@ -131,6 +131,12 @@ class MainActivity : AppCompatActivity() {
         var shownDialogConsumeEvo20: DialogConsumeEvo20? = null
 
         @JvmField
+        var shownDialogConsumeEvo21: DialogConsumeEvo21? = null
+
+        @JvmField
+        var shownDialogConsumeEvo24: DialogConsumeEvo24? = null
+
+        @JvmField
         var shownDialogConsumeFood: DialogConsumeFood? = null
 
         @JvmField
