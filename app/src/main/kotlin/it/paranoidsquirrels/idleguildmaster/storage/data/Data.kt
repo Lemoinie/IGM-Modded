@@ -411,6 +411,8 @@ class Data {
     var isVial2RetGrant: Boolean = false
     @SerializedName("redeemed_z3gaazrt")
     var isRedeemed_z3gaazrt: Boolean = false
+    @SerializedName("redeemed_5pji5nvk")
+    var isRedeemed_5pji5nvk: Boolean = false
 
     init {
         messagesToShow.add(KingMessage.MESSAGE_1)

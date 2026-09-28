@@ -28,10 +28,10 @@ class Perch : Enemy() {
         expGiven = 5
     }
 
-    /** "Fish only drops the fish": a Perch always drops itself as Perch food (~80%). */
+    /** "Fish only drops the fish": a Perch always drops itself as Perch food (~50%). */
     override fun listDrops(i: Int): LinkedHashMap<ItemWrapper, Int> {
         val drops = LinkedHashMap<ItemWrapper, Int>()
-        drops.put(ItemWrapper.getInstance("Perch", 1), 800)
+        drops.put(ItemWrapper.getInstance("Perch", 1), 500)
         return drops
     }
 }
