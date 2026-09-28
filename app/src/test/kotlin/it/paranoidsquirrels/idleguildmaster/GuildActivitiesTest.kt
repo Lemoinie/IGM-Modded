@@ -276,21 +276,23 @@ class GuildActivitiesTest {
 
     @Test
     fun testShadowLootPoolGeode() {
-        val shadow = Enemy.getInstance("Shadow") as? Shadow
-        assertNotNull(shadow)
-        val drops = shadow?.listDrops(0)
-        assertNotNull(drops)
-        assertEquals("Shadow must drop exactly one Geode", 1, drops?.size)
-        val wrapper = drops?.keys?.first()
-        assertNotNull("Shadow should have a Geode drop", wrapper)
-        assertTrue(wrapper!!.item is Geode)
-        assertEquals("Shadow must drop a stack of 3 Geodes", 3, (wrapper.item as? Geode)?.stack)
-        val gemValue = (wrapper!!.item as? Geode)?.getGemValue()
-        assertNotNull("Geode from Shadow must carry a preset gem value", gemValue)
-        assertTrue("Geode value must be one of 100/50/20", gemValue in setOf(100, 50, 20))
-        // The drop itself must be guaranteed (weight is per-1000).
-        val rolled = Utils.rollFromWeightedMap(shadow?.listDrops(0))
-        assertNotNull("Shadow's Geode must always roll", rolled)
+        val shadow = requireNotNull(Enemy.getInstance("Shadow") as? Shadow) { "Shadow should be instantiable via Enemy.getInstance" }
+        // Shadow rolls exactly one of four Geode stacks: 100 (80%), 150 (15%), 200 (4%), 300 (1%).
+        val drops = shadow.listDrops(0)
+        assertEquals("Shadow must offer four Geode drop entries", 4, drops.size)
+        val design = mapOf(100 to 800, 150 to 150, 200 to 40, 300 to 10)
+        val actual = HashMap<Int, Int>()
+        for ((wrapper, weight) in drops) {
+            assertTrue("Every drop entry must be a Geode", wrapper.item is Geode)
+            val stack = (wrapper.item as? Geode)?.stack ?: 0
+            assertTrue("Geode stack must be one of 100/150/200/300 (was $stack)", design.containsKey(stack))
+            actual[stack] = weight
+        }
+        assertEquals("Weights must match the design table", design, actual)
+        assertEquals("Weights must sum to 1000 (weight is per-1000)", 1000, drops.values.sum())
+        // The drop itself must always roll one of the entries.
+        val rolled = requireNotNull(Utils.rollFromWeightedMap(shadow.listDrops(0))) { "Shadow's Geode must always roll" }
+        assertTrue("Rolled drop must be a Geode", rolled.item is Geode)
     }
 
     @Test

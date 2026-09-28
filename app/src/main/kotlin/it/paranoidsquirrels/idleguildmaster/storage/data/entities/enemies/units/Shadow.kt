@@ -1,11 +1,9 @@
 package it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.units
 
 import it.paranoidsquirrels.idleguildmaster.R
-import it.paranoidsquirrels.idleguildmaster.Utils
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.Skills
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.Enemy
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.ItemWrapper
-import it.paranoidsquirrels.idleguildmaster.storage.data.items.instances.Geode
 import java.util.LinkedHashMap
 
 class Shadow : Enemy() {
@@ -40,16 +38,13 @@ class Shadow : Enemy() {
     override fun calculateTotalMaxHp(): Int = 1000
 
     override fun listDrops(i: Int): LinkedHashMap<ItemWrapper, Int> {
-        // Drops a stack of 3 Geodes whose gem yield is rolled here:
-        // 10% -> 100 gems, 20% -> 50 gems, 70% -> 20 gems (per Geode).
-        // Weight is per-1000, so 1000 = guaranteed drop.
-        val drops = LinkedHashMap<ItemWrapper, Int>()
-        val wrapper = ItemWrapper.getInstance("Geode", 3)
-        (wrapper.item as? Geode)?.let { geode ->
-            val r = Utils.random()
-            geode.setGemValue(if (r < 0.10) 100 else if (r < 0.30) 50 else 20)
-        }
-        drops.put(wrapper, 1000)
-        return drops
+        // Shadow always rolls exactly one Geode stack per kill (weights are per-1000):
+        // 80% -> 100 Geodes, 15% -> 150, 4% -> 200, 1% -> 300.
+        val linkedHashMap = LinkedHashMap<ItemWrapper, Int>()
+        linkedHashMap.put(ItemWrapper.getInstance("Geode", 50), 800)
+        linkedHashMap.put(ItemWrapper.getInstance("Geode", 100), 150)
+        linkedHashMap.put(ItemWrapper.getInstance("Geode", 200), 40)
+        linkedHashMap.put(ItemWrapper.getInstance("Geode", 300), 10)
+        return linkedHashMap
     }
 }
