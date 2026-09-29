@@ -22,6 +22,7 @@ object ModChangelogActive {
                 "Weapon types and Adventurer stat scalings are now archetype-aware, ensuring unused stats default to 0% so standard classes maintain pure single-stat or dual-stat scaling;",
                 "Enabled hybrid stat scaling on Wyrm Rider, allowing bow attacks to scale with both 100% DEX and 70% INT."
             ),
+            "Fixed Evo-20, Evo-21, and Evo-24 Vials showing the wrong icon when used: they now display the correct use animation icon matching Evo-22 and Evo-23.",
         ),
         version("1.3.15.11", "29/9/2026",
             subpoints(

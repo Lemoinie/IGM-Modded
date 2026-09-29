@@ -9,9 +9,10 @@ class Evo21Vial : Consumable() {
         idName = R.string.consumable_evo21_vial_name
         idDescription = R.string.consumable_evo21_vial_description
         idImage = R.drawable.evo21_vial
+        source.add(R.string.raid_name_celestial_mothership)
         notSellable = true
         price = 10L
     }
 
-    override fun printConsumeImage(): Int = R.drawable.evo21_vial
+    override fun printConsumeImage(): Int = R.drawable.consume_evo21_vial
 }
