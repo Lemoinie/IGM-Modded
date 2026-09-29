@@ -21,9 +21,9 @@ $$\text{Max Attack} = \text{damageModifier} \times (1.0 + \text{damageDelta})$$
 | **Bow** | $100\%$ DEX (`i3`) | $\pm 10\%$ (`0.10`) | Consistent physical ranged |
 | **Dagger** | $100\%$ CON + $100\%$ DEX (`i + i3`) | $\pm 25\%$ (`0.25`) | Wide variance burst melee |
 | **Staff** | $100\%$ INT (`i2`) | $\pm 5\%$ (`0.05`) | Flat magical ranged |
-| **Axe (New)** | $\mathbf{200\%}\text{ }\mathbf{CON}$ ($\mathbf{i \times 2}$) | $\pm \mathbf{20\%}$ ($\mathbf{0.20}$) | Devastating high-impact physical melee |
+| **Axe (New)** | $\mathbf{100\%}\text{ }\mathbf{CON} + \mathbf{100\%}\text{ }\mathbf{INT}$ ($\mathbf{i + i2}$) | $\pm \mathbf{20\%}$ ($\mathbf{0.20}$) | Devastating hybrid physical/magical melee |
 
-*Note on Cleaver variants*: `EnchantedCleaver` overrides `damageDelta` to $\pm 30\%$ (`0.30`) and `WickedCleaver` overrides `damageDelta` to $\pm 50\%$ (`0.50`), while retaining the same base `Axe` class and $200\%$ CON scaling.
+*Note on Cleaver variants*: `EnchantedCleaver` overrides `damageDelta` to $\pm 30\%$ (`0.30`) and `WickedCleaver` overrides `damageDelta` to $\pm 50\%$ (`0.50`), while retaining the same base `Axe` class and $100\%$ CON + $100\%$ INT scaling.
 
 ### 2.2 Base Class: [`Axe.kt`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/items/abstractClasses/Axe.kt)
 
@@ -35,7 +35,7 @@ import it.paranoidsquirrels.idleguildmaster.R
 
 abstract class Axe : Weapon() {
     override fun damageDelta(): Double = 0.20
-    override fun getDamageModifier(i: Int, i2: Int, i3: Int): Int = i * 2 // 200% Constitution scaling
+    override fun getDamageModifier(i: Int, i2: Int, i3: Int): Int = i + i2 // 100% Constitution + 100% Intelligence scaling
     override fun isMagic(): Boolean = false
     override fun isRanged(): Boolean = false
     override fun printType(): Int = R.string.type_axe
@@ -159,6 +159,20 @@ if (w != null) {
 }
 ```
 
+### 5.3 Adventurer Stat Scaling Integration
+In [`Adventurer.kt`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/adventurers/Adventurer.kt#L167-L202), add `R.string.type_axe` to the default stat scaling branches so that Axe wielders scale with $100\%$ CON and $100\%$ INT by default:
+```kotlin
+attackConstitutionScaling:
+    R.string.type_axe -> 1.0
+
+attackIntelligenceScaling:
+    R.string.type_axe -> 1.0
+
+attackDexterityScaling:
+    R.string.type_axe -> 0.0
+```
+Individual classes may further override these per-class in `configureStatistics()` (e.g. hybrid Outlander units).
+
 ---
 
 ## 6. Enemy Drop Integrations
@@ -238,7 +252,7 @@ AbhorrentLongAxe(Item.getInstance("CursedLongAxe", 1), Item.getInstance("Abiotic
 
 ### 8.2 String Resources in `strings.xml`
 - `type_axe`: `"AXE"`
-- `help_attack_axes`: `"Axes deal heavy physical melee damage scaling with 200% Constitution, delivering crushing strikes with high damage variance."`
+- `help_attack_axes`: `"Axes deal heavy melee damage scaling with 100% Constitution and 100% Intelligence, delivering crushing strikes with high damage variance."`
 - Item names, descriptions, and effect strings for all 26 weapons.
 
 ---
@@ -246,7 +260,8 @@ AbhorrentLongAxe(Item.getInstance("CursedLongAxe", 1), Item.getInstance("Abiotic
 ## 9. Verification Checklist
 
 - [ ] All 26 PNG sprite files copied to `app/src/main/res/drawable/`.
-- [ ] `Axe.kt` abstract base class implemented with `getDamageModifier = i * 2` and `damageDelta = 0.20`.
+- [ ] `Axe.kt` abstract base class implemented with `getDamageModifier = i + i2` (100% CON + 100% INT) and `damageDelta = 0.20`.
+- [ ] `Adventurer.kt` default attack stat scalings updated for `R.string.type_axe` (CON = 1.0, INT = 1.0, DEX = 0.0).
 - [ ] All 26 weapon classes created in `items/instances/` inheriting directly from `Axe`.
 - [ ] `EnchantedCleaver` and `WickedCleaver` override `damageDelta` to `0.30` and `0.50`.
 - [ ] `Equipment.kt` and `Adventurer.kt` updated for weapon extra attack chance and multi-status effects.

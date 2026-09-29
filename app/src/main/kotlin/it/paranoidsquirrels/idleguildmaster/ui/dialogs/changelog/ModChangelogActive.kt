@@ -15,6 +15,15 @@ import it.paranoidsquirrels.idleguildmaster.ui.dialogs.ModChangelog.version
 object ModChangelogActive {
 
     val ENTRIES: List<VersionEntry> = listOf(
+        version("1.3.15.14", "29/9/2026",
+            subpoints(
+                "New weapon type: Axe — a hybrid melee family scaling with 100% Constitution and 100% Intelligence (base damage variance ±20%) added alongside Sword, Bow, Dagger and Staff:",
+                "Full 26-axe catalog implemented — starter Stick plus Copper, Iron, Undead, Golden, Corrupted, Enforcer's, Zapper, Black Iron, Abyssal Greataxe, Frostmetal, Frozen Long, Obsidian, Vampire, Unholy, Primeval, Celestial, Animated, Enchanted Cleaver, Wicked Cleaver, Berserker's, Molten Slayer, Omni-Sever, Cursed Long, Infernal Long and Abhorrent Long Axe, each with stats, prices, sprites, crafting recipes and drop sources;",
+                "Enemy drops: Corrupted Axe now drops from the Imperial Enforcer at 0.1% and Berserker's Axe from the Lost Lands Berserker at 3%;",
+                "Combat engine: weapons now support probabilistic end-of-turn actions (Berserker's/Molten Slayer 10% extra attack) and multiple simultaneous on-hit status effects (Zapper stun, Frozen Long freeze, Omni-Sever freeze/ablaze/stun, Cursed/Infernal/Abhorrent Long poisons and burns);",
+                "Cleaver variants add extreme damage spread (±30% Enchanted, ±50% Wicked with +10% dodge), and axe wielders scale 100% CON + 100% INT by default."
+            ),
+        ),
         version("1.3.15.13", "29/9/2026",
             "Fixed Blackwater Port never spawning Mysterious Tentacles during idle: the vanilla Kraken event was seeded inside rollEnemies() on empty rooms (dRandom ≥ 385), but the reconstruction incorrectly restructured the entire enemy table into a key-based branch that could never trigger the event seed. The rollEnemies() logic has been restored to match the original: empty rooms seed/advance the Kraken buildup (with a warning at 10 empty rooms), the next non-empty roll with progress ≥ 10 spawns 5 Mysterious Tentacles, and normal combat rooms reset the event so the buildup only counts empty rooms. Also restored: solo Tentacle encounters (dRandom < 11) and corrected enemy compositions and thresholds throughout.",
         ),

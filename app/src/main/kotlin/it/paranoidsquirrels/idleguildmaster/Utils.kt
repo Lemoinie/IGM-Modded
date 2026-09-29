@@ -23,6 +23,7 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.items.Item
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.ItemAction
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.Recipes
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Accessory
+import it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Axe
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Bow
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Dagger
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Egg
@@ -127,16 +128,17 @@ object Utils {
         return try {
             when (item) {
                 is Sword -> 1
-                is Bow -> 2
-                is Dagger -> 3
-                is Staff -> 4
-                is LightArmor -> 5
-                is MediumArmor -> 6
-                is HeavyArmor -> 7
-                is Accessory -> 8
-                is Potion -> 9
-                is Egg -> 10
-                is Food -> 11
+                is Axe -> 2
+                is Bow -> 3
+                is Dagger -> 4
+                is Staff -> 5
+                is LightArmor -> 6
+                is MediumArmor -> 7
+                is HeavyArmor -> 8
+                is Accessory -> 9
+                is Potion -> 10
+                is Egg -> 11
+                is Food -> 12
                 else -> 13
             }
         } catch (_: Exception) {
@@ -1058,6 +1060,7 @@ object Utils {
     fun getDefaultWeapon(i: Int): Weapon? {
         return when (i) {
             R.string.type_sword -> Item.getInstance("Spade") as? Weapon
+            R.string.type_axe -> Item.getInstance("Stick") as? Weapon
             R.string.type_staff -> Item.getInstance("Cane") as? Weapon
             R.string.type_dagger -> Item.getInstance("Sickle") as? Weapon
             R.string.type_bow -> Item.getInstance("TrainingBow") as? Weapon

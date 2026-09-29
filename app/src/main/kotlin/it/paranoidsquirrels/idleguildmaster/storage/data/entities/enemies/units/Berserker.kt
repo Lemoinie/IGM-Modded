@@ -1,6 +1,7 @@
 package it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.units
 
 import it.paranoidsquirrels.idleguildmaster.R
+import it.paranoidsquirrels.idleguildmaster.Utils
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.EndOfTurnAction
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.Skills
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.Enemy
@@ -35,6 +36,16 @@ class Berserker : Enemy() {
         linkedHashMap.put(ItemWrapper.getInstance("Mithril", 1), 350)
         return linkedHashMap
     }
+
+    /** Independent roll: 3% Berserker's Axe on top of the vanilla drop table. */
+    override fun rollDrops(evKey: Int): List<ItemWrapper> {
+        val drops = super.rollDrops(evKey).toMutableList()
+        if (Utils.random() < 0.03) {
+            drops.add(ItemWrapper.getInstance("BerserkersAxe", 1))
+        }
+        return drops
+    }
+
     override fun endOfTurnActions(): List<EndOfTurnAction> {
         val arrayList = ArrayList<EndOfTurnAction>()
         if (currentHp <= baseMaxHp.toDouble() * 0.5) {

@@ -332,7 +332,31 @@ Cloth(Item.getInstance("PlantFiber", 4)),
     ScarletCape(Item.getInstance("ScarletStrand", 10)),
     EldritchScarletCape(Item.getInstance("ScarletCape", 1), Item.getInstance("EldritchSeal", 5)),
     AbyssalScarletMantle(Item.getInstance("EldritchScarletCape", 1), Item.getInstance("AncestralBlood", 10)),
-    ScarletVeil(Item.getInstance("ScarletStrand", 4));
+    ScarletVeil(Item.getInstance("ScarletStrand", 4)),
+    // --- Axe Progression ---
+    CopperAxe(Item.getInstance("Wood", 3), Item.getInstance("CopperIngot", 3)),
+    IronAxe(Item.getInstance("Wood", 15), Item.getInstance("IronIngot", 5)),
+    UndeadAxe(Item.getInstance("BoneFragment", 30), Item.getInstance("SharpRib", 3)),
+    GoldenAxe(Item.getInstance("Redwood", 5), Item.getInstance("GoldIngot", 15)),
+    EnforcersAxe(Item.getInstance("CorruptedAxe", 1), Item.getInstance("CleansingPotion", 1)),
+    Zapper(Item.getInstance("EnforcersAxe", 1), Item.getInstance("StaticEssence", 1)),
+    BlackIronAxe(Item.getInstance("GhostwoodBoard", 3), Item.getInstance("BlackIronIngot", 3)),
+    AbyssalGreataxe(Item.getInstance("GhostwoodBoard", 10), Item.getInstance("AbyssalIngot", 5)),
+    FrostmetalAxe(Item.getInstance("Winterwood", 3), Item.getInstance("FrostmetalIngot", 1)),
+    FrozenLongAxe(Item.getInstance("FrostmetalAxe", 1), Item.getInstance("FrostNucleus", 1), Item.getInstance("FrostCrystal", 5)),
+    ObsidianAxe(Item.getInstance("ObsidianChunk", 72)),
+    VampireAxe(Item.getInstance("ObsidianAxe", 1), Item.getInstance("CrimsonBrew", 1)),
+    UnholyAxe(Item.getInstance("ObsidianAxe", 1), Item.getInstance("UnholyPotion", 1)),
+    PrimevalAxe(Item.getInstance("ElysianWood", 100), Item.getInstance("PrimevalScale", 3)),
+    CelestialAxe(Item.getInstance("CelestialMetal", 44)),
+    AnimatedAxe(Item.getInstance("AnimatedIngot", 47)),
+    EnchantedCleaver(Item.getInstance("SpellCompendium", 1), Item.getInstance("AnimatedAxe", 1)),
+    WickedCleaver(Item.getInstance("EnchantedCleaver", 1), Item.getInstance("VeilShatterer", 1), Item.getInstance("WickedSeal", 1)),
+    MoltenSlayer(Item.getInstance("BerserkersAxe", 1), Item.getInstance("Infernite", 10)),
+    OmniSever(Item.getInstance("GoldenAxe", 1), Item.getInstance("PrismaticEssence", 1)),
+    CursedLongAxe(Item.getInstance("CursedSilver", 20), Item.getInstance("Redwood", 5)),
+    InfernalLongAxe(Item.getInstance("CursedLongAxe", 1), Item.getInstance("Infernite", 10)),
+    AbhorrentLongAxe(Item.getInstance("CursedLongAxe", 1), Item.getInstance("AbioticCore", 1));
 
     private val ingredients: Array<out Item?> = itemArr
 

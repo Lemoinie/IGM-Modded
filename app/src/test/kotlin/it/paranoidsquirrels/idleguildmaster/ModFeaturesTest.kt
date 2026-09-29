@@ -20,6 +20,7 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.items.Item
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.ItemWrapper
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.Recipes
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Sword
+import it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Axe
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Bow
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.instances.*
 import it.paranoidsquirrels.idleguildmaster.storage.data.pets.Pet
@@ -2496,6 +2497,170 @@ class ModFeaturesTest {
         }
         // One-time: a second redeem must not grant anything new.
         assertEquals("Code already redeemed!", RedeemCodes.process("5PJI5NVK", null))
+    }
+
+    @Test
+    fun testAxeWeaponBaseClassAndScalingDefaults() {
+        val stickOrNull = Item.getInstance("Stick", 1) as? Axe
+        assertNotNull("Stick must instantiate as an Axe", stickOrNull)
+        val stick = stickOrNull!!
+        assertEquals(R.string.type_axe, stick.printType())
+        assertEquals(R.string.help_attack_axes, stick.damageDescription())
+        assertEquals(0.20, stick.damageDelta(), 0.001)
+        // 100% CON + 100% INT, Dexterity is ignored by the Axe damage modifier.
+        assertEquals(7 + 3, stick.getDamageModifier(7, 3, 999))
+
+        // Default weapon for the axe type.
+        val defaultAxe = Utils.getDefaultWeapon(R.string.type_axe)
+        assertNotNull(defaultAxe)
+        assertEquals("Stick", defaultAxe?.getTrueClass())
+
+        // Adventurer stat scaling defaults for axe wielders: CON 1.0 / INT 1.0 / DEX 0.0.
+        val hero = Adventurer.getInstance("Footman", 1, 1, 0, stick, null, null, null, null, PotionsDrank(), null, false)!!
+        hero.weaponType = R.string.type_axe
+        assertEquals(1.0, hero.attackConstitutionScaling, 0.001)
+        assertEquals(1.0, hero.attackIntelligenceScaling, 0.001)
+        assertEquals(0.0, hero.attackDexterityScaling, 0.001)
+    }
+
+    @Test
+    fun testAxeCatalogInstantiationAndStats() {
+        val axeClasses = listOf(
+            "Stick", "CopperAxe", "IronAxe", "UndeadAxe", "GoldenAxe", "CorruptedAxe", "EnforcersAxe",
+            "Zapper", "BlackIronAxe", "AbyssalGreataxe", "FrostmetalAxe", "FrozenLongAxe", "ObsidianAxe",
+            "VampireAxe", "UnholyAxe", "PrimevalAxe", "CelestialAxe", "AnimatedAxe", "EnchantedCleaver",
+            "WickedCleaver", "BerserkersAxe", "MoltenSlayer", "OmniSever", "CursedLongAxe",
+            "InfernalLongAxe", "AbhorrentLongAxe"
+        )
+        assertEquals(26, axeClasses.size)
+        for (name in axeClasses) {
+            val item = Item.getInstance(name, 1)
+            assertNotNull("$name must instantiate", item)
+            assertTrue("$name must be an Axe", item is Axe)
+            assertTrue("$name must not be ranged", !(item as Axe).isRanged())
+            assertTrue("$name must not be magic", !(item as Axe).isMagic())
+        }
+
+        val copper = Item.getInstance("CopperAxe", 1) as Axe
+        assertEquals(2, copper.getConstitution())
+        assertEquals(2, copper.getIntelligence())
+        assertEquals(20L, copper.getPrice())
+
+        val zapper = Item.getInstance("Zapper", 1) as Axe
+        assertEquals(19, zapper.getConstitution())
+        assertEquals(10, zapper.getDexterity())
+        assertEquals(19, zapper.getIntelligence())
+        val zapperEffects = zapper.getOnTargetHitEffects()
+        assertEquals(1, zapperEffects.size)
+        assertEquals(StatusEffectType.STUN, zapperEffects.first().type)
+
+        val cleaver = Item.getInstance("EnchantedCleaver", 1) as Axe
+        assertEquals(0.30, cleaver.damageDelta(), 0.001)
+
+        val wicked = Item.getInstance("WickedCleaver", 1) as Axe
+        assertEquals(0.50, wicked.damageDelta(), 0.001)
+        assertEquals(0.1, wicked.getFlatDodgeChance(), 0.001)
+
+        val berserkerAxe = Item.getInstance("BerserkersAxe", 1) as Axe
+        assertEquals(40, berserkerAxe.getConstitution())
+        assertEquals(EndOfTurnAction.EXTRA_ATTACK, berserkerAxe.getEndOfTurnAction())
+        assertEquals(0.10, berserkerAxe.getEndOfTurnActionProbability(), 0.001)
+    }
+
+    @Test
+    fun testAxeCraftingRecipesRegistered() {
+        val craftable = listOf(
+            "CopperAxe", "IronAxe", "UndeadAxe", "GoldenAxe", "EnforcersAxe", "Zapper",
+            "BlackIronAxe", "AbyssalGreataxe", "FrostmetalAxe", "FrozenLongAxe", "ObsidianAxe",
+            "VampireAxe", "UnholyAxe", "PrimevalAxe", "CelestialAxe", "AnimatedAxe",
+            "EnchantedCleaver", "WickedCleaver", "MoltenSlayer", "OmniSever", "CursedLongAxe",
+            "InfernalLongAxe", "AbhorrentLongAxe"
+        )
+        for (name in craftable) {
+            assertNotNull("$name must have a crafting recipe", Recipes.into(Item.getInstance(name, 1)))
+        }
+
+        val copperRecipe = Recipes.into(Item.getInstance("CopperAxe", 1))!!
+        val ingredientNames = copperRecipe.getIngredients().map { it?.getTrueClass() }
+        assertTrue(ingredientNames.contains("Wood"))
+        assertTrue(ingredientNames.contains("CopperIngot"))
+
+        // Starter and drop-only axes must NOT be craftable.
+        assertNull(Recipes.into(Item.getInstance("Stick", 1)))
+        assertNull(Recipes.into(Item.getInstance("CorruptedAxe", 1)))
+        assertNull(Recipes.into(Item.getInstance("BerserkersAxe", 1)))
+    }
+
+    @Test
+    fun testAxeMultiStatusOnHitEffects() {
+        val omni = Item.getInstance("OmniSever", 1) as Axe
+        val omniEffects = omni.getOnTargetHitEffects()
+        assertEquals(3, omniEffects.size)
+        assertEquals(setOf(StatusEffectType.FROZEN, StatusEffectType.ABLAZE, StatusEffectType.STUN), omniEffects.map { it.type }.toSet())
+
+        val infernal = Item.getInstance("InfernalLongAxe", 1) as Axe
+        assertEquals(setOf(StatusEffectType.POISON, StatusEffectType.ABLAZE), infernal.getOnTargetHitEffects().map { it.type }.toSet())
+
+        val abhorrent = Item.getInstance("AbhorrentLongAxe", 1) as Axe
+        assertEquals(4, abhorrent.getOnTargetHitEffects().size)
+
+        val cursed = Item.getInstance("CursedLongAxe", 1) as Axe
+        val single = cursed.getOnTargetHitEffects()
+        assertEquals(1, single.size)
+        assertEquals(StatusEffectType.POISON, single.first().type)
+        assertEquals(2, single.first().turnsLeft)
+        assertEquals(1.0, single.first().probability, 0.001)
+
+        // Adventurer on-target effect forwarding must carry the weapon's status list.
+        val hero = Adventurer.getInstance("Footman", 1, 1, 0, omni, null, null, null, null, PotionsDrank(), null, false)!!
+        assertEquals(setOf(StatusEffectType.FROZEN, StatusEffectType.ABLAZE, StatusEffectType.STUN), hero.onTargetHitEffects().map { it.type }.toSet())
+    }
+
+    @Test
+    fun testWeaponExtraAttackProbability() {
+        val axeOrNull = Item.getInstance("BerserkersAxe", 1) as? Axe
+        assertNotNull("Berserker's Axe must instantiate as an Axe", axeOrNull)
+        val axe = axeOrNull!!
+        assertEquals(EndOfTurnAction.EXTRA_ATTACK, axe.getEndOfTurnAction())
+        assertEquals(0.10, axe.getEndOfTurnActionProbability(), 0.001)
+
+        val hero = Adventurer.getInstance("Footman", 1, 1, 0, axe, null, null, null, null, PotionsDrank(), null, false)!!
+        var procs = 0
+        val trials = 5000
+        for (i in 0 until trials) {
+            procs += hero.endOfTurnActions().count { it == EndOfTurnAction.EXTRA_ATTACK }
+        }
+        val rate = procs.toDouble() / trials
+        assertTrue("Weapon extra attack should proc ~10% (got $rate)", rate in 0.07..0.13)
+    }
+
+    @Test
+    fun testAxeEnemyDropHooks() {
+        // Enforcer: 0.1% Corrupted Axe on top of the vanilla drop table.
+        val enforcer = Enemy.getInstance("Enforcer")!!
+        var corrupted = 0
+        val n = 20000
+        repeat(n) {
+            if (enforcer.rollDrops(0).any { it.item?.getTrueClass() == "CorruptedAxe" }) corrupted++
+        }
+        val corruptedRate = corrupted.toDouble() / n
+        assertTrue(
+            "Corrupted Axe must drop ~0.1% (got ${(corruptedRate * 100).toString().take(4)}%)",
+            corruptedRate in 0.0001..0.003
+        )
+
+        // Lost Lands Berserker enemy: 3% Berserker's Axe.
+        val berserkerEnemy = Enemy.getInstance("Berserker")!!
+        var berAxe = 0
+        val m = 4000
+        repeat(m) {
+            if (berserkerEnemy.rollDrops(0).any { it.item?.getTrueClass() == "BerserkersAxe" }) berAxe++
+        }
+        val berRate = berAxe.toDouble() / m
+        assertTrue(
+            "Berserker's Axe must drop ~3% (got ${(berRate * 100).toString().take(4)}%)",
+            berRate in 0.02..0.04
+        )
     }
 }
 
