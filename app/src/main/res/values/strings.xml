@@ -4609,6 +4609,8 @@ TAUNT: the taunting unit is always chosen as target"</string>
     <string name="consumable_xp_book_3_description">Grants 1,000 experience to an adventurer.</string>
     <string name="consumable_xp_book_10_name">XP Book (Tier 10)</string>
     <string name="consumable_xp_book_10_description">Grants 100,000 experience to an adventurer.</string>
+    <string name="consumable_xp_book_c_name">XP Book (Tier C)</string>
+    <string name="consumable_xp_book_c_description">Grants 1,000,000 experience to an adventurer.</string>
     <string name="dialog_consume_xpbook_title">Select Adventurer</string>
     <string name="passive_armored_name">Armored</string>
     <string name="passive_armored_description" formatted="false">50% chance to reduce physical damage taken by 50%.</string>

@@ -1362,8 +1362,8 @@ abstract class Area {
                     }
                 }
                 val cause = statusEffect.cause
-                if (cause != null && cause.damagePerTurnPerStatus > 0 && statusEffect.type?.negative == true) {
-                    damagePerTurnPerStatus += cause.damagePerTurnPerStatus
+                if (cause != null && cause.getDamagePerTurnPerStatus() > 0 && statusEffect.type?.negative == true) {
+                    damagePerTurnPerStatus += cause.getDamagePerTurnPerStatus()
                 }
             }
         }
@@ -2349,7 +2349,7 @@ abstract class Area {
             }
             for (entity in listSelectTargets) {
                 var target: Entity? = entity
-                val bonusResurrectChance = this.reviveProbability + (this.caster.bonusResurrectChance.toDouble() * 0.01)
+                val bonusResurrectChance = this.reviveProbability + (this.caster.getBonusResurrectChance().toDouble() * 0.01)
                 if (this.healing && target != null && target.currentHp <= 0 && Utils.random() < bonusResurrectChance) {
                     target.currentHp = 1
                     if (this.caster is Adventurer) {
@@ -2480,7 +2480,7 @@ abstract class Area {
         }
 
         var dCalculateCriticalMultiplier =
-            if (flatDamage) 1.0 else calculateCriticalMultiplier(entity, skill, entity2.criticalReduction)
+            if (flatDamage) 1.0 else calculateCriticalMultiplier(entity, skill, entity2.getCriticalReduction())
         val pet2 = this.petExploring
         val isSuperCrit =
             z4 && pet2 != null && dCalculateCriticalMultiplier > 1.0 && pet2.getSavage() > 0.0 && Utils.random() < pet2.getSavage() / 100.0

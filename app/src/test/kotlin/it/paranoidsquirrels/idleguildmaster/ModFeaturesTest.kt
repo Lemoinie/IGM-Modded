@@ -492,12 +492,42 @@ class ModFeaturesTest {
 
     @Test
     fun testModChangelogNoHardWrappedLines() {
-        // Every change must be one logical line: no line inside a body may start
-        // with whitespace (a folded continuation). The UI renders one row per change.
+        // Every change must be one logical item: accidental word-wrapped continuation
+        // lines are forbidden. Intentional sub-bullets (starting with '–', '⁃', '•', or '-') are allowed.
         for (entry in ModChangelog.parseVersionEntries()) {
-            val folded = entry.body.split('\n').any { it.startsWith(" ") }
-            assertFalse("Version " + entry.title + " has hard-wrapped continuation lines", folded)
+            val accidentalFolded = entry.body.split('\n').any { line ->
+                val trimmed = line.trimStart()
+                line.startsWith(" ") && !trimmed.startsWith("–") && !trimmed.startsWith("⁃") && !trimmed.startsWith("•") && !trimmed.startsWith("-")
+            }
+            assertFalse("Version " + entry.title + " has hard-wrapped continuation lines", accidentalFolded)
         }
+    }
+
+    @Test
+    fun testModChangelogSubpointsSupport() {
+        val entry = ModChangelog.version(
+            "9.9.9.9", "29/9/2026",
+            ModChangelog.subpoints(
+                "Parent feature description:",
+                "Sub-point 1",
+                "Sub-point 2"
+            ),
+            "Separate change 2"
+        )
+        // Subpoints are consolidated under their parent change: entry has 2 logical changes
+        assertEquals(2, entry.changes.size)
+        assertTrue("Sub-bullet 1 must be present with indented en-dash", entry.changes[0].contains("   – Sub-point 1"))
+        assertTrue("Sub-bullet 2 must be present with indented en-dash", entry.changes[0].contains("   – Sub-point 2"))
+
+        // Multiline string with '-' bullets is also normalized cleanly
+        val rawEntry = ModChangelog.version(
+            "9.9.9.8", "29/9/2026",
+            """Raw parent header:
+            - Raw bullet 1
+            - Raw bullet 2"""
+        )
+        assertEquals(1, rawEntry.changes.size)
+        assertTrue("Raw bullet 1 must normalize to indented en-dash", rawEntry.changes[0].contains("   – Raw bullet 1"))
     }
 
     @Test
@@ -662,6 +692,33 @@ class ModFeaturesTest {
             "40% armor ignore must yield more damage (got $damageWithIgnore vs $damageWithoutIgnore)",
             damageWithIgnore > damageWithoutIgnore
         )
+    }
+
+    @Test
+    fun testDoctrineOfControlArcaneSuppressionFlowThroughGetter() {
+        // Control abilities: index 5 = ARCANE_SUPPRESSION (max level 1, +150/level -> 150), so it maps to l6.
+        val control = Doctrine.getInstance("DoctrineOfControl", 0, 0, 0, 0, 0, 1)!!
+        val hero = Adventurer.getInstance("Footman", 1, 45, 0, null, null, null, null, null, PotionsDrank(), control, false)!!
+        assertEquals("Arcane Suppression must grant 150 damage per turn per status", 150, hero.getDamagePerTurnPerStatus())
+        assertEquals("raw damagePerTurnPerStatus field stays 0 — combat MUST read the getter", 0, hero.damagePerTurnPerStatus)
+    }
+
+    @Test
+    fun testDoctrineOfAfflictionNecrosisPorphyricaCriticalReductionFlowThroughGetter() {
+        // Affliction abilities: index 2 = NECROSIS_PORPHYRICA (max level 3, +25/level -> level 2 = 50%), so it maps to l3.
+        val affliction = Doctrine.getInstance("DoctrineOfAffliction", 0, 0, 2, 0, 0, 0)!!
+        val hero = Adventurer.getInstance("Footman", 1, 45, 0, null, null, null, null, null, PotionsDrank(), affliction, false)!!
+        assertEquals("Necrosis Porphyrica must grant 0.50 critical reduction", 0.50, hero.getCriticalReduction(), 0.001)
+        assertEquals("raw criticalReduction field stays 0.0 — combat MUST read the getter", 0.0, hero.criticalReduction, 0.0)
+    }
+
+    @Test
+    fun testDoctrineOfGraceDivineInterventionBonusResurrectChanceFlowThroughGetter() {
+        // Grace abilities: index 3 = DIVINE_INTERVENTION (max level 3, +1/level -> level 3 = 3%), so it maps to l4.
+        val grace = Doctrine.getInstance("DoctrineOfGrace", 0, 0, 0, 3, 0, 0)!!
+        val hero = Adventurer.getInstance("Footman", 1, 45, 0, null, null, null, null, null, PotionsDrank(), grace, false)!!
+        assertEquals("Divine Intervention must grant 3 bonus resurrect chance", 3, hero.getBonusResurrectChance())
+        assertEquals("raw bonusResurrectChance field stays 0 — combat MUST read the getter", 0, hero.bonusResurrectChance)
     }
 
     @Test

@@ -34,13 +34,47 @@ object ModChangelog {
             get() = changes.joinToString("\n") { "- $it" }
     }
 
+    /** Formats a parent change title followed by indented sub-bullets ("smaller -"). */
+    @JvmStatic
+    fun subpoints(header: String, vararg items: String): String {
+        val bullets = items
+            .map { it.trim().removePrefix("-").removePrefix("–").removePrefix("⁃").trim() }
+            .filter { it.isNotEmpty() }
+            .joinToString("\n") { "   – $it" }
+        return "${header.trim()}\n$bullets"
+    }
+
+    /** Normalizes a change string, formatting any internal bullet lines with indented sub-bullets. */
+    @JvmStatic
+    fun normalizeChange(raw: String): String {
+        val trimmed = raw.trim()
+        if (!trimmed.contains('\n')) {
+            return trimmed.removePrefix("-").trim()
+        }
+        val lines = trimmed.split('\n').map { it.trim() }.filter { it.isNotEmpty() }
+        if (lines.isEmpty()) return ""
+        val header = lines[0].removePrefix("-").trim()
+        val sb = StringBuilder(header)
+        for (i in 1 until lines.size) {
+            val line = lines[i]
+            val isBullet = line.startsWith("-") || line.startsWith("–") || line.startsWith("⁃") || line.startsWith("•") || line.startsWith("*")
+            if (isBullet) {
+                val item = line.trimStart('-', '–', '⁃', '•', '*', ' ').trim()
+                sb.append("\n   – ").append(item)
+            } else {
+                sb.append(" ").append(line)
+            }
+        }
+        return sb.toString()
+    }
+
     /** Clean DSL helper for declaring a changelog entry with vararg changes without `\n` or `+`. */
     @JvmStatic
     fun version(version: String, date: String = "", vararg changes: String): VersionEntry =
         VersionEntry(
             version = version.trim(),
             date = date.trim(),
-            changes = changes.map { it.trim().removePrefix("-").trim() }.filter { it.isNotEmpty() }
+            changes = changes.map { normalizeChange(it) }.filter { it.isNotEmpty() }
         )
 
     val MOD_ABOUT_TEXT: String by lazy {
