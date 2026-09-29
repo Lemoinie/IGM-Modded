@@ -15,6 +15,9 @@ import it.paranoidsquirrels.idleguildmaster.ui.dialogs.ModChangelog.version
 object ModChangelogActive {
 
     val ENTRIES: List<VersionEntry> = listOf(
+        version("1.3.15.13", "29/9/2026",
+            "Fixed Blackwater Port never spawning Mysterious Tentacles during idle: the vanilla Kraken event was seeded inside rollEnemies() on empty rooms (dRandom ≥ 385), but the reconstruction incorrectly restructured the entire enemy table into a key-based branch that could never trigger the event seed. The rollEnemies() logic has been restored to match the original: empty rooms seed/advance the Kraken buildup (with a warning at 10 empty rooms), the next non-empty roll with progress ≥ 10 spawns 5 Mysterious Tentacles, and normal combat rooms reset the event so the buildup only counts empty rooms. Also restored: solo Tentacle encounters (dRandom < 11) and corrected enemy compositions and thresholds throughout.",
+        ),
         version("1.3.15.12", "29/9/2026",
             subpoints(
                 "Reworked weapon damage scaling architecture to support hybrid-scaling adventurer classes:",
