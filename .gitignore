@@ -17,6 +17,7 @@ app/build/
 *.apk
 *.aab
 /reference
+/plans
 /save_editor
 /companion_app
 
