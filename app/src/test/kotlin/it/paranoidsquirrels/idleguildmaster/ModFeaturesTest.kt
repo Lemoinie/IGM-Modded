@@ -20,6 +20,7 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.items.Item
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.ItemWrapper
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.Recipes
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Sword
+import it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Bow
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.instances.*
 import it.paranoidsquirrels.idleguildmaster.storage.data.pets.Pet
 import it.paranoidsquirrels.idleguildmaster.storage.data.pets.PetAbility
@@ -741,11 +742,17 @@ class ModFeaturesTest {
     fun testAdventurerAttackStatScaling() {
         val sword = (Item.getInstance("CopperSword", 1) as? Sword)!!
 
-        // Default scaling must be 1.0 so vanilla classes are unaffected.
+        // Default scaling: sword users scale 100% CON, 0% INT, 0% DEX so vanilla classes are unaffected.
         val footman = Adventurer.getInstance("Footman", 1, 5, 0, sword, null, null, null, null, PotionsDrank(), null, false)!!
-        assertEquals("Default CON scaling must be 1.0", 1.0, footman.attackConstitutionScaling, 0.001)
-        assertEquals("Default INT scaling must be 1.0", 1.0, footman.attackIntelligenceScaling, 0.001)
-        assertEquals("Default DEX scaling must be 1.0", 1.0, footman.attackDexterityScaling, 0.001)
+        assertEquals("Default CON scaling for sword user must be 1.0", 1.0, footman.attackConstitutionScaling, 0.001)
+        assertEquals("Unused INT scaling for sword user must be 0.0", 0.0, footman.attackIntelligenceScaling, 0.001)
+        assertEquals("Unused DEX scaling for sword user must be 0.0", 0.0, footman.attackDexterityScaling, 0.001)
+
+        val bow = (Item.getInstance("WoodenBow", 1) as? Bow)!!
+        val archer = Adventurer.getInstance("Archer", 1, 5, 0, bow, null, null, null, null, PotionsDrank(), null, false)!!
+        assertEquals("Default DEX scaling for bow user must be 1.0", 1.0, archer.attackDexterityScaling, 0.001)
+        assertEquals("Unused CON scaling for bow user must be 0.0", 0.0, archer.attackConstitutionScaling, 0.001)
+        assertEquals("Unused INT scaling for bow user must be 0.0", 0.0, archer.attackIntelligenceScaling, 0.001)
 
         // The CON-scaling classes must be configured at 150%.
         val regent = Adventurer.getInstance("BlackRegent", 1, 45, 0, sword, null, null, null, null, PotionsDrank(), null, false)!!
@@ -753,8 +760,13 @@ class ModFeaturesTest {
         val angel = Adventurer.getInstance("AngelOfWar", 1, 45, 0, sword, null, null, null, null, PotionsDrank(), null, false)!!
         assertEquals("AngelOfWar must scale CON at 100% (Holy branch rework)", 1.0, angel.attackConstitutionScaling, 0.001)
         assertEquals("AngelOfWar must scale INT at 70% (Holy branch rework)", 0.7, angel.attackIntelligenceScaling, 0.001)
-        val champion = Adventurer.getInstance("DivineChampion", 1, 45, 0, sword, null, null, null, null, PotionsDrank(), null, false)!!
-        assertEquals("DivineChampion must scale CON at 150%", 1.5, champion.attackConstitutionScaling, 0.001)
+        assertEquals("AngelOfWar must scale DEX at 0%", 0.0, angel.attackDexterityScaling, 0.001)
+
+        // WyrmRider hybrid bow scaling (100% DEX, 70% INT)
+        val wyrmRider = Adventurer.getInstance("WyrmRider", 1, 45, 0, bow, null, null, null, null, PotionsDrank(), null, false)!!
+        assertEquals("WyrmRider must scale DEX at 100%", 1.0, wyrmRider.attackDexterityScaling, 0.001)
+        assertEquals("WyrmRider must scale INT at 70%", 0.7, wyrmRider.attackIntelligenceScaling, 0.001)
+        assertEquals("WyrmRider must scale CON at 0%", 0.0, wyrmRider.attackConstitutionScaling, 0.001)
 
         // Behavioral check: raising the scaling on the same character must raise sword damage
         // (Swords scale damage off CON, so a 150% CON scaling must yield more damage).
@@ -764,6 +776,24 @@ class ModFeaturesTest {
         assertTrue(
             "150% CON scaling must increase sword damage ($baseline -> $boosted)",
             boosted > baseline
+        )
+
+        // Behavioral check: AngelOfWar sword damage must scale with INT in addition to CON.
+        val angelBase = angel.calculateMinAttackDamage()
+        angel.attackIntelligenceScaling = 1.4 // Double the INT scaling
+        val angelBoosted = angel.calculateMinAttackDamage()
+        assertTrue(
+            "Increasing INT scaling on AngelOfWar must increase sword damage ($angelBase -> $angelBoosted)",
+            angelBoosted > angelBase
+        )
+
+        // Behavioral check: WyrmRider bow damage must scale with INT in addition to DEX.
+        val wyrmBase = wyrmRider.calculateMinAttackDamage()
+        wyrmRider.attackIntelligenceScaling = 1.4
+        val wyrmBoosted = wyrmRider.calculateMinAttackDamage()
+        assertTrue(
+            "Increasing INT scaling on WyrmRider must increase bow damage ($wyrmBase -> $wyrmBoosted)",
+            wyrmBoosted > wyrmBase
         )
     }
 

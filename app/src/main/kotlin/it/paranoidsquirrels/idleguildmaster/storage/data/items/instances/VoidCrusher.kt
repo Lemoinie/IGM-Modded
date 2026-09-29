@@ -13,5 +13,5 @@ class VoidCrusher : Sword() {
         constitution = 100
     }
 
-    override fun getDamageModifier(i: Int, i2: Int, i3: Int): Int = if (i >= 275) i else i / 2
+    override fun getDamageModifier(i: Int, i2: Int, i3: Int): Int = (if (i >= 275) i else i / 2) + i2 + i3
 }
