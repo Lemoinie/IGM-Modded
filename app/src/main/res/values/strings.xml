@@ -31,7 +31,7 @@
     <string name="accessory_abyssal_compendium_description">A book listing forgotten techniques of spellweaving, learned from eldritch entities at a great price.</string>
     <string name="accessory_abyssal_compendium_name">Abyssal Compendium</string>
     <string name="accessory_abyssal_scarlet_mantle_description">An awe-inspiring mantle saturated with Ancestral Blood from the deepest abyss. Its suffocating crimson aura elevates all mortal faculties to mythical heights, delivering cataclysmic critical strikes.</string>
-    <string name="accessory_abyssal_scarlet_mantle_effect">+35% crit chance, +40% crit dmg</string>
+    <string name="accessory_abyssal_scarlet_mantle_effect" formatted="false">+35% crit chance, +40% crit dmg</string>
     <string name="accessory_abyssal_scarlet_mantle_name">Abyssal Scarlet Mantle</string>
     <string name="accessory_amulet_of_resurrection_description">Made from the feathers of a legendary bird, in case of death this amulet will resurrect its owner with full HP and no negative effect, possibly forever.</string>
     <string name="accessory_amulet_of_resurrection_effect">40% Resurrect</string>
@@ -990,10 +990,10 @@ FREEZE: This unit can't dodge and takes 10 physical damage each turn."</string>
     <string name="armor_heavy_sage_armor_effect">+60% experience</string>
     <string name="armor_heavy_sage_armor_name">Sage Armor</string>
     <string name="armor_heavy_scarlet_oni_description">A demonic visage forged from condensed Scarlet strands. Discarding conventional heavy plating, it surges with raw bloodlust that drives its wearer to strike down foes with brutal, crushing criticals.</string>
-    <string name="armor_heavy_scarlet_oni_effect">+18% crit chance, +5% crit dmg</string>
+    <string name="armor_heavy_scarlet_oni_effect" formatted="false">+18% crit chance, +5% crit dmg</string>
     <string name="armor_heavy_scarlet_oni_name">Scarlet Oni</string>
     <string name="armor_heavy_scarlet_oni_juggernaut_description">The apex manifestation of demonic Scarlet armor. Imbued with titanic resilience and boundless fury, it pulverizes enemy lines with devastating critical brutality.</string>
-    <string name="armor_heavy_scarlet_oni_juggernaut_effect">+30% crit chance, +35% crit dmg</string>
+    <string name="armor_heavy_scarlet_oni_juggernaut_effect" formatted="false">+30% crit chance, +35% crit dmg</string>
     <string name="armor_heavy_scarlet_oni_juggernaut_name">Scarlet Oni Juggernaut</string>
     <string name="armor_heavy_shielding_cuirass_description">Heavy armor enhanced with an endless source of magic power, to shield the user from external influences.</string>
     <string name="armor_heavy_shielding_cuirass_effect">30% status immunity</string>
@@ -3882,9 +3882,9 @@ POISON: damage reduced by 20%"</string>
     <string name="skill_sanguine_pyre_name">Sanguine Pyre</string>
     <string name="skill_sanguine_pyre_description">Consumes the acolyte\'s dark vitality to strike all adventurers for 50% magic damage and sear them with BLOODFLAME for 3 turns.\n\nBLOODFLAME: Burns for 5% Max HP each turn as magic damage and prevents all healing.</string>
     <string name="passive_blood_convocation_name">Blood Convocation</string>
-    <string name="passive_blood_convocation_description">Whenever the Archmagus takes damage, there is a 36% chance to summon a minion (60% Bloodstone Colossus, 40% Crimson Acolyte) while the formation has room.</string>
+    <string name="passive_blood_convocation_description" formatted="false">Whenever the Archmagus takes damage, there is a 36% chance to summon a minion (60% Bloodstone Colossus, 40% Crimson Acolyte) while the formation has room.</string>
     <string name="passive_martyrs_pact_name">Martyr\'s Pact</string>
-    <string name="passive_martyrs_pact_description">When the Crimson Acolyte dies, every surviving enemy gains +1 stack of SANGUINE FERVOR.\n\nSANGUINE FERVOR: +5% dmg dealt per stack, permanently until unit dies.</string>
+    <string name="passive_martyrs_pact_description" formatted="false">When the Crimson Acolyte dies, every surviving enemy gains +1 stack of SANGUINE FERVOR.\n\nSANGUINE FERVOR: +5% dmg dealt per stack, permanently until unit dies.</string>
     <string name="btn_status_effects">STATUS</string>
     <string name="status_effects_title">Status Effects</string>
     <string name="status_allies">Allies</string>
