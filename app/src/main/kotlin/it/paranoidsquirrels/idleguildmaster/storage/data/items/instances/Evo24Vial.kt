@@ -13,5 +13,5 @@ class Evo24Vial : Consumable() {
         price = 10L
     }
 
-    override fun printConsumeImage(): Int = R.drawable.evo24_vial
+    override fun printConsumeImage(): Int = R.drawable.consume_evo24_vial
 }

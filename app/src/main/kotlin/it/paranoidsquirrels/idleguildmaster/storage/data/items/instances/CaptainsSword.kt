@@ -11,6 +11,7 @@ class CaptainsSword : Sword() {
         idDescription = R.string.weapon_sword_captains_sword_description
         idEffect = R.string.weapon_sword_captains_sword_effect
         idImage = R.drawable.captains_sword
+        source.add(R.string.dungeon_name_the_golden_city)
         price = 8000L
         constitution = 25
         dexterity = 8
