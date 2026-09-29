@@ -15,5 +15,5 @@ class ColossalSwordOfScarletKing : Sword() {
         bloodflameDamageBonus = 50 // Bloodflame deals +50% damage when this sword inflicts it
     }
 
-    override fun getDamageModifier(i: Int, i2: Int, i3: Int): Int = i
+    override fun getDamageModifier(i: Int, i2: Int, i3: Int): Int = i + i2 + i3
 }

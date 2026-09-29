@@ -277,15 +277,15 @@ class GuildActivitiesTest {
     @Test
     fun testShadowLootPoolGeode() {
         val shadow = requireNotNull(Enemy.getInstance("Shadow") as? Shadow) { "Shadow should be instantiable via Enemy.getInstance" }
-        // Shadow rolls exactly one of four Geode stacks: 100 (80%), 150 (15%), 200 (4%), 300 (1%).
+        // Shadow rolls exactly one of four Geode stacks: 50 (80%), 100 (15%), 200 (4%), 300 (1%).
         val drops = shadow.listDrops(0)
         assertEquals("Shadow must offer four Geode drop entries", 4, drops.size)
-        val design = mapOf(100 to 800, 150 to 150, 200 to 40, 300 to 10)
+        val design = mapOf(50 to 800, 100 to 150, 200 to 40, 300 to 10)
         val actual = HashMap<Int, Int>()
         for ((wrapper, weight) in drops) {
             assertTrue("Every drop entry must be a Geode", wrapper.item is Geode)
             val stack = (wrapper.item as? Geode)?.stack ?: 0
-            assertTrue("Geode stack must be one of 100/150/200/300 (was $stack)", design.containsKey(stack))
+            assertTrue("Geode stack must be one of 50/100/200/300 (was $stack)", design.containsKey(stack))
             actual[stack] = weight
         }
         assertEquals("Weights must match the design table", design, actual)

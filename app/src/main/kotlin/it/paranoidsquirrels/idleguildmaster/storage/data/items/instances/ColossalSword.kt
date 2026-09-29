@@ -14,5 +14,5 @@ class ColossalSword : Sword() {
         constitution = 50
     }
 
-    override fun getDamageModifier(i: Int, i2: Int, i3: Int): Int = if (i >= 120) i else i / 2
+    override fun getDamageModifier(i: Int, i2: Int, i3: Int): Int = (if (i >= 120) i else i / 2) + i2 + i3
 }

@@ -15,6 +15,8 @@ class WyrmRider : Adventurer() {
         baseDexterity = 40
         baseDefense = 10
         baseMagicDefense = 10
+        attackDexterityScaling = 1.0 // 100% DEX weapon scaling
+        attackIntelligenceScaling = 0.7 // 70% INT weapon scaling
         endOfTurnAction = EndOfTurnAction.RIDER_VII
         imageId = R.drawable.unit_wyrm_rider
         idName = R.string.adventurer_wyrm_rider_name

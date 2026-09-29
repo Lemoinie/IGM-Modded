@@ -15,6 +15,14 @@ import it.paranoidsquirrels.idleguildmaster.ui.dialogs.ModChangelog.version
 object ModChangelogActive {
 
     val ENTRIES: List<VersionEntry> = listOf(
+        version("1.3.15.12", "29/9/2026",
+            subpoints(
+                "Reworked weapon damage scaling architecture to support hybrid-scaling adventurer classes:",
+                "Fixed the Holy Knight / Angel of War branch (HolyKnight, Paladin, Templar, Inquisitor, Justiciar, AngelOfWar) failing to scale with Intelligence: weapon damage modifiers now sum all channelled stats instead of discarding off-stats, allowing their 70% INT sword scaling to function correctly;",
+                "Weapon types and Adventurer stat scalings are now archetype-aware, ensuring unused stats default to 0% so standard classes maintain pure single-stat or dual-stat scaling;",
+                "Enabled hybrid stat scaling on Wyrm Rider, allowing bow attacks to scale with both 100% DEX and 70% INT."
+            ),
+        ),
         version("1.3.15.11", "29/9/2026",
             subpoints(
                 "Fixed Doctrine combat abilities failing to trigger due to raw field access instead of calling their getter methods:",

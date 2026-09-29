@@ -1,6 +1,7 @@
 package it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers
 
 import it.paranoidsquirrels.idleguildmaster.Formulas
+import it.paranoidsquirrels.idleguildmaster.R
 import it.paranoidsquirrels.idleguildmaster.Utils
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.EndOfTurnAction
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.Entity
@@ -148,19 +149,56 @@ abstract class Adventurer : Entity() {
     @Transient
     var nextClasses: MutableList<String> = ArrayList()
 
+    @Transient
+    private var customConstitutionScaling: Double? = null
+
+    @Transient
+    private var customIntelligenceScaling: Double? = null
+
+    @Transient
+    private var customDexterityScaling: Double? = null
+
     /**
-     * Weapon-stat scaling multipliers (default 1.0). Multiplies each stat BEFORE it feeds into
-     * the weapon's damage modifier, so a class can scale e.g. Constitution at 150% (1.5).
-     * Set inside `configureStatistics()`; never persisted.
+     * Weapon-stat scaling multipliers. Multiplies each stat BEFORE it feeds into
+     * the weapon's damage modifier. Defaults are determined by weapon archetype (e.g. Swords scale CON at 1.0,
+     * INT at 0.0, DEX at 0.0), allowing classes to override them in configureStatistics() for hybrid or boosted scaling.
+     * Never persisted.
      */
-    @Transient
-    open var attackConstitutionScaling: Double = 1.0
+    open var attackConstitutionScaling: Double
+        get() = customConstitutionScaling ?: when (if (weaponType != 0) weaponType else weapon?.printType() ?: 0) {
+            R.string.type_sword -> 1.0
+            R.string.type_dagger -> 1.0
+            R.string.type_bow -> 0.0
+            R.string.type_staff -> 0.0
+            else -> 1.0
+        }
+        set(value) {
+            customConstitutionScaling = value
+        }
 
-    @Transient
-    open var attackIntelligenceScaling: Double = 1.0
+    open var attackIntelligenceScaling: Double
+        get() = customIntelligenceScaling ?: when (if (weaponType != 0) weaponType else weapon?.printType() ?: 0) {
+            R.string.type_staff -> 1.0
+            R.string.type_sword -> 0.0
+            R.string.type_bow -> 0.0
+            R.string.type_dagger -> 0.0
+            else -> 0.0
+        }
+        set(value) {
+            customIntelligenceScaling = value
+        }
 
-    @Transient
-    open var attackDexterityScaling: Double = 1.0
+    open var attackDexterityScaling: Double
+        get() = customDexterityScaling ?: when (if (weaponType != 0) weaponType else weapon?.printType() ?: 0) {
+            R.string.type_bow -> 1.0
+            R.string.type_dagger -> 1.0
+            R.string.type_sword -> 0.0
+            R.string.type_staff -> 0.0
+            else -> 0.0
+        }
+        set(value) {
+            customDexterityScaling = value
+        }
 
     protected abstract fun configureStatistics()
 
