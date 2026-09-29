@@ -32,70 +32,90 @@ class BlackwaterPort : Area() {
 
     override fun rollEnemies(): MutableList<Enemy> {
         val dRandom = Utils.random() * 1000.0
-        val key = event?.key ?: 0
-        if (key != 0) {
-            if (key == 1) {
-                val progress = event?.progress ?: 0
-                if (progress >= 10) {
-                    event = Event(Event.THE_KRAKEN_FIGHT)
-                    return CopyOnWriteArrayList(listOfNotNull(Enemy.getInstance("MysteriousTentacle"), Enemy.getInstance("MysteriousTentacle"), Enemy.getInstance("MysteriousTentacle"), Enemy.getInstance("MysteriousTentacle")))
-                }
-                event?.progress = progress + 1
-            } else if (key == 2) {
-                return CopyOnWriteArrayList(listOfNotNull(Enemy.getInstance("MysteriousTentacle"), Enemy.getInstance("MysteriousTentacle"), Enemy.getInstance("MysteriousTentacle"), Enemy.getInstance("MysteriousTentacle")))
+        if (dRandom >= 385.0) {
+            // Empty room: seed or advance the Kraken buildup event.
+            if (event == null) {
+                event = Event(Event.THE_KRAKEN)
             }
-        } else {
-            if (dRandom >= 385.0) {
-                return CopyOnWriteArrayList()
+            val progress = event!!.progress + 1
+            event!!.progress = progress
+            if (progress == 10) {
+                Logger.log(this, Logger.EVENT_SIGNIFICANT, R.string.log_blackwater_port_event_1a)
             }
-            if (dRandom < 15.0) {
-                return CopyOnWriteArrayList(listOfNotNull(Enemy.getInstance("Mimic")))
-            }
-            if (dRandom < 45.0) {
-                return CopyOnWriteArrayList(listOfNotNull(Enemy.getInstance("PirateCaptain"), Enemy.getInstance("PirateLieutenant")))
-            }
-            if (dRandom < 75.0) {
-                return CopyOnWriteArrayList(listOfNotNull(Enemy.getInstance("PirateCaptain"), Enemy.getInstance("PirateLieutenant"), Enemy.getInstance("Deckhand")))
-            }
-            if (dRandom < 105.0) {
-                return CopyOnWriteArrayList(listOfNotNull(Enemy.getInstance("PirateCaptain"), Enemy.getInstance("PirateLieutenant"), Enemy.getInstance("Pirate")))
-            }
-            if (dRandom < 135.0) {
-                return CopyOnWriteArrayList(listOfNotNull(Enemy.getInstance("PirateCaptain"), Enemy.getInstance("PirateLieutenant"), Enemy.getInstance("Pirate"), Enemy.getInstance("Deckhand")))
-            }
-            if (dRandom < 165.0) {
-                return CopyOnWriteArrayList(listOfNotNull(Enemy.getInstance("PirateCaptain"), Enemy.getInstance("PirateLieutenant"), Enemy.getInstance("Pirate"), Enemy.getInstance("Deckhand"), Enemy.getInstance("Deckhand")))
-            }
-            if (dRandom < 195.0) {
-                return CopyOnWriteArrayList(listOfNotNull(Enemy.getInstance("Deckhand"), Enemy.getInstance("Deckhand")))
-            }
-            if (dRandom < 210.0) {
-                return CopyOnWriteArrayList(listOfNotNull(Enemy.getInstance("Pirate"), Enemy.getInstance("Deckhand")))
-            }
-            if (dRandom < 235.0) {
-                return CopyOnWriteArrayList(listOfNotNull(Enemy.getInstance("Deckhand"), Enemy.getInstance("Pirate"), Enemy.getInstance("Deckhand")))
-            }
-            if (dRandom < 250.0) {
-                return CopyOnWriteArrayList(listOfNotNull(Enemy.getInstance("Deckhand"), Enemy.getInstance("PirateLieutenant"), Enemy.getInstance("Deckhand")))
-            }
-            if (dRandom < 280.0) {
-                return CopyOnWriteArrayList(listOfNotNull(Enemy.getInstance("Pirate"), Enemy.getInstance("Pirate"), Enemy.getInstance("Pirate")))
-            }
-            if (dRandom < 310.0) {
-                return CopyOnWriteArrayList(listOfNotNull(Enemy.getInstance("Deckhand"), Enemy.getInstance("Pirate"), Enemy.getInstance("Pirate"), Enemy.getInstance("Deckhand")))
-            }
-            if (dRandom < 340.0) {
-                return CopyOnWriteArrayList(listOfNotNull(Enemy.getInstance("Deckhand"), Enemy.getInstance("Pirate"), Enemy.getInstance("PirateLieutenant"), Enemy.getInstance("Deckhand")))
-            }
-            if (dRandom < 355.0) {
-                return CopyOnWriteArrayList(listOfNotNull(Enemy.getInstance("Pirate"), Enemy.getInstance("Pirate"), Enemy.getInstance("Pirate"), Enemy.getInstance("Pirate"), Enemy.getInstance("Pirate")))
-            }
-            if (dRandom < 370.0) {
-                return CopyOnWriteArrayList(listOfNotNull(Enemy.getInstance("Deckhand"), Enemy.getInstance("Pirate"), Enemy.getInstance("Pirate"), Enemy.getInstance("Deckhand"), Enemy.getInstance("Deckhand")))
-            }
-            if (dRandom < 385.0) {
-                return CopyOnWriteArrayList(listOfNotNull(Enemy.getInstance("Deckhand"), Enemy.getInstance("Pirate"), Enemy.getInstance("PirateLieutenant"), Enemy.getInstance("Deckhand"), Enemy.getInstance("Deckhand")))
-            }
+            return CopyOnWriteArrayList()
+        }
+        if (event != null && event!!.progress >= 10) {
+            // Buildup complete: spawn the Kraken tentacle fight (5 tentacles).
+            event = Event(Event.THE_KRAKEN_FIGHT)
+            return CopyOnWriteArrayList(listOfNotNull(Enemy.getInstance("MysteriousTentacle"), Enemy.getInstance("MysteriousTentacle"), Enemy.getInstance("MysteriousTentacle"), Enemy.getInstance("MysteriousTentacle"), Enemy.getInstance("MysteriousTentacle")))
+        }
+        // Normal combat room: reset event so only empty rooms count toward the buildup.
+        event = null
+        if (dRandom < 1.0) {
+            return CopyOnWriteArrayList(listOfNotNull(Enemy.getInstance("Mimic")))
+        }
+        if (dRandom < 11.0) {
+            return CopyOnWriteArrayList(listOfNotNull(Enemy.getInstance("MysteriousTentacle")))
+        }
+        if (dRandom < 50.0) {
+            return CopyOnWriteArrayList(listOfNotNull(Enemy.getInstance("Deckhand")))
+        }
+        if (dRandom < 90.0) {
+            return CopyOnWriteArrayList(listOfNotNull(Enemy.getInstance("Pirate")))
+        }
+        if (dRandom < 110.0) {
+            return CopyOnWriteArrayList(listOfNotNull(Enemy.getInstance("Deckhand"), Enemy.getInstance("Pirate")))
+        }
+        if (dRandom < 130.0) {
+            return CopyOnWriteArrayList(listOfNotNull(Enemy.getInstance("Deckhand"), Enemy.getInstance("Deckhand")))
+        }
+        if (dRandom < 150.0) {
+            return CopyOnWriteArrayList(listOfNotNull(Enemy.getInstance("Pirate"), Enemy.getInstance("Pirate")))
+        }
+        if (dRandom < 170.0) {
+            return CopyOnWriteArrayList(listOfNotNull(Enemy.getInstance("Deckhand"), Enemy.getInstance("PirateLieutenant")))
+        }
+        if (dRandom < 190.0) {
+            return CopyOnWriteArrayList(listOfNotNull(Enemy.getInstance("Pirate"), Enemy.getInstance("PirateLieutenant")))
+        }
+        if (dRandom < 205.0) {
+            return CopyOnWriteArrayList(listOfNotNull(Enemy.getInstance("Deckhand"), Enemy.getInstance("Pirate"), Enemy.getInstance("Deckhand")))
+        }
+        if (dRandom < 220.0) {
+            return CopyOnWriteArrayList(listOfNotNull(Enemy.getInstance("Pirate"), Enemy.getInstance("Deckhand"), Enemy.getInstance("Pirate")))
+        }
+        if (dRandom < 235.0) {
+            return CopyOnWriteArrayList(listOfNotNull(Enemy.getInstance("Pirate"), Enemy.getInstance("Pirate"), Enemy.getInstance("Pirate")))
+        }
+        if (dRandom < 250.0) {
+            return CopyOnWriteArrayList(listOfNotNull(Enemy.getInstance("Pirate"), Enemy.getInstance("PirateLieutenant"), Enemy.getInstance("Pirate")))
+        }
+        if (dRandom < 265.0) {
+            return CopyOnWriteArrayList(listOfNotNull(Enemy.getInstance("Pirate"), Enemy.getInstance("PirateLieutenant"), Enemy.getInstance("Deckhand")))
+        }
+        if (dRandom < 280.0) {
+            return CopyOnWriteArrayList(listOfNotNull(Enemy.getInstance("Pirate"), Enemy.getInstance("PirateCaptain"), Enemy.getInstance("Pirate")))
+        }
+        if (dRandom < 295.0) {
+            return CopyOnWriteArrayList(listOfNotNull(Enemy.getInstance("Pirate"), Enemy.getInstance("PirateCaptain"), Enemy.getInstance("Deckhand")))
+        }
+        if (dRandom < 310.0) {
+            return CopyOnWriteArrayList(listOfNotNull(Enemy.getInstance("Pirate"), Enemy.getInstance("Pirate"), Enemy.getInstance("Pirate"), Enemy.getInstance("Pirate")))
+        }
+        if (dRandom < 325.0) {
+            return CopyOnWriteArrayList(listOfNotNull(Enemy.getInstance("Deckhand"), Enemy.getInstance("Pirate"), Enemy.getInstance("Pirate"), Enemy.getInstance("Deckhand")))
+        }
+        if (dRandom < 340.0) {
+            return CopyOnWriteArrayList(listOfNotNull(Enemy.getInstance("Pirate"), Enemy.getInstance("PirateLieutenant"), Enemy.getInstance("Deckhand"), Enemy.getInstance("Pirate")))
+        }
+        if (dRandom < 355.0) {
+            return CopyOnWriteArrayList(listOfNotNull(Enemy.getInstance("Pirate"), Enemy.getInstance("Pirate"), Enemy.getInstance("Pirate"), Enemy.getInstance("Pirate"), Enemy.getInstance("Pirate")))
+        }
+        if (dRandom < 370.0) {
+            return CopyOnWriteArrayList(listOfNotNull(Enemy.getInstance("Deckhand"), Enemy.getInstance("Pirate"), Enemy.getInstance("Pirate"), Enemy.getInstance("Deckhand"), Enemy.getInstance("Deckhand")))
+        }
+        if (dRandom < 385.0) {
+            return CopyOnWriteArrayList(listOfNotNull(Enemy.getInstance("Deckhand"), Enemy.getInstance("Pirate"), Enemy.getInstance("PirateLieutenant"), Enemy.getInstance("Deckhand"), Enemy.getInstance("Deckhand")))
         }
         return CopyOnWriteArrayList()
     }
