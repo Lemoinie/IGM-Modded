@@ -168,6 +168,7 @@ abstract class Adventurer : Entity() {
         get() = customConstitutionScaling ?: when (if (weaponType != 0) weaponType else weapon?.printType() ?: 0) {
             R.string.type_sword -> 1.0
             R.string.type_dagger -> 1.0
+            R.string.type_axe -> 1.0
             R.string.type_bow -> 0.0
             R.string.type_staff -> 0.0
             else -> 1.0
@@ -179,6 +180,7 @@ abstract class Adventurer : Entity() {
     open var attackIntelligenceScaling: Double
         get() = customIntelligenceScaling ?: when (if (weaponType != 0) weaponType else weapon?.printType() ?: 0) {
             R.string.type_staff -> 1.0
+            R.string.type_axe -> 1.0
             R.string.type_sword -> 0.0
             R.string.type_bow -> 0.0
             R.string.type_dagger -> 0.0
@@ -192,6 +194,7 @@ abstract class Adventurer : Entity() {
         get() = customDexterityScaling ?: when (if (weaponType != 0) weaponType else weapon?.printType() ?: 0) {
             R.string.type_bow -> 1.0
             R.string.type_dagger -> 1.0
+            R.string.type_axe -> 0.0
             R.string.type_sword -> 0.0
             R.string.type_staff -> 0.0
             else -> 0.0
@@ -728,10 +731,10 @@ abstract class Adventurer : Entity() {
             arrayList.add(StatusEffect(effect.type, this, effect.turnsLeft, effect.probability))
         }
         val w = weapon
-        if (w != null && w.getOnTargetHit() != null) {
-            val onTargetHit = w.getOnTargetHit()!!
-            onTargetHit.cause = this
-            arrayList.add(onTargetHit)
+        if (w != null) {
+            for (hit in w.getOnTargetHitEffects()) {
+                arrayList.add(StatusEffect(hit.type, this, hit.turnsLeft, hit.probability))
+            }
         }
         val a = armor
         if (a != null && a.getOnTargetHit() != null) {
@@ -792,9 +795,11 @@ abstract class Adventurer : Entity() {
         }
         val w = weapon
         if (w != null && w.getEndOfTurnAction() != null) {
-            val wAction = w.getEndOfTurnAction()!!
-            for (i in 0 until w.getEndOfTurnActionRepeats()) {
-                arrayList.add(wAction)
+            if (w.getEndOfTurnActionProbability() >= 1.0 || Utils.random() < w.getEndOfTurnActionProbability()) {
+                val wAction = w.getEndOfTurnAction()!!
+                for (i in 0 until w.getEndOfTurnActionRepeats()) {
+                    arrayList.add(wAction)
+                }
             }
         }
         val a = armor

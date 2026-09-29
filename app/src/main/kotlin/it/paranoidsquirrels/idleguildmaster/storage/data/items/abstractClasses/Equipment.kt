@@ -10,12 +10,14 @@ abstract class Equipment : Item() {
     @JvmField @Transient protected var dexterity: Int = 0
     @JvmField @Transient protected var endOfTurnAction: EndOfTurnAction? = null
     @JvmField @Transient protected var endOfTurnActionRepeats: Int = 1
+    @JvmField @Transient protected var endOfTurnActionProbability: Double = 1.0
     @JvmField @Transient protected var intelligence: Int = 0
     @JvmField @Transient protected var magicDefense: Int = 0
     @JvmField @Transient protected var manaRegen: Int = 0
     @JvmField @Transient protected var maxHp: Int = 0
     @JvmField @Transient protected var onSelfHit: StatusEffect? = null
     @JvmField @Transient protected var onTargetHit: StatusEffect? = null
+    @JvmField @Transient protected var onTargetHitList: MutableList<StatusEffect> = mutableListOf()
     @JvmField @Transient protected var lifesteal: Int = 0
     @JvmField @Transient protected var lifestealWithMinion: Int = 0
     @JvmField @Transient protected var threat: Int = 0
@@ -58,10 +60,15 @@ abstract class Equipment : Item() {
     open fun setManaRegen(i: Int) { manaRegen = i }
     open fun getOnTargetHit(): StatusEffect? = onTargetHit
     open fun setOnTargetHit(statusEffect: StatusEffect?) { onTargetHit = statusEffect }
+    open fun getOnTargetHitEffects(): List<StatusEffect> {
+        if (onTargetHitList.isNotEmpty()) return onTargetHitList
+        return listOfNotNull(onTargetHit)
+    }
     open fun getOnSelfHit(): StatusEffect? = onSelfHit
     open fun setOnSelfHit(statusEffect: StatusEffect?) { onSelfHit = statusEffect }
     open fun getEndOfTurnAction(): EndOfTurnAction? = endOfTurnAction
     open fun getEndOfTurnActionRepeats(): Int = if (endOfTurnActionRepeats > 0) endOfTurnActionRepeats else 1
+    open fun getEndOfTurnActionProbability(): Double = endOfTurnActionProbability
     open fun getLifesteal(): Int = lifesteal
     open fun getLifestealWithMinion(): Int = lifestealWithMinion
     open fun getThreat(): Int = threat

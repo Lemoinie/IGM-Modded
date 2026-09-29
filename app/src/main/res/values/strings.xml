@@ -2033,6 +2033,7 @@ If you see an interesting unit but you prefer to recruit it later, you can freez
     <string name="help_attack">"The minimum and maximum damage inflicted with every basic attack.
 
 %s"</string>
+    <string name="help_attack_axes" formatted="false">Axes deal heavy melee damage scaling with Constitution and Intelligence, delivering crushing strikes with high damage variance.</string>
     <string name="help_attack_bows">Damage of Bows scales with Dexterity</string>
     <string name="help_attack_daggers">Damage of Daggers scales with Constitution + Dexterity</string>
     <string name="help_attack_enemy">The minimum and maximum damage inflicted with every basic attack.</string>
@@ -4235,6 +4236,7 @@ I apologize for the inconvenience."</string>
     <string name="type_armor_heavy">HEAVY ARMOR</string>
     <string name="type_armor_light">LIGHT ARMOR</string>
     <string name="type_armor_medium">MEDIUM ARMOR</string>
+    <string name="type_axe">AXE</string>
     <string name="type_bow">BOW</string>
     <string name="type_consumable">CONSUMABLE</string>
     <string name="type_dagger">DAGGER</string>
@@ -4287,6 +4289,70 @@ This item will be consumed automatically upon buying it."</string>
     <string name="upgrade_workshop_time_name">Upgrade: Workshop Time</string>
     <string name="warning_unsellable_item">"Can't be sold"</string>
     <string name="watermark_label_prefix">"AdMob - "</string>
+    <string name="weapon_axe_stick_description">A crude wooden branch, barely shaped into a weapon. Every adventurer starts with one.</string>
+    <string name="weapon_axe_stick_name">Stick</string>
+    <string name="weapon_axe_copper_axe_description">A simple axe forged from copper, sturdy enough to fell timber and foes alike.</string>
+    <string name="weapon_axe_copper_axe_name">Copper Axe</string>
+    <string name="weapon_axe_iron_axe_description">A dependable iron axe, widely used by woodsmen and recruits across the Realms.</string>
+    <string name="weapon_axe_iron_axe_name">Iron Axe</string>
+    <string name="weapon_axe_undead_axe_description">A jagged axe fashioned from shapeless bone and grisly remains.</string>
+    <string name="weapon_axe_undead_axe_name">Undead Axe</string>
+    <string name="weapon_axe_golden_axe_description">A gleaming axe of pure gold, a symbol of wealth and crushing authority.</string>
+    <string name="weapon_axe_golden_axe_name">Golden Axe</string>
+    <string name="weapon_axe_corrupted_axe_description">An Enforcer\'s axe, warped by a dark corruption that devours the light.</string>
+    <string name="weapon_axe_corrupted_axe_name">Corrupted Axe</string>
+    <string name="weapon_axe_enforcers_axe_description">A once-corrupted axe, purified and marked with the imperial seal.</string>
+    <string name="weapon_axe_enforcers_axe_name">Enforcer\'s Axe</string>
+    <string name="weapon_axe_zapper_description">An experimental axe crackling with trapped static, built to dizzy its victims.</string>
+    <string name="weapon_axe_zapper_effect" formatted="false">10% chance to stun, 1 turn</string>
+    <string name="weapon_axe_zapper_name">Zapper</string>
+    <string name="weapon_axe_black_iron_axe_description">A heavy axe hewn from black iron, reinforced with spectral wood.</string>
+    <string name="weapon_axe_black_iron_axe_name">Black Iron Axe</string>
+    <string name="weapon_axe_abyssal_great_axe_description">A colossal greataxe forged in the abyss, its edge drinks the light.</string>
+    <string name="weapon_axe_abyssal_great_axe_name">Abyssal Greataxe</string>
+    <string name="weapon_axe_frostmetal_axe_description">An axe cast from frostmetal, cold to the touch and ringing like winter wind.</string>
+    <string name="weapon_axe_frostmetal_axe_name">Frostmetal Axe</string>
+    <string name="weapon_axe_frozen_long_axe_description">A long axe sheathed in rime, freezing whatever it strikes.</string>
+    <string name="weapon_axe_frozen_long_axe_effect">Freezes enemies on hit</string>
+    <string name="weapon_axe_frozen_long_axe_name">Frozen Long Axe</string>
+    <string name="weapon_axe_obsidian_axe_description">A razor-sharp axe knapped from a single block of volcanic glass.</string>
+    <string name="weapon_axe_obsidian_axe_name">Obsidian Axe</string>
+    <string name="weapon_axe_vampire_axe_description">An obsidian axe steeped in a crimson brew that saps the vitality of those it wounds.</string>
+    <string name="weapon_axe_vampire_axe_effect" formatted="false">Lifesteal 20%</string>
+    <string name="weapon_axe_vampire_axe_name">Vampire Axe</string>
+    <string name="weapon_axe_unholy_axe_description">An obsidian axe desecrated by an unholy potion, turning enemy strikes against them.</string>
+    <string name="weapon_axe_unholy_axe_effect" formatted="false">Counterattack 25%</string>
+    <string name="weapon_axe_unholy_axe_name">Unholy Axe</string>
+    <string name="weapon_axe_primeval_axe_description">An axe of elysian wood and primeval scale, radiating the fury of a forgotten age.</string>
+    <string name="weapon_axe_primeval_axe_name">Primeval Axe</string>
+    <string name="weapon_axe_celestial_axe_description">An axe of alien alloy, impossibly light and keen.</string>
+    <string name="weapon_axe_celestial_axe_name">Celestial Axe</string>
+    <string name="weapon_axe_animated_axe_description">Axe made from Animated Metal, pulsating in a pale blue light.</string>
+    <string name="weapon_axe_animated_axe_name">Animated Axe</string>
+    <string name="weapon_axe_enchanted_cleaver_description">A cleaver bound with a dense spell compendium, amplifying the force behind every blow.</string>
+    <string name="weapon_axe_enchanted_cleaver_effect" formatted="false">Damage spread ±30%</string>
+    <string name="weapon_axe_enchanted_cleaver_name">Enchanted Cleaver</string>
+    <string name="weapon_axe_wicked_cleaver_description">A cleaver so wicked it slips between worlds, its strikes veering wildly.</string>
+    <string name="weapon_axe_wicked_cleaver_effect" formatted="false">Damage spread ±50%, dodge +10%</string>
+    <string name="weapon_axe_wicked_cleaver_name">Wicked Cleaver</string>
+    <string name="weapon_axe_berserkers_axe_description">A brutal axe wielded by the fierce warriors of the Lost Lands, driving relentless onslaughts.</string>
+    <string name="weapon_axe_berserkers_axe_effect" formatted="false">10% extra attack</string>
+    <string name="weapon_axe_berserkers_axe_name">Berserker\'s Axe</string>
+    <string name="weapon_axe_molten_slayer_description">A berserker\'s axe drenched in infernite, searing every wound it opens.</string>
+    <string name="weapon_axe_molten_slayer_effect" formatted="false">10% extra attack, sets ablaze on hit</string>
+    <string name="weapon_axe_molten_slayer_name">Molten Slayer</string>
+    <string name="weapon_axe_omni_sever_description">A golden axe imbued with prismatic essence, wielding frost, flame and lightning at once.</string>
+    <string name="weapon_axe_omni_sever_effect" formatted="false">20% freeze, 15% ablaze, 10% stun (1 turn)</string>
+    <string name="weapon_axe_omni_sever_name">Omni-Sever</string>
+    <string name="weapon_axe_cursed_long_axe_description">A long axe steeped in cursed silver and redwood, festering wounds with venom.</string>
+    <string name="weapon_axe_cursed_long_axe_effect">Poisons enemies for 2 turns</string>
+    <string name="weapon_axe_cursed_long_axe_name">Cursed Long Axe</string>
+    <string name="weapon_axe_infernal_long_axe_description">A cursed long axe fused with infernite, poisoning and burning its victims.</string>
+    <string name="weapon_axe_infernal_long_axe_effect">Poisons and burns enemies for 2 turns</string>
+    <string name="weapon_axe_infernal_long_axe_name">Infernal Long Axe</string>
+    <string name="weapon_axe_abhorrent_long_axe_description">A long axe anchored with an abiotic core, spreading ruin, fear and silence.</string>
+    <string name="weapon_axe_abhorrent_long_axe_effect" formatted="false">Poisons and burns for 2 turns; 10% stun, 10% silence</string>
+    <string name="weapon_axe_abhorrent_long_axe_name">Abhorrent Long Axe</string>
     <string name="weapon_bow_animated_bow_description">Bow made from Animated Metal, pulsating in a pale blue light.</string>
     <string name="weapon_bow_animated_bow_name">Animated Bow</string>
     <string name="weapon_bow_ascended_bow_description">"The power of thunder has been infused into this bow, to enhance its disruptive capabilities.

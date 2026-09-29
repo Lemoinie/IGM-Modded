@@ -1,0 +1,19 @@
+package it.paranoidsquirrels.idleguildmaster.storage.data.items.instances
+
+import it.paranoidsquirrels.idleguildmaster.R
+import it.paranoidsquirrels.idleguildmaster.storage.data.entities.StatusEffect
+import it.paranoidsquirrels.idleguildmaster.storage.data.entities.StatusEffectType
+import it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Axe
+
+class FrozenLongAxe : Axe() {
+    override fun configureProperties() {
+        idName = R.string.weapon_axe_frozen_long_axe_name
+        idDescription = R.string.weapon_axe_frozen_long_axe_description
+        idEffect = R.string.weapon_axe_frozen_long_axe_effect
+        idImage = R.drawable.frozen_long_axe
+        price = 1450L
+        constitution = 5
+        intelligence = 15
+        onTargetHit = StatusEffect(StatusEffectType.FROZEN, null, 1, 1.0)
+    }
+}
