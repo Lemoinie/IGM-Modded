@@ -1,6 +1,7 @@
 package it.paranoidsquirrels.idleguildmaster.ui.dialogs.changelog
 
 import it.paranoidsquirrels.idleguildmaster.ui.dialogs.ModChangelog.VersionEntry
+import it.paranoidsquirrels.idleguildmaster.ui.dialogs.ModChangelog.subpoints
 import it.paranoidsquirrels.idleguildmaster.ui.dialogs.ModChangelog.version
 
 /**
@@ -14,6 +15,14 @@ import it.paranoidsquirrels.idleguildmaster.ui.dialogs.ModChangelog.version
 object ModChangelogActive {
 
     val ENTRIES: List<VersionEntry> = listOf(
+        version("1.3.15.11", "29/9/2026",
+            subpoints(
+                "Fixed Doctrine combat abilities failing to trigger due to raw field access instead of calling their getter methods:",
+                "Doctrine of Control's Arcane Suppression now correctly inflicts damage per negative status effect;",
+                "Doctrine of Affliction's Necrosis Porphyrica now properly reduces critical bonus damage taken;",
+                "Doctrine of Grace's Divine Intervention now correctly adds bonus resurrection chance when casting healing skills."
+            ),
+        ),
         version("1.3.15.10", "28/9/2026",
             "Shadow's Geode drop in The Hunt was reworked: instead of a fixed stack of 3 Geodes with a shared preset gem yield, it now rolls one of four much larger Geode stacks — 50 (80%), 100 (15%), 200 (4%) or 300 (1%) — each Geode resolving on use with the standard vanilla yield (1 Gem, 1% chance of 100 Gems).",
         ),

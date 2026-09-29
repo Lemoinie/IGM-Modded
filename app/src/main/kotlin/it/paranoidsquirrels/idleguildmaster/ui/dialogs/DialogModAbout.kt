@@ -49,15 +49,21 @@ object DialogModAbout {
     /**
      * Splits a changelog body into **logical change rows**.
      *
-     * Lines that start with whitespace are continuation fragments of the previous
-     * change (legacy hard-wrapped entries) and are joined back onto it, so each item
-     * is one row and the count reflects actual changes, not line breaks.
+     * Sub-bullet lines (starting with '–', '⁃', '•', or indented '-') remain attached to the
+     * current change row with an indented line break, preserving the sub-list hierarchy.
+     * Plain lines starting with whitespace are continuation fragments of legacy hard-wrapped
+     * entries and are joined back onto it with a space.
      */
     private fun buildChangeRows(body: String): List<String> {
         val rows = mutableListOf<String>()
         for (line in body.split('\n')) {
             if (line.isBlank()) continue
-            if (line.first() == ' ' && rows.isNotEmpty()) {
+            val trimmed = line.trimStart()
+            val isSubBullet = trimmed.startsWith("–") || trimmed.startsWith("⁃") || trimmed.startsWith("•") || (line.startsWith(" ") && trimmed.startsWith("-"))
+            if (isSubBullet && rows.isNotEmpty()) {
+                val bulletContent = trimmed.trimStart('–', '⁃', '•', '-', ' ').trim()
+                rows[rows.size - 1] = rows[rows.size - 1] + "\n   – " + bulletContent
+            } else if (line.first() == ' ' && rows.isNotEmpty()) {
                 rows[rows.size - 1] = rows[rows.size - 1] + " " + line.trimStart()
             } else {
                 rows.add(line.trim())
