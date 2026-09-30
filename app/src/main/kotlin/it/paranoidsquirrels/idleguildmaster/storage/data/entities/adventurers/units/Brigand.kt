@@ -7,22 +7,22 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.Po
 
 class Brigand : Adventurer() {
     override fun configureStatistics() {
-        maxLevel = 25
-        baseMaxHp = 130
-        baseConstitution = 17
-        baseIntelligence = 10
-        baseDexterity = 21
-        baseDefense = 12
-        baseMagicDefense = 12
+        maxLevel = 30
+        baseMaxHp = 155
+        baseConstitution = 24
+        baseIntelligence = 20
+        baseDexterity = 6
+        baseDefense = 15
+        baseMagicDefense = 25
         imageId = R.drawable.unit_brigand
         idName = R.string.adventurer_brigand_name
         idDescription = R.string.adventurer_brigand_description
         passiveSkill = Skills.PASSIVE_NONE
         activeSkill = Skills.ACTIVE_NONE
-        weaponType = R.string.type_sword
+        weaponType = R.string.type_axe
         armorType = R.string.type_armor_light
         potionDrinkerType = PotionDrinkerType.THIEF
-        nextClasses.add("Vagabond")
+        nextClasses.add("Renegade")
     }
 
     override fun isRanged(): Boolean = false

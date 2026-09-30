@@ -4908,8 +4908,8 @@ TAUNT: the taunting unit is always chosen as target"</string>
     <string name="adventurer_hemodruid_name">Hemodruid</string>
     <string name="adventurer_sanguine_druid_description">Extracts lifeblood from fallen enemies to nourish crimson groves and bolster allies.</string>
     <string name="adventurer_sanguine_druid_name">Sanguine Druid</string>
-    <string name="adventurer_bloodthorn_druid_description">Summons piercing brambles that drink the vital essence of all who struggle within them.</string>
-    <string name="adventurer_bloodthorn_druid_name">Bloodthorn Druid</string>
+    <string name="adventurer_bloodthorn_archdruid_description">Summons piercing brambles that drink the vital essence of all who struggle within them.</string>
+    <string name="adventurer_bloodthorn_archdruid_name">Bloodthorn Archdruid</string>
     <string name="adventurer_datura_hierophant_description">High priest of venomous nightshades and lethal flora, ruling over hallucinations and virulent rot.</string>
     <string name="adventurer_datura_hierophant_name">Datura Hierophant</string>
     <!-- Branch 4: El Salvador -->
@@ -4927,4 +4927,78 @@ TAUNT: the taunting unit is always chosen as target"</string>
     <string name="adventurer_renegade_name">Renegade</string>
     <string name="adventurer_el_salvador_description">A legendary frontier champion whose phantom agility and deadly retribution make them untouchable.</string>
     <string name="adventurer_el_salvador_name">El Salvador</string>
+
+    <!-- Outlander Active Skills -->
+    <string name="active_wild_strikes_description">Strikes an enemy for 125% damage, with a 50% chance to strike again.</string>
+    <string name="active_wild_strikes_name">Wild Strikes</string>
+    <string name="active_wild_strikes_ii_description">Strikes an enemy for 150% damage, with a 50% chance to strike again.</string>
+    <string name="active_wild_strikes_ii_name">Wild Strikes II</string>
+    <string name="active_wild_strikes_iii_description">Strikes an enemy for 200% damage, with a 50% chance to strike again.</string>
+    <string name="active_wild_strikes_iii_name">Wild Strikes III</string>
+    <string name="active_wild_strikes_iv_description">Strikes an enemy for 250% damage, with a 50% chance to strike again.</string>
+    <string name="active_wild_strikes_iv_name">Wild Strikes IV</string>
+    <string name="active_brutal_strikes_description">Strikes an enemy for 175% damage, with a 75% chance to strike again, then a 50% chance, then a 25% chance.</string>
+    <string name="active_brutal_strikes_name">Brutal Strikes</string>
+    <string name="active_brutal_strikes_ii_description">Strikes an enemy for 225% damage, with a 75% chance to strike again, then a 50% chance, then a 25% chance.</string>
+    <string name="active_brutal_strikes_ii_name">Brutal Strikes II</string>
+    <string name="active_bloody_slaughter_description">Strikes an enemy for 225% damage, with an 85% chance to strike again, then a 60% chance, then a 35% chance. Critical hit bonus damage x2. Instantly recasts upon defeating an enemy.</string>
+    <string name="active_bloody_slaughter_name">Bloody Slaughter</string>
+    <string name="active_blessing_of_slaughter_description">Grants all allies Rage for 3 turns, then strikes an enemy for 250% damage (85% chance to strike again, then 60%, then 35%). Critical hit bonus damage x2. Instantly recasts upon defeating an enemy.</string>
+    <string name="active_blessing_of_slaughter_name">Blessing of Slaughter</string>
+    <string name="active_natures_grasp_description">Strikes two enemies for 150% damage. If the target is already affected by a debuff, inflicts Poison.</string>
+    <string name="active_natures_grasp_name">Nature\'s Grasp</string>
+    <string name="active_natures_grasp_ii_description">Strikes two enemies for 200% damage. If the target is already affected by a debuff, inflicts Poison for 1 turn.</string>
+    <string name="active_natures_grasp_ii_name">Nature\'s Grasp II</string>
+    <string name="active_natures_grasp_iii_description">Strikes two enemies for 250% damage. If the target is already affected by a debuff, inflicts Poison for 1 turn.</string>
+    <string name="active_natures_grasp_iii_name">Nature\'s Grasp III</string>
+    <string name="active_briars_bramble_description">Strikes two enemies for 250% damage. If the target is already affected by a debuff, inflicts Poison for 1 turn and covers with 5 stacks of Thorns.</string>
+    <string name="active_briars_bramble_name">Briar\'s Bramble</string>
+    <string name="active_rapid_exploitation_description">Slashes the lowest-HP enemy for 175% damage twice, with a 50% chance to strike again. Critical hit bonus damage x3.</string>
+    <string name="active_rapid_exploitation_name">Rapid Exploitation</string>
+    <string name="active_lesser_wolf_caller_description">Summons a Wolf companion to assist in combat (maximum 1 summoned wolf).</string>
+    <string name="active_lesser_wolf_caller_name">Lesser Wolf Caller</string>
+
+    <!-- Outlander Passive Skills -->
+    <string name="passive_rage_description">Attacks have a 50% chance to strike twice per turn when health is below 50%.</string>
+    <string name="passive_rage_name">Rage</string>
+    <string name="passive_savage_rage_description" formatted="false">Before attacking, if health is below 50%, gains Rage (+30% damage dealt, takes +30% extra damage). Attacks strike twice per turn when health is below 50%. Dealing damage heals for 25% of the damage dealt.</string>
+    <string name="passive_savage_rage_name">Savage Rage</string>
+    <string name="passive_savage_rage_ii_description" formatted="false">Before attacking, if health is below 75%, gains Rage (+30% damage dealt, takes +30% extra damage). Attacks strike twice per turn when health is below 75%. Dealing damage heals for 25% of the damage dealt.</string>
+    <string name="passive_savage_rage_ii_name">Savage Rage II</string>
+    <string name="passive_rat_caller_description">At the end of this unit\'s turn, summons a Rat companion. Up to 4 summoned pets can exist at a given time.</string>
+    <string name="passive_rat_caller_name">Rat Caller</string>
+    <string name="passive_cat_caller_description">At the end of this unit\'s turn, summons a Cat companion. Up to 4 summoned pets can exist at a given time.</string>
+    <string name="passive_cat_caller_name">Cat Caller</string>
+    <string name="passive_weasel_caller_description">At the end of this unit\'s turn, summons a Weasel companion. Up to 4 summoned pets can exist at a given time.</string>
+    <string name="passive_weasel_caller_name">Weasel Caller</string>
+    <string name="passive_wolf_caller_description">At the end of this unit\'s turn, summons a Wolf companion. Up to 3 summoned pets can exist at a given time.</string>
+    <string name="passive_wolf_caller_name">Wolf Caller</string>
+    <string name="passive_tiger_caller_description">At the end of this unit\'s turn, summons a Tiger companion. Only 1 summoned pet can exist at a time. The Tiger uses Lesser Wolf Caller as its active skill. Whenever this unit uses an active skill, heals pet by 50 HP.</string>
+    <string name="passive_tiger_caller_name">Tiger Caller</string>
+    <string name="passive_bear_caller_description">At the end of this unit\'s turn, summons a Bear companion. Only 1 summoned pet can exist at a time. The Bear uses Tiger Caller as its active skill. Whenever this unit uses an active skill, heals pet by 100 HP.</string>
+    <string name="passive_bear_caller_name">Bear Caller</string>
+    <string name="passive_beast_caller_description">At the end of this unit\'s turn, summons an Owlbear companion. Only 1 summoned pet can exist at a time. The Owlbear uses Bear Caller as its active skill. Whenever this unit uses an active skill, heals pet by 150 HP.</string>
+    <string name="passive_beast_caller_name">Beast Caller</string>
+    <string name="passive_natures_hand_description">Attacks have a 75% chance to Entangle the enemy for 2 turns (target cannot dodge, dealt damage reduced by 20%, takes 2% HP damage each turn).</string>
+    <string name="passive_natures_hand_name">Nature\'s Hand</string>
+    <string name="passive_natures_lash_description">Attacks have a 45% chance to Entangle for 2 turns and a 45% chance to apply 25 stacks of Bleed.</string>
+    <string name="passive_natures_lash_name">Nature\'s Lash</string>
+    <string name="passive_natures_wrath_description">Attacks have a 35% chance to Entangle, a 35% chance to apply 40 stacks of Bleed, a 35% chance to cover with 3 stacks of Thorns, and a 35% chance to Poison for 1 turn.</string>
+    <string name="passive_natures_wrath_name">Nature\'s Wrath</string>
+    <string name="passive_focused_eye_description">15% chance to gain Evasion (+25% dodge) for 1 turn when attacking. If the incoming enemy attack was melee, has a 20% chance to counterattack.</string>
+    <string name="passive_focused_eye_name">Focused Eye</string>
+    <string name="passive_perceptive_eye_description">Gains a chance to obtain Evasion when attacking and counterattack melee strikes. Attacks always hit. On enemy death, triggers a basic attack.</string>
+    <string name="passive_perceptive_eye_name">Perceptive Eye</string>
+    <string name="passive_omniscient_eye_description">40% chance to gain Evasion for 2 turns when attacking, 50% counterattack against melee attacks, basic attack on enemy death, and grants Evasion on enemy kill. Attacks always hit.</string>
+    <string name="passive_omniscient_eye_name">Omniscient Eye</string>
+
+    <!-- Outlander Status Effects -->
+    <string name="status_effect_rage">Rage</string>
+    <string name="status_effect_rage_description" formatted="false">Damage dealt increased by 30%, but takes 30% extra damage.</string>
+    <string name="status_effect_entangle">Entangle</string>
+    <string name="status_effect_entangle_description" formatted="false">This unit cannot dodge, deals 20% reduced damage, and takes 2% HP damage each turn.</string>
+    <string name="status_effect_thorns">Thorns</string>
+    <string name="status_effect_thorns_description">Takes damage equal to Thorn stacks as a percentage of damage dealt. Loses 1 stack at the end of each turn.</string>
+    <string name="status_effect_evasion">Evasion</string>
+    <string name="status_effect_evasion_description">Gains +25% dodge chance (additive).</string>
 </resources>

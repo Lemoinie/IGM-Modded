@@ -21,7 +21,7 @@ class AvatarOfWrath : Adventurer() {
         idDescription = R.string.adventurer_avatar_of_wrath_description
         passiveSkill = Skills.PASSIVE_NONE // Planned: PASSIVE_SAVAGE_RAGE_II
         activeSkill = Skills.ACTIVE_NONE // Planned: ACTIVE_BLESSING_OF_SLAUGHTER
-        weaponType = R.string.type_sword
+        weaponType = R.string.type_axe
         armorType = R.string.type_armor_light
         potionDrinkerType = PotionDrinkerType.WARRIOR
     }

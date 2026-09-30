@@ -8,12 +8,12 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.Po
 class Hemodruid : Adventurer() {
     override fun configureStatistics() {
         maxLevel = 30
-        baseMaxHp = 170
-        baseConstitution = 24
-        baseIntelligence = 28
-        baseDexterity = 10
-        baseDefense = 14
-        baseMagicDefense = 18
+        baseMaxHp = 145
+        baseConstitution = 20
+        baseIntelligence = 24
+        baseDexterity = 6
+        baseDefense = 10
+        baseMagicDefense = 10
         imageId = R.drawable.unit_hemodruid
         idName = R.string.adventurer_hemodruid_name
         idDescription = R.string.adventurer_hemodruid_description

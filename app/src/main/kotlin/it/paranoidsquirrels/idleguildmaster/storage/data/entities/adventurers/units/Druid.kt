@@ -9,8 +9,8 @@ class Druid : Adventurer() {
     override fun configureStatistics() {
         maxLevel = 15
         baseMaxHp = 65
-        baseConstitution = 14
-        baseIntelligence = 14
+        baseConstitution = 16
+        baseIntelligence = 12
         baseDexterity = 4
         baseDefense = 10
         baseMagicDefense = 10

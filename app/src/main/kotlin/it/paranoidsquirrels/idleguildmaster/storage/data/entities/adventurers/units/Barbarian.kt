@@ -20,7 +20,7 @@ class Barbarian : Adventurer() {
         idDescription = R.string.adventurer_barbarian_description
         passiveSkill = Skills.PASSIVE_NONE // Planned: PASSIVE_RAGE
         activeSkill = Skills.ACTIVE_NONE // Planned: ACTIVE_BRUTAL_STRIKES
-        weaponType = R.string.type_sword
+        weaponType = R.string.type_axe
         armorType = R.string.type_armor_light
         potionDrinkerType = PotionDrinkerType.WARRIOR
         nextClasses.add("Berserker")

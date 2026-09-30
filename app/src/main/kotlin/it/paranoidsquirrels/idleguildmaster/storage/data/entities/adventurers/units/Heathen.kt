@@ -19,7 +19,7 @@ class Heathen : Adventurer() {
         idDescription = R.string.adventurer_heathen_description
         passiveSkill = Skills.PASSIVE_NONE
         activeSkill = Skills.ACTIVE_NONE // Planned: ACTIVE_WILD_STRIKES_II
-        weaponType = R.string.type_sword
+        weaponType = R.string.type_axe
         armorType = R.string.type_armor_light
         potionDrinkerType = PotionDrinkerType.WARRIOR
         nextClasses.add("RatTamer")

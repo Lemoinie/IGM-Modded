@@ -20,7 +20,7 @@ class Berserker : Adventurer() {
         idDescription = R.string.adventurer_berserker_description
         passiveSkill = Skills.PASSIVE_NONE // Planned: PASSIVE_BERSERKERR_RAGE
         activeSkill = Skills.ACTIVE_NONE // Planned: ACTIVE_BRUTAL_STRIKES
-        weaponType = R.string.type_sword
+        weaponType = R.string.type_axe
         armorType = R.string.type_armor_light
         potionDrinkerType = PotionDrinkerType.WARRIOR
         nextClasses.add("SavageBerserker")

@@ -8,10 +8,10 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.Po
 class CrimsonWarlord : Adventurer() {
     override fun configureStatistics() {
         maxLevel = 40
-        baseMaxHp = 270
-        baseConstitution = 37
-        baseIntelligence = 21
-        baseDexterity = 6
+        baseMaxHp = 280
+        baseConstitution = 39
+        baseIntelligence = 22
+        baseDexterity = 7
         baseDefense = 20
         baseMagicDefense = 20
         baseLifesteal = 25
@@ -21,7 +21,7 @@ class CrimsonWarlord : Adventurer() {
         idDescription = R.string.adventurer_crimson_warlord_description
         passiveSkill = Skills.PASSIVE_NONE // Planned: PASSIVE_SAVAGE_RAGE_II
         activeSkill = Skills.ACTIVE_NONE // Planned: ACTIVE_BLOODY_SLAUGHTER
-        weaponType = R.string.type_sword
+        weaponType = R.string.type_axe
         armorType = R.string.type_armor_light
         potionDrinkerType = PotionDrinkerType.WARRIOR
         nextClasses.add("AvatarOfWrath")
