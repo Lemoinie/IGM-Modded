@@ -34,9 +34,8 @@ public final class R {
     public static final int btn_dark=0x7f020003;
     public static final int btn_gold=0x7f020004;
     public static final int btn_icon=0x7f020005;
-    public static final int btn_launch=0x7f020006;
-    public static final int tab_selected=0x7f020007;
-    public static final int tab_unselected=0x7f020008;
+    public static final int tab_selected=0x7f020006;
+    public static final int tab_unselected=0x7f020007;
   }
   public static final class id {
     public static final int btn_backup_delete=0x7f030000;
@@ -44,16 +43,16 @@ public final class R {
     public static final int btn_backup_pin=0x7f030002;
     public static final int btn_backup_rename=0x7f030003;
     public static final int btn_backup_restore=0x7f030004;
-    public static final int btn_launch_game=0x7f030005;
-    public static final int btn_refresh_status=0x7f030006;
-    public static final int btn_undo_restore=0x7f030007;
-    public static final int chip_filter_all=0x7f030008;
-    public static final int chip_filter_manual=0x7f030009;
-    public static final int chip_filter_pinned=0x7f03000a;
-    public static final int chip_filter_safety=0x7f03000b;
-    public static final int layout_backups_list=0x7f03000c;
-    public static final int layout_current_metrics=0x7f03000d;
-    public static final int layout_undo_banner=0x7f03000e;
+    public static final int btn_refresh_status=0x7f030005;
+    public static final int btn_undo_restore=0x7f030006;
+    public static final int chip_filter_all=0x7f030007;
+    public static final int chip_filter_manual=0x7f030008;
+    public static final int chip_filter_pinned=0x7f030009;
+    public static final int chip_filter_safety=0x7f03000a;
+    public static final int layout_backups_list=0x7f03000b;
+    public static final int layout_current_metrics=0x7f03000c;
+    public static final int layout_undo_banner=0x7f03000d;
+    public static final int tv_app_subtitle=0x7f03000e;
     public static final int tv_backup_count=0x7f03000f;
     public static final int tv_backup_date=0x7f030010;
     public static final int tv_backup_gems=0x7f030011;
@@ -76,7 +75,8 @@ public final class R {
   }
   public static final class string {
     public static final int app_name=0x7f050000;
-    public static final int author=0x7f050001;
+    public static final int app_version=0x7f050001;
+    public static final int author=0x7f050002;
   }
   public static final class style {
     public static final int Theme_Companion=0x7f060000;

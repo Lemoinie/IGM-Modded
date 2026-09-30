@@ -130,6 +130,10 @@ class DialogSendTeam : CustomDialog() {
                     }
                 }
             }
+            // The loadout swapped equipment: refresh the Adventurers tab so the hero list
+            // shows the newly equipped icons instead of stale items until the next relaunch.
+            MainActivity.adventurersFragment.refresh()
+            MainActivity.headquartersFragment.refresh()
             busyMessages.addAll(gearWarnings)
             if ((availableSaved.size < a.savedAdventurersIds.size || (selectedPetId == null && a.savedPetId != null) || gearWarnings.isNotEmpty()) && teamMembersBusy == null) {
                 val sb = StringBuilder()
