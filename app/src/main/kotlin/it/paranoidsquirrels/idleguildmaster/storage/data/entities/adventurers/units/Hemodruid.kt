@@ -15,8 +15,8 @@ class Hemodruid : Adventurer() {
         baseDefense = 14
         baseMagicDefense = 18
         imageId = R.drawable.unit_hemodruid
-        idName = R.string.unit_hemodruid_name
-        idDescription = R.string.unit_hemodruid_description
+        idName = R.string.adventurer_hemodruid_name
+        idDescription = R.string.adventurer_hemodruid_description
         passiveSkill = Skills.PASSIVE_NONE
         activeSkill = Skills.ACTIVE_NONE
         weaponType = R.string.type_staff

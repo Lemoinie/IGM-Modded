@@ -16,8 +16,8 @@ class Marauder : Adventurer() {
         baseMagicDefense = 10
         attackConstitutionScaling = 1.05
         imageId = R.drawable.unit_marauder
-        idName = R.string.unit_marauder_name
-        idDescription = R.string.unit_marauder_description
+        idName = R.string.adventurer_marauder_name
+        idDescription = R.string.adventurer_marauder_description
         passiveSkill = Skills.PASSIVE_NONE // Planned: PASSIVE_RAGE
         activeSkill = Skills.ACTIVE_NONE // Planned: ACTIVE_WILD_STRIKES
         weaponType = R.string.type_sword

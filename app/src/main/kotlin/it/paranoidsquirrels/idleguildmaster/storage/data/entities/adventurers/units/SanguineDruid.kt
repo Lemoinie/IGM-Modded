@@ -15,8 +15,8 @@ class SanguineDruid : Adventurer() {
         baseDefense = 16
         baseMagicDefense = 22
         imageId = R.drawable.unit_sanguine_druid
-        idName = R.string.unit_sanguine_druid_name
-        idDescription = R.string.unit_sanguine_druid_description
+        idName = R.string.adventurer_sanguine_druid_name
+        idDescription = R.string.adventurer_sanguine_druid_description
         passiveSkill = Skills.PASSIVE_NONE
         activeSkill = Skills.ACTIVE_NONE
         weaponType = R.string.type_staff

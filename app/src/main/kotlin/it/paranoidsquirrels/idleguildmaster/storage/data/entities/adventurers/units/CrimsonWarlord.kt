@@ -17,8 +17,8 @@ class CrimsonWarlord : Adventurer() {
         baseLifesteal = 25
         attackConstitutionScaling = 1.2
         imageId = R.drawable.unit_crimson_warlord
-        idName = R.string.unit_crimson_warlord_name
-        idDescription = R.string.unit_crimson_warlord_description
+        idName = R.string.adventurer_crimson_warlord_name
+        idDescription = R.string.adventurer_crimson_warlord_description
         passiveSkill = Skills.PASSIVE_NONE // Planned: PASSIVE_SAVAGE_RAGE_II
         activeSkill = Skills.ACTIVE_NONE // Planned: ACTIVE_BLOODY_SLAUGHTER
         weaponType = R.string.type_sword

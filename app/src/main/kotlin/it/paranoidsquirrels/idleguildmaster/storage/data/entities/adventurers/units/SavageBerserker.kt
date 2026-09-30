@@ -17,8 +17,8 @@ class SavageBerserker : Adventurer() {
         baseLifesteal = 25
         attackConstitutionScaling = 1.05
         imageId = R.drawable.unit_savage_berserker
-        idName = R.string.unit_savage_berserker_name
-        idDescription = R.string.unit_savage_berserker_description
+        idName = R.string.adventurer_savage_berserker_name
+        idDescription = R.string.adventurer_savage_berserker_description
         passiveSkill = Skills.PASSIVE_NONE // Planned: PASSIVE_SAVAGE_RAGE
         activeSkill = Skills.ACTIVE_NONE // Planned: ACTIVE_BRUTAL_STRIKES
         weaponType = R.string.type_sword

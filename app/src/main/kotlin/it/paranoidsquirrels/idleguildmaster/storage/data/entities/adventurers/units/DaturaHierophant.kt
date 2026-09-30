@@ -15,8 +15,8 @@ class DaturaHierophant : Adventurer() {
         baseDefense = 20
         baseMagicDefense = 30
         imageId = R.drawable.unit_datura_hierophant
-        idName = R.string.unit_datura_hierophant_name
-        idDescription = R.string.unit_datura_hierophant_description
+        idName = R.string.adventurer_datura_hierophant_name
+        idDescription = R.string.adventurer_datura_hierophant_description
         passiveSkill = Skills.PASSIVE_NONE
         activeSkill = Skills.ACTIVE_NONE
         weaponType = R.string.type_staff

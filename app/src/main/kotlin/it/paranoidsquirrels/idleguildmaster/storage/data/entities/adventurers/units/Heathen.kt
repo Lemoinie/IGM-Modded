@@ -15,8 +15,8 @@ class Heathen : Adventurer() {
         baseDefense = 10
         baseMagicDefense = 10
         imageId = R.drawable.unit_heathen
-        idName = R.string.unit_heathen_name
-        idDescription = R.string.unit_heathen_description
+        idName = R.string.adventurer_heathen_name
+        idDescription = R.string.adventurer_heathen_description
         passiveSkill = Skills.PASSIVE_NONE
         activeSkill = Skills.ACTIVE_NONE // Planned: ACTIVE_WILD_STRIKES_II
         weaponType = R.string.type_sword

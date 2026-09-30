@@ -15,8 +15,8 @@ class BeastTamer : Adventurer() {
         baseDefense = 25
         baseMagicDefense = 25
         imageId = R.drawable.unit_beast_tamer
-        idName = R.string.unit_beast_tamer_name
-        idDescription = R.string.unit_beast_tamer_description
+        idName = R.string.adventurer_beast_tamer_name
+        idDescription = R.string.adventurer_beast_tamer_description
         passiveSkill = Skills.PASSIVE_NONE
         activeSkill = Skills.ACTIVE_NONE
         weaponType = R.string.type_sword

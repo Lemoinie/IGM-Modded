@@ -15,8 +15,8 @@ class AlbinoRat : Adventurer() {
         baseDefense = 1
         baseMagicDefense = 1
         imageId = R.drawable.unit_albino_rat
-        idName = R.string.unit_albino_rat_name
-        idDescription = R.string.unit_albino_rat_description
+        idName = R.string.adventurer_albino_rat_name
+        idDescription = R.string.adventurer_albino_rat_description
         passiveSkill = Skills.PASSIVE_NONE
         activeSkill = Skills.ACTIVE_NONE
         weaponType = R.string.type_sword

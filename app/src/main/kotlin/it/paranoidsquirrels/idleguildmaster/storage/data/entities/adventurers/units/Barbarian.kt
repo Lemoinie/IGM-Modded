@@ -16,8 +16,8 @@ class Barbarian : Adventurer() {
         baseMagicDefense = 10
         attackConstitutionScaling = 1.05
         imageId = R.drawable.unit_barbarian
-        idName = R.string.unit_barbarian_name
-        idDescription = R.string.unit_barbarian_description
+        idName = R.string.adventurer_barbarian_name
+        idDescription = R.string.adventurer_barbarian_description
         passiveSkill = Skills.PASSIVE_NONE // Planned: PASSIVE_RAGE
         activeSkill = Skills.ACTIVE_NONE // Planned: ACTIVE_BRUTAL_STRIKES
         weaponType = R.string.type_sword

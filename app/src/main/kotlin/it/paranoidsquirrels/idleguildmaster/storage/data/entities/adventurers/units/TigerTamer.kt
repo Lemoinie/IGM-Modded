@@ -15,8 +15,8 @@ class TigerTamer : Adventurer() {
         baseDefense = 20
         baseMagicDefense = 20
         imageId = R.drawable.unit_tiger_tamer
-        idName = R.string.unit_tiger_tamer_name
-        idDescription = R.string.unit_tiger_tamer_description
+        idName = R.string.adventurer_tiger_tamer_name
+        idDescription = R.string.adventurer_tiger_tamer_description
         passiveSkill = Skills.PASSIVE_NONE
         activeSkill = Skills.ACTIVE_NONE
         weaponType = R.string.type_sword

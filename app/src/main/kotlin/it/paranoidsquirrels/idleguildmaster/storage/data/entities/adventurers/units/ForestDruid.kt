@@ -15,8 +15,8 @@ class ForestDruid : Adventurer() {
         baseDefense = 10
         baseMagicDefense = 12
         imageId = R.drawable.unit_forest_druid
-        idName = R.string.unit_forest_druid_name
-        idDescription = R.string.unit_forest_druid_description
+        idName = R.string.adventurer_forest_druid_name
+        idDescription = R.string.adventurer_forest_druid_description
         passiveSkill = Skills.PASSIVE_NONE
         activeSkill = Skills.ACTIVE_NONE
         weaponType = R.string.type_staff

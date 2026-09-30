@@ -15,8 +15,8 @@ class Bandit : Adventurer() {
         baseDefense = 10
         baseMagicDefense = 10
         imageId = R.drawable.unit_bandit
-        idName = R.string.unit_bandit_name
-        idDescription = R.string.unit_bandit_description
+        idName = R.string.adventurer_bandit_name
+        idDescription = R.string.adventurer_bandit_description
         passiveSkill = Skills.PASSIVE_NONE
         activeSkill = Skills.ACTIVE_NONE
         weaponType = R.string.type_sword

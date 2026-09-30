@@ -15,8 +15,8 @@ class RatTamer : Adventurer() {
         baseDefense = 10
         baseMagicDefense = 10
         imageId = R.drawable.unit_rat_tamer
-        idName = R.string.unit_rat_tamer_name
-        idDescription = R.string.unit_rat_tamer_description
+        idName = R.string.adventurer_rat_tamer_name
+        idDescription = R.string.adventurer_rat_tamer_description
         passiveSkill = Skills.PASSIVE_NONE // Planned: PASSIVE_RAT_CALLER
         activeSkill = Skills.ACTIVE_NONE // Planned: ACTIVE_WILD_STRIKES_II
         weaponType = R.string.type_sword

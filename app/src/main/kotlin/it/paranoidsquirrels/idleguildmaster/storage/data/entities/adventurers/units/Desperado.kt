@@ -15,8 +15,8 @@ class Desperado : Adventurer() {
         baseDefense = 16
         baseMagicDefense = 16
         imageId = R.drawable.unit_desperado
-        idName = R.string.unit_desperado_name
-        idDescription = R.string.unit_desperado_description
+        idName = R.string.adventurer_desperado_name
+        idDescription = R.string.adventurer_desperado_description
         passiveSkill = Skills.PASSIVE_NONE
         activeSkill = Skills.ACTIVE_NONE
         weaponType = R.string.type_sword
