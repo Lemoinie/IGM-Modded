@@ -15,8 +15,8 @@ class ElSalvador : Adventurer() {
         baseDefense = 20
         baseMagicDefense = 20
         imageId = R.drawable.unit_el_salvador_1
-        idName = R.string.unit_el_salvador_name
-        idDescription = R.string.unit_el_salvador_description
+        idName = R.string.adventurer_el_salvador_name
+        idDescription = R.string.adventurer_el_salvador_description
         passiveSkill = Skills.PASSIVE_NONE
         activeSkill = Skills.ACTIVE_NONE
         weaponType = R.string.type_sword

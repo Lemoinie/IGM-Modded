@@ -15,8 +15,8 @@ class SummonBear : Adventurer() {
         baseDefense = 12
         baseMagicDefense = 10
         imageId = R.drawable.unit_summon_bear
-        idName = R.string.unit_summon_bear_name
-        idDescription = R.string.unit_summon_bear_description
+        idName = R.string.adventurer_summon_bear_name
+        idDescription = R.string.adventurer_summon_bear_description
         passiveSkill = Skills.PASSIVE_NONE
         activeSkill = Skills.ACTIVE_NONE
         weaponType = R.string.type_sword

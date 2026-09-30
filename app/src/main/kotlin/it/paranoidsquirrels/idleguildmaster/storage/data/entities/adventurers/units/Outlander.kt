@@ -15,8 +15,8 @@ class Outlander : Adventurer() {
         baseDefense = 10
         baseMagicDefense = 10
         imageId = R.drawable.unit_outlander
-        idName = R.string.unit_outlander_name
-        idDescription = R.string.unit_outlander_description
+        idName = R.string.adventurer_outlander_name
+        idDescription = R.string.adventurer_outlander_description
         passiveSkill = Skills.PASSIVE_NONE
         activeSkill = Skills.ACTIVE_NONE
         weaponType = R.string.type_sword

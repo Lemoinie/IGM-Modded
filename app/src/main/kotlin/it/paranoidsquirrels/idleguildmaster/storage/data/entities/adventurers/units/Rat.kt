@@ -15,8 +15,8 @@ class Rat : Adventurer() {
         baseDefense = 0
         baseMagicDefense = 0
         imageId = R.drawable.unit_rat
-        idName = R.string.unit_rat_name
-        idDescription = R.string.unit_rat_description
+        idName = R.string.adventurer_rat_name
+        idDescription = R.string.adventurer_rat_description
         passiveSkill = Skills.PASSIVE_NONE
         activeSkill = Skills.ACTIVE_NONE
         weaponType = R.string.type_sword

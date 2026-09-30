@@ -15,8 +15,8 @@ class SummonWolf : Adventurer() {
         baseDefense = 6
         baseMagicDefense = 6
         imageId = R.drawable.unit_summon_wolf
-        idName = R.string.unit_summon_wolf_name
-        idDescription = R.string.unit_summon_wolf_description
+        idName = R.string.adventurer_summon_wolf_name
+        idDescription = R.string.adventurer_summon_wolf_description
         passiveSkill = Skills.PASSIVE_NONE
         activeSkill = Skills.ACTIVE_NONE
         weaponType = R.string.type_sword

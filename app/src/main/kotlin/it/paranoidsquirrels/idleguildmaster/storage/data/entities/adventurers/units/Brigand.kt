@@ -15,8 +15,8 @@ class Brigand : Adventurer() {
         baseDefense = 12
         baseMagicDefense = 12
         imageId = R.drawable.unit_brigand
-        idName = R.string.unit_brigand_name
-        idDescription = R.string.unit_brigand_description
+        idName = R.string.adventurer_brigand_name
+        idDescription = R.string.adventurer_brigand_description
         passiveSkill = Skills.PASSIVE_NONE
         activeSkill = Skills.ACTIVE_NONE
         weaponType = R.string.type_sword

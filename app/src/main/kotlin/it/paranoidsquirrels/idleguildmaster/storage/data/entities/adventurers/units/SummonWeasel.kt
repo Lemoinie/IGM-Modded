@@ -15,8 +15,8 @@ class SummonWeasel : Adventurer() {
         baseDefense = 2
         baseMagicDefense = 2
         imageId = R.drawable.unit_summon_weasel
-        idName = R.string.unit_summon_weasel_name
-        idDescription = R.string.unit_summon_weasel_description
+        idName = R.string.adventurer_summon_weasel_name
+        idDescription = R.string.adventurer_summon_weasel_description
         passiveSkill = Skills.PASSIVE_NONE
         activeSkill = Skills.ACTIVE_NONE
         weaponType = R.string.type_sword

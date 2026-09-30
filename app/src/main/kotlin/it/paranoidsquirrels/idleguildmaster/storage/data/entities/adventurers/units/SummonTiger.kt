@@ -15,8 +15,8 @@ class SummonTiger : Adventurer() {
         baseDefense = 14
         baseMagicDefense = 12
         imageId = R.drawable.unit_summon_tiger
-        idName = R.string.unit_summon_tiger_name
-        idDescription = R.string.unit_summon_tiger_description
+        idName = R.string.adventurer_summon_tiger_name
+        idDescription = R.string.adventurer_summon_tiger_description
         passiveSkill = Skills.PASSIVE_NONE
         activeSkill = Skills.ACTIVE_NONE
         weaponType = R.string.type_sword

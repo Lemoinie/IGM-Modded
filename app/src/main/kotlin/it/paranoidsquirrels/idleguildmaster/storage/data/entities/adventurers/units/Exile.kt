@@ -15,8 +15,8 @@ class Exile : Adventurer() {
         baseDefense = 8
         baseMagicDefense = 8
         imageId = R.drawable.unit_exile
-        idName = R.string.unit_exile_name
-        idDescription = R.string.unit_exile_description
+        idName = R.string.adventurer_exile_name
+        idDescription = R.string.adventurer_exile_description
         passiveSkill = Skills.PASSIVE_NONE // Planned: PASSIVE_FOCUSED_EYE
         activeSkill = Skills.ACTIVE_NONE // Planned: ACTIVE_WILD_STRIKES_II
         weaponType = R.string.type_sword

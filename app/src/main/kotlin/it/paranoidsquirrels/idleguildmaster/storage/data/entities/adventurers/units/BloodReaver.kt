@@ -17,8 +17,8 @@ class BloodReaver : Adventurer() {
         baseLifesteal = 25
         attackConstitutionScaling = 1.15
         imageId = R.drawable.unit_blood_reaver
-        idName = R.string.unit_blood_reaver_name
-        idDescription = R.string.unit_blood_reaver_description
+        idName = R.string.adventurer_blood_reaver_name
+        idDescription = R.string.adventurer_blood_reaver_description
         passiveSkill = Skills.PASSIVE_NONE // Planned: PASSIVE_SAVAGE_RAGE
         activeSkill = Skills.ACTIVE_NONE // Planned: ACTIVE_BLOODY_SLAUGHTER
         weaponType = R.string.type_sword

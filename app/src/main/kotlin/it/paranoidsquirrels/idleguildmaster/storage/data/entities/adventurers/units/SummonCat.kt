@@ -15,8 +15,8 @@ class SummonCat : Adventurer() {
         baseDefense = 4
         baseMagicDefense = 4
         imageId = R.drawable.unit_summon_cat
-        idName = R.string.unit_summon_cat_name
-        idDescription = R.string.unit_summon_cat_description
+        idName = R.string.adventurer_summon_cat_name
+        idDescription = R.string.adventurer_summon_cat_description
         passiveSkill = Skills.PASSIVE_NONE
         activeSkill = Skills.ACTIVE_NONE
         weaponType = R.string.type_sword

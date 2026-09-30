@@ -17,8 +17,8 @@ class AvatarOfWrath : Adventurer() {
         baseLifesteal = 25
         attackConstitutionScaling = 1.3
         imageId = R.drawable.unit_avatar_of_wrath
-        idName = R.string.unit_avatar_of_wrath_name
-        idDescription = R.string.unit_avatar_of_wrath_description
+        idName = R.string.adventurer_avatar_of_wrath_name
+        idDescription = R.string.adventurer_avatar_of_wrath_description
         passiveSkill = Skills.PASSIVE_NONE // Planned: PASSIVE_SAVAGE_RAGE_II
         activeSkill = Skills.ACTIVE_NONE // Planned: ACTIVE_BLESSING_OF_SLAUGHTER
         weaponType = R.string.type_sword

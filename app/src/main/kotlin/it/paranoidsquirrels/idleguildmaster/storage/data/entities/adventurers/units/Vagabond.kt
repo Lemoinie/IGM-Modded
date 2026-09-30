@@ -15,8 +15,8 @@ class Vagabond : Adventurer() {
         baseDefense = 14
         baseMagicDefense = 14
         imageId = R.drawable.unit_vagabond
-        idName = R.string.unit_vagabond_name
-        idDescription = R.string.unit_vagabond_description
+        idName = R.string.adventurer_vagabond_name
+        idDescription = R.string.adventurer_vagabond_description
         passiveSkill = Skills.PASSIVE_NONE
         activeSkill = Skills.ACTIVE_NONE
         weaponType = R.string.type_sword

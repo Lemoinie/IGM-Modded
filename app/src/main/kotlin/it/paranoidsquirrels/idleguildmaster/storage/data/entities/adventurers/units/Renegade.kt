@@ -15,8 +15,8 @@ class Renegade : Adventurer() {
         baseDefense = 18
         baseMagicDefense = 18
         imageId = R.drawable.unit_renegade
-        idName = R.string.unit_renegade_name
-        idDescription = R.string.unit_renegade_description
+        idName = R.string.adventurer_renegade_name
+        idDescription = R.string.adventurer_renegade_description
         passiveSkill = Skills.PASSIVE_NONE
         activeSkill = Skills.ACTIVE_NONE
         weaponType = R.string.type_sword
