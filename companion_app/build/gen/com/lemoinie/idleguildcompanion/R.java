@@ -11,55 +11,77 @@ public final class R {
   public static final class color {
     public static final int accent_blue=0x7f010000;
     public static final int accent_green=0x7f010001;
-    public static final int accent_red=0x7f010002;
-    public static final int bg_dark=0x7f010003;
-    public static final int card_bg=0x7f010004;
-    public static final int card_bg_light=0x7f010005;
-    public static final int divider=0x7f010006;
-    public static final int gold=0x7f010007;
-    public static final int gold_dark=0x7f010008;
-    public static final int text_gray=0x7f010009;
-    public static final int text_white=0x7f01000a;
+    public static final int accent_purple=0x7f010002;
+    public static final int accent_red=0x7f010003;
+    public static final int badge_pinned=0x7f010004;
+    public static final int badge_safety=0x7f010005;
+    public static final int badge_safety_text=0x7f010006;
+    public static final int bg_dark=0x7f010007;
+    public static final int card_bg=0x7f010008;
+    public static final int card_bg_active=0x7f010009;
+    public static final int card_bg_light=0x7f01000a;
+    public static final int divider=0x7f01000b;
+    public static final int gold=0x7f01000c;
+    public static final int gold_dark=0x7f01000d;
+    public static final int text_gray=0x7f01000e;
+    public static final int text_muted=0x7f01000f;
+    public static final int text_white=0x7f010010;
+  }
+  public static final class drawable {
+    public static final int badge_chip=0x7f020000;
+    public static final int badge_chip_active=0x7f020001;
+    public static final int bg_card=0x7f020002;
+    public static final int btn_dark=0x7f020003;
+    public static final int btn_gold=0x7f020004;
+    public static final int btn_icon=0x7f020005;
+    public static final int btn_launch=0x7f020006;
+    public static final int tab_selected=0x7f020007;
+    public static final int tab_unselected=0x7f020008;
   }
   public static final class id {
-    public static final int btn_backup_delete=0x7f020000;
-    public static final int btn_backup_export=0x7f020001;
-    public static final int btn_backup_now=0x7f020002;
-    public static final int btn_backup_restore=0x7f020003;
-    public static final int btn_code_import=0x7f020004;
-    public static final int btn_drive_load=0x7f020005;
-    public static final int btn_drive_save=0x7f020006;
-    public static final int btn_refresh_status=0x7f020007;
-    public static final int btn_undo_restore=0x7f020008;
-    public static final int layout_backups_list=0x7f020009;
-    public static final int layout_current_metrics=0x7f02000a;
-    public static final int layout_undo_banner=0x7f02000b;
-    public static final int tv_backup_count=0x7f02000c;
-    public static final int tv_backup_dir_hint=0x7f02000d;
-    public static final int tv_backup_gems=0x7f02000e;
-    public static final int tv_backup_gold=0x7f02000f;
-    public static final int tv_backup_heroes=0x7f020010;
-    public static final int tv_backup_title=0x7f020011;
-    public static final int tv_backup_type=0x7f020012;
-    public static final int tv_current_status=0x7f020013;
-    public static final int tv_engine_badge=0x7f020014;
-    public static final int tv_live_gems=0x7f020015;
-    public static final int tv_live_gold=0x7f020016;
-    public static final int tv_live_heroes=0x7f020017;
-    public static final int tv_no_backups=0x7f020018;
+    public static final int btn_backup_delete=0x7f030000;
+    public static final int btn_backup_now=0x7f030001;
+    public static final int btn_backup_pin=0x7f030002;
+    public static final int btn_backup_rename=0x7f030003;
+    public static final int btn_backup_restore=0x7f030004;
+    public static final int btn_launch_game=0x7f030005;
+    public static final int btn_refresh_status=0x7f030006;
+    public static final int btn_undo_restore=0x7f030007;
+    public static final int chip_filter_all=0x7f030008;
+    public static final int chip_filter_manual=0x7f030009;
+    public static final int chip_filter_pinned=0x7f03000a;
+    public static final int chip_filter_safety=0x7f03000b;
+    public static final int layout_backups_list=0x7f03000c;
+    public static final int layout_current_metrics=0x7f03000d;
+    public static final int layout_undo_banner=0x7f03000e;
+    public static final int tv_backup_count=0x7f03000f;
+    public static final int tv_backup_date=0x7f030010;
+    public static final int tv_backup_gems=0x7f030011;
+    public static final int tv_backup_gold=0x7f030012;
+    public static final int tv_backup_heroes=0x7f030013;
+    public static final int tv_backup_title=0x7f030014;
+    public static final int tv_backup_type=0x7f030015;
+    public static final int tv_current_status=0x7f030016;
+    public static final int tv_engine_badge=0x7f030017;
+    public static final int tv_live_gems=0x7f030018;
+    public static final int tv_live_gems_sub=0x7f030019;
+    public static final int tv_live_gold=0x7f03001a;
+    public static final int tv_live_gold_sub=0x7f03001b;
+    public static final int tv_live_heroes=0x7f03001c;
+    public static final int tv_no_backups=0x7f03001d;
   }
   public static final class layout {
-    public static final int activity_main=0x7f030000;
-    public static final int item_backup=0x7f030001;
+    public static final int activity_main=0x7f040000;
+    public static final int item_backup=0x7f040001;
   }
   public static final class string {
-    public static final int app_name=0x7f040000;
-    public static final int author=0x7f040001;
+    public static final int app_name=0x7f050000;
+    public static final int author=0x7f050001;
   }
   public static final class style {
-    public static final int Theme_Companion=0x7f050000;
+    public static final int Theme_Companion=0x7f060000;
   }
   public static final class xml {
-    public static final int file_paths=0x7f060000;
+    public static final int file_paths=0x7f070000;
   }
 }
