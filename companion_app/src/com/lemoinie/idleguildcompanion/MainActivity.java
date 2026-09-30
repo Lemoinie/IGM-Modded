@@ -36,8 +36,6 @@ public class MainActivity extends Activity {
     private SaveManager saveManager;
     private FilterMode currentFilter = FilterMode.ALL;
 
-    private Button btnLaunchGame;
-
     private TextView tvEngineBadge;
     private TextView tvCurrentStatus;
     private LinearLayout layoutCurrentMetrics;
@@ -135,8 +133,6 @@ public class MainActivity extends Activity {
     }
 
     private void initViews() {
-        btnLaunchGame = findViewById(R.id.btn_launch_game);
-
         tvEngineBadge = findViewById(R.id.tv_engine_badge);
         tvCurrentStatus = findViewById(R.id.tv_current_status);
         layoutCurrentMetrics = findViewById(R.id.layout_current_metrics);
@@ -158,8 +154,15 @@ public class MainActivity extends Activity {
         layoutBackupsList = findViewById(R.id.layout_backups_list);
         tvNoBackups = findViewById(R.id.tv_no_backups);
 
-        // Header
-        btnLaunchGame.setOnClickListener(v -> openGame());
+        TextView tvAppSubtitle = findViewById(R.id.tv_app_subtitle);
+        if (tvAppSubtitle != null) {
+            try {
+                String vName = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+                if (vName != null && !vName.isEmpty()) {
+                    tvAppSubtitle.setText("Companion • Save Manager • v" + vName);
+                }
+            } catch (Exception ignored) {}
+        }
 
         // Primary actions
         findViewById(R.id.btn_backup_now).setOnClickListener(v -> promptCreateBackup());
@@ -449,21 +452,12 @@ public class MainActivity extends Activity {
                 refreshAll();
 
                 if (ok) {
-                    showRestoreSuccessDialog();
+                    Toast.makeText(this, "✅ Save applied to Idle Guild Master!", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(this, "❌ Failed to apply save!", Toast.LENGTH_SHORT).show();
                 }
             })
             .setNegativeButton("Cancel", null)
-            .show();
-    }
-
-    private void showRestoreSuccessDialog() {
-        new AlertDialog.Builder(this)
-            .setTitle("✅ Save Restored Successfully")
-            .setMessage("Your save was applied to Idle Guild Master.\n\nWould you like to launch the game now?")
-            .setPositiveButton("▶️ Launch Game", (d, w) -> openGame())
-            .setNegativeButton("Done", null)
             .show();
     }
 
@@ -476,37 +470,12 @@ public class MainActivity extends Activity {
                 refreshAll();
 
                 if (ok) {
-                    Toast.makeText(this, "✅ Reverted to safety snapshot!", Toast.LENGTH_SHORT).show();
-                    showRestoreSuccessDialog();
+                    Toast.makeText(this, "✅ Reverted to safety snapshot!", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(this, "❌ Failed to undo restore!", Toast.LENGTH_SHORT).show();
                 }
             })
             .setNegativeButton("Cancel", null)
             .show();
-    }
-
-    private void openGame() {
-        try {
-            String targetPkg = saveManager.getActivePackageName();
-            Intent launchIntent = getPackageManager().getLaunchIntentForPackage(targetPkg);
-            if (launchIntent == null) {
-                launchIntent = getPackageManager().getLaunchIntentForPackage(SaveManager.PKG_MODDED_REBUILT);
-            }
-            if (launchIntent == null) {
-                launchIntent = getPackageManager().getLaunchIntentForPackage(SaveManager.PKG_MODDED_LEGACY);
-            }
-            if (launchIntent == null) {
-                launchIntent = getPackageManager().getLaunchIntentForPackage(SaveManager.PKG_VANILLA);
-            }
-            if (launchIntent != null) {
-                launchIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                startActivity(launchIntent);
-            } else {
-                Toast.makeText(this, "Game app not found on device!", Toast.LENGTH_SHORT).show();
-            }
-        } catch (Exception e) {
-            Toast.makeText(this, "Could not launch game: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
     }
 }

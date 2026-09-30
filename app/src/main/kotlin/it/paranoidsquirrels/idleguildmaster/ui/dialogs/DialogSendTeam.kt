@@ -17,6 +17,7 @@ import it.paranoidsquirrels.idleguildmaster.Utils
 import it.paranoidsquirrels.idleguildmaster.databinding.DialogSendTeamBinding
 import it.paranoidsquirrels.idleguildmaster.databinding.LayoutAdventurerBinding
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.Adventurer
+import it.paranoidsquirrels.idleguildmaster.storage.data.items.EquipmentLoadoutHelper
 import it.paranoidsquirrels.idleguildmaster.storage.data.pets.Pet
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.Area
 import java.util.ArrayList
@@ -81,6 +82,7 @@ class DialogSendTeam : CustomDialog() {
             a.savedAdventurersIds.clear()
             a.savedAdventurersIds.addAll(selectedAdventurersId)
             a.savedPetId = selectedPetId
+            snapshotSelectedGear(a)
             blink(view as TextView, true)
         }
         b.load.setOnClickListener { view ->
@@ -116,7 +118,20 @@ class DialogSendTeam : CustomDialog() {
                 }
             }
             selectedAdventurersId.addAll(availableSaved)
-            if ((availableSaved.size < a.savedAdventurersIds.size || (selectedPetId == null && a.savedPetId != null)) && teamMembersBusy == null) {
+            // Apply the saved Area Gear Loadout to the loaded heroes and surface any
+            // gear conflicts (item on an active explorer / missing) alongside busy members.
+            val gearWarnings = ArrayList<String>()
+            for (id in selectedAdventurersId) {
+                val savedGear = a.savedAdventurersGear[id.toString()] ?: continue
+                for (adv in MainActivity.data.adventurers) {
+                    if (adv.id == id) {
+                        EquipmentLoadoutHelper.applyHeroGear(adv, savedGear, gearWarnings)
+                        break
+                    }
+                }
+            }
+            busyMessages.addAll(gearWarnings)
+            if ((availableSaved.size < a.savedAdventurersIds.size || (selectedPetId == null && a.savedPetId != null) || gearWarnings.isNotEmpty()) && teamMembersBusy == null) {
                 val sb = StringBuilder()
                 for (i in busyMessages.indices) {
                     sb.append(busyMessages[i])
@@ -159,6 +174,7 @@ class DialogSendTeam : CustomDialog() {
                 a.savedAdventurersIds.clear()
                 a.savedAdventurersIds.addAll(selectedAdventurersId)
                 a.savedPetId = selectedPetId
+                snapshotSelectedGear(a)
                 val dialog = DialogAutoRaidConfig()
                 dialog.area = a
                 dialog.show(parentFragmentManager, "dialog_auto_raid_config")
@@ -184,6 +200,18 @@ class DialogSendTeam : CustomDialog() {
             UIUtils.clickArea(MainActivity.dungeonsFragment, a)
         }
         dismiss()
+    }
+
+    /** Captures the current equipped loadout of every selected hero into the area snapshot. */
+    private fun snapshotSelectedGear(a: Area) {
+        for (id in selectedAdventurersId) {
+            for (adv in MainActivity.data.adventurers) {
+                if (adv.id == id) {
+                    a.savedAdventurersGear[id.toString()] = EquipmentLoadoutHelper.snapshotHeroGear(adv)
+                    break
+                }
+            }
+        }
     }
 
     /** Shows the vanilla "Buy extra chance" popup; onPurchased runs after the gems are taken. */

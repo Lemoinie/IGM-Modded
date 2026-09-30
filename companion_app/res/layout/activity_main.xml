@@ -15,41 +15,23 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Idle Guild Master"
-                    android:textColor="@color/text_white"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Companion • Save Manager"
-                    android:textColor="@color/gold"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/btn_launch_game"
+            <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="38dp"
-                android:background="@drawable/btn_launch"
-                android:paddingHorizontal="14dp"
-                android:text="▶️ Launch Game"
+                android:layout_height="wrap_content"
+                android:text="Idle Guild Master"
                 android:textColor="@color/text_white"
-                android:textSize="12sp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_app_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Companion • Save Manager • v1.1.1"
+                android:textColor="@color/gold"
+                android:textSize="12sp" />
         </LinearLayout>
 
         <!-- Current Active Save Status Card -->

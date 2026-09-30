@@ -30,6 +30,7 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.pets.PetAbility
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.Action
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.AdventureRecap
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.Area
+import it.paranoidsquirrels.idleguildmaster.storage.data.places.SavedEquipment
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.EnemyCounter
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.Event
 import it.paranoidsquirrels.idleguildmaster.storage.data.places.dungeons.*
@@ -637,6 +638,16 @@ this.data.theTower = getArea(TheTower::class.java, asJsonObject, "theTower")
                 }
                 tNewInstance.petExploringId = if (asJsonObject.has("petExploringId")) asJsonObject.get("petExploringId").asInt else null
                 tNewInstance.savedPetId = if (asJsonObject.has("savedPetId")) asJsonObject.get("savedPetId").asInt else null
+                if (asJsonObject.has("savedAdventurersGear")) {
+                    for ((gearKey, gearElement) in asJsonObject.get("savedAdventurersGear").asJsonObject.entrySet()) {
+                        val gearObject = gearElement.asJsonObject
+                        tNewInstance.savedAdventurersGear[gearKey] = SavedEquipment(
+                            if (gearObject.has("weapon")) gearObject.get("weapon").asString else null,
+                            if (gearObject.has("armor")) gearObject.get("armor").asString else null,
+                            if (gearObject.has("accessory")) gearObject.get("accessory").asString else null
+                        )
+                    }
+                }
                 for (elem in asJsonObject.get("drops").asJsonArray) {
                     getItem(elem.asJsonObject)?.let { tNewInstance.drops.add(it) }
                 }
