@@ -1,199 +1,207 @@
-# Implementation Plan: 5th Base Adventurer Class — Outlander
+# Implementation Plan: 5th Base Adventurer Class — Outlander (All 4 Paths)
 
 ## 1. Goal Description
 
 Introduce **Outlander** as the 5th base adventurer class in *Idle Guild Master*, expanding beyond the original four archetypes (Footman, Rogue, Archer, Apprentice).
 
-The Outlander represents the untamed wilderness: survivalists, ferocious berserkers, animist shamans, and beast tamers. Armed primarily with the newly introduced **Axe** weapon type and clad in **Medium Armor**, the Outlander tree introduces high-variance heavy melee, brutal rage mechanics, and persistent combat animal companions.
+The Outlander represents the untamed wilderness: survivalists, ferocious berserkers, animist beast tamers, sanguine druids, and elusive outlaws. Armed with the **Axe** and **Sword** weapon types and utilizing **Light** and **Medium Armor**, the Outlander class tree introduces four full 9-tier evolutionary paths:
+1. **Avatar of Wrath**: Heavy melee, escalating rage, lifesteal, consecutive strikes, and reset-on-kill slaughter mechanics.
+2. **Beast Tamer**: Animism and combat animal companions, deploying persistent summons (Rats, Weasel, Cat, Wolf, Bear, Tiger, Owlbear) directly into combat.
+3. **Datura Hierophant**: Primeval nature and sanguine rituals, utilizing staves and entangling thorns to debilitate foes and extract life essence.
+4. **El Salvador**: Frontier outlaws and solitary skirmishers, relying on extreme evasion, counter-momentum, and lethal flurry assassinations.
 
 ---
 
-## 2. Class Tree Architecture & Branching
+## 2. Complete Class Tree Architecture & Branching
 
 ```mermaid
 graph TD
-    T1["T1: Outlander (Axe / Medium Armor)"] --> T2M["T2: Marauder (Heavy Melee / Rage)"]
-    T1 --> T2H["T2: Heathen (Animism / Primal Magic)"]
+    T1["T1: Outlander (Axe/Sword - Light/Medium Armor)"]
     
-    %% Marauder Branch
-    T2M --> T3B["T3: Barbarian"]
-    T3B --> T4B["T4: Berserker"]
-    T4B --> T5SB["T5: Savage Berserker"]
-    T5SB --> T6SB["T6: Scarlet Berserker"]
-    T6SB --> T7BR["T7: Blood Reaver"]
-    T7BR --> T8CW["T8: Crimson Warlord"]
-    T8CW --> T9AW["T9: Avatar of Wrath"]
+    %% Base branches into 2 Tier 2 roots
+    T1 --> T2M["T2: Marauder (Fury / Heavy Melee)"]
+    T1 --> T2H["T2: Heathen (Animism / Primal Wild)"]
     
-    %% Heathen Branch 1: Beast Tamers
-    T2H --> T3RT["T3: Rat Tamer (Swarm / Plague)"]
-    T3RT --> T4ST["T4: Snake Tamer (Venom / Blinding)"]
-    T4ST --> T5BT["T5: Bird Tamer (Falconry / Bleed)"]
-    T5BT --> T6CT["T6: Cat Tamer (Agile / Pounce)"]
-    T6CT --> T7WT["T7: Wolf Tamer (Pack Howl / Cripple)"]
-    T7WT --> T8BRT["T8: Bear Tamer (Grizzly Tank / Stun)"]
-    T8BRT --> T9ABT["T9: Beast Tamer (Apex Chimera / Multi-Pet)"]
+    %% Branch 1: Avatar of Wrath
+    subgraph "Branch 1: Avatar of Wrath"
+        T2M --> T3B["T3: Barbarian"]
+        T3B --> T4B["T4: Berserker"]
+        T4B --> T5SB["T5: Savage Berserker"]
+        T5SB --> T6SB["T6: Scarlet Berserker"]
+        T6SB --> T7BR["T7: Blood Reaver"]
+        T7BR --> T8CW["T8: Crimson Warlord"]
+        T8CW --> T9AW["T9: Avatar of Wrath"]
+    end
     
-    %% Heathen Branch 2: Druid Line
-    T2H --> T3D["T3: Druid (Nature & Restoration)"]
-    T3D -.-> T4D["T4: Shaman (Proposed)"]
-    T4D -.-> T5D["T5: Grove Keeper (Proposed)"]
-    T5D -.-> T6D["T6: Archdruid (Proposed)"]
-    T6D -.-> T7D["T7: Stormcaller (Proposed)"]
-    T8D["T8: Ancient Keeper (Proposed)"] -.-> T9D["T9: Avatar of Nature (Proposed)"]
-    T7D -.-> T8D
+    %% Branch 2: Beast Tamer & Summons
+    subgraph "Branch 2: Beast Tamer"
+        T2H --> T3RT["T3: Rat Tamer"]
+        T3RT --> T4WT["T4: Weasel Tamer"]
+        T4WT --> T5CT["T5: Cat Tamer"]
+        T5CT --> T6WFT["T6: Wolf Tamer"]
+        T6WFT --> T7BRT["T7: Bear Tamer"]
+        T7BRT --> T8TT["T8: Tiger Tamer"]
+        T8TT --> T9BT["T9: Beast Tamer"]
+    end
     
-    %% Heathen Branch 3: Exile Line
-    T2H --> T3E["T3: Exile (Outcast & Bleed Skirmisher)"]
-    T3E -.-> T4E["T4: Nomad (Proposed)"]
-    T4E -.-> T5E["T5: Wasteland Stalker (Proposed)"]
-    T5E -.-> T6E["T6: Forsaken One (Proposed)"]
-    T6E -.-> T7E["T7: Dread Nomad (Proposed)"]
-    T7E -.-> T8E["T8: Ruin Seeker (Proposed)"]
-    T8E -.-> T9E["T9: Apex Wanderer (Proposed)"]
+    %% Branch 3: Datura Hierophant
+    subgraph "Branch 3: Datura Hierophant"
+        T2H --> T3D["T3: Druid"]
+        T3D --> T4FD["T4: Forest Druid"]
+        T4FD --> T5GD["T5: Gloom Druid"]
+        T5GD --> T6HD["T6: Hemodruid"]
+        T6HD --> T7SD["T7: Sanguine Druid"]
+        T7SD --> T8BD["T8: Bloodthorn Druid"]
+        T8BD --> T9DH["T9: Datura Hierophant"]
+    end
+    
+    %% Branch 4: El Salvador
+    subgraph "Branch 4: El Salvador"
+        T2H --> T3E["T3: Exile"]
+        T3E --> T4BN["T4: Bandit"]
+        T4BN --> T5BG["T5: Brigand"]
+        T5BG --> T6VG["T6: Vagabond"]
+        T6VG --> T7DP["T7: Desperado"]
+        T7DP --> T8RN["T8: Renegade"]
+        T8RN --> T9ES["T9: El Salvador"]
+    end
 ```
 
 ---
 
-## 3. Core Class Archetypes & Mechanics
+## 3. Detailed Specifications by Branch
 
 ### 3.1 Base Class: Outlander (Tier 1)
-- **Primary Weapon**: [Axe](file:///c:/Repositories/IGM-Modded/plans/planned/crafting/axe-weapon-type.md) (`R.string.type_axe`). High CON scaling, $\pm 20\%$ attack spread.
-- **Armor Type**: Medium Armor (`R.string.type_armor_medium`).
-- **Potion Profile**: `WARRIOR` (Constitution & Physical bulk emphasis).
-- **Recruitment**: Added to Tavern pool via [`Utils.rollClass()`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/Utils.kt#L179-L187) with equal 20% distribution across Footman, Rogue, Archer, Apprentice, and Outlander.
-- **Level Cap**: 5.
-- **Promotion Choices**:
-  - `nextClasses.add("Marauder")` (Physical fury & heavy combat path)
-  - `nextClasses.add("Heathen")` (Primal wild & companion path)
+- **Class File**: [`Outlander.kt`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/adventurers/units/Outlander.kt)
+- **Sprite**: `@drawable/unit_outlander`
+- **Max Level**: 5 | **HP**: 42 | **CON**: 9 | **INT**: 4 | **DEX**: 5 | **DEF**: 10 | **MDEF**: 10
+- **Equipment**: Sword / Axe, Light Armor
+- **Potion Drinker Profile**: `PotionDrinkerType.WARRIOR`
+- **Promotions**: `Marauder` (Physical Melee), `Heathen` (Primal Wild)
 
 ---
 
-### 3.2 Branch 1: The Marauder / Berserker Progression
-Focuses on escalating rage, critical strikes, lifesteal, and extra attacks at low HP thresholds.
+### 3.2 Branch 1: Avatar of Wrath (Heavy Melee / Berserker Rage)
+Focuses on escalating attack frequency, critical hits, lifesteal, and self-buffing `RAGE` when falling below HP thresholds.
 
-#### Berserker Rebalance Note:
-> [!NOTE]
-> Currently, [`Berserker.kt`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/adventurers/units/Berserker.kt) exists as a standalone T9 hero (`maxLevel = 45`). Under this plan, it is re-slotted as the canonical **Tier 4** anchor of the Marauder tree (`maxLevel = 20`), matching the game's tier structure, while T5 through T9 extend its fury into godlike wrath.
-
-| Tier | Class Name | Max Lv | HP | CON | DEX | Active Skill | Passive Skill | Special Mechanics |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **T1** | `Outlander` | 5 | 42 | 9 | 5 | `ACTIVE_MIGHTY_STRIKE` | `PASSIVE_NONE` | Base axe physical melee |
-| **T2** | `Marauder` | 10 | 70 | 14 | 7 | `ACTIVE_CRUSHING_STRIKE` | `PASSIVE_THREATENING_I` | +5% Crit Chance |
-| **T3** | `Barbarian` | 15 | 105 | 20 | 9 | `ACTIVE_OVERWHELM` | `PASSIVE_RETALIATE` | 10% Lifesteal |
-| **T4** | `Berserker` | 20 | 150 | 28 | 12 | `ACTIVE_DECIMATE_I` | `PASSIVE_BERSERKER_RAGE` | Extra attack if HP $< 50\%$, 15% Lifesteal |
-| **T5** | `SavageBerserker` | 25 | 205 | 37 | 15 | `ACTIVE_DECIMATE_II` | `PASSIVE_BERSERKER_RAGE` | Extra attack if HP $< 50\%$, 20% Lifesteal, +10% Crit Dmg |
-| **T6** | `ScarletBerserker` | 30 | 270 | 48 | 18 | `ACTIVE_DECIMATE_III` | `PASSIVE_BLIND_RAGE` | 2x Extra attack if HP $< 40\%$, 25% Lifesteal, Bleed application |
-| **T7** | `BloodReaver` | 35 | 345 | 60 | 22 | `ACTIVE_WHIP_AND_TEAR` | `PASSIVE_TRUE_LIFESTEAL` | 30% Lifesteal, heals through shields |
-| **T8** | `CrimsonWarlord` | 40 | 430 | 74 | 26 | `ACTIVE_ANNIHILATE` | `PASSIVE_BERSERKER_RAGE` | 2x Extra attack if HP $< 50\%$, +30% Party Attack buff |
-| **T9** | `AvatarOfWrath` | 45 | 530 | 90 | 32 | `ACTIVE_OBLITERATE` | `PASSIVE_BERSERKER_RAGE` | 3x Extra attacks if HP $< 50\%$, 40% Lifesteal, ignores armor |
+| Tier | Class Name | File | Sprite | Max Lv | HP | CON | INT | DEX | DEF | MDEF | Planned Active | Planned Passive | Specialty |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **T2** | `Marauder` | [`Marauder.kt`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/adventurers/units/Marauder.kt) | `@drawable/unit_marauder` | 10 | 60 | 14 | 6 | 3 | 10 | 10 | `ACTIVE_WILD_STRIKES` | `PASSIVE_RAGE` | Extra attack if HP $\le 50\%$ |
+| **T3** | `Barbarian` | [`Barbarian.kt`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/adventurers/units/Barbarian.kt) | `@drawable/unit_barbarian` | 15 | 85 | 15 | 9 | 3 | 10 | 10 | `ACTIVE_BRUTAL_STRIKES` | `PASSIVE_RAGE` | Consecutive strike chances |
+| **T4** | `Berserker` | [`Berserker.kt`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/adventurers/units/Berserker.kt) | `@drawable/unit_berserker_hero` | 20 | 125 | 17 | 10 | 3 | 10 | 10 | `ACTIVE_BRUTAL_STRIKES` | `PASSIVE_BERSERKERR_RAGE` | Gains `RAGE` when HP $< 50\%$ |
+| **T5** | `SavageBerserker` | [`SavageBerserker.kt`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/adventurers/units/SavageBerserker.kt) | `@drawable/unit_savage_berserker` | 25 | 170 | 25 | 13 | 4 | 10 | 10 | `ACTIVE_BRUTAL_STRIKES` | `PASSIVE_SAVAGE_RAGE` | +25% Lifesteal, self-Rage |
+| **T6** | `ScarletBerserker` | [`ScarletBerserker.kt`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/adventurers/units/ScarletBerserker.kt) | `@drawable/unit_scarlet_berserker` | 30 | 200 | 27 | 15 | 4 | 10 | 10 | `ACTIVE_BRUTAL_STRIKES_II` | `PASSIVE_SAVAGE_RAGE` | 1.1x CON scaling, +25% Lifesteal |
+| **T7** | `BloodReaver` | [`BloodReaver.kt`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/adventurers/units/BloodReaver.kt) | `@drawable/unit_blood_reaver` | 35 | 230 | 31 | 18 | 5 | 15 | 15 | `ACTIVE_BLOODY_SLAUGHTER` | `PASSIVE_SAVAGE_RAGE` | Recasts active skill on kill |
+| **T8** | `CrimsonWarlord` | [`CrimsonWarlord.kt`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/adventurers/units/CrimsonWarlord.kt) | `@drawable/unit_crimson_warlord` | 40 | 270 | 37 | 21 | 6 | 20 | 20 | `ACTIVE_BLOODY_SLAUGHTER` | `PASSIVE_SAVAGE_RAGE_II` | Rage triggers at $< 75\%$ HP |
+| **T9** | `AvatarOfWrath` | [`AvatarOfWrath.kt`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/adventurers/units/AvatarOfWrath.kt) | `@drawable/unit_avatar_of_wrath` | 45 | 320 | 44 | 25 | 7 | 25 | 25 | `ACTIVE_BLESSING_OF_SLAUGHTER` | `PASSIVE_SAVAGE_RAGE_II` | Grants party Rage, recasts on kill |
 
 ---
 
-### 3.3 Branch 2: The Heathen / Beast Tamer Progression
-Focuses on fighting alongside dedicated animal companions. Leverages the existing [`minionBound`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/adventurers/Adventurer.kt#L99) and [`summonedMinion = true`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/adventurers/units/Skeleton.kt#L26) engine architecture.
+### 3.3 Branch 2: Beast Tamer & Companion Summons
+Focuses on animal mastery. Tamers summon and command combat pets that occupy fighting group slots and attack alongside the party.
 
-#### Animal Companion Mechanics:
-- When a Beast Tamer enters combat in [`Area.kt`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/places/Area.kt), their bound animal companion is automatically deployed directly into the adventuring party line if party size permits.
-- If the animal companion falls, the Tamer gains a temporary Enrage buff.
-- The Tamer's own skills heal or command their companion.
+#### Tamers Progression (T2–T9):
+| Tier | Class Name | File | Sprite | Max Lv | HP | CON | INT | DEX | DEF | MDEF | Planned Companion |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **T2** | `Heathen` | [`Heathen.kt`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/adventurers/units/Heathen.kt) | `@drawable/unit_heathen` | 10 | 50 | 11 | 9 | 3 | 10 | 10 | (Primal root - branches into 3 paths) |
+| **T3** | `RatTamer` | [`RatTamer.kt`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/adventurers/units/RatTamer.kt) | `@drawable/unit_rat_tamer` | 15 | 70 | 13 | 12 | 5 | 10 | 10 | `Rat` (85%) / `AlbinoRat` (15%) |
+| **T4** | `WeaselTamer` | [`WeaselTamer.kt`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/adventurers/units/WeaselTamer.kt) | `@drawable/unit_weasel_tamer` | 20 | 100 | 16 | 15 | 7 | 10 | 10 | `SummonWeasel` |
+| **T5** | `CatTamer` | [`CatTamer.kt`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/adventurers/units/CatTamer.kt) | `@drawable/unit_cat_tamer` | 25 | 140 | 20 | 18 | 10 | 12 | 12 | `SummonCat` |
+| **T6** | `WolfTamer` | [`WolfTamer.kt`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/adventurers/units/WolfTamer.kt) | `@drawable/unit_wolf_tamer` | 30 | 180 | 24 | 22 | 13 | 15 | 15 | `SummonWolf` |
+| **T7** | `BearTamer` | [`BearTamer.kt`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/adventurers/units/BearTamer.kt) | `@drawable/unit_bear_tamer` | 35 | 230 | 29 | 26 | 16 | 18 | 18 | `SummonBear` |
+| **T8** | `TigerTamer` | [`TigerTamer.kt`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/adventurers/units/TigerTamer.kt) | `@drawable/unit_tiger_tamer` | 40 | 280 | 34 | 30 | 19 | 20 | 20 | `SummonTiger` |
+| **T9** | `BeastTamer` | [`BeastTamer.kt`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/adventurers/units/BeastTamer.kt) | `@drawable/unit_beast_tamer` | 45 | 340 | 40 | 35 | 22 | 25 | 25 | `SummonOwlbear` |
 
-| Tier | Tamer Class | Max Lv | Companion Unit | Companion Specialty | Companion Attack / Skill |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **T2** | `Heathen` | 10 | (None / Spirit) | Animist rites | `ACTIVE_HEAL`, +5 DEF/MDEF |
-| **T3** | `RatTamer` | 15 | `SummonedRat` | Swarm tactics | Fast poison bite, high dodge |
-| **T4** | `SnakeTamer` | 20 | `SummonedSnake` | Neurotoxic venom | Blinding venom spit, paralysis chance |
-| **T5** | `BirdTamer` | 25 | `SummonedFalcon` | Aerial reconnaissance | Piercing talon dive, 100% crit chance on bleeding targets |
-| **T6** | `CatTamer` | 30 | `SummonedPanther` | Ambush predator | Stealth pounce, high agility, disembowel |
-| **T7** | `WolfTamer` | 35 | `SummonedDireWolf`| Pack leader | Alpha howl (+20% party crit), crippling hamstring bite |
-| **T8** | `BearTamer` | 40 | `SummonedGrizzly` | Heavy frontline tank | Massive HP/DEF, taunting roar, mauling swipe stun |
-| **T9** | `BeastTamer` | 45 | `SummonedBeastSovereign` | Mythic apex predator | Cleaving bite, AoE roar, regenerates HP each turn |
+#### Summon Companion Units:
+| Companion | Class File | Sprite | Max Lv | HP | CON | INT | DEX | DEF | MDEF | Weapon |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| `Rat` | [`Rat.kt`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/adventurers/units/Rat.kt) | `@drawable/unit_rat` | 15 | 10 | 5 | 5 | 5 | 0 | 0 | `RatClaws` |
+| `AlbinoRat` | [`AlbinoRat.kt`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/adventurers/units/AlbinoRat.kt) | `@drawable/unit_albino_rat` | 15 | 15 | 6 | 6 | 6 | 1 | 1 | `RatClaws` |
+| `SummonWeasel` | [`SummonWeasel.kt`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/adventurers/units/SummonWeasel.kt) | `@drawable/unit_summon_weasel` | 20 | 25 | 8 | 6 | 10 | 2 | 2 | Innate / Claws |
+| `SummonCat` | [`SummonCat.kt`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/adventurers/units/SummonCat.kt) | `@drawable/unit_summon_cat` | 25 | 40 | 10 | 7 | 15 | 4 | 4 | Innate / Claws |
+| `SummonWolf` | [`SummonWolf.kt`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/adventurers/units/SummonWolf.kt) | `@drawable/unit_summon_wolf` | 30 | 60 | 14 | 8 | 18 | 6 | 6 | Innate / Claws |
+| `SummonBear` | [`SummonBear.kt`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/adventurers/units/SummonBear.kt) | `@drawable/unit_summon_bear` | 35 | 100 | 20 | 9 | 12 | 12 | 10 | Innate / Claws |
+| `SummonTiger` | [`SummonTiger.kt`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/adventurers/units/SummonTiger.kt) | `@drawable/unit_summon_tiger` | 40 | 130 | 24 | 10 | 24 | 14 | 12 | Innate / Claws |
+| `SummonOwlbear` | [`SummonOwlbear.kt`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/adventurers/units/SummonOwlbear.kt) | `@drawable/unit_summon_owlbear` | 45 | 180 | 30 | 12 | 20 | 18 | 15 | Innate / Claws |
 
----
-
-### 3.4 Branch 3: The Druid Progression (Proposed)
-Focuses on Primal Nature magic, healing, terrain blessings, and storm elements.
-- **T1**: `Outlander`
-- **T2**: `Heathen`
-- **T3**: `Druid` (Max Lv 15) — Nature restoration (`ACTIVE_RESTORATION_I`), +Regeneration passive.
-- **T4**: `Shaman` (Max Lv 20) — Elemental totems, cleanse, lightning burst.
-- **T5**: `GroveKeeper` (Max Lv 25) — Nature thorns protection, party HP regen.
-- **T6**: `Archdruid` (Max Lv 30) — `ACTIVE_SOOTHING_WINDS`, high magic defense.
-- **T7**: `Stormcaller` (Max Lv 35) — Tempest lightning AoE, tempest shield.
-- **T8**: `AncientKeeper` (Max Lv 40) — Ironbark skin, massive party damage reduction.
-- **T9**: `AvatarOfNature` (Max Lv 45) — Revitalizing aura, cataclysmic hurricane burst, true nature immortality.
+- **Companion Weapon**: [`RatClaws.kt`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/items/instances/RatClaws.kt) (`@drawable/rat_claws`), 0g price, +1 CON, +1 DEX, +5% Crit.
 
 ---
 
-### 3.5 Branch 4: The Exile Progression (Proposed)
-Focuses on solitary survival, bleeding guerilla tactics, high evasion, and ruthless execution.
-- **T1**: `Outlander`
-- **T2**: `Heathen`
-- **T3**: `Exile` (Max Lv 15) — Bleed strikes, evasive dodge (`PASSIVE_ELUSIVE`).
-- **T4**: `Nomad` (Max Lv 20) — Desert survivor, increased accuracy, sand pocket blind.
-- **T5**: `WastelandStalker` (Max Lv 25) — Crippling slice, shadow step.
-- **T6**: `ForsakenOne` (Max Lv 30) — Bloodied resolve, damage increases as allies take damage.
-- **T7**: `DreadNomad` (Max Lv 35) — Multi-bleed rending, executioner passive.
-- **T8**: `RuinSeeker` (Max Lv 40) — Critical strike damage amplified by 50% against debuffed targets.
-- **T9**: `ApexWanderer` (Max Lv 45) — Extreme evasion, triple strike assassinations, solitary defiance.
+### 3.4 Branch 3: Datura Hierophant (Nature Magic / Sanguine Druids)
+Equipped with **Staves** and **Light Armor**, scaling with high Intelligence and Constitution. Specializes in immobilizing targets with `ENTANGLE` and harvesting life essence through bleeding brambles and virulent rot.
+
+| Tier | Class Name | File | Sprite | Max Lv | HP | CON | INT | DEX | DEF | MDEF | Planned Role |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **T3** | `Druid` | [`Druid.kt`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/adventurers/units/Druid.kt) | `@drawable/unit_druid` | 15 | 65 | 14 | 14 | 4 | 10 | 10 | Nature vines, 75% Entangle on hit |
+| **T4** | `ForestDruid` | [`ForestDruid.kt`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/adventurers/units/ForestDruid.kt) | `@drawable/unit_forest_druid` | 20 | 95 | 17 | 18 | 6 | 10 | 12 | Canopy warding, group health regen |
+| **T5** | `GloomDruid` | [`GloomDruid.kt`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/adventurers/units/GloomDruid.kt) | `@drawable/unit_gloom_druid` | 25 | 130 | 20 | 23 | 8 | 12 | 15 | Fungal rot, darkness debuffs |
+| **T6** | `Hemodruid` | [`Hemodruid.kt`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/adventurers/units/Hemodruid.kt) | `@drawable/unit_hemodruid` | 30 | 170 | 24 | 28 | 10 | 14 | 18 | Sanguine sacrifices, burst healing |
+| **T7** | `SanguineDruid` | [`SanguineDruid.kt`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/adventurers/units/SanguineDruid.kt) | `@drawable/unit_sanguine_druid` | 35 | 215 | 28 | 34 | 12 | 16 | 22 | Crimson grove, party lifesteal link |
+| **T8** | `BloodthornDruid`| [`BloodthornDruid.kt`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/adventurers/units/BloodthornDruid.kt) | `@drawable/unit_bloodthorn_druid` | 40 | 265 | 32 | 40 | 14 | 18 | 26 | Piercing thorns, bleed reflection |
+| **T9** | `DaturaHierophant`| [`DaturaHierophant.kt`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/adventurers/units/DaturaHierophant.kt) | `@drawable/unit_datura_hierophant` | 45 | 320 | 36 | 48 | 16 | 20 | 30 | Virulent hallucination & cataclysmic rot |
 
 ---
 
-## 4. Architectural Modifications & Integrations
+### 3.5 Branch 4: El Salvador (Exiles / Bandits / Frontier Skirmishers)
+Equipped with **Swords / Daggers** and **Light Armor**, scaling primarily with Dexterity and Constitution (`PotionDrinkerType.THIEF`). Features extreme agility, evasion buffs, counterattacks, and critical multi-strikes.
 
-### 4.1 Tavern Recruitment Distribution
-Modify [`Utils.kt`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/Utils.kt#L179-L187):
-```kotlin
-private fun rollClass(): String {
-    val dRandom = random()
-    return when {
-        dRandom < 0.20 -> "Footman"
-        dRandom < 0.40 -> "Rogue"
-        dRandom < 0.60 -> "Archer"
-        dRandom < 0.80 -> "Apprentice"
-        else -> "Outlander"
-    }
-}
-```
-
-### 4.2 Class Reflection Registry
-Classes will reside in package:
-`it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.units`
-Because [`Adventurer.getInstance()`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/adventurers/Adventurer.kt#L46) resolves via `Class.forName("...units." + className)`, all new class classes are instantly discoverable without manual registry boilerplate.
-
-### 4.3 Potion Drinker Profile
-Add or configure potion drinking scaling in [`PotionDrinkerType.kt`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/adventurers/PotionDrinkerType.kt):
-```kotlin
-OUTLANDER(10.0, 5.0, 1.0, 11.0, 4.0, 3.0, 3.0, 4.0, 2.0, 10.0, 4.0)
-```
-Or utilize `PotionDrinkerType.WARRIOR` for pure physical branches and `PotionDrinkerType.THIEF`/`MAGE` for Exile/Druid.
-
-### 4.4 Animal Companion Summoning Integration
-In [`Area.kt`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/places/Area.kt), in `startCombat()` / `checkSummonMinion()`:
-- Check if any exploring adventurer has a companion skill or beast tamer class.
-- Instantiate companion with `summonedMinion = true` and bind to `adventurer.minionBound`.
-- Companion attacks alongside party during turn order.
+| Tier | Class Name | File | Sprite | Max Lv | HP | CON | INT | DEX | DEF | MDEF | Planned Role |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **T3** | `Exile` | [`Exile.kt`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/adventurers/units/Exile.kt) | `@drawable/unit_exile` | 15 | 65 | 12 | 6 | 12 | 8 | 8 | 15% chance to gain `EVASION` (+25% dodge) |
+| **T4** | `Bandit` | [`Bandit.kt`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/adventurers/units/Bandit.kt) | `@drawable/unit_bandit` | 20 | 95 | 14 | 8 | 16 | 10 | 10 | Ambush strikes, extra loot find |
+| **T5** | `Brigand` | [`Brigand.kt`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/adventurers/units/Brigand.kt) | `@drawable/unit_brigand` | 25 | 130 | 17 | 10 | 21 | 12 | 12 | Rend strikes, crippling bleed |
+| **T6** | `Vagabond` | [`Vagabond.kt`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/adventurers/units/Vagabond.kt) | `@drawable/unit_vagabond` | 30 | 170 | 20 | 12 | 27 | 14 | 14 | Elusive shadow step, dodge counter |
+| **T7** | `Desperado` | [`Desperado.kt`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/adventurers/units/Desperado.kt) | `@drawable/unit_desperado` | 35 | 215 | 23 | 14 | 33 | 16 | 16 | Reckless flurry attacks |
+| **T8** | `Renegade` | [`Renegade.kt`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/adventurers/units/Renegade.kt) | `@drawable/unit_renegade` | 40 | 265 | 26 | 16 | 40 | 18 | 18 | Momentum turnabout, counter damage |
+| **T9** | `ElSalvador` | [`ElSalvador.kt`](file:///c:/Repositories/IGM-Modded/app/src/main/kotlin/it/paranoidsquirrels/idleguildmaster/storage/data/entities/adventurers/units/ElSalvador.kt) | `@drawable/unit_el_salvador_1` | 45 | 320 | 30 | 18 | 48 | 20 | 20 | Sovereign retribution, untouchable evasion |
 
 ---
 
-## 5. User Decisions & Feedback Needed
+## 4. Status Effects & Combat Mechanics
 
-> [!IMPORTANT]
-> 1. **Druid & Exile T4–T9 Progression**:
->    Do you approve the proposed progression names for Druid (`Shaman` $\to$ `GroveKeeper` $\to$ `Archdruid` $\to$ `Stormcaller` $\to$ `AncientKeeper` $\to$ `AvatarOfNature`) and Exile (`Nomad` $\to$ `WastelandStalker` $\to$ `ForsakenOne` $\to$ `DreadNomad` $\to$ `RuinSeeker` $\to$ `ApexWanderer`), or would you prefer alternative themes?
-> 2. **Berserker Slotting**:
->    Confirm refactoring existing T9 Berserker to T4 (maxLevel 20) with stats scaled appropriately, while Savage Berserker through Avatar of Wrath form T5–T9.
-> 3. **Beast Companion Mechanics**:
->    Confirm that companions fight as summoned units occupying combat slots (similar to Necromancer skeleton summons), or should they act as end-of-turn extra attacks (similar to Wyrm Rider mounts)?
+### 4.1 New Status Effects (to be added to `StatusEffectType.kt` and `Area.kt`)
+1. **`RAGE`** (`@drawable/effect_rage`):
+   - Outgoing damage dealt: $+30\%$ ($\times 1.30$).
+   - Incoming damage taken: $+30\%$ ($\times 1.30$).
+   - Applied by Berserker passives when HP falls below thresholds.
+2. **`ENTANGLE`** (`@drawable/effect_entangle`):
+   - Dodge disabled: target cannot dodge attacks (flat $0\%$ dodge).
+   - Outgoing damage reduced by $20\%$ ($\times 0.80$).
+   - Deals $2\%$ max HP damage at each combat round.
+3. **`EVASION`** (`@drawable/effect_evasion`):
+   - Grants flat $+25\%$ additive dodge chance during hit calculation in `Area.kt`.
+
+### 4.2 Companion Summoning Pipeline in `Area.kt`
+- When entering combat, Tamers check active pet bounds and instantiate their respective summon (`rat`, `summon_weasel`, etc.) directly into `adventurersExploring` with `summonedMinion = true`.
+- If companion dies, tamer enters temporary enrage.
 
 ---
 
-## 6. Verification & Implementation Checklist
+## 5. Current Implementation Status & Next Phases
 
-- [ ] Add `Outlander.kt` base adventurer class.
-- [ ] Update `Utils.rollClass()` to 20% 5-class distribution.
-- [ ] Implement Marauder line: `Marauder.kt`, `Barbarian.kt`, refactored `Berserker.kt`, `SavageBerserker.kt`, `ScarletBerserker.kt`, `BloodReaver.kt`, `CrimsonWarlord.kt`, `AvatarOfWrath.kt`.
-- [ ] Implement Heathen & Beast Tamer line: `Heathen.kt`, `RatTamer.kt`, `SnakeTamer.kt`, `BirdTamer.kt`, `CatTamer.kt`, `WolfTamer.kt`, `BearTamer.kt`, `BeastTamer.kt`.
-- [ ] Implement companion summoned units: `SummonedRat.kt`, `SummonedSnake.kt`, `SummonedFalcon.kt`, `SummonedPanther.kt`, `SummonedDireWolf.kt`, `SummonedGrizzly.kt`, `SummonedBeastSovereign.kt`.
-- [ ] Implement Druid and Exile lines upon user confirmation of T4–T9 naming.
-- [ ] Add string resources for all class names and descriptions to `strings.xml`.
-- [ ] Verify test suite passes (`./gradlew testDebugUnitTest`).
+### Completed Setup (Phase 1):
+- [x] All 43 visual assets and icons copied to `app/src/main/res/drawable/`.
+- [x] All unit strings and descriptions added to `app/src/main/res/values/strings.xml`.
+- [x] `RatClaws.kt` created in `storage/data/items/instances/`.
+- [x] All 39 unit classes created in `storage/data/entities/adventurers/units/`:
+  - Base: `Outlander.kt`
+  - Branch 1: `Marauder.kt`, `Barbarian.kt`, `Berserker.kt` (T4), `SavageBerserker.kt`, `ScarletBerserker.kt`, `BloodReaver.kt`, `CrimsonWarlord.kt`, `AvatarOfWrath.kt`
+  - Branch 2 & Summons: `Heathen.kt`, `RatTamer.kt`, `WeaselTamer.kt`, `CatTamer.kt`, `WolfTamer.kt`, `BearTamer.kt`, `TigerTamer.kt`, `BeastTamer.kt`, `Rat.kt`, `AlbinoRat.kt`, `SummonWeasel.kt`, `SummonCat.kt`, `SummonWolf.kt`, `SummonBear.kt`, `SummonTiger.kt`, `SummonOwlbear.kt`
+  - Branch 3: `Druid.kt`, `ForestDruid.kt`, `GloomDruid.kt`, `Hemodruid.kt`, `SanguineDruid.kt`, `BloodthornDruid.kt`, `DaturaHierophant.kt`
+  - Branch 4: `Exile.kt`, `Bandit.kt`, `Brigand.kt`, `Vagabond.kt`, `Desperado.kt`, `Renegade.kt`, `ElSalvador.kt`
+- [x] Reference folder `reference/Outlander` cleaned up.
+- [x] Test suite fully compiles and passes (`BUILD SUCCESSFUL in 1m 58s`).
+
+### Next Phases (Full Integration):
+- [ ] **Phase 2: Tavern & Promotion Wiring**:
+  - Update `Utils.rollClass()` to 20% 5-class distribution.
+  - Implement weapon/armor checkers during promotion dialogs.
+- [ ] **Phase 3: Status Effects & Skills**:
+  - Register `RAGE`, `ENTANGLE`, `EVASION` in `StatusEffectType.kt`.
+  - Add active skills (`ACTIVE_WILD_STRIKES`, `ACTIVE_BRUTAL_STRIKES`, `ACTIVE_BLOODY_SLAUGHTER`, `ACTIVE_BLESSING_OF_SLAUGHTER`) and passives to `Skills.kt`.
+  - Implement skill executions in `Area.kt`.
+- [ ] **Phase 4: Beast Companion Combat System**:
+  - Implement companion summon and turn action loop in `Area.kt`.
+- [ ] **Phase 5: Balance & Playtest Verification**:
+  - End-to-end combat simulation tests and unit test additions.

@@ -4840,4 +4840,206 @@ TAUNT: the taunting unit is always chosen as target"</string>
     <string name="enemy_type_construct_desc">Inanimate machines, animated armors, stone automatons, and wards.</string>
     <string name="enemy_type_aberration">Aberration</string>
     <string name="enemy_type_aberration_desc">Eldritch monstrosities, cosmic entities, and avatars of outer beings.</string>
+
+    <!-- Outlander Class Family -->
+    <string name="unit_outlander_name">Outlander</string>
+    <string name="unit_outlander_description">A resilient warrior from the untamed borderlands, adept at surviving the wilderness.</string>
+    <string name="unit_outlander">Outlander</string>
+    <string name="unit_outlander_desc">A resilient warrior from the untamed borderlands, adept at surviving the wilderness.</string>
+
+    <!-- Branch 1: Avatar of Wrath -->
+    <string name="unit_marauder_name">Marauder</string>
+    <string name="unit_marauder_description">A ferocious fighter whose strikes grow deadlier as fury takes hold.</string>
+    <string name="unit_marauder">Marauder</string>
+    <string name="unit_marauder_desc">A ferocious fighter whose strikes grow deadlier as fury takes hold.</string>
+
+    <string name="unit_barbarian_name">Barbarian</string>
+    <string name="unit_barbarian_description">A brutal combatant thriving on the chaos of close-quarters skirmishing.</string>
+    <string name="unit_barbarian">Barbarian</string>
+    <string name="unit_barbarian_desc">A brutal combatant thriving on the chaos of close-quarters skirmishing.</string>
+
+    <string name="unit_berserker_hero">Berserker Hero</string>
+    <string name="unit_berserker_hero_desc">A legendary warrior celebrated for surviving impossible battles through unyielding fury.</string>
+
+    <string name="unit_savage_berserker_name">Savage Berserker</string>
+    <string name="unit_savage_berserker_description">A warrior whose frenzied onslaught feeds upon shed blood to regenerate vigor.</string>
+    <string name="unit_savage_berserker">Savage Berserker</string>
+    <string name="unit_savage_berserker_desc">A warrior whose frenzied onslaught feeds upon shed blood to regenerate vigor.</string>
+
+    <string name="unit_scarlet_berserker_name">Scarlet Berserker</string>
+    <string name="unit_scarlet_berserker_description">Drenched in the gore of countless foes, their relentless assaults leave deep rending wounds.</string>
+    <string name="unit_scarlet_berserker">Scarlet Berserker</string>
+    <string name="unit_scarlet_berserker_desc">Drenched in the gore of countless foes, their relentless assaults leave deep rending wounds.</string>
+
+    <string name="unit_blood_reaver_name">Blood Reaver</string>
+    <string name="unit_blood_reaver_description">A terror of the battlefield who converts physical destruction into enduring life essence.</string>
+    <string name="unit_blood_reaver">Blood Reaver</string>
+    <string name="unit_blood_reaver_desc">A terror of the battlefield who converts physical destruction into enduring life essence.</string>
+
+    <string name="unit_crimson_warlord_name">Crimson Warlord</string>
+    <string name="unit_crimson_warlord_description">A battle leader whose very presence inspires bloodlust and overwhelming aggression.</string>
+    <string name="unit_crimson_warlord">Crimson Warlord</string>
+    <string name="unit_crimson_warlord_desc">A battle leader whose very presence inspires bloodlust and overwhelming aggression.</string>
+
+    <string name="unit_avatar_of_wrath_name">Avatar of Wrath</string>
+    <string name="unit_avatar_of_wrath_description">The physical incarnation of unmitigated fury, cutting down entire legions with sweeping destruction.</string>
+    <string name="unit_avatar_of_wrath">Avatar of Wrath</string>
+    <string name="unit_avatar_of_wrath_desc">The physical incarnation of unmitigated fury, cutting down entire legions with sweeping destruction.</string>
+
+    <!-- Branch 2: Beast Tamer -->
+    <string name="unit_heathen_name">Heathen</string>
+    <string name="unit_heathen_description">An outcast practitioner of forgotten rites, deeply attuned to the spirits of beast and forest.</string>
+    <string name="unit_heathen">Heathen</string>
+    <string name="unit_heathen_desc">An outcast practitioner of forgotten rites, deeply attuned to the spirits of beast and forest.</string>
+
+    <string name="unit_rat_tamer_name">Rat Tamer</string>
+    <string name="unit_rat_tamer_description">Commands packs of vicious sewer rodents to overwhelm enemies from the shadows.</string>
+    <string name="unit_rat_tamer">Rat Tamer</string>
+    <string name="unit_rat_tamer_desc">Commands packs of vicious sewer rodents to overwhelm enemies from the shadows.</string>
+
+    <string name="unit_weasel_tamer_name">Weasel Tamer</string>
+    <string name="unit_weasel_tamer_description">Partners with swift, agile mustelids that slip past defenses and harry vulnerable targets.</string>
+    <string name="unit_weasel_tamer">Weasel Tamer</string>
+    <string name="unit_weasel_tamer_desc">Partners with swift, agile mustelids that slip past defenses and harry vulnerable targets.</string>
+
+    <string name="unit_cat_tamer_name">Cat Tamer</string>
+    <string name="unit_cat_tamer_description">Fights alongside stealthy feline stalkers capable of sudden pounces and disemboweling claws.</string>
+    <string name="unit_cat_tamer">Cat Tamer</string>
+    <string name="unit_cat_tamer_desc">Fights alongside stealthy feline stalkers capable of sudden pounces and disemboweling claws.</string>
+
+    <string name="unit_wolf_tamer_name">Wolf Tamer</string>
+    <string name="unit_wolf_tamer_description">Leads ferocious wolves that coordinate pack tactics and tear into fleeing foes.</string>
+    <string name="unit_wolf_tamer">Wolf Tamer</string>
+    <string name="unit_wolf_tamer_desc">Leads ferocious wolves that coordinate pack tactics and tear into fleeing foes.</string>
+
+    <string name="unit_bear_tamer_name">Bear Tamer</string>
+    <string name="unit_bear_tamer_description">Accompanied by a massive grizzly bear that shrugs off blows and crushes enemy ranks.</string>
+    <string name="unit_bear_tamer">Bear Tamer</string>
+    <string name="unit_bear_tamer_desc">Accompanied by a massive grizzly bear that shrugs off blows and crushes enemy ranks.</string>
+
+    <string name="unit_tiger_tamer_name">Tiger Tamer</string>
+    <string name="unit_tiger_tamer_description">Commands an apex striped predator whose lethal leaps bring down the mightiest monsters.</string>
+    <string name="unit_tiger_tamer">Tiger Tamer</string>
+    <string name="unit_tiger_tamer_desc">Commands an apex striped predator whose lethal leaps bring down the mightiest monsters.</string>
+
+    <string name="unit_beast_tamer_name">Beast Tamer</string>
+    <string name="unit_beast_tamer_description">The sovereign master of primeval beasts, directing legendary creatures with effortless command.</string>
+    <string name="unit_beast_tamer">Beast Tamer</string>
+    <string name="unit_beast_tamer_desc">The sovereign master of primeval beasts, directing legendary creatures with effortless command.</string>
+
+    <!-- Beast Tamer Summons -->
+    <string name="unit_rat_name">Rat</string>
+    <string name="unit_rat_description">A vicious little vermin that bites ankles and swarms unwary targets.</string>
+    <string name="unit_rat">Rat</string>
+    <string name="unit_rat_desc">A vicious little vermin that bites ankles and swarms unwary targets.</string>
+
+    <string name="unit_albino_rat_name">Albino Rat</string>
+    <string name="unit_albino_rat_description">A rare white rodent bearing uncanny ferocity and hardened resilience.</string>
+    <string name="unit_albino_rat">Albino Rat</string>
+    <string name="unit_albino_rat_desc">A rare white rodent bearing uncanny ferocity and hardened resilience.</string>
+
+    <string name="unit_summon_weasel_name">Summoned Weasel</string>
+    <string name="unit_summon_weasel_description">A lightning-fast animal companion darting between enemy strikes.</string>
+    <string name="unit_summon_weasel">Summoned Weasel</string>
+    <string name="unit_summon_weasel_desc">A lightning-fast animal companion darting between enemy strikes.</string>
+
+    <string name="unit_summon_cat_name">Summoned Cat</string>
+    <string name="unit_summon_cat_description">An agile companion that pounces from behind with razor-sharp claws.</string>
+    <string name="unit_summon_cat">Summoned Cat</string>
+    <string name="unit_summon_cat_desc">An agile companion that pounces from behind with razor-sharp claws.</string>
+
+    <string name="unit_summon_wolf_name">Summoned Wolf</string>
+    <string name="unit_summon_wolf_description">A steadfast pack hunter that hamstrings prey with bone-snapping bites.</string>
+    <string name="unit_summon_wolf">Summoned Wolf</string>
+    <string name="unit_summon_wolf_desc">A steadfast pack hunter that hamstrings prey with bone-snapping bites.</string>
+
+    <string name="unit_summon_bear_name">Summoned Bear</string>
+    <string name="unit_summon_bear_description">A towering beast serving as an unyielding frontline protector.</string>
+    <string name="unit_summon_bear">Summoned Bear</string>
+    <string name="unit_summon_bear_desc">A towering beast serving as an unyielding frontline protector.</string>
+
+    <string name="unit_summon_tiger_name">Summoned Tiger</string>
+    <string name="unit_summon_tiger_description">A fierce jungle predator executing crushing ambushes against high-value targets.</string>
+    <string name="unit_summon_tiger">Summoned Tiger</string>
+    <string name="unit_summon_tiger_desc">A fierce jungle predator executing crushing ambushes against high-value targets.</string>
+
+    <string name="unit_summon_owlbear_name">Summoned Owlbear</string>
+    <string name="unit_summon_owlbear_description">A monstrous chimeric powerhouse combining avian keenness with ursine savagery.</string>
+    <string name="unit_summon_owlbear">Summoned Owlbear</string>
+    <string name="unit_summon_owlbear_desc">A monstrous chimeric powerhouse combining avian keenness with ursine savagery.</string>
+
+    <string name="weapon_rat_claws_name">Rat Claws</string>
+    <string name="weapon_rat_claws_description">Sharp, flea-ridden rodent claws capable of fast, pestilent scratches.</string>
+
+    <!-- Branch 3: Datura Hierophant -->
+    <string name="unit_druid_name">Druid</string>
+    <string name="unit_druid_description">Channels primeval earthen magic to ensnare trespassers with grasping vines.</string>
+    <string name="unit_druid">Druid</string>
+    <string name="unit_druid_desc">Channels primeval earthen magic to ensnare trespassers with grasping vines.</string>
+
+    <string name="unit_forest_druid_name">Forest Druid</string>
+    <string name="unit_forest_druid_description">Draws upon the deep canopy to mend woodland spirits and smother aggressors.</string>
+    <string name="unit_forest_druid">Forest Druid</string>
+    <string name="unit_forest_druid_desc">Draws upon the deep canopy to mend woodland spirits and smother aggressors.</string>
+
+    <string name="unit_gloom_druid_name">Gloom Druid</string>
+    <string name="unit_gloom_druid_description">Communes with nocturnal fungi and shadowy thickets, weaving disorienting mists.</string>
+    <string name="unit_gloom_druid">Gloom Druid</string>
+    <string name="unit_gloom_druid_desc">Communes with nocturnal fungi and shadowy thickets, weaving disorienting mists.</string>
+
+    <string name="unit_hemodruid_name">Hemodruid</string>
+    <string name="unit_hemodruid_description">Blends primordial growth with sanguine sacrifices to fuel volatile regenerative rituals.</string>
+    <string name="unit_hemodruid">Hemodruid</string>
+    <string name="unit_hemodruid_desc">Blends primordial growth with sanguine sacrifices to fuel volatile regenerative rituals.</string>
+
+    <string name="unit_sanguine_druid_name">Sanguine Druid</string>
+    <string name="unit_sanguine_druid_description">Extracts lifeblood from fallen enemies to nourish crimson groves and bolster allies.</string>
+    <string name="unit_sanguine_druid">Sanguine Druid</string>
+    <string name="unit_sanguine_druid_desc">Extracts lifeblood from fallen enemies to nourish crimson groves and bolster allies.</string>
+
+    <string name="unit_bloodthorn_druid_name">Bloodthorn Druid</string>
+    <string name="unit_bloodthorn_druid_description">Summons piercing brambles that drink the vital essence of all who struggle within them.</string>
+    <string name="unit_bloodthorn_druid">Bloodthorn Druid</string>
+    <string name="unit_bloodthorn_druid_desc">Summons piercing brambles that drink the vital essence of all who struggle within them.</string>
+
+    <string name="unit_datura_hierophant_name">Datura Hierophant</string>
+    <string name="unit_datura_hierophant_description">High priest of venomous nightshades and lethal flora, ruling over hallucinations and virulent rot.</string>
+    <string name="unit_datura_hierophant">Datura Hierophant</string>
+    <string name="unit_datura_hierophant_desc">High priest of venomous nightshades and lethal flora, ruling over hallucinations and virulent rot.</string>
+
+    <!-- Branch 4: El Salvador -->
+    <string name="unit_exile_name">Exile</string>
+    <string name="unit_exile_description">Cast out from civilization, this hardened wanderer survives through cunning and evasion.</string>
+    <string name="unit_exile">Exile</string>
+    <string name="unit_exile_desc">Cast out from civilization, this hardened wanderer survives through cunning and evasion.</string>
+
+    <string name="unit_bandit_name">Bandit</string>
+    <string name="unit_bandit_description">A ruthless highwayman proficient in ambushing travelers and striking from concealed vantages.</string>
+    <string name="unit_bandit">Bandit</string>
+    <string name="unit_bandit_desc">A ruthless highwayman proficient in ambushing travelers and striking from concealed vantages.</string>
+
+    <string name="unit_brigand_name">Brigand</string>
+    <string name="unit_brigand_description">A seasoned raider skilled in brutal skirmishes and bleeding tactical withdrawals.</string>
+    <string name="unit_brigand">Brigand</string>
+    <string name="unit_brigand_desc">A seasoned raider skilled in brutal skirmishes and bleeding tactical withdrawals.</string>
+
+    <string name="unit_vagabond_name">Vagabond</string>
+    <string name="unit_vagabond_description">A restless drifter moving like a shadow across borderlands, never staying in one place long enough to be struck.</string>
+    <string name="unit_vagabond">Vagabond</string>
+    <string name="unit_vagabond_desc">A restless drifter moving like a shadow across borderlands, never staying in one place long enough to be struck.</string>
+
+    <string name="unit_desperado_name">Desperado</string>
+    <string name="unit_desperado_description">A daring outlaw with nothing left to lose, unleashing reckless yet lethal flurry attacks.</string>
+    <string name="unit_desperado">Desperado</string>
+    <string name="unit_desperado_desc">A daring outlaw with nothing left to lose, unleashing reckless yet lethal flurry attacks.</string>
+
+    <string name="unit_renegade_name">Renegade</string>
+    <string name="unit_renegade_description">An elusive rebel who defies all authority and turns the enemy\'s momentum back upon them.</string>
+    <string name="unit_renegade">Renegade</string>
+    <string name="unit_renegade_desc">An elusive rebel who defies all authority and turns the enemy\'s momentum back upon them.</string>
+
+    <string name="unit_el_salvador_name">El Salvador</string>
+    <string name="unit_el_salvador_description">A legendary frontier champion whose phantom agility and deadly retribution make them untouchable.</string>
+    <string name="unit_el_salvador">El Salvador</string>
+    <string name="unit_el_salvador_desc">A legendary frontier champion whose phantom agility and deadly retribution make them untouchable.</string>
 </resources>

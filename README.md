@@ -32,9 +32,8 @@ Originally developed as bytecode and smali injections, this repository represent
 
 ### Custom Adventurers & Units
 * **Berserker (`storage.data.entities.adventurers.units.Berserker`)**:
-  * Fierce front-line warrior class equipped with heavy armor and swords.
-  * **Skills**: `PASSIVE_BERSERKER_RAGE` and `ACTIVE_TAUNT_IV`.
-  * **Mechanics**: Innate extra attack at the end of every turn and base 20% lifesteal.
+  * Tier 4 anchor of the Outlander / Marauder tree (promotes from Barbarian, advances to Savage Berserker).
+  * Equipped with light armor and swords, featuring aggressive Constitution scaling.
 
 ### Custom Bosses & Encounters
 * **Imperial Captain (`storage.data.entities.enemies.units.ImperialCaptain`)**:

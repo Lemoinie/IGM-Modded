@@ -5,25 +5,25 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.entities.Skills
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.Adventurer
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.PotionDrinkerType
 
-class Berserker : Adventurer() {
+class AvatarOfWrath : Adventurer() {
     override fun configureStatistics() {
-        maxLevel = 20
-        baseMaxHp = 125
-        baseConstitution = 17
-        baseIntelligence = 10
-        baseDexterity = 3
-        baseDefense = 10
-        baseMagicDefense = 10
-        attackConstitutionScaling = 1.05
-        imageId = R.drawable.unit_berserker_hero
-        idName = R.string.unit_berserker_name
-        idDescription = R.string.unit_berserker_description
-        passiveSkill = Skills.PASSIVE_NONE // Planned: PASSIVE_BERSERKERR_RAGE
-        activeSkill = Skills.ACTIVE_NONE // Planned: ACTIVE_BRUTAL_STRIKES
+        maxLevel = 45
+        baseMaxHp = 320
+        baseConstitution = 44
+        baseIntelligence = 25
+        baseDexterity = 7
+        baseDefense = 25
+        baseMagicDefense = 25
+        baseLifesteal = 25
+        attackConstitutionScaling = 1.3
+        imageId = R.drawable.unit_avatar_of_wrath
+        idName = R.string.unit_avatar_of_wrath_name
+        idDescription = R.string.unit_avatar_of_wrath_description
+        passiveSkill = Skills.PASSIVE_NONE // Planned: PASSIVE_SAVAGE_RAGE_II
+        activeSkill = Skills.ACTIVE_NONE // Planned: ACTIVE_BLESSING_OF_SLAUGHTER
         weaponType = R.string.type_sword
         armorType = R.string.type_armor_light
         potionDrinkerType = PotionDrinkerType.WARRIOR
-        nextClasses.add("SavageBerserker")
     }
 
     override fun isRanged(): Boolean = false

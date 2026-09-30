@@ -5,25 +5,24 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.entities.Skills
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.Adventurer
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.PotionDrinkerType
 
-class Berserker : Adventurer() {
+class SummonTiger : Adventurer() {
     override fun configureStatistics() {
-        maxLevel = 20
-        baseMaxHp = 125
-        baseConstitution = 17
+        maxLevel = 40
+        baseMaxHp = 130
+        baseConstitution = 24
         baseIntelligence = 10
-        baseDexterity = 3
-        baseDefense = 10
-        baseMagicDefense = 10
-        attackConstitutionScaling = 1.05
-        imageId = R.drawable.unit_berserker_hero
-        idName = R.string.unit_berserker_name
-        idDescription = R.string.unit_berserker_description
-        passiveSkill = Skills.PASSIVE_NONE // Planned: PASSIVE_BERSERKERR_RAGE
-        activeSkill = Skills.ACTIVE_NONE // Planned: ACTIVE_BRUTAL_STRIKES
+        baseDexterity = 24
+        baseDefense = 14
+        baseMagicDefense = 12
+        imageId = R.drawable.unit_summon_tiger
+        idName = R.string.unit_summon_tiger_name
+        idDescription = R.string.unit_summon_tiger_description
+        passiveSkill = Skills.PASSIVE_NONE
+        activeSkill = Skills.ACTIVE_NONE
         weaponType = R.string.type_sword
         armorType = R.string.type_armor_light
-        potionDrinkerType = PotionDrinkerType.WARRIOR
-        nextClasses.add("SavageBerserker")
+        potionDrinkerType = PotionDrinkerType.NONE
+        summonedMinion = true
     }
 
     override fun isRanged(): Boolean = false
