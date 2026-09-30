@@ -5,18 +5,18 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.entities.Skills
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.Adventurer
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.PotionDrinkerType
 
-class BloodthornDruid : Adventurer() {
+class BloodthornArchdruid : Adventurer() {
     override fun configureStatistics() {
         maxLevel = 40
-        baseMaxHp = 265
-        baseConstitution = 32
-        baseIntelligence = 40
-        baseDexterity = 14
-        baseDefense = 18
-        baseMagicDefense = 26
+        baseMaxHp = 220
+        baseConstitution = 26
+        baseIntelligence = 33
+        baseDexterity = 9
+        baseDefense = 10
+        baseMagicDefense = 10
         imageId = R.drawable.unit_bloodthorn_druid
-        idName = R.string.adventurer_bloodthorn_druid_name
-        idDescription = R.string.adventurer_bloodthorn_druid_description
+        idName = R.string.adventurer_bloodthorn_archdruid_name
+        idDescription = R.string.adventurer_bloodthorn_archdruid_description
         passiveSkill = Skills.PASSIVE_NONE
         activeSkill = Skills.ACTIVE_NONE
         weaponType = R.string.type_staff

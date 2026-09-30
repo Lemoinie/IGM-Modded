@@ -8,18 +8,18 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.Po
 class ElSalvador : Adventurer() {
     override fun configureStatistics() {
         maxLevel = 45
-        baseMaxHp = 320
-        baseConstitution = 30
-        baseIntelligence = 18
-        baseDexterity = 48
-        baseDefense = 20
-        baseMagicDefense = 20
+        baseMaxHp = 280
+        baseConstitution = 38
+        baseIntelligence = 30
+        baseDexterity = 10
+        baseDefense = 15
+        baseMagicDefense = 50
         imageId = R.drawable.unit_el_salvador_1
         idName = R.string.adventurer_el_salvador_name
         idDescription = R.string.adventurer_el_salvador_description
         passiveSkill = Skills.PASSIVE_NONE
         activeSkill = Skills.ACTIVE_NONE
-        weaponType = R.string.type_sword
+        weaponType = R.string.type_axe
         armorType = R.string.type_armor_light
         potionDrinkerType = PotionDrinkerType.THIEF
     }

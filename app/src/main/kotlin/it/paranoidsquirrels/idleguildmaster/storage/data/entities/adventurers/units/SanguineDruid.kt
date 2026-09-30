@@ -8,12 +8,12 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.Po
 class SanguineDruid : Adventurer() {
     override fun configureStatistics() {
         maxLevel = 35
-        baseMaxHp = 215
-        baseConstitution = 28
-        baseIntelligence = 34
-        baseDexterity = 12
-        baseDefense = 16
-        baseMagicDefense = 22
+        baseMaxHp = 180
+        baseConstitution = 23
+        baseIntelligence = 28
+        baseDexterity = 7
+        baseDefense = 10
+        baseMagicDefense = 10
         imageId = R.drawable.unit_sanguine_druid
         idName = R.string.adventurer_sanguine_druid_name
         idDescription = R.string.adventurer_sanguine_druid_description
@@ -22,7 +22,7 @@ class SanguineDruid : Adventurer() {
         weaponType = R.string.type_staff
         armorType = R.string.type_armor_light
         potionDrinkerType = PotionDrinkerType.MAGE
-        nextClasses.add("BloodthornDruid")
+        nextClasses.add("BloodthornArchdruid")
     }
 
     override fun isRanged(): Boolean = true

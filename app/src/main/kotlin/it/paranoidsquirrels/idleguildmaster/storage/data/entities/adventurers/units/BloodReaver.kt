@@ -9,11 +9,11 @@ class BloodReaver : Adventurer() {
     override fun configureStatistics() {
         maxLevel = 35
         baseMaxHp = 230
-        baseConstitution = 31
+        baseConstitution = 35
         baseIntelligence = 18
         baseDexterity = 5
-        baseDefense = 15
-        baseMagicDefense = 15
+        baseDefense = 17
+        baseMagicDefense = 17
         baseLifesteal = 25
         attackConstitutionScaling = 1.15
         imageId = R.drawable.unit_blood_reaver
@@ -21,7 +21,7 @@ class BloodReaver : Adventurer() {
         idDescription = R.string.adventurer_blood_reaver_description
         passiveSkill = Skills.PASSIVE_NONE // Planned: PASSIVE_SAVAGE_RAGE
         activeSkill = Skills.ACTIVE_NONE // Planned: ACTIVE_BLOODY_SLAUGHTER
-        weaponType = R.string.type_sword
+        weaponType = R.string.type_axe
         armorType = R.string.type_armor_light
         potionDrinkerType = PotionDrinkerType.WARRIOR
         nextClasses.add("CrimsonWarlord")

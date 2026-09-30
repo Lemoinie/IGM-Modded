@@ -9,11 +9,11 @@ class ScarletBerserker : Adventurer() {
     override fun configureStatistics() {
         maxLevel = 30
         baseMaxHp = 200
-        baseConstitution = 27
+        baseConstitution = 31
         baseIntelligence = 15
         baseDexterity = 4
-        baseDefense = 10
-        baseMagicDefense = 10
+        baseDefense = 15
+        baseMagicDefense = 15
         baseLifesteal = 25
         attackConstitutionScaling = 1.1
         imageId = R.drawable.unit_scarlet_berserker
@@ -21,7 +21,7 @@ class ScarletBerserker : Adventurer() {
         idDescription = R.string.adventurer_scarlet_berserker_description
         passiveSkill = Skills.PASSIVE_NONE // Planned: PASSIVE_SAVAGE_RAGE
         activeSkill = Skills.ACTIVE_NONE // Planned: ACTIVE_BRUTAL_STRIKES_II
-        weaponType = R.string.type_sword
+        weaponType = R.string.type_axe
         armorType = R.string.type_armor_light
         potionDrinkerType = PotionDrinkerType.WARRIOR
         nextClasses.add("BloodReaver")

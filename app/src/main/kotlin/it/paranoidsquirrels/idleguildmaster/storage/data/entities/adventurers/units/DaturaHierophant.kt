@@ -8,12 +8,12 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.Po
 class DaturaHierophant : Adventurer() {
     override fun configureStatistics() {
         maxLevel = 45
-        baseMaxHp = 320
-        baseConstitution = 36
-        baseIntelligence = 48
-        baseDexterity = 16
-        baseDefense = 20
-        baseMagicDefense = 30
+        baseMaxHp = 265
+        baseConstitution = 29
+        baseIntelligence = 39
+        baseDexterity = 10
+        baseDefense = 10
+        baseMagicDefense = 10
         imageId = R.drawable.unit_datura_hierophant
         idName = R.string.adventurer_datura_hierophant_name
         idDescription = R.string.adventurer_datura_hierophant_description

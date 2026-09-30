@@ -7,22 +7,22 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.Po
 
 class BearTamer : Adventurer() {
     override fun configureStatistics() {
-        maxLevel = 35
-        baseMaxHp = 230
-        baseConstitution = 29
-        baseIntelligence = 26
-        baseDexterity = 16
-        baseDefense = 18
-        baseMagicDefense = 18
+        maxLevel = 40
+        baseMaxHp = 220
+        baseConstitution = 26
+        baseIntelligence = 33
+        baseDexterity = 9
+        baseDefense = 10
+        baseMagicDefense = 10
         imageId = R.drawable.unit_bear_tamer
         idName = R.string.adventurer_bear_tamer_name
         idDescription = R.string.adventurer_bear_tamer_description
         passiveSkill = Skills.PASSIVE_NONE
         activeSkill = Skills.ACTIVE_NONE
-        weaponType = R.string.type_sword
+        weaponType = R.string.type_axe
         armorType = R.string.type_armor_light
         potionDrinkerType = PotionDrinkerType.WARRIOR
-        nextClasses.add("TigerTamer")
+        nextClasses.add("BeastTamer")
     }
 
     override fun isRanged(): Boolean = false

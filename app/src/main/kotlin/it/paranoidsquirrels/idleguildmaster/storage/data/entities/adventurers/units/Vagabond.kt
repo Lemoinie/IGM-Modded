@@ -7,22 +7,22 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.Po
 
 class Vagabond : Adventurer() {
     override fun configureStatistics() {
-        maxLevel = 30
-        baseMaxHp = 170
-        baseConstitution = 20
-        baseIntelligence = 12
-        baseDexterity = 27
-        baseDefense = 14
-        baseMagicDefense = 14
+        maxLevel = 25
+        baseMaxHp = 125
+        baseConstitution = 22
+        baseIntelligence = 17
+        baseDexterity = 5
+        baseDefense = 15
+        baseMagicDefense = 20
         imageId = R.drawable.unit_vagabond
         idName = R.string.adventurer_vagabond_name
         idDescription = R.string.adventurer_vagabond_description
         passiveSkill = Skills.PASSIVE_NONE
         activeSkill = Skills.ACTIVE_NONE
-        weaponType = R.string.type_sword
+        weaponType = R.string.type_axe
         armorType = R.string.type_armor_light
         potionDrinkerType = PotionDrinkerType.THIEF
-        nextClasses.add("Desperado")
+        nextClasses.add("Brigand")
     }
 
     override fun isRanged(): Boolean = false

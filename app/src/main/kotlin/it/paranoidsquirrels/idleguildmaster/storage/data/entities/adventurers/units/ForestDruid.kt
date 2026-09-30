@@ -10,10 +10,10 @@ class ForestDruid : Adventurer() {
         maxLevel = 20
         baseMaxHp = 95
         baseConstitution = 17
-        baseIntelligence = 18
-        baseDexterity = 6
+        baseIntelligence = 15
+        baseDexterity = 4
         baseDefense = 10
-        baseMagicDefense = 12
+        baseMagicDefense = 10
         imageId = R.drawable.unit_forest_druid
         idName = R.string.adventurer_forest_druid_name
         idDescription = R.string.adventurer_forest_druid_description

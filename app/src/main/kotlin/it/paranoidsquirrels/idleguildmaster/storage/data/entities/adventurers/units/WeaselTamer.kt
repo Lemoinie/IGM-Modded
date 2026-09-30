@@ -7,11 +7,11 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.Po
 
 class WeaselTamer : Adventurer() {
     override fun configureStatistics() {
-        maxLevel = 20
-        baseMaxHp = 100
-        baseConstitution = 16
-        baseIntelligence = 15
-        baseDexterity = 7
+        maxLevel = 25
+        baseMaxHp = 120
+        baseConstitution = 19
+        baseIntelligence = 20
+        baseDexterity = 5
         baseDefense = 10
         baseMagicDefense = 10
         imageId = R.drawable.unit_weasel_tamer
@@ -19,10 +19,10 @@ class WeaselTamer : Adventurer() {
         idDescription = R.string.adventurer_weasel_tamer_description
         passiveSkill = Skills.PASSIVE_NONE
         activeSkill = Skills.ACTIVE_NONE
-        weaponType = R.string.type_sword
+        weaponType = R.string.type_axe
         armorType = R.string.type_armor_light
         potionDrinkerType = PotionDrinkerType.WARRIOR
-        nextClasses.add("CatTamer")
+        nextClasses.add("WolfTamer")
     }
 
     override fun isRanged(): Boolean = false
