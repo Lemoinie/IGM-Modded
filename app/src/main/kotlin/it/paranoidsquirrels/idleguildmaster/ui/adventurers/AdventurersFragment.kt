@@ -237,6 +237,7 @@ class AdventurersFragment : Fragment() {
         }
         for (savedArea in savedAreas) {
             savedArea.savedAdventurersIds.remove(Integer.valueOf(adventurer.id))
+            savedArea.savedAdventurersGear.remove(adventurer.id.toString())
         }
         val idx = MainActivity.data.adventurers.indexOf(adventurer)
         MainActivity.data.adventurers.remove(adventurer)

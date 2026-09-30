@@ -187,6 +187,8 @@ class DialogAutoRaidConfig : CustomDialog() {
     /** Dispatches the first Auto-Raid run (counts as attempt #1 for the report). */
     private fun dispatchFirstRunAndFinish() {
         val a = area ?: return
+        // Apply the saved Area Gear Loadout so the very first Auto-Raid run wears combat gear.
+        a.applySavedTeamGear()
         a.adventurersExploringIds = CopyOnWriteArrayList(a.savedAdventurersIds)
         a.petExploringId = a.savedPetId
         a.triesAvailable = false

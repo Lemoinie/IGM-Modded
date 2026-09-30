@@ -1,5 +1,7 @@
 param (
-    [switch]$Deploy
+    [switch]$Deploy,
+    [string]$VersionName = "1.1.1",
+    [int]$VersionCode = 10101
 )
 
 $ErrorActionPreference = "Stop"
@@ -7,6 +9,11 @@ $ErrorActionPreference = "Stop"
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $appDir = $scriptDir
 $repoRoot = Split-Path -Parent $appDir
+
+# Automatically extract version from AndroidManifest.xml if not overridden
+$manifestContent = Get-Content "$appDir\AndroidManifest.xml" -Raw
+if ($manifestContent -match 'android:versionName="([^"]+)"') { $VersionName = $Matches[1] }
+if ($manifestContent -match 'android:versionCode="([^"]+)"') { $VersionCode = [int]$Matches[1] }
 
 $sdkDir = "C:\Users\Admin\AppData\Local\Android\Sdk"
 if (-not (Test-Path $sdkDir)) {
@@ -48,9 +55,9 @@ Write-Host "1. Compiling Android Resources with AAPT2..."
 & "$buildTools\aapt2.exe" compile --dir "$appDir\res" -o "$compiledRes\resources.zip"
 Check-Exit "AAPT2 compile"
 
-Write-Host "2. Linking Resources and generating R.java & base APK..."
+Write-Host "2. Linking Resources and generating R.java & base APK (v$VersionName, code $VersionCode)..."
 $resZip = "$compiledRes\resources.zip"
-& "$buildTools\aapt2.exe" link -I $androidJar --manifest "$appDir\AndroidManifest.xml" --min-sdk-version 26 --target-sdk-version 34 --java $genDir -o "$outDir\base.apk" --auto-add-overlay $resZip
+& "$buildTools\aapt2.exe" link -I $androidJar --manifest "$appDir\AndroidManifest.xml" --version-code $VersionCode --version-name $VersionName --replace-version --min-sdk-version 26 --target-sdk-version 34 --java $genDir -o "$outDir\base.apk" --auto-add-overlay $resZip
 Check-Exit "AAPT2 link"
 
 Write-Host "3. Compiling Java Source Files with Javac..."
@@ -74,10 +81,15 @@ Check-Exit "Zipalign"
 
 Write-Host "7. Signing APK..."
 $finalApk = "$appDir\IdleGuildCompanion.apk"
+$versionedApk = "$appDir\IdleGuildCompanion-v$VersionName.apk"
 & "$buildTools\apksigner.bat" sign --ks $keystore --ks-pass pass:android --key-pass pass:android --out $finalApk "$outDir\IdleGuildCompanion_aligned.apk"
 Check-Exit "Apksigner"
 
-Write-Host "`n✅ Build Successful! Output: $finalApk"
+Copy-Item -Path $finalApk -Destination $versionedApk -Force
+
+Write-Host "`n✅ Build Successful! Version: $VersionName (code $VersionCode)"
+Write-Host "   APK: $finalApk"
+Write-Host "   APK: $versionedApk"
 
 if ($Deploy) {
     Write-Host "`nDeploying to Android device..." -ForegroundColor Yellow

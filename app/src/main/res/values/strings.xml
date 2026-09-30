@@ -2470,6 +2470,9 @@ Affect the chance to dodge magical attacks."</string>
     <string name="load_team">LOAD TEAM</string>
     <string name="load_team_busy_member" formatted="false">%s currently in %s</string>
     <string name="load_team_busy_members">Unavailable</string>
+    <string name="load_team_gear_busy" formatted="false">%s can\'t equip %s: currently in use by %s in %s</string>
+    <string name="load_team_gear_missing" formatted="false">%s can\'t equip %s: item not found</string>
+    <string name="load_team_gear_storage_full" formatted="false">%s can\'t equip %s: storage is full</string>
     <string name="loading_screen_title">Loading idle progress…</string>
     <string name="log_adventurer_death" formatted="false">%s fainted, and lost %s experience.</string>
     <string name="log_adventurer_death_preserve_exp">%s fainted.</string>

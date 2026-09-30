@@ -25,6 +25,7 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.EnemyT
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.units.ChiefScientistAva
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.Item
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.ItemWrapper
+import it.paranoidsquirrels.idleguildmaster.storage.data.items.EquipmentLoadoutHelper
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Accessory
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Armor
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Weapon
@@ -38,6 +39,7 @@ import java.io.PrintStream
 import java.util.ArrayList
 import java.util.Collections
 import java.util.LinkedHashMap
+import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.CopyOnWriteArrayList
 
 abstract class Area {
@@ -136,6 +138,13 @@ abstract class Area {
     open var savedAdventurersIds: MutableList<Int> = CopyOnWriteArrayList()
     open var adventurersExploringIds: MutableList<Int> = CopyOnWriteArrayList()
     open var drops: MutableList<Item> = CopyOnWriteArrayList()
+
+    /**
+     * Area Gear Loadouts (mod): per-hero equipment snapshots keyed by adventurer ID string.
+     * Saved alongside [savedAdventurersIds] and re-applied when the team is loaded or an
+     * Auto-Raid dispatches. Persisted via GSON; older saves default to an empty map.
+     */
+    open var savedAdventurersGear: MutableMap<String, SavedEquipment> = ConcurrentHashMap()
 
     @Transient
     open var adventurersExploring: MutableList<Adventurer> = CopyOnWriteArrayList()
@@ -353,6 +362,8 @@ abstract class Area {
 
         adventurersExploringIds = CopyOnWriteArrayList(savedAdventurersIds)
         petExploringId = savedPetId
+        // Re-apply the saved Area Gear Loadout so the raid team always wears combat gear.
+        applySavedTeamGear()
         terminationRequested = false
         progress = 0
         action = null // Triggers fresh Action(0) and resetAdventurers(true) on the next tick.
@@ -364,6 +375,24 @@ abstract class Area {
         refreshTries()
         refreshAutoRaidIndicator()
         return true
+    }
+
+    /**
+     * Applies this area's saved Area Gear Loadouts to its saved team heroes.
+     * Used by Auto-Raid so every automated dispatch wears the saved combat gear.
+     * Warnings are collected but intentionally not surfaced from the offline loop.
+     */
+    fun applySavedTeamGear() {
+        val gearWarnings = ArrayList<String>()
+        for (id in savedAdventurersIds) {
+            val target = savedAdventurersGear[id.toString()] ?: continue
+            for (adventurer in MainActivity.data.adventurers) {
+                if (adventurer.id == id) {
+                    EquipmentLoadoutHelper.applyHeroGear(adventurer, target, gearWarnings)
+                    break
+                }
+            }
+        }
     }
 
     /** Deactivates Auto-Raid and records why, for the collect-chest AUTO RAID REPORT. */
