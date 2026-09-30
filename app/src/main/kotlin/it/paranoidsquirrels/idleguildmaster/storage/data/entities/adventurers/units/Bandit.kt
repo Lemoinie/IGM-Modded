@@ -5,25 +5,24 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.entities.Skills
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.Adventurer
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.PotionDrinkerType
 
-class Berserker : Adventurer() {
+class Bandit : Adventurer() {
     override fun configureStatistics() {
         maxLevel = 20
-        baseMaxHp = 125
-        baseConstitution = 17
-        baseIntelligence = 10
-        baseDexterity = 3
+        baseMaxHp = 95
+        baseConstitution = 14
+        baseIntelligence = 8
+        baseDexterity = 16
         baseDefense = 10
         baseMagicDefense = 10
-        attackConstitutionScaling = 1.05
-        imageId = R.drawable.unit_berserker_hero
-        idName = R.string.unit_berserker_name
-        idDescription = R.string.unit_berserker_description
-        passiveSkill = Skills.PASSIVE_NONE // Planned: PASSIVE_BERSERKERR_RAGE
-        activeSkill = Skills.ACTIVE_NONE // Planned: ACTIVE_BRUTAL_STRIKES
+        imageId = R.drawable.unit_bandit
+        idName = R.string.unit_bandit_name
+        idDescription = R.string.unit_bandit_description
+        passiveSkill = Skills.PASSIVE_NONE
+        activeSkill = Skills.ACTIVE_NONE
         weaponType = R.string.type_sword
         armorType = R.string.type_armor_light
-        potionDrinkerType = PotionDrinkerType.WARRIOR
-        nextClasses.add("SavageBerserker")
+        potionDrinkerType = PotionDrinkerType.THIEF
+        nextClasses.add("Brigand")
     }
 
     override fun isRanged(): Boolean = false
