@@ -11,7 +11,7 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Header -->
+        <!-- Top Header -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -35,84 +35,166 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Save Manager • by lemoinie"
+                    android:text="Companion • Save Manager"
                     android:textColor="@color/gold"
-                    android:textSize="13sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/tv_engine_badge"
+            <Button
+                android:id="@+id/btn_launch_game"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/card_bg"
-                android:paddingHorizontal="10dp"
-                android:paddingVertical="4dp"
-                android:text="Detecting..."
-                android:textColor="@color/accent_blue"
+                android:layout_height="38dp"
+                android:background="@drawable/btn_launch"
+                android:paddingHorizontal="14dp"
+                android:text="▶️ Launch Game"
+                android:textColor="@color/text_white"
                 android:textSize="12sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <!-- Current Save Status Card -->
+        <!-- Current Active Save Status Card -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:background="@color/card_bg"
+            android:background="@drawable/bg_card"
             android:orientation="vertical"
-            android:padding="14dp">
+            android:padding="16dp">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="CURRENT ACTIVE SAVE"
-                android:textColor="@color/text_gray"
-                android:textSize="11sp"
-                android:textStyle="bold" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="ACTIVE GAME SAVE"
+                    android:textColor="@color/text_gray"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_engine_badge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/badge_chip"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="3dp"
+                    android:text="Detecting..."
+                    android:textColor="@color/accent_blue"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/tv_current_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:text="Scanning game data.txt..."
+                android:layout_marginTop="8dp"
+                android:text="Scanning game data..."
                 android:textColor="@color/text_white"
                 android:textSize="14sp" />
 
+            <!-- Clean 3-Metric Row (Heroes, Gold, Gems) -->
             <LinearLayout
                 android:id="@+id/layout_current_metrics"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="12dp"
                 android:orientation="horizontal"
                 android:visibility="gone">
 
-                <TextView
-                    android:id="@+id/tv_live_heroes"
+                <!-- Heroes -->
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
                     android:layout_weight="1"
-                    android:text="⚔️ 0 Heroes"
-                    android:textColor="@color/gold"
-                    android:textSize="13sp" />
+                    android:background="@drawable/btn_dark"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingVertical="10dp">
 
-                <TextView
-                    android:id="@+id/tv_live_gold"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="💰 0 Gold"
-                    android:textColor="@color/gold"
-                    android:textSize="13sp" />
+                    <TextView
+                        android:id="@+id/tv_live_heroes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="28"
+                        android:textColor="@color/text_white"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/tv_live_gems"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="⚔️ Heroes"
+                        android:textColor="@color/text_gray"
+                        android:textSize="11sp" />
+                </LinearLayout>
+
+                <!-- Gold -->
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="4dp"
+                    android:layout_weight="1.2"
+                    android:background="@drawable/btn_dark"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingVertical="10dp">
+
+                    <TextView
+                        android:id="@+id/tv_live_gold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1.87B"
+                        android:textColor="@color/gold"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_live_gold_sub"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="💰 Gold"
+                        android:textColor="@color/text_gray"
+                        android:textSize="11sp" />
+                </LinearLayout>
+
+                <!-- Gems -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
                     android:layout_weight="1"
-                    android:text="💎 0 Gems"
-                    android:textColor="@color/gold"
-                    android:textSize="13sp" />
+                    android:background="@drawable/btn_dark"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingVertical="10dp">
+
+                    <TextView
+                        android:id="@+id/tv_live_gems"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="13.3K"
+                        android:textColor="@color/accent_blue"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_live_gems_sub"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="💎 Gems"
+                        android:textColor="@color/text_gray"
+                        android:textSize="11sp" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
 
@@ -137,7 +219,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="🛡️ Safety Snapshot Created"
+                    android:text="🛡️ Safety Snapshot Available"
                     android:textColor="@color/gold"
                     android:textSize="13sp"
                     android:textStyle="bold" />
@@ -145,7 +227,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="You can undo the last restore anytime."
+                    android:text="Revert your last restored save with 1 tap."
                     android:textColor="@color/text_white"
                     android:textSize="11sp" />
             </LinearLayout>
@@ -154,7 +236,8 @@
                 android:id="@+id/btn_undo_restore"
                 android:layout_width="wrap_content"
                 android:layout_height="36dp"
-                android:background="@color/gold"
+                android:background="@drawable/btn_gold"
+                android:paddingHorizontal="12dp"
                 android:text="Undo Restore"
                 android:textColor="#000000"
                 android:textSize="11sp"
@@ -165,7 +248,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="14dp"
             android:orientation="horizontal">
 
             <Button
@@ -174,7 +257,7 @@
                 android:layout_height="48dp"
                 android:layout_marginEnd="6dp"
                 android:layout_weight="1"
-                android:background="@color/gold"
+                android:background="@drawable/btn_gold"
                 android:text="💾 Backup Now"
                 android:textColor="#000000"
                 android:textSize="13sp"
@@ -186,55 +269,13 @@
                 android:layout_height="48dp"
                 android:layout_marginStart="6dp"
                 android:layout_weight="1"
-                android:background="@color/card_bg"
+                android:background="@drawable/btn_dark"
                 android:text="🔄 Refresh Save"
                 android:textColor="@color/text_white"
                 android:textSize="13sp" />
         </LinearLayout>
 
-        <!-- Secondary Actions (Cloud & Import/Export) -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btn_drive_save"
-                android:layout_width="0dp"
-                android:layout_height="42dp"
-                android:layout_marginEnd="4dp"
-                android:layout_weight="1"
-                android:background="@color/card_bg_light"
-                android:text="☁️ Save to Drive"
-                android:textColor="@color/accent_blue"
-                android:textSize="11sp" />
-
-            <Button
-                android:id="@+id/btn_drive_load"
-                android:layout_width="0dp"
-                android:layout_height="42dp"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                android:layout_weight="1"
-                android:background="@color/card_bg_light"
-                android:text="📂 Load from Drive"
-                android:textColor="@color/accent_blue"
-                android:textSize="11sp" />
-
-            <Button
-                android:id="@+id/btn_code_import"
-                android:layout_width="0dp"
-                android:layout_height="42dp"
-                android:layout_marginStart="4dp"
-                android:layout_weight="1"
-                android:background="@color/card_bg_light"
-                android:text="📋 Import Code"
-                android:textColor="@color/accent_green"
-                android:textSize="11sp" />
-        </LinearLayout>
-
-        <!-- Backup History Section -->
+        <!-- Backup History Section Header -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -244,29 +285,82 @@
 
             <TextView
                 android:id="@+id/tv_backup_count"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="BACKUP SNAPSHOTS"
+                android:text="BACKUPS (0)"
                 android:textColor="@color/text_gray"
                 android:textSize="12sp"
                 android:textStyle="bold" />
+        </LinearLayout>
 
-            <TextView
-                android:id="@+id/tv_backup_dir_hint"
+        <!-- Filter Chips Row -->
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:scrollbars="none">
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="IdleGuildCompanion/backups/"
-                android:textColor="@color/text_gray"
-                android:textSize="11sp" />
-        </LinearLayout>
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/chip_filter_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:layout_marginEnd="6dp"
+                    android:background="@drawable/badge_chip_active"
+                    android:gravity="center"
+                    android:paddingHorizontal="14dp"
+                    android:text="All"
+                    android:textColor="@color/gold"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/chip_filter_pinned"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:layout_marginEnd="6dp"
+                    android:background="@drawable/badge_chip"
+                    android:gravity="center"
+                    android:paddingHorizontal="14dp"
+                    android:text="📌 Pinned"
+                    android:textColor="@color/text_gray"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/chip_filter_manual"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:layout_marginEnd="6dp"
+                    android:background="@drawable/badge_chip"
+                    android:gravity="center"
+                    android:paddingHorizontal="14dp"
+                    android:text="💾 Manual"
+                    android:textColor="@color/text_gray"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/chip_filter_safety"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:background="@drawable/badge_chip"
+                    android:gravity="center"
+                    android:paddingHorizontal="14dp"
+                    android:text="🛡️ Safety"
+                    android:textColor="@color/text_gray"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </HorizontalScrollView>
 
         <!-- List of Backups Container -->
         <LinearLayout
             android:id="@+id/layout_backups_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="12dp"
             android:orientation="vertical">
 
             <TextView
@@ -275,7 +369,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:gravity="center"
-                android:text="No backups yet.\nTap 'Backup Now' to create your first snapshot!"
+                android:text="No backups found in this view.\nTap 'Backup Now' to create one!"
                 android:textColor="@color/text_gray"
                 android:textSize="13sp" />
         </LinearLayout>

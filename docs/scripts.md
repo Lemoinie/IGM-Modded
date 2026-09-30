@@ -9,9 +9,11 @@ extend an existing one" (see `.agents/AGENTS.md`).
 
 ```text
 scripts/
+├── build_companion.bat      Build companion save manager APK (double-clickable)
 ├── build_debug.bat          Quick build debug APK (double-clickable)
 ├── build_release.bat        Quick build release APK (double-clickable)
 ├── disconnect_devices.bat   Disconnect all wireless/network ADB devices (double-clickable)
+├── install_companion.bat    Install companion APK to connected device & launch
 ├── install_debug.bat        Install newest debug APK to connected device & launch
 ├── pair_and_connect.bat     Two-step wireless ADB pair then connect (reads wireless_debug.txt)
 ├── pull_save.bat            Pull save from connected device to save.json & backup
@@ -24,6 +26,12 @@ scripts/
 └── tools/
     ├── scan_ports.ps1       TCP port scanner (wireless debugging discovery)
     └── connect_phone.ps1    Reconnect to the phone (USB / wireless) + install latest APK
+
+companion_app/
+├── build_companion.ps1      Standalone AAPT2/D8/javac build script for companion app
+├── build.bat                Convenience shortcut to build companion app
+├── install.bat              Convenience shortcut to install companion app
+└── IdleGuildCompanion.apk   Built and signed companion APK
 
 save_editor/
 └── index.html               Self-contained browser-based save editor
@@ -141,6 +149,23 @@ backups/       Timestamped snapshots of save.json (gitignored)
   # or through the save manager:
   .\scripts\save\save_manager.ps1 scan 192.168.1.5
   ```
+
+## scripts/build_companion.bat
+
+- **Purpose**: quick one-click build script for the Android Companion Save Manager app.
+  Runs `companion_app/build_companion.ps1` to compile Android resources with AAPT2,
+  compile Java source files with javac, dex classes with D8, package classes.dex,
+  zipalign, and sign with the debug keystore.
+- **Outputs**: signed APK at `companion_app/IdleGuildCompanion.apk`.
+- **Typical usage**: double-click `scripts/build_companion.bat` or `companion_app/build.bat`.
+
+## scripts/install_companion.bat
+
+- **Purpose**: one-click deploy script for the Companion Save Manager app. Automatically
+  locates ADB, detects the connected device (USB or wireless debugging), installs
+  `companion_app/IdleGuildCompanion.apk` (automatically building first if missing),
+  and launches the Companion app on the device.
+- **Typical usage**: double-click `scripts/install_companion.bat` or `companion_app/install.bat`.
 
 ## save_editor/index.html
 

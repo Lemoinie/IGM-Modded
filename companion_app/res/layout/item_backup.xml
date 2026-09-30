@@ -3,42 +3,81 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="10dp"
-    android:background="@color/card_bg"
+    android:background="@drawable/bg_card"
     android:orientation="vertical"
     android:padding="14dp">
 
+    <!-- Header: Pin Icon, Title, Rename Icon, Type Badge -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
+        <!-- Pin Button -->
+        <TextView
+            android:id="@+id/btn_backup_pin"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/btn_icon"
+            android:gravity="center"
+            android:text="📌"
+            android:textSize="14sp" />
+
+        <!-- Title -->
         <TextView
             android:id="@+id/tv_backup_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="6dp"
             android:layout_weight="1"
-            android:text="2026-08-31 15:42:11"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Pre-Raid 4 Setup"
             android:textColor="@color/gold"
             android:textSize="15sp"
             android:textStyle="bold" />
 
+        <!-- Rename Button -->
+        <TextView
+            android:id="@+id/btn_backup_rename"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/btn_icon"
+            android:gravity="center"
+            android:text="✏️"
+            android:textSize="13sp" />
+
+        <!-- Type Badge -->
         <TextView
             android:id="@+id/tv_backup_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/card_bg_light"
+            android:background="@drawable/badge_chip"
             android:paddingHorizontal="8dp"
             android:paddingVertical="2dp"
-            android:text="Snapshot"
+            android:text="Manual"
             android:textColor="@color/accent_blue"
             android:textSize="11sp" />
     </LinearLayout>
 
+    <!-- Subtitle: Formatted Date & Time -->
+    <TextView
+        android:id="@+id/tv_backup_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Today at 11:30 AM"
+        android:textColor="@color/text_gray"
+        android:textSize="11sp" />
+
+    <!-- Metrics Row (Heroes, Gold, Gems) -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
         <TextView
@@ -46,7 +85,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="⚔️ 18 Heroes"
+            android:text="⚔️ 28 Heroes"
             android:textColor="@color/text_white"
             android:textSize="13sp" />
 
@@ -54,58 +93,58 @@
             android:id="@+id/tv_backup_gold"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="💰 123,456"
-            android:textColor="@color/text_white"
-            android:textSize="13sp" />
+            android:layout_weight="1.2"
+            android:text="💰 1.87B"
+            android:textColor="@color/gold"
+            android:textSize="13sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tv_backup_gems"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="💎 2,500"
-            android:textColor="@color/text_white"
-            android:textSize="13sp" />
+            android:text="💎 13.3K"
+            android:textColor="@color/accent_blue"
+            android:textSize="13sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
+    <!-- Divider -->
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginVertical="10dp"
         android:background="@color/divider" />
 
+    <!-- Bottom Actions: Only Delete and Restore -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="end"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/btn_backup_delete"
             android:layout_width="wrap_content"
             android:layout_height="36dp"
-            android:layout_marginEnd="8dp"
-            android:background="@color/card_bg_light"
-            android:text="Delete"
+            android:background="@drawable/btn_dark"
+            android:paddingHorizontal="14dp"
+            android:text="🗑️ Delete"
             android:textColor="@color/accent_red"
             android:textSize="12sp" />
 
-        <Button
-            android:id="@+id/btn_backup_export"
-            android:layout_width="wrap_content"
-            android:layout_height="36dp"
-            android:layout_marginEnd="8dp"
-            android:background="@color/card_bg_light"
-            android:text="Share Code"
-            android:textColor="@color/accent_blue"
-            android:textSize="12sp" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
         <Button
             android:id="@+id/btn_backup_restore"
             android:layout_width="wrap_content"
             android:layout_height="36dp"
-            android:background="@color/gold"
+            android:background="@drawable/btn_gold"
+            android:paddingHorizontal="18dp"
             android:text="🛡️ Restore"
             android:textColor="#000000"
             android:textSize="12sp"

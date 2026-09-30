@@ -15,35 +15,49 @@ public class SaveParser {
             if (trimmed.startsWith("{")) {
                 JSONObject obj = new JSONObject(trimmed);
 
-                // In case rawSave was a wrapped metadata container
-                if (obj.has("save") && obj.has("heroCount")) {
-                    meta.gold = obj.optLong("gold", meta.gold);
+                // In case rawSave was already a wrapped metadata container
+                if (obj.has("save") && (obj.has("heroCount") || obj.has("version"))) {
+                    if (obj.has("money")) {
+                        meta.gold = obj.optLong("money", meta.gold);
+                    } else if (obj.has("gold")) {
+                        meta.gold = obj.optLong("gold", meta.gold);
+                    }
                     meta.gems = obj.optInt("gems", meta.gems);
                     meta.guildLevel = obj.optInt("guildLevel", meta.guildLevel);
+                    meta.quartersLevel = obj.optInt("quartersLevel", meta.quartersLevel);
+                    meta.maxTier = obj.optInt("maxTier", meta.maxTier);
                     meta.heroCount = obj.optInt("heroCount", meta.heroCount);
+                    meta.customTag = obj.optString("customTag", meta.customTag);
+                    meta.isPinned = obj.optBoolean("isPinned", meta.isPinned);
+                    meta.isSafetySnapshot = obj.optBoolean("isSafetySnapshot", meta.isSafetySnapshot);
                     meta.save = obj.optString("save", rawSave);
                     return true;
                 }
 
-                // Raw game data.txt schema
-                meta.gold = obj.optLong("gold", 0);
+                // Raw game data.txt schema:
+                // Note: Gold is stored under "money" in Idle Guild Master
+                if (obj.has("money")) {
+                    meta.gold = obj.optLong("money", 0);
+                } else {
+                    meta.gold = obj.optLong("gold", 0);
+                }
+
                 meta.gems = obj.optInt("gems", 0);
-                
+
                 JSONArray adventurers = obj.optJSONArray("adventurers");
                 if (adventurers != null) {
                     meta.heroCount = adventurers.length();
                 }
 
-                if (obj.has("guildLevel")) {
-                    meta.guildLevel = obj.optInt("guildLevel", 1);
-                }
+                meta.quartersLevel = obj.optInt("levelQuarters", 0);
+                meta.maxTier = obj.optInt("maxAdventurerTier", 0);
+                meta.guildLevel = meta.quartersLevel > 0 ? meta.quartersLevel : obj.optInt("guildLevel", 1);
 
                 meta.save = rawSave;
                 return true;
             }
         } catch (Exception ignored) {}
 
-        // Fallback for non-JSON or custom format
         meta.save = rawSave;
         return false;
     }

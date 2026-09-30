@@ -20,38 +20,28 @@ public class SaveManager {
 
     public enum EngineType {
         DIRECT_PROVIDER("Direct Live Sync"),
-        ROOT("Root (Direct)"),
-        SHIZUKU("Shizuku (ADB)"),
+        ROOT("Root Access"),
+        SHIZUKU("Shizuku ADB"),
         DIRECT_FILE("Direct Sandbox"),
-        DOWNLOAD_FOLDER("Downloads Sync");
+        DOWNLOAD_FOLDER("Downloads Folder");
 
         public final String label;
         EngineType(String label) { this.label = label; }
     }
 
-    private static final String PKG_MODDED = "it.paranoidsquirrels.idleguildmastermod";
-    private static final String PKG_VANILLA = "it.paranoidsquirrels.idleguildmaster";
-    private static final String PROVIDER_URI_MODDED = "content://it.paranoidsquirrels.idleguildmastermod.saveprovider";
-    private static final String PROVIDER_URI_VANILLA = "content://it.paranoidsquirrels.idleguildmaster.saveprovider";
-    private static final String PKG_DATA_PATH_MODDED = "/data/data/it.paranoidsquirrels.idleguildmastermod/files/data.txt";
-    private static final String PKG_DATA_PATH_VANILLA = "/data/data/it.paranoidsquirrels.idleguildmaster/files/data.txt";
+    public static final String PKG_MODDED_REBUILT = "it.paranoidsquirrels.idleguildmaster.rebuilt";
+    public static final String PKG_MODDED_LEGACY = "it.paranoidsquirrels.idleguildmastermod";
+    public static final String PKG_VANILLA = "it.paranoidsquirrels.idleguildmaster";
+
     private static final String APP_DIR_NAME = "IdleGuildCompanion";
     private static final String BACKUP_DIR_NAME = "backups";
     private static final String EXPORT_DIR_NAME = "exports";
+    public static final String SAFETY_BACKUP_NAME = "pre_restore_safety.json";
 
     private final Context context;
     private EngineType activeEngine = EngineType.DOWNLOAD_FOLDER;
-    private boolean targetModded = true;
+    private String activePackage = PKG_MODDED_REBUILT;
     private File lastSafetySnapshot = null;
-
-    public boolean isTargetModded() { return targetModded; }
-
-    /** Returns the provider URI for the currently-targeted package (modded preferred). */
-    private String providerUri() { return targetModded ? PROVIDER_URI_MODDED : PROVIDER_URI_VANILLA; }
-
-    /** Returns the save file path for the currently-targeted package. */
-    private String pkgDataPath() { return targetModded ? PKG_DATA_PATH_MODDED : PKG_DATA_PATH_VANILLA; }
-
 
     public SaveManager(Context context) {
         this.context = context;
@@ -59,12 +49,33 @@ public class SaveManager {
         detectEngine();
     }
 
+    public String getActivePackageName() {
+        return activePackage;
+    }
+
+    public String getActiveProviderUri() {
+        return "content://" + activePackage + ".saveprovider";
+    }
+
+    public String getActiveDataPath() {
+        return "/data/data/" + activePackage + "/files/data.txt";
+    }
+
+    public String getActiveDataBackupPath() {
+        return "/data/data/" + activePackage + "/files/databackup.txt";
+    }
+
     public EngineType getActiveEngine() {
         return activeEngine;
     }
 
-    public File getLastSafetySnapshot() {
-        return lastSafetySnapshot;
+    public boolean isPackageInstalled(String pkgName) {
+        try {
+            context.getPackageManager().getPackageInfo(pkgName, 0);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public void ensureDirectories() {
@@ -89,55 +100,48 @@ public class SaveManager {
     }
 
     public void detectEngine() {
-        // 0. Prefer the modded game package (IGMod) since that's the one we build
-        //    and install. Fall back to vanilla only when the modded path/provider
-        //    is not reachable.
-        targetModded = true;
+        // Auto-detect installed game package: prefer .rebuilt, then legacy mod, then vanilla
+        if (isPackageInstalled(PKG_MODDED_REBUILT)) {
+            activePackage = PKG_MODDED_REBUILT;
+        } else if (isPackageInstalled(PKG_MODDED_LEGACY)) {
+            activePackage = PKG_MODDED_LEGACY;
+        } else if (isPackageInstalled(PKG_VANILLA)) {
+            activePackage = PKG_VANILLA;
+        } else {
+            activePackage = PKG_MODDED_REBUILT;
+        }
 
-        // 1. Test Direct ContentProvider IPC (Seamless instant sync with modded game)
+        String providerUri = getActiveProviderUri();
+        String dataPath = getActiveDataPath();
+
+        // 1. Direct ContentProvider IPC (Instant live memory + disk sync)
         try {
-            Bundle res = context.getContentResolver().call(Uri.parse(PROVIDER_URI_MODDED), "READ_SAVE", null, null);
+            Bundle res = context.getContentResolver().call(Uri.parse(providerUri), "READ_SAVE", null, null);
             if (res != null && res.getBoolean("success", false)) {
                 activeEngine = EngineType.DIRECT_PROVIDER;
                 return;
             }
         } catch (Exception ignored) {}
 
-        // 1b. Test vanilla ContentProvider
-        try {
-            Bundle res = context.getContentResolver().call(Uri.parse(PROVIDER_URI_VANILLA), "READ_SAVE", null, null);
-            if (res != null && res.getBoolean("success", false)) {
-                targetModded = false;
-                activeEngine = EngineType.DIRECT_PROVIDER;
-                return;
-            }
-        } catch (Exception ignored) {}
-
-        // 2. Test Direct File (if sandbox access allows) - modded package first
-        if (new File(PKG_DATA_PATH_MODDED).canRead()) {
-            targetModded = true;
-            activeEngine = EngineType.DIRECT_FILE;
-            return;
-        }
-        if (new File(PKG_DATA_PATH_VANILLA).canRead()) {
-            targetModded = false;
+        // 2. Direct File sandbox read
+        if (new File(dataPath).canRead()) {
             activeEngine = EngineType.DIRECT_FILE;
             return;
         }
 
-        // 3. Test Root
+        // 3. Root access
         if (testCommand("su -c id")) {
             activeEngine = EngineType.ROOT;
             return;
         }
 
-        // 4. Test Shizuku / local adb wrapper
-        if (testCommand("shizuku-exec id") || testCommand("rish -c id")) {
+        // 4. Shizuku ADB
+        if (testCommand("rish -c id") || testCommand("shizuku-exec id")) {
             activeEngine = EngineType.SHIZUKU;
             return;
         }
 
-        // 5. Default: Download sync folder / SAF
+        // 5. Fallback: Downloads sync folder
         activeEngine = EngineType.DOWNLOAD_FOLDER;
     }
 
@@ -150,32 +154,25 @@ public class SaveManager {
         }
     }
 
-    /** Returns the backup file path for the currently-targeted package. */
-    private String pkgDataBackupPath() {
-        return (targetModded
-            ? "/data/data/it.paranoidsquirrels.idleguildmastermod/files/databackup.txt"
-            : "/data/data/it.paranoidsquirrels.idleguildmaster/files/databackup.txt");
-    }
-
     public String readGameSave() {
         switch (activeEngine) {
             case DIRECT_PROVIDER:
                 try {
-                    Bundle res = context.getContentResolver().call(Uri.parse(providerUri()), "READ_SAVE", null, null);
+                    Bundle res = context.getContentResolver().call(Uri.parse(getActiveProviderUri()), "READ_SAVE", null, null);
                     if (res != null && res.getBoolean("success", false)) {
                         return res.getString("save_content", "");
                     }
                 } catch (Exception ignored) {}
                 break;
             case ROOT:
-                return execRead("su -c cat " + pkgDataPath());
+                return execRead("su -c cat " + getActiveDataPath());
             case SHIZUKU:
                 if (testCommand("rish -c id")) {
-                    return execRead("rish -c cat " + pkgDataPath());
+                    return execRead("rish -c cat " + getActiveDataPath());
                 }
-                return execRead("shizuku-exec cat " + pkgDataPath());
+                return execRead("shizuku-exec cat " + getActiveDataPath());
             case DIRECT_FILE:
-                return readFileDirect(new File(pkgDataPath()));
+                return readFileDirect(new File(getActiveDataPath()));
             case DOWNLOAD_FOLDER:
             default:
                 break;
@@ -192,7 +189,7 @@ public class SaveManager {
     public boolean writeGameSave(String rawSave) {
         if (rawSave == null || rawSave.isEmpty()) return false;
 
-        // Stamp current time on lastAccess so Utils.getNewestSaveFile always considers this save the newest!
+        // Stamp current time on lastAccess so the game's file loader always considers this save the newest!
         try {
             if (rawSave.trim().startsWith("{")) {
                 org.json.JSONObject obj = new org.json.JSONObject(rawSave);
@@ -206,7 +203,7 @@ public class SaveManager {
                 try {
                     Bundle args = new Bundle();
                     args.putString("save_content", rawSave);
-                    Bundle res = context.getContentResolver().call(Uri.parse(providerUri()), "WRITE_SAVE", null, args);
+                    Bundle res = context.getContentResolver().call(Uri.parse(getActiveProviderUri()), "WRITE_SAVE", null, args);
                     if (res != null && res.getBoolean("success", false)) {
                         return true;
                     }
@@ -215,19 +212,24 @@ public class SaveManager {
             case ROOT: {
                 File tmp = new File(context.getCacheDir(), "tmp_save.txt");
                 writeFileDirect(tmp, rawSave);
-                String cmd = String.format("su -c cp %s %s && su -c cp %s %s && su -c chmod 660 %s", tmp.getAbsolutePath(), pkgDataPath(), tmp.getAbsolutePath(), pkgDataBackupPath(), pkgDataPath());
+                String cmd = String.format("su -c cp %s %s && su -c cp %s %s && su -c chmod 660 %s",
+                        tmp.getAbsolutePath(), getActiveDataPath(),
+                        tmp.getAbsolutePath(), getActiveDataBackupPath(),
+                        getActiveDataPath());
                 return execWrite(cmd);
             }
             case SHIZUKU: {
                 File tmp = new File(context.getCacheDir(), "tmp_save.txt");
                 writeFileDirect(tmp, rawSave);
-                String cmd = String.format("rish -c cp %s %s && rish -c cp %s %s", tmp.getAbsolutePath(), pkgDataPath(), tmp.getAbsolutePath(), pkgDataBackupPath());
+                String cmd = String.format("rish -c cp %s %s && rish -c cp %s %s",
+                        tmp.getAbsolutePath(), getActiveDataPath(),
+                        tmp.getAbsolutePath(), getActiveDataBackupPath());
                 return execWrite(cmd);
             }
             case DIRECT_FILE:
-                File backupFile = new File(pkgDataBackupPath());
+                File backupFile = new File(getActiveDataBackupPath());
                 writeFileDirect(backupFile, rawSave);
-                return writeFileDirect(new File(pkgDataPath()), rawSave);
+                return writeFileDirect(new File(getActiveDataPath()), rawSave);
             case DOWNLOAD_FOLDER:
             default:
                 break;
@@ -245,21 +247,31 @@ public class SaveManager {
 
         SaveMetadata meta = new SaveMetadata();
         meta.isSafetySnapshot = isSafety;
+        meta.targetPackage = getActivePackageName();
         SaveParser.populateMetadata(meta, raw);
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss", Locale.US);
-        String timestamp = sdf.format(new Date());
-
-        String filename;
-        if (isSafety) {
-            filename = "pre_restore_safety_" + timestamp + ".json";
-        } else if (optionalTag != null && !optionalTag.trim().isEmpty()) {
-            filename = timestamp + "_" + optionalTag.trim().replaceAll("[^a-zA-Z0-9_-]", "_") + ".json";
-        } else {
-            filename = timestamp + ".json";
+        if (optionalTag != null && !optionalTag.trim().isEmpty()) {
+            meta.customTag = optionalTag.trim();
         }
 
-        File backupFile = new File(getBackupsDir(), filename);
+        File backupFile;
+        if (isSafety) {
+            // Strictly only ONE safety snapshot: clean up any legacy pre_restore_safety files
+            cleanOldSafetySnapshots(0);
+            backupFile = new File(getBackupsDir(), SAFETY_BACKUP_NAME);
+            meta.customTag = "Safety Snapshot (Pre-Restore)";
+        } else {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss", Locale.US);
+            String timestamp = sdf.format(new Date());
+            String filename;
+            if (optionalTag != null && !optionalTag.trim().isEmpty()) {
+                filename = timestamp + "_" + optionalTag.trim().replaceAll("[^a-zA-Z0-9_-]", "_") + ".json";
+            } else {
+                filename = timestamp + ".json";
+            }
+            backupFile = new File(getBackupsDir(), filename);
+        }
+
         writeFileDirect(backupFile, meta.toJsonObject().toString());
 
         if (isSafety) {
@@ -269,25 +281,114 @@ public class SaveManager {
         return meta;
     }
 
+    public boolean renameBackup(File file, String newTag) {
+        if (file == null || !file.exists()) return false;
+        try {
+            String content = readFileDirect(file);
+            SaveMetadata meta = SaveMetadata.fromJsonString(content);
+            meta.customTag = newTag != null ? newTag.trim() : "";
+            return writeFileDirect(file, meta.toJsonObject().toString());
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public File togglePin(File file) {
+        if (file == null || !file.exists()) return file;
+        try {
+            String content = readFileDirect(file);
+            SaveMetadata meta = SaveMetadata.fromJsonString(content);
+            meta.isPinned = !meta.isPinned;
+
+            String oldName = file.getName();
+            File newFile = file;
+            if (meta.isPinned && !oldName.startsWith("pin_")) {
+                newFile = new File(file.getParentFile(), "pin_" + oldName);
+                if (file.renameTo(newFile)) {
+                    file = newFile;
+                }
+            } else if (!meta.isPinned && oldName.startsWith("pin_")) {
+                newFile = new File(file.getParentFile(), oldName.substring(4));
+                if (file.renameTo(newFile)) {
+                    file = newFile;
+                }
+            }
+
+            writeFileDirect(file, meta.toJsonObject().toString());
+            return file;
+        } catch (Exception e) {
+            return file;
+        }
+    }
+
+    public int cleanOldSafetySnapshots(int keepCount) {
+        File dir = getBackupsDir();
+        File[] files = dir.listFiles((d, name) -> name.startsWith("pre_restore_safety") || name.startsWith("pre_"));
+        if (files == null) {
+            return 0;
+        }
+
+        List<File> list = new ArrayList<>();
+        Collections.addAll(list, files);
+        list.sort((f1, f2) -> Long.compare(f2.lastModified(), f1.lastModified()));
+
+        int deleted = 0;
+        for (int i = keepCount; i < list.size(); i++) {
+            if (list.get(i).delete()) {
+                deleted++;
+            }
+        }
+        return deleted;
+    }
+
+    public File getLastSafetySnapshot() {
+        if (lastSafetySnapshot != null && lastSafetySnapshot.exists()) {
+            return lastSafetySnapshot;
+        }
+
+        // Look on disk for the fixed single safety snapshot or newest pre_ file
+        File singleSafety = new File(getBackupsDir(), SAFETY_BACKUP_NAME);
+        if (singleSafety.exists()) {
+            lastSafetySnapshot = singleSafety;
+            return lastSafetySnapshot;
+        }
+
+        File dir = getBackupsDir();
+        File[] files = dir.listFiles((d, name) -> name.startsWith("pre_restore_safety") || name.startsWith("pre_"));
+        if (files != null && files.length > 0) {
+            List<File> list = new ArrayList<>();
+            Collections.addAll(list, files);
+            list.sort((f1, f2) -> Long.compare(f2.lastModified(), f1.lastModified()));
+            lastSafetySnapshot = list.get(0);
+            return lastSafetySnapshot;
+        }
+        return null;
+    }
+
     public boolean restoreBackup(File backupFile) {
         if (backupFile == null || !backupFile.exists()) return false;
 
         String fileContent = readFileDirect(backupFile);
         if (fileContent.isEmpty()) return false;
 
-        // 🛡️ STEP 1: Pre-Restore Safety Snapshot
+        // Auto create strictly ONE safety snapshot before overwriting
         createBackup("safety_backup", true);
 
-        // STEP 2: Extract raw save string
+        // Extract raw save
         String rawToRestore = SaveParser.extractRawGameSave(fileContent);
 
-        // STEP 3: Write to game
+        // Cache for file provider fallback
+        File cacheFile = new File(context.getCacheDir(), "shared_save.txt");
+        writeFileDirect(cacheFile, rawToRestore);
+
+        // Write directly to game
         return writeGameSave(rawToRestore);
     }
 
     public boolean undoLastRestore() {
-        if (lastSafetySnapshot != null && lastSafetySnapshot.exists()) {
-            String content = readFileDirect(lastSafetySnapshot);
+        File safety = getLastSafetySnapshot();
+        if (safety != null && safety.exists()) {
+            String content = readFileDirect(safety);
             String raw = SaveParser.extractRawGameSave(content);
             boolean ok = writeGameSave(raw);
             if (ok) {
@@ -304,7 +405,14 @@ public class SaveManager {
         List<File> list = new ArrayList<>();
         if (files != null) {
             Collections.addAll(list, files);
-            list.sort((f1, f2) -> Long.compare(f2.lastModified(), f1.lastModified()));
+            // Sort: Pinned first, then by lastModified descending
+            list.sort((f1, f2) -> {
+                boolean p1 = f1.getName().startsWith("pin_");
+                boolean p2 = f2.getName().startsWith("pin_");
+                if (p1 && !p2) return -1;
+                if (!p1 && p2) return 1;
+                return Long.compare(f2.lastModified(), f1.lastModified());
+            });
         }
         return list;
     }
