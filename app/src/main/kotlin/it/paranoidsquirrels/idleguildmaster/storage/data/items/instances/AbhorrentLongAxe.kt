@@ -12,8 +12,8 @@ class AbhorrentLongAxe : Axe() {
         idEffect = R.string.weapon_axe_abhorrent_long_axe_effect
         idImage = R.drawable.abhorrent_long_axe
         price = 9500L
-        constitution = 30
-        intelligence = 45
+        constitution = 15
+        intelligence = 35
         onTargetHitList = mutableListOf(
             StatusEffect(StatusEffectType.POISON, null, 2, 1.0),
             StatusEffect(StatusEffectType.ABLAZE, null, 2, 1.0),

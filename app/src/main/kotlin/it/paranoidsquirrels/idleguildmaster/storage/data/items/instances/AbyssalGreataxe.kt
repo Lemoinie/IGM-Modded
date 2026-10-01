@@ -9,7 +9,7 @@ class AbyssalGreataxe : Axe() {
         idDescription = R.string.weapon_axe_abyssal_great_axe_description
         idImage = R.drawable.abyssal_great_axe
         price = 1250L
-        constitution = 25
+        constitution = 15
         intelligence = 20
     }
 }

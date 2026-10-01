@@ -12,8 +12,8 @@ class InfernalLongAxe : Axe() {
         idEffect = R.string.weapon_axe_infernal_long_axe_effect
         idImage = R.drawable.infernal_long_axe
         price = 5400L
-        constitution = 20
-        intelligence = 35
+        constitution = 10
+        intelligence = 25
         onTargetHitList = mutableListOf(
             StatusEffect(StatusEffectType.POISON, null, 2, 1.0),
             StatusEffect(StatusEffectType.ABLAZE, null, 2, 1.0)

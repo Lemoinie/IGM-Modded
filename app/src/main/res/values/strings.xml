@@ -4327,6 +4327,7 @@ This item will be consumed automatically upon buying it."</string>
     <string name="weapon_axe_unholy_axe_effect" formatted="false">Counterattack 25%</string>
     <string name="weapon_axe_unholy_axe_name">Unholy Axe</string>
     <string name="weapon_axe_primeval_axe_description">An axe of elysian wood and primeval scale, radiating the fury of a forgotten age.</string>
+    <string name="weapon_axe_primeval_axe_effect">Retaliate 15 (physical)</string>
     <string name="weapon_axe_primeval_axe_name">Primeval Axe</string>
     <string name="weapon_axe_celestial_axe_description">An axe of alien alloy, impossibly light and keen.</string>
     <string name="weapon_axe_celestial_axe_name">Celestial Axe</string>

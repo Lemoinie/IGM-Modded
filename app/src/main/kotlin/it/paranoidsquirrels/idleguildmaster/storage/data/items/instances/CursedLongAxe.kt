@@ -12,8 +12,8 @@ class CursedLongAxe : Axe() {
         idEffect = R.string.weapon_axe_cursed_long_axe_effect
         idImage = R.drawable.cursed_long_axe
         price = 2800L
-        constitution = 10
-        intelligence = 25
+        constitution = 5
+        intelligence = 15
         onTargetHit = StatusEffect(StatusEffectType.POISON, null, 2, 1.0)
     }
 }
