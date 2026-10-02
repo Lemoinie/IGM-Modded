@@ -10,5 +10,6 @@ class CottontailFur : Item() {
         idImage = R.drawable.cottontail_fur
         source.add(R.string.dungeon_name_enchanted_forest)
         price = 50L
+        isRareDrop = true
     }
 }

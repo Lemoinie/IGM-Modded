@@ -16,5 +16,6 @@ class CaptainsSword : Sword() {
         constitution = 25
         dexterity = 8
         onTargetHit = StatusEffect(StatusEffectType.STUN, null, 1, 0.20)
+        isRareDrop = true
     }
 }

@@ -34,16 +34,8 @@ class Berserker : Enemy() {
     override fun listDrops(i: Int): LinkedHashMap<ItemWrapper, Int> {
         val linkedHashMap = LinkedHashMap<ItemWrapper, Int>()
         linkedHashMap.put(ItemWrapper.getInstance("Mithril", 1), 350)
+        linkedHashMap.put(ItemWrapper.getInstance("BerserkersAxe", 1), 30)
         return linkedHashMap
-    }
-
-    /** Independent roll: 3% Berserker's Axe on top of the vanilla drop table. */
-    override fun rollDrops(evKey: Int): List<ItemWrapper> {
-        val drops = super.rollDrops(evKey).toMutableList()
-        if (Utils.random() < 0.03) {
-            drops.add(ItemWrapper.getInstance("BerserkersAxe", 1))
-        }
-        return drops
     }
 
     override fun endOfTurnActions(): List<EndOfTurnAction> {

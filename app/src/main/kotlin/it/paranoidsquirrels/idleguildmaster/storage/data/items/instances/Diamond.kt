@@ -10,5 +10,6 @@ class Diamond : Item() {
         idImage = R.drawable.diamond
         source.add(R.string.dungeon_name_lost_lands)
         price = 5000L
+        isRareDrop = true
     }
 }

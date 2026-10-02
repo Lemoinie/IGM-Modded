@@ -10,6 +10,7 @@ class Geode : Consumable() {
         idImage = R.drawable.geode
         source.add(R.string.item_found_everywhere)
         price = 10L
+        isRareDrop = true
     }
 
     override fun printConsumeImage(): Int = R.drawable.consume_geode

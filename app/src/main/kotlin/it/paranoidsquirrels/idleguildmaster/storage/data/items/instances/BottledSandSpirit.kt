@@ -10,5 +10,6 @@ class BottledSandSpirit : Item() {
         idImage = R.drawable.bottled_sand_spirit
         source.add(R.string.dungeon_name_the_desert)
         price = 110L
+        isRareDrop = true
     }
 }

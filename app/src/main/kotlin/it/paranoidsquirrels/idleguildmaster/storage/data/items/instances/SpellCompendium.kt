@@ -11,5 +11,6 @@ class SpellCompendium : Accessory() {
         source.add(R.string.dungeon_name_hidden_city_of_larox)
         price = 40L
         intelligence = 30
+        isRareDrop = true
     }
 }

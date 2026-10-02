@@ -10,5 +10,6 @@ class AncientSeed : Item() {
         idImage = R.drawable.ancient_seed
         source.add(R.string.dungeon_name_enchanted_forest)
         price = 20L
+        isRareDrop = true
     }
 }
