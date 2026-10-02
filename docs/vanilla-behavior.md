@@ -199,6 +199,18 @@ source tree (no injected patches). They are concentrated in a few places:
   items with an ultra-rare drop rate (< 1% drop chance, pet eggs, or raid uniques) are displayed
   with a **Radiant Gold** border (`rare_drop_border_gold.xml`) and warm luminous gold background.
   Standard warehouse storage (`DialogStorage`) preserves vanilla item borders and background.
+- **Rank Traits Ascension Synergy (v1.3.17.1)** — in vanilla, `Dragon Blood` (1% physical/magical damage reduction per tier)
+  and `Troll Blood` (0.5% max HP regen per tier) scaled solely with unit tier (`maxLevel / 5`), causing unascended
+  high-tier adventurers (e.g. T9 Wyrm Rider with 9% DR / 4.5% regen) to outperform newly ascended lower-tier
+  adventurers (e.g. T1 Ascended Footman with 1% DR / 0.5% regen). Both traits now add +9 effective rank when the
+  adventurer is ascended (`isAscended() == true`), ensuring ascended units are strictly superior across all tiers:
+  Dragon Blood grants 1%–9% unascended, 10%–18% ascended; Troll Blood grants 0.5%–4.5% unascended, 5.0%–9.0% ascended.
+- **Temple Doctrine Rebalances (v1.3.17.2)** — rebalanced multiple underperforming doctrine abilities across Temple doctrines:
+  `Exalted Health` buffed from +25 to +50 HP/lvl (up to +250 HP), `Exalted Dexterity`, `Exalted Intelligence`, and
+  `Exalted Constitution` buffed from +3 to +5/lvl (up to +25 each), `Conditioned Reflexes` buffed from +10% to +15%/lvl
+  (up to +45% counterattack), `Selfless Spirit` max level raised from 4 to 5 (up to +50% healing modifier),
+  `Divine Intervention` max level raised from 3 to 5 (up to +5% resurrection chance), and `False Life` max level raised
+  from 2 to 3 (up to +12% cheat death chance).
 - Save tooling (`scripts/save/`, `save_editor/`) operates on saved games outside
   the app; it never changes in-app logic.
 

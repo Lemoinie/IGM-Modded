@@ -4195,7 +4195,7 @@ I apologize for the inconvenience."</string>
     <string name="trait_brute_plus_name">Brute+</string>
     <string name="trait_cursed_description" formatted="false">Every turn, lose 2% max HP. Heal by 20% of damage dealt on hit.</string>
     <string name="trait_cursed_name">Cursed</string>
-    <string name="trait_dragon_blood_description" formatted="false">Damage reduction increased by 1% per unit rank.</string>
+    <string name="trait_dragon_blood_description" formatted="false">Damage reduction increased by 1% per unit rank (+9% if ascended).</string>
     <string name="trait_dragon_blood_name">Dragon Blood</string>
     <string name="trait_empathetic_description">Heals are 20% more powerful (multiplicative).</string>
     <string name="trait_empathetic_name">Empathetic</string>
@@ -4221,7 +4221,7 @@ I apologize for the inconvenience."</string>
     <string name="trait_reactive_name">Reactive</string>
     <string name="trait_ruthless_description">Critical damage +20% (multiplicative).</string>
     <string name="trait_ruthless_name">Ruthless</string>
-    <string name="trait_troll_blood_description" formatted="false">Each turn, regenerates half of unit rank as % of max HP.</string>
+    <string name="trait_troll_blood_description" formatted="false">Each turn, regenerates half of unit rank as % of max HP (+4.5% if ascended).</string>
     <string name="trait_troll_blood_name">Troll Blood</string>
     <string name="traits_formatted_1" formatted="false">%s: %s</string>
     <string name="traits_formatted_2" formatted="false">"%s: %s

@@ -193,7 +193,9 @@ abstract class Entity {
         var damageAfterArmor = (1.0 - armorFactor) * d
         if (this is Adventurer && traitRare == Trait.DRAGON_BLOOD) {
             val tier = maxLevel / 5
-            damageAfterArmor *= Math.max(0.0, 1.0 - (tier.toDouble() * 0.01))
+            val ascensionBonus = if (isAscended()) 9 else 0
+            val totalReduction = tier + ascensionBonus
+            damageAfterArmor *= Math.max(0.0, 1.0 - (totalReduction.toDouble() * 0.01))
         }
         if (this is Adventurer && traitRare == Trait.RECKLESS) {
             damageAfterArmor *= 1.15

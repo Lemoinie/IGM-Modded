@@ -572,7 +572,9 @@ abstract class Adventurer : Entity() {
             return regen
         }
         val tier = maxLevel / 5
-        val bonus = (calculateTotalMaxHp() * tier + 100) / 200
+        val ascensionBonus = if (isAscended()) 9 else 0
+        val effectiveRank = tier + ascensionBonus
+        val bonus = (calculateTotalMaxHp() * effectiveRank + 100) / 200
         return regen + bonus
     }
 
