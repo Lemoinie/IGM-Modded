@@ -41,10 +41,9 @@ class Shadow : Enemy() {
         // Shadow always rolls exactly one Geode stack per kill (weights are per-1000):
         // 80% -> 100 Geodes, 15% -> 150, 4% -> 200, 1% -> 300.
         val linkedHashMap = LinkedHashMap<ItemWrapper, Int>()
-        linkedHashMap.put(ItemWrapper.getInstance("Geode", 50), 800)
-        linkedHashMap.put(ItemWrapper.getInstance("Geode", 100), 150)
-        linkedHashMap.put(ItemWrapper.getInstance("Geode", 200), 40)
-        linkedHashMap.put(ItemWrapper.getInstance("Geode", 300), 10)
+        linkedHashMap.put(ItemWrapper.getInstance("Geode", 50), 900)
+        linkedHashMap.put(ItemWrapper.getInstance("Geode", 100), 90)
+        linkedHashMap.put(ItemWrapper.getInstance("Geode", 200), 10)
         return linkedHashMap
     }
 }

@@ -750,7 +750,7 @@ object Utils {
             vialOffer.isGems = true
             // Base-trait rerolls (20/21) and common amplification (22) cost 1000; the rare tier (23/24) costs 1200.
             vialOffer.price = when (vial.getTrueClass()) {
-                "Evo20Vial", "Evo21Vial", "Evo22Vial" -> 1000L
+                "Evo20Vial", "Evo21Vial", "Evo23Vial" -> 1000L
                 else -> 1200L
             }
             d.blackMarketStock.add(vialOffer)
