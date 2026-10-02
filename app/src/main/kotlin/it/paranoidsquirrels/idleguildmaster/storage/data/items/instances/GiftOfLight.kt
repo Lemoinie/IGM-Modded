@@ -10,5 +10,6 @@ class GiftOfLight : Item() {
         idImage = R.drawable.gift_of_light
         source.add(R.string.raid_name_the_tower)
         price = 1250L
+        isRareDrop = true
     }
 }

@@ -10,5 +10,6 @@ class BansheeHorn : Item() {
         idImage = R.drawable.banshee_horn
         source.add(R.string.dungeon_name_barren_wastelands)
         price = 95L
+        isRareDrop = true
     }
 }

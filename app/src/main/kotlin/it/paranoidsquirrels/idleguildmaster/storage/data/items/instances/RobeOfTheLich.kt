@@ -14,5 +14,6 @@ class RobeOfTheLich : LightArmor() {
         maxHp = 75
         intelligence = 27
         lifestealWithMinion = 35
+        isRareDrop = true
     }
 }

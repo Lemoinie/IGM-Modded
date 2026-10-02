@@ -11,5 +11,6 @@ class Scanner : Item() {
         source.add(R.string.dungeon_name_barren_wastelands)
         source.add(R.string.raid_name_celestial_mothership)
         price = 90L
+        isRareDrop = true
     }
 }

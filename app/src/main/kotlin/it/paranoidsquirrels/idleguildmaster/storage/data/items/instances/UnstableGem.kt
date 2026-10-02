@@ -10,5 +10,6 @@ class UnstableGem : Item() {
         idImage = R.drawable.unstable_gem
         source.add(R.string.dungeon_name_hidden_city_of_larox)
         price = 10L
+        isRareDrop = true
     }
 }

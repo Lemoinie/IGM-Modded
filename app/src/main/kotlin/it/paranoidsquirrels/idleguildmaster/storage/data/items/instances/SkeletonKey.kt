@@ -14,5 +14,6 @@ class SkeletonKey : Accessory() {
         uniqueOrigin = getTrueClass()
         notSellable = true
         intelligence = 36
+        isRareDrop = true
     }
 }

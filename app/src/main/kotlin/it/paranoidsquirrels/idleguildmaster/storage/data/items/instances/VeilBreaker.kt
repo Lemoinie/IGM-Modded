@@ -10,5 +10,6 @@ class VeilBreaker : Item() {
         idImage = R.drawable.veil_breaker
         source.add(R.string.dungeon_name_hidden_city_of_larox)
         price = 20L
+        isRareDrop = true
     }
 }

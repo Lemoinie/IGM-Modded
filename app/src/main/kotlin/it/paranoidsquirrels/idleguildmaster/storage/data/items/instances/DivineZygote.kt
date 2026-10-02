@@ -17,5 +17,6 @@ class DivineZygote : Accessory() {
         dexterity = 7
         intelligence = 7
         immunityToStatus = 1.0
+        isRareDrop = true
     }
 }

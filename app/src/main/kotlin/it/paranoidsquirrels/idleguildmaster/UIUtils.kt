@@ -33,6 +33,7 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.Ad
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.doctrines.Doctrine
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.Enemy
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.Item
+import it.paranoidsquirrels.idleguildmaster.storage.data.items.LootRarityHelper
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.Recipes
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Equipment
 import it.paranoidsquirrels.idleguildmaster.storage.data.pets.Pet
@@ -523,17 +524,23 @@ object UIUtils {
     }
 
     @JvmStatic
+    @JvmOverloads
     @Suppress("UNCHECKED_CAST")
-    fun getItemsGridAdapter(context: Context?, list: List<Item?>?): ArrayAdapter<Item> {
+    fun getItemsGridAdapter(
+        context: Context?,
+        list: List<Item?>?,
+        highlightRareDrops: Boolean = false
+    ): ArrayAdapter<Item> {
         val ctx = context!!
         val itemList = (list as? List<Item>) ?: emptyList()
-        return GridAdapter(ctx, R.layout.layout_item_big_grid, itemList)
+        return GridAdapter(ctx, R.layout.layout_item_big_grid, itemList, highlightRareDrops)
     }
 
     private class GridAdapter(
         context: Context,
         private val resource: Int,
-        private val items: List<Item>
+        private val items: List<Item>,
+        private val highlightRareDrops: Boolean = false
     ) : ArrayAdapter<Item>(context, resource, items) {
         override fun getCount(): Int = items.size
         override fun getItem(position: Int): Item? = items.getOrNull(position)
@@ -544,7 +551,11 @@ object UIUtils {
             val textView = view.findViewById<TextView>(R.id.stack)
             val item = items[i]
             imageView.setImageDrawable(ResourcesCompat.getDrawable(context.resources, item.getIdImage(), context.theme))
-            imageView.setBackgroundResource(backgroundFromRarity(item.getRarity()))
+            if (highlightRareDrops && item.isRareDrop) {
+                imageView.setBackgroundResource(R.drawable.rare_drop_border_gold)
+            } else {
+                imageView.setBackgroundResource(backgroundFromRarity(item.getRarity()))
+            }
             textView.text = item.getStack().toString()
             return view
         }

@@ -10,5 +10,6 @@ class VoidCore : Item() {
         idImage = R.drawable.void_core
         source.add(R.string.raid_name_the_slime_pond)
         price = 200L
+        isRareDrop = true
     }
 }

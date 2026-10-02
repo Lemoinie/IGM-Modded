@@ -10,5 +10,6 @@ class WhiteHair : Item() {
         idImage = R.drawable.white_hair
         source.add(R.string.dungeon_name_the_southern_grove)
         price = 90L
+        isRareDrop = true
     }
 }

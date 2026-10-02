@@ -10,5 +10,6 @@ class SealOfClaris : Item() {
         idImage = R.drawable.seal_of_claris
         source.add(R.string.raid_name_the_cultist_rebels)
         price = 6500L
+        isRareDrop = true
     }
 }

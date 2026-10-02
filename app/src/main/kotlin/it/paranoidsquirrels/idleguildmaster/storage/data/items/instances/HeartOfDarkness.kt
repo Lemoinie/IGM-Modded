@@ -10,5 +10,6 @@ class HeartOfDarkness : Item() {
         idImage = R.drawable.heart_of_darkness
         source.add(R.string.raid_name_the_tower)
         price = 1500L
+        isRareDrop = true
     }
 }

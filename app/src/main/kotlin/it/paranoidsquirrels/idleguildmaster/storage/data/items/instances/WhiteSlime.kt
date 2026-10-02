@@ -10,5 +10,6 @@ class WhiteSlime : Item() {
         idImage = R.drawable.white_slime
         source.add(R.string.raid_name_the_tower)
         price = 650L
+        isRareDrop = true
     }
 }

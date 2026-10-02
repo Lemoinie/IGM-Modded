@@ -16,5 +16,6 @@ class SerpentBite : Sword() {
         threat = -4
         constitution = 30
         dexterity = 10
+        isRareDrop = true
     }
 }

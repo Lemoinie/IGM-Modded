@@ -49,7 +49,7 @@ class DialogCollectDrops : CustomDialog() {
     override fun initialize(arguments: Bundle?) {
         val b = binding ?: return
         drops?.sortWith(compareByDescending { it.getRarity() })
-        b.itemGrid.adapter = UIUtils.getItemsGridAdapter(context, drops)
+        b.itemGrid.adapter = UIUtils.getItemsGridAdapter(context, drops, highlightRareDrops = true)
         b.autoRaidReport.visibility = if (hasAutoRaidReport()) View.VISIBLE else View.GONE
     }
 

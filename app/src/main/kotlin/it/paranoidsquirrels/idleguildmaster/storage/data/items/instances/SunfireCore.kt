@@ -10,5 +10,6 @@ class SunfireCore : Item() {
         idImage = R.drawable.sunfire_core
         source.add(R.string.raid_name_the_slime_pond)
         price = 50L
+        isRareDrop = true
     }
 }

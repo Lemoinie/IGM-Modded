@@ -10,5 +10,6 @@ class PterodactylClaw : Item() {
         idImage = R.drawable.pterodactyl_claw
         source.add(R.string.dungeon_name_lost_lands)
         price = 42L
+        isRareDrop = true
     }
 }

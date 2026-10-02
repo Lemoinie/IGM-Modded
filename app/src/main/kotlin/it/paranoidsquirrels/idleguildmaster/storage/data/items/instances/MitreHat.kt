@@ -14,5 +14,6 @@ class MitreHat : Accessory() {
         maxHp = 60
         intelligence = 9
         healingModifier = 0.2
+        isRareDrop = true
     }
 }

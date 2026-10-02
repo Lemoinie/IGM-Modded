@@ -13,5 +13,6 @@ class SeekingGlass : Accessory() {
         price = 10000L
         alwaysHits = true
         intelligence = 25
+        isRareDrop = true
     }
 }

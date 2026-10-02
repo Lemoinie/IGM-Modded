@@ -10,5 +10,6 @@ class Kindlequartz : Item() {
         idImage = R.drawable.kindlequartz
         source.add(R.string.dungeon_name_lost_lands)
         price = 220L
+        isRareDrop = true
     }
 }

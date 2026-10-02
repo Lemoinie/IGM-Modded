@@ -10,5 +10,6 @@ class MysteriousCog : Item() {
         idImage = R.drawable.mysterious_cog
         source.add(R.string.raid_name_the_tower)
         price = 2000L
+        isRareDrop = true
     }
 }

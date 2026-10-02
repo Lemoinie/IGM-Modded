@@ -10,5 +10,6 @@ class ElixirOfLearning : Item() {
         idImage = R.drawable.elixir_of_learning
         source.add(R.string.raid_name_the_cultist_rebels)
         price = 65L
+        isRareDrop = true
     }
 }

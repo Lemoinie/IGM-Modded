@@ -17,6 +17,10 @@ abstract class Potion : Consumable() {
         const val VICIOUSNESS: Int = 7
     }
 
+    init {
+        isRareDrop = true
+    }
+
     abstract fun getPotionType(): Int
 
     override fun printType(): Int = R.string.type_potion

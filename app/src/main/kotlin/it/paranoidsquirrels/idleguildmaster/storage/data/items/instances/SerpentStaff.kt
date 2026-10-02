@@ -18,5 +18,6 @@ class SerpentStaff : Staff() {
         onTargetHit = StatusEffect(StatusEffectType.FRENZY, null, 3, 1.0)
         intelligence = 40
         healingModifier = -0.5
+        isRareDrop = true
     }
 }

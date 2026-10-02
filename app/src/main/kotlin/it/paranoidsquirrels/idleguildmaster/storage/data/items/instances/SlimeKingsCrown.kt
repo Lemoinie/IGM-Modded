@@ -12,5 +12,6 @@ class SlimeKingsCrown : Accessory() {
         source.add(R.string.raid_name_the_slime_pond)
         price = 5000L
         bonusExperience = 35
+        isRareDrop = true
     }
 }

@@ -38,8 +38,6 @@ class Shadow : Enemy() {
     override fun calculateTotalMaxHp(): Int = 1000
 
     override fun listDrops(i: Int): LinkedHashMap<ItemWrapper, Int> {
-        // Shadow always rolls exactly one Geode stack per kill (weights are per-1000):
-        // 80% -> 100 Geodes, 15% -> 150, 4% -> 200, 1% -> 300.
         val linkedHashMap = LinkedHashMap<ItemWrapper, Int>()
         linkedHashMap.put(ItemWrapper.getInstance("Geode", 50), 900)
         linkedHashMap.put(ItemWrapper.getInstance("Geode", 100), 90)

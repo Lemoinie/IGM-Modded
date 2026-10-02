@@ -15,5 +15,6 @@ class SylvanFlute : Accessory() {
         constitution = 10
         dexterity = 10
         intelligence = 10
+        isRareDrop = true
     }
 }

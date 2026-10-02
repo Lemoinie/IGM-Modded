@@ -10,5 +10,6 @@ class CorruptedAxe : Axe() {
         idImage = R.drawable.corrupted_axe
         price = 250L
         constitution = 1
+        isRareDrop = true
     }
 }

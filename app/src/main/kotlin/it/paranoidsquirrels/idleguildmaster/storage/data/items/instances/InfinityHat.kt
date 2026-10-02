@@ -14,5 +14,6 @@ class InfinityHat : Accessory() {
         maxHp = 60
         intelligence = 35
         criticalDamage = 0.25
+        isRareDrop = true
     }
 }

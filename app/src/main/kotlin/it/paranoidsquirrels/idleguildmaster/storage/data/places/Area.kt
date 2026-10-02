@@ -856,6 +856,7 @@ abstract class Area {
                 if (Utils.random() < 5.0e-4) {
                     val item3 = Item.getInstance("Geode")
                     if (item3 != null) {
+                        item3.isRareDrop = true
                         Utils.collectItem(item3, this.drops)
                         Logger.log(this, 8, enemy.getIdName(), item3.getStack(), item3.getIdName())
                         z = false

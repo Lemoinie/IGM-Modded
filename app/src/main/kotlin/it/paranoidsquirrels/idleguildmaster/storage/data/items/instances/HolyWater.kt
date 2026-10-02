@@ -10,5 +10,6 @@ class HolyWater : Item() {
         idImage = R.drawable.holy_water
         source.add(R.string.dungeon_name_the_golden_city)
         price = 70L
+        isRareDrop = true
     }
 }

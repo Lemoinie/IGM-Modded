@@ -10,5 +10,6 @@ class TerrorsaurusFang : Item() {
         idImage = R.drawable.terrorsaurus_fang
         source.add(R.string.dungeon_name_lost_lands)
         price = 42L
+        isRareDrop = true
     }
 }

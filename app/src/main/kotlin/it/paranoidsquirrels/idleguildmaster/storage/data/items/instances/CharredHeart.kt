@@ -10,5 +10,6 @@ class CharredHeart : Item() {
         idImage = R.drawable.charred_heart
         source.add(R.string.dungeon_name_barren_wastelands)
         price = 95L
+        isRareDrop = true
     }
 }

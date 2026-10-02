@@ -13,5 +13,6 @@ class ChiefScientistCoat : LightArmor() {
         price = 17500L
         healingModifier = 0.25
         intelligence = 72
+        isRareDrop = true
     }
 }

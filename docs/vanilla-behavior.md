@@ -195,6 +195,10 @@ source tree (no injected patches). They are concentrated in a few places:
   `ScarletDebris` instead of 10 × `HeartOfDarkness`.
 - Ads/IAP are stubbed and hidden from the UI (see
   [known-uncertainties.md](known-uncertainties.md), item 2).
+- **Rare Drop Claim Highlight (v1.3.17.0)** — in the loot collection dialog (`DialogCollectDrops`),
+  items with an ultra-rare drop rate (< 1% drop chance, pet eggs, or raid uniques) are displayed
+  with a **Radiant Gold** border (`rare_drop_border_gold.xml`) and warm luminous gold background.
+  Standard warehouse storage (`DialogStorage`) preserves vanilla item borders and background.
 - Save tooling (`scripts/save/`, `save_editor/`) operates on saved games outside
   the app; it never changes in-app logic.
 

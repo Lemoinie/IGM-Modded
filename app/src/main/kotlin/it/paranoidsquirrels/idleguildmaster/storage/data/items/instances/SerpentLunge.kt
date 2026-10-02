@@ -16,5 +16,6 @@ class SerpentLunge : Dagger() {
         flatDodgeChance = 0.1
         dexterity = 25
         constitution = 25
+        isRareDrop = true
     }
 }

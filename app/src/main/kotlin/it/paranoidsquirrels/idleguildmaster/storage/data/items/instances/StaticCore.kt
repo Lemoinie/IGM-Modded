@@ -10,5 +10,6 @@ class StaticCore : Item() {
         idImage = R.drawable.static_core
         source.add(R.string.raid_name_the_slime_pond)
         price = 50L
+        isRareDrop = true
     }
 }

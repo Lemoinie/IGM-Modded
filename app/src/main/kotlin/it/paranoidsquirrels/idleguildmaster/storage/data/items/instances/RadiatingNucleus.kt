@@ -10,5 +10,6 @@ class RadiatingNucleus : Item() {
         idImage = R.drawable.radiating_nucleus
         source.add(R.string.dungeon_name_hidden_city_of_larox)
         price = 10L
+        isRareDrop = true
     }
 }

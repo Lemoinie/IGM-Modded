@@ -10,5 +10,6 @@ class FrozenEgg : Item() {
         idImage = R.drawable.frozen_egg
         source.add(R.string.dungeon_name_frostbite_peaks)
         price = 160L
+        isRareDrop = true
     }
 }

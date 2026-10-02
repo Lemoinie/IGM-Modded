@@ -10,5 +10,6 @@ class WickedSeal : Item() {
         idImage = R.drawable.wicked_seal
         source.add(R.string.dungeon_name_hidden_city_of_larox)
         price = 250L
+        isRareDrop = true
     }
 }

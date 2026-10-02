@@ -10,5 +10,6 @@ class PhoenixFeather : Item() {
         idImage = R.drawable.phoenix_feather
         source.add(R.string.raid_name_the_tower)
         price = 825L
+        isRareDrop = true
     }
 }

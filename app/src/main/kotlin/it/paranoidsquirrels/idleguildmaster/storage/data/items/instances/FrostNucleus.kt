@@ -10,5 +10,6 @@ class FrostNucleus : Item() {
         idImage = R.drawable.frost_nucleus
         source.add(R.string.dungeon_name_frostbite_peaks)
         price = 80L
+        isRareDrop = true
     }
 }

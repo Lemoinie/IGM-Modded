@@ -16,6 +16,7 @@ class SerpentSting : Bow() {
         notSellable = true
         endOfTurnAction = EndOfTurnAction.STUN_SELF_NOT_CLEANSABLE
         dexterity = 40
+        isRareDrop = true
     }
 
     override fun getDamageModifier(i: Int, i2: Int, i3: Int): Int = super.getDamageModifier(i, i2, i3) * 3

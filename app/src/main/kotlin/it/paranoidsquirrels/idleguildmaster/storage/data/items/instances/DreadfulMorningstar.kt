@@ -16,5 +16,6 @@ class DreadfulMorningstar : Sword() {
         onTargetHit = StatusEffect(StatusEffectType.TERRIFY, null, 1, 0.18)
         constitution = 40
         dexterity = 10
+        isRareDrop = true
     }
 }

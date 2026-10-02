@@ -13,5 +13,6 @@ class EternalHunger : Accessory() {
         price = 15000L
         intelligence = 5
         lifesteal = 50
+        isRareDrop = true
     }
 }

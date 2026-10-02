@@ -56,6 +56,7 @@ The JSON root is a flat object with ~100 keys. Categories (representative keys):
 ```json
 { "stack": 1, "trueClass": "CopperSword" }
 ```
+*(Optional fields on Item: `gemValue` (Int?) for preset gem yield; `isRareDrop` (Boolean) tagging drops with < 1% drop rate in area chests).*
 
 **Adventurer** (from `app/src/main/assets/manual_load.txt`, an example save):
 

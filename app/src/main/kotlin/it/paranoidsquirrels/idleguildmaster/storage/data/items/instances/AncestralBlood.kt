@@ -10,5 +10,6 @@ class AncestralBlood : Item() {
         idImage = R.drawable.ancestral_blood
         source.add(R.string.raid_name_the_tower)
         price = 1000L
+        isRareDrop = true
     }
 }

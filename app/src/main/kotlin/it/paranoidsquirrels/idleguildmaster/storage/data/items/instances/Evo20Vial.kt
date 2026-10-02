@@ -11,6 +11,7 @@ class Evo20Vial : Consumable() {
         idImage = R.drawable.evo20_vial
         notSellable = true
         price = 10L
+        isRareDrop = true
     }
 
     override fun printConsumeImage(): Int = R.drawable.consume_evo20_vial

@@ -4,6 +4,10 @@ import it.paranoidsquirrels.idleguildmaster.R
 import it.paranoidsquirrels.idleguildmaster.storage.data.pets.Pet
 
 abstract class Egg : Consumable() {
+    init {
+        isRareDrop = true
+    }
+
     abstract fun hatch(): Pet?
 
     override fun printType(): Int = R.string.type_egg

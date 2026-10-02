@@ -974,9 +974,14 @@ object Utils {
         if (idx != -1) {
             val item2 = list[idx]
             item2.setStack(Math.min(99999, item2.getStack() + item.getStack()))
+            if (item.isRareDrop) {
+                item2.isRareDrop = true
+            }
         } else {
             val newItem = Item.getInstance(trueClass, Math.min(99999, item.getStack()))
             if (newItem != null) {
+                newItem.isRareDrop = item.isRareDrop
+                newItem.gemValue = item.gemValue
                 list.add(newItem)
             }
         }

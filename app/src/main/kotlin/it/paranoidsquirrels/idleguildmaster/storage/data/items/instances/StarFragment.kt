@@ -10,5 +10,6 @@ class StarFragment : Item() {
         idImage = R.drawable.star_fragment
         source.add(R.string.raid_name_the_lost_expedition)
         price = 500L
+        isRareDrop = true
     }
 }

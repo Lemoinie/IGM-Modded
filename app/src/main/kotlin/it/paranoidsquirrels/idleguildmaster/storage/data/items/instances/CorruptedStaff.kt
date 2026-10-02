@@ -12,5 +12,6 @@ class CorruptedStaff : Staff() {
         source.add(R.string.raid_name_imperial_rescue)
         price = 1L
         intelligence = 1
+        isRareDrop = true
     }
 }

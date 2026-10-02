@@ -15,5 +15,6 @@ class CosmicViolin : Accessory() {
         constitution = 25
         dexterity = 25
         intelligence = 25
+        isRareDrop = true
     }
 }

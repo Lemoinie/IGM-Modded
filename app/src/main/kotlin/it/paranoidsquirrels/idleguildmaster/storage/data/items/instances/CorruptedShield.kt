@@ -12,5 +12,6 @@ class CorruptedShield : Accessory() {
         source.add(R.string.raid_name_imperial_rescue)
         price = 1L
         constitution = 1
+        isRareDrop = true
     }
 }

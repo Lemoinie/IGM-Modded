@@ -12,5 +12,6 @@ class EyesOfTheSwordsman : Item() {
         uniqueOrigin = getTrueClass()
         notSellable = true
         price = 5000L
+        isRareDrop = true
     }
 }

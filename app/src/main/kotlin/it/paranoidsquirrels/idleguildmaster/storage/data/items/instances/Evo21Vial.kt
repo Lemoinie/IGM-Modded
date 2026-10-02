@@ -12,6 +12,7 @@ class Evo21Vial : Consumable() {
         source.add(R.string.raid_name_celestial_mothership)
         notSellable = true
         price = 10L
+        isRareDrop = true
     }
 
     override fun printConsumeImage(): Int = R.drawable.consume_evo21_vial

@@ -51,6 +51,12 @@ abstract class Item {
      */
     @JvmField var gemValue: Int? = null
 
+    /**
+     * Whether this item dropped with an ultra-rare drop rate (< 1%).
+     * Non-transient so it persists in dungeon/raid chests across saves until collected.
+     */
+    @JvmField var isRareDrop: Boolean = false
+
     protected abstract fun configureProperties()
 
     override fun equals(other: Any?): Boolean {
@@ -123,4 +129,7 @@ abstract class Item {
 
     open fun isConsumable(): Boolean = consumable
     open fun setConsumable(z: Boolean) { consumable = z }
+
+    open fun isRareDrop(): Boolean = isRareDrop
+    open fun setRareDrop(z: Boolean) { isRareDrop = z }
 }

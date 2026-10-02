@@ -15,6 +15,9 @@ import it.paranoidsquirrels.idleguildmaster.ui.dialogs.ModChangelog.version
 object ModChangelogActive {
 
     val ENTRIES: List<VersionEntry> = listOf(
+        version("1.3.17.0", "2/10/2026",
+            "Rare Drop Claim Highlight: claiming loot from dungeon and raid chests now visually highlights items with an ultra-rare drop rate (< 1%, pet eggs, and raid uniques) with a radiant gold border and warm luminous gold background in the claim dialog, while maintaining the standard appearance in warehouse storage.",
+        ),
         version("1.3.16.0", "29/9/2026",
             "Dungeon & Raid Team Gear Loadouts: saving a team for a dungeon or raid now also records each hero's equipped weapon, armor and accessory; loading that team (or starting/continuing an Auto-Raid) automatically re-equips the saved loadout through a conflict-safe resolver — items already equipped are kept, pieces in warehouse storage swap 1-for-1 without ever exceeding capacity, idle guild members safely yield their gear (falling back to their default weapon or an empty slot), while pieces worn by heroes actively exploring another area are protected and reported in the \"Unavailable\" dialog. Gear snapshots persist in the save file (fully backwards compatible with older saves), are re-applied on every Auto-Raid dispatch, and are cleaned up when a hero is dismissed.",
         ),

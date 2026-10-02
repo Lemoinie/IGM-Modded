@@ -10,5 +10,6 @@ class AbioticCore : Item() {
         idImage = R.drawable.abiotic_core
         source.add(R.string.raid_name_kaunis)
         price = 2000L
+        isRareDrop = true
     }
 }

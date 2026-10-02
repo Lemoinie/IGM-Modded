@@ -10,5 +10,6 @@ class Infernite : Item() {
         idImage = R.drawable.infernite
         source.add(R.string.dungeon_name_lost_lands)
         price = 125L
+        isRareDrop = true
     }
 }

@@ -16,5 +16,6 @@ class SPIDER : Accessory() {
         maxHp = 20
         constitution = 5
         dexterity = 5
+        isRareDrop = true
     }
 }

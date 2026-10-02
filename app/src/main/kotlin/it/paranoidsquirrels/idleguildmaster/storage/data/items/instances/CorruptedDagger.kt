@@ -11,5 +11,6 @@ class CorruptedDagger : Dagger() {
         source.add(R.string.dungeon_name_the_golden_city)
         price = 1L
         dexterity = 1
+        isRareDrop = true
     }
 }
