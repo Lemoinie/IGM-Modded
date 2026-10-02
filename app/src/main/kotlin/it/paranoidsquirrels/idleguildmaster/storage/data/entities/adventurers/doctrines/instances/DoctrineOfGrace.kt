@@ -19,7 +19,8 @@ class DoctrineOfGrace : Doctrine() {
         DoctrineAbilityType.SELFLESS_SPIRIT,
         DoctrineAbilityType.DIVINE_INTERVENTION,
         DoctrineAbilityType.OVERHEAL,
-        DoctrineAbilityType.HEALING_NOVA
+        DoctrineAbilityType.HEALING_NOVA,
+        DoctrineAbilityType.SYMPATHETIC_WARD
     )
 
     override fun bonusQuestPoints(): Int = MainActivity.data.graceLevel
@@ -29,4 +30,10 @@ class DoctrineOfGrace : Doctrine() {
     override fun bonusHealingModifier(): Int = getValue(DoctrineAbilityType.SELFLESS_SPIRIT)
     override fun maxOverheal(): Int = getValue(DoctrineAbilityType.OVERHEAL)
     override fun healingNova(): Int = getValue(DoctrineAbilityType.HEALING_NOVA)
+    override fun sympatheticWardPercent(): Int = when (getLevel(DoctrineAbilityType.SYMPATHETIC_WARD)) {
+        1 -> 20
+        2 -> 35
+        3 -> 50
+        else -> 0
+    }
 }

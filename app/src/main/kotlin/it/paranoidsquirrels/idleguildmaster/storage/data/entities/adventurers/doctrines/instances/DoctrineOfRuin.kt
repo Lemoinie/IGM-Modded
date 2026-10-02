@@ -19,7 +19,8 @@ class DoctrineOfRuin : Doctrine() {
         DoctrineAbilityType.EXPLOIT_WEAKNESS,
         DoctrineAbilityType.LIGHTNING_SPEED,
         DoctrineAbilityType.EYE_FOR_AN_EYE,
-        DoctrineAbilityType.RAGEBOUND
+        DoctrineAbilityType.RAGEBOUND,
+        DoctrineAbilityType.ANNIHILATION
     )
 
     override fun bonusQuestPoints(): Int = MainActivity.data.ruinLevel
@@ -29,4 +30,6 @@ class DoctrineOfRuin : Doctrine() {
     override fun extraAttackChance(): Int = getValue(DoctrineAbilityType.LIGHTNING_SPEED)
     override fun moreDamageWhenHalfLife(): Boolean = getValue(DoctrineAbilityType.EYE_FOR_AN_EYE) > 0
     override fun moreDamageDealtAndTaken(): Boolean = getValue(DoctrineAbilityType.RAGEBOUND) > 0
+    override fun annihilationCritDamageBonus(): Int = getValue(DoctrineAbilityType.ANNIHILATION)
+    override fun hasAnnihilation(): Boolean = getValue(DoctrineAbilityType.ANNIHILATION) > 0
 }

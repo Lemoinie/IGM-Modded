@@ -16,6 +16,31 @@ object ModChangelogActive {
 
     val ENTRIES: List<VersionEntry> = listOf(
         version(
+            "1.3.17.4", "10/2/2026",
+            subpoints(
+                "Fixed the doctrine dialog failing to open / choose doctrines (regression from 1.3.17.3's UI change):",
+                "Reverted the doctrine ability rows from horizontal ScrollViews back to the original (known-good) horizontal LinearLayouts — the ScrollView container silently crashed the dialog at open time, blocking both choosing a doctrine from the Temple list and opening a doctrine from the adventurer dialog;",
+                "Moved Verdant Briars (Doctrine of Control) from Row 2 to Row 3 so no row exceeds the 4-card layout limit (Control is now rows 1 / 4 / 2) — its 1 LP cost, 5% / 7% / 10% Entangle-on-hit effect and 2-turn duration are unchanged;",
+                "Added a regression unit test asserting every doctrine keeps at most 4 abilities per row."
+            ),
+        ),
+        version(
+            "1.3.17.3", "10/2/2026",
+            subpoints(
+                "Temple Doctrine Expansion — every doctrine gains a 7th ability node (new nodes never replace existing ones; all existing investments remain fully intact):",
+                "Doctrine of Affliction - Bloodletting (Capstone): basic attacks consume 5% / 10% / 15% Max HP (non-lethal, down to 1 HP) and inflict Bleed equal to the HP consumed on hit;",
+                "Doctrine of War - Titans Might (Capstone): converts 50% of Constitution into bonus Physical Damage;",
+                "Doctrine of Illusion - Evasive Riposte (Specialization): successfully dodging an attack counterattacks the attacker for 50% / 70% / 100% Physical Damage;",
+                "Doctrine of Control - Verdant Briars (Specialization, 1 LP/level): attacks have a 5% / 7% / 10% chance to Entangle the target for 2 turns — Entangled units cannot dodge, deal 20% less damage and take 2% max HP damage per turn;",
+                "Doctrine of Grace - Sympathetic Ward (Capstone): healing an ally also heals this unit for 20% / 35% / 50% of the amount healed;",
+                "Doctrine of Knowledge - Accelerated Mastery (Capstone): active skills have a 10% / 20% / 30% chance to instantly refund all mana when cast;",
+                "Doctrine of Ruin - Annihilation (Capstone): critical hits deal +30% / +60% / +90% bonus damage, but the unit takes 5% max HP recoil damage on crit and cannot lifesteal;",
+                "Doctrine of Fortitude - Armor Master (Specialization): increases the Defense and Magic Defense granted by equipped Armor by 20% / 35% / 50% (floored);",
+                "UI: doctrine ability cards use 4dp padding so 4-card rows fit compact screens, and ability rows scroll horizontally if a row exceeds 4 cards;",
+                "Saves: doctrines now persist the 7th and 8th ability slots (l7/l8) with full backward compatibility — legacy saves default them to 0; save tooling updated."
+            ),
+        ),
+        version(
             "1.3.17.2", "2/10/2026",
             subpoints(
                 "Temple Doctrine Rebalances:",

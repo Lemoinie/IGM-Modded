@@ -435,6 +435,10 @@ abstract class Adventurer : Entity() {
     override fun calculateTotalMagicDefense(): Int = calculateTotalStat(5)
 
     override fun calculateTotalLifesteal(): Int {
+        // Doctrine of Ruin - Annihilation: the critical powerhouse cannot lifesteal.
+        if (doctrine?.hasAnnihilation() == true) {
+            return 0
+        }
         var ls = 0
         val w = weapon
         if (w != null) {
@@ -758,6 +762,9 @@ abstract class Adventurer : Entity() {
             if (doc.petrifyOnHit() > 0) {
                 arrayList.add(StatusEffect(StatusEffectType.PETRIFY, this, 1, doc.petrifyOnHit().toDouble() * 0.01))
             }
+            if (doc.verdantBriarsChance() > 0) {
+                arrayList.add(StatusEffect(StatusEffectType.ENTANGLE, this, 2, doc.verdantBriarsChance().toDouble() * 0.01))
+            }
         }
         return arrayList
     }
@@ -855,6 +862,17 @@ abstract class Adventurer : Entity() {
                 3 -> i5 += equipment.getMaxHp() * mult
                 4 -> i5 += equipment.getDefense()
                 5 -> i5 += equipment.getMagicDefense()
+            }
+        }
+
+        // Doctrine of Fortitude - Armor Master: increases the Defense and Magic Defense
+        // granted by the equipped Armor piece by 20%/35%/50% (floored integer division).
+        val armorMasterPct = doc?.armorMasterPercent() ?: 0
+        val equippedArmor = armor
+        if (armorMasterPct > 0 && equippedArmor != null) {
+            when (i) {
+                4 -> i5 += (equippedArmor.getDefense() * armorMasterPct) / 100
+                5 -> i5 += (equippedArmor.getMagicDefense() * armorMasterPct) / 100
             }
         }
 

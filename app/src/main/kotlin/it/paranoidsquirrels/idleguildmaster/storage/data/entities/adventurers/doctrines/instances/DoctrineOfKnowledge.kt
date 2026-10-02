@@ -19,7 +19,8 @@ class DoctrineOfKnowledge : Doctrine() {
         DoctrineAbilityType.EXALTED_INTELLIGENCE,
         DoctrineAbilityType.EXALTED_HEALTH,
         DoctrineAbilityType.EXALTED_MANA,
-        DoctrineAbilityType.LORE_MASTER
+        DoctrineAbilityType.LORE_MASTER,
+        DoctrineAbilityType.ACCELERATED_MASTERY
     )
 
     override fun bonusQuestPoints(): Int = MainActivity.data.knowledgeLevel
@@ -29,4 +30,5 @@ class DoctrineOfKnowledge : Doctrine() {
     override fun bonusIntelligence(): Int = getValue(DoctrineAbilityType.EXALTED_INTELLIGENCE)
     override fun bonusManaRegen(): Int = getValue(DoctrineAbilityType.EXALTED_MANA)
     override fun doubleAccessoryStats(): Boolean = getValue(DoctrineAbilityType.LORE_MASTER) > 0
+    override fun acceleratedMasteryPercent(): Int = getValue(DoctrineAbilityType.ACCELERATED_MASTERY)
 }

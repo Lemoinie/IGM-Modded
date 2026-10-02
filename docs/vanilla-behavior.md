@@ -199,6 +199,29 @@ source tree (no injected patches). They are concentrated in a few places:
   items with an ultra-rare drop rate (< 1% drop chance, pet eggs, or raid uniques) are displayed
   with a **Radiant Gold** border (`rare_drop_border_gold.xml`) and warm luminous gold background.
   Standard warehouse storage (`DialogStorage`) preserves vanilla item borders and background.
+- **Temple Doctrine Expansion (v1.3.17.3)** — every one of the 8 Temple Doctrines gains a 7th
+  ability node (new nodes never replace existing ones, so all player investments persist):
+  Affliction **Bloodletting** (basic attacks consume 5%/10%/15% Max HP, non-lethal down to 1 HP,
+  and inflict Bleed equal to the HP consumed), War **Titans Might** (converts 50% of Constitution
+  into bonus Physical Damage on non-magic attacks), Illusion **Evasive Riposte** (successfully
+  dodging an attack counterattacks the attacker for 50%/70%/100% of a basic attack), Control
+  **Verdant Briars** (5%/7%/10% on-hit Entangle for 2 turns, 1 LP per level), Grace **Sympathetic
+  Ward** (healing an ally also heals this unit for 20%/35%/50% of the amount healed), Knowledge
+  **Accelerated Mastery** (10%/20%/30% chance to instantly refund all mana when an active skill is
+  cast), Ruin **Annihilation** (critical hits deal +30%/60%/90% bonus damage, 5% max-HP recoil on
+  crit — non-lethal — and the unit cannot lifesteal), Fortitude **Armor Master** (+20%/35%/50%
+  Defense and Magic Defense granted by equipped Armor, floored). The new **Entangle** status
+  (`status_effect_entangle`, using the `doctrine_ability_verdant_briars` sprite) roots its target:
+  Entangled units cannot dodge, deal 20% less damage, and take 2% of Max HP as damage per turn
+  (2-turn duration, negative + serialized so it survives save/load). Doctrines now persist the 7th
+  and 8th ability slots (`l7`/`l8`; legacy saves default them to `0` — see `DataDeserializer` and
+  `scripts/save/update_save.py`), and the doctrine dialog ability cards use 4dp padding so 4-card
+  rows fit compact screens. The ability rows remain plain horizontal LinearLayouts (the plan's
+  4-card-per-row limit); no doctrine exceeds 4 abilities per row — Verdant Briars sits in Doctrine
+  of Control's **Row 3** (Control is now rows 1 / 4 / 2).
+  *(v1.3.17.3 briefly wrapped the rows in horizontal ScrollViews, which silently crashed the
+  doctrine dialog on open — blocking choosing/opening doctrines; that change was reverted in
+  v1.3.17.4.)*
 - **Rank Traits Ascension Synergy (v1.3.17.1)** — in vanilla, `Dragon Blood` (1% physical/magical damage reduction per tier)
   and `Troll Blood` (0.5% max HP regen per tier) scaled solely with unit tier (`maxLevel / 5`), causing unascended
   high-tier adventurers (e.g. T9 Wyrm Rider with 9% DR / 4.5% regen) to outperform newly ascended lower-tier

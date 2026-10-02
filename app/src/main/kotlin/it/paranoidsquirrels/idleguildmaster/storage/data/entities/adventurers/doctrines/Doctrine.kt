@@ -6,11 +6,16 @@ abstract class Doctrine {
 
         @JvmStatic
         fun getInstance(str: String?): Doctrine? {
-            return getInstance(str, 0, 0, 0, 0, 0, 0)
+            return getInstance(str, 0, 0, 0, 0, 0, 0, 0, 0)
         }
 
         @JvmStatic
         fun getInstance(str: String?, i: Int, i2: Int, i3: Int, i4: Int, i5: Int, i6: Int): Doctrine? {
+            return getInstance(str, i, i2, i3, i4, i5, i6, 0, 0)
+        }
+
+        @JvmStatic
+        fun getInstance(str: String?, i: Int, i2: Int, i3: Int, i4: Int, i5: Int, i6: Int, i7: Int, i8: Int): Doctrine? {
             if (str == null) return null
             try {
                 val clazz = Class.forName(String.format(CLASS_PATH, str))
@@ -22,6 +27,8 @@ abstract class Doctrine {
                 doctrine.l4 = i4
                 doctrine.l5 = i5
                 doctrine.l6 = i6
+                doctrine.l7 = i7
+                doctrine.l8 = i8
                 doctrine.setupValues()
                 for ((idx, abilityType) in doctrine.setupAbilities().withIndex()) {
                     doctrine.setupAbility(abilityType, idx)
@@ -60,6 +67,8 @@ abstract class Doctrine {
     @JvmField var l4: Int = 0
     @JvmField var l5: Int = 0
     @JvmField var l6: Int = 0
+    @JvmField var l7: Int = 0
+    @JvmField var l8: Int = 0
     @JvmField var trueClass: String? = null
 
     open fun addsDefensesToRetaliate(): Boolean = false
@@ -100,6 +109,17 @@ abstract class Doctrine {
     open fun reduceCriticalBonusDamage(): Int = 0
     open fun rollDamageThreeTimes(): Boolean = false
 
+    // ---- Doctrine Expansion (7th node per doctrine, v1.3.17.3) ----
+    open fun bloodlettingPercent(): Int = 0
+    open fun constitutionDamageConversion(): Int = 0
+    open fun evasiveRipostePercent(): Int = 0
+    open fun verdantBriarsChance(): Int = 0
+    open fun sympatheticWardPercent(): Int = 0
+    open fun acceleratedMasteryPercent(): Int = 0
+    open fun annihilationCritDamageBonus(): Int = 0
+    open fun hasAnnihilation(): Boolean = false
+    open fun armorMasterPercent(): Int = 0
+
     protected abstract fun setupAbilities(): List<DoctrineAbilityType>
     protected abstract fun setupValues()
 
@@ -111,6 +131,8 @@ abstract class Doctrine {
             3 -> l4
             4 -> l5
             5 -> l6
+            6 -> l7
+            7 -> l8
             else -> 0
         }
         abilities.add(DoctrineAbility(doctrineAbilityType, level))
@@ -125,6 +147,8 @@ abstract class Doctrine {
                 3 -> l4 = doctrineAbility.level
                 4 -> l5 = doctrineAbility.level
                 5 -> l6 = doctrineAbility.level
+                6 -> l7 = doctrineAbility.level
+                7 -> l8 = doctrineAbility.level
             }
         }
     }
@@ -132,6 +156,12 @@ abstract class Doctrine {
     protected fun getValue(doctrineAbilityType: DoctrineAbilityType): Int {
         val idx = abilities.indexOf(DoctrineAbility(doctrineAbilityType, 0))
         return if (idx >= 0) abilities[idx].getValue() else 0
+    }
+
+    /** Raw ability level (used by nodes whose effect values are non-linear per level). */
+    protected fun getLevel(doctrineAbilityType: DoctrineAbilityType): Int {
+        val idx = abilities.indexOf(DoctrineAbility(doctrineAbilityType, 0))
+        return if (idx >= 0) abilities[idx].level else 0
     }
 
     fun getIdImage(): Int = idImage

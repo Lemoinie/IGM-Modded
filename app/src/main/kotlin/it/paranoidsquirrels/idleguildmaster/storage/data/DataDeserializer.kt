@@ -583,7 +583,9 @@ this.data.theTower = getArea(TheTower::class.java, asJsonObject, "theTower")
                 jsonObject.get("l3").asInt,
                 jsonObject.get("l4").asInt,
                 jsonObject.get("l5").asInt,
-                jsonObject.get("l6").asInt
+                jsonObject.get("l6").asInt,
+                if (jsonObject.has("l7")) jsonObject.get("l7").asInt else 0,
+                if (jsonObject.has("l8")) jsonObject.get("l8").asInt else 0
             )
         } catch (unused: Exception) {
             null

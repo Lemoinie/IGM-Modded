@@ -19,7 +19,8 @@ class DoctrineOfControl : Doctrine() {
         DoctrineAbilityType.MIND_BENDER,
         DoctrineAbilityType.CHILLING_FLOW,
         DoctrineAbilityType.STAR_GAZE,
-        DoctrineAbilityType.ARCANE_SUPPRESSION
+        DoctrineAbilityType.ARCANE_SUPPRESSION,
+        DoctrineAbilityType.VERDANT_BRIARS
     )
 
     override fun bonusQuestPoints(): Int = MainActivity.data.controlLevel
@@ -29,4 +30,10 @@ class DoctrineOfControl : Doctrine() {
     override fun freezeOnHit(): Int = getValue(DoctrineAbilityType.CHILLING_FLOW)
     override fun petrifyOnHit(): Int = getValue(DoctrineAbilityType.STAR_GAZE)
     override fun damagePerTurnPerStatus(): Int = getValue(DoctrineAbilityType.ARCANE_SUPPRESSION)
+    override fun verdantBriarsChance(): Int = when (getLevel(DoctrineAbilityType.VERDANT_BRIARS)) {
+        1 -> 5
+        2 -> 7
+        3 -> 10
+        else -> 0
+    }
 }

@@ -19,7 +19,8 @@ class DoctrineOfWar : Doctrine() {
         DoctrineAbilityType.CONDITIONED_REFLEXES,
         DoctrineAbilityType.TACTICAL_KNOWLEDGE,
         DoctrineAbilityType.RELENTLESS_ASSAULT,
-        DoctrineAbilityType.WEAPON_MASTER
+        DoctrineAbilityType.WEAPON_MASTER,
+        DoctrineAbilityType.TITANS_MIGHT
     )
 
     override fun bonusQuestPoints(): Int = MainActivity.data.warLevel
@@ -29,4 +30,5 @@ class DoctrineOfWar : Doctrine() {
     override fun ignoreArmorPercentage(): Int = getValue(DoctrineAbilityType.TACTICAL_KNOWLEDGE)
     override fun forcesCounterattack(): Boolean = getValue(DoctrineAbilityType.RELENTLESS_ASSAULT) > 0
     override fun canUseAllWeapons(): Boolean = getValue(DoctrineAbilityType.WEAPON_MASTER) > 0
+    override fun constitutionDamageConversion(): Int = getValue(DoctrineAbilityType.TITANS_MIGHT)
 }

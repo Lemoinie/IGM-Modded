@@ -32,6 +32,8 @@ object Logger {
     const val SINISTER_CURSE_REANIMATE = 131
     const val AUTO_RAID_DISPATCH = 132
     const val AUTO_RAID_STOPPED = 133
+    const val STATUS_ENTANGLED = 134
+    const val ACCELERATED_MASTERY_REFUND = 135
     const val BOTCHED_OFFERING = 115
     private const val COLOR_FORMAT = "<font color=%s><strong>%s</strong></font>"
     const val DARKNESS_DESCRIPTION = 1
@@ -272,7 +274,7 @@ object Logger {
                     strWrap = String.format(string8, strWrap10, strWrap11, wrap(turnsLeft2, red5))
                     }
                 }
-                17, 19 -> {
+                17, 19, 134 -> {
                     if (zIsSettingVerboseLogs) {
                     entity2 = objArr[0] as Entity
                     statusEffect2 = objArr[1] as StatusEffect
@@ -542,6 +544,18 @@ object Logger {
                     if (zIsSettingVerboseLogs) {
                     val entity30 = objArr[0] as Entity
                     strWrap = String.format(RESOURCES!!.getString(R.string.log_regeneration), wrap(RESOURCES!!.getString(entity30.idName), (if (entity30 is Enemy) getRed() else GREEN)), wrap((objArr[1] as Number).toInt(), GREEN))
+                    }
+                }
+                135 -> {
+                    if (zIsSettingVerboseLogs) {
+                    val entityAccel = objArr[0] as Entity
+                    val nameAccel = RESOURCES!!.getString(entityAccel.idName)
+                    if (entityAccel is Enemy) {
+                    red5 = getRed()
+                    } else {
+                    red5 = GREEN
+                    }
+                    strWrap = wrap(String.format(RESOURCES!!.getString(R.string.log_accelerated_mastery), wrap(nameAccel, red5)), YELLOW)
                     }
                 }
                 50 -> {

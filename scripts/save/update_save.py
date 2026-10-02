@@ -44,6 +44,8 @@ empty_doctrine = {
     "l4": 0,
     "l5": 0,
     "l6": 0,
+    "l7": 0,
+    "l8": 0,
     "trueClass": "EmptyDoctrine"
 }
 

@@ -1337,6 +1337,22 @@ FREEZE: This unit can't dodge and takes 10 physical damage each turn."</string>
     <string name="doctrine_ability_genus_vampyri_description">Lifesteal can overheal, granting a shield of up to %s the max HP value.</string>
     <string name="doctrine_ability_genus_vampyri_name">Genus Vampyri</string>
     <string name="doctrine_ability_healing_nova_description">On every enemy death, heal every ally by %s of their missing health.</string>
+    <string name="doctrine_ability_bloodletting_name">Bloodletting</string>
+    <string name="doctrine_ability_bloodletting_description">Basic attacks consume %s of Max HP (non-lethal), inflicting Bleed equal to the HP consumed.</string>
+    <string name="doctrine_ability_titans_might_name">Titans Might</string>
+    <string name="doctrine_ability_titans_might_description" formatted="false">Converts 50% of Constitution into bonus Physical Damage.</string>
+    <string name="doctrine_ability_evasive_riposte_name">Evasive Riposte</string>
+    <string name="doctrine_ability_evasive_riposte_description" formatted="false">Upon successfully dodging an attack, counterattacks the attacker for 50% / 70% / 100% Physical Damage of a basic attack.</string>
+    <string name="doctrine_ability_verdant_briars_name">Verdant Briars</string>
+    <string name="doctrine_ability_verdant_briars_description" formatted="false">Attacks have a 5% / 7% / 10% chance to Entangle the target for 2 turns.</string>
+    <string name="doctrine_ability_sympathetic_ward_name">Sympathetic Ward</string>
+    <string name="doctrine_ability_sympathetic_ward_description" formatted="false">Healing an ally also heals this unit for 20% / 35% / 50% of the amount healed.</string>
+    <string name="doctrine_ability_accelerated_mastery_name">Accelerated Mastery</string>
+    <string name="doctrine_ability_accelerated_mastery_description">Active skills have a %s chance to instantly refund all mana when cast.</string>
+    <string name="doctrine_ability_annihilation_name">Annihilation</string>
+    <string name="doctrine_ability_annihilation_description">Critical hits deal +%s bonus damage, but the unit takes 5%% max HP recoil damage and cannot lifesteal.</string>
+    <string name="doctrine_ability_armor_master_name">Armor Master</string>
+    <string name="doctrine_ability_armor_master_description" formatted="false">Increases the Defense and Magic Defense granted by equipped Armor by 20% / 35% / 50%.</string>
     <string name="doctrine_ability_healing_nova_name">Healing Nova</string>
     <string name="doctrine_ability_impenetrable_willpower_description">Status immunity %s.</string>
     <string name="doctrine_ability_impenetrable_willpower_name">Impenetrable Willpower</string>
@@ -4164,6 +4180,7 @@ I apologize for the inconvenience."</string>
     <string name="status_effect_taunt_description">taunted</string>
     <string name="status_effect_terrify">Terrify</string>
     <string name="status_effect_terrify_description">terrified</string>
+    <string name="log_accelerated_mastery">Accelerated Mastery refunded %s\'s mana!</string>
     <string name="status_immunity_formatted">Status immunity: %d%%</string>
     <string name="summoned_bone_horror_description">A reanimated bone horror. It feels no pain, so physical damage is less effective.</string>
     <string name="summoned_bone_horror_name">Bone Horror</string>

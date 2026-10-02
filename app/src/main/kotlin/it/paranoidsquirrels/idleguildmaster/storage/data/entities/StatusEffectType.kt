@@ -40,5 +40,6 @@ enum class StatusEffectType(
     RADIANT_BLESSING(R.string.status_effect_radiant_blessing, R.string.status_effect_radiant_blessing_description, R.drawable.icon_effect_radiant_blessing, false, false),
     SOLAR_REBIRTH(R.string.status_effect_solar_rebirth, R.string.status_effect_solar_rebirth_description, R.drawable.icon_effect_solar_rebirth, false, false),
     SANGUINE_FERVOR(R.string.status_effect_sanguine_fervor_name, R.string.status_effect_sanguine_fervor_log_description, R.drawable.icon_effect_sanguine_fervor, false, false),
-    SINISTER_CURSE(R.string.status_effect_sinister_curse_name, R.string.status_effect_sinister_curse_description, R.drawable.icon_effect_sinister_curse, true, false)
+    SINISTER_CURSE(R.string.status_effect_sinister_curse_name, R.string.status_effect_sinister_curse_description, R.drawable.icon_effect_sinister_curse, true, false),
+    ENTANGLE(R.string.status_effect_entangle, R.string.status_effect_entangle_description, R.drawable.doctrine_ability_verdant_briars, true, true)
 }

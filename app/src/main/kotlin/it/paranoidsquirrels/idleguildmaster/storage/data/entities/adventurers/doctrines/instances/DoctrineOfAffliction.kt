@@ -19,7 +19,8 @@ class DoctrineOfAffliction : Doctrine() {
         DoctrineAbilityType.NECROSIS_PORPHYRICA,
         DoctrineAbilityType.SERVUS_SANGUINIS,
         DoctrineAbilityType.SERVUS_UMBRAE,
-        DoctrineAbilityType.GENUS_VAMPYRI
+        DoctrineAbilityType.GENUS_VAMPYRI,
+        DoctrineAbilityType.BLOODLETTING
     )
 
     override fun bonusQuestPoints(): Int = MainActivity.data.afflictionLevel
@@ -29,4 +30,5 @@ class DoctrineOfAffliction : Doctrine() {
     override fun bonusLifesteal(): Int = getValue(DoctrineAbilityType.SERVUS_SANGUINIS)
     override fun darknessDamageIncrease(): Int = getValue(DoctrineAbilityType.SERVUS_UMBRAE)
     override fun maxLifestealOverheal(): Int = getValue(DoctrineAbilityType.GENUS_VAMPYRI)
+    override fun bloodlettingPercent(): Int = getValue(DoctrineAbilityType.BLOODLETTING)
 }

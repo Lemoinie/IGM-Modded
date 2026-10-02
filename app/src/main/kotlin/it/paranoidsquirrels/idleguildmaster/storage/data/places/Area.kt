@@ -933,6 +933,16 @@ abstract class Area {
         val listSelectTargets: List<Entity>?
         if (if (iResolveStatus != 1) increaseMana(curActing) else false) {
             listSelectTargets = cast(curActing)
+            // Doctrine of Knowledge - Accelerated Mastery: active skills have a chance to
+            // instantly refund all mana when cast.
+            val casterAdv = curActing as? Adventurer
+            if (casterAdv != null) {
+                val masteryPct = casterAdv.doctrine?.acceleratedMasteryPercent() ?: 0
+                if (masteryPct > 0 && Utils.random() < masteryPct * 0.01) {
+                    casterAdv.currentMana = Entity.MAX_MANA
+                    Logger.log(this, Logger.ACCELERATED_MASTERY_REFUND, casterAdv)
+                }
+            }
         } else if (curActing.isHealer()) {
             listSelectTargets = selectTargets(curActing, TARGET_LOWEST_RELATIVE_ALLY)
             if (listSelectTargets == null) {
@@ -1343,6 +1353,20 @@ abstract class Area {
                         i4 = 2
                     }
 
+                    StatusEffectType.ENTANGLE -> {
+                        // Rooted in briars: 2% max HP damage per turn.
+                        val petEntangle = this.petExploring
+                        val barrierEntangle = if (petEntangle == null || !z3) 0 else petEntangle.barrier
+                        val iEntangleDamage = entity.applyDamage(
+                            Utils.round(iCalculateTotalMaxHp.toDouble() * 0.02).toDouble(), true, barrierEntangle, 0.0
+                        )
+                        if (!z3) {
+                            QuestsManager.increment(QuestsManager.slowBurn, iEntangleDamage.toLong())
+                        }
+                        Logger.log(this, Logger.STATUS_ENTANGLED, entity, statusEffect, iEntangleDamage)
+                        z4 = true
+                    }
+
                     StatusEffectType.REGENERATION -> {
                         if (!entity.hasBloodflame()) {
                             val cause3 = statusEffect.cause
@@ -1459,7 +1483,7 @@ abstract class Area {
             Logger.log(this, 45, entity, entity2)
             return true
         }
-        if (entity.isAlwaysHits() || entity2.negativeStatusEffects.contains(StatusEffect.STATIC_INSTANCE_FROZEN)) {
+        if (entity.isAlwaysHits() || entity2.negativeStatusEffects.contains(StatusEffect.STATIC_INSTANCE_FROZEN) || entity2.negativeStatusEffects.any { it.type == StatusEffectType.ENTANGLE }) {
             dMax = 1.0
         } else {
             val stat1 = if (entity.isMagic()) entity.calculateTotalIntelligence()
@@ -1532,6 +1556,24 @@ abstract class Area {
                     Utils.round(iCalculateTotalMaxHp.toDouble() * 0.01 * entity.getMaxOverheal().toDouble())
                 entity2.currentShield =
                     Math.max(entity2.currentShield, Math.min(entity2.currentShield + Math.max(0, i2), overhealCap))
+            }
+        }
+        // Doctrine of Grace - Sympathetic Ward: healing an ally also heals this unit for
+        // 20%/35%/50% of the amount healed (does not proc on self-heals).
+        val wardPct = (entity as? Adventurer)?.doctrine?.sympatheticWardPercent() ?: 0
+        if (wardPct > 0 && entity2 !== entity) {
+            val wardHealed = Math.max(0, entity2.currentHp - currentHp)
+            if (wardHealed > 0) {
+                val wardSelfHeal = Utils.round(wardHealed.toDouble() * wardPct * 0.01)
+                if (wardSelfHeal > 0 && entity.currentHp > 0) {
+                    val wardMaxHp = entity.calculateTotalMaxHp()
+                    val wardBefore = entity.currentHp
+                    entity.currentHp = Math.min(wardMaxHp, wardBefore + wardSelfHeal)
+                    if (z2) {
+                        QuestsManager.increment(QuestsManager.medic, (entity.currentHp - wardBefore).toLong())
+                    }
+                    Logger.log(this, 24, 0, entity, entity, wardSelfHeal)
+                }
             }
         }
         val logTier = if (z) 2 else if (dCalculateCriticalMultiplier > 1.0) 1 else 0
@@ -2452,6 +2494,17 @@ abstract class Area {
             if (z5) {
                 QuestsManager.increment(QuestsManager.hitOrMiss, 1L)
             }
+            // Doctrine of Illusion - Evasive Riposte: a successful dodge triggers a
+            // physical counterattack against the attacker (50%/70%/100% of a basic attack).
+            val ripostePct = (entity2 as? Adventurer)?.doctrine?.evasiveRipostePercent() ?: 0
+            if (ripostePct > 0 && entity.currentHp > 0) {
+                val riposteDamage = Utils.round(entity2.rollAttackDamage() * ripostePct * 0.01)
+                if (riposteDamage > 0) {
+                    val riposteDealt = entity.applyDamage(riposteDamage.toDouble(), false, 0, 0.0)
+                    Logger.log(this, Logger.RETALIATION_DAMAGE, entity, riposteDealt)
+                    checkDeath(entity)
+                }
+            }
             return
         }
 
@@ -2478,6 +2531,23 @@ abstract class Area {
             Logger.log(this, 10, entity2, statusEffect.type)
             retaliate(entity, entity2, zBooleanValue, iDamageOnFalseLifeRemoval)
             return
+        }
+
+        // Doctrine of Affliction - Bloodletting: basic attacks consume a % of Max HP
+        // (non-lethal, down to 1 HP) and inflict Bleed equal to the HP consumed on hit.
+        val bloodlettingPct = (entity as? Adventurer)?.doctrine?.bloodlettingPercent() ?: 0
+        if (bloodlettingPct > 0 && z6) {
+            val maxHpBlood = entity.calculateTotalMaxHp()
+            val hpCost = Utils.round(maxHpBlood.toDouble() * bloodlettingPct * 0.01)
+            val actualCost = minOf(hpCost, maxOf(0, entity.currentHp - 1))
+            if (actualCost > 0) {
+                entity.currentHp -= actualCost
+                applyStatus(
+                    entity2,
+                    StatusEffect(StatusEffectType.BLEED, entity, actualCost, 1.0),
+                    entity.calculateIgnoreImmunityToStatus() * 0.01
+                )
+            }
         }
 
         val flatDamage = endOfTurnAction != null && endOfTurnAction.flatDamage
@@ -2516,6 +2586,19 @@ abstract class Area {
             z4 && pet2 != null && dCalculateCriticalMultiplier > 1.0 && pet2.getSavage() > 0.0 && Utils.random() < pet2.getSavage() / 100.0
         if (isSuperCrit) {
             dCalculateCriticalMultiplier *= dCalculateCriticalMultiplier
+        }
+        // Doctrine of Ruin - Annihilation: critical hits gain +30%/+60%/+90% bonus damage,
+        // but the unit takes 5% max HP recoil damage (non-lethal) and cannot lifesteal.
+        if (z4 && dCalculateCriticalMultiplier > 1.0) {
+            val annihilationPct = (entity as? Adventurer)?.doctrine?.annihilationCritDamageBonus() ?: 0
+            if (annihilationPct > 0) {
+                dCalculateCriticalMultiplier += annihilationPct * 0.01
+                val annihilationRecoil = (entity.calculateTotalMaxHp() * 0.05).toInt()
+                if (annihilationRecoil > 0) {
+                    entity.currentHp = Math.max(1, entity.currentHp - annihilationRecoil)
+                    Logger.log(this, 33, R.string.log_damage_dealt, 0, entity, entity, annihilationRecoil)
+                }
+            }
         }
 
         val dCalculateTotalDarknessDamageAmplification =
@@ -2565,6 +2648,14 @@ abstract class Area {
         if (endOfTurnAction == EndOfTurnAction.EXTRA_ATTACK_HP_TO_DAMAGE) {
             dRollAttackDamage = entity.currentHp.toDouble()
         }
+        // Doctrine of War - Titans Might: converts 50% of Constitution into bonus Physical
+        // Damage on physical (non-magic) attacks.
+        if (!zIsMagic) {
+            val titansMightPct = (entity as? Adventurer)?.doctrine?.constitutionDamageConversion() ?: 0
+            if (titansMightPct > 0) {
+                dRollAttackDamage += entity.calculateTotalConstitution().toDouble() * titansMightPct * 0.01
+            }
+        }
 
         val pet = this.petExploring
         val barrier = if (pet != null && z5) pet.barrier else 0
@@ -2576,7 +2667,8 @@ abstract class Area {
         }
 
         val rawDamage = (dRollAttackDamage * dCalculateCriticalMultiplier * livingCompanionBonusDamage *
-                dCalculateTotalDarknessDamageAmplification * statusDamageMultiplier * dMagicDamageAmplification)
+                dCalculateTotalDarknessDamageAmplification * statusDamageMultiplier * dMagicDamageAmplification) *
+            (if (entity.negativeStatusEffects.any { it.type == StatusEffectType.ENTANGLE }) 0.8 else 1.0)
 
         // Angel of War branch: same-row AoE interception (Shared Burden). When an enemy
         // performs an AoE attack against an adventurer, all alive branch units in the same
