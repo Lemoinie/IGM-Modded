@@ -1890,6 +1890,8 @@ Epic Raids are like regular Raids, with the following differences:
     <string name="food_pasta_name">Pasta</string>
     <string name="food_pasta_with_sauce_description">Long spaghetti derived from grains, a common food found in many towns and villages, coated in a bright red sauce.</string>
     <string name="food_pasta_with_sauce_name">Pasta with Sauce</string>
+    <string name="food_pastel_de_belem_description">A traditional Portuguese custard tart in a crisp, flaky puff pastry, lightly dusted with cinnamon and sugar. A beloved delicacy that pets find irresistible.</string>
+    <string name="food_pastel_de_belem_name">Pastel de Belém</string>
     <string name="food_pear_description">With a smooth yellow skin, their flesh is soft, juicy, and sweet with a grainy texture that will melt in the mouth.</string>
     <string name="food_pear_name">Pear</string>
     <string name="food_pear_pie_description">A buttery, golden crust holds a soft, sweet pear filling. The pears are tender and juicy, with a delicate sweetness and subtle spiced aroma.</string>

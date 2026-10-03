@@ -50,7 +50,13 @@ class DialogRedeemCode : CustomDialog() {
     private fun redeem(rawInput: String) {
         val modMsg = RedeemCodes.process(rawInput, context)
         if (modMsg != null) {
-            displayMessage(modMsg, true)
+            val isSuccess = !modMsg.contains("already redeemed", ignoreCase = true) &&
+                    !modMsg.contains("Cannot", ignoreCase = true) &&
+                    !modMsg.contains("Invalid", ignoreCase = true) &&
+                    !modMsg.contains("Dev commands", ignoreCase = true) &&
+                    !modMsg.contains("Failed", ignoreCase = true) &&
+                    !modMsg.contains("Unable", ignoreCase = true)
+            displayMessage(modMsg, isSuccess)
             clearInput()
             return
         }

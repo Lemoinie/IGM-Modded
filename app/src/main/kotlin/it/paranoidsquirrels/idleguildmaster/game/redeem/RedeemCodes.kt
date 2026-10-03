@@ -35,6 +35,8 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.quests.QuestsManager
  * - `HERO <Class> [level] [trait] [trait]` – create an adventurer
  * - `PET <Class> [level]`    – add a pet to the shelter
  * - `TAVERN [count]`        – force new visitors into the Tavern (defaults to the current tavern capacity)
+ * - `MIGUELDP`              – grant 1x Elixir of Learning (one-time normal code)
+ * - `DISCORD100MEMBER`      – grant 100x Pastel de Belém (Food: 1000 Pet XP, one-time normal code)
  */
 object RedeemCodes {
 
@@ -129,6 +131,40 @@ object RedeemCodes {
                 MainActivity.headquartersFragment?.refresh()
                 FileManager.saveNow(context)
                 "Evolution Vial set granted (Evo-20/21/22/23/24)!"
+            } catch (e: Exception) {
+                "Unable to grant this code"
+            }
+        }
+        // One-time code: 1x Elixir of Learning
+        if (upper == "MIGUELDP") {
+            return try {
+                val d = MainActivity.data ?: return null
+                if (d.isRedeemed_migueldp) {
+                    return "Code already redeemed!"
+                }
+                Item.getInstance("ElixirOfLearning", 1)?.let { Utils.collectItem(it, d.items) }
+                d.isRedeemed_migueldp = true
+                MainActivity.shownDialogStorage?.update()
+                MainActivity.headquartersFragment?.refresh()
+                FileManager.saveNow(context)
+                "1x Elixir of Learning granted!"
+            } catch (e: Exception) {
+                "Unable to grant this code"
+            }
+        }
+        // One-time code: 100x Pastel de Belém (Food: 1000 Pet XP)
+        if (upper == "DISCORD100MEMBER") {
+            return try {
+                val d = MainActivity.data ?: return null
+                if (d.isRedeemed_discord100member) {
+                    return "Code already redeemed!"
+                }
+                Item.getInstance("PastelDeBelem", 100)?.let { Utils.collectItem(it, d.items) }
+                d.isRedeemed_discord100member = true
+                MainActivity.shownDialogStorage?.update()
+                MainActivity.headquartersFragment?.refresh()
+                FileManager.saveNow(context)
+                "100x Pastel de Belém granted!"
             } catch (e: Exception) {
                 "Unable to grant this code"
             }

@@ -417,6 +417,10 @@ class Data {
     var isRedeemed_z3gaazrt: Boolean = false
     @SerializedName("redeemed_5pji5nvk")
     var isRedeemed_5pji5nvk: Boolean = false
+    @SerializedName("redeemed_migueldp")
+    var isRedeemed_migueldp: Boolean = false
+    @SerializedName("redeemed_discord100member")
+    var isRedeemed_discord100member: Boolean = false
 
     init {
         messagesToShow.add(KingMessage.MESSAGE_1)

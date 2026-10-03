@@ -1,7 +1,10 @@
 package it.paranoidsquirrels.idleguildmaster
 
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import it.paranoidsquirrels.idleguildmaster.game.redeem.RedeemCodes
 import it.paranoidsquirrels.idleguildmaster.storage.data.Data
+import it.paranoidsquirrels.idleguildmaster.storage.data.DataDeserializer
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.EndOfTurnAction
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.Entity
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.Skills
@@ -22,6 +25,7 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.items.Recipes
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Sword
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Axe
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Bow
+import it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Food
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.instances.*
 import it.paranoidsquirrels.idleguildmaster.storage.data.pets.Pet
 import it.paranoidsquirrels.idleguildmaster.storage.data.pets.PetAbility
@@ -1102,6 +1106,79 @@ class ModFeaturesTest {
         assertNotNull(second)
         assertTrue("Second redeem must be blocked", second!!.contains("already", ignoreCase = true))
         assertEquals(1, MainActivity.data.pets.count { it.trueClass.equals("Kitsune", true) || it.trueClass.equals("Semi", true) || it.trueClass.equals("Senko", true) })
+    }
+
+    @Test
+    fun testRedeemMigueldpGrantsElixirOfLearning() {
+        MainActivity.data.isRedeemed_migueldp = false
+        val initialCount = MainActivity.data.items.firstOrNull { it.getTrueClass() == "ElixirOfLearning" }?.getStack() ?: 0
+
+        assertFalse("migueldp must not be a dev code", RedeemCodes.isDevCode("migueldp"))
+
+        val first = RedeemCodes.process("migueldp", null)
+        assertNotNull("First redeem must return a message", first)
+        assertTrue("Message must indicate Elixir of Learning was granted", first!!.contains("Elixir of Learning", ignoreCase = true))
+        assertTrue("isRedeemed_migueldp flag must be set", MainActivity.data.isRedeemed_migueldp)
+
+        val newCount = MainActivity.data.items.firstOrNull { it.getTrueClass() == "ElixirOfLearning" }?.getStack() ?: 0
+        assertEquals("Should have 1 more Elixir of Learning", initialCount + 1, newCount)
+
+        // Case-insensitive second redeem attempt must be rejected
+        val second = RedeemCodes.process("MIGUELDP", null)
+        assertNotNull(second)
+        assertTrue("Second redeem must be blocked", second!!.contains("already", ignoreCase = true))
+
+        val finalCount = MainActivity.data.items.firstOrNull { it.getTrueClass() == "ElixirOfLearning" }?.getStack() ?: 0
+        assertEquals("Count must not increase on second attempt", initialCount + 1, finalCount)
+    }
+
+    @Test
+    fun testRedeemDiscord100MemberGrantsPastelDeBelem() {
+        MainActivity.data.isRedeemed_discord100member = false
+        val initialCount = MainActivity.data.items.firstOrNull { it.getTrueClass() == "PastelDeBelem" }?.getStack() ?: 0
+
+        assertFalse("discord100member must not be a dev code", RedeemCodes.isDevCode("discord100member"))
+
+        val first = RedeemCodes.process("discord100member", null)
+        assertNotNull("First redeem must return a message", first)
+        assertTrue("Message must indicate Pastel de Belém was granted", first!!.contains("Pastel de Belém", ignoreCase = true) || first.contains("Pastel", ignoreCase = true))
+        assertTrue("isRedeemed_discord100member flag must be set", MainActivity.data.isRedeemed_discord100member)
+
+        val newCount = MainActivity.data.items.firstOrNull { it.getTrueClass() == "PastelDeBelem" }?.getStack() ?: 0
+        assertEquals("Should have 100 more Pastel de Belém", initialCount + 100, newCount)
+
+        // Case-insensitive second redeem attempt must be rejected
+        val second = RedeemCodes.process("DISCORD100MEMBER", null)
+        assertNotNull(second)
+        assertTrue("Second redeem must be blocked", second!!.contains("already", ignoreCase = true))
+
+        val finalCount = MainActivity.data.items.firstOrNull { it.getTrueClass() == "PastelDeBelem" }?.getStack() ?: 0
+        assertEquals("Count must not increase on second attempt", initialCount + 100, finalCount)
+    }
+
+    @Test
+    fun testPastelDeBelemFoodProperties() {
+        val food = Item.getInstance("PastelDeBelem", 100) as? Food
+        assertNotNull("PastelDeBelem must instantiate via reflection", food)
+        assertEquals("Must grant 1000 feed pet xp", 1000, food!!.getFeedPower())
+        assertEquals("Stack count must match", 100, food.getStack())
+        assertEquals("Class name must match", "PastelDeBelem", food.getTrueClass())
+    }
+
+    @Test
+    fun testRedeemFlagsSaveRoundTrip() {
+        val data = Data().apply {
+            isRedeemed_migueldp = true
+            isRedeemed_discord100member = true
+        }
+        val gson = GsonBuilder()
+            .registerTypeAdapter(Data::class.java, DataDeserializer())
+            .create()
+        val json = Gson().toJson(data)
+        val loaded = gson.fromJson(json, Data::class.java)
+
+        assertTrue("redeemed_migueldp must survive save round trip", loaded.isRedeemed_migueldp)
+        assertTrue("redeemed_discord100member must survive save round trip", loaded.isRedeemed_discord100member)
     }
 
     @Test

@@ -164,6 +164,8 @@ class DataDeserializer : JsonDeserializer<Data> {
         this.data.isRedeemed_e44opo7z = asJsonObject.has("redeemed_e44opo7z") && asJsonObject.get("redeemed_e44opo7z").asBoolean
         this.data.isRedeemed_z3gaazrt = asJsonObject.has("redeemed_z3gaazrt") && asJsonObject.get("redeemed_z3gaazrt").asBoolean
         this.data.isRedeemed_5pji5nvk = asJsonObject.has("redeemed_5pji5nvk") && asJsonObject.get("redeemed_5pji5nvk").asBoolean
+        this.data.isRedeemed_migueldp = asJsonObject.has("redeemed_migueldp") && asJsonObject.get("redeemed_migueldp").asBoolean
+        this.data.isRedeemed_discord100member = asJsonObject.has("redeemed_discord100member") && asJsonObject.get("redeemed_discord100member").asBoolean
         if (asJsonObject.has("blackMarketStock")) {
         val itBlackMarket = asJsonObject.get("blackMarketStock").asJsonArray.iterator()
         while (itBlackMarket.hasNext()) {
