@@ -16,7 +16,18 @@ object ModChangelogActive {
 
     val ENTRIES: List<VersionEntry> = listOf(
         version(
-            "1.3.17.4", "10/2/2026",
+            "1.3.18.0", "3/10/2026",
+            subpoints(
+                "Defense & Magic Defense Rework — universal damage mitigation formula (DEF * 100) / (DEF + 50)%:",
+                "Replaced linear 1 DEF = 1% damage reduction with an asymptotic diminishing-returns curve: Damage Reduction = (DEF * 100) / (DEF + 50)%, applied universally to both adventurers and enemies;",
+                "Linear Effective HP: every 1 point of DEF/MDEF grants exactly +2% of Max HP as Effective HP across all levels (50 DEF = 50%, 100 DEF = 66.7%, 200 DEF = 80%), eliminating total invulnerability while ensuring every stat point remains valuable;",
+                "Armor Penetration & Bleed Shred: penetration and bleed shred reduce the target's effective DEF prior to the formula, preserving their role as potent anti-tank attributes;",
+                "Incorporeal Passive: Will-o'-the-Wisp explicitly reduces all physical damage taken to 1 (preserving its intended physical damage immunity under the universal formula);",
+                "UI: character sheet displays both raw DEF/MDEF values and their effective damage reduction percentages (e.g. 'Defense: 90 (64%)')."
+            ),
+        ),
+        version(
+            "1.3.17.4", "2/10/2026",
             subpoints(
                 "Fixed the doctrine dialog failing to open / choose doctrines (regression from 1.3.17.3's UI change):",
                 "Reverted the doctrine ability rows from horizontal ScrollViews back to the original (known-good) horizontal LinearLayouts — the ScrollView container silently crashed the dialog at open time, blocking both choosing a doctrine from the Temple list and opening a doctrine from the adventurer dialog;",
@@ -25,7 +36,7 @@ object ModChangelogActive {
             ),
         ),
         version(
-            "1.3.17.3", "10/2/2026",
+            "1.3.17.3", "2/10/2026",
             subpoints(
                 "Temple Doctrine Expansion — every doctrine gains a 7th ability node (new nodes never replace existing ones; all existing investments remain fully intact):",
                 "Doctrine of Affliction - Bloodletting (Capstone): basic attacks consume 5% / 10% / 15% Max HP (non-lethal, down to 1 HP) and inflict Bleed equal to the HP consumed on hit;",

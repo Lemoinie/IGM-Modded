@@ -2739,6 +2739,52 @@ class ModFeaturesTest {
             berRate in 0.02..0.04
         )
     }
+
+    @Test
+    fun testDefenseReworkFormulas() {
+        val dummy = Enemy.getInstance("Wolf")!!
+        dummy.currentHp = 999999
+        dummy.baseConstitution = 0 // 0 flat CON reduction so we isolate armor reduction exactly
+
+        // 1. 0 DEF -> 0% reduction -> 1000 damage
+        dummy.baseDefense = 0
+        assertEquals(1000, dummy.applyDamage(1000.0, false, 0, 0.0))
+
+        // 2. 10 DEF -> 10 / (10 + 50) = 16.6667% reduction -> 1000 * (1 - 10/60) = 833.33 -> 833
+        dummy.baseDefense = 10
+        assertEquals(833, dummy.applyDamage(1000.0, false, 0, 0.0))
+
+        // 3. 50 DEF -> 50 / (50 + 50) = 50.0% reduction -> 1000 * 0.5 = 500
+        dummy.baseDefense = 50
+        assertEquals(500, dummy.applyDamage(1000.0, false, 0, 0.0))
+
+        // 4. 100 DEF -> 100 / (100 + 50) = 66.6667% reduction -> 1000 * (1 - 100/150) = 333.33 -> 333
+        dummy.baseDefense = 100
+        assertEquals(333, dummy.applyDamage(1000.0, false, 0, 0.0))
+
+        // 5. 200 DEF -> 200 / (200 + 50) = 80.0% reduction -> 1000 * (1 - 200/250) = 200
+        dummy.baseDefense = 200
+        assertEquals(200, dummy.applyDamage(1000.0, false, 0, 0.0))
+
+        // 6. Magic Defense uses identical curve: 90 MDEF -> 90 / (90 + 50) = 64.2857% -> 1000 * (1 - 90/140) = 357
+        dummy.baseMagicDefense = 90
+        assertEquals(357, dummy.applyDamage(1000.0, true, 0, 0.0))
+
+        // 7. Armor penetration shreds effective DEF prior to formula:
+        // Target 100 DEF with 40% penetration (d2 = 0.4) -> effective DEF = 60 -> 60 / 110 = 54.545% -> 454 (Utils.round floors)
+        dummy.baseDefense = 100
+        assertEquals(454, dummy.applyDamage(1000.0, false, 0, 0.4))
+
+        // 8. Will-o'-the-Wisp with PASSIVE_INCORPOREAL:
+        val wisp = Enemy.getInstance("WillOWisp")!!
+        wisp.currentHp = 999999
+        wisp.baseConstitution = 0 // 0 flat CON reduction to isolate magic defense
+        assertEquals(Skills.PASSIVE_INCORPOREAL, wisp.passiveSkill)
+        // High physical damage is reduced to 1:
+        assertEquals(1, wisp.applyDamage(50000.0, false, 0, 0.0))
+        // Magic damage bypasses Incorporeal and applies wisp's 0 MDEF:
+        assertEquals(1000, wisp.applyDamage(1000.0, true, 0, 0.0))
+    }
 }
 
 

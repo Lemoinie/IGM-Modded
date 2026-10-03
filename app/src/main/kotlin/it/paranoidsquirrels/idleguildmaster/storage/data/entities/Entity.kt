@@ -189,8 +189,12 @@ abstract class Entity {
         }
         val maxDef = if (z) calculateTotalMagicDefense() else calculateTotalDefense()
         val bleedShred = Math.min(15.0, Math.floor(getBleedStacks().toDouble() * 0.1)) * 0.01
-        val armorFactor = Math.min(1.0, (1.0 - d2) * (1.0 - bleedShred) * 0.01 * maxDef.toDouble())
+        val effectiveDef = Math.max(0.0, maxDef.toDouble() * (1.0 - d2) * (1.0 - bleedShred))
+        val armorFactor = if (effectiveDef > 0.0) effectiveDef / (effectiveDef + 50.0) else 0.0
         var damageAfterArmor = (1.0 - armorFactor) * d
+        if (!z && passiveSkill == Skills.PASSIVE_INCORPOREAL) {
+            damageAfterArmor = 1.0
+        }
         if (this is Adventurer && traitRare == Trait.DRAGON_BLOOD) {
             val tier = maxLevel / 5
             val ascensionBonus = if (isAscended()) 9 else 0

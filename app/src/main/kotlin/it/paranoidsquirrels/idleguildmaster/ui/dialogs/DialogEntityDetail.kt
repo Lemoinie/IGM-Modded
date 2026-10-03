@@ -152,9 +152,12 @@ class DialogEntityDetail : CustomDialog() {
         b.detailMana.text = String.format(getString(R.string.mana_gain_formatted), e.calculateManaRegen())
         b.detailConstitution.text = String.format(getString(R.string.constitution_formatted), e.calculateTotalConstitution())
         b.detailDexterity.text = String.format(getString(R.string.dexterity_formatted), e.calculateTotalDexterity())
-        b.detailIntelligence.text = String.format(getString(R.string.intelligence_formatted), e.calculateTotalIntelligence())
-        b.detailDefense.text = String.format(getString(R.string.defense_formatted), e.calculateTotalDefense())
-        b.detailMagicDefense.text = String.format(getString(R.string.magic_defense_formatted), e.calculateTotalMagicDefense())
+        val def = e.calculateTotalDefense()
+        val defPct = if (def > 0) Utils.round((def.toDouble() * 100.0) / (def.toDouble() + 50.0)) else 0
+        b.detailDefense.text = "${String.format(getString(R.string.defense_formatted), def)} ($defPct%)"
+        val mDef = e.calculateTotalMagicDefense()
+        val mDefPct = if (mDef > 0) Utils.round((mDef.toDouble() * 100.0) / (mDef.toDouble() + 50.0)) else 0
+        b.detailMagicDefense.text = "${String.format(getString(R.string.magic_defense_formatted), mDef)} ($mDefPct%)"
         b.detailThreat.text = String.format(getString(R.string.threat_formatted), e.getThreat())
         b.detailDodge.text = String.format(getString(R.string.bonus_dodge_formatted), Utils.round(e.calculateTotalFlatDodgeChance() * 100.0))
         b.detailCritChance.text = String.format(getString(R.string.critical_chance_formatted), Utils.round(e.calculateCriticalChance() * 100.0))
