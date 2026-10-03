@@ -1559,7 +1559,7 @@ abstract class Area {
             }
         }
         // Doctrine of Grace - Sympathetic Ward: healing an ally also heals this unit for
-        // 20%/35%/50% of the amount healed (does not proc on self-heals).
+        // 10%/20%/30% of the amount healed (does not proc on self-heals).
         val wardPct = (entity as? Adventurer)?.doctrine?.sympatheticWardPercent() ?: 0
         if (wardPct > 0 && entity2 !== entity) {
             val wardHealed = Math.max(0, entity2.currentHp - currentHp)
@@ -2495,7 +2495,7 @@ abstract class Area {
                 QuestsManager.increment(QuestsManager.hitOrMiss, 1L)
             }
             // Doctrine of Illusion - Evasive Riposte: a successful dodge triggers a
-            // physical counterattack against the attacker (50%/70%/100% of a basic attack).
+            // physical counterattack against the attacker (50%/100%/150% of a basic attack).
             val ripostePct = (entity2 as? Adventurer)?.doctrine?.evasiveRipostePercent() ?: 0
             if (ripostePct > 0 && entity.currentHp > 0) {
                 val riposteDamage = Utils.round(entity2.rollAttackDamage() * ripostePct * 0.01)

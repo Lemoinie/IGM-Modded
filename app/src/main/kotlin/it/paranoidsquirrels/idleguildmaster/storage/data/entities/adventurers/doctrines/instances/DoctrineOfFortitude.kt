@@ -30,10 +30,5 @@ class DoctrineOfFortitude : Doctrine() {
     override fun bonusDefense(): Int = getValue(DoctrineAbilityType.TROLL_RESISTANCE)
     override fun bonusMagicDefense(): Int = getValue(DoctrineAbilityType.WARLOCK_RESILIENCE)
     override fun addsDefensesToRetaliate(): Boolean = getValue(DoctrineAbilityType.MIRROR_OF_ANGUISH) > 0
-    override fun armorMasterPercent(): Int = when (getLevel(DoctrineAbilityType.ARMOR_MASTER)) {
-        1 -> 20
-        2 -> 35
-        3 -> 50
-        else -> 0
-    }
+    override fun armorMasterPercent(): Int = getValue(DoctrineAbilityType.ARMOR_MASTER)
 }

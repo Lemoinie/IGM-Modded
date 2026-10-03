@@ -58,10 +58,10 @@ enum class DoctrineAbilityType(
     // ---- Doctrine Expansion (v1.3.17.3) ----
     BLOODLETTING(R.string.doctrine_ability_bloodletting_name, R.string.doctrine_ability_bloodletting_description, R.drawable.doctrine_ability_bloodletting, 3, 5, 2, 3, 3),
     TITANS_MIGHT(R.string.doctrine_ability_titans_might_name, R.string.doctrine_ability_titans_might_description, R.drawable.doctrine_ability_titans_might, 6, 50, 0, 1, 3),
-    EVASIVE_RIPOSTE(R.string.doctrine_ability_evasive_riposte_name, R.string.doctrine_ability_evasive_riposte_description, R.drawable.doctrine_ability_evasive_riposte, 3, 50, 0, 3, 2),
-    VERDANT_BRIARS(R.string.doctrine_ability_verdant_briars_name, R.string.doctrine_ability_verdant_briars_description, R.drawable.doctrine_ability_verdant_briars, 1, 5, 0, 3, 3),
-    SYMPATHETIC_WARD(R.string.doctrine_ability_sympathetic_ward_name, R.string.doctrine_ability_sympathetic_ward_description, R.drawable.doctrine_ability_sympathetic_ward, 3, 20, 0, 3, 3),
+    EVASIVE_RIPOSTE(R.string.doctrine_ability_evasive_riposte_name, R.string.doctrine_ability_evasive_riposte_description, R.drawable.doctrine_ability_evasive_riposte, 3, 50, 2, 3, 2),
+    VERDANT_BRIARS(R.string.doctrine_ability_verdant_briars_name, R.string.doctrine_ability_verdant_briars_description, R.drawable.doctrine_ability_verdant_briars, 1, 5, 2, 3, 3),
+    SYMPATHETIC_WARD(R.string.doctrine_ability_sympathetic_ward_name, R.string.doctrine_ability_sympathetic_ward_description, R.drawable.doctrine_ability_sympathetic_ward, 3, 10, 2, 3, 3),
     ACCELERATED_MASTERY(R.string.doctrine_ability_accelerated_mastery_name, R.string.doctrine_ability_accelerated_mastery_description, R.drawable.doctrine_ability_accelerated_mastery, 4, 10, 2, 3, 3),
     ANNIHILATION(R.string.doctrine_ability_annihilation_name, R.string.doctrine_ability_annihilation_description, R.drawable.doctrine_ability_annihilation, 4, 30, 2, 3, 3),
-    ARMOR_MASTER(R.string.doctrine_ability_armor_master_name, R.string.doctrine_ability_armor_master_description, R.drawable.doctrine_ability_armor_master, 3, 20, 0, 3, 2)
+    ARMOR_MASTER(R.string.doctrine_ability_armor_master_name, R.string.doctrine_ability_armor_master_description, R.drawable.doctrine_ability_armor_master, 3, 20, 2, 3, 2)
 }

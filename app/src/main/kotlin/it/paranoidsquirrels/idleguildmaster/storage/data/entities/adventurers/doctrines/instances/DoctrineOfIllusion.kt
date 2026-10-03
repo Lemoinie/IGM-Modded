@@ -30,10 +30,5 @@ class DoctrineOfIllusion : Doctrine() {
     override fun rollDamageThreeTimes(): Boolean = getValue(DoctrineAbilityType.BEAT_THE_ODDS) > 0
     override fun falseLifeChance(): Int = getValue(DoctrineAbilityType.FALSE_LIFE)
     override fun damageOnFalseLifeRemoval(): Int = getValue(DoctrineAbilityType.TRUE_AGONY)
-    override fun evasiveRipostePercent(): Int = when (getLevel(DoctrineAbilityType.EVASIVE_RIPOSTE)) {
-        1 -> 50
-        2 -> 70
-        3 -> 100
-        else -> 0
-    }
+    override fun evasiveRipostePercent(): Int = getValue(DoctrineAbilityType.EVASIVE_RIPOSTE)
 }

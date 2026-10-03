@@ -204,12 +204,12 @@ source tree (no injected patches). They are concentrated in a few places:
   Affliction **Bloodletting** (basic attacks consume 5%/10%/15% Max HP, non-lethal down to 1 HP,
   and inflict Bleed equal to the HP consumed), War **Titans Might** (converts 50% of Constitution
   into bonus Physical Damage on non-magic attacks), Illusion **Evasive Riposte** (successfully
-  dodging an attack counterattacks the attacker for 50%/70%/100% of a basic attack), Control
-  **Verdant Briars** (5%/7%/10% on-hit Entangle for 2 turns, 1 LP per level), Grace **Sympathetic
-  Ward** (healing an ally also heals this unit for 20%/35%/50% of the amount healed), Knowledge
+  dodging an attack counterattacks the attacker for 50%/100%/150% of a basic attack), Control
+  **Verdant Briars** (5%/10%/15% on-hit Entangle for 2 turns, 1 LP per level), Grace **Sympathetic
+  Ward** (healing an ally also heals this unit for 10%/20%/30% of the amount healed), Knowledge
   **Accelerated Mastery** (10%/20%/30% chance to instantly refund all mana when an active skill is
   cast), Ruin **Annihilation** (critical hits deal +30%/60%/90% bonus damage, 5% max-HP recoil on
-  crit — non-lethal — and the unit cannot lifesteal), Fortitude **Armor Master** (+20%/35%/50%
+  crit — non-lethal — and the unit cannot lifesteal), Fortitude **Armor Master** (+20%/40%/60%
   Defense and Magic Defense granted by equipped Armor, floored). The new **Entangle** status
   (`status_effect_entangle`, using the `doctrine_ability_verdant_briars` sprite) roots its target:
   Entangled units cannot dodge, deal 20% less damage, and take 2% of Max HP as damage per turn

@@ -866,7 +866,7 @@ abstract class Adventurer : Entity() {
         }
 
         // Doctrine of Fortitude - Armor Master: increases the Defense and Magic Defense
-        // granted by the equipped Armor piece by 20%/35%/50% (floored integer division).
+        // granted by the equipped Armor piece by 20%/40%/60% (floored integer division).
         val armorMasterPct = doc?.armorMasterPercent() ?: 0
         val equippedArmor = armor
         if (armorMasterPct > 0 && equippedArmor != null) {

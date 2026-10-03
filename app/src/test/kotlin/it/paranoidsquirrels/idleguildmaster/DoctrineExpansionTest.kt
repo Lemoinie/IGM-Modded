@@ -102,26 +102,32 @@ class DoctrineExpansionTest {
 
     @Test
     fun testEvasiveRiposteScaling() {
+        assertEquals(2, DoctrineAbilityType.EVASIVE_RIPOSTE.formatMode)
+        assertEquals(50, DoctrineAbilityType.EVASIVE_RIPOSTE.increasePerLevel)
         assertEquals(0, doctrine("DoctrineOfIllusion")!!.evasiveRipostePercent())
         assertEquals(50, doctrine("DoctrineOfIllusion", 1)!!.evasiveRipostePercent())
-        assertEquals(70, doctrine("DoctrineOfIllusion", 2)!!.evasiveRipostePercent())
-        assertEquals(100, doctrine("DoctrineOfIllusion", 3)!!.evasiveRipostePercent())
+        assertEquals(100, doctrine("DoctrineOfIllusion", 2)!!.evasiveRipostePercent())
+        assertEquals(150, doctrine("DoctrineOfIllusion", 3)!!.evasiveRipostePercent())
     }
 
     @Test
     fun testVerdantBriarsScaling() {
+        assertEquals(2, DoctrineAbilityType.VERDANT_BRIARS.formatMode)
+        assertEquals(5, DoctrineAbilityType.VERDANT_BRIARS.increasePerLevel)
         assertEquals(0, doctrine("DoctrineOfControl")!!.verdantBriarsChance())
         assertEquals(5, doctrine("DoctrineOfControl", 1)!!.verdantBriarsChance())
-        assertEquals(7, doctrine("DoctrineOfControl", 2)!!.verdantBriarsChance())
-        assertEquals(10, doctrine("DoctrineOfControl", 3)!!.verdantBriarsChance())
+        assertEquals(10, doctrine("DoctrineOfControl", 2)!!.verdantBriarsChance())
+        assertEquals(15, doctrine("DoctrineOfControl", 3)!!.verdantBriarsChance())
     }
 
     @Test
     fun testSympatheticWardScaling() {
+        assertEquals(2, DoctrineAbilityType.SYMPATHETIC_WARD.formatMode)
+        assertEquals(10, DoctrineAbilityType.SYMPATHETIC_WARD.increasePerLevel)
         assertEquals(0, doctrine("DoctrineOfGrace")!!.sympatheticWardPercent())
-        assertEquals(20, doctrine("DoctrineOfGrace", 1)!!.sympatheticWardPercent())
-        assertEquals(35, doctrine("DoctrineOfGrace", 2)!!.sympatheticWardPercent())
-        assertEquals(50, doctrine("DoctrineOfGrace", 3)!!.sympatheticWardPercent())
+        assertEquals(10, doctrine("DoctrineOfGrace", 1)!!.sympatheticWardPercent())
+        assertEquals(20, doctrine("DoctrineOfGrace", 2)!!.sympatheticWardPercent())
+        assertEquals(30, doctrine("DoctrineOfGrace", 3)!!.sympatheticWardPercent())
     }
 
     @Test
@@ -154,10 +160,12 @@ class DoctrineExpansionTest {
 
     @Test
     fun testArmorMasterScaling() {
+        assertEquals(2, DoctrineAbilityType.ARMOR_MASTER.formatMode)
+        assertEquals(20, DoctrineAbilityType.ARMOR_MASTER.increasePerLevel)
         assertEquals(0, doctrine("DoctrineOfFortitude")!!.armorMasterPercent())
         assertEquals(20, doctrine("DoctrineOfFortitude", 1)!!.armorMasterPercent())
-        assertEquals(35, doctrine("DoctrineOfFortitude", 2)!!.armorMasterPercent())
-        assertEquals(50, doctrine("DoctrineOfFortitude", 3)!!.armorMasterPercent())
+        assertEquals(40, doctrine("DoctrineOfFortitude", 2)!!.armorMasterPercent())
+        assertEquals(60, doctrine("DoctrineOfFortitude", 3)!!.armorMasterPercent())
     }
 
     @Test

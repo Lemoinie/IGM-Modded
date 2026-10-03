@@ -30,10 +30,5 @@ class DoctrineOfGrace : Doctrine() {
     override fun bonusHealingModifier(): Int = getValue(DoctrineAbilityType.SELFLESS_SPIRIT)
     override fun maxOverheal(): Int = getValue(DoctrineAbilityType.OVERHEAL)
     override fun healingNova(): Int = getValue(DoctrineAbilityType.HEALING_NOVA)
-    override fun sympatheticWardPercent(): Int = when (getLevel(DoctrineAbilityType.SYMPATHETIC_WARD)) {
-        1 -> 20
-        2 -> 35
-        3 -> 50
-        else -> 0
-    }
+    override fun sympatheticWardPercent(): Int = getValue(DoctrineAbilityType.SYMPATHETIC_WARD)
 }
