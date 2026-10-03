@@ -182,8 +182,11 @@ class DialogEntityDetail : CustomDialog() {
             b.expendableDoctrinePoints.visibility = if (e.getDoctrinePoints() > 0) View.VISIBLE else View.GONE
             b.detailDarknessReduction.text = String.format(getString(R.string.darkness_reduction_formatted), e.darknessReduction())
             b.detailExpBonus.text = String.format(getString(R.string.experience_bonus_formatted), Utils.round(e.experienceMultiplier() * 100.0))
+            b.detailAttackSpeed.text = String.format(getString(R.string.attack_speed_formatted), e.calculateTotalAttackSpeed())
+            b.detailDamageDealt.text = String.format(getString(R.string.damage_dealt_formatted), Utils.round(e.calculateTotalDamageDealt() * 100.0))
             b.detailHealModifier.text = String.format(getString(R.string.healing_modifier_formatted), Utils.round(e.calculateHealingModifier() * 100.0))
             b.detailDecay.text = String.format(getString(R.string.decay_formatted), e.decay())
+            b.detailDamageTaken.text = String.format(getString(R.string.damage_taken_formatted), Utils.round(e.calculateTotalDamageTaken() * 100.0))
 
             formatPotion(b.detailPotionHealth, e, 3)
             formatPotion(b.detailPotionConstitution, e, 0)
@@ -427,8 +430,11 @@ class DialogEntityDetail : CustomDialog() {
             b.levelupAdventurer.setOnClickListener { dialogAdventurerPromotion(e) }
             b.detailDarknessReduction.setOnClickListener { populateHelp(it, getString(R.string.help_darkness_reduction), false, null) }
             b.detailExpBonus.setOnClickListener { populateHelp(it, getString(R.string.help_exp_bonus), false, null) }
+            b.detailAttackSpeed.setOnClickListener { populateHelp(it, getString(R.string.help_attack_speed), false, null) }
+            b.detailDamageDealt.setOnClickListener { populateHelp(it, getString(R.string.help_damage_dealt), false, null) }
             b.detailHealModifier.setOnClickListener { populateHelp(it, getString(R.string.help_heal_modifier), false, null) }
             b.detailDecay.setOnClickListener { populateHelp(it, getString(R.string.help_decay), false, null) }
+            b.detailDamageTaken.setOnClickListener { populateHelp(it, getString(R.string.help_damage_taken), false, null) }
             b.detailPotionHealth.setOnClickListener { populateHelp(it, getString(R.string.help_potion_health), false, null) }
             b.detailPotionConstitution.setOnClickListener { populateHelp(it, getString(R.string.help_potion_constitution), false, null) }
             b.detailPotionDexterity.setOnClickListener { populateHelp(it, getString(R.string.help_potion_dexterity), false, null) }

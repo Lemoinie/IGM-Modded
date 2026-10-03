@@ -1162,6 +1162,9 @@ SILENCE: the unit can't gain any mana"</string>
 
 %s"</string>
     <string name="back">BACK</string>
+    <string name="attack_speed_formatted">Attack Speed: %d%%</string>
+    <string name="damage_dealt_formatted">Damage Dealt: %d%%</string>
+    <string name="damage_taken_formatted">Damage Taken: %d%%</string>
     <string name="bonus_dodge_formatted">Bonus dodge: %d%%</string>
     <string name="bottom_sheet_behavior">com.google.android.material.bottomsheet.BottomSheetBehavior</string>
     <string name="bottomsheet_action_expand_halfway">Expand halfway</string>
@@ -2056,6 +2059,7 @@ If you see an interesting unit but you prefer to recruit it later, you can freez
     <string name="help_attack_daggers">Damage of Daggers scales with Constitution + Dexterity</string>
     <string name="help_attack_enemy">The minimum and maximum damage inflicted with every basic attack.</string>
     <string name="help_attack_staffs">Damage of Staffs scales with Intelligence</string>
+    <string name="help_attack_speed" formatted="false">Determines attack frequency per turn. Base is 100% (1 attack). Every additional 100% guarantees an extra basic attack, with partial percentages granting a chance to strike again.</string>
     <string name="help_attack_swords">Damage of Swords scales with Constitution</string>
     <string name="help_constitution">Affect the damage of Swords and Daggers. After damage is reduced by Defense or Magic Defense, it is further reduced by one for every 8 points of Constitution.</string>
     <string name="help_counterattack">Chance to counterattack with a basic attack when hit by a melee strike.</string>
@@ -2064,6 +2068,8 @@ If you see an interesting unit but you prefer to recruit it later, you can freez
     <string name="help_darkness_damage">Percentage increase in damage dealt for every point of darkness in the current area.</string>
     <string name="help_darkness_reduction">Reduction to the level of darkness in the current area.</string>
     <string name="help_decay">Health lost at the start of every turn.</string>
+    <string name="help_damage_dealt" formatted="false">Total multiplier for all outgoing damage. Base is 100%. Modified by traits (Reckless, Lone Wolf), doctrines (Ragebound, Eye for an Eye), buffs (Frenzy, Anointed), and equipment.</string>
+    <string name="help_damage_taken" formatted="false">Total multiplier for all incoming damage after armor and magic defense mitigation. Base is 100%. Modified by traits (Dragon Blood, Reckless), doctrines (Ragebound), debuffs (Sinister Curse), and equipment.</string>
     <string name="help_defense" formatted="false">Percent reduction to physical damage received. Formula: (DEF * 100) / (DEF + 50)%</string>
     <string name="help_dexterity" formatted="false">"Affect the damage of Bows and Daggers.
 Physical attacks have 0.4% critical chance per point, up to 40%.
@@ -4392,14 +4398,14 @@ STUN: the unit skips its turn"</string>
     <string name="weapon_bow_crushing_depth_effect">10% STUN</string>
     <string name="weapon_bow_crushing_depth_name">Crushing Depth</string>
     <string name="weapon_bow_cursed_bow_description">Made from a metal displaying unique properties, this bow can be used with a speed unmatched by any other.</string>
-    <string name="weapon_bow_cursed_bow_effect">Attacks twice</string>
+    <string name="weapon_bow_cursed_bow_effect" formatted="false">+100% Attack Speed</string>
     <string name="weapon_bow_cursed_bow_name">Cursed Bow</string>
     <string name="weapon_bow_dreamwrought_bow_description">Flexible bow made from an impossible metal frame, brought to reality by an otherworldly being.</string>
     <string name="weapon_bow_dreamwrought_bow_name">Dreamwrought Bow</string>
     <string name="weapon_bow_ghostwood_bow_description">Resilient bow made of ghostwood. The flexibility of this wood makes it possible to shoot arrows with a greater strength.</string>
     <string name="weapon_bow_ghostwood_bow_name">Ghostwood Bow</string>
     <string name="weapon_bow_infernal_bow_description">The heart of this unique bow has been replaced with Infernite, an exotic material that maintains its shooting speed while enhancing its tensile strength.</string>
-    <string name="weapon_bow_infernal_bow_effect">Attacks twice</string>
+    <string name="weapon_bow_infernal_bow_effect" formatted="false">+100% Attack Speed</string>
     <string name="weapon_bow_infernal_bow_name">Infernal Bow</string>
     <string name="weapon_bow_mithril_bow_description">An incredibly light and resistant bow crafted from the legendary Mithril.</string>
     <string name="weapon_bow_mithril_bow_name">Mithril Bow</string>
@@ -4689,7 +4695,7 @@ TAUNT: the taunting unit is always chosen as target"</string>
     <string name="trait_locked_plus">Locked: PLUS traits cannot be switched.</string>
     <string name="weapon_bow_celestial_bow_name">Celestial Bow</string>
     <string name="weapon_bow_celestial_bow_description">A divine celestial bow humming with astral velocity. Allows its wielder to loose a devastating volley of arrows in rapid succession.</string>
-    <string name="weapon_bow_celestial_bow_effect">Attack thrice, +10% crit chance and dmg</string>
+    <string name="weapon_bow_celestial_bow_effect" formatted="false">+200% Attack Speed, +10% crit chance and dmg</string>
     <string name="consumable_xp_book_1_name">XP Book (Tier 1)</string>
     <string name="consumable_xp_book_1_description">Grants 10 experience to an adventurer.</string>
     <string name="consumable_xp_book_2_name">XP Book (Tier 2)</string>

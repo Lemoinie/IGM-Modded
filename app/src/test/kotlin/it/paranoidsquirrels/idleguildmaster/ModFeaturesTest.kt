@@ -2785,6 +2785,116 @@ class ModFeaturesTest {
         // Magic damage bypasses Incorporeal and applies wisp's 0 MDEF:
         assertEquals(1000, wisp.applyDamage(1000.0, true, 0, 0.0))
     }
+
+    @Test
+    fun testAttackSpeedSystem() {
+        val bare = Adventurer.getInstance("Footman", 1, 5, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+        assertEquals("Bare unit has 100% Attack Speed by default", 100, bare.calculateTotalAttackSpeed())
+        assertEquals("Bare unit has 0 extra attacks in endOfTurnActions", 0, bare.endOfTurnActions().count { it == EndOfTurnAction.EXTRA_ATTACK })
+
+        // 1. Cursed Bow (+100% Attack Speed -> 200%):
+        val cursedBow = Item.getInstance("CursedBow", 1) as Bow
+        assertEquals(100, cursedBow.getAttackSpeed())
+        val archerWithBow = Adventurer.getInstance("Footman", 1, 5, 0, cursedBow, null, null, null, null, PotionsDrank(), null, false)!!
+        assertEquals("Cursed Bow grants 200% Attack Speed", 200, archerWithBow.calculateTotalAttackSpeed())
+        assertEquals("200% Attack Speed queues exactly 1 EXTRA_ATTACK (no duplicate from weapon loop)", 1, archerWithBow.endOfTurnActions().count { it == EndOfTurnAction.EXTRA_ATTACK })
+
+        // 1b. Infernal Bow (+100% Attack Speed -> 200%):
+        val infernalBow = Item.getInstance("InfernalBow", 1) as Bow
+        assertEquals(100, infernalBow.getAttackSpeed())
+        val infernalArcher = Adventurer.getInstance("Footman", 1, 5, 0, infernalBow, null, null, null, null, PotionsDrank(), null, false)!!
+        assertEquals("Infernal Bow grants 200% Attack Speed", 200, infernalArcher.calculateTotalAttackSpeed())
+        assertEquals("200% Attack Speed queues exactly 1 EXTRA_ATTACK", 1, infernalArcher.endOfTurnActions().count { it == EndOfTurnAction.EXTRA_ATTACK })
+
+        // 2. S.P.I.D.E.R accessory: remains an independent melee accessory rider
+        val spider = Item.getInstance("SPIDER", 1) as it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Accessory
+        val unitWithSpider = Adventurer.getInstance("Footman", 1, 5, 0, null, null, spider, null, null, PotionsDrank(), null, false)!!
+        assertEquals("SPIDER does not inflate base Attack Speed", 100, unitWithSpider.calculateTotalAttackSpeed())
+        assertEquals("SPIDER provides exactly 1 EXTRA_ATTACK_MELEE action", 1, unitWithSpider.endOfTurnActions().count { it == EndOfTurnAction.EXTRA_ATTACK_MELEE })
+
+        // 3. Stacking: Cursed Bow (200% Attack Speed) + SPIDER:
+        val comboUnit = Adventurer.getInstance("Footman", 1, 5, 0, cursedBow, null, spider, null, null, PotionsDrank(), null, false)!!
+        assertEquals("Combo unit has 200% Attack Speed", 200, comboUnit.calculateTotalAttackSpeed())
+        val actions = comboUnit.endOfTurnActions()
+        assertEquals("Queues exactly 1 EXTRA_ATTACK from Attack Speed", 1, actions.count { it == EndOfTurnAction.EXTRA_ATTACK })
+        assertEquals("Queues exactly 1 EXTRA_ATTACK_MELEE from SPIDER", 1, actions.count { it == EndOfTurnAction.EXTRA_ATTACK_MELEE })
+
+        // 4. PASSIVE_BERSERKER_RAGE:
+        bare.passiveSkill = Skills.PASSIVE_BERSERKER_RAGE
+        bare.currentHp = bare.calculateTotalMaxHp()
+        assertEquals("Above 50% HP: 100% Attack Speed", 100, bare.calculateTotalAttackSpeed())
+        bare.currentHp = (bare.calculateTotalMaxHp() * 0.4).toInt()
+        assertEquals("Below 50% HP: 200% Attack Speed", 200, bare.calculateTotalAttackSpeed())
+        assertEquals("Queues 1 EXTRA_ATTACK when Berserker Rage is active", 1, bare.endOfTurnActions().count { it == EndOfTurnAction.EXTRA_ATTACK })
+
+        // 5. Celestial Bow (+200% Attack Speed -> 300%):
+        val celestialBow = Item.getInstance("CelestialBow", 1) as Bow
+        assertEquals(200, celestialBow.getAttackSpeed())
+        val celestialArcher = Adventurer.getInstance("Footman", 1, 5, 0, celestialBow, null, null, null, null, PotionsDrank(), null, false)!!
+        assertEquals("Celestial Bow grants 300% Attack Speed", 300, celestialArcher.calculateTotalAttackSpeed())
+        assertEquals("300% Attack Speed queues exactly 2 EXTRA_ATTACKs", 2, celestialArcher.endOfTurnActions().count { it == EndOfTurnAction.EXTRA_ATTACK })
+
+        // 6. Berserker's Axe (repeats 1, prob 0.10 -> 110% Attack Speed):
+        val berserkersAxe = Item.getInstance("BerserkersAxe", 1) as Axe
+        val berserkerAxeHero = Adventurer.getInstance("Footman", 1, 5, 0, berserkersAxe, null, null, null, null, PotionsDrank(), null, false)!!
+        assertEquals("Berserker's Axe grants 110% Attack Speed", 110, berserkerAxeHero.calculateTotalAttackSpeed())
+    }
+
+    @Test
+    fun testDamageDealtAndTakenStats() {
+        // 1. Baseline unit without traits/gear
+        val bare = Adventurer.getInstance("Footman", 1, 5, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+        assertEquals("Base Damage Dealt is 100%", 1.0, bare.calculateTotalDamageDealt(), 0.001)
+        assertEquals("Base Damage Taken is 100%", 1.0, bare.calculateTotalDamageTaken(), 0.001)
+
+        // 2. RECKLESS Trait (+15% Dealt, +15% Taken)
+        val reckless = Adventurer.getInstance("Footman", 1, 5, 0, null, null, null, null, Trait.RECKLESS, PotionsDrank(), null, false)!!
+        assertEquals("Reckless Damage Dealt is 115%", 1.15, reckless.calculateTotalDamageDealt(), 0.001)
+        assertEquals("Reckless Damage Taken is 115%", 1.15, reckless.calculateTotalDamageTaken(), 0.001)
+
+        // 3. DRAGON_BLOOD Trait
+        // Tier 9 WyrmRider unascended (maxLevel 45 -> tier 9 -> -9% -> 91% Taken)
+        val dragonBloodT9 = Adventurer.getInstance("WyrmRider", 1, 1, 0, null, null, null, null, Trait.DRAGON_BLOOD, null, null, false)!!
+        assertEquals("Dragon Blood T9 Unascended is 91% Damage Taken", 0.91, dragonBloodT9.calculateTotalDamageTaken(), 0.001)
+
+        // Tier 9 WyrmRider ascended (tier 9 + ascension 9 -> -18% -> 82% Taken)
+        dragonBloodT9.setAscended(true)
+        assertEquals("Dragon Blood T9 Ascended is 82% Damage Taken", 0.82, dragonBloodT9.calculateTotalDamageTaken(), 0.001)
+
+        // 4. Stacking Test: Dragon Blood T9 Ascended (-18%) + Ragebound (+35%) + Sinister Curse (+50%)
+        // Formula: 1.0 - 0.18 + 0.35 + 0.50 = 1.67 (167% Damage Taken)
+        // In DoctrineOfRuin: l5 = EYE_FOR_AN_EYE, l6 = RAGEBOUND
+        val docRuin = Doctrine.getInstance("DoctrineOfRuin", 0, 0, 0, 0, 0, 1, 0, 0)
+        dragonBloodT9.doctrine = docRuin
+        dragonBloodT9.negativeStatusEffects.add(StatusEffect(StatusEffectType.SINISTER_CURSE, null, 3, 1.0))
+        assertEquals("Dragon Blood Ascended + Ragebound + Sinister Curse = 167% Damage Taken", 1.67, dragonBloodT9.calculateTotalDamageTaken(), 0.001)
+
+        // 5. Eye for an Eye (Doctrine of Ruin: +50% Dealt when HP <= 50%)
+        val eyeUnit = Adventurer.getInstance("Footman", 1, 5, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+        val docEye = Doctrine.getInstance("DoctrineOfRuin", 0, 0, 0, 0, 1, 0, 0, 0)
+        eyeUnit.doctrine = docEye
+        eyeUnit.currentHp = eyeUnit.calculateTotalMaxHp()
+        assertEquals("Eye for an Eye at 100% HP: no bonus (100%)", 1.0, eyeUnit.calculateTotalDamageDealt(), 0.001)
+        eyeUnit.currentHp = (eyeUnit.calculateTotalMaxHp() * 0.4).toInt()
+        assertEquals("Eye for an Eye at 40% HP: +50% bonus (150%)", 1.50, eyeUnit.calculateTotalDamageDealt(), 0.001)
+
+        // 6. Positive & Negative Status Effects in combat
+        val statusUnit = Adventurer.getInstance("Footman", 1, 5, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+        statusUnit.positiveStatusEffects.add(StatusEffect(StatusEffectType.FRENZY, null, 3, 1.0))
+        assertEquals("Frenzy grants +30% Damage Dealt (130%)", 1.30, statusUnit.calculateTotalDamageDealt(), 0.001)
+        statusUnit.positiveStatusEffects.add(StatusEffect(StatusEffectType.SANGUINE_FERVOR, null, 4, 1.0))
+        assertEquals("Frenzy + 4 stacks Sanguine Fervor (+20%) = 150% Damage Dealt", 1.50, statusUnit.calculateTotalDamageDealt(), 0.001)
+        statusUnit.negativeStatusEffects.add(StatusEffect(StatusEffectType.ENTANGLE, null, 2, 1.0))
+        assertEquals("Entangle reduces Damage Dealt by 20% (130%)", 1.30, statusUnit.calculateTotalDamageDealt(), 0.001)
+
+        // 7. Equipment modifiers
+        val testWeapon = Item.getInstance("CopperSword", 1) as it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Equipment
+        testWeapon.setDamageDealtModifier(0.25)
+        testWeapon.setDamageTakenModifier(-0.10)
+        val gearedHero = Adventurer.getInstance("Footman", 1, 5, 0, testWeapon as it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Weapon, null, null, null, null, PotionsDrank(), null, false)!!
+        assertEquals("Weapon grants +25% Damage Dealt (125%)", 1.25, gearedHero.calculateTotalDamageDealt(), 0.001)
+        assertEquals("Weapon grants -10% Damage Taken (90%)", 0.90, gearedHero.calculateTotalDamageTaken(), 0.001)
+    }
 }
 
 

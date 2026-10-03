@@ -297,6 +297,9 @@
     <item type="id" name="detail_attack_damage" />
     <item type="id" name="detail_attack_type" />
     <item type="id" name="detail_constitution" />
+    <item type="id" name="detail_attack_speed" />
+    <item type="id" name="detail_damage_dealt" />
+    <item type="id" name="detail_damage_taken" />
     <item type="id" name="detail_container_equipments" />
     <item type="id" name="detail_counterattack" />
     <item type="id" name="detail_crit_chance" />

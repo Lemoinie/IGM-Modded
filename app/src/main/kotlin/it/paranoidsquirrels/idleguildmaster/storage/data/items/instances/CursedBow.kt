@@ -1,7 +1,6 @@
 package it.paranoidsquirrels.idleguildmaster.storage.data.items.instances
 
 import it.paranoidsquirrels.idleguildmaster.R
-import it.paranoidsquirrels.idleguildmaster.storage.data.entities.EndOfTurnAction
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Bow
 
 class CursedBow : Bow() {
@@ -11,7 +10,7 @@ class CursedBow : Bow() {
         idEffect = R.string.weapon_bow_cursed_bow_effect
         idImage = R.drawable.cursed_bow
         price = 7683L
-        endOfTurnAction = EndOfTurnAction.EXTRA_ATTACK
+        attackSpeed = 100
         dexterity = 26
     }
 }

@@ -5,6 +5,7 @@ import it.paranoidsquirrels.idleguildmaster.R
 import it.paranoidsquirrels.idleguildmaster.Utils
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.EndOfTurnAction
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.Entity
+import it.paranoidsquirrels.idleguildmaster.storage.data.entities.Skills
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.StatusEffect
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.StatusEffectType
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.doctrines.Doctrine
@@ -14,6 +15,7 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.A
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Equipment
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Weapon
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.instances.SerpentBite
+import it.paranoidsquirrels.idleguildmaster.storage.data.places.Area
 import java.util.ArrayList
 import java.util.Arrays
 
@@ -309,9 +311,6 @@ abstract class Adventurer : Entity() {
         if (w is SerpentBite) {
             damageModifier *= getThreat().toFloat()
         }
-        if (traitRare == Trait.RECKLESS) {
-            damageModifier *= 1.15f
-        }
         return Utils.round(damageModifier.toDouble() * (1.0 - w.damageDelta()))
     }
 
@@ -323,9 +322,6 @@ abstract class Adventurer : Entity() {
         var damageModifier = w.getDamageModifier(con, int, dex).toFloat()
         if (w is SerpentBite) {
             damageModifier *= getThreat().toFloat()
-        }
-        if (traitRare == Trait.RECKLESS) {
-            damageModifier *= 1.15f
         }
         return Utils.round(damageModifier.toDouble() * (w.damageDelta() + 1.0))
     }
@@ -795,6 +791,102 @@ abstract class Adventurer : Entity() {
         }
         return arrayList
     }
+    override fun calculateTotalAttackSpeed(): Int {
+        var speed = 100
+        val w = weapon
+        if (w != null) {
+            if (w.getEndOfTurnAction() == EndOfTurnAction.EXTRA_ATTACK) {
+                speed += Math.round(100.0 * w.getEndOfTurnActionRepeats() * w.getEndOfTurnActionProbability()).toInt()
+            }
+            speed += w.getAttackSpeed()
+        }
+        val a = armor
+        if (a != null) {
+            if (a.getEndOfTurnAction() == EndOfTurnAction.EXTRA_ATTACK) {
+                speed += Math.round(100.0 * a.getEndOfTurnActionRepeats() * a.getEndOfTurnActionProbability()).toInt()
+            }
+            speed += a.getAttackSpeed()
+        }
+        val acc = accessory
+        if (acc != null) {
+            if (acc.getEndOfTurnAction() == EndOfTurnAction.EXTRA_ATTACK) {
+                speed += Math.round(100.0 * acc.getEndOfTurnActionRepeats() * acc.getEndOfTurnActionProbability()).toInt()
+            }
+            speed += acc.getAttackSpeed()
+        }
+        val doc = doctrine
+        if (doc != null) {
+            speed += doc.extraAttackChance()
+        }
+        if (passiveSkill == Skills.PASSIVE_BERSERKER_RAGE && currentHp.toDouble() <= calculateTotalMaxHp().toDouble() * 0.5) {
+            speed += 100
+        }
+        return speed
+    }
+
+    override fun calculateTotalDamageDealt(currentArea: Area?): Double {
+        var mult = super.calculateTotalDamageDealt(currentArea)
+        val w = weapon
+        if (w != null) mult += w.getDamageDealtModifier()
+        val a = armor
+        if (a != null) mult += a.getDamageDealtModifier()
+        val acc = accessory
+        if (acc != null) mult += acc.getDamageDealtModifier()
+
+        if (traitRare == Trait.RECKLESS) {
+            mult += 0.15
+        }
+        if (traitRare == Trait.LONE_WOLF) {
+            val area = currentArea ?: getExploringArea()
+            if (area != null) {
+                val livingAllies = area.adventurersExploring.count { it !== this && it.currentHp > 0 }
+                val missingSlots = maxOf(0, area.adventurersNumber() - 1 - livingAllies)
+                if (missingSlots > 0) {
+                    mult += missingSlots * 0.05
+                }
+            }
+        }
+        if (doctrine?.moreDamageDealtAndTaken() == true) {
+            mult += 0.35
+        }
+        if (doctrine?.moreDamageWhenHalfLife() == true && currentHp > 0 && currentHp.toDouble() <= calculateTotalMaxHp().toDouble() * 0.5) {
+            mult += 0.50
+        }
+        return Math.max(0.0, mult)
+    }
+
+    override fun calculateTotalDamageTaken(): Double {
+        var mult = super.calculateTotalDamageTaken()
+        val w = weapon
+        if (w != null) mult += w.getDamageTakenModifier()
+        val a = armor
+        if (a != null) mult += a.getDamageTakenModifier()
+        val acc = accessory
+        if (acc != null) mult += acc.getDamageTakenModifier()
+
+        if (traitRare == Trait.RECKLESS) {
+            mult += 0.15
+        }
+        if (traitRare == Trait.DRAGON_BLOOD) {
+            val tier = maxLevel / 5
+            val ascensionBonus = if (isAscended()) 9 else 0
+            val totalReduction = tier + ascensionBonus
+            mult -= (totalReduction.toDouble() * 0.01)
+        }
+        if (doctrine?.moreDamageDealtAndTaken() == true) {
+            mult += 0.35
+        }
+        return Math.max(0.0, mult)
+    }
+
+    fun getExploringArea(): Area? {
+        for (area in Utils.compileDungeonRaidList()) {
+            if (area.adventurersExploringIds.contains(id)) {
+                return area
+            }
+        }
+        return null
+    }
 
     override fun endOfTurnActions(): List<EndOfTurnAction> {
         val arrayList = ArrayList<EndOfTurnAction>()
@@ -803,7 +895,7 @@ abstract class Adventurer : Entity() {
             arrayList.add(action)
         }
         val w = weapon
-        if (w != null && w.getEndOfTurnAction() != null) {
+        if (w != null && w.getEndOfTurnAction() != null && w.getEndOfTurnAction() != EndOfTurnAction.EXTRA_ATTACK) {
             if (w.getEndOfTurnActionProbability() >= 1.0 || Utils.random() < w.getEndOfTurnActionProbability()) {
                 val wAction = w.getEndOfTurnAction()!!
                 for (i in 0 until w.getEndOfTurnActionRepeats()) {
@@ -812,14 +904,14 @@ abstract class Adventurer : Entity() {
             }
         }
         val a = armor
-        if (a != null && a.getEndOfTurnAction() != null) {
+        if (a != null && a.getEndOfTurnAction() != null && a.getEndOfTurnAction() != EndOfTurnAction.EXTRA_ATTACK) {
             val aAction = a.getEndOfTurnAction()!!
             for (i in 0 until a.getEndOfTurnActionRepeats()) {
                 arrayList.add(aAction)
             }
         }
         val acc = accessory
-        if (acc != null && acc.getEndOfTurnAction() != null) {
+        if (acc != null && acc.getEndOfTurnAction() != null && acc.getEndOfTurnAction() != EndOfTurnAction.EXTRA_ATTACK) {
             val accAction = acc.getEndOfTurnAction()!!
             for (i in 0 until acc.getEndOfTurnActionRepeats()) {
                 arrayList.add(accAction)
@@ -827,11 +919,19 @@ abstract class Adventurer : Entity() {
         }
         val doc = doctrine
         if (doc != null) {
-            if (doc.extraAttackChance() > 0 && Utils.random() < doc.extraAttackChance().toDouble() * 0.01) {
-                arrayList.add(EndOfTurnAction.EXTRA_ATTACK)
-            }
             if (doc.falseLifeChance() > 0) {
                 arrayList.add(EndOfTurnAction.FALSE_LIFE)
+            }
+        }
+        val totalSpeed = calculateTotalAttackSpeed()
+        if (totalSpeed > 100) {
+            val extraAttacks = (totalSpeed - 100) / 100
+            val extraChance = (totalSpeed - 100) % 100
+            for (i in 0 until extraAttacks) {
+                arrayList.add(EndOfTurnAction.EXTRA_ATTACK)
+            }
+            if (extraChance > 0 && Utils.random() < extraChance.toDouble() * 0.01) {
+                arrayList.add(EndOfTurnAction.EXTRA_ATTACK)
             }
         }
         return arrayList

@@ -1,7 +1,6 @@
 package it.paranoidsquirrels.idleguildmaster.storage.data.items.instances
 
 import it.paranoidsquirrels.idleguildmaster.R
-import it.paranoidsquirrels.idleguildmaster.storage.data.entities.EndOfTurnAction
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Bow
 
 class CelestialBow : Bow() {
@@ -15,7 +14,6 @@ class CelestialBow : Bow() {
         intelligence = 15
         criticalChance = 0.10
         criticalDamage = 0.10
-        endOfTurnAction = EndOfTurnAction.EXTRA_ATTACK
-        endOfTurnActionRepeats = 2
+        attackSpeed = 200
     }
 }

@@ -66,6 +66,8 @@ abstract class Entity {
     @JvmField @Transient var addsDefensesToRetaliate: Boolean = false
     @JvmField @Transient var moreDamageWhenHalfLife: Boolean = false
     @JvmField @Transient var moreDamageDealtAndTaken: Boolean = false
+    @JvmField @Transient var damageDealtModifier: Double = 1.0
+    @JvmField @Transient var damageTakenModifier: Double = 1.0
     @JvmField @Transient var maxOverheal: Int = 0
     @JvmField @Transient var bonusResurrectChance: Int = 0
     @JvmField @Transient var healMissingHpOnEnemyDeath: Int = 0
@@ -96,6 +98,37 @@ abstract class Entity {
     abstract fun calculateTotalMagicDefense(): Int
     abstract fun calculateTotalMaxHp(): Int
     abstract fun calculateTotalRegeneration(): Int
+    open fun calculateTotalAttackSpeed(): Int = 100
+    open fun calculateTotalDamageDealt(currentArea: it.paranoidsquirrels.idleguildmaster.storage.data.places.Area? = null): Double {
+        var mult = damageDealtModifier
+        for (effect in positiveStatusEffects) {
+            when (effect.type) {
+                StatusEffectType.DELIRIUM, StatusEffectType.SKELETON_KEY -> mult += 1.0
+                StatusEffectType.FRENZY -> mult += 0.30
+                StatusEffectType.ANOINTED, StatusEffectType.INSPIRE, StatusEffectType.EXALT -> mult += 0.25
+                StatusEffectType.SANGUINE_FERVOR -> mult += effect.turnsLeft * 0.05
+                else -> {}
+            }
+        }
+        for (neg in negativeStatusEffects) {
+            if (neg.type == StatusEffectType.ENTANGLE) {
+                mult -= 0.20
+            }
+        }
+        return Math.max(0.0, mult)
+    }
+
+    open fun calculateTotalDamageTaken(): Double {
+        var mult = damageTakenModifier
+        for (effect in negativeStatusEffects) {
+            when (effect.type) {
+                StatusEffectType.SINISTER_CURSE -> mult += 0.50
+                StatusEffectType.PETRIFY -> mult += 0.10
+                else -> {}
+            }
+        }
+        return Math.max(0.0, mult)
+    }
 
     open fun canPickDoctrine(): Boolean = false
     abstract fun endOfTurnActions(): List<EndOfTurnAction>
@@ -195,15 +228,7 @@ abstract class Entity {
         if (!z && passiveSkill == Skills.PASSIVE_INCORPOREAL) {
             damageAfterArmor = 1.0
         }
-        if (this is Adventurer && traitRare == Trait.DRAGON_BLOOD) {
-            val tier = maxLevel / 5
-            val ascensionBonus = if (isAscended()) 9 else 0
-            val totalReduction = tier + ascensionBonus
-            damageAfterArmor *= Math.max(0.0, 1.0 - (totalReduction.toDouble() * 0.01))
-        }
-        if (this is Adventurer && traitRare == Trait.RECKLESS) {
-            damageAfterArmor *= 1.15
-        }
+        damageAfterArmor *= calculateTotalDamageTaken()
         val totalReduction = calculateFlatDamageReduction().toDouble() + flatReduction.toDouble()
         val iRound = Utils.round(Math.max(1.0, damageAfterArmor - totalReduction))
 

@@ -2551,32 +2551,13 @@ abstract class Area {
         }
 
         val flatDamage = endOfTurnAction != null && endOfTurnAction.flatDamage
-        var livingCompanionBonusDamage = skill?.damageAmplification ?: 1.0
+        var skillDamageAmplification = skill?.damageAmplification ?: 1.0
         if (endOfTurnAction != null && endOfTurnAction.fromLivingCompanion) {
-            livingCompanionBonusDamage = (entity.getLivingCompanionBonusDamage().toDouble() * 0.01) + 1.0
-        }
-        if (entity.isMoreDamageWhenHalfLife() && entity.currentHp.toDouble() <= entity.calculateTotalMaxHp()
-                .toDouble() * 0.5
-        ) {
-            livingCompanionBonusDamage *= 1.5
-        }
-        if (entity.isMoreDamageDealtAndTaken()) {
-            livingCompanionBonusDamage *= 1.35
-        }
-        if (entity2.isMoreDamageDealtAndTaken()) {
-            livingCompanionBonusDamage *= 1.35
+            skillDamageAmplification = (entity.getLivingCompanionBonusDamage().toDouble() * 0.01) + 1.0
         }
         // Radiant skills deal +50% bonus damage against Undead (T6-T9 actives).
         if (skill != null && entity2 is Enemy && entity2.getEnemyType() == EnemyType.UNDEAD) {
-            livingCompanionBonusDamage *= skill.undeadDamageMultiplier
-        }
-        // Lone Wolf: +5% damage for each unoccupied or fallen ally slot in the area.
-        if (entity is Adventurer && entity.traitRare == Trait.LONE_WOLF) {
-            val livingAllies = this.adventurersExploring.count { it !== entity && it.currentHp > 0 }
-            val missingAllySlots = maxOf(0, adventurersNumber() - 1 - livingAllies)
-            if (missingAllySlots > 0) {
-                livingCompanionBonusDamage *= (1.0 + (missingAllySlots * 0.05))
-            }
+            skillDamageAmplification *= skill.undeadDamageMultiplier
         }
 
         var dCalculateCriticalMultiplier =
@@ -2604,40 +2585,10 @@ abstract class Area {
         val dCalculateTotalDarknessDamageAmplification =
             if (flatDamage) 1.0 else (entity.calculateTotalDarknessDamageAmplification() * this.localDarkness.toDouble()) + 1.0
 
-        var statusDamageMultiplier = 1.0
-        var sanguineFervorStacks = 0
+        var radiantBlessingMultiplier = 1.0
         for (statusEffect2 in entity.positiveStatusEffects) {
-            when (statusEffect2.type) {
-                StatusEffectType.DELIRIUM, StatusEffectType.SKELETON_KEY -> statusDamageMultiplier *= 2.0
-                StatusEffectType.FRENZY -> statusDamageMultiplier *= 1.3
-                StatusEffectType.ANOINTED, StatusEffectType.INSPIRE, StatusEffectType.EXALT -> statusDamageMultiplier *= 1.25
-                // Sanguine Fervor: +5% damage dealt per stack (permanent; a single consolidated
-                // instance stores the stack count in turnsLeft).
-                StatusEffectType.SANGUINE_FERVOR -> sanguineFervorStacks += statusEffect2.turnsLeft
-
-                // Radiant Blessing: all party attacks deal +% damage against Undead.
-                StatusEffectType.RADIANT_BLESSING -> {
-                    if (entity2 is Enemy && entity2.getEnemyType() == EnemyType.UNDEAD) {
-                        statusDamageMultiplier *= (1.0 + statusEffect2.undeadDamageBonus)
-                    }
-                }
-
-                else -> {}
-            }
-        }
-        if (sanguineFervorStacks > 0) {
-            statusDamageMultiplier *= (1.0 + sanguineFervorStacks * 0.05)
-        }
-
-        for (neg in entity2.negativeStatusEffects) {
-            if (neg.type == StatusEffectType.PETRIFY) {
-                statusDamageMultiplier = 1.1
-                break
-            }
-            // Sinister Curse: +50% incoming damage taken.
-            if (neg.type == StatusEffectType.SINISTER_CURSE) {
-                statusDamageMultiplier *= 1.5
-                break
+            if (statusEffect2.type == StatusEffectType.RADIANT_BLESSING && entity2 is Enemy && entity2.getEnemyType() == EnemyType.UNDEAD) {
+                radiantBlessingMultiplier *= (1.0 + statusEffect2.undeadDamageBonus)
             }
         }
 
@@ -2666,9 +2617,9 @@ abstract class Area {
             }
         }
 
-        val rawDamage = (dRollAttackDamage * dCalculateCriticalMultiplier * livingCompanionBonusDamage *
-                dCalculateTotalDarknessDamageAmplification * statusDamageMultiplier * dMagicDamageAmplification) *
-            (if (entity.negativeStatusEffects.any { it.type == StatusEffectType.ENTANGLE }) 0.8 else 1.0)
+        val rawDamage = dRollAttackDamage * dCalculateCriticalMultiplier * skillDamageAmplification *
+                dCalculateTotalDarknessDamageAmplification * entity.calculateTotalDamageDealt(this) *
+                radiantBlessingMultiplier * dMagicDamageAmplification
 
         // Angel of War branch: same-row AoE interception (Shared Burden). When an enemy
         // performs an AoE attack against an adventurer, all alive branch units in the same
