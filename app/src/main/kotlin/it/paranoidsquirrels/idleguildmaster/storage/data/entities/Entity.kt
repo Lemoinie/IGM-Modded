@@ -68,6 +68,8 @@ abstract class Entity {
     @JvmField @Transient var moreDamageDealtAndTaken: Boolean = false
     @JvmField @Transient var damageDealtModifier: Double = 1.0
     @JvmField @Transient var damageTakenModifier: Double = 1.0
+    @JvmField @Transient var normalAttackAmpModifier: Double = 1.0
+    @JvmField @Transient var skillAmpModifier: Double = 1.0
     @JvmField @Transient var maxOverheal: Int = 0
     @JvmField @Transient var bonusResurrectChance: Int = 0
     @JvmField @Transient var healMissingHpOnEnemyDeath: Int = 0
@@ -129,6 +131,9 @@ abstract class Entity {
         }
         return Math.max(0.0, mult)
     }
+
+    open fun calculateTotalNormalAttackAmp(): Double = Math.max(0.0, normalAttackAmpModifier)
+    open fun calculateTotalSkillAmp(): Double = Math.max(0.0, skillAmpModifier)
 
     open fun canPickDoctrine(): Boolean = false
     open fun decay(): Int = 0

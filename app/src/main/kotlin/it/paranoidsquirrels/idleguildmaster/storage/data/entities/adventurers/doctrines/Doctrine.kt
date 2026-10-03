@@ -119,6 +119,8 @@ abstract class Doctrine {
     open fun annihilationCritDamageBonus(): Int = 0
     open fun hasAnnihilation(): Boolean = false
     open fun armorMasterPercent(): Int = 0
+    open fun bonusNormalAttackAmp(): Double = 0.0
+    open fun bonusSkillAmp(): Double = 0.0
 
     protected abstract fun setupAbilities(): List<DoctrineAbilityType>
     protected abstract fun setupValues()

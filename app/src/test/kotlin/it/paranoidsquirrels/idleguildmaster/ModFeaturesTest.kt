@@ -2944,6 +2944,118 @@ class ModFeaturesTest {
         slime.negativeStatusEffects.add(StatusEffect(StatusEffectType.ENTANGLE, null, 2, 1.0))
         assertEquals("Frenzy (1.30) - Entangle (0.20) gives 110% Damage Dealt", 1.10, slime.calculateTotalDamageDealt(), 0.001)
     }
+
+    @Test
+    fun testNormalAttackAndSkillAmplification() {
+        // 1. Baseline Hero & Enemy
+        val hero = Adventurer.getInstance("Footman", 1, 5, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+        val enemy = Enemy.getInstance("Slime")!!
+        assertEquals("Hero baseline Normal Attack Amp is 100%", 1.0, hero.calculateTotalNormalAttackAmp(), 0.001)
+        assertEquals("Hero baseline Skill Amp is 100%", 1.0, hero.calculateTotalSkillAmp(), 0.001)
+        assertEquals("Enemy baseline Normal Attack Amp is 100%", 1.0, enemy.calculateTotalNormalAttackAmp(), 0.001)
+        assertEquals("Enemy baseline Skill Amp is 100%", 1.0, enemy.calculateTotalSkillAmp(), 0.001)
+
+        // 2. Equipment Modifiers
+        val sword = Item.getInstance("CopperSword", 1) as it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Equipment
+        sword.setNormalAttackAmpModifier(0.35)
+        hero.weapon = sword as it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Weapon
+        assertEquals("Weapon grants +35% Normal Attack Amp (135%)", 1.35, hero.calculateTotalNormalAttackAmp(), 0.001)
+        assertEquals("Skill Amp is unaffected by Normal Amp weapon (100%)", 1.0, hero.calculateTotalSkillAmp(), 0.001)
+
+        val ring = Item.getInstance("SilverRing", 1) as it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Equipment
+        ring.setSkillAmpModifier(0.50)
+        hero.accessory = ring as it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Accessory
+        assertEquals("Accessory grants +50% Skill Amp (150%)", 1.50, hero.calculateTotalSkillAmp(), 0.001)
+        assertEquals("Normal Attack Amp retains +35% (135%)", 1.35, hero.calculateTotalNormalAttackAmp(), 0.001)
+
+        // 3. Combat Pipeline: Basic Attack vs Skill Attack
+        val area = TheGoldenCity()
+        val dummyTarget = Enemy.getInstance("Slime")!!
+        dummyTarget.currentHp = 10000
+        dummyTarget.baseDefense = 0
+        dummyTarget.baseMagicDefense = 0
+        dummyTarget.baseConstitution = 0
+
+        // Test Basic Attack damage amplification: compare 100% vs 200% Normal Amp
+        val attacker = object : Enemy() {
+            override fun getMaxDamage(): Int = 100
+            override fun getMinDamage(): Int = 100
+            override fun isMagic(): Boolean = false
+            override fun isRanged(): Boolean = false
+            override fun configureStatistics() {}
+            override fun listDrops(i: Int): LinkedHashMap<ItemWrapper, Int> = LinkedHashMap()
+        }
+        attacker.alwaysHits = true
+        attacker.currentHp = 10000
+        attacker.baseDexterity = 0
+        attacker.baseDefense = 0
+        attacker.baseMagicDefense = 0
+
+        val hpBefore1 = dummyTarget.currentHp
+        area.dealDamage(attacker, dummyTarget, null, null)
+        val basicDmgBase = hpBefore1 - dummyTarget.currentHp
+
+        attacker.normalAttackAmpModifier = 2.0 // 200% Normal Amp
+        val hpBefore2 = dummyTarget.currentHp
+        area.dealDamage(attacker, dummyTarget, null, null)
+        val basicDmgAmped = hpBefore2 - dummyTarget.currentHp
+        assertEquals("200% Normal Attack Amp doubles basic attack damage", basicDmgBase * 2, basicDmgAmped)
+
+        // Test Active Skill damage amplification: compare 100% vs 200% Skill Amp
+        val testSkill = area.Skill(attacker)
+        testSkill.setDamageAmplification(1.0)
+        attacker.normalAttackAmpModifier = 1.0
+        attacker.skillAmpModifier = 1.0
+        val hpBefore3 = dummyTarget.currentHp
+        area.dealDamage(attacker, dummyTarget, testSkill, null)
+        val skillDmgBase = hpBefore3 - dummyTarget.currentHp
+
+        attacker.skillAmpModifier = 2.0 // 200% Skill Amp
+        val hpBefore4 = dummyTarget.currentHp
+        area.dealDamage(attacker, dummyTarget, testSkill, null)
+        val skillDmgAmped = hpBefore4 - dummyTarget.currentHp
+        assertEquals("200% Skill Amp doubles active skill damage", skillDmgBase * 2, skillDmgAmped)
+
+        // 4. Combat Pipeline: Basic Heal vs Skill Heal
+        val hurtHero = Adventurer.getInstance("Footman", 1, 5, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+        val healer = object : Enemy() {
+            override fun getMaxDamage(): Int = 100
+            override fun getMinDamage(): Int = 100
+            override fun isMagic(): Boolean = false
+            override fun isRanged(): Boolean = false
+            override fun configureStatistics() {}
+            override fun listDrops(i: Int): LinkedHashMap<ItemWrapper, Int> = LinkedHashMap()
+        }
+        healer.currentHp = 10000
+
+        // Basic round heal (skill == null)
+        hurtHero.currentHp = 100
+        hurtHero.baseMaxHp = 1000
+        healer.normalAttackAmpModifier = 1.0
+        area.heal(healer, hurtHero, null)
+        val basicHealBase = hurtHero.currentHp - 100
+
+        hurtHero.currentHp = 100
+        healer.normalAttackAmpModifier = 2.0 // 200% Normal Amp
+        area.heal(healer, hurtHero, null)
+        val basicHealAmped = hurtHero.currentHp - 100
+        assertEquals("200% Normal Attack Amp doubles basic round heal", basicHealBase * 2, basicHealAmped)
+
+        // Active skill heal (skill != null)
+        val healSkill = area.Skill(healer)
+        healSkill.setDamageAmplification(1.0)
+        hurtHero.currentHp = 100
+        healer.normalAttackAmpModifier = 1.0
+        healer.skillAmpModifier = 1.0
+        area.heal(healer, hurtHero, healSkill)
+        val skillHealBase = hurtHero.currentHp - 100
+
+        hurtHero.currentHp = 100
+        healer.skillAmpModifier = 2.0 // 200% Skill Amp
+        area.heal(healer, hurtHero, healSkill)
+        val skillHealAmped = hurtHero.currentHp - 100
+        assertEquals("200% Skill Amp doubles active skill heal", skillHealBase * 2, skillHealAmped)
+    }
 }
 
 

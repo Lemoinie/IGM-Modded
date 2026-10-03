@@ -1518,7 +1518,8 @@ abstract class Area {
     }
 
     open fun heal(entity: Entity, entity2: Entity, skill: Skill?) {
-        var dCalculateHealingModifier = entity.calculateHealingModifier() * (skill?.damageAmplification ?: 1.0)
+        val amp = if (skill != null) entity.calculateTotalSkillAmp() else entity.calculateTotalNormalAttackAmp()
+        var dCalculateHealingModifier = entity.calculateHealingModifier() * (skill?.damageAmplification ?: 1.0) * amp
         var dCalculateCriticalMultiplier = calculateCriticalMultiplier(entity, skill, 0.0)
         val z2 = entity is Adventurer
         val pet = this.petExploring
@@ -2617,9 +2618,16 @@ abstract class Area {
             }
         }
 
+        var ampMultiplier = 1.0
+        if (z6) {
+            ampMultiplier = entity.calculateTotalNormalAttackAmp()
+        } else if (skill != null) {
+            ampMultiplier = entity.calculateTotalSkillAmp()
+        }
+
         val rawDamage = dRollAttackDamage * dCalculateCriticalMultiplier * skillDamageAmplification *
                 dCalculateTotalDarknessDamageAmplification * entity.calculateTotalDamageDealt(this) *
-                radiantBlessingMultiplier * dMagicDamageAmplification
+                radiantBlessingMultiplier * dMagicDamageAmplification * ampMultiplier
 
         // Angel of War branch: same-row AoE interception (Shared Burden). When an enemy
         // performs an AoE attack against an adventurer, all alive branch units in the same

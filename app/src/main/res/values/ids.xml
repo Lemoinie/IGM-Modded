@@ -300,6 +300,8 @@
     <item type="id" name="detail_attack_speed" />
     <item type="id" name="detail_damage_dealt" />
     <item type="id" name="detail_damage_taken" />
+    <item type="id" name="detail_normal_attack_amp" />
+    <item type="id" name="detail_skill_amp" />
     <item type="id" name="detail_container_equipments" />
     <item type="id" name="detail_counterattack" />
     <item type="id" name="detail_crit_chance" />

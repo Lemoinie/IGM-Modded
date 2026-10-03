@@ -1165,6 +1165,8 @@ SILENCE: the unit can't gain any mana"</string>
     <string name="attack_speed_formatted">Attack Speed: %d%%</string>
     <string name="damage_dealt_formatted">Damage Dealt: %d%%</string>
     <string name="damage_taken_formatted">Damage Taken: %d%%</string>
+    <string name="normal_attack_amp_formatted">Normal Atk Amp: %d%%</string>
+    <string name="skill_amp_formatted">Skill Amp: %d%%</string>
     <string name="bonus_dodge_formatted">Bonus dodge: %d%%</string>
     <string name="bottom_sheet_behavior">com.google.android.material.bottomsheet.BottomSheetBehavior</string>
     <string name="bottomsheet_action_expand_halfway">Expand halfway</string>
@@ -2070,6 +2072,8 @@ If you see an interesting unit but you prefer to recruit it later, you can freez
     <string name="help_decay">Health lost at the start of every turn.</string>
     <string name="help_damage_dealt" formatted="false">Total multiplier for all outgoing damage. Base is 100%. Modified by traits (Reckless, Lone Wolf), doctrines (Ragebound, Eye for an Eye), buffs (Frenzy, Anointed), and equipment.</string>
     <string name="help_damage_taken" formatted="false">Total multiplier for all incoming damage after armor and magic defense mitigation. Base is 100%. Modified by traits (Dragon Blood, Reckless), doctrines (Ragebound), debuffs (Sinister Curse), and equipment.</string>
+    <string name="help_normal_attack_amp" formatted="false">Bonus multiplier applied to basic attacks (including extra strikes from Attack Speed) and basic single-target round heals. Base is 100%.</string>
+    <string name="help_skill_amp" formatted="false">Bonus multiplier applied to active skill attacks and active skill heals. Base is 100%.</string>
     <string name="help_defense" formatted="false">Percent reduction to physical damage received. Formula: (DEF * 100) / (DEF + 50)%</string>
     <string name="help_dexterity" formatted="false">"Affect the damage of Bows and Daggers.
 Physical attacks have 0.4% critical chance per point, up to 40%.

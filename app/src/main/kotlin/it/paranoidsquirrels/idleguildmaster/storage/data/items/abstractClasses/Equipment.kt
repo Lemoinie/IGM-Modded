@@ -46,11 +46,17 @@ abstract class Equipment : Item() {
     @JvmField @Transient protected var attackSpeed: Int = 0
     @JvmField @Transient protected var damageDealtModifier: Double = 0.0
     @JvmField @Transient protected var damageTakenModifier: Double = 0.0
+    @JvmField @Transient protected var normalAttackAmpModifier: Double = 0.0
+    @JvmField @Transient protected var skillAmpModifier: Double = 0.0
 
     open fun getDamageDealtModifier(): Double = damageDealtModifier
     open fun setDamageDealtModifier(d: Double) { damageDealtModifier = d }
     open fun getDamageTakenModifier(): Double = damageTakenModifier
     open fun setDamageTakenModifier(d: Double) { damageTakenModifier = d }
+    open fun getNormalAttackAmpModifier(): Double = normalAttackAmpModifier
+    open fun setNormalAttackAmpModifier(d: Double) { normalAttackAmpModifier = d }
+    open fun getSkillAmpModifier(): Double = skillAmpModifier
+    open fun setSkillAmpModifier(d: Double) { skillAmpModifier = d }
     open fun getAttackSpeed(): Int = attackSpeed
     open fun setAttackSpeed(i: Int) { attackSpeed = i }
     open fun getConstitution(): Int = constitution

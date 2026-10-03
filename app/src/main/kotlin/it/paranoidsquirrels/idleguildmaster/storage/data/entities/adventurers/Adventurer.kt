@@ -879,6 +879,32 @@ abstract class Adventurer : Entity() {
         return Math.max(0.0, mult)
     }
 
+    override fun calculateTotalNormalAttackAmp(): Double {
+        var amp = super.calculateTotalNormalAttackAmp()
+        val w = weapon
+        if (w != null) amp += w.getNormalAttackAmpModifier()
+        val a = armor
+        if (a != null) amp += a.getNormalAttackAmpModifier()
+        val acc = accessory
+        if (acc != null) amp += acc.getNormalAttackAmpModifier()
+        val doc = doctrine
+        if (doc != null) amp += doc.bonusNormalAttackAmp()
+        return Math.max(0.0, amp)
+    }
+
+    override fun calculateTotalSkillAmp(): Double {
+        var amp = super.calculateTotalSkillAmp()
+        val w = weapon
+        if (w != null) amp += w.getSkillAmpModifier()
+        val a = armor
+        if (a != null) amp += a.getSkillAmpModifier()
+        val acc = accessory
+        if (acc != null) amp += acc.getSkillAmpModifier()
+        val doc = doctrine
+        if (doc != null) amp += doc.bonusSkillAmp()
+        return Math.max(0.0, amp)
+    }
+
     fun getExploringArea(): Area? {
         for (area in Utils.compileDungeonRaidList()) {
             if (area.adventurersExploringIds.contains(id)) {

@@ -174,6 +174,8 @@ class DialogEntityDetail : CustomDialog() {
         b.detailDamageDealt.text = String.format(getString(R.string.damage_dealt_formatted), Utils.round(e.calculateTotalDamageDealt() * 100.0))
         b.detailDamageTaken.text = String.format(getString(R.string.damage_taken_formatted), Utils.round(e.calculateTotalDamageTaken() * 100.0))
         b.detailHealModifier.text = String.format(getString(R.string.healing_modifier_formatted), Utils.round(e.calculateHealingModifier() * 100.0))
+        b.detailNormalAttackAmp.text = String.format(getString(R.string.normal_attack_amp_formatted), Utils.round(e.calculateTotalNormalAttackAmp() * 100.0))
+        b.detailSkillAmp.text = String.format(getString(R.string.skill_amp_formatted), Utils.round(e.calculateTotalSkillAmp() * 100.0))
 
         if (e is Adventurer) {
             b.detailDarknessReduction.visibility = View.VISIBLE
@@ -421,6 +423,8 @@ class DialogEntityDetail : CustomDialog() {
         b.detailDamageTaken.setOnClickListener { populateHelp(it, getString(R.string.help_damage_taken), false, null) }
         b.detailHealModifier.setOnClickListener { populateHelp(it, getString(R.string.help_heal_modifier), false, null) }
         b.detailDecay.setOnClickListener { populateHelp(it, getString(R.string.help_decay), false, null) }
+        b.detailNormalAttackAmp.setOnClickListener { populateHelp(it, getString(R.string.help_normal_attack_amp), false, null) }
+        b.detailSkillAmp.setOnClickListener { populateHelp(it, getString(R.string.help_skill_amp), false, null) }
 
         if (e is Adventurer) {
             b.detailAttackDamage.setOnClickListener {
