@@ -2895,6 +2895,55 @@ class ModFeaturesTest {
         assertEquals("Weapon grants +25% Damage Dealt (125%)", 1.25, gearedHero.calculateTotalDamageDealt(), 0.001)
         assertEquals("Weapon grants -10% Damage Taken (90%)", 0.90, gearedHero.calculateTotalDamageTaken(), 0.001)
     }
+
+    @Test
+    fun testEnemyAttackSpeedAndDamageStats() {
+        // 1. Standard base enemy (Slime)
+        val slime = Enemy.getInstance("Slime")!!
+        assertEquals("Base enemy attack speed is 100%", 100, slime.calculateTotalAttackSpeed())
+        assertEquals("Base enemy damage dealt is 100%", 1.0, slime.calculateTotalDamageDealt(), 0.001)
+        assertEquals("Base enemy damage taken is 100%", 1.0, slime.calculateTotalDamageTaken(), 0.001)
+        assertEquals("Base enemy decay is 0", 0, slime.decay())
+        assertTrue("Base enemy has no extra turn actions", slime.endOfTurnActions().isEmpty())
+
+        // 2. Berserker with PASSIVE_BERSERKER_RAGE
+        val berserker = Enemy.getInstance("Berserker")!!
+        assertEquals("Berserker at 100% HP has 100% attack speed", 100, berserker.calculateTotalAttackSpeed())
+        assertTrue("Berserker at 100% HP queues no extra attacks", berserker.endOfTurnActions().isEmpty())
+
+        berserker.currentHp = (berserker.calculateTotalMaxHp() * 0.4).toInt()
+        assertEquals("Berserker at 40% HP has 200% attack speed", 200, berserker.calculateTotalAttackSpeed())
+        val berserkerActions = berserker.endOfTurnActions()
+        assertEquals("Berserker at 40% HP queues 1 extra attack", 1, berserkerActions.size)
+        assertEquals("Action is EXTRA_ATTACK", EndOfTurnAction.EXTRA_ATTACK, berserkerActions[0])
+
+        // 3. Enemy with built-in EXTRA_ATTACK (Iconoclast)
+        val iconoclast = Enemy.getInstance("Iconoclast")!!
+        assertEquals("Iconoclast has 200% attack speed", 200, iconoclast.calculateTotalAttackSpeed())
+        val iconoclastActions = iconoclast.endOfTurnActions()
+        assertEquals("Iconoclast queues 1 extra attack", 1, iconoclastActions.size)
+        assertEquals("Action is EXTRA_ATTACK", EndOfTurnAction.EXTRA_ATTACK, iconoclastActions[0])
+
+        // 4. Elite Enemy inheriting attack speed
+        val eliteIconoclast = it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.EliteEnemy.forClass("Iconoclast")!!
+        assertEquals("Elite Iconoclast inherits 200% attack speed", 200, eliteIconoclast.calculateTotalAttackSpeed())
+        assertEquals("Elite Iconoclast queues 1 extra attack", 1, eliteIconoclast.endOfTurnActions().size)
+
+        // 5. Headless Knight (300% attack speed -> 2 extra attacks)
+        val headlessKnight = Enemy.getInstance("HeadlessKnight")!!
+        assertEquals("Headless Knight has 300% attack speed", 300, headlessKnight.calculateTotalAttackSpeed())
+        assertEquals("Headless Knight queues 2 extra attacks", 2, headlessKnight.endOfTurnActions().size)
+
+        // 6. Status Effects on Enemy
+        slime.negativeStatusEffects.add(StatusEffect(StatusEffectType.SINISTER_CURSE, null, 3, 1.0))
+        assertEquals("Sinister Curse on enemy gives 150% Damage Taken", 1.50, slime.calculateTotalDamageTaken(), 0.001)
+
+        slime.positiveStatusEffects.add(StatusEffect(StatusEffectType.FRENZY, null, 3, 1.0))
+        assertEquals("Frenzy on enemy gives 130% Damage Dealt", 1.30, slime.calculateTotalDamageDealt(), 0.001)
+
+        slime.negativeStatusEffects.add(StatusEffect(StatusEffectType.ENTANGLE, null, 2, 1.0))
+        assertEquals("Frenzy (1.30) - Entangle (0.20) gives 110% Damage Dealt", 1.10, slime.calculateTotalDamageDealt(), 0.001)
+    }
 }
 
 

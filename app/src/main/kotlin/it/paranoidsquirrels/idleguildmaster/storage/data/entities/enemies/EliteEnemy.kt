@@ -53,9 +53,12 @@ class EliteEnemy private constructor(val base: Enemy) : Enemy() {
         rarity = source.getRarity()
         initiative = source.initiative
         alwaysHits = source.alwaysHits
+        endOfTurnAction = source.endOfTurnAction
+        endOfTurnActionProbability = source.endOfTurnActionProbability
     }
 
     override fun configureStatistics() {}
+    override fun calculateTotalAttackSpeed(): Int = base.calculateTotalAttackSpeed()
     override fun getMinDamage(): Int = base.calculateMinAttackDamage() * 2
     override fun getMaxDamage(): Int = base.calculateMaxAttackDamage() * 2
     override fun listDrops(rarity: Int): LinkedHashMap<ItemWrapper, Int> = base.listDrops(rarity)

@@ -631,7 +631,7 @@ abstract class Adventurer : Entity() {
         nightVision = z
     }
 
-    open fun decay(): Int {
+    override fun decay(): Int {
         val totalMaxHp = calculateTotalMaxHp()
         var d = 0.0
         val w = weapon

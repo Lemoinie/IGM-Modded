@@ -32,8 +32,8 @@ object ModChangelogActive {
                 "Damage Dealt & Damage Taken System — universal stat consolidation (Default: 100%):",
                 "Damage Dealt: unifies outgoing damage scaling into a single dynamic stat incorporating traits (Reckless +15%, Lone Wolf +5% per empty/fallen ally), doctrines (Ragebound +35%, Eye for an Eye +50% below 50% HP), buffs (Frenzy +30%, Anointed +25%, Sanguine Fervor +5%/stack, Delirium +100%), debuffs (Entangle -20%), and equipment;",
                 "Damage Taken: unifies incoming damage vulnerability and damage reduction into a single additive stat incorporating traits (Dragon Blood -9% to -18%, Reckless +15%), doctrines (Ragebound +35%), debuffs (Sinister Curse +50%, Petrify +10%), and equipment (e.g. Dragon Blood Ascended Lv45 with Ragebound and Sinister Curse = 167% Damage Taken);",
-                "Dynamic In-Battle & Out-of-Battle Tracking: both stats dynamically update on the hero inspect sheet when HP drops, party members fall, or buffs/debuffs are applied;",
-                "UI: added Damage Dealt and Damage Taken to Page 3 of the hero detail dialog with dedicated help tooltips."
+                "UI: added Damage Dealt and Damage Taken to Page 3 of the hero detail dialog with dedicated help tooltips;",
+                "Enemy Integration: enabled Page 3 inspection on enemies displaying live Attack Speed (e.g. Berserkers below 50% HP or dual-striking foes scale to 200%+), Damage Dealt, Damage Taken, and Healing Modifier with interactive tooltips, and unified enemy combat extra attacks with the Attack Speed formula."
             ),
         ),
         version(

@@ -3,6 +3,7 @@ package it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies
 import it.paranoidsquirrels.idleguildmaster.Utils
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.EndOfTurnAction
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.Entity
+import it.paranoidsquirrels.idleguildmaster.storage.data.entities.Skills
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.StatusEffect
 import it.paranoidsquirrels.idleguildmaster.storage.data.items.ItemWrapper
 import java.util.ArrayList
@@ -103,11 +104,34 @@ abstract class Enemy : Entity() {
         return arrayList
     }
 
+    override fun calculateTotalAttackSpeed(): Int {
+        var speed = 100
+        val action = endOfTurnAction
+        if (action == EndOfTurnAction.EXTRA_ATTACK) {
+            speed += Math.round(100.0 * endOfTurnActionProbability).toInt()
+        }
+        if (passiveSkill == Skills.PASSIVE_BERSERKER_RAGE && currentHp.toDouble() <= calculateTotalMaxHp().toDouble() * 0.5) {
+            speed += 100
+        }
+        return speed
+    }
+
     override fun endOfTurnActions(): List<EndOfTurnAction> {
         val arrayList = ArrayList<EndOfTurnAction>()
         val action = endOfTurnAction
-        if (action != null && (endOfTurnActionProbability >= 1.0 || Utils.random() < endOfTurnActionProbability)) {
+        if (action != null && action != EndOfTurnAction.EXTRA_ATTACK && (endOfTurnActionProbability >= 1.0 || Utils.random() < endOfTurnActionProbability)) {
             arrayList.add(action)
+        }
+        val totalSpeed = calculateTotalAttackSpeed()
+        if (totalSpeed > 100) {
+            val extraAttacks = (totalSpeed - 100) / 100
+            val extraChance = (totalSpeed - 100) % 100
+            for (i in 0 until extraAttacks) {
+                arrayList.add(EndOfTurnAction.EXTRA_ATTACK)
+            }
+            if (extraChance > 0 && Utils.random() < extraChance.toDouble() * 0.01) {
+                arrayList.add(EndOfTurnAction.EXTRA_ATTACK)
+            }
         }
         return arrayList
     }

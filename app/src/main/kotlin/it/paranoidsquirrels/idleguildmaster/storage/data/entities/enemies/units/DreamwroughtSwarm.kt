@@ -43,6 +43,8 @@ class DreamwroughtSwarm : Enemy() {
         linkedHashMap.put(ItemWrapper.getInstance("DreamwroughtLarva", 3), 333)
         return linkedHashMap
     }
+    override fun calculateTotalAttackSpeed(): Int = Math.max(100, currentHp * 100)
+
     override fun endOfTurnActions(): List<EndOfTurnAction> {
         return if (currentHp <= 1) ArrayList() else Collections.nCopies(currentHp - 1, EndOfTurnAction.EXTRA_ATTACK_90)
     }

@@ -170,7 +170,15 @@ class DialogEntityDetail : CustomDialog() {
         b.detailRetaliation.text = String.format(getString(R.string.retaliation_formatted), e.calculateRetaliationPhysicalDamage(), e.calculateRetaliationMagicalDamage())
         b.detailRegeneration.text = String.format(getString(R.string.regeneration_formatted), e.calculateTotalRegeneration())
 
+        b.detailAttackSpeed.text = String.format(getString(R.string.attack_speed_formatted), e.calculateTotalAttackSpeed())
+        b.detailDamageDealt.text = String.format(getString(R.string.damage_dealt_formatted), Utils.round(e.calculateTotalDamageDealt() * 100.0))
+        b.detailDamageTaken.text = String.format(getString(R.string.damage_taken_formatted), Utils.round(e.calculateTotalDamageTaken() * 100.0))
+        b.detailHealModifier.text = String.format(getString(R.string.healing_modifier_formatted), Utils.round(e.calculateHealingModifier() * 100.0))
+
         if (e is Adventurer) {
+            b.detailDarknessReduction.visibility = View.VISIBLE
+            b.detailExpBonus.visibility = View.VISIBLE
+            b.detailDecay.visibility = View.VISIBLE
             b.detailTraits.text = UIUtils.traitsToShortString(e, resources)
             b.detailWeapon.setImageDrawable(Utils.getEquipmentDrawable(e.weapon, context))
             b.detailArmor.setImageDrawable(Utils.getEquipmentDrawable(e.armor, context))
@@ -182,11 +190,7 @@ class DialogEntityDetail : CustomDialog() {
             b.expendableDoctrinePoints.visibility = if (e.getDoctrinePoints() > 0) View.VISIBLE else View.GONE
             b.detailDarknessReduction.text = String.format(getString(R.string.darkness_reduction_formatted), e.darknessReduction())
             b.detailExpBonus.text = String.format(getString(R.string.experience_bonus_formatted), Utils.round(e.experienceMultiplier() * 100.0))
-            b.detailAttackSpeed.text = String.format(getString(R.string.attack_speed_formatted), e.calculateTotalAttackSpeed())
-            b.detailDamageDealt.text = String.format(getString(R.string.damage_dealt_formatted), Utils.round(e.calculateTotalDamageDealt() * 100.0))
-            b.detailHealModifier.text = String.format(getString(R.string.healing_modifier_formatted), Utils.round(e.calculateHealingModifier() * 100.0))
             b.detailDecay.text = String.format(getString(R.string.decay_formatted), e.decay())
-            b.detailDamageTaken.text = String.format(getString(R.string.damage_taken_formatted), Utils.round(e.calculateTotalDamageTaken() * 100.0))
 
             formatPotion(b.detailPotionHealth, e, 3)
             formatPotion(b.detailPotionConstitution, e, 0)
@@ -217,6 +221,10 @@ class DialogEntityDetail : CustomDialog() {
 
             b.levelupAdventurer.visibility = if (canPromote) View.VISIBLE else View.INVISIBLE
             b.detailImage.alpha = if (canPromote) 0.5f else 1.0f
+        } else {
+            b.detailDarknessReduction.visibility = View.GONE
+            b.detailExpBonus.visibility = View.GONE
+            b.detailDecay.visibility = View.GONE
         }
     }
 
@@ -331,7 +339,7 @@ class DialogEntityDetail : CustomDialog() {
         val maxPages = if (e is Adventurer) {
             if (e.isSummonedMinion()) 3 else 4
         } else {
-            2
+            3
         }
         currentPage += if (forward) 1 else -1
 
@@ -408,6 +416,11 @@ class DialogEntityDetail : CustomDialog() {
         b.detailRetaliation.setOnClickListener { populateHelp(it, getString(R.string.help_retaliation), false, null) }
         b.detailRegeneration.setOnClickListener { populateHelp(it, getString(R.string.help_regeneration), false, null) }
         b.detailImage.setOnClickListener { populateHelp(it, getString(e.idDescription), false, null) }
+        b.detailAttackSpeed.setOnClickListener { populateHelp(it, getString(R.string.help_attack_speed), false, null) }
+        b.detailDamageDealt.setOnClickListener { populateHelp(it, getString(R.string.help_damage_dealt), false, null) }
+        b.detailDamageTaken.setOnClickListener { populateHelp(it, getString(R.string.help_damage_taken), false, null) }
+        b.detailHealModifier.setOnClickListener { populateHelp(it, getString(R.string.help_heal_modifier), false, null) }
+        b.detailDecay.setOnClickListener { populateHelp(it, getString(R.string.help_decay), false, null) }
 
         if (e is Adventurer) {
             b.detailAttackDamage.setOnClickListener {
@@ -430,11 +443,6 @@ class DialogEntityDetail : CustomDialog() {
             b.levelupAdventurer.setOnClickListener { dialogAdventurerPromotion(e) }
             b.detailDarknessReduction.setOnClickListener { populateHelp(it, getString(R.string.help_darkness_reduction), false, null) }
             b.detailExpBonus.setOnClickListener { populateHelp(it, getString(R.string.help_exp_bonus), false, null) }
-            b.detailAttackSpeed.setOnClickListener { populateHelp(it, getString(R.string.help_attack_speed), false, null) }
-            b.detailDamageDealt.setOnClickListener { populateHelp(it, getString(R.string.help_damage_dealt), false, null) }
-            b.detailHealModifier.setOnClickListener { populateHelp(it, getString(R.string.help_heal_modifier), false, null) }
-            b.detailDecay.setOnClickListener { populateHelp(it, getString(R.string.help_decay), false, null) }
-            b.detailDamageTaken.setOnClickListener { populateHelp(it, getString(R.string.help_damage_taken), false, null) }
             b.detailPotionHealth.setOnClickListener { populateHelp(it, getString(R.string.help_potion_health), false, null) }
             b.detailPotionConstitution.setOnClickListener { populateHelp(it, getString(R.string.help_potion_constitution), false, null) }
             b.detailPotionDexterity.setOnClickListener { populateHelp(it, getString(R.string.help_potion_dexterity), false, null) }

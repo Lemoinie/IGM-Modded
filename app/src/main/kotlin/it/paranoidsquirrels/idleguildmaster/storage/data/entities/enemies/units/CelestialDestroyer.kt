@@ -41,5 +41,6 @@ class CelestialDestroyer : Enemy() {
         linkedHashMap.put(ItemWrapper.getInstance("AetherIgnis", 1), 400)
         return linkedHashMap
     }
+    override fun calculateTotalAttackSpeed(): Int = 600
     override fun endOfTurnActions(): List<EndOfTurnAction> = customEndOfTurnActions ?: emptyList()
 }

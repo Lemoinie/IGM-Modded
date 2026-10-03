@@ -131,6 +131,7 @@ abstract class Entity {
     }
 
     open fun canPickDoctrine(): Boolean = false
+    open fun decay(): Int = 0
     abstract fun endOfTurnActions(): List<EndOfTurnAction>
     abstract fun isMagic(): Boolean
     abstract fun isRanged(): Boolean

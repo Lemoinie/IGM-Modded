@@ -37,12 +37,4 @@ class Berserker : Enemy() {
         linkedHashMap.put(ItemWrapper.getInstance("BerserkersAxe", 1), 30)
         return linkedHashMap
     }
-
-    override fun endOfTurnActions(): List<EndOfTurnAction> {
-        val arrayList = ArrayList<EndOfTurnAction>()
-        if (currentHp <= baseMaxHp.toDouble() * 0.5) {
-            arrayList.add(EndOfTurnAction.EXTRA_ATTACK)
-        }
-        return arrayList
-    }
 }

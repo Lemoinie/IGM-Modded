@@ -45,6 +45,8 @@ class HeadlessKnight : Enemy() {
         return linkedHashMap
     }
 
+    override fun calculateTotalAttackSpeed(): Int = 300
+
     override fun endOfTurnActions(): List<EndOfTurnAction> = customEndOfTurnActions ?: emptyList()
 
     override fun calculateCriticalChance(): Double = 1.0
