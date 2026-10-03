@@ -152,6 +152,7 @@ class DialogEntityDetail : CustomDialog() {
         b.detailMana.text = String.format(getString(R.string.mana_gain_formatted), e.calculateManaRegen())
         b.detailConstitution.text = String.format(getString(R.string.constitution_formatted), e.calculateTotalConstitution())
         b.detailDexterity.text = String.format(getString(R.string.dexterity_formatted), e.calculateTotalDexterity())
+        b.detailIntelligence.text = String.format(getString(R.string.intelligence_formatted), e.calculateTotalIntelligence())
         val def = e.calculateTotalDefense()
         val defPct = if (def > 0) Utils.round((def.toDouble() * 100.0) / (def.toDouble() + 50.0)) else 0
         b.detailDefense.text = "${String.format(getString(R.string.defense_formatted), def)} ($defPct%)"
