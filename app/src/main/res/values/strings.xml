@@ -354,7 +354,7 @@ STUN: the unit skips its turn."</string>
     <string name="action_loot">Looting items…</string>
     <string name="action_respawn">Respawning…</string>
     <string name="action_search">Searching…</string>
-    <string name="active_annihilate_description">Strikes all units for 1000% damage. Range is always melee.</string>
+    <string name="active_annihilate_description" formatted="false">Strikes all units for 1000% melee damage.</string>
     <string name="active_annihilate_name">Annihilate</string>
     <string name="active_arcane_barrage_description">Shoots 12 magic missiles at random enemies, each dealing 100% damage</string>
     <string name="active_arcane_barrage_name">Arcane Barrage</string>
@@ -484,7 +484,7 @@ DEFENSIVE STANCE: the next time the unit would receive damage, it takes none and
     <string name="active_energy_burst_ii_name">Energy Burst II</string>
     <string name="active_escape_description">Escapes from the fight</string>
     <string name="active_escape_name">Escape</string>
-    <string name="active_extirpate_description">Strikes all units for 3000% damage. Range is always melee.</string>
+    <string name="active_extirpate_description" formatted="false">Strikes all units for 3000% melee damage.</string>
     <string name="active_extirpate_name">Extirpate</string>
     <string name="active_feint_description">"Feigns a movement and strikes unexpectedly, dealing 100% damage and STUNNING an enemy for 1 turn.
 Critical hit bonus damage × 1.5.
@@ -503,7 +503,7 @@ ABLAZE: takes 5% max hp as magic damage at the start of its turn."</string>
 
 ABLAZE: takes 5% max hp as magic damage at the start of its turn"</string>
     <string name="active_fireball_name">Fireball</string>
-    <string name="active_flay_description">Strikes a unit for 1000% damage. Range is always melee.</string>
+    <string name="active_flay_description" formatted="false">Strikes a unit for 1000% melee damage.</string>
     <string name="active_flay_name">Flay</string>
     <string name="active_fleece_description">"Deals 35% physical damage to all enemies. Applies BLEED 40 on hit.
 BLEED: the target receives 1 damage at the start of its turn for every charge, then removes one charge"</string>
@@ -565,7 +565,7 @@ ABLAZE: takes 5% max hp as magic damage at the start of its turn"</string>
     <string name="active_mighty_strike_name">Mighty Strike</string>
     <string name="active_none_description">No active ability</string>
     <string name="active_none_name">—</string>
-    <string name="active_obliterate_description">Strikes all units for 2000% damage. Range is always melee.</string>
+    <string name="active_obliterate_description" formatted="false">Strikes all units for 2000% melee damage.</string>
     <string name="active_obliterate_name">Obliterate</string>
     <string name="active_overdrive_description">"If a Magic Armor is present, deals 300 damage to it and launches its components towards the enemies, stunning them for 1 turn and dealing 70% magic damage. The Magic Armor HP cannot be reduced below 1.
 
@@ -669,7 +669,7 @@ Critical hit bonus damage × 1.5"</string>
     <string name="active_umbral_strike_iii_description">"Stabs an enemy for [600% × (1 + Darkness/100)] damage.
 Critical hit bonus damage × 2"</string>
     <string name="active_umbral_strike_iii_name">Umbral Strike III</string>
-    <string name="active_whip_and_tear_description" formatted="false">Strikes all units for 3000% damage. Range is always melee. Then, whips a surviving enemy for 3000% damage.</string>
+    <string name="active_whip_and_tear_description" formatted="false">Strikes all units for 3000% melee damage. Then, whips a surviving enemy for 3000% ranged damage.</string>
     <string name="active_whip_and_tear_name">Whip and Tear</string>
     <string name="ad_dialog_body">"Do you want to watch an ad for 5 Gems?
 
