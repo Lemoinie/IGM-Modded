@@ -2364,7 +2364,8 @@ class ModFeaturesTest {
     fun testNewTraitsSerialization() {
         val names = listOf(
             "VERSATILE", "VERSATILE_PLUS", "ZEALOUS", "ZEALOUS_PLUS", "CUNNING", "CUNNING_PLUS",
-            "ATHLETIC", "ATHLETIC_PLUS", "DEADEYE", "SUNDERING", "FORTIFIED", "RECKLESS", "LONE_WOLF"
+            "ATHLETIC", "ATHLETIC_PLUS", "DEADEYE", "SUNDERING", "FORTIFIED", "RECKLESS", "LONE_WOLF",
+            "ALERT_PLUS"
         )
         for (name in names) {
             val trait = checkNotNull(Trait.fromString(name)) { "$name must deserialize via Trait.fromString" }
@@ -2567,10 +2568,13 @@ class ModFeaturesTest {
         assertEquals(Trait.GIFTED_PLUS, Trait.getRarePlusUpgrade(Trait.GIFTED))
         assertEquals(Trait.INTIMIDATING_PLUS, Trait.getRarePlusUpgrade(Trait.INTIMIDATING))
         assertEquals(Trait.CURSED_PLUS, Trait.getRarePlusUpgrade(Trait.CURSED))
+        assertEquals(Trait.ALERT_PLUS, Trait.getRarePlusUpgrade(Trait.ALERT))
         assertNull("FOCUSED has no PLUS form", Trait.getRarePlusUpgrade(Trait.FOCUSED))
         assertNull("Already-PLUS traits cannot be re-amplified", Trait.getRarePlusUpgrade(Trait.RUTHLESS_PLUS))
         assertTrue(Trait.RUTHLESS_PLUS.isPlus())
+        assertTrue(Trait.ALERT_PLUS.isPlus())
         assertFalse(Trait.RUTHLESS.isPlus())
+        assertFalse(Trait.ALERT.isPlus())
 
         // Evo-23 permanence: a PLUS rare cannot be rerolled.
         val hero = Adventurer.getInstance("Footman", 1, 5, 0, null, null, null, null, Trait.RUTHLESS_PLUS, PotionsDrank(), null, false)!!
@@ -2614,6 +2618,68 @@ class ModFeaturesTest {
         val maxHp = hero(Trait.CURSED_PLUS).calculateTotalMaxHp()
         assertEquals(Utils.round(Math.max(1.0, maxHp * 0.02)), hero(Trait.CURSED).decay())
         assertEquals(Utils.round(Math.max(1.0, maxHp * 0.01)), hero(Trait.CURSED_PLUS).decay())
+    }
+
+    @Test
+    fun testAlertPlusTrait() {
+        val heroAlert = Adventurer.getInstance("Footman", 1, 40, 0, null, null, null, null, Trait.ALERT, PotionsDrank(), null, false)!!
+        val heroAlertPlus = Adventurer.getInstance("Footman", 1, 40, 0, null, null, null, null, Trait.ALERT_PLUS, PotionsDrank(), null, false)!!
+
+        // Both Alert and Alert+ grant initiative
+        assertTrue("Alert grants initiative", heroAlert.isInitiative())
+        assertTrue("Alert+ grants initiative", heroAlertPlus.isInitiative())
+        assertTrue("Alert+ isPlus() is true", heroAlertPlus.traitRare?.isPlus() == true)
+
+        // Combat test: +20% Basic Atk Amp on first hit
+        val area = TheGoldenCity()
+        heroAlertPlus.alwaysHits = true
+        heroAlert.alwaysHits = true
+        area.adventurersExploring.clear()
+        area.adventurersExploring.add(heroAlertPlus)
+
+        val target = Enemy.getInstance("Wolf")!!
+        target.baseDefense = 0
+        target.baseMagicDefense = 0
+        target.baseConstitution = 0
+        target.currentHp = 999999
+
+        assertFalse("firstHitPerformed starts false", heroAlertPlus.firstHitPerformed)
+
+        // First hit: EXTRA_ATTACK_90 deals 90 flat basic attack damage. With +20% amp (1.2x), deals 108.
+        val hp0 = target.currentHp
+        area.dealDamage(heroAlertPlus, target, null, EndOfTurnAction.EXTRA_ATTACK_90)
+        val dmgFirstHit = hp0 - target.currentHp
+        assertEquals("First hit gets +20% basic atk amp (90 * 1.2 = 108)", 108, dmgFirstHit)
+        assertTrue("firstHitPerformed set to true after first hit", heroAlertPlus.firstHitPerformed)
+
+        // Second hit in same combat: basic attack amp is normal (1.0x), deals 90.
+        val hp1 = target.currentHp
+        area.dealDamage(heroAlertPlus, target, null, EndOfTurnAction.EXTRA_ATTACK_90)
+        val dmgSecondHit = hp1 - target.currentHp
+        assertEquals("Second hit deals normal damage (90)", 90, dmgSecondHit)
+
+        // Reset fight: firstHitPerformed resets to false
+        heroAlertPlus.firstHitPerformed = false
+        val hp2 = target.currentHp
+        area.dealDamage(heroAlertPlus, target, null, EndOfTurnAction.EXTRA_ATTACK_90)
+        val dmgResetHit = hp2 - target.currentHp
+        assertEquals("Hit after fight reset gets +20% basic atk amp again (108)", 108, dmgResetHit)
+
+        // If first hit was a skill, subsequent basic attack does not get the bonus
+        heroAlertPlus.firstHitPerformed = false
+        val skill = area.Skill(heroAlertPlus).setDamageAmplification(1.0)
+        area.dealDamage(heroAlertPlus, target, skill, null)
+        assertTrue("Skill hit sets firstHitPerformed to true", heroAlertPlus.firstHitPerformed)
+
+        val hp3 = target.currentHp
+        area.dealDamage(heroAlertPlus, target, null, EndOfTurnAction.EXTRA_ATTACK_90)
+        val dmgAfterSkill = hp3 - target.currentHp
+        assertEquals("Basic attack after skill does not get first-hit amp (90)", 90, dmgAfterSkill)
+
+        // Base Alert deals normal damage (90) on first hit (no amp bonus)
+        val hpAlert = target.currentHp
+        area.dealDamage(heroAlert, target, null, EndOfTurnAction.EXTRA_ATTACK_90)
+        assertEquals("Base Alert deals normal damage (90) on first hit", 90, hpAlert - target.currentHp)
     }
 
     @Test

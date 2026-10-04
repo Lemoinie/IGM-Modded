@@ -546,4 +546,97 @@ class ShopReworkTest {
         assertNotNull("CeremonialCake must be in items", cake)
         assertEquals("CeremonialCake stack must be 10", 10, cake!!.getStack())
     }
+
+    @Test
+    fun testListUniqueDropsMissing_owningShaPreventsDivineEmbryo() {
+        // Player seen DivineEmbryo and Sha, but lacks DivineLarvae in seenItems (e.g. older save / migration)
+        MainActivity.data.seenItems.clear()
+        MainActivity.data.seenItems.add("DivineEmbryo")
+        MainActivity.data.seenItems.add("Sha")
+
+        // Player owns Sha in inventory
+        MainActivity.data.items.clear()
+        Item.getInstance("Sha", 1)?.let { MainActivity.data.items.add(it) }
+
+        val missing = Utils.listUniqueDropsMissing()
+        assertTrue("Owning Sha must prevent DivineEmbryo from appearing as missing: $missing", missing.isEmpty())
+    }
+
+    @Test
+    fun testListUniqueDropsMissing_owningShaOnAdventurer() {
+        MainActivity.data.seenItems.clear()
+        MainActivity.data.seenItems.add("DivineZygote")
+        MainActivity.data.seenItems.add("DivineEmbryo")
+        MainActivity.data.seenItems.add("DivineLarvae")
+        MainActivity.data.seenItems.add("Sha")
+
+        MainActivity.data.items.clear()
+        MainActivity.data.adventurers.clear()
+        val adv = Adventurer.getInstance("Footman", 1, 10, 0, null, null, null, null, null, PotionsDrank(), null, false)
+        assertNotNull(adv)
+        adv!!.accessory = Item.getInstance("Sha", 1) as? it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Accessory
+        MainActivity.data.adventurers.add(adv)
+
+        val missing = Utils.listUniqueDropsMissing()
+        assertTrue("Hero wearing Sha must satisfy entire Divine chain: $missing", missing.isEmpty())
+    }
+
+    @Test
+    fun testListUniqueDropsMissing_divineEmbryoOnDismissedAdventurer() {
+        MainActivity.data.seenItems.clear()
+        MainActivity.data.seenItems.add("DivineEmbryo")
+
+        MainActivity.data.items.clear()
+        MainActivity.data.adventurers.clear()
+        MainActivity.data.dismissedAdventurers.clear()
+
+        val adv = Adventurer.getInstance("Footman", 2, 10, 0, null, null, null, null, null, PotionsDrank(), null, false)
+        assertNotNull(adv)
+        adv!!.accessory = Item.getInstance("DivineEmbryo", 1) as? it.paranoidsquirrels.idleguildmaster.storage.data.items.abstractClasses.Accessory
+        MainActivity.data.dismissedAdventurers.add(adv)
+
+        val missing = Utils.listUniqueDropsMissing()
+        assertTrue("Dismissed hero holding DivineEmbryo must be detected as owned: $missing", missing.isEmpty())
+    }
+
+    @Test
+    fun testListUniqueDropsMissing_shaInMarketListings() {
+        MainActivity.data.seenItems.clear()
+        MainActivity.data.seenItems.add("DivineEmbryo")
+        MainActivity.data.seenItems.add("Sha")
+
+        MainActivity.data.items.clear()
+        MainActivity.data.marketListings.clear()
+        val itemAction = it.paranoidsquirrels.idleguildmaster.storage.data.items.ItemAction(Item.getInstance("Sha", 1)!!)
+        MainActivity.data.marketListings.add(itemAction)
+
+        val missing = Utils.listUniqueDropsMissing()
+        assertTrue("Sha listed on market must satisfy entire chain: $missing", missing.isEmpty())
+    }
+
+    @Test
+    fun testListUniqueDropsMissing_legitimateMissingUnique() {
+        MainActivity.data.seenItems.clear()
+        MainActivity.data.seenItems.add("DivineEmbryo")
+        MainActivity.data.items.clear()
+        MainActivity.data.adventurers.clear()
+        MainActivity.data.dismissedAdventurers.clear()
+        MainActivity.data.marketListings.clear()
+
+        val missing = Utils.listUniqueDropsMissing()
+        assertEquals("Legitimately lost DivineEmbryo must be returned for 1-gem recovery", listOf("DivineEmbryo"), missing)
+    }
+
+    @Test
+    fun testListUniqueDropsMissing_amuletOfTheSwordsman() {
+        MainActivity.data.seenItems.clear()
+        MainActivity.data.seenItems.add("EyesOfTheSwordsman")
+        MainActivity.data.seenItems.add("AmuletOfTheSwordsman")
+
+        MainActivity.data.items.clear()
+        Item.getInstance("AmuletOfTheSwordsman", 1)?.let { MainActivity.data.items.add(it) }
+
+        val missing = Utils.listUniqueDropsMissing()
+        assertTrue("Owning AmuletOfTheSwordsman must satisfy EyesOfTheSwordsman: $missing", missing.isEmpty())
+    }
 }

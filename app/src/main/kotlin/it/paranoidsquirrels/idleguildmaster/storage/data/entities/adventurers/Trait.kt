@@ -45,7 +45,8 @@ enum class Trait(
     NOCTURNAL_PLUS(R.string.trait_nocturnal_plus_name, R.string.trait_nocturnal_plus_description),
     GIFTED_PLUS(R.string.trait_gifted_plus_name, R.string.trait_gifted_plus_description),
     INTIMIDATING_PLUS(R.string.trait_intimidating_plus_name, R.string.trait_intimidating_plus_description),
-    CURSED_PLUS(R.string.trait_cursed_plus_name, R.string.trait_cursed_plus_description);
+    CURSED_PLUS(R.string.trait_cursed_plus_name, R.string.trait_cursed_plus_description),
+    ALERT_PLUS(R.string.trait_alert_plus_name, R.string.trait_alert_plus_description);
 
     /** True when this trait is a permanently-amplified PLUS form (e.g. `RUTHLESS_PLUS`). */
     fun isPlus(): Boolean = this.name.endsWith("_PLUS")
@@ -71,6 +72,7 @@ enum class Trait(
             Trait.GIFTED -> Trait.GIFTED_PLUS
             Trait.INTIMIDATING -> Trait.INTIMIDATING_PLUS
             Trait.CURSED -> Trait.CURSED_PLUS
+            Trait.ALERT -> Trait.ALERT_PLUS
             else -> null
         }
     }

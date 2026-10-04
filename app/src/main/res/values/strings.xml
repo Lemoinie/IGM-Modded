@@ -4752,6 +4752,8 @@ TAUNT: the taunting unit is always chosen as target"</string>
     <string name="trait_intimidating_plus_description">+4 threat</string>
     <string name="trait_cursed_plus_name">Cursed+</string>
     <string name="trait_cursed_plus_description" formatted="false">-1% HP each turn. Lifesteal +30%.</string>
+    <string name="trait_alert_plus_name">Alert+</string>
+    <string name="trait_alert_plus_description" formatted="false">Starts the fight first. +20% Basic Atk Amp on first hit.</string>
     <string name="trait_versatile_name">Versatile</string>
     <string name="trait_versatile_description" formatted="false">All stats increased by 4%.</string>
     <string name="trait_versatile_plus_name">Versatile+</string>

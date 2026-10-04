@@ -16,6 +16,24 @@ object ModChangelogActive {
 
     val ENTRIES: List<VersionEntry> = listOf(
         version(
+            "1.3.18.6", "5/10/2026",
+            subpoints(
+                "Adventurers — Alert+ Trait Upgrade:",
+                "Added Alert+ Trait: Alert can now be evolved using Evolution Vial 24 (Evo-24) into its permanent PLUS form, Alert+;",
+                "Initiative Retained: characters with Alert+ maintain guaranteed turn-0 initiative at the start of combat, identical to Alert;",
+                "First Strike Amplification: grants +20% Basic Atk Amp on the very first hit landed in each combat encounter."
+            ),
+        ),
+        version(
+            "1.3.18.5", "5/10/2026",
+            subpoints(
+                "Traveling Merchant — Unique Item Recovery & Duplication Fix:",
+                "Fixed Phantom Evolved Item Re-offers: corrected listUniqueDropsMissing() to recursively purge all ancestor items (e.g. owning or seeing Sha now reliably purges Divine Larvae, Divine Embryo, and Divine Zygote even if intermediate recipe records were missing);",
+                "Hierarchical Ownership Check: possessing an evolved boss accessory (like Sha or Amulet of the Swordsman) now automatically satisfies possession of all predecessor stages, preventing intermediate items from falsely appearing in the Traveling Merchant for 1 gem;",
+                "Expanded Storage Scans: added active market listings, unclaimed sold market items, and dismissed adventurers to the possession scanner to eliminate duplicate generation when unique gear is temporarily listed or stored on retired heroes."
+            ),
+        ),
+        version(
             "1.3.18.4", "4/10/2026",
             subpoints(
                 "Guild Activities — Weekly Siege Reset Fix:",

@@ -669,6 +669,7 @@ abstract class Area {
         applyRadiantBlessing()
         // Fortified: starts every battle with a shield equal to 25% of Max HP.
         for (adventurer in this.adventurersExploring) {
+            adventurer.firstHitPerformed = false
             if (adventurer.currentHp > 0 && adventurer.traitRare == Trait.FORTIFIED) {
                 val shieldAmount = Utils.round(adventurer.calculateTotalMaxHp() * 0.25)
                 adventurer.currentShield = maxOf(adventurer.currentShield, shieldAmount)
@@ -2623,8 +2624,15 @@ abstract class Area {
         var ampMultiplier = 1.0
         if (z6) {
             ampMultiplier = entity.calculateTotalNormalAttackAmp()
+            if (entity is Adventurer && entity.traitRare == Trait.ALERT_PLUS && !entity.firstHitPerformed) {
+                ampMultiplier += 0.20
+            }
         } else if (skill != null) {
             ampMultiplier = entity.calculateTotalSkillAmp()
+        }
+
+        if (entity is Adventurer && entity.traitRare == Trait.ALERT_PLUS) {
+            entity.firstHitPerformed = true
         }
 
         val rawDamage = dRollAttackDamage * dCalculateCriticalMultiplier * skillDamageAmplification *

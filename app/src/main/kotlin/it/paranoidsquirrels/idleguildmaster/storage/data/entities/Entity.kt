@@ -78,6 +78,7 @@ abstract class Entity {
     @JvmField @Transient var statusImmunities: MutableList<StatusEffectType> = ArrayList()
     @JvmField @Transient var onDeathEffectsOnEnemies: MutableList<StatusEffect> = ArrayList()
     @JvmField @Transient var onDeathEffectsOnAllies: MutableList<StatusEffect> = ArrayList()
+    @JvmField @Transient var firstHitPerformed: Boolean = false
     @JvmField var negativeStatusEffects: MutableList<StatusEffect> = CopyOnWriteArrayList()
     @JvmField var positiveStatusEffects: MutableList<StatusEffect> = CopyOnWriteArrayList()
 

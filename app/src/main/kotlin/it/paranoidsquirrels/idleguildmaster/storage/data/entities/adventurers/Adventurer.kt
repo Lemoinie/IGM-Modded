@@ -653,7 +653,7 @@ abstract class Adventurer : Entity() {
     }
 
     override fun isInitiative(): Boolean {
-        if (initiative || traitRare == Trait.ALERT) return true
+        if (initiative || traitRare == Trait.ALERT || traitRare == Trait.ALERT_PLUS) return true
         if (weapon?.isInitiative() == true) return true
         if (armor?.isInitiative() == true) return true
         return accessory?.isInitiative() == true
