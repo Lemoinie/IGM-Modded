@@ -32,6 +32,11 @@ object ModChangelogActive {
                 "Status Effects Inspector Tabbed Layout: added top tab navigation ([Enemies], [Allies], [All]) defaulting to Enemies, eliminating tedious scrolling past 14 raid allies to inspect enemy debuffs;",
                 "Hide Unaffected Units Toggle: added a 'Hide units without effects' checkbox in the Status Effects inspector to filter out units with zero active buffs or debuffs for an ultra-clean view."
             ),
+            subpoints(
+                "New Endgame Accessory — Bloodstone Claws:",
+                "Bloodstone Claws (Accessory): +25 Constitution, +26 Dexterity, +20% Attack Speed, and Bonus Action: Bleed 60 (inflicts 60 stacks of Bleed on melee attacks);",
+                "Crafting Recipe: 1x Kabelian Claws + 2x Scarlet Debris (dropped by the Bloodstone Colossus in The Sanguine Crucible)."
+            ),
         ),
         version(
             "1.3.18.1", "4/10/2026",

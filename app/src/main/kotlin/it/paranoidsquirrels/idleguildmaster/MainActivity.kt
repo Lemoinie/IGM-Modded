@@ -998,7 +998,8 @@ class MainActivity : AppCompatActivity() {
             Recipes.ScarletOniJuggernaut,
             Recipes.ScarletCape,
             Recipes.EldritchScarletCape,
-            Recipes.AbyssalScarletMantle
+            Recipes.AbyssalScarletMantle,
+            Recipes.BloodstoneClaws
         )) {
             for (ingredient in recipes.getIngredients()) {
                 val tc = ingredient?.getTrueClass()

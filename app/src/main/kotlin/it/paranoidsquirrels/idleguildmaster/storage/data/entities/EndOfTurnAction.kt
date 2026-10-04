@@ -24,6 +24,7 @@ enum class EndOfTurnAction(
     RIDER_VII(false, true, 100, null, true, false, null, false, true, true, R.string.log_rider_wyrm_attack),
     BLEED_POKE(false, true, 1, true, null, null, StatusEffect(StatusEffectType.BLEED, null, 8, 1.0), false, false, false, R.string.log_damage_dealt),
     BLEED_POKE_II(false, true, 1, true, null, null, StatusEffect(StatusEffectType.BLEED, null, 20, 1.0), false, false, false, R.string.log_damage_dealt),
+    BLEED_POKE_III(false, true, 1, true, null, null, StatusEffect(StatusEffectType.BLEED, null, 60, 1.0), false, false, false, R.string.log_damage_dealt),
     STUN_FLAT(false, true, 50, null, true, null, StatusEffect(StatusEffectType.STUN, null, 1, 0.1), false, false, false, R.string.log_damage_dealt),
     STUN_FLAT_II(false, true, 100, null, true, null, StatusEffect(StatusEffectType.STUN, null, 1, 0.11), false, false, false, R.string.log_damage_dealt),
     EXTRA_ATTACK(false, false, 0, null, null, null, null, true, true, false, R.string.log_damage_dealt),

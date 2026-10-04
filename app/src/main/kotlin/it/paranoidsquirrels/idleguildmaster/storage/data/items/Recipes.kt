@@ -333,6 +333,7 @@ Cloth(Item.getInstance("PlantFiber", 4)),
     EldritchScarletCape(Item.getInstance("ScarletCape", 1), Item.getInstance("EldritchSeal", 5)),
     AbyssalScarletMantle(Item.getInstance("EldritchScarletCape", 1), Item.getInstance("AncestralBlood", 10)),
     ScarletVeil(Item.getInstance("ScarletStrand", 4)),
+    BloodstoneClaws(Item.getInstance("KabelianClaws", 1), Item.getInstance("ScarletDebris", 2)),
     // --- Axe Progression ---
     CopperAxe(Item.getInstance("Wood", 3), Item.getInstance("CopperIngot", 3)),
     IronAxe(Item.getInstance("Wood", 15), Item.getInstance("IronIngot", 5)),

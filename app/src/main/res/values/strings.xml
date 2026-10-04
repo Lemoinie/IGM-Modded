@@ -186,6 +186,10 @@ BLEED: the target receives 1 damage at the start of its turn for every charge, t
 BLEED: the target receives 1 damage at the start of its turn for every charge, then removes one charge"</string>
     <string name="accessory_kabelian_claws_effect">Bonus action: BLEED 20</string>
     <string name="accessory_kabelian_claws_name">Kabelian Claws</string>
+    <string name="accessory_bloodstone_claws_description">"Gloves forged with ancient iron, infused with crystalline bloodstone and forged with scarlet debris. Vibrates in a frenzied cadence that allows the wearer to cut through flesh with lethal speed. The attack has to be melee for the effect to take place.
+BLEED: the target receives 1 damage at the start of its turn for every charge, then removes one charge"</string>
+    <string name="accessory_bloodstone_claws_effect">+20% Attack Speed; Bonus action: BLEED 60</string>
+    <string name="accessory_bloodstone_claws_name">Bloodstone Claws</string>
     <string name="accessory_laroxian_boots_description">Light and resistant boots woven from a magic infused cloth produced in Larox, and padded with a magical cloth.</string>
     <string name="accessory_laroxian_boots_name">Laroxian Boots</string>
     <string name="accessory_laroxian_gloves_description">Light and resistant gloves woven from a magic infused cloth produced in Larox, and padded with a magical cloth.</string>

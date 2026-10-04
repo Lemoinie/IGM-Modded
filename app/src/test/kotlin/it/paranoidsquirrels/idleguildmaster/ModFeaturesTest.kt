@@ -304,6 +304,42 @@ class ModFeaturesTest {
     }
 
     @Test
+    fun testBloodstoneClawsPropertiesAndRecipe() {
+        val claws = Item.getInstance("BloodstoneClaws", 1) as? BloodstoneClaws
+        assertNotNull("BloodstoneClaws must instantiate reflectively", claws)
+        assertEquals(25, claws!!.getConstitution())
+        assertEquals(26, claws.getDexterity())
+        assertEquals(20, claws.getAttackSpeed())
+        assertEquals(17500L, claws.getPrice())
+        assertEquals(EndOfTurnAction.BLEED_POKE_III, claws.getEndOfTurnAction())
+        assertEquals(StatusEffectType.BLEED, claws.getEndOfTurnAction()?.effect?.type)
+        assertEquals(60, claws.getEndOfTurnAction()?.effect?.turnsLeft)
+
+        val recipe = Recipes.into(Item.getInstance("BloodstoneClaws", 1))
+        assertNotNull("BloodstoneClaws must have a crafting recipe", recipe)
+        assertEquals(Recipes.BloodstoneClaws, recipe)
+        val ingredients = recipe!!.getIngredients().filterNotNull()
+        assertEquals(2, ingredients.size)
+        val kabelian = ingredients.firstOrNull { it.getTrueClass() == "KabelianClaws" }
+        assertNotNull("Recipe requires KabelianClaws", kabelian)
+        assertEquals(1, kabelian!!.getStack())
+        val debris = ingredients.firstOrNull { it.getTrueClass() == "ScarletDebris" }
+        assertNotNull("Recipe requires ScarletDebris", debris)
+        assertEquals(2, debris!!.getStack())
+    }
+
+    @Test
+    fun testBloodstoneClawsEquippedStats() {
+        val adv = Adventurer.getInstance("Footman", 1, 5, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+        val baseSpeed = adv.calculateTotalAttackSpeed()
+        val claws = Item.getInstance("BloodstoneClaws", 1) as? BloodstoneClaws
+        assertNotNull(claws)
+        adv.accessory = claws
+        assertEquals("Equipping BloodstoneClaws must add +20 attack speed", baseSpeed + 20, adv.calculateTotalAttackSpeed())
+        assertTrue("Equipping BloodstoneClaws must provide BLEED_POKE_III end-of-turn action", adv.endOfTurnActions().contains(EndOfTurnAction.BLEED_POKE_III))
+    }
+
+    @Test
     fun testSanguineCrucibleCorridorWavesAreHomogeneous() {
         // rollEnemies() is protected and SanguineCrucible is final; invoke it reflectively
         // so the corridor wave behaviour can be verified statistically.
