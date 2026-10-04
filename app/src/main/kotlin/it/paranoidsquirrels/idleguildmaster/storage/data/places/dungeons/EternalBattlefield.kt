@@ -16,7 +16,7 @@ import java.util.concurrent.CopyOnWriteArrayList
 class EternalBattlefield : Area() {
     override fun getAreaType(): Int = 0
 
-    override fun getDarkness(): Int = 0
+    override fun getDarkness(): Int = 20
 
     override fun getName(): Int = R.string.dungeon_name_eternal_battlefield
 

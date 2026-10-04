@@ -59,7 +59,7 @@ class CelestialMothership : Area() {
                 Enemy.getInstance("CelestialLancer")
             ))
         }
-        if (i == 9) {
+        if (i == 9 || i == 11) {
             return CopyOnWriteArrayList(listOfNotNull(
                 Enemy.getInstance("CelestialDestroyer"),
                 Enemy.getInstance("CelestialLancer"),
@@ -68,7 +68,16 @@ class CelestialMothership : Area() {
                 Enemy.getInstance("CelestialDestroyer")
             ))
         }
-        if (i == 12 || i == 15) {
+        if (i == 13) {
+            return CopyOnWriteArrayList(listOfNotNull(
+                Enemy.getInstance("CelestialDestroyer"),
+                Enemy.getInstance("CelestialDestroyer"),
+                Enemy.getInstance("CelestialDestroyer"),
+                Enemy.getInstance("CelestialDestroyer"),
+                Enemy.getInstance("CelestialDestroyer")
+            ))
+        }
+        if (i == 15) {
             return CopyOnWriteArrayList(listOfNotNull(
                 Enemy.getInstance("Gcss"),
                 Enemy.getInstance("ReinforcedDoor"),

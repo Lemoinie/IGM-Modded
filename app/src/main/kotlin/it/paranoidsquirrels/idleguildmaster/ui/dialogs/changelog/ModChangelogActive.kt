@@ -16,6 +16,20 @@ object ModChangelogActive {
 
     val ENTRIES: List<VersionEntry> = listOf(
         version(
+            "1.3.18.1", "4/10/2026",
+            subpoints(
+                "Raid & Dungeon Corrections:",
+                "Fixed The Lost Expedition Avatar of the Ancient Multi-Spawn: fixed a decompilation flaw in rollEnemies() where empty narrative rooms (rooms 1, 3, 5, 6, 7, 11, 12, 13) fell through to the boss encounter return, causing the Avatar of the Ancient to be fought up to 9 times in a single raid run; empty rooms now cleanly return no enemies;",
+                "Eternal Battlefield Darkness Restored: restored dungeon darkness to 20, recovering the vanilla value lost during the initial Java-to-Kotlin migration;",
+                "Celestial Mothership Encounters Aligned: added missing combat encounters for room 11 (5-unit Destroyer/Lancer fleet) and room 13 (5 Celestial Destroyers), and adjusted room 12/15 door encounters to match the intended encounter table.",
+            ),
+            subpoints(
+                "UI & Layout Refinements:",
+                "Dialog Entity Detail Page 3 Layout: reorganized tertiary stats into clean, balanced 5-row pairs matching Page 1 — Row 3: Attack Speed (alone), Row 4: Damage Dealt & Basic Atk Amp, Row 5: Damage Taken & Skill Amp;",
+                "Renamed 'Normal Atk Amp' to 'Basic Atk Amp' for clearer in-game terminology.",
+            ),
+        ),
+        version(
             "1.3.18.0", "3/10/2026",
             subpoints(
                 "Defense & Magic Defense Rework — universal damage mitigation formula (DEF * 100) / (DEF + 50)%:",

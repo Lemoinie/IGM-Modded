@@ -34,68 +34,74 @@ class TheLostExpedition : Area() {
 
     override fun getLayout(): LayoutDungeonBinding = MainActivity.raidsFragment.binding!!.theLostExpedition
 
-    override fun rollEnemies(): MutableList<Enemy> {
+    public override fun rollEnemies(): MutableList<Enemy> {
         val ev = event
         if (ev == null) {
-            val i = progress
-            if (i == 2) {
-                return CopyOnWriteArrayList(listOfNotNull(Enemy.getInstance("LostMiner")))
-            }
-            if (i == 4) {
-                return CopyOnWriteArrayList(listOfNotNull(
-                    Enemy.getInstance("LostMiner"),
-                    Enemy.getInstance("LostMiner"),
-                    Enemy.getInstance("LostMiner"),
-                    Enemy.getInstance("LostMiner"),
-                    Enemy.getInstance("LostMiner")
-                ))
-            }
-            if (i != 14) {
-                when (i) {
-                    8 -> return CopyOnWriteArrayList(listOfNotNull(
+            return when (progress) {
+                2 -> CopyOnWriteArrayList(listOfNotNull(Enemy.getInstance("LostMiner")))
+                4 -> CopyOnWriteArrayList(
+                    listOfNotNull(
+                        Enemy.getInstance("LostMiner"),
+                        Enemy.getInstance("LostMiner"),
+                        Enemy.getInstance("LostMiner"),
+                        Enemy.getInstance("LostMiner"),
+                        Enemy.getInstance("LostMiner")
+                    )
+                )
+                8 -> CopyOnWriteArrayList(
+                    listOfNotNull(
                         Enemy.getInstance("BleakDisciple"),
                         Enemy.getInstance("EldritchHound"),
                         Enemy.getInstance("BleakDisciple")
-                    ))
-                    9 -> return CopyOnWriteArrayList(listOfNotNull(
+                    )
+                )
+                9 -> CopyOnWriteArrayList(
+                    listOfNotNull(
                         Enemy.getInstance("EldritchHound"),
                         Enemy.getInstance("EldritchHound"),
                         Enemy.getInstance("BleakDisciple"),
                         Enemy.getInstance("EldritchHound"),
                         Enemy.getInstance("EldritchHound")
-                    ))
-                    10 -> return CopyOnWriteArrayList(listOfNotNull(
+                    )
+                )
+                10 -> CopyOnWriteArrayList(
+                    listOfNotNull(
                         Enemy.getInstance("EldritchHound"),
                         Enemy.getInstance("BleakDisciple"),
                         Enemy.getInstance("BleakDeacon"),
                         Enemy.getInstance("BleakDisciple"),
                         Enemy.getInstance("EldritchHound")
-                    ))
-                }
+                    )
+                )
+                14 -> CopyOnWriteArrayList(
+                    listOfNotNull(
+                        Enemy.getInstance("BleakDisciple"),
+                        Enemy.getInstance("AvatarOfTheAncient"),
+                        Enemy.getInstance("BleakDisciple")
+                    )
+                )
+                else -> CopyOnWriteArrayList()
             }
-            return CopyOnWriteArrayList(listOfNotNull(
-                Enemy.getInstance("BleakDisciple"),
-                Enemy.getInstance("AvatarOfTheAncient"),
-                Enemy.getInstance("BleakDisciple")
-            ))
         }
         val p = ev.progress
-        if (p == 5) {
-            return CopyOnWriteArrayList(listOfNotNull(
-                Enemy.getInstance("LostMiner"),
-                Enemy.getInstance("LostMiner")
-            ))
+        return when (p) {
+            5 -> CopyOnWriteArrayList(
+                listOfNotNull(
+                    Enemy.getInstance("LostMiner"),
+                    Enemy.getInstance("LostMiner")
+                )
+            )
+            7 -> CopyOnWriteArrayList(
+                listOfNotNull(
+                    Enemy.getInstance("LostMiner"),
+                    Enemy.getInstance("LostMiner"),
+                    Enemy.getInstance("TekeliLiFirstApostle"),
+                    Enemy.getInstance("LostMiner"),
+                    Enemy.getInstance("LostMiner")
+                )
+            )
+            else -> CopyOnWriteArrayList()
         }
-        if (p == 7) {
-            return CopyOnWriteArrayList(listOfNotNull(
-                Enemy.getInstance("LostMiner"),
-                Enemy.getInstance("LostMiner"),
-                Enemy.getInstance("TekeliLiFirstApostle"),
-                Enemy.getInstance("LostMiner"),
-                Enemy.getInstance("LostMiner")
-            ))
-        }
-        return CopyOnWriteArrayList()
     }
 
     override fun searchRoom() {
@@ -166,26 +172,18 @@ class TheLostExpedition : Area() {
             "fight_start" -> {
                 val ev = event
                 if (ev == null) {
-                    val i = progress
-                    if (i == 2) {
-                        Logger.log(this, 101, R.string.log_the_lost_expedition_encounter_1)
-                    } else if (i == 4) {
-                        Logger.log(this, 101, R.string.log_the_lost_expedition_encounter_2)
-                    } else if (i != 14) {
-                        when (i) {
-                            8 -> Logger.log(this, 101, R.string.log_the_lost_expedition_encounter_3)
-                            9 -> Logger.log(this, 101, R.string.log_the_lost_expedition_encounter_4)
-                            10 -> Logger.log(this, 101, R.string.log_the_lost_expedition_encounter_5)
-                        }
-                    } else {
-                        Logger.log(this, 101, R.string.log_the_lost_expedition_encounter_6)
+                    when (progress) {
+                        2 -> Logger.log(this, 101, R.string.log_the_lost_expedition_encounter_1)
+                        4 -> Logger.log(this, 101, R.string.log_the_lost_expedition_encounter_2)
+                        8 -> Logger.log(this, 101, R.string.log_the_lost_expedition_encounter_3)
+                        9 -> Logger.log(this, 101, R.string.log_the_lost_expedition_encounter_4)
+                        10 -> Logger.log(this, 101, R.string.log_the_lost_expedition_encounter_5)
+                        14 -> Logger.log(this, 101, R.string.log_the_lost_expedition_encounter_6)
                     }
                 } else {
-                    val p = ev.progress
-                    if (p == 5) {
-                        Logger.log(this, 101, R.string.log_the_lost_expedition_encounter_6a)
-                    } else if (p == 7) {
-                        Logger.log(this, 101, R.string.log_the_lost_expedition_encounter_7a)
+                    when (ev.progress) {
+                        5 -> Logger.log(this, 101, R.string.log_the_lost_expedition_encounter_6a)
+                        7 -> Logger.log(this, 101, R.string.log_the_lost_expedition_encounter_7a)
                     }
                 }
             }

@@ -3056,6 +3056,112 @@ class ModFeaturesTest {
         val skillHealAmped = hurtHero.currentHp - 100
         assertEquals("200% Skill Amp doubles active skill heal", skillHealBase * 2, skillHealAmped)
     }
+
+    @Test
+    fun testTheLostExpeditionAndRaidCorrections() {
+        // 1. Eternal Battlefield darkness restored to 20
+        val eb = it.paranoidsquirrels.idleguildmaster.storage.data.places.dungeons.EternalBattlefield()
+        assertEquals("Eternal Battlefield darkness must be 20", 20, eb.getDarkness())
+
+        // 2. The Lost Expedition encounter table and single Avatar of the Ancient spawn
+        val expedition = it.paranoidsquirrels.idleguildmaster.storage.data.places.raids.TheLostExpedition()
+        var avatarKillsCount = 0
+
+        for (room in 1..15) {
+            expedition.progress = room
+            val enemies = expedition.rollEnemies()
+            val hasAvatar = enemies.any { it.getTrueClass() == "AvatarOfTheAncient" }
+            if (hasAvatar) {
+                avatarKillsCount++
+                assertEquals("Avatar of the Ancient must ONLY spawn in boss room 14", 14, room)
+            }
+
+            when (room) {
+                1, 3, 5, 6, 7, 11, 12, 13, 15 -> {
+                    assertTrue("Narrative/empty room $room must roll 0 enemies", enemies.isEmpty())
+                }
+                2 -> {
+                    assertEquals(1, enemies.size)
+                    assertEquals("LostMiner", enemies[0].getTrueClass())
+                }
+                4 -> {
+                    assertEquals(5, enemies.size)
+                    assertTrue("Room 4 must contain all LostMiners", enemies.all { it.getTrueClass() == "LostMiner" })
+                }
+                8 -> {
+                    assertEquals(3, enemies.size)
+                    assertEquals("BleakDisciple", enemies[0].getTrueClass())
+                    assertEquals("EldritchHound", enemies[1].getTrueClass())
+                    assertEquals("BleakDisciple", enemies[2].getTrueClass())
+                }
+                9 -> {
+                    assertEquals(5, enemies.size)
+                    assertEquals(4, enemies.count { it.getTrueClass() == "EldritchHound" })
+                    assertEquals(1, enemies.count { it.getTrueClass() == "BleakDisciple" })
+                }
+                10 -> {
+                    assertEquals(5, enemies.size)
+                    assertEquals(2, enemies.count { it.getTrueClass() == "EldritchHound" })
+                    assertEquals(2, enemies.count { it.getTrueClass() == "BleakDisciple" })
+                    assertEquals(1, enemies.count { it.getTrueClass() == "BleakDeacon" })
+                }
+                14 -> {
+                    assertEquals(3, enemies.size)
+                    assertEquals("BleakDisciple", enemies[0].getTrueClass())
+                    assertEquals("AvatarOfTheAncient", enemies[1].getTrueClass())
+                    assertEquals("BleakDisciple", enemies[2].getTrueClass())
+                }
+            }
+        }
+        assertEquals("Avatar of the Ancient must be fought exactly once across the whole raid", 1, avatarKillsCount)
+
+        // Trapdoor route checks
+        val trapdoorExpedition = it.paranoidsquirrels.idleguildmaster.storage.data.places.raids.TheLostExpedition()
+        val trapdoorEvent = it.paranoidsquirrels.idleguildmaster.storage.data.places.Event(
+            it.paranoidsquirrels.idleguildmaster.storage.data.places.Event.LOST_EXPEDITION_TRAPDOOR
+        )
+        trapdoorExpedition.event = trapdoorEvent
+
+        for (p in 1..8) {
+            trapdoorEvent.progress = p
+            val enemies = trapdoorExpedition.rollEnemies()
+            when (p) {
+                5 -> {
+                    assertEquals(2, enemies.size)
+                    assertTrue(enemies.all { it.getTrueClass() == "LostMiner" })
+                }
+                7 -> {
+                    assertEquals(5, enemies.size)
+                    assertEquals(1, enemies.count { it.getTrueClass() == "TekeliLiFirstApostle" })
+                    assertEquals(4, enemies.count { it.getTrueClass() == "LostMiner" })
+                }
+                else -> {
+                    assertTrue("Trapdoor progress $p must have no enemies", enemies.isEmpty())
+                }
+            }
+        }
+
+        // 3. Celestial Mothership encounter additions
+        val mothership = it.paranoidsquirrels.idleguildmaster.storage.data.places.raids.CelestialMothership()
+        mothership.progress = 11
+        val r11 = mothership.rollEnemies()
+        assertEquals("Room 11 must spawn 5 enemies", 5, r11.size)
+        assertEquals(2, r11.count { it.getTrueClass() == "CelestialDestroyer" })
+        assertEquals(3, r11.count { it.getTrueClass() == "CelestialLancer" })
+
+        mothership.progress = 13
+        val r13 = mothership.rollEnemies()
+        assertEquals("Room 13 must spawn 5 Celestial Destroyers", 5, r13.size)
+        assertTrue(r13.all { it.getTrueClass() == "CelestialDestroyer" })
+
+        mothership.progress = 15
+        val r15 = mothership.rollEnemies()
+        assertEquals("Room 15 must spawn ReinforcedDoor and 2 Gcss", 3, r15.size)
+
+        mothership.progress = 12
+        val r12 = mothership.rollEnemies()
+        assertTrue("Room 12 must now be empty", r12.isEmpty())
+    }
 }
 
 
