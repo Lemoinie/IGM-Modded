@@ -21,6 +21,7 @@ app/build/
 /plans
 /save_editor
 /companion_app
+/igmplus_wiki
 
 save.json
 save.json.tmp
