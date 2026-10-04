@@ -26,6 +26,12 @@ object ModChangelogActive {
                 "Bleed & Skill Synergies: Spirit Engraver now reliably applies 120 Bleed per turn with basic attacks, rapidly shredding enemy armor while active skill (Thousand Cuts II) damage remains at 100% full power via Skill Amp;",
                 "Dungeon Utility: Retains full saboteur trap-disarming utility across all tiers."
             ),
+            subpoints(
+                "Combat & Status Inspector Enhancements:",
+                "Fixed 999+ Bleed Stacks Display: resolved an issue where reaching 999+ Bleed charges caused the live Battle Status Effects inspector to display 'Permanent' and the combat battle log to omit stack counts ('[Enemy] is bleeding'); both now properly display the full charge count (e.g. 1000+ turns/charges left);",
+                "Status Effects Inspector Tabbed Layout: added top tab navigation ([Enemies], [Allies], [All]) defaulting to Enemies, eliminating tedious scrolling past 14 raid allies to inspect enemy debuffs;",
+                "Hide Unaffected Units Toggle: added a 'Hide units without effects' checkbox in the Status Effects inspector to filter out units with zero active buffs or debuffs for an ultra-clean view."
+            ),
         ),
         version(
             "1.3.18.1", "4/10/2026",

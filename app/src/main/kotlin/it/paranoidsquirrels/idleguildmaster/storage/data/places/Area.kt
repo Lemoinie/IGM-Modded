@@ -1194,7 +1194,7 @@ abstract class Area {
             iAddStatusEffect = targetEntity.addStatusEffect(statusEffect, 0.0)
         }
         if (iAddStatusEffect > 0) {
-            if (iAddStatusEffect < 999) {
+            if (iAddStatusEffect < 999 || statusEffect.type == StatusEffectType.BLEED) {
                 Logger.log(this, 11, targetEntity, statusEffect.type, iAddStatusEffect)
             } else {
                 Logger.log(this, 12, targetEntity, statusEffect.type)
@@ -1760,7 +1760,7 @@ abstract class Area {
                     QuestsManager.increment(QuestsManager.smokingHot, 1L)
                 }
             }
-            if (iAddStatusEffect < 999) {
+            if (iAddStatusEffect < 999 || statusEffect.type == StatusEffectType.BLEED) {
                 Logger.log(this, 11, entity, statusEffect.type, iAddStatusEffect)
             } else {
                 Logger.log(this, 12, entity, statusEffect.type)

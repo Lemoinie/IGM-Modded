@@ -1903,6 +1903,26 @@ class ModFeaturesTest {
         assertEquals("Permanent effects must use the permanent label", R.string.status_permanent, DialogBattleStatusEffects.statusTurnsLeftLabelResource(999))
         assertEquals("Single-turn effects must use the singular label", R.string.status_turn_left, DialogBattleStatusEffects.statusTurnsLeftLabelResource(1))
         assertEquals("Multi-turn effects must use the plural label", R.string.status_turns_left, DialogBattleStatusEffects.statusTurnsLeftLabelResource(3))
+
+        // Bleed with 999+ charges must use plural turns left label instead of permanent
+        assertEquals("Bleed with 999 charges must use plural turns left label", R.string.status_turns_left, DialogBattleStatusEffects.statusTurnsLeftLabelResource(999, StatusEffectType.BLEED))
+        assertEquals("Bleed with 1500 charges must use plural turns left label", R.string.status_turns_left, DialogBattleStatusEffects.statusTurnsLeftLabelResource(1500, StatusEffectType.BLEED))
+        assertEquals("Non-bleed effect with 999 turns must still use permanent label", R.string.status_permanent, DialogBattleStatusEffects.statusTurnsLeftLabelResource(999, StatusEffectType.CURSE))
+    }
+
+    @Test
+    fun testBleedBeyond999Charges() {
+        val target = Enemy.getInstance("Wolf")!!
+        val added1 = target.addStatusEffect(StatusEffect(StatusEffectType.BLEED, null, 600, 1.0), 1.0)
+        assertEquals(600, added1)
+        val added2 = target.addStatusEffect(StatusEffect(StatusEffectType.BLEED, null, 500, 1.0), 1.0)
+        assertEquals(1100, added2)
+
+        val bleed = target.negativeStatusEffects.find { it.type == StatusEffectType.BLEED }
+        assertNotNull(bleed)
+        assertEquals(1100, bleed!!.turnsLeft)
+        assertEquals(1100, target.getBleedStacks())
+        assertEquals(R.string.status_turns_left, DialogBattleStatusEffects.statusTurnsLeftLabelResource(bleed.turnsLeft, bleed.type))
     }
 
     @Test
@@ -1918,6 +1938,19 @@ class ModFeaturesTest {
         val regen = target.positiveStatusEffects.find { it.type == StatusEffectType.REGENERATION }
         assertNotNull("Regeneration must be listed as a positive effect", regen)
         assertEquals(2, regen!!.turnsLeft)
+    }
+
+    @Test
+    fun testStatusInspectorHasActiveEffectsHelper() {
+        val target = Enemy.getInstance("Wolf")!!
+        assertFalse("Unit with no effects must return false", DialogBattleStatusEffects.hasActiveEffects(target))
+
+        target.addStatusEffect(StatusEffect(StatusEffectType.BLEED, null, 3, 1.0), 1.0)
+        assertTrue("Unit with negative effect must return true", DialogBattleStatusEffects.hasActiveEffects(target))
+
+        val cleanUnit = Enemy.getInstance("Wolf")!!
+        cleanUnit.addStatusEffect(StatusEffect(StatusEffectType.REGENERATION, null, 2, 1.0), 1.0)
+        assertTrue("Unit with positive effect must return true", DialogBattleStatusEffects.hasActiveEffects(cleanUnit))
     }
 
     @Test

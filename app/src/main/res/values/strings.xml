@@ -3926,6 +3926,9 @@ POISON: damage reduced by 20%"</string>
     <string name="status_effects_title">Status Effects</string>
     <string name="status_allies">Allies</string>
     <string name="status_enemies">Enemies</string>
+    <string name="status_tab_all">All</string>
+    <string name="status_hide_unaffected">Hide units without effects</string>
+    <string name="status_no_effects_found">No units with active status effects</string>
     <string name="status_permanent">Permanent</string>
     <string name="status_turn_left">1 turn left</string>
     <string name="status_turns_left">%d turns left</string>
