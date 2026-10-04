@@ -1264,6 +1264,17 @@ class ModFeaturesTest {
         forest.cast(hero)
         assertTrue("Thousand Cuts must apply Bleed stacks (stacks=${wolf.getBleedStacks()})", wolf.getBleedStacks() > 0)
         assertTrue("Hemorrhage burst must have dealt damage", wolf.currentHp < wolf.calculateTotalMaxHp())
+
+        // Test lethal Hemorrhage invokes checkDeath and eliminates target
+        val weakWolf = Enemy.getInstance("Wolf")!!
+        weakWolf.currentHp = 1
+        weakWolf.baseMaxHp = 100
+        weakWolf.negativeStatusEffects.add(StatusEffect.STATIC_INSTANCE_FROZEN)
+        // Pre-apply bleed so hemorrhage base damage is at least 50
+        weakWolf.negativeStatusEffects.add(StatusEffect(StatusEffectType.BLEED, hero, 50, 1.0))
+        forest.enemies = CopyOnWriteArrayList(listOf(weakWolf))
+        forest.cast(hero)
+        assertTrue("Lethal Hemorrhage must trigger checkDeath and eliminate enemy", forest.enemies.isEmpty())
     }
 
     @Test

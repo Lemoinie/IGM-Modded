@@ -1781,7 +1781,7 @@ abstract class Area {
         val petHem = this.petExploring
         val bloodcraveBonus = if (petHem != null) petHem.getBloodcrave() else 0.0
         val baseDamage = stacks.toDouble() * (1.0 + bloodcraveBonus * 0.01)
-        val isCrit = Utils.random() * 100.0 < inflicter.calculateCriticalChance()
+        val isCrit = Utils.random() < inflicter.calculateCriticalChance()
         val isSuperCrit =
             isCrit && petHem != null && petHem.getSavage() > 0.0 && Utils.random() < petHem.getSavage() / 100.0
         val critMultiplier = if (isSuperCrit) {
@@ -1794,7 +1794,9 @@ abstract class Area {
         }
         val critTier = if (isSuperCrit) 2 else if (isCrit) 1 else 0
         val iHemorrhageDamage = target.applyDamage(baseDamage * critMultiplier, false, 0, 0.0)
+        animateDamage(target)
         Logger.log(this, Logger.STATUS_HEMORRHAGE, target, iHemorrhageDamage, critTier)
+        checkDeath(target)
     }
 
     open fun trapEncounter(i: Int, i2: Int, i3: Int, i4: Int, z: Boolean) {

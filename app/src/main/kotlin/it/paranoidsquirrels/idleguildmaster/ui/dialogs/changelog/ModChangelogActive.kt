@@ -16,6 +16,20 @@ object ModChangelogActive {
 
     val ENTRIES: List<VersionEntry> = listOf(
         version(
+            "1.3.18.3", "4/10/2026",
+            subpoints(
+                "Combat Engine — Hemorrhage & Thousand Cuts Fixes:",
+                "Fixed Silent Hemorrhage Logs: Hemorrhage damage logs are no longer suppressed behind verbose logging; burst procs now always display in standard battle logs ('[Target] hemorrhaged. It lost [Dmg] damage!');",
+                "Fixed Critical Hemorrhage Rate: corrected the critical roll calculation (which compared random against [0..100] instead of [0..1], reducing crit chance by 100x); Hemorrhage now properly rolls the inflicter's full critical chance and pet Savage super-crit tier;",
+                "Floating Damage & Death Animation: Hemorrhage damage now triggers visual floating combat text (animateDamage) and properly runs instant death handling (checkDeath) when lethal;",
+                "Updated Skill Tooltips: Thousand Cuts and Thousand Cuts II descriptions now clearly explain both the Bleed stack application and the instant Hemorrhage burst mechanic.",
+            ),
+            subpoints(
+                "Skill Phrasing Improvements:",
+                "Updated tooltips for Whip and Tear, Extirpate, Obliterate, Annihilate, and Flay to clarify melee and ranged damage components instead of ambiguous 'Range is always melee' phrasing."
+            ),
+        ),
+        version(
             "1.3.18.2", "4/10/2026",
             subpoints(
                 "Rogue Rebalance — Deadly Finesse Flurry & Bleed Synergy:",
@@ -33,7 +47,7 @@ object ModChangelogActive {
                 "Hide Unaffected Units Toggle: added a 'Hide units without effects' checkbox in the Status Effects inspector to filter out units with zero active buffs or debuffs for an ultra-clean view."
             ),
             subpoints(
-                "New Endgame Accessory — Bloodstone Claws:",
+                "New Accessory — Bloodstone Claws:",
                 "Bloodstone Claws (Accessory): +25 Constitution, +26 Dexterity, +20% Attack Speed, and Bonus Action: Bleed 60 (inflicts 60 stacks of Bleed on melee attacks);",
                 "Crafting Recipe: 1x Kabelian Claws + 2x Scarlet Debris (dropped by the Bloodstone Colossus in The Sanguine Crucible)."
             ),

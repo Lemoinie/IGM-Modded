@@ -650,14 +650,16 @@ TAUNT: the taunting unit is always chosen as target"</string>
     <string name="active_taunt_iv_name">Taunt IV</string>
     <string name="active_the_ten_hells_description">Casts all enemies into a forgotten realm, killing them instantly.</string>
     <string name="active_the_ten_hells_name">The Ten Hells</string>
-    <string name="active_thousand_cuts_description">"Stabs an enemy and applies a charges of BLEED for every 3 damage dealt.
+    <string name="active_thousand_cuts_description">"Stabs an enemy and applies a charge of BLEED for every 3 damage dealt, then triggers HEMORRHAGE on the target.
 Critical hit bonus damage × 3.
 
-BLEED: the target receives 1 damage at the start of its turn for every charge, then removes one charge"</string>
-    <string name="active_thousand_cuts_ii_description">"Stabs an enemy and applies a charges of BLEED for every 2 damage dealt.
+BLEED: the target receives 1 damage at the start of its turn for every charge, then removes one charge.
+HEMORRHAGE: Deals instant damage equal to target's total BLEED charges."</string>
+    <string name="active_thousand_cuts_ii_description">"Stabs an enemy and applies a charge of BLEED for every 2 damage dealt, then triggers HEMORRHAGE on the target.
 Critical hit bonus damage × 3.
 
-BLEED: the target receives 1 damage at the start of its turn for every charge, then removes one charge"</string>
+BLEED: the target receives 1 damage at the start of its turn for every charge, then removes one charge.
+HEMORRHAGE: Deals instant damage equal to target's total BLEED charges."</string>
     <string name="active_thousand_cuts_ii_name">Thousand Cuts II</string>
     <string name="active_thousand_cuts_name">Thousand Cuts</string>
     <string name="active_umbral_strike_i_description">"Stabs an enemy for [200% × (1 + Darkness/100)] damage.
