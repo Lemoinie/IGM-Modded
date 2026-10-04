@@ -88,7 +88,10 @@ class GuildSiegeArea : Area() {
     }
 
     override fun refreshTries() {
-        if (MainActivity.guildActivitiesFragment.context == null || MainActivity.guildActivitiesFragment.binding == null) {
+        val available = GuildActivitiesManager.isSiegeAvailable() && adventurersExploringIds.isEmpty()
+        this.triesAvailable = available
+        val frag = MainActivity.guildActivitiesFragment
+        if (frag.context == null || frag.binding == null) {
             return
         }
         if (!Utils.isMainLooper()) {
@@ -96,8 +99,6 @@ class GuildSiegeArea : Area() {
             return
         }
         val layout = getLayout()
-        val available = GuildActivitiesManager.isSiegeAvailable() && adventurersExploringIds.isEmpty()
-        this.triesAvailable = available
         layout.raidTryAvailable.setImageResource(
             if (available) R.drawable.raid_try_available else R.drawable.raid_try_unavailable
         )

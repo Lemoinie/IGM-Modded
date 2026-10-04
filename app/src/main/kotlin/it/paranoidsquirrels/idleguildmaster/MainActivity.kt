@@ -40,6 +40,7 @@ import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
 import it.paranoidsquirrels.idleguildmaster.databinding.ActivityMainBinding
+import it.paranoidsquirrels.idleguildmaster.game.activities.GuildActivitiesManager
 import it.paranoidsquirrels.idleguildmaster.storage.FileManager
 import it.paranoidsquirrels.idleguildmaster.storage.SaveManager
 import it.paranoidsquirrels.idleguildmaster.storage.data.Data
@@ -302,6 +303,7 @@ class MainActivity : AppCompatActivity() {
 
         TrueTimeUtils.init()
         data = FileManager.load(this)
+        GuildActivitiesManager.ensureActivities(TrueTimeUtils.millis())
         QuestsManager.initializeFields(QuestsManager.calculateDifficulty())
         QuestsManager.realignQuests()
         PlayGamesSdk.initialize(this)

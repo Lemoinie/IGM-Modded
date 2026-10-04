@@ -68,7 +68,7 @@ object GuildActivitiesManager {
     fun getWeekBoundary(timeMillis: Long): Long {
         val cal = Calendar.getInstance()
         cal.timeInMillis = timeMillis
-        cal.set(Calendar.DAY_OF_WEEK, cal.firstDayOfWeek)
+        cal.add(Calendar.DAY_OF_WEEK, -(cal.get(Calendar.DAY_OF_WEEK) - Calendar.SUNDAY))
         cal.set(Calendar.HOUR_OF_DAY, 0)
         cal.set(Calendar.MINUTE, 0)
         cal.set(Calendar.SECOND, 0)
@@ -96,6 +96,7 @@ object GuildActivitiesManager {
             state.requestStatus = GuildActivitiesState.STATUS_ACTIVE
             state.requestRewardClaimed = false
             req?.progress = 0
+            req?.triesAvailable = true
             req?.refreshTries()
         }
     }
@@ -115,6 +116,7 @@ object GuildActivitiesManager {
             state.siegeStatus = GuildActivitiesState.STATUS_ACTIVE
             state.siegeWavesCleared = 0
             siege?.progress = 0
+            siege?.triesAvailable = true
             siege?.refreshTries()
         }
     }

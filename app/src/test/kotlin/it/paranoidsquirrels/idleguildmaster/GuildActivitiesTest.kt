@@ -275,6 +275,57 @@ class GuildActivitiesTest {
     }
 
     @Test
+    fun testSundayWeekBoundaryIndependentOfLocale() {
+        // Oct 4, 2026 is Sunday. Oct 6 is Tuesday. Oct 10 is Saturday.
+        val cal = java.util.Calendar.getInstance()
+        cal.set(2026, java.util.Calendar.OCTOBER, 4, 15, 30, 0)
+        val sundayAfternoon = cal.timeInMillis
+
+        cal.set(2026, java.util.Calendar.OCTOBER, 7, 10, 0, 0)
+        val wednesday = cal.timeInMillis
+
+        cal.set(2026, java.util.Calendar.OCTOBER, 10, 23, 59, 0)
+        val saturdayNight = cal.timeInMillis
+
+        // Expected boundary is Sunday Oct 4, 2026 00:00:00.000
+        val expectedCal = java.util.Calendar.getInstance()
+        expectedCal.set(2026, java.util.Calendar.OCTOBER, 4, 0, 0, 0)
+        expectedCal.set(java.util.Calendar.MILLISECOND, 0)
+        val expectedBoundary = expectedCal.timeInMillis
+
+        assertEquals("Sunday afternoon must map to Sunday 00:00:00", expectedBoundary, GuildActivitiesManager.getWeekBoundary(sundayAfternoon))
+        assertEquals("Wednesday must map to Sunday 00:00:00", expectedBoundary, GuildActivitiesManager.getWeekBoundary(wednesday))
+        assertEquals("Saturday night must map to Sunday 00:00:00", expectedBoundary, GuildActivitiesManager.getWeekBoundary(saturdayNight))
+
+        // Next Sunday Oct 11 must advance boundary by exactly 7 days
+        cal.set(2026, java.util.Calendar.OCTOBER, 11, 0, 1, 0)
+        val nextSunday = cal.timeInMillis
+        val expectedNextBoundary = expectedBoundary + 7 * 24 * 60 * 60 * 1000L
+        assertEquals("Next Sunday must advance to new week boundary", expectedNextBoundary, GuildActivitiesManager.getWeekBoundary(nextSunday))
+    }
+
+    @Test
+    fun testRefreshTriesSetsAvailableEvenWithoutBinding() {
+        val siege = MainActivity.data.guildSiege!!
+        val req = MainActivity.data.guildRequest!!
+        val state = MainActivity.data.guildActivitiesState
+        state.siegeStatus = GuildActivitiesState.STATUS_ACTIVE
+        state.requestStatus = GuildActivitiesState.STATUS_ACTIVE
+
+        siege.adventurersExploringIds.clear()
+        req.adventurersExploringIds.clear()
+        siege.triesAvailable = false
+        req.triesAvailable = false
+
+        // Refresh tries with no fragment binding attached
+        siege.refreshTries()
+        req.refreshTries()
+
+        assertTrue("GuildSiege triesAvailable must be true when active even if binding is null", siege.triesAvailable)
+        assertTrue("GuildRequest triesAvailable must be true when active even if binding is null", req.triesAvailable)
+    }
+
+    @Test
     fun testShadowLootPoolGeode() {
         val shadow = requireNotNull(Enemy.getInstance("Shadow") as? Shadow) { "Shadow should be instantiable via Enemy.getInstance" }
         // Shadow rolls one of three Geode stacks: 50 (90%), 100 (9%), 200 (1%).

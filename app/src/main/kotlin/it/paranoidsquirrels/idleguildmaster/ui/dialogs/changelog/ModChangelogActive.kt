@@ -16,6 +16,15 @@ object ModChangelogActive {
 
     val ENTRIES: List<VersionEntry> = listOf(
         version(
+            "1.3.18.4", "4/10/2026",
+            subpoints(
+                "Guild Activities — Weekly Siege Reset Fix:",
+                "Fixed Locale-Dependent Siege Rollover: corrected the week boundary calculation to lock to the game engine's Sunday 00:00:00 boundary regardless of device locale; players in Monday-first locales (Europe, Asia, UK, etc.) now correctly reset their weekly Siege attempt on Sunday midnight matching the in-game countdown timer;",
+                "Fixed Unattached Fragment State Loss: decoupled triesAvailable updates from Android view binding availability in both The Siege and The Hunt so weekly/daily attempts reliably reset in memory even during background ticks or before navigating to the Guild Activities tab;",
+                "Instant Startup Catch-Up: added immediate ensureActivities() check on game boot so overdue daily/weekly resets are applied the millisecond the save file loads."
+            ),
+        ),
+        version(
             "1.3.18.3", "4/10/2026",
             subpoints(
                 "Combat Engine — Hemorrhage & Thousand Cuts Fixes:",
