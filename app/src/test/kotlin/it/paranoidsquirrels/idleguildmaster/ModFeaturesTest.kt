@@ -3162,6 +3162,34 @@ class ModFeaturesTest {
         val r12 = mothership.rollEnemies()
         assertTrue("Room 12 must now be empty", r12.isEmpty())
     }
+
+    @Test
+    fun testDeadlyFinesseAttackSpeedAndBasicAttackAmpScaling() {
+        val meatCarver = Adventurer.getInstance("MeatCarver", 1, 1, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+        assertEquals(150, meatCarver.calculateTotalAttackSpeed())
+        assertEquals(0.75, meatCarver.calculateTotalNormalAttackAmp(), 0.001)
+        assertEquals(1.0, meatCarver.calculateTotalSkillAmp(), 0.001)
+        assertTrue(meatCarver.isSaboteur())
+
+        val woundsWeaver = Adventurer.getInstance("WoundsWeaver", 1, 1, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+        assertEquals(175, woundsWeaver.calculateTotalAttackSpeed())
+        assertEquals(0.65, woundsWeaver.calculateTotalNormalAttackAmp(), 0.001)
+        assertEquals(1.0, woundsWeaver.calculateTotalSkillAmp(), 0.001)
+        assertTrue(woundsWeaver.isSaboteur())
+
+        val hellishSculptor = Adventurer.getInstance("HellishSculptor", 1, 1, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+        assertEquals(200, hellishSculptor.calculateTotalAttackSpeed())
+        assertEquals(0.50, hellishSculptor.calculateTotalNormalAttackAmp(), 0.001)
+        assertEquals(1.0, hellishSculptor.calculateTotalSkillAmp(), 0.001)
+        assertTrue(hellishSculptor.isSaboteur())
+
+        val spiritEngraver = Adventurer.getInstance("SpiritEngraver", 1, 1, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+        assertEquals(200, spiritEngraver.calculateTotalAttackSpeed())
+        assertEquals(0.50, spiritEngraver.calculateTotalNormalAttackAmp(), 0.001)
+        assertEquals(1.0, spiritEngraver.calculateTotalSkillAmp(), 0.001)
+        assertTrue(spiritEngraver.isSaboteur())
+        assertEquals(60, spiritEngraver.onTargetHit?.turnsLeft)
+    }
 }
 
 

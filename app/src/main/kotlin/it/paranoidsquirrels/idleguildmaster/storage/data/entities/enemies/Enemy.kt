@@ -113,7 +113,24 @@ abstract class Enemy : Entity() {
         if (passiveSkill == Skills.PASSIVE_BERSERKER_RAGE && currentHp.toDouble() <= calculateTotalMaxHp().toDouble() * 0.5) {
             speed += 100
         }
+        when (passiveSkill) {
+            Skills.PASSIVE_DEADLY_FINESSE_I -> speed += 50
+            Skills.PASSIVE_DEADLY_FINESSE_II -> speed += 75
+            Skills.PASSIVE_DEADLY_FINESSE_III -> speed += 100
+            else -> {}
+        }
         return speed
+    }
+
+    override fun calculateTotalNormalAttackAmp(): Double {
+        var amp = super.calculateTotalNormalAttackAmp()
+        when (passiveSkill) {
+            Skills.PASSIVE_DEADLY_FINESSE_I -> amp -= 0.25
+            Skills.PASSIVE_DEADLY_FINESSE_II -> amp -= 0.35
+            Skills.PASSIVE_DEADLY_FINESSE_III -> amp -= 0.50
+            else -> {}
+        }
+        return Math.max(0.0, amp)
     }
 
     override fun endOfTurnActions(): List<EndOfTurnAction> {

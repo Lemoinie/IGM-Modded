@@ -3286,21 +3286,27 @@ POISON: damage reduced by 20%"</string>
     <string name="passive_corrosive_blood_name">Corrosive Blood</string>
     <string name="passive_cosmic_projection_description">60% bonus dodge chance. Immunity to every status effect.</string>
     <string name="passive_cosmic_projection_name">Cosmic Projection</string>
-    <string name="passive_deadly_finesse_i_description">"Tries to avoid traps first and always rolls with dexterity. If successful, the trap is disarmed.
+    <string name="passive_deadly_finesse_i_description" formatted="false">"Tries to avoid traps first and always rolls with dexterity. If successful, the trap is disarmed.
 On hit, apply 15 charges of BLEED.
 +10% dodge (additive)
++50% Attack Speed
+-25% Basic Attack Damage
 
 BLEED: the target receives 1 damage at the start of its turn for every charge, then removes one charge"</string>
     <string name="passive_deadly_finesse_i_name">Deadly Finesse</string>
-    <string name="passive_deadly_finesse_ii_description">"Tries to avoid traps first and always rolls with dexterity. If successful, the trap is disarmed.
+    <string name="passive_deadly_finesse_ii_description" formatted="false">"Tries to avoid traps first and always rolls with dexterity. If successful, the trap is disarmed.
 On hit, apply 30 charges of BLEED.
 +10% dodge (additive)
++75% Attack Speed
+-35% Basic Attack Damage
 
 BLEED: the target receives 1 damage at the start of its turn for every charge, then removes one charge"</string>
     <string name="passive_deadly_finesse_ii_name">Deadly Finesse II</string>
-    <string name="passive_deadly_finesse_iii_description">"Tries to avoid traps first and always rolls with dexterity. If successful, the trap is disarmed.
+    <string name="passive_deadly_finesse_iii_description" formatted="false">"Tries to avoid traps first and always rolls with dexterity. If successful, the trap is disarmed.
 On hit, apply 60 charges of BLEED.
 +10% dodge (additive)
++100% Attack Speed
+-50% Basic Attack Damage
 
 BLEED: the target receives 1 damage at the start of its turn for every charge, then removes one charge"</string>
     <string name="passive_deadly_finesse_iii_name">Deadly Finesse III</string>

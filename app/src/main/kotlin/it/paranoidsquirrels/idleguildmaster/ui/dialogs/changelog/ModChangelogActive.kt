@@ -16,6 +16,18 @@ object ModChangelogActive {
 
     val ENTRIES: List<VersionEntry> = listOf(
         version(
+            "1.3.18.2", "4/10/2026",
+            subpoints(
+                "Rogue Rebalance — Deadly Finesse Flurry & Bleed Synergy:",
+                "Reworked the Deadly Finesse passive line (Meat Carver, Wounds Weaver, Hellish Sculptor, Spirit Engraver) into a dedicated flurry-of-cuts archetype focused on rapid bleed stacking;",
+                "Deadly Finesse I (Meat Carver): +50% Attack Speed (50% chance for a 2nd strike), -25% Basic Attack Amp;",
+                "Deadly Finesse II (Wounds Weaver): +75% Attack Speed (75% chance for a 2nd strike), -35% Basic Attack Amp;",
+                "Deadly Finesse III (Hellish Sculptor & Spirit Engraver): +100% Attack Speed (guaranteed 2 strikes every turn), -50% Basic Attack Amp;",
+                "Bleed & Skill Synergies: Spirit Engraver now reliably applies 120 Bleed per turn with basic attacks, rapidly shredding enemy armor while active skill (Thousand Cuts II) damage remains at 100% full power via Skill Amp;",
+                "Dungeon Utility: Retains full saboteur trap-disarming utility across all tiers."
+            ),
+        ),
+        version(
             "1.3.18.1", "4/10/2026",
             subpoints(
                 "Raid & Dungeon Corrections:",

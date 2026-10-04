@@ -821,6 +821,12 @@ abstract class Adventurer : Entity() {
         if (passiveSkill == Skills.PASSIVE_BERSERKER_RAGE && currentHp.toDouble() <= calculateTotalMaxHp().toDouble() * 0.5) {
             speed += 100
         }
+        when (passiveSkill) {
+            Skills.PASSIVE_DEADLY_FINESSE_I -> speed += 50
+            Skills.PASSIVE_DEADLY_FINESSE_II -> speed += 75
+            Skills.PASSIVE_DEADLY_FINESSE_III -> speed += 100
+            else -> {}
+        }
         return speed
     }
 
@@ -889,6 +895,12 @@ abstract class Adventurer : Entity() {
         if (acc != null) amp += acc.getNormalAttackAmpModifier()
         val doc = doctrine
         if (doc != null) amp += doc.bonusNormalAttackAmp()
+        when (passiveSkill) {
+            Skills.PASSIVE_DEADLY_FINESSE_I -> amp -= 0.25
+            Skills.PASSIVE_DEADLY_FINESSE_II -> amp -= 0.35
+            Skills.PASSIVE_DEADLY_FINESSE_III -> amp -= 0.50
+            else -> {}
+        }
         return Math.max(0.0, amp)
     }
 
