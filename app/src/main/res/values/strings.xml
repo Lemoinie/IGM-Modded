@@ -1165,7 +1165,7 @@ SILENCE: the unit can't gain any mana"</string>
     <string name="attack_speed_formatted">Attack Speed: %d%%</string>
     <string name="damage_dealt_formatted">Damage Dealt: %d%%</string>
     <string name="damage_taken_formatted">Damage Taken: %d%%</string>
-    <string name="normal_attack_amp_formatted">Normal Atk Amp: %d%%</string>
+    <string name="normal_attack_amp_formatted">Basic Atk Amp: %d%%</string>
     <string name="skill_amp_formatted">Skill Amp: %d%%</string>
     <string name="bonus_dodge_formatted">Bonus dodge: %d%%</string>
     <string name="bottom_sheet_behavior">com.google.android.material.bottomsheet.BottomSheetBehavior</string>

@@ -181,6 +181,7 @@ class DialogEntityDetail : CustomDialog() {
             b.detailDarknessReduction.visibility = View.VISIBLE
             b.detailExpBonus.visibility = View.VISIBLE
             b.detailDecay.visibility = View.VISIBLE
+            b.detailHealModifier.visibility = View.VISIBLE
             b.detailTraits.text = UIUtils.traitsToShortString(e, resources)
             b.detailWeapon.setImageDrawable(Utils.getEquipmentDrawable(e.weapon, context))
             b.detailArmor.setImageDrawable(Utils.getEquipmentDrawable(e.armor, context))
@@ -227,6 +228,7 @@ class DialogEntityDetail : CustomDialog() {
             b.detailDarknessReduction.visibility = View.GONE
             b.detailExpBonus.visibility = View.GONE
             b.detailDecay.visibility = View.GONE
+            b.detailHealModifier.visibility = View.GONE
         }
     }
 
