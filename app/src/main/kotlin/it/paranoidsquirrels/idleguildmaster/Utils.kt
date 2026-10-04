@@ -1300,53 +1300,77 @@ object Utils {
             for (str in uniqueIds) {
                 if (MainActivity.data.seenItems.contains(str)) {
                     arrayList.add(str)
-                    val item = Item.getInstance(str)
-                    if (item != null && item.getUniqueOrigin() != item.getTrueClass()) {
-                        val origin = item.getUniqueOrigin()
-                        if (origin != null) {
-                            arrayList.remove(origin)
-                        }
+                    // Recursively purge all ancestor origins so higher-tier items
+                    // (e.g. Sha) reliably remove all predecessor stages (DivineLarvae,
+                    // DivineEmbryo, DivineZygote) even if intermediate seenItems were missed.
+                    var currentOrigin = Item.getInstance(str)?.getUniqueOrigin()
+                    var visited = 0
+                    while (currentOrigin != null && currentOrigin != str && visited < 10) {
+                        arrayList.remove(currentOrigin)
+                        val parent = Item.getInstance(currentOrigin)
+                        val nextOrigin = parent?.getUniqueOrigin()
+                        if (nextOrigin == currentOrigin) break
+                        currentOrigin = nextOrigin
+                        visited++
                     }
                 }
             }
+
             val arrayList2 = ArrayList<String>()
-            for (item2 in MainActivity.data.items) {
-                val tc = item2.getTrueClass()
-                if (tc != null && arrayList.contains(tc)) {
-                    arrayList2.add(tc)
+            fun registerOwned(tc: String?) {
+                if (tc == null) return
+                arrayList2.add(tc)
+                // If an evolved unique item is owned (e.g. Sha), mark all its ancestor
+                // stages as satisfied so they cannot be falsely flagged as missing.
+                var currOrigin = Item.getInstance(tc)?.getUniqueOrigin()
+                var visited = 0
+                while (currOrigin != null && currOrigin != tc && visited < 10) {
+                    arrayList2.add(currOrigin)
+                    val parent = Item.getInstance(currOrigin)
+                    val next = parent?.getUniqueOrigin()
+                    if (next == currOrigin) break
+                    currOrigin = next
+                    visited++
                 }
             }
+
+            for (item2 in MainActivity.data.items) {
+                registerOwned(item2.getTrueClass())
+            }
             for (adventurer in MainActivity.data.adventurers) {
-                val w = adventurer.weapon?.getTrueClass()
-                if (w != null && arrayList.contains(w)) arrayList2.add(w)
-                val a = adventurer.armor?.getTrueClass()
-                if (a != null && arrayList.contains(a)) arrayList2.add(a)
-                val acc = adventurer.accessory?.getTrueClass()
-                if (acc != null && arrayList.contains(acc)) arrayList2.add(acc)
+                registerOwned(adventurer.weapon?.getTrueClass())
+                registerOwned(adventurer.armor?.getTrueClass())
+                registerOwned(adventurer.accessory?.getTrueClass())
+            }
+            for (adventurer in MainActivity.data.dismissedAdventurers) {
+                registerOwned(adventurer.weapon?.getTrueClass())
+                registerOwned(adventurer.armor?.getTrueClass())
+                registerOwned(adventurer.accessory?.getTrueClass())
             }
             for (area in compileRaidList()) {
                 for (item3 in area.drops) {
-                    val tc = item3.getTrueClass()
-                    if (tc != null && arrayList.contains(tc)) {
-                        arrayList2.add(tc)
-                    }
+                    registerOwned(item3.getTrueClass())
                 }
             }
             for (action in MainActivity.data.workshopQueue) {
                 val item = action.item ?: continue
                 val recipes = Recipes.into(item) ?: continue
                 for (ing in recipes.getIngredients()) {
-                    val tc = ing?.getTrueClass()
-                    if (tc != null) arrayList2.add(tc)
+                    registerOwned(ing?.getTrueClass())
                 }
             }
             for (action in MainActivity.data.completedWorkshopItems) {
                 val item = action.item ?: continue
                 val recipes = Recipes.into(item) ?: continue
                 for (ing in recipes.getIngredients()) {
-                    val tc = ing?.getTrueClass()
-                    if (tc != null) arrayList2.add(tc)
+                    registerOwned(ing?.getTrueClass())
                 }
+            }
+            for (action in MainActivity.data.marketListings) {
+                registerOwned(action.item?.getTrueClass())
+            }
+            for (action in MainActivity.data.soldMarketItems) {
+                registerOwned(action.item?.getTrueClass())
             }
             arrayList.removeAll(arrayList2)
             return arrayList
