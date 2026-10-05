@@ -5095,17 +5095,17 @@ TAUNT: the taunting unit is always chosen as target"</string>
 
     <!-- Single-Target Burst Mage Line: Passives -->
     <string name="passive_aether_resonance_i_name">Aether Resonance I</string>
-    <string name="passive_aether_resonance_i_description" formatted="false">Increases Skill Amplification by 10% and ignores 10% of enemy Armor and Magic Defense. Ignores Threat and prioritizes Boss-type enemies.</string>
+    <string name="passive_aether_resonance_i_description" formatted="false">Increases Skill Amplification by 10% and ignores 10% of enemy Magic Defense. Ignores Threat and prioritizes Boss-type enemies.</string>
     <string name="passive_aether_resonance_ii_name">Aether Resonance II</string>
-    <string name="passive_aether_resonance_ii_description" formatted="false">Increases Skill Amplification by 20% and ignores 20% of enemy Armor and Magic Defense. Ignores Threat and prioritizes Boss-type enemies.</string>
+    <string name="passive_aether_resonance_ii_description" formatted="false">Increases Skill Amplification by 20% and ignores 20% of enemy Magic Defense. Ignores Threat and prioritizes Boss-type enemies.</string>
     <string name="passive_aether_resonance_iii_name">Aether Resonance III</string>
-    <string name="passive_aether_resonance_iii_description" formatted="false">Increases Skill Amplification by 30% and ignores 30% of enemy Armor and Magic Defense. Ignores Threat and prioritizes Boss-type enemies.</string>
+    <string name="passive_aether_resonance_iii_description" formatted="false">Increases Skill Amplification by 30% and ignores 30% of enemy Magic Defense. Ignores Threat and prioritizes Boss-type enemies.</string>
     <string name="passive_aether_resonance_iv_name">Aether Resonance IV</string>
-    <string name="passive_aether_resonance_iv_description" formatted="false">Increases Skill Amplification by 40% and ignores 40% of enemy Armor and Magic Defense. Ignores Threat and prioritizes Boss-type enemies.</string>
+    <string name="passive_aether_resonance_iv_description" formatted="false">Increases Skill Amplification by 40% and ignores 40% of enemy Magic Defense. Ignores Threat and prioritizes Boss-type enemies.</string>
     <string name="passive_aether_resonance_v_name">Aether Resonance V</string>
-    <string name="passive_aether_resonance_v_description" formatted="false">Increases Skill Amplification by 50% and ignores 50% of enemy Armor and Magic Defense. Ignores Threat and prioritizes Boss-type enemies.</string>
+    <string name="passive_aether_resonance_v_description" formatted="false">Increases Skill Amplification by 50% and ignores 50% of enemy Magic Defense. Ignores Threat and prioritizes Boss-type enemies.</string>
     <string name="passive_aether_resonance_vi_name">Aether Resonance VI</string>
-    <string name="passive_aether_resonance_vi_description" formatted="false">Increases Skill Amplification by 60% and ignores 60% of enemy Armor and Magic Defense. Ignores Threat and prioritizes Boss-type enemies.</string>
+    <string name="passive_aether_resonance_vi_description" formatted="false">Increases Skill Amplification by 60% and ignores 60% of enemy Magic Defense. Ignores Threat and prioritizes Boss-type enemies.</string>
     <string name="passive_aether_resonance_vii_name">Aether Resonance VII</string>
-    <string name="passive_aether_resonance_vii_description" formatted="false">Increases Skill Amplification by 70% and ignores 70% of enemy Armor and Magic Defense. Ignores Threat and prioritizes Boss-type enemies.</string>
+    <string name="passive_aether_resonance_vii_description" formatted="false">Increases Skill Amplification by 70% and ignores 70% of enemy Magic Defense. Ignores Threat and prioritizes Boss-type enemies.</string>
 </resources>
