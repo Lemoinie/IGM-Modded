@@ -12,7 +12,6 @@ class ScarletOniJuggernaut : HeavyArmor() {
         price = 125893L
         maxHp = 720
         constitution = 126
-        criticalChance = 0.30
-        criticalDamage = 0.35
+        damageDealtModifier = 0.51
     }
 }

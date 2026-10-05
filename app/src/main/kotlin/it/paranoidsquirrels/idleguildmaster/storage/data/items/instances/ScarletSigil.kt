@@ -12,7 +12,7 @@ class ScarletSigil : LightArmor() {
         price = 60893L
         maxHp = 200
         intelligence = 62
-        criticalChance = 0.20
+        skillAmpModifier = 0.20
         manaRegen = 2
     }
 }

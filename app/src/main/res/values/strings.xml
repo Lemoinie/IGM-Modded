@@ -996,10 +996,10 @@ FREEZE: This unit can't dodge and takes 10 physical damage each turn."</string>
     <string name="armor_heavy_sage_armor_effect">+60% experience</string>
     <string name="armor_heavy_sage_armor_name">Sage Armor</string>
     <string name="armor_heavy_scarlet_oni_description">A demonic visage forged from condensed Scarlet strands. Discarding conventional heavy plating, it surges with raw bloodlust that drives its wearer to strike down foes with brutal, crushing criticals.</string>
-    <string name="armor_heavy_scarlet_oni_effect" formatted="false">+18% crit chance, +5% crit dmg</string>
+    <string name="armor_heavy_scarlet_oni_effect" formatted="false">+27% damage dealt</string>
     <string name="armor_heavy_scarlet_oni_name">Scarlet Oni</string>
     <string name="armor_heavy_scarlet_oni_juggernaut_description">The apex manifestation of demonic Scarlet armor. Imbued with titanic resilience and boundless fury, it pulverizes enemy lines with devastating critical brutality.</string>
-    <string name="armor_heavy_scarlet_oni_juggernaut_effect" formatted="false">+30% crit chance, +35% crit dmg</string>
+    <string name="armor_heavy_scarlet_oni_juggernaut_effect" formatted="false">+51% damage dealt</string>
     <string name="armor_heavy_scarlet_oni_juggernaut_name">Scarlet Oni Juggernaut</string>
     <string name="armor_heavy_shielding_cuirass_description">Heavy armor enhanced with an endless source of magic power, to shield the user from external influences.</string>
     <string name="armor_heavy_shielding_cuirass_effect">30% status immunity</string>
@@ -1070,7 +1070,7 @@ SILENCE: the unit can't gain any mana"</string>
     <string name="armor_light_sage_cloak_effect">+60% experience</string>
     <string name="armor_light_sage_cloak_name">Sage Cloak</string>
     <string name="armor_light_scarlet_sigil_description">An arcane focus intertwining otherworldly eldritch power with the lethal weave of the Scarlet strands. It channels intense occult resonance to fuel endless spellcasting and lethal critical surges.</string>
-    <string name="armor_light_scarlet_sigil_effect">+20% crit chance, +2 mana regen</string>
+    <string name="armor_light_scarlet_sigil_effect">+20% skill amp, +2 mana regen</string>
     <string name="armor_light_scarlet_sigil_name">Scarlet Sigil</string>
     <string name="armor_light_silk_robe_description">Garment made with precious fabric, provides little protection but grants a wide range of movements.</string>
     <string name="armor_light_silk_robe_name">Silk Robe</string>

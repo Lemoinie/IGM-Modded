@@ -12,7 +12,6 @@ class ScarletOni : HeavyArmor() {
         price = 100000L
         maxHp = 470
         constitution = 56
-        criticalChance = 0.18
-        criticalDamage = 0.05
+        damageDealtModifier = 0.27
     }
 }

@@ -102,15 +102,16 @@ class ModFeaturesTest {
         assertNotNull("ScarletOni must instantiate via reflection", oni)
         assertEquals("Scarlet Oni must grant +470 max HP", 470, oni?.getMaxHp())
         assertEquals("Scarlet Oni must grant +56 CON", 56, oni?.getConstitution())
-        assertEquals("Scarlet Oni must grant +18% crit chance", 0.18, oni?.getCriticalChance()!!, 0.0001)
-        assertEquals("Scarlet Oni must grant +5% crit damage", 0.05, oni?.getCriticalDamage()!!, 0.0001)
+        assertEquals("Scarlet Oni must grant +27% damage dealt", 0.27, oni?.getDamageDealtModifier()!!, 0.0001)
+        assertEquals("Scarlet Oni has 0% crit chance", 0.0, oni?.getCriticalChance()!!, 0.0001)
 
         // Scarlet Sigil: Light Armor
         val sigil = Item.getInstance("ScarletSigil", 1) as? ScarletSigil
         assertNotNull("ScarletSigil must instantiate via reflection", sigil)
         assertEquals("Scarlet Sigil must grant +200 max HP", 200, sigil?.getMaxHp())
         assertEquals("Scarlet Sigil must grant +62 INT", 62, sigil?.getIntelligence())
-        assertEquals("Scarlet Sigil must grant +20% crit chance", 0.20, sigil?.getCriticalChance()!!, 0.0001)
+        assertEquals("Scarlet Sigil must grant +20% skill amp", 0.20, sigil?.getSkillAmpModifier()!!, 0.0001)
+        assertEquals("Scarlet Sigil has 0% crit chance", 0.0, sigil?.getCriticalChance()!!, 0.0001)
         assertEquals("Scarlet Sigil must grant +2 mana regen", 2, sigil?.getManaRegen())
 
         // Recipe registration, resolvable both directions via Recipes.into
@@ -146,8 +147,8 @@ class ModFeaturesTest {
         val hero = Adventurer.getInstance("Footman", 1, 5, 0, null, oni, null, null, null, PotionsDrank(), null, false)!!
         assertEquals("+470 max HP from Scarlet Oni", 470, hero.calculateTotalMaxHp() - bare.calculateTotalMaxHp())
         assertEquals("+56 CON from Scarlet Oni", 56, hero.calculateTotalConstitution() - bare.calculateTotalConstitution())
-        assertEquals("+18% crit chance from Scarlet Oni", 0.18, hero.calculateCriticalChance() - bare.calculateCriticalChance(), 0.0001)
-        assertEquals("+5% crit damage from Scarlet Oni", 0.05, hero.calculateCriticalDamage() - bare.calculateCriticalDamage(), 0.0001)
+        assertEquals("+27% damage dealt from Scarlet Oni", 0.27, hero.calculateTotalDamageDealt() - bare.calculateTotalDamageDealt(), 0.0001)
+        assertEquals("0% crit chance from Scarlet Oni", 0.0, hero.calculateCriticalChance() - bare.calculateCriticalChance(), 0.0001)
     }
 
     @Test
@@ -158,6 +159,7 @@ class ModFeaturesTest {
         // Sigil grants +62 INT (adds floor(62/10)=+6 via the INT mana formula) plus its flat +2 equipment mana regen.
         val expected = ((bare.calculateTotalIntelligence() + 62) / 10) + 10 + 2
         assertEquals("Mana regen must count the Sigil's flat +2 equipment bonus on top of its INT gain", expected, hero.calculateManaRegen())
+        assertEquals("+20% skill amp from Scarlet Sigil", 0.20, hero.calculateTotalSkillAmp() - bare.calculateTotalSkillAmp(), 0.0001)
     }
 
     @Test
@@ -167,8 +169,8 @@ class ModFeaturesTest {
         assertNotNull("ScarletOniJuggernaut must instantiate via reflection", jugg)
         assertEquals("Juggernaut must grant +720 max HP", 720, jugg?.getMaxHp())
         assertEquals("Juggernaut must grant +126 CON", 126, jugg?.getConstitution())
-        assertEquals("Juggernaut must grant +30% crit chance", 0.30, jugg?.getCriticalChance()!!, 0.0001)
-        assertEquals("Juggernaut must grant +35% crit damage", 0.35, jugg?.getCriticalDamage()!!, 0.0001)
+        assertEquals("Juggernaut must grant +51% damage dealt", 0.51, jugg?.getDamageDealtModifier()!!, 0.0001)
+        assertEquals("Juggernaut has 0% crit chance", 0.0, jugg?.getCriticalChance()!!, 0.0001)
 
         // Cape line: universal tri-stat accessories
         val cape = Item.getInstance("ScarletCape", 1) as? ScarletCape
@@ -233,8 +235,8 @@ class ModFeaturesTest {
         val hero = Adventurer.getInstance("Footman", 1, 5, 0, null, jugg, null, null, null, PotionsDrank(), null, false)!!
         assertEquals("+720 max HP from Juggernaut", 720, hero.calculateTotalMaxHp() - bare.calculateTotalMaxHp())
         assertEquals("+126 CON from Juggernaut", 126, hero.calculateTotalConstitution() - bare.calculateTotalConstitution())
-        assertEquals("+30% crit chance from Juggernaut", 0.30, hero.calculateCriticalChance() - bare.calculateCriticalChance(), 0.0001)
-        assertEquals("+35% crit damage from Juggernaut", 0.35, hero.calculateCriticalDamage() - bare.calculateCriticalDamage(), 0.0001)
+        assertEquals("+51% damage dealt from Juggernaut", 0.51, hero.calculateTotalDamageDealt() - bare.calculateTotalDamageDealt(), 0.0001)
+        assertEquals("0% crit chance from Juggernaut", 0.0, hero.calculateCriticalChance() - bare.calculateCriticalChance(), 0.0001)
     }
 
     @Test

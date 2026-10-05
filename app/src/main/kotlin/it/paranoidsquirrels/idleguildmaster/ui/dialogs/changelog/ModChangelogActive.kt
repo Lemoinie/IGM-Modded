@@ -23,6 +23,12 @@ object ModChangelogActive {
                 "Initiative Retained: characters with Alert+ maintain guaranteed turn-0 initiative at the start of combat, identical to Alert;",
                 "First Strike Amplification: grants +20% Basic Atk Amp on the very first hit landed in each combat encounter."
             ),
+            subpoints(
+                "Equipment — Scarlet Armor Rebalance:",
+                "Scarlet Sigil: changed from +20% crit chance to +20% Skill Amp;",
+                "Scarlet Oni: changed from +18% crit chance, +5% crit dmg into +27% damage dealt;",
+                "Scarlet Oni Juggernaut: changed from +30% crit chance, +35% crit dmg into +51% damage dealt."
+            ),
         ),
         version(
             "1.3.18.5", "5/10/2026",
