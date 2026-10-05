@@ -5,25 +5,24 @@ import it.paranoidsquirrels.idleguildmaster.storage.data.entities.Skills
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.Adventurer
 import it.paranoidsquirrels.idleguildmaster.storage.data.entities.adventurers.PotionDrinkerType
 
-class Adept : Adventurer() {
+class Spellweaver : Adventurer() {
     override fun configureStatistics() {
-        maxLevel = 10
-        baseMaxHp = 25
-        baseConstitution = 3
-        baseIntelligence = 15
-        baseDexterity = 5
+        maxLevel = 20
+        baseMaxHp = 50
+        baseConstitution = 5
+        baseIntelligence = 28
+        baseDexterity = 8
         baseDefense = 0
         baseMagicDefense = 30
-        imageId = R.drawable.unit_adept
-        idName = R.string.adventurer_adept_name
-        idDescription = R.string.adventurer_adept_description
-        passiveSkill = Skills.PASSIVE_NONE
-        activeSkill = Skills.ACTIVE_ENERGY_BURST_II
+        customIntelligenceScaling = 1.2
+        imageId = R.drawable.unit_spell_weaver
+        idName = R.string.adventurer_spell_weaver_name
+        idDescription = R.string.adventurer_spell_weaver_description
+        passiveSkill = Skills.PASSIVE_AETHER_RESONANCE_II
+        activeSkill = Skills.ACTIVE_ARCANE_BLAST_I
         weaponType = R.string.type_staff
         armorType = R.string.type_armor_light
         potionDrinkerType = PotionDrinkerType.MAGE
-        nextClasses.add("FireWizard")
-        nextClasses.add("DarkSorcerer")
-        nextClasses.add("Arcanist")
+        nextClasses.add("AetherMage")
     }
 }

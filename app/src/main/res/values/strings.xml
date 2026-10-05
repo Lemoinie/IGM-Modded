@@ -5060,4 +5060,52 @@ TAUNT: the taunting unit is always chosen as target"</string>
     <string name="status_effect_thorns_description">Takes damage equal to Thorn stacks as a percentage of damage dealt. Loses 1 stack at the end of each turn.</string>
     <string name="status_effect_evasion">Evasion</string>
     <string name="status_effect_evasion_description">Gains +25% dodge chance (additive).</string>
+
+    <!-- Single-Target Burst Mage Line: Adventurers -->
+    <string name="adventurer_arcanist_name">Arcanist</string>
+    <string name="adventurer_arcanist_description">A specialized mage who channels raw arcane energy into devastating single-target spells.</string>
+    <string name="adventurer_spell_weaver_name">Spellweaver</string>
+    <string name="adventurer_spell_weaver_description">A master of weaving mana threads into concentrated blasts of destructive power.</string>
+    <string name="adventurer_aether_mage_name">Aether Mage</string>
+    <string name="adventurer_aether_mage_description">Commands the ambient aether, punching through enemy defenses with refined arcane force.</string>
+    <string name="adventurer_aether_archmage_name">Aether Archmage</string>
+    <string name="adventurer_aether_archmage_description">An esteemed wielder of high aether whose blasts shatter the toughest enemy armor.</string>
+    <string name="adventurer_disintegrator_name">Disintegrator</string>
+    <string name="adventurer_disintegrator_description">Unleashes beams of disintegration that can instantly erase targets and echo into repeated casts.</string>
+    <string name="adventurer_grand_magus_name">Grand Magus</string>
+    <string name="adventurer_grand_magus_description">A supreme arcane authority capable of collapsing enemy leadership under overwhelming burst damage.</string>
+    <string name="adventurer_singularity_magus_name">Singularity Magus</string>
+    <string name="adventurer_singularity_magus_description">The pinnacle of arcane mastery, condensing the cosmos into devastating boss-annihilating singularities.</string>
+
+    <!-- Single-Target Burst Mage Line: Active Skills -->
+    <string name="active_energy_burst_iii_name">Energy Burst III</string>
+    <string name="active_energy_burst_iii_description" formatted="false">Strike one enemy for 500% magic damage.</string>
+    <string name="active_arcane_blast_i_name">Arcane Blast I</string>
+    <string name="active_arcane_blast_i_description" formatted="false">Strike one enemy for 600% magic damage.</string>
+    <string name="active_arcane_blast_ii_name">Arcane Blast II</string>
+    <string name="active_arcane_blast_ii_description" formatted="false">Strike one enemy for 700% magic damage.</string>
+    <string name="active_arcane_blast_iii_name">Arcane Blast III</string>
+    <string name="active_arcane_blast_iii_description" formatted="false">Strike one enemy for 800% magic damage.</string>
+    <string name="active_disintegrate_i_name">Disintegrate I</string>
+    <string name="active_disintegrate_i_description" formatted="false">Strike one enemy for 1000% magic damage. Has a 20% chance to immediately recast.</string>
+    <string name="active_disintegrate_ii_name">Disintegrate II</string>
+    <string name="active_disintegrate_ii_description" formatted="false">Strike one enemy for 2000% magic damage. Has a 25% chance to immediately recast.</string>
+    <string name="active_disintegrate_iii_name">Disintegrate III</string>
+    <string name="active_disintegrate_iii_description" formatted="false">Strike one enemy for 3000% magic damage. Has a 30% chance to immediately recast.</string>
+
+    <!-- Single-Target Burst Mage Line: Passives -->
+    <string name="passive_aether_resonance_i_name">Aether Resonance I</string>
+    <string name="passive_aether_resonance_i_description" formatted="false">Increases Skill Amplification by 10% and ignores 10% of enemy Armor and Magic Defense. Ignores Threat and prioritizes Boss-type enemies.</string>
+    <string name="passive_aether_resonance_ii_name">Aether Resonance II</string>
+    <string name="passive_aether_resonance_ii_description" formatted="false">Increases Skill Amplification by 20% and ignores 20% of enemy Armor and Magic Defense. Ignores Threat and prioritizes Boss-type enemies.</string>
+    <string name="passive_aether_resonance_iii_name">Aether Resonance III</string>
+    <string name="passive_aether_resonance_iii_description" formatted="false">Increases Skill Amplification by 30% and ignores 30% of enemy Armor and Magic Defense. Ignores Threat and prioritizes Boss-type enemies.</string>
+    <string name="passive_aether_resonance_iv_name">Aether Resonance IV</string>
+    <string name="passive_aether_resonance_iv_description" formatted="false">Increases Skill Amplification by 40% and ignores 40% of enemy Armor and Magic Defense. Ignores Threat and prioritizes Boss-type enemies.</string>
+    <string name="passive_aether_resonance_v_name">Aether Resonance V</string>
+    <string name="passive_aether_resonance_v_description" formatted="false">Increases Skill Amplification by 50% and ignores 50% of enemy Armor and Magic Defense. Ignores Threat and prioritizes Boss-type enemies.</string>
+    <string name="passive_aether_resonance_vi_name">Aether Resonance VI</string>
+    <string name="passive_aether_resonance_vi_description" formatted="false">Increases Skill Amplification by 60% and ignores 60% of enemy Armor and Magic Defense. Ignores Threat and prioritizes Boss-type enemies.</string>
+    <string name="passive_aether_resonance_vii_name">Aether Resonance VII</string>
+    <string name="passive_aether_resonance_vii_description" formatted="false">Increases Skill Amplification by 70% and ignores 70% of enemy Armor and Magic Defense. Ignores Threat and prioritizes Boss-type enemies.</string>
 </resources>

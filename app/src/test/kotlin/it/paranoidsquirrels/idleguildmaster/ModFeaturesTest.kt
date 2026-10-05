@@ -3395,6 +3395,154 @@ class ModFeaturesTest {
         assertTrue(spiritEngraver.isSaboteur())
         assertEquals(60, spiritEngraver.onTargetHit?.turnsLeft)
     }
+
+    @Test
+    fun testBurstMageTreeProgressionAndStats() {
+        val adept = Adventurer.getInstance("Adept", 1, 1, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+        assertTrue("Adept must promote to FireWizard", adept.nextClasses.contains("FireWizard"))
+        assertTrue("Adept must promote to DarkSorcerer", adept.nextClasses.contains("DarkSorcerer"))
+        assertTrue("Adept must promote to Arcanist", adept.nextClasses.contains("Arcanist"))
+
+        // T3: Arcanist
+        val arcanist = Adventurer.getInstance("Arcanist", 2, 1, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+        assertEquals(15, arcanist.maxLevel)
+        assertEquals(35, arcanist.baseMaxHp)
+        assertEquals(21, arcanist.baseIntelligence)
+        assertEquals(6, arcanist.baseDexterity)
+        assertEquals(Skills.ACTIVE_ENERGY_BURST_III, arcanist.activeSkill)
+        assertEquals(Skills.PASSIVE_AETHER_RESONANCE_I, arcanist.passiveSkill)
+        assertTrue(arcanist.nextClasses.contains("Spellweaver"))
+
+        // T4: Spellweaver
+        val spellweaver = Adventurer.getInstance("Spellweaver", 3, 1, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+        assertEquals(20, spellweaver.maxLevel)
+        assertEquals(50, spellweaver.baseMaxHp)
+        assertEquals(28, spellweaver.baseIntelligence)
+        assertEquals(8, spellweaver.baseDexterity)
+        assertEquals(Skills.ACTIVE_ARCANE_BLAST_I, spellweaver.activeSkill)
+        assertEquals(Skills.PASSIVE_AETHER_RESONANCE_II, spellweaver.passiveSkill)
+        assertTrue(spellweaver.nextClasses.contains("AetherMage"))
+
+        // T5: AetherMage
+        val aetherMage = Adventurer.getInstance("AetherMage", 4, 1, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+        assertEquals(25, aetherMage.maxLevel)
+        assertEquals(70, aetherMage.baseMaxHp)
+        assertEquals(36, aetherMage.baseIntelligence)
+        assertEquals(10, aetherMage.baseDexterity)
+        assertEquals(Skills.ACTIVE_ARCANE_BLAST_II, aetherMage.activeSkill)
+        assertEquals(Skills.PASSIVE_AETHER_RESONANCE_III, aetherMage.passiveSkill)
+        assertTrue(aetherMage.nextClasses.contains("AetherArchmage"))
+
+        // T6: AetherArchmage
+        val aetherArchmage = Adventurer.getInstance("AetherArchmage", 5, 1, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+        assertEquals(30, aetherArchmage.maxLevel)
+        assertEquals(95, aetherArchmage.baseMaxHp)
+        assertEquals(45, aetherArchmage.baseIntelligence)
+        assertEquals(12, aetherArchmage.baseDexterity)
+        assertEquals(Skills.ACTIVE_ARCANE_BLAST_III, aetherArchmage.activeSkill)
+        assertEquals(Skills.PASSIVE_AETHER_RESONANCE_IV, aetherArchmage.passiveSkill)
+        assertTrue(aetherArchmage.nextClasses.contains("Disintegrator"))
+
+        // T7: Disintegrator
+        val disintegrator = Adventurer.getInstance("Disintegrator", 6, 1, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+        assertEquals(35, disintegrator.maxLevel)
+        assertEquals(130, disintegrator.baseMaxHp)
+        assertEquals(54, disintegrator.baseIntelligence)
+        assertEquals(14, disintegrator.baseDexterity)
+        assertEquals(Skills.ACTIVE_DISINTEGRATE_I, disintegrator.activeSkill)
+        assertEquals(Skills.PASSIVE_AETHER_RESONANCE_V, disintegrator.passiveSkill)
+        assertTrue(disintegrator.nextClasses.contains("GrandMagus"))
+
+        // T8: GrandMagus
+        val grandMagus = Adventurer.getInstance("GrandMagus", 7, 1, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+        assertEquals(40, grandMagus.maxLevel)
+        assertEquals(170, grandMagus.baseMaxHp)
+        assertEquals(64, grandMagus.baseIntelligence)
+        assertEquals(16, grandMagus.baseDexterity)
+        assertEquals(Skills.ACTIVE_DISINTEGRATE_II, grandMagus.activeSkill)
+        assertEquals(Skills.PASSIVE_AETHER_RESONANCE_VI, grandMagus.passiveSkill)
+        assertTrue(grandMagus.nextClasses.contains("SingularityMagus"))
+
+        // T9: SingularityMagus
+        val singularityMagus = Adventurer.getInstance("SingularityMagus", 8, 1, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+        assertEquals(45, singularityMagus.maxLevel)
+        assertEquals(220, singularityMagus.baseMaxHp)
+        assertEquals(75, singularityMagus.baseIntelligence)
+        assertEquals(18, singularityMagus.baseDexterity)
+        assertEquals(Skills.ACTIVE_DISINTEGRATE_III, singularityMagus.activeSkill)
+        assertEquals(Skills.PASSIVE_AETHER_RESONANCE_VII, singularityMagus.passiveSkill)
+        assertTrue(singularityMagus.nextClasses.isEmpty())
+    }
+
+    @Test
+    fun testAetherResonanceSkillAmpAndArmorPen() {
+        val tiers = listOf(
+            Pair("Arcanist", Pair(0.10, 0.10)),
+            Pair("Spellweaver", Pair(0.20, 0.20)),
+            Pair("AetherMage", Pair(0.30, 0.30)),
+            Pair("AetherArchmage", Pair(0.40, 0.40)),
+            Pair("Disintegrator", Pair(0.50, 0.50)),
+            Pair("GrandMagus", Pair(0.60, 0.60)),
+            Pair("SingularityMagus", Pair(0.70, 0.70))
+        )
+
+        for ((className, bonuses) in tiers) {
+            val adv = Adventurer.getInstance(className, 1, 1, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+            assertTrue("$className must have Aether Resonance", adv.hasAetherResonance())
+            assertEquals("$className Skill Amp scaling", 1.0 + bonuses.first, adv.calculateTotalSkillAmp(), 0.001)
+            assertEquals("$className Armor Ignored", bonuses.second, adv.getArmorIgnored(), 0.001)
+        }
+    }
+
+    @Test
+    fun testAetherResonanceBossPriorityAndTauntBypass() {
+        val area = it.paranoidsquirrels.idleguildmaster.storage.data.places.dungeons.EnchantedForest()
+        val magus = Adventurer.getInstance("SingularityMagus", 1, 1, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+        magus.currentHp = 100
+
+        val minion = it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.units.Wolf().apply {
+            baseMaxHp = 100
+            currentHp = 100
+            threat = 50
+        }
+
+        val boss = it.paranoidsquirrels.idleguildmaster.storage.data.entities.enemies.units.Wolf().apply {
+            baseMaxHp = 500
+            currentHp = 500
+            threat = 1
+            isBoss = true
+        }
+
+        area.adventurersExploring.clear()
+        area.adventurersExploring.add(magus)
+        area.enemies.clear()
+        area.enemies.add(minion)
+        area.enemies.add(boss)
+
+        // 1. SingularityMagus with Aether Resonance must target boss despite minion having 50 threat
+        for (i in 0 until 10) {
+            val targets = area.selectTargets(magus, Area.TARGET_RANDOM_ENEMY)
+            assertNotNull(targets)
+            assertEquals("Singularity Magus must prioritize Boss-type enemy", boss, targets!![0])
+        }
+
+        // 2. Even under TAUNT from minion, Aether Resonance ignores taunt and targets the boss
+        val tauntEffect = StatusEffect(StatusEffectType.TAUNT, minion, 2, 1.0)
+        magus.negativeStatusEffects.add(tauntEffect)
+        val targetsTaunted = area.selectTargets(magus, Area.TARGET_RANDOM_ENEMY)
+        assertNotNull(targetsTaunted)
+        assertEquals("Singularity Magus must ignore TAUNT and target Boss", boss, targetsTaunted!![0])
+
+        // 3. A normal unit (e.g. Apprentice) without Aether Resonance obeys TAUNT
+        val apprentice = Adventurer.getInstance("Apprentice", 2, 1, 0, null, null, null, null, null, PotionsDrank(), null, false)!!
+        apprentice.currentHp = 50
+        apprentice.negativeStatusEffects.add(tauntEffect)
+        area.adventurersExploring.add(apprentice)
+        val appTargets = area.selectTargets(apprentice, Area.TARGET_RANDOM_ENEMY)
+        assertNotNull(appTargets)
+        assertEquals("Apprentice without Aether Resonance must obey TAUNT", minion, appTargets!![0])
+    }
 }
+
 
 

@@ -252,5 +252,19 @@ enum class Skills(
     ACTIVE_SCARLET_AEONIA(R.string.skill_scarlet_aeonia_name, R.string.skill_scarlet_aeonia_description),
     ACTIVE_SANGUINE_PYRE(R.string.skill_sanguine_pyre_name, R.string.skill_sanguine_pyre_description),
     PASSIVE_BLOOD_CONVOCATION(R.string.passive_blood_convocation_name, R.string.passive_blood_convocation_description),
-    PASSIVE_MARTYRS_PACT(R.string.passive_martyrs_pact_name, R.string.passive_martyrs_pact_description);
+    PASSIVE_MARTYRS_PACT(R.string.passive_martyrs_pact_name, R.string.passive_martyrs_pact_description),
+    ACTIVE_ENERGY_BURST_III(R.string.active_energy_burst_iii_name, R.string.active_energy_burst_iii_description),
+    ACTIVE_ARCANE_BLAST_I(R.string.active_arcane_blast_i_name, R.string.active_arcane_blast_i_description),
+    ACTIVE_ARCANE_BLAST_II(R.string.active_arcane_blast_ii_name, R.string.active_arcane_blast_ii_description),
+    ACTIVE_ARCANE_BLAST_III(R.string.active_arcane_blast_iii_name, R.string.active_arcane_blast_iii_description),
+    ACTIVE_DISINTEGRATE_I(R.string.active_disintegrate_i_name, R.string.active_disintegrate_i_description),
+    ACTIVE_DISINTEGRATE_II(R.string.active_disintegrate_ii_name, R.string.active_disintegrate_ii_description),
+    ACTIVE_DISINTEGRATE_III(R.string.active_disintegrate_iii_name, R.string.active_disintegrate_iii_description),
+    PASSIVE_AETHER_RESONANCE_I(R.string.passive_aether_resonance_i_name, R.string.passive_aether_resonance_i_description),
+    PASSIVE_AETHER_RESONANCE_II(R.string.passive_aether_resonance_ii_name, R.string.passive_aether_resonance_ii_description),
+    PASSIVE_AETHER_RESONANCE_III(R.string.passive_aether_resonance_iii_name, R.string.passive_aether_resonance_iii_description),
+    PASSIVE_AETHER_RESONANCE_IV(R.string.passive_aether_resonance_iv_name, R.string.passive_aether_resonance_iv_description),
+    PASSIVE_AETHER_RESONANCE_V(R.string.passive_aether_resonance_v_name, R.string.passive_aether_resonance_v_description),
+    PASSIVE_AETHER_RESONANCE_VI(R.string.passive_aether_resonance_vi_name, R.string.passive_aether_resonance_vi_description),
+    PASSIVE_AETHER_RESONANCE_VII(R.string.passive_aether_resonance_vii_name, R.string.passive_aether_resonance_vii_description);
 }

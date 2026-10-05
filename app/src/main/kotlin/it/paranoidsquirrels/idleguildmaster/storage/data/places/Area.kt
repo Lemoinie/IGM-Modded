@@ -2063,6 +2063,13 @@ abstract class Area {
 
             Skills.ACTIVE_ENERGY_BURST_I -> skill.setDamageAmplification(1.5).setForceRange(true).execute()
             Skills.ACTIVE_ENERGY_BURST_II -> skill.setDamageAmplification(2.0).setForceRange(true).execute()
+            Skills.ACTIVE_ENERGY_BURST_III -> skill.setDamageAmplification(5.0).setForceMagic(true).setForceRange(true).execute()
+            Skills.ACTIVE_ARCANE_BLAST_I -> skill.setDamageAmplification(6.0).setForceMagic(true).setForceRange(true).execute()
+            Skills.ACTIVE_ARCANE_BLAST_II -> skill.setDamageAmplification(7.0).setForceMagic(true).setForceRange(true).execute()
+            Skills.ACTIVE_ARCANE_BLAST_III -> skill.setDamageAmplification(8.0).setForceMagic(true).setForceRange(true).execute()
+            Skills.ACTIVE_DISINTEGRATE_I -> skill.setDamageAmplification(10.0).setRecastProbability(0.20).setForceMagic(true).setForceRange(true).execute()
+            Skills.ACTIVE_DISINTEGRATE_II -> skill.setDamageAmplification(20.0).setRecastProbability(0.25).setForceMagic(true).setForceRange(true).execute()
+            Skills.ACTIVE_DISINTEGRATE_III -> skill.setDamageAmplification(30.0).setRecastProbability(0.30).setForceMagic(true).setForceRange(true).execute()
             Skills.ACTIVE_FIRE_BURST -> skill.setStatusEffect(StatusEffect(StatusEffectType.ABLAZE, entity, 1, 1.0))
                 .setForceRange(true).setDamageAmplification(2.0).execute()
 
@@ -2349,6 +2356,7 @@ abstract class Area {
         var recastOnKill: Boolean = false
         var noLog: Boolean = false
         var reviveProbability: Double = 0.0
+        var recastProbability: Double = 0.0
 
         fun setTargetSelectionMode(str: String): Skill {
             this.targetSelectionMode = str
@@ -2415,6 +2423,11 @@ abstract class Area {
             return this
         }
 
+        fun setRecastProbability(d: Double): Skill {
+            this.recastProbability = d
+            return this
+        }
+
         fun execute(): List<Entity>? {
             val listSelectTargets = selectTargets(this.caster, this.targetSelectionMode, this.forceRange) ?: return null
             if (!this.noLog) {
@@ -2454,6 +2467,9 @@ abstract class Area {
                 if (this.recastOnKill && target.currentHp <= 0 && this.caster.currentHp > 0) {
                     cast(this.caster)
                 }
+            }
+            if (this.recastProbability > 0.0 && Utils.random() < this.recastProbability && this.caster.currentHp > 0) {
+                cast(this.caster)
             }
             return listSelectTargets
         }
@@ -3281,12 +3297,23 @@ abstract class Area {
         if (arrayList2.isEmpty()) {
             return null
         }
+        val hasAetherResonance = entity is Adventurer && entity.hasAetherResonance()
         val entityTauntedBy = tauntedBy(entity, arrayList2)
-        if (entityTauntedBy != null) {
+        if (entityTauntedBy != null && !hasAetherResonance) {
             return entityTauntedBy
         }
         val reachable = arrayList2.filter { it.currentHp > 0 && canReach(entity, it, forceRange) }
-        val targetPool = if (reachable.isNotEmpty()) reachable else arrayList2
+        val targetPool = if (reachable.isNotEmpty()) reachable else arrayList2.filter { it.currentHp > 0 }
+        if (targetPool.isEmpty()) {
+            return null
+        }
+        if (hasAetherResonance) {
+            val bosses = targetPool.filter { it.isBoss() }
+            if (bosses.isNotEmpty()) {
+                return bosses[(Utils.random() * bosses.size.toDouble()).toInt()]
+            }
+            return targetPool[(Utils.random() * targetPool.size.toDouble()).toInt()]
+        }
         val listWeightedSelection = weightedSelection(targetPool)
         if (listWeightedSelection.isEmpty()) {
             return null

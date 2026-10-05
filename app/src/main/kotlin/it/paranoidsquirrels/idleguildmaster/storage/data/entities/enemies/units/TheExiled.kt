@@ -19,6 +19,7 @@ class TheExiled : Enemy() {
         baseDexterity = 215
         baseDefense = 25
         baseMagicDefense = 25
+        
         threat = 5
         alwaysHits = true
         baseLifesteal = 35
@@ -29,6 +30,7 @@ class TheExiled : Enemy() {
         flatDodgeChance = 0.3
         criticalDamage = 2.5
         initiative = true
+        
         imageId = R.drawable.unit_the_exiled
         idName = R.string.enemy_the_exiled_name
         idDescription = R.string.enemy_the_exiled_description

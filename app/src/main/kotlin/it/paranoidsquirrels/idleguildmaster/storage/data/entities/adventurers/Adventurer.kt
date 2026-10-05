@@ -388,7 +388,18 @@ abstract class Adventurer : Entity() {
 
     override fun getArmorIgnored(): Double {
         val base = armorIgnored + ((doctrine?.ignoreArmorPercentage() ?: 0).toDouble() * 0.01)
-        return if (traitRare == Trait.SUNDERING) base + 0.20 else base
+        val passiveBonus = when (passiveSkill) {
+            Skills.PASSIVE_AETHER_RESONANCE_I -> 0.10
+            Skills.PASSIVE_AETHER_RESONANCE_II -> 0.20
+            Skills.PASSIVE_AETHER_RESONANCE_III -> 0.30
+            Skills.PASSIVE_AETHER_RESONANCE_IV -> 0.40
+            Skills.PASSIVE_AETHER_RESONANCE_V -> 0.50
+            Skills.PASSIVE_AETHER_RESONANCE_VI -> 0.60
+            Skills.PASSIVE_AETHER_RESONANCE_VII -> 0.70
+            else -> 0.0
+        }
+        val total = base + passiveBonus
+        return if (traitRare == Trait.SUNDERING) total + 0.20 else total
     }
 
     override fun isForcesTargetToCounterattack(): Boolean {
@@ -914,7 +925,28 @@ abstract class Adventurer : Entity() {
         if (acc != null) amp += acc.getSkillAmpModifier()
         val doc = doctrine
         if (doc != null) amp += doc.bonusSkillAmp()
+        when (passiveSkill) {
+            Skills.PASSIVE_AETHER_RESONANCE_I -> amp += 0.10
+            Skills.PASSIVE_AETHER_RESONANCE_II -> amp += 0.20
+            Skills.PASSIVE_AETHER_RESONANCE_III -> amp += 0.30
+            Skills.PASSIVE_AETHER_RESONANCE_IV -> amp += 0.40
+            Skills.PASSIVE_AETHER_RESONANCE_V -> amp += 0.50
+            Skills.PASSIVE_AETHER_RESONANCE_VI -> amp += 0.60
+            Skills.PASSIVE_AETHER_RESONANCE_VII -> amp += 0.70
+            else -> {}
+        }
         return Math.max(0.0, amp)
+    }
+
+    open fun hasAetherResonance(): Boolean = when (passiveSkill) {
+        Skills.PASSIVE_AETHER_RESONANCE_I,
+        Skills.PASSIVE_AETHER_RESONANCE_II,
+        Skills.PASSIVE_AETHER_RESONANCE_III,
+        Skills.PASSIVE_AETHER_RESONANCE_IV,
+        Skills.PASSIVE_AETHER_RESONANCE_V,
+        Skills.PASSIVE_AETHER_RESONANCE_VI,
+        Skills.PASSIVE_AETHER_RESONANCE_VII -> true
+        else -> false
     }
 
     fun getExploringArea(): Area? {

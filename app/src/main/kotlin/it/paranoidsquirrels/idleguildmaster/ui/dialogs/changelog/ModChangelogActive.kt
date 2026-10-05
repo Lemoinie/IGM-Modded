@@ -16,6 +16,23 @@ object ModChangelogActive {
 
     val ENTRIES: List<VersionEntry> = listOf(
         version(
+            "1.3.18.7", "5/10/2026",
+            subpoints(
+                "Adventurers — Single-Target Burst Mage Line (Apprentice Branch):",
+                "New Evolution Branch: Adept now branches into the Arcanist tree as a dedicated 3rd promotion choice alongside Fire Wizard and Dark Sorcerer;",
+                "7 Evolution Tiers: Added Arcanist (T3), Spellweaver (T4), Aether Mage (T5), Aether Archmage (T6), Disintegrator (T7), Grand Magus (T8), and Singularity Magus (T9);",
+                "Active Burst Spells: Features focused single-target arcane damage scaling progressively across all tiers — Energy Burst III (500%), Arcane Blast I–III (600%–800%), and Disintegrate I–III (1000%–3000%);",
+                "Recast Probability: Disintegrate (T7–T9) introduces pinnacle recast chance (20% / 25% / 30%) to immediately cast a second blast upon execution;",
+                "Aether Resonance Passive: Unified passive family (I–VII) granting +10% up to +70% Skill Amplification and +10% up to +70% enemy Armor & Magic Defense penetration (+10% per tier);",
+                "Boss Priority & Threat Bypass: Units with Aether Resonance completely bypass enemy taunts and the threat weighting system, locking onto Boss-type enemies when present."
+            ),
+            subpoints(
+                "Combat Engine — Boss Classification System:",
+                "Boss Property Integration: Introduced isBoss() classification on Entity and Enemy architectures for specialized targeting and encounter dynamics;",
+                "Boss Flagging: Slime King and Archmagus Valthex are officially flagged as Boss-type enemies for priority targeting."
+            ),
+        ),
+        version(
             "1.3.18.6", "5/10/2026",
             subpoints(
                 "Adventurers — Alert+ Trait Upgrade:",
