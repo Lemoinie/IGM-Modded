@@ -25,7 +25,7 @@ class BloodstoneColossus : Enemy() {
         baseConstitution = 120
         baseDexterity = 30
         baseIntelligence = 10
-        baseDefense = 80
+        baseDefense = 200
         baseMagicDefense = 5
         threat = 8
         imageId = R.drawable.bloodstone_colossus

@@ -19,7 +19,7 @@ class StoneShaman : Enemy() {
         baseIntelligence = Logger.BOTCHED_OFFERING
         baseDexterity = 2
         baseDefense = 0
-        baseMagicDefense = 90
+        baseMagicDefense = 450
         healer = true
         cleanser = true
         imageId = R.drawable.unit_stone_shaman

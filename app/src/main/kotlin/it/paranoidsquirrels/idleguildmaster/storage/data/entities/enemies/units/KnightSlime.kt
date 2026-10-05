@@ -12,7 +12,7 @@ class KnightSlime : Enemy() {
     }
     override fun configureStatistics() {
         baseMaxHp = 400
-        baseDefense = 60
+        baseDefense = 75
         baseMagicDefense = 0
         baseConstitution = 40
         baseDexterity = 6

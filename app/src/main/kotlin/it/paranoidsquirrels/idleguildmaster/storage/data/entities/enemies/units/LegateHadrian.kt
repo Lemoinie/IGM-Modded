@@ -38,6 +38,7 @@ class LegateHadrian : Enemy() {
         activeSkill = Skills.ACTIVE_NONE
         rarity = 1
         expGiven = 300
+        isBoss = true
     }
 
     override fun listDrops(i: Int): LinkedHashMap<ItemWrapper, Int> {

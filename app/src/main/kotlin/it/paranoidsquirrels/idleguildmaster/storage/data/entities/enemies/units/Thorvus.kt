@@ -34,6 +34,7 @@ class Thorvus : Enemy() {
         activeSkill = Skills.ACTIVE_ARCANE_DIFFUSION
         rarity = 1
         expGiven = 500
+        isBoss = true
     }
 
     override fun listDrops(i: Int): LinkedHashMap<ItemWrapper, Int> {

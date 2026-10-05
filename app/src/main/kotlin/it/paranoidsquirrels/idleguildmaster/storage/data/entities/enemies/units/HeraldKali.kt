@@ -29,6 +29,7 @@ class HeraldKali : Enemy() {
         activeSkill = Skills.ACTIVE_SACRIFICE
         rarity = 1
         expGiven = 9600
+        isBoss = true
     }
 
     override fun listDrops(i: Int): LinkedHashMap<ItemWrapper, Int> {

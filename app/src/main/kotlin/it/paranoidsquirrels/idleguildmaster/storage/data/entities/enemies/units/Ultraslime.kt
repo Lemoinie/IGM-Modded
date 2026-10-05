@@ -27,6 +27,7 @@ class Ultraslime : Enemy() {
         activeSkill = Skills.ACTIVE_BOUNCE
         rarity = 1
         expGiven = 99999
+        isBoss = true
     }
 
     override fun listDrops(i: Int): LinkedHashMap<ItemWrapper, Int> {

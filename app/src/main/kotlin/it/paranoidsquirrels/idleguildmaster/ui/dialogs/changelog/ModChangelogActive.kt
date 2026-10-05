@@ -29,6 +29,14 @@ object ModChangelogActive {
                 "Scarlet Oni: changed from +18% crit chance, +5% crit dmg into +27% damage dealt;",
                 "Scarlet Oni Juggernaut: changed from +30% crit chance, +35% crit dmg into +51% damage dealt."
             ),
+            subpoints(
+                "Combat Engine — Enemy Defense Rebalance & Immunities:",
+                "Stone Shaman & Archmagus Valthex: increased base MDEF to 450 to maintain their intended 90% magic damage reduction under the universal diminishing returns formula;",
+                "Magic Armor: scaled base DEF and MDEF to 150 (75% damage reduction, preserving its heavy construct resilience);",
+                "Obsidian Golem: properly wired up native Deflect Magic passive in combat so all magical damage is reduced to 1 as documented;",
+                "Necrolith: set damage taken modifier to 0% (indestructible until Kabar the Rotten is defeated);",
+                "High-Defense Scaling: updated Bloodstone Colossus (200 DEF / 80%), Trolls (117 DEF / 70%), Knight Slime (75 DEF / 60%), and Crimson Acolyte (75 MDEF / 60%) to match intended vanilla reduction tiers."
+            ),
         ),
         version(
             "1.3.18.5", "5/10/2026",

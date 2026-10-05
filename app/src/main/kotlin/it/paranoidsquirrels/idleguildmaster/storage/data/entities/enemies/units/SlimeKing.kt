@@ -10,7 +10,8 @@ import java.util.ArrayList
 import java.util.LinkedHashMap
 
 class SlimeKing : Enemy() {
-    @Transient private var onHit: MutableList<StatusEffect> = ArrayList()
+    @Transient
+    private var onHit: MutableList<StatusEffect> = ArrayList()
     override fun getMaxDamage(): Int = 50
     override fun getMinDamage(): Int = 40
     override fun isMagic(): Boolean = false
@@ -38,6 +39,7 @@ class SlimeKing : Enemy() {
         onHit.add(StatusEffect(StatusEffectType.ABLAZE, this, 3, 0.7))
         onHit.add(StatusEffect(StatusEffectType.STUN, this, 3, 0.7))
         expGiven = 240
+        isBoss = true
     }
 
     override fun listDrops(i: Int): LinkedHashMap<ItemWrapper, Int> {
@@ -49,5 +51,6 @@ class SlimeKing : Enemy() {
         linkedHashMap.put(ItemWrapper.getInstance("SeekingGlass", 1), 10)
         return linkedHashMap
     }
+
     override fun onTargetHitEffects(): List<StatusEffect> = onHit
 }

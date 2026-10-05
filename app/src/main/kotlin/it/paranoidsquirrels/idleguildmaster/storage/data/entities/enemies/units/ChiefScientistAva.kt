@@ -31,6 +31,7 @@ class ChiefScientistAva : Enemy() {
         activeSkill = Skills.ACTIVE_LIVE_TEST
         rarity = 1
         expGiven = 4000
+        isBoss = true
     }
 
     override fun listDrops(i: Int): LinkedHashMap<ItemWrapper, Int> {

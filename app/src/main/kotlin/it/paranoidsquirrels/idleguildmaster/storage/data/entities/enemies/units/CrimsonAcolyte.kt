@@ -22,7 +22,7 @@ class CrimsonAcolyte : Enemy() {
         baseDexterity = 50
         baseIntelligence = 200
         baseDefense = 0
-        baseMagicDefense = 60
+        baseMagicDefense = 75
         baseLifesteal = 100
         immunityToStatus = 0.0
         criticalDamage = 2.0

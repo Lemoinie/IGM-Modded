@@ -31,6 +31,7 @@ class PrimordialTitan : Enemy() {
         activeSkill = Skills.ACTIVE_FRAGMENTATION
         rarity = 1
         expGiven = 1200
+        isBoss = true
     }
 
     override fun listDrops(i: Int): LinkedHashMap<ItemWrapper, Int> {

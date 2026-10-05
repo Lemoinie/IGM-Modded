@@ -13,74 +13,271 @@ abstract class Entity {
         const val MAX_MANA: Int = 100
     }
 
-    @JvmField @Transient var activeSkill: Skills? = null
-    @JvmField @Transient var baseConstitution: Int = 0
-    @JvmField @Transient var baseDefense: Int = 0
-    @JvmField @Transient var baseDexterity: Int = 0
-    @JvmField @Transient var baseIntelligence: Int = 0
-    @JvmField @Transient var baseMagicDefense: Int = 0
-    @JvmField @Transient var baseMaxHp: Int = 0
-    @JvmField var currentHp: Int = 0
-    @JvmField var currentMana: Int = 0
-    @JvmField var currentShield: Int = 0
-    @JvmField @Transient var endOfTurnAction: EndOfTurnAction? = null
-    @JvmField @Transient var endOfTurnActionProbability: Double = 1.0
-    @JvmField @Transient var enemy: Int = 0
-    @JvmField @Transient var idDescription: Int = 0
-    @JvmField @Transient var idName: Int = 0
-    @JvmField @Transient var imageId: Int = 0
-    @JvmField @Transient var onSelfHit: StatusEffect? = null
-    @JvmField @Transient var onTargetHit: StatusEffect? = null
-    @JvmField @Transient var passiveSkill: Skills? = null
-    @JvmField var trueClass: String? = null
-    @JvmField @Transient var threat: Int = 1
-    @JvmField @Transient var counterattack: Double = 0.0
-    @JvmField @Transient var flying: Boolean = false
-    @JvmField @Transient var baseLifesteal: Int = 0
-    @JvmField @Transient var darknessDamageAmplification: Double = 0.0
-    @JvmField @Transient var healer: Boolean = false
-    @JvmField @Transient var cleanser: Boolean = false
-    @JvmField @Transient var initiative: Boolean = false
-    @JvmField @Transient var retaliationPhysicalDamage: Int = 0
-    @JvmField @Transient var retaliationMagicalDamage: Int = 0
-    @JvmField @Transient var healingModifier: Double = 1.0
-    @JvmField @Transient var immunityToStatus: Double = 0.0
-    @JvmField @Transient var ignoreImmunityToStatus: Double = 0.0
-    @JvmField @Transient var regeneration: Int = 0
-    @JvmField @Transient var criticalDamage: Double = 1.5
-    @JvmField @Transient var alwaysHits: Boolean = false
-    @JvmField @Transient var onFireBonusDamage: Int = 0
-    @JvmField @Transient var freezeBonusDamage: Int = 0
-    @JvmField @Transient var poisonBonus: Int = 0
-    @JvmField @Transient var bloodflameDamageBonus: Int = 0
-    @JvmField @Transient var livingCompanionBonusDamage: Int = 0
-    @JvmField @Transient var regenerationBonus: Int = 0
-    @JvmField @Transient var flatDodgeChance: Double = 0.0
-    @JvmField @Transient var stunChanceOnLowerHp: Double = 0.0
-    @JvmField @Transient var inspireExaltExtraTurns: Int = 0
-    @JvmField @Transient var criticalReduction: Double = 0.0
-    @JvmField @Transient var maxLifestealOverheal: Int = 0
-    @JvmField @Transient var damagePerTurnPerStatus: Int = 0
-    @JvmField @Transient var armorIgnored: Double = 0.0
-    @JvmField @Transient var forcesTargetToCounterattack: Boolean = false
-    @JvmField @Transient var addsDefensesToRetaliate: Boolean = false
-    @JvmField @Transient var moreDamageWhenHalfLife: Boolean = false
-    @JvmField @Transient var moreDamageDealtAndTaken: Boolean = false
-    @JvmField @Transient var damageDealtModifier: Double = 1.0
-    @JvmField @Transient var damageTakenModifier: Double = 1.0
-    @JvmField @Transient var normalAttackAmpModifier: Double = 1.0
-    @JvmField @Transient var skillAmpModifier: Double = 1.0
-    @JvmField @Transient var maxOverheal: Int = 0
-    @JvmField @Transient var bonusResurrectChance: Int = 0
-    @JvmField @Transient var healMissingHpOnEnemyDeath: Int = 0
-    @JvmField @Transient var team: Int = 0
-    @JvmField @Transient var increaseHealingAgainst: Map.Entry<String, Double>? = null
-    @JvmField @Transient var statusImmunities: MutableList<StatusEffectType> = ArrayList()
-    @JvmField @Transient var onDeathEffectsOnEnemies: MutableList<StatusEffect> = ArrayList()
-    @JvmField @Transient var onDeathEffectsOnAllies: MutableList<StatusEffect> = ArrayList()
-    @JvmField @Transient var firstHitPerformed: Boolean = false
-    @JvmField var negativeStatusEffects: MutableList<StatusEffect> = CopyOnWriteArrayList()
-    @JvmField var positiveStatusEffects: MutableList<StatusEffect> = CopyOnWriteArrayList()
+    @JvmField
+    @Transient
+    var activeSkill: Skills? = null
+
+    @JvmField
+    @Transient
+    var baseConstitution: Int = 0
+
+    @JvmField
+    @Transient
+    var baseDefense: Int = 0
+
+    @JvmField
+    @Transient
+    var baseDexterity: Int = 0
+
+    @JvmField
+    @Transient
+    var baseIntelligence: Int = 0
+
+    @JvmField
+    @Transient
+    var baseMagicDefense: Int = 0
+
+    @JvmField
+    @Transient
+    var baseMaxHp: Int = 0
+
+    @JvmField
+    var currentHp: Int = 0
+
+    @JvmField
+    var currentMana: Int = 0
+
+    @JvmField
+    var currentShield: Int = 0
+
+    @JvmField
+    @Transient
+    var endOfTurnAction: EndOfTurnAction? = null
+
+    @JvmField
+    @Transient
+    var endOfTurnActionProbability: Double = 1.0
+
+    @JvmField
+    @Transient
+    var enemy: Int = 0
+
+    @JvmField
+    @Transient
+    var idDescription: Int = 0
+
+    @JvmField
+    @Transient
+    var idName: Int = 0
+
+    @JvmField
+    @Transient
+    var imageId: Int = 0
+
+    @JvmField
+    @Transient
+    var onSelfHit: StatusEffect? = null
+
+    @JvmField
+    @Transient
+    var onTargetHit: StatusEffect? = null
+
+    @JvmField
+    @Transient
+    var passiveSkill: Skills? = null
+
+    @JvmField
+    var trueClass: String? = null
+
+    @JvmField
+    @Transient
+    var threat: Int = 1
+
+    @JvmField
+    @Transient
+    var counterattack: Double = 0.0
+
+    @JvmField
+    @Transient
+    var flying: Boolean = false
+
+    @JvmField
+    @Transient
+    var baseLifesteal: Int = 0
+
+    @JvmField
+    @Transient
+    var darknessDamageAmplification: Double = 0.0
+
+    @JvmField
+    @Transient
+    var healer: Boolean = false
+
+    @JvmField
+    @Transient
+    var cleanser: Boolean = false
+
+    @JvmField
+    @Transient
+    var initiative: Boolean = false
+
+    @JvmField
+    @Transient
+    var retaliationPhysicalDamage: Int = 0
+
+    @JvmField
+    @Transient
+    var retaliationMagicalDamage: Int = 0
+
+    @JvmField
+    @Transient
+    var healingModifier: Double = 1.0
+
+    @JvmField
+    @Transient
+    var immunityToStatus: Double = 0.0
+
+    @JvmField
+    @Transient
+    var ignoreImmunityToStatus: Double = 0.0
+
+    @JvmField
+    @Transient
+    var regeneration: Int = 0
+
+    @JvmField
+    @Transient
+    var criticalDamage: Double = 1.5
+
+    @JvmField
+    @Transient
+    var alwaysHits: Boolean = false
+
+    @JvmField
+    @Transient
+    var onFireBonusDamage: Int = 0
+
+    @JvmField
+    @Transient
+    var freezeBonusDamage: Int = 0
+
+    @JvmField
+    @Transient
+    var poisonBonus: Int = 0
+
+    @JvmField
+    @Transient
+    var bloodflameDamageBonus: Int = 0
+
+    @JvmField
+    @Transient
+    var livingCompanionBonusDamage: Int = 0
+
+    @JvmField
+    @Transient
+    var regenerationBonus: Int = 0
+
+    @JvmField
+    @Transient
+    var flatDodgeChance: Double = 0.0
+
+    @JvmField
+    @Transient
+    var stunChanceOnLowerHp: Double = 0.0
+
+    @JvmField
+    @Transient
+    var inspireExaltExtraTurns: Int = 0
+
+    @JvmField
+    @Transient
+    var criticalReduction: Double = 0.0
+
+    @JvmField
+    @Transient
+    var maxLifestealOverheal: Int = 0
+
+    @JvmField
+    @Transient
+    var damagePerTurnPerStatus: Int = 0
+
+    @JvmField
+    @Transient
+    var armorIgnored: Double = 0.0
+
+    @JvmField
+    @Transient
+    var forcesTargetToCounterattack: Boolean = false
+
+    @JvmField
+    @Transient
+    var addsDefensesToRetaliate: Boolean = false
+
+    @JvmField
+    @Transient
+    var moreDamageWhenHalfLife: Boolean = false
+
+    @JvmField
+    @Transient
+    var moreDamageDealtAndTaken: Boolean = false
+
+    @JvmField
+    @Transient
+    var damageDealtModifier: Double = 1.0
+
+    @JvmField
+    @Transient
+    var damageTakenModifier: Double = 1.0
+
+    @JvmField
+    @Transient
+    var normalAttackAmpModifier: Double = 1.0
+
+    @JvmField
+    @Transient
+    var skillAmpModifier: Double = 1.0
+
+    @JvmField
+    @Transient
+    var maxOverheal: Int = 0
+
+    @JvmField
+    @Transient
+    var bonusResurrectChance: Int = 0
+
+    @JvmField
+    @Transient
+    var healMissingHpOnEnemyDeath: Int = 0
+
+    @JvmField
+    @Transient
+    var team: Int = 0
+
+    @JvmField
+    @Transient
+    var increaseHealingAgainst: Map.Entry<String, Double>? = null
+
+    @JvmField
+    @Transient
+    var statusImmunities: MutableList<StatusEffectType> = ArrayList()
+
+    @JvmField
+    @Transient
+    var onDeathEffectsOnEnemies: MutableList<StatusEffect> = ArrayList()
+
+    @JvmField
+    @Transient
+    var onDeathEffectsOnAllies: MutableList<StatusEffect> = ArrayList()
+
+    @JvmField
+    @Transient
+    var firstHitPerformed: Boolean = false
+
+    @JvmField
+    var negativeStatusEffects: MutableList<StatusEffect> = CopyOnWriteArrayList()
+
+    @JvmField
+    var positiveStatusEffects: MutableList<StatusEffect> = CopyOnWriteArrayList()
 
     abstract fun calculateCounterattackChance(): Double
     abstract fun calculateCriticalChance(): Double
@@ -101,6 +298,7 @@ abstract class Entity {
     abstract fun calculateTotalMagicDefense(): Int
     abstract fun calculateTotalMaxHp(): Int
     abstract fun calculateTotalRegeneration(): Int
+    open fun isBoss(): Boolean = false
     open fun calculateTotalAttackSpeed(): Int = 100
     open fun calculateTotalDamageDealt(currentArea: it.paranoidsquirrels.idleguildmaster.storage.data.places.Area? = null): Double {
         var mult = damageDealtModifier
@@ -152,11 +350,20 @@ abstract class Entity {
     open fun getPassiveSkill(): Skills? = passiveSkill
     open fun getActiveSkill(): Skills? = activeSkill
     open fun getCurrentHp(): Int = currentHp
-    open fun setCurrentHp(i: Int) { currentHp = i }
+    open fun setCurrentHp(i: Int) {
+        currentHp = i
+    }
+
     open fun getCurrentMana(): Int = currentMana
-    open fun setCurrentMana(i: Int) { currentMana = i }
+    open fun setCurrentMana(i: Int) {
+        currentMana = i
+    }
+
     open fun getCurrentShield(): Int = currentShield
-    open fun setCurrentShield(i: Int) { currentShield = i }
+    open fun setCurrentShield(i: Int) {
+        currentShield = i
+    }
+
     open fun isFlying(): Boolean = flying
     open fun isHealer(): Boolean = healer
     open fun isCleanser(): Boolean = cleanser
@@ -187,12 +394,17 @@ abstract class Entity {
     open fun getIncreaseHealingAgainst(): Map.Entry<String, Double>? = increaseHealingAgainst
     open fun getThreat(): Int = threat
     open fun getNegativeStatusEffects(): List<StatusEffect> = negativeStatusEffects
-    open fun setNegativeStatusEffects(list: MutableList<StatusEffect>) { negativeStatusEffects = list }
+    open fun setNegativeStatusEffects(list: MutableList<StatusEffect>) {
+        negativeStatusEffects = list
+    }
 
     /** True when this unit carries Bloodflame: burns each turn and cannot benefit from healing. */
     open fun hasBloodflame(): Boolean = negativeStatusEffects.any { it.type == StatusEffectType.BLOODFLAME }
     open fun getPositiveStatusEffects(): List<StatusEffect> = positiveStatusEffects
-    open fun setPositiveStatusEffects(list: MutableList<StatusEffect>) { positiveStatusEffects = list }
+    open fun setPositiveStatusEffects(list: MutableList<StatusEffect>) {
+        positiveStatusEffects = list
+    }
+
     open fun calculateOnDeathEffectsOnEnemies(): List<StatusEffect> = onDeathEffectsOnEnemies
     open fun calculateOnDeathEffectsOnAllies(): List<StatusEffect> = onDeathEffectsOnAllies
     open fun calculateManaRegen(): Int = (calculateTotalIntelligence() / 10) + 10
@@ -204,7 +416,8 @@ abstract class Entity {
         if (rollsDamageThreeTimes()) {
             dRandom = Math.max(Math.max(dRandom, Utils.random()), Utils.random())
         }
-        val d = (dRandom * (iCalculateMaxAttackDamage - iCalculateMinAttackDamage).toDouble()) + iCalculateMinAttackDamage.toDouble()
+        val d =
+            (dRandom * (iCalculateMaxAttackDamage - iCalculateMinAttackDamage).toDouble()) + iCalculateMinAttackDamage.toDouble()
         if (this is Adventurer && d > (iCalculateMaxAttackDamage - 1).toDouble()) {
             QuestsManager.increment(QuestsManager.luckyRoll, 1L)
         }
@@ -233,6 +446,9 @@ abstract class Entity {
         val armorFactor = if (effectiveDef > 0.0) effectiveDef / (effectiveDef + 50.0) else 0.0
         var damageAfterArmor = (1.0 - armorFactor) * d
         if (!z && passiveSkill == Skills.PASSIVE_INCORPOREAL) {
+            damageAfterArmor = 1.0
+        }
+        if (z && passiveSkill == Skills.PASSIVE_DEFLECT_MAGIC) {
             damageAfterArmor = 1.0
         }
         damageAfterArmor *= calculateTotalDamageTaken()
@@ -290,7 +506,16 @@ abstract class Entity {
             }
             return 0
         }
-        val statusEffect2 = StatusEffect(type, statusEffect.cause, statusEffect.turnsLeft, 1.0, statusEffect.immunity, statusEffect.flatDr, statusEffect.regenPct, statusEffect.undeadDamageBonus)
+        val statusEffect2 = StatusEffect(
+            type,
+            statusEffect.cause,
+            statusEffect.turnsLeft,
+            1.0,
+            statusEffect.immunity,
+            statusEffect.flatDr,
+            statusEffect.regenPct,
+            statusEffect.undeadDamageBonus
+        )
         val list = if (type.negative) negativeStatusEffects else positiveStatusEffects
         var next: StatusEffect? = null
         for (effect in list) {

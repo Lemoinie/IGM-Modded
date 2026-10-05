@@ -36,6 +36,7 @@ class HeadlessKnight : Enemy() {
         activeSkill = Skills.ACTIVE_NONE
         rarity = 1
         expGiven = 10000
+        isBoss = true
 
     }
 

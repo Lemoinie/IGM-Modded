@@ -32,6 +32,7 @@ class FirstMinisterAtos : Enemy() {
         activeSkill = Skills.ACTIVE_AT_THE_STAKE
         rarity = 1
         expGiven = 4000
+        isBoss = true
     }
 
     override fun listDrops(i: Int): LinkedHashMap<ItemWrapper, Int> {

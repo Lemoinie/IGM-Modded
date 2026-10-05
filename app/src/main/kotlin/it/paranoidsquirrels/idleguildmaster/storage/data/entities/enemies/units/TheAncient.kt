@@ -38,6 +38,7 @@ class TheAncient : Enemy() {
         activeSkill = Skills.ACTIVE_DEVOUR_SPIRIT
         rarity = 1
         expGiven = 17500
+        isBoss = true
     }
 
     override fun listDrops(i: Int): LinkedHashMap<ItemWrapper, Int> {

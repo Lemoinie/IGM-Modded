@@ -27,6 +27,7 @@ class KabarTheRotten : Enemy() {
         activeSkill = Skills.ACTIVE_NONE
         rarity = 1
         expGiven = 360
+        isBoss = true
     }
 
     override fun listDrops(i: Int): LinkedHashMap<ItemWrapper, Int> {

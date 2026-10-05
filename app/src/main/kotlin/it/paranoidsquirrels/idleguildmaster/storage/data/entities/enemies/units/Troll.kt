@@ -17,7 +17,7 @@ class Troll : Enemy() {
         baseConstitution = 30
         baseIntelligence = 2
         baseDexterity = 8
-        baseDefense = 70
+        baseDefense = 117
         baseMagicDefense = 0
         regeneration = 30
         imageId = R.drawable.unit_troll

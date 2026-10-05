@@ -18,8 +18,8 @@ class MagicArmor : Enemy() {
         baseConstitution = 68
         baseIntelligence = 1
         baseDexterity = 54
-        baseDefense = 75
-        baseMagicDefense = 75
+        baseDefense = 150
+        baseMagicDefense = 150
         retaliationMagicalDamage = 105
         threat = 2
         imageId = R.drawable.unit_magic_armor

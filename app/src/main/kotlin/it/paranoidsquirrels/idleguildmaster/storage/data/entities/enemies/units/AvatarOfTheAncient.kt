@@ -28,6 +28,7 @@ class AvatarOfTheAncient : Enemy() {
         activeSkill = Skills.ACTIVE_NONE
         rarity = 1
         expGiven = 10000
+        isBoss = true
     }
 
     override fun listDrops(i: Int): LinkedHashMap<ItemWrapper, Int> {

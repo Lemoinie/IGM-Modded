@@ -270,7 +270,7 @@ class ModFeaturesTest {
         assertEquals(120, colossus.baseConstitution)
         assertEquals(30, colossus.baseDexterity)
         assertEquals(10, colossus.baseIntelligence)
-        assertEquals(80, colossus.baseDefense)
+        assertEquals(200, colossus.baseDefense)
         // Magic Defense was intentionally reduced to 5 (commit 6ac1d165 - Bloodstone Colossus balance).
         assertEquals(5, colossus.baseMagicDefense)
         assertEquals(Skills.PASSIVE_THREATENING_IV, colossus.passiveSkill)
@@ -2932,6 +2932,63 @@ class ModFeaturesTest {
         assertEquals(1, wisp.applyDamage(50000.0, false, 0, 0.0))
         // Magic damage bypasses Incorporeal and applies wisp's 0 MDEF:
         assertEquals(1000, wisp.applyDamage(1000.0, true, 0, 0.0))
+    }
+
+    @Test
+    fun testEnemyDefenseRebalanceAndImmunities() {
+        // 1. Obsidian Golem with PASSIVE_DEFLECT_MAGIC reduces magic damage to 1:
+        val golem = Enemy.getInstance("ObsidianGolem")!!
+        golem.currentHp = 999999
+        golem.baseConstitution = 0
+        assertEquals(Skills.PASSIVE_DEFLECT_MAGIC, golem.passiveSkill)
+        assertEquals(1, golem.applyDamage(50000.0, true, 0, 0.0))
+        assertEquals(1000, golem.applyDamage(1000.0, false, 0, 0.0)) // 0 DEF takes full physical
+
+        // 2. Necrolith with damageTakenModifier = 0.0 takes minimum 1 damage:
+        val necrolith = Enemy.getInstance("Necrolith")!!
+        necrolith.currentHp = 1000000
+        necrolith.baseConstitution = 0
+        assertEquals(0.0, necrolith.damageTakenModifier, 0.0001)
+        assertEquals(1, necrolith.applyDamage(50000.0, false, 0, 0.0))
+        assertEquals(1, necrolith.applyDamage(50000.0, true, 0, 0.0))
+
+        // 3. Magic Armor (150 DEF / 150 MDEF -> 75% reduction):
+        val armor = Enemy.getInstance("MagicArmor")!!
+        armor.currentHp = 999999
+        armor.baseConstitution = 0
+        assertEquals(150, armor.baseDefense)
+        assertEquals(150, armor.baseMagicDefense)
+        assertEquals(250, armor.applyDamage(1000.0, false, 0, 0.0))
+        assertEquals(250, armor.applyDamage(1000.0, true, 0, 0.0))
+
+        // 4. Stone Shaman (450 MDEF -> 90% magic reduction):
+        val shaman = Enemy.getInstance("StoneShaman")!!
+        shaman.currentHp = 999999
+        shaman.baseConstitution = 0
+        assertEquals(450, shaman.baseMagicDefense)
+        assertEquals(100, shaman.applyDamage(1000.0, true, 0, 0.0))
+        assertEquals(1000, shaman.applyDamage(1000.0, false, 0, 0.0)) // 0 DEF
+
+        // 5. Archmagus Valthex (450 MDEF -> 90% magic reduction):
+        val valthex = Enemy.getInstance("ArchmagusValthex")!!
+        valthex.currentHp = 999999
+        valthex.baseConstitution = 0
+        assertEquals(450, valthex.baseMagicDefense)
+        assertEquals(100, valthex.applyDamage(1000.0, true, 0, 0.0))
+
+        // 6. Bloodstone Colossus (200 DEF -> 80% physical reduction):
+        val colossus = Enemy.getInstance("BloodstoneColossus")!!
+        colossus.currentHp = 999999
+        colossus.baseConstitution = 0
+        assertEquals(200, colossus.baseDefense)
+        assertEquals(200, colossus.applyDamage(1000.0, false, 0, 0.0))
+
+        // 7. Troll (117 DEF -> 70% physical reduction):
+        val troll = Enemy.getInstance("Troll")!!
+        troll.currentHp = 999999
+        troll.baseConstitution = 0
+        assertEquals(117, troll.baseDefense)
+        assertEquals(299, troll.applyDamage(1000.0, false, 0, 0.0))
     }
 
     @Test

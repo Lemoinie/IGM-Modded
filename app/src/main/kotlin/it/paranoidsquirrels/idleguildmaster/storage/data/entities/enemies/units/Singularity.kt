@@ -27,6 +27,7 @@ class Singularity : Enemy() {
         activeSkill = Skills.ACTIVE_GRAVITY_SHIFT
         rarity = 1
         expGiven = 12000
+        isBoss = true
     }
 
     override fun listDrops(i: Int): LinkedHashMap<ItemWrapper, Int> {

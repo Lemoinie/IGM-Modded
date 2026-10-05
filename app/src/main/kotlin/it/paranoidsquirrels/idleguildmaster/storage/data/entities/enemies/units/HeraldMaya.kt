@@ -29,6 +29,7 @@ class HeraldMaya : Enemy() {
         activeSkill = Skills.ACTIVE_BOTCHED_SACRIFICE
         rarity = 1
         expGiven = 9600
+        isBoss = true
     }
 
     override fun listDrops(i: Int): LinkedHashMap<ItemWrapper, Int> {

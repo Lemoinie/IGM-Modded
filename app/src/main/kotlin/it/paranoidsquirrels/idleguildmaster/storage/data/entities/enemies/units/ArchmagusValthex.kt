@@ -22,7 +22,7 @@ class ArchmagusValthex : Enemy() {
         baseDexterity = 60
         baseIntelligence = 600
         baseDefense = 10
-        baseMagicDefense = 90
+        baseMagicDefense = 450
         baseLifesteal = 150
         immunityToStatus = 0.0
         criticalDamage = 1.5
@@ -40,6 +40,8 @@ class ArchmagusValthex : Enemy() {
 
         statusImmunities.add(StatusEffectType.ABLAZE)
         statusImmunities.add(StatusEffectType.BLOODFLAME)
+
+        isBoss = true
     }
 
     /** All drops listed for the Bestiary / inspection UI. */

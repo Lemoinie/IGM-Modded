@@ -29,6 +29,7 @@ class Claris : Enemy() {
         activeSkill = Skills.ACTIVE_ARCANE_DIFFUSION
         rarity = 1
         expGiven = 540
+        isBoss = true
     }
 
     override fun listDrops(i: Int): LinkedHashMap<ItemWrapper, Int> {

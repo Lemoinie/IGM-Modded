@@ -27,6 +27,7 @@ class Phoenix : Enemy() {
         activeSkill = Skills.ACTIVE_TABULA_RASA
         rarity = 1
         expGiven = 7500
+        isBoss = true
     }
 
     override fun listDrops(i: Int): LinkedHashMap<ItemWrapper, Int> {

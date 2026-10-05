@@ -17,8 +17,9 @@ class Necrolith : Enemy() {
         baseConstitution = 500
         baseIntelligence = 1
         baseDexterity = 1
-        baseDefense = 100
-        baseMagicDefense = 100
+        baseDefense = 0
+        baseMagicDefense = 0
+        damageTakenModifier = 0.0
         threat = 2
         imageId = R.drawable.unit_necrolith
         idName = R.string.enemy_necrolith_name

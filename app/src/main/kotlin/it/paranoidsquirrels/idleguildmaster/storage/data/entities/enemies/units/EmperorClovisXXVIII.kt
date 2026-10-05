@@ -30,6 +30,7 @@ class EmperorClovisXXVIII : Enemy() {
         activeSkill = Skills.ACTIVE_PANDEMONIUM
         rarity = 1
         expGiven = 9600
+        isBoss = true
     }
 
     override fun listDrops(i: Int): LinkedHashMap<ItemWrapper, Int> {
