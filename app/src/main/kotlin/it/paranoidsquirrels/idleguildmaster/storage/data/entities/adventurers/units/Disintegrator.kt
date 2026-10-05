@@ -14,6 +14,7 @@ class Disintegrator : Adventurer() {
         baseDexterity = 14
         baseDefense = 0
         baseMagicDefense = 30
+        attackIntelligenceScaling = 1.5
         imageId = R.drawable.unit_disintegrator
         idName = R.string.adventurer_disintegrator_name
         idDescription = R.string.adventurer_disintegrator_description

@@ -14,7 +14,7 @@ class Arcanist : Adventurer() {
         baseDexterity = 6
         baseDefense = 0
         baseMagicDefense = 30
-        customIntelligenceScaling = 1.1
+        attackIntelligenceScaling = 1.1
         imageId = R.drawable.unit_arcanist
         idName = R.string.adventurer_arcanist_name
         idDescription = R.string.adventurer_arcanist_description

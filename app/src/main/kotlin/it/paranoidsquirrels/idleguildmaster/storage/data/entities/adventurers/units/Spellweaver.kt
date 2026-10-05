@@ -14,7 +14,7 @@ class Spellweaver : Adventurer() {
         baseDexterity = 8
         baseDefense = 0
         baseMagicDefense = 30
-        customIntelligenceScaling = 1.2
+        attackIntelligenceScaling = 1.2
         imageId = R.drawable.unit_spell_weaver
         idName = R.string.adventurer_spell_weaver_name
         idDescription = R.string.adventurer_spell_weaver_description

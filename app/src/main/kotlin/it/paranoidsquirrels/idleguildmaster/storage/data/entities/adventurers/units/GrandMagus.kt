@@ -14,6 +14,7 @@ class GrandMagus : Adventurer() {
         baseDexterity = 16
         baseDefense = 0
         baseMagicDefense = 30
+        attackIntelligenceScaling = 1.6
         imageId = R.drawable.unit_grand_magus
         idName = R.string.adventurer_grand_magus_name
         idDescription = R.string.adventurer_grand_magus_description

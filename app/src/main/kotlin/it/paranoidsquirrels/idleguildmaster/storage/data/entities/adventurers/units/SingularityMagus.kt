@@ -14,6 +14,7 @@ class SingularityMagus : Adventurer() {
         baseDexterity = 18
         baseDefense = 0
         baseMagicDefense = 30
+        attackIntelligenceScaling = 1.7
         imageId = R.drawable.unit_singularity_magus
         idName = R.string.adventurer_singularity_magus_name
         idDescription = R.string.adventurer_singularity_magus_description

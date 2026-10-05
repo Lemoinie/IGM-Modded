@@ -14,6 +14,7 @@ class AetherArchmage : Adventurer() {
         baseDexterity = 12
         baseDefense = 0
         baseMagicDefense = 30
+        attackIntelligenceScaling = 1.4
         imageId = R.drawable.unit_aether_archmage
         idName = R.string.adventurer_aether_archmage_name
         idDescription = R.string.adventurer_aether_archmage_description
