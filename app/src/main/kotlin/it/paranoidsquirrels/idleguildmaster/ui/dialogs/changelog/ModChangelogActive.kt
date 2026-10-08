@@ -16,6 +16,19 @@ object ModChangelogActive {
 
     val ENTRIES: List<VersionEntry> = listOf(
         version(
+            "1.3.18.8", "7/10/2026",
+            subpoints(
+                "Adventurers — Black Idol Evolution Line Rebalance (Dread Lich & Soul Harvester):",
+                "Skill-Based Minion Summoning: Active skills (Curse I–V) now directly summon undead servants into combat without requiring enemy deaths; when at maximum minion capacity, casts mend and heal all active minions for 35% Max HP;",
+                "Expanded Summon Capacity: Max minion capacity scales across tiers — 1 minion for Necromancer (T4) & Demilich (T5), 2 minions for Lich (T6) & Ancient Lich (T7), and 3 minions for Lord of Decay (T8) & Black Idol (T9);",
+                "New Minion Companion: Introduced Bone Abomination as the hulking frontline minion servant for Tier 8 Lord of Decay;",
+                "Soul Tether Damage Redirection: Lich line units redirect a portion of all damage taken directly to living minions (20% at T4, 25% at T5, 30% at T6, 35% at T7, 40% at T8, up to 45% at T9);",
+                "Soul Harvest Status Effect: When cursed enemies die, all active summoned minions absorb their essence, gaining permanent stacking buffs (+15% Max HP with immediate heal, +10% Damage Dealt, -5% Damage Taken per stack), capped based on summoner tier (up to 10 stacks at T9);",
+                "Tiered Passives (Withering Touch I–III & Withering Link I–IV): Structured explicit tiered passives displaying exact lifesteal, damage redirection percentages (20%–45%), and Soul Harvest max stack caps across T3–T9;",
+                "Tier-Scaled Minion Decay: Reduced undead minion decay from vanilla 25% down to a tier-scaled rate — Zombie (20%), Skeleton (18%), Bone Horror (16%), Bone Nightmare (14%), Bone Abomination (12%), and Bone Hydra (10%)."
+            ),
+        ),
+        version(
             "1.3.18.7", "5/10/2026",
             subpoints(
                 "Adventurers — Single-Target Burst Mage Line (Apprentice Branch):",

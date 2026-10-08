@@ -24,5 +24,6 @@ class BoneNightmare : Adventurer() {
         armorType = R.string.type_armor_heavy
         potionDrinkerType = PotionDrinkerType.NONE
         summonedMinion = true
+        minionDecayRate = 0.14
     }
 }

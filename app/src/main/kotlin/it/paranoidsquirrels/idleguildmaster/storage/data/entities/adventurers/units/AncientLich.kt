@@ -19,8 +19,11 @@ class AncientLich : Adventurer() {
         imageId = R.drawable.unit_ancient_lich
         idName = R.string.adventurer_ancient_lich_name
         idDescription = R.string.adventurer_ancient_lich_description
-        passiveSkill = Skills.PASSIVE_WITHERING_LINK
+        passiveSkill = Skills.PASSIVE_WITHERING_LINK_II
         activeSkill = Skills.ACTIVE_CURSE_III
+        maxMinions = 2
+        soulTetherPercent = 0.35
+        minionSummonClass = "BoneNightmare"
         weaponType = R.string.type_staff
         armorType = R.string.type_armor_light
         potionDrinkerType = PotionDrinkerType.MAGE

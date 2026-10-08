@@ -34,6 +34,7 @@ object Logger {
     const val AUTO_RAID_STOPPED = 133
     const val STATUS_ENTANGLED = 134
     const val ACCELERATED_MASTERY_REFUND = 135
+    const val MINION_DAMAGE_REDIRECTED = 136
     const val BOTCHED_OFFERING = 115
     private const val COLOR_FORMAT = "<font color=%s><strong>%s</strong></font>"
     const val DARKNESS_DESCRIPTION = 1
@@ -884,6 +885,21 @@ object Logger {
                 }
                 AUTO_RAID_STOPPED -> {
                     strWrap = wrap(RESOURCES!!.getString((objArr[0] as Number).toInt()), YELLOW)
+                }
+                MINION_DAMAGE_REDIRECTED -> {
+                    val casterRedir = objArr[0] as Entity
+                    val minionRedir = objArr[1] as Entity
+                    val iRedirected = (objArr[2] as Number).toInt()
+                    val nameCaster = RESOURCES!!.getString(casterRedir.idName)
+                    val nameMinion = RESOURCES!!.getString(minionRedir.idName)
+                    val colorCaster = if (casterRedir is Enemy) getRed() else GREEN
+                    val colorMinion = if (minionRedir is Enemy) getRed() else GREEN
+                    strWrap = String.format(
+                        RESOURCES!!.getString(R.string.log_minion_damage_redirected),
+                        wrap(nameCaster, colorCaster),
+                        wrap(iRedirected, getRed()),
+                        wrap(nameMinion, colorMinion)
+                    )
                 }
             }
             if (strWrap != null) {

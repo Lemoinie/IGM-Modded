@@ -441,6 +441,7 @@ abstract class Area {
                 for (adventurer in list) {
                     if (adventurer.id == num) {
                         adventurer.minionBound = null
+                        adventurer.minionsBound.clear()
                         this.adventurersExploring.add(adventurer)
                         break
                     }
@@ -1244,9 +1245,9 @@ abstract class Area {
         var i4 = 0
 
         for (statusEffect in arrayList) {
-            // Sanguine Fervor is permanent: it never expires and has no turn duration,
+            // Sanguine Fervor and Soul Harvest are permanent: they never expire and have no turn duration,
             // so skip decrement / expiration removal entirely (stays until unit death).
-            if (statusEffect.type == StatusEffectType.SANGUINE_FERVOR) {
+            if (statusEffect.type == StatusEffectType.SANGUINE_FERVOR || statusEffect.type == StatusEffectType.SOUL_HARVEST) {
                 continue
             }
             val cause = statusEffect.cause
@@ -2104,44 +2105,59 @@ abstract class Area {
                 .setStatusEffect(StatusEffect(StatusEffectType.REGENERATION, entity, 3, 1.0))
                 .setDamageAmplification(2.6).setReviveProbability(0.06).execute()
 
-            Skills.ACTIVE_CURSE_I -> skill.setStatusEffect(
-                StatusEffect(
-                    StatusEffectType.LESSER_CURSE,
-                    entity,
-                    999,
-                    1.0
-                )
-            ).setDamageAmplification(3.0).execute()
+            Skills.ACTIVE_CURSE_I -> {
+                handleCurseSkillSummonOrHeal(entity)
+                skill.setStatusEffect(
+                    StatusEffect(
+                        StatusEffectType.LESSER_CURSE,
+                        entity,
+                        999,
+                        1.0
+                    )
+                ).setDamageAmplification(3.0).execute()
+            }
 
-            Skills.ACTIVE_CURSE_II -> skill.setStatusEffect(StatusEffect(StatusEffectType.CURSE, entity, 999, 1.0))
-                .setDamageAmplification(3.25).execute()
+            Skills.ACTIVE_CURSE_II -> {
+                handleCurseSkillSummonOrHeal(entity)
+                skill.setStatusEffect(StatusEffect(StatusEffectType.CURSE, entity, 999, 1.0))
+                    .setDamageAmplification(3.25).execute()
+            }
 
-            Skills.ACTIVE_CURSE_III -> skill.setStatusEffect(
-                StatusEffect(
-                    StatusEffectType.GREATER_CURSE,
-                    entity,
-                    999,
-                    1.0
-                )
-            ).setDamageAmplification(3.5).execute()
+            Skills.ACTIVE_CURSE_III -> {
+                handleCurseSkillSummonOrHeal(entity)
+                skill.setStatusEffect(
+                    StatusEffect(
+                        StatusEffectType.GREATER_CURSE,
+                        entity,
+                        999,
+                        1.0
+                    )
+                ).setDamageAmplification(3.5).execute()
+            }
 
-            Skills.ACTIVE_CURSE_IV -> skill.setStatusEffect(
-                StatusEffect(
-                    StatusEffectType.OMINOUS_CURSE,
-                    entity,
-                    999,
-                    1.0
-                )
-            ).setDamageAmplification(3.75).execute()
+            Skills.ACTIVE_CURSE_IV -> {
+                handleCurseSkillSummonOrHeal(entity)
+                skill.setStatusEffect(
+                    StatusEffect(
+                        StatusEffectType.OMINOUS_CURSE,
+                        entity,
+                        999,
+                        1.0
+                    )
+                ).setDamageAmplification(3.75).execute()
+            }
 
-            Skills.ACTIVE_CURSE_V -> skill.setStatusEffect(
-                StatusEffect(
-                    StatusEffectType.ABHORRENT_CURSE,
-                    entity,
-                    999,
-                    1.0
-                )
-            ).setDamageAmplification(4.0).execute()
+            Skills.ACTIVE_CURSE_V -> {
+                handleCurseSkillSummonOrHeal(entity)
+                skill.setStatusEffect(
+                    StatusEffect(
+                        StatusEffectType.ABHORRENT_CURSE,
+                        entity,
+                        999,
+                        1.0
+                    )
+                ).setDamageAmplification(4.0).execute()
+            }
 
             Skills.ACTIVE_FLAY -> skill.setTargetSelectionMode("random_except_self").setDamageAmplification(10.0)
                 .setForceRange(false).execute()
@@ -2689,8 +2705,22 @@ abstract class Area {
             }
         }
 
+        val aoeEffectiveRaw = if (aoeProtectors.isEmpty()) rawDamage else rawDamage - aoeInterceptedRaw
+
+        // Soul Tether (Passive): Lich redirects % of incoming damage distributed across active minions
+        val livingTetherMinions = if (entity2 is Adventurer && entity2.soulTetherPercent > 0.0) {
+            entity2.minionsBound.filter { it.currentHp > 0 }
+        } else {
+            emptyList()
+        }
+        val tetherInterceptedRaw = if (livingTetherMinions.isNotEmpty()) {
+            aoeEffectiveRaw * (entity2 as Adventurer).soulTetherPercent
+        } else {
+            0.0
+        }
+
         val iApplyDamage = entity2.applyDamage(
-            if (aoeProtectors.isEmpty()) rawDamage else rawDamage - aoeInterceptedRaw,
+            aoeEffectiveRaw - tetherInterceptedRaw,
             zIsMagic,
             barrier,
             entity.getArmorIgnored()
@@ -2724,6 +2754,17 @@ abstract class Area {
                 animateDamage(guard)
                 Logger.log(this, Logger.AOE_DAMAGE_INTERCEPTED, guard, entity2, iGuardDmg)
                 checkDeath(guard)
+            }
+        }
+
+        if (livingTetherMinions.isNotEmpty()) {
+            val perMinionRaw = tetherInterceptedRaw / livingTetherMinions.size
+            for (minion in livingTetherMinions) {
+                val minionBarrier = if (pet != null) pet.barrier else 0
+                val iMinionDmg = minion.applyDamage(perMinionRaw, zIsMagic, minionBarrier, entity.getArmorIgnored())
+                animateDamage(minion)
+                Logger.log(this, Logger.MINION_DAMAGE_REDIRECTED, entity2, minion, iMinionDmg)
+                checkDeath(minion)
             }
         }
 
@@ -2779,10 +2820,20 @@ abstract class Area {
             Logger.log(this, 35, entity, iRound)
             if (z4) {
                 QuestsManager.increment(QuestsManager.vampiricThirst, (iMin - currentHp).toLong())
-                val minionBound = (entity as Adventurer).minionBound
-                if (minionBound != null && (entity as Adventurer).isHealsMinionBound()) {
-                    minionBound.currentHp = Math.min(minionBound.calculateTotalMaxHp(), minionBound.currentHp + iRound)
-                    Logger.log(this, 35, minionBound, iRound)
+                if ((entity as Adventurer).isHealsMinionBound()) {
+                    val activeMinions = entity.minionsBound.filter { it.currentHp > 0 }
+                    if (activeMinions.isNotEmpty()) {
+                        for (m in activeMinions) {
+                            m.currentHp = Math.min(m.calculateTotalMaxHp(), m.currentHp + iRound)
+                            Logger.log(this, 35, m, iRound)
+                        }
+                    } else {
+                        val minionBound = entity.minionBound
+                        if (minionBound != null && minionBound.currentHp > 0) {
+                            minionBound.currentHp = Math.min(minionBound.calculateTotalMaxHp(), minionBound.currentHp + iRound)
+                            Logger.log(this, 35, minionBound, iRound)
+                        }
+                    }
                 }
             }
         }
@@ -2905,9 +2956,9 @@ abstract class Area {
                     }
                     this.fightingGroup.remove(entity)
                     for (adv in this.adventurersExploring) {
+                        adv.minionsBound.remove(entity)
                         if (adv.minionBound === entity) {
-                            adv.minionBound = null
-                            break
+                            adv.minionBound = adv.minionsBound.firstOrNull()
                         }
                     }
                     triggerEvent("kill_" + entity.getTrueClass())
@@ -2928,11 +2979,17 @@ abstract class Area {
                         adventurer.experience = adventurer.experience - experience
                         this.adventureRecap.addExpLost(experience)
                     }
+                    for (m in ArrayList(adventurer.minionsBound)) {
+                        m.currentHp = 0
+                        checkDeath(m)
+                    }
+                    adventurer.minionsBound.clear()
                     val minion = adventurer.minionBound
                     if (minion != null) {
                         minion.currentHp = 0
                         checkDeath(minion)
                     }
+                    adventurer.minionBound = null
                     val sinisterCursed =
                         adventurer.negativeStatusEffects.any { it.type == StatusEffectType.SINISTER_CURSE }
                     adventurer.positiveStatusEffects.clear()
@@ -3018,28 +3075,74 @@ abstract class Area {
         }
     }
 
+    fun spawnMinionForLich(adventurer: Adventurer, minionClass: String? = null): Adventurer? {
+        val str = minionClass ?: adventurer.minionSummonClass ?: "Zombie"
+        val z = str == "BoneHydra" || str == "BoneNightmare" || str == "BoneAbomination"
+        val z2 = str == "BoneHydra" || str == "BoneAbomination"
+        val minion = Adventurer.getInstance(str, -100, 1, 0, null, null, null, null, null, PotionsDrank(), null, false)
+            ?: return null
+        minion.weapon = Item.getInstance(if (z) "SerpentJaws" else "DecomposedLimb") as? Weapon
+        if (z2) {
+            minion.armor = Item.getInstance("SpikedSkeleton") as? Armor
+        }
+        if ("WickedScepter" == adventurer.weapon?.getTrueClass()) {
+            minion.accessory = Item.getInstance("EyeOfUr") as? Accessory
+        }
+        if ("CursedScepter" == adventurer.weapon?.getTrueClass()) {
+            minion.accessory = Item.getInstance("AncientEye") as? Accessory
+        }
+        minion.currentHp = minion.calculateTotalMaxHp()
+        adventurer.minionsBound.add(minion)
+        adventurer.minionBound = minion
+        if (adventurer.accessory is SkeletonKey) {
+            applyStatus(minion, StatusEffect(StatusEffectType.SKELETON_KEY, adventurer, 999, 1.0), 0.0)
+        }
+
+        val list = this.fightingGroup
+        val idx = list.indexOf(adventurer)
+        if (idx >= 0) {
+            list.add(idx + 1, minion)
+        } else {
+            list.add(minion)
+        }
+        this.adventurersExploring.add(minion)
+        Logger.log(this, 39, minion.getIdName(), adventurer.getIdName())
+        return minion
+    }
+
+    private fun handleCurseSkillSummonOrHeal(entity: Entity) {
+        val adv = entity as? Adventurer ?: return
+        if (adv.maxMinions <= 0) return
+        adv.minionsBound.removeAll { it.currentHp <= 0 }
+        if (adv.minionsBound.size < adv.maxMinions) {
+            spawnMinionForLich(adv)
+        } else {
+            for (minion in adv.minionsBound) {
+                val healAmount = (minion.calculateTotalMaxHp() * 0.35).toInt()
+                if (healAmount > 0) {
+                    minion.currentHp = Math.min(minion.calculateTotalMaxHp(), minion.currentHp + healAmount)
+                    Logger.log(this, 35, minion, healAmount)
+                }
+            }
+        }
+    }
+
     private fun reanimate(enemy: Enemy) {
         if (enemy.negativeStatusEffects.isEmpty()) {
             return
         }
         var adventurer: Adventurer? = null
         var str: String? = null
-        var z = false
-        var z2 = false
 
         for (next in enemy.negativeStatusEffects) {
             if (next.type == StatusEffectType.ABHORRENT_CURSE) {
                 adventurer = next.cause as? Adventurer
                 str = "BoneHydra"
-                z2 = true
-                z = true
                 break
             }
             if (next.type == StatusEffectType.OMINOUS_CURSE) {
                 adventurer = next.cause as? Adventurer
                 str = "BoneNightmare"
-                z2 = false
-                z = true
                 break
             }
             if (next.type == StatusEffectType.GREATER_CURSE) {
@@ -3061,41 +3164,26 @@ abstract class Area {
             return
         }
 
-        for (adventurer2 in this.adventurersExploring) {
-            if (adventurer2.isSummonedMinion()) {
-                this.adventurersExploring.remove(adventurer2)
-                this.fightingGroup.remove(adventurer2)
-                break
+        // Soul Harvest: all living minions bound to the cursed adventurer gain 1 stack of SOUL_HARVEST up to cap
+        val maxStacks = adventurer.getMaxSoulHarvestStacks()
+        for (m in adventurer.minionsBound) {
+            if (m.currentHp > 0) {
+                val currentStacks = m.getSoulHarvestStacks()
+                if (currentStacks < maxStacks) {
+                    val oldMaxHp = m.calculateTotalMaxHp()
+                    val gainedHp = (oldMaxHp * 0.15).toInt()
+                    m.addStatusEffect(StatusEffect(StatusEffectType.SOUL_HARVEST, adventurer, 1, 1.0), 0.0)
+                    m.currentHp = Math.min(m.calculateTotalMaxHp(), m.currentHp + gainedHp)
+                }
             }
         }
 
-        val minion = Adventurer.getInstance(str, -100, 1, 0, null, null, null, null, null, PotionsDrank(), null, false)
-            ?: return
-        minion.weapon = Item.getInstance(if (z) "SerpentJaws" else "DecomposedLimb") as? Weapon
-        if (z2) {
-            minion.armor = Item.getInstance("SpikedSkeleton") as? Armor
+        // Spawn minion if under maxMinions cap
+        adventurer.minionsBound.removeAll { it.currentHp <= 0 }
+        if (adventurer.minionsBound.size < adventurer.maxMinions) {
+            val minionClass = adventurer.minionSummonClass ?: str
+            spawnMinionForLich(adventurer, minionClass)
         }
-        if ("WickedScepter" == adventurer.weapon?.getTrueClass()) {
-            minion.accessory = Item.getInstance("EyeOfUr") as? Accessory
-        }
-        if ("CursedScepter" == adventurer.weapon?.getTrueClass()) {
-            minion.accessory = Item.getInstance("AncientEye") as? Accessory
-        }
-        minion.currentHp = minion.calculateTotalMaxHp()
-        adventurer.minionBound = minion
-        if (adventurer.accessory is SkeletonKey) {
-            applyStatus(minion, StatusEffect(StatusEffectType.SKELETON_KEY, adventurer, 999, 1.0), 0.0)
-        }
-
-        val list = this.fightingGroup
-        val idx = list.indexOf(adventurer)
-        if (idx >= 0) {
-            list.add(idx + 1, minion)
-        } else {
-            list.add(minion)
-        }
-        this.adventurersExploring.add(minion)
-        Logger.log(this, 39, minion.getIdName(), adventurer.getIdName())
     }
 
     private fun retaliate(entity: Entity?, entity2: Entity, z: Boolean, i: Int) {

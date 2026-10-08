@@ -19,8 +19,11 @@ class BlackIdol : Adventurer() {
         imageId = R.drawable.unit_black_idol
         idName = R.string.adventurer_black_idol_name
         idDescription = R.string.adventurer_black_idol_description
-        passiveSkill = Skills.PASSIVE_WITHERING_LINK
+        passiveSkill = Skills.PASSIVE_WITHERING_LINK_IV
         activeSkill = Skills.ACTIVE_CURSE_V
+        maxMinions = 3
+        soulTetherPercent = 0.45
+        minionSummonClass = "BoneHydra"
         weaponType = R.string.type_staff
         armorType = R.string.type_armor_light
         potionDrinkerType = PotionDrinkerType.MAGE

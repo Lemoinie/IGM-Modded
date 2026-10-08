@@ -18,7 +18,7 @@ class DarkSorcerer : Adventurer() {
         imageId = R.drawable.unit_dark_sorcerer
         idName = R.string.adventurer_dark_sorcerer_name
         idDescription = R.string.adventurer_dark_sorcerer_description
-        passiveSkill = Skills.PASSIVE_WITHERING_TOUCH
+        passiveSkill = Skills.PASSIVE_WITHERING_TOUCH_I
         activeSkill = Skills.ACTIVE_ENERGY_BURST_II
         weaponType = R.string.type_staff
         armorType = R.string.type_armor_light

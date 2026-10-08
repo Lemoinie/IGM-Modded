@@ -18,6 +18,10 @@ scripts/
 ├── pair_and_connect.bat     Two-step wireless ADB pair then connect (reads wireless_debug.txt)
 ├── pull_save.bat            Pull save from connected device to save.json & backup
 ├── wireless_debug.txt       Connection info (pair IP:port, connect IP:port, pairing code)
+├── igmplus_wiki/
+│   ├── extract_game_data.py   Wiki: parse Kotlin sources & strings.xml → igmplus_wiki/data/*.json
+│   ├── export_sprites.py      Wiki: copy referenced drawables → igmplus_wiki/public/images/
+│   └── generate_pages.py      Wiki: JSON → VitePress markdown pages in igmplus_wiki/
 ├── build/
 │   └── build.ps1            Build, test & deploy pipeline for the Android app
 ├── save/
@@ -185,6 +189,51 @@ backups/       Timestamped snapshots of save.json (gitignored)
 - **Dependencies**: a modern web browser. No server, no build step, no packages.
 - **Typical usage**: double-click `save_editor/index.html` → drag `save.json` →
   edit → Export.
+
+## scripts/igmplus_wiki/ (mod wiki pipeline)
+
+Three stdlib-only Python scripts that power the auto-generated VitePress wiki in
+[`igmplus_wiki/`](../igmplus_wiki/README.md). They only **read** game sources and
+**write** inside `igmplus_wiki/` (`data/`, `public/images/`, markdown pages) —
+safe to run at any time. Requires Python 3.10+.
+
+- **`extract_game_data.py`** — parses the Kotlin data layer
+  (`storage/data/**`, `ui/dialogs/changelog/*`) plus `res/values/strings.xml`
+  into JSON:
+  - `--repo <root>` (default: repository root inferred from the script path),
+    `--out <dir>` (default: `<repo>/igmplus_wiki/data`).
+  - Outputs: `strings.json`, `skills.json`, `traits.json`, `status_effects.json`,
+    `doctrines.json`, `doctrine_abilities.json`, `units_adventurers.json`
+    (promotion graph + BFS-computed tiers), `units_enemies.json` (stats + weighted
+    drop tables), `items.json`, `recipes.json`, `places.json` (encounter
+    probabilities from `rollEnemies()`), `changelog.json`, `sprites.json`, `meta.json`.
+- **`export_sprites.py`** — copies every drawable referenced in
+  `data/sprites.json` from `app/src/main/res/drawable*` into
+  `igmplus_wiki/public/images/` (XML vectors and `drawable-watch` are skipped)
+  and writes `data/sprites_manifest.json`.
+  - `--repo`, `--data <dir>`, `--out <dir>` (defaults match the extractor).
+- **`generate_pages.py`** — renders markdown pages from the JSON:
+  - `--repo`, `--wiki <dir>` (default: `<repo>/igmplus_wiki`).
+  - Fully regenerates: stats comparison, doctrines, traits, weapons, armors,
+    accessories, recipes, bestiary, changelog.
+  - Refreshes only the block between `<!-- BEGIN GENERATED DATA -->` and
+    `<!-- END GENERATED DATA -->` markers in hand-written pages
+    (`dungeons/dungeons.md`, `dungeons/raids.md`, `mechanics/status-effects.md`),
+    preserving prose. Exits with an error if markers are missing.
+
+Typical update flow (also exposed as npm scripts in `igmplus_wiki/`):
+
+```bash
+python scripts/igmplus_wiki/extract_game_data.py
+python scripts/igmplus_wiki/export_sprites.py
+python scripts/igmplus_wiki/generate_pages.py
+```
+
+Deployment is handled by `igmplus_wiki/.github/workflows/deploy-wiki.yml`
+(checks out this repository's sources next to the standalone wiki repository,
+re-runs the three scripts, then `vitepress build` + GitHub Pages deploy).
+
+---
 
 ## Policy Notes
 

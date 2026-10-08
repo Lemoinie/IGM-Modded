@@ -18,8 +18,11 @@ class Necromancer : Adventurer() {
         imageId = R.drawable.unit_necromancer
         idName = R.string.adventurer_necromancer_name
         idDescription = R.string.adventurer_necromancer_description
-        passiveSkill = Skills.PASSIVE_WITHERING_TOUCH
+        passiveSkill = Skills.PASSIVE_WITHERING_TOUCH_II
         activeSkill = Skills.ACTIVE_CURSE_I
+        maxMinions = 1
+        soulTetherPercent = 0.20
+        minionSummonClass = "Zombie"
         weaponType = R.string.type_staff
         armorType = R.string.type_armor_light
         potionDrinkerType = PotionDrinkerType.MAGE

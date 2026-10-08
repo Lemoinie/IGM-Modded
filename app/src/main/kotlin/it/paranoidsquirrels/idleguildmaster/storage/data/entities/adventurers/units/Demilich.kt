@@ -18,8 +18,11 @@ class Demilich : Adventurer() {
         imageId = R.drawable.unit_demilich
         idName = R.string.adventurer_demilich_name
         idDescription = R.string.adventurer_demilich_description
-        passiveSkill = Skills.PASSIVE_WITHERING_TOUCH
+        passiveSkill = Skills.PASSIVE_WITHERING_TOUCH_III
         activeSkill = Skills.ACTIVE_CURSE_II
+        maxMinions = 1
+        soulTetherPercent = 0.25
+        minionSummonClass = "Skeleton"
         weaponType = R.string.type_staff
         armorType = R.string.type_armor_light
         potionDrinkerType = PotionDrinkerType.MAGE

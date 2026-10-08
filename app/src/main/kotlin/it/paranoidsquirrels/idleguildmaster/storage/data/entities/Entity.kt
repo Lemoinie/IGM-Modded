@@ -308,6 +308,7 @@ abstract class Entity {
                 StatusEffectType.FRENZY -> mult += 0.30
                 StatusEffectType.ANOINTED, StatusEffectType.INSPIRE, StatusEffectType.EXALT -> mult += 0.25
                 StatusEffectType.SANGUINE_FERVOR -> mult += effect.turnsLeft * 0.05
+                StatusEffectType.SOUL_HARVEST -> mult += effect.turnsLeft * 0.10
                 else -> {}
             }
         }
@@ -325,6 +326,12 @@ abstract class Entity {
             when (effect.type) {
                 StatusEffectType.SINISTER_CURSE -> mult += 0.50
                 StatusEffectType.PETRIFY -> mult += 0.10
+                else -> {}
+            }
+        }
+        for (effect in positiveStatusEffects) {
+            when (effect.type) {
+                StatusEffectType.SOUL_HARVEST -> mult -= effect.turnsLeft * 0.05
                 else -> {}
             }
         }
@@ -480,6 +487,16 @@ abstract class Entity {
         return stacks
     }
 
+    /** Total Soul Harvest stacks currently applied to this entity. */
+    open fun getSoulHarvestStacks(): Int {
+        for (effect in positiveStatusEffects) {
+            if (effect.type == StatusEffectType.SOUL_HARVEST) {
+                return effect.turnsLeft
+            }
+        }
+        return 0
+    }
+
     open fun calculateFlatDamageReduction(): Int {
         var i = 0
         for (effect in positiveStatusEffects) {
@@ -524,12 +541,12 @@ abstract class Entity {
                 break
             }
         }
-        if (type == StatusEffectType.SANGUINE_FERVOR) {
-            // Sanguine Fervor consolidates like BLEED: a single permanent instance stores
+        if (type == StatusEffectType.SANGUINE_FERVOR || type == StatusEffectType.SOUL_HARVEST) {
+            // Sanguine Fervor / Soul Harvest consolidate like BLEED: a single permanent instance stores
             // the stack count in turnsLeft (only 1 status icon in the combat UI).
-            // resolveStatus() exempts it from duration decrement / expiration removal so it
-            // stays active until the unit dies; damage bonus = stack count * 5%. Returning
-            // 999 makes the battle log use the clean permanent-status format.
+            // resolveStatus() exempts them from duration decrement / expiration removal so they
+            // stay active until the unit dies. Returning 999 makes the battle log use the clean
+            // permanent-status format.
             if (next != null) {
                 val turnsLeft = next.turnsLeft + statusEffect2.turnsLeft
                 next.turnsLeft = turnsLeft

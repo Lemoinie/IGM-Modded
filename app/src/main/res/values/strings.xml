@@ -412,23 +412,25 @@ SILENCE: the unit can't gain any mana"</string>
     <string name="active_condemn_name">Condemn</string>
     <string name="active_crushing_strike_description">Strikes an enemy for 250% damage</string>
     <string name="active_crushing_strike_name">Crushing Strike</string>
-    <string name="active_curse_i_description" formatted="false">"Bursts an enemy for 300% damage and inflicts LESSER CURSE on them. LESSER CURSE: When the unit dies, a Zombie spawns and fights for the summoner's team. It suffers a 25% max HP decay per turn. Only one summoned minion can exist at a given time."</string>
+    <string name="active_curse_i_description" formatted="false">"Bursts an enemy for 300% damage and inflicts LESSER CURSE on them. If there's no summon on the field, summon one.
+
+LESSER CURSE: When the unit dies, a Zombie spawns and fights for the summoner's team. It suffers a 20% max HP decay per turn."</string>
     <string name="active_curse_i_name">Curse</string>
-    <string name="active_curse_ii_description" formatted="false">"Bursts an enemy for 325% damage and inflicts CURSE on them.
+    <string name="active_curse_ii_description" formatted="false">"Bursts an enemy for 325% damage and inflicts CURSE on them. If there's no summon on the field, summon one.
 
-CURSE: When the unit dies, a Skeleton spawns and fights for the summoner's team. It suffers a 25% max HP decay per turn and is twice as likely to be chosen as target. Only one summoned minion can exist at a given time."</string>
+CURSE: When the unit dies, a Skeleton spawns and fights for the summoner's team. It suffers an 18% max HP decay per turn and is twice as likely to be chosen as target."</string>
     <string name="active_curse_ii_name">Curse II</string>
-    <string name="active_curse_iii_description" formatted="false">"Bursts an enemy for 350% damage and inflicts GREATER CURSE on them.
+    <string name="active_curse_iii_description" formatted="false">"Bursts an enemy for 350% damage and inflicts GREATER CURSE on them. If there's no summon on the field, summon one.
 
-GREATER CURSE: When the unit dies, a Bone Horror spawns and fights for the summoner's team. It suffers a 25% max HP decay per turn and is three times as likely to be chosen as target. Only one summoned minion can exist at a given time."</string>
+GREATER CURSE: When the unit dies, a Bone Horror spawns and fights for the summoner's team. It suffers a 16% max HP decay per turn and is three times as likely to be chosen as target."</string>
     <string name="active_curse_iii_name">Curse III</string>
-    <string name="active_curse_iv_description" formatted="false">"Bursts an enemy for 375% damage and inflicts OMINOUS CURSE on them.
+    <string name="active_curse_iv_description" formatted="false">"Bursts an enemy for 375% damage and inflicts OMINOUS CURSE on them. If there's no summon on the field, summon one.
 
-OMINOUS CURSE: When the unit dies, a Bone Nightmare spawns and fights for the summoner's team. It suffers a 25% max HP decay per turn, is three times as likely to be chosen as target and has a 35% counterattack chance. Only one summoned minion can exist at a given time."</string>
+OMINOUS CURSE: When the unit dies, a Bone Nightmare spawns and fights for the summoner's team. It suffers a 14% max HP decay per turn, is three times as likely to be chosen as target and has a 35% counterattack chance."</string>
     <string name="active_curse_iv_name">Curse IV</string>
-    <string name="active_curse_v_description" formatted="false">"Bursts an enemy for 400% damage and inflicts ABHORRENT CURSE on them.
+    <string name="active_curse_v_description" formatted="false">"Bursts an enemy for 400% damage and inflicts ABHORRENT CURSE on them. If there's no summon on the field, summon one.
 
-ABHORRENT CURSE: When the unit dies, a Bone Hydra spawns and fights for the summoner's team. It suffers a 25% max HP decay per turn, is three times as likely to be chosen as target, has a 35% counterattack chance and deals 50 physical retaliation damages to melee attackers. Only one summoned minion can exist at a given time."</string>
+ABHORRENT CURSE: When the unit dies, a Bone Hydra spawns and fights for the summoner's team. It suffers a 10% max HP decay per turn, is three times as likely to be chosen as target, has a 35% counterattack chance and deals 50 physical retaliation damages to melee attackers."</string>
     <string name="active_curse_v_name">Curse V</string>
     <string name="active_daze_description">"Deals 10% magic damage to all enemies and STUNS them for 2 turns.
 STUN: the unit skips its turn"</string>
@@ -3655,10 +3657,36 @@ POISON: damage reduced by 20%"</string>
     <string name="passive_void_pull_name">Void Pull</string>
     <string name="passive_wicked_appetite_description">Damage increased by [Darkness]%. Attacks target the lowest health enemy.</string>
     <string name="passive_wicked_appetite_name">Wicked Appetite</string>
-    <string name="passive_withering_link_description">Dealing damage heals the unit and his summoned minion for half the amount</string>
+    <string name="passive_withering_link_description" formatted="false">Dealing damage heals the unit and summoned minions for half the amount. Redirects 30% of all damage taken directly to living minions.</string>
     <string name="passive_withering_link_name">Withering Link</string>
     <string name="passive_withering_touch_description">Dealing damage heals the unit for half the amount</string>
     <string name="passive_withering_touch_name">Withering Touch</string>
+    <string name="passive_withering_touch_i_name">Withering Touch I</string>
+    <string name="passive_withering_touch_i_description">Dealing damage heals the unit for half the amount.</string>
+    <string name="passive_withering_touch_ii_name">Withering Touch II</string>
+    <string name="passive_withering_touch_ii_description" formatted="false">"Dealing damage heals the unit for half the amount. Redirects 20% of all damage taken directly to living minions. When killing a cursed enemy, summon get 1 stack of SOUL HARVEST, max 1 stack.
+
+SOUL HARVEST: +15% Max HP, +10% Damage Dealt, and -5% Damage Taken per stack."</string>
+    <string name="passive_withering_touch_iii_name">Withering Touch III</string>
+    <string name="passive_withering_touch_iii_description" formatted="false">"Dealing damage heals the unit for half the amount. Redirects 25% of all damage taken directly to living minions. When killing a cursed enemy, summon get 1 stack of SOUL HARVEST, max 2 stacks.
+
+SOUL HARVEST: +15% Max HP, +10% Damage Dealt, and -5% Damage Taken per stack."</string>
+    <string name="passive_withering_link_i_name">Withering Link I</string>
+    <string name="passive_withering_link_i_description" formatted="false">"Dealing damage heals the unit and summoned minions for half the amount. Redirects 30% of all damage taken directly to living minions. When killing a cursed enemy, summon get 1 stack of SOUL HARVEST, max 4 stacks.
+
+SOUL HARVEST: +15% Max HP, +10% Damage Dealt, and -5% Damage Taken per stack."</string>
+    <string name="passive_withering_link_ii_name">Withering Link II</string>
+    <string name="passive_withering_link_ii_description" formatted="false">"Dealing damage heals the unit and summoned minions for half the amount. Redirects 35% of all damage taken directly to living minions. When killing a cursed enemy, summon get 1 stack of SOUL HARVEST, max 6 stacks.
+
+SOUL HARVEST: +15% Max HP, +10% Damage Dealt, and -5% Damage Taken per stack."</string>
+    <string name="passive_withering_link_iii_name">Withering Link III</string>
+    <string name="passive_withering_link_iii_description" formatted="false">"Dealing damage heals the unit and summoned minions for half the amount. Redirects 40% of all damage taken directly to living minions. When killing a cursed enemy, summon get 1 stack of SOUL HARVEST, max 8 stacks.
+
+SOUL HARVEST: +15% Max HP, +10% Damage Dealt, and -5% Damage Taken per stack."</string>
+    <string name="passive_withering_link_iv_name">Withering Link IV</string>
+    <string name="passive_withering_link_iv_description" formatted="false">"Dealing damage heals the unit and summoned minions for half the amount. Redirects 45% of all damage taken directly to living minions. When killing a cursed enemy, summon get 1 stack of SOUL HARVEST, max 10 stacks.
+
+SOUL HARVEST: +15% Max HP, +10% Damage Dealt, and -5% Damage Taken per stack."</string>
     <string name="password_toggle_content_description">Show password</string>
     <string name="path_password_eye">M12,4.5C7,4.5 2.73,7.61 1,12c1.73,4.39 6,7.5 11,7.5s9.27,-3.11 11,-7.5c-1.73,-4.39 -6,-7.5 -11,-7.5zM12,17c-2.76,0 -5,-2.24 -5,-5s2.24,-5 5,-5 5,2.24 5,5 -2.24,5 -5,5zM12,9c-1.66,0 -3,1.34 -3,3s1.34,3 3,3 3,-1.34 3,-3 -1.34,-3 -3,-3z</string>
     <string name="path_password_eye_mask_strike_through">M2,4.27 L19.73,22 L22.27,19.46 L4.54,1.73 L4.54,1 L23,1 L23,23 L1,23 L1,4.27 Z</string>
@@ -3928,6 +3956,11 @@ POISON: damage reduced by 20%"</string>
     <string name="passive_blood_convocation_description" formatted="false">Whenever the Archmagus takes damage, there is a 36% chance to summon a minion (60% Bloodstone Colossus, 40% Crimson Acolyte) while the formation has room.</string>
     <string name="passive_martyrs_pact_name">Martyr\'s Pact</string>
     <string name="passive_martyrs_pact_description" formatted="false">When the Crimson Acolyte dies, every surviving enemy gains +1 stack of SANGUINE FERVOR.\n\nSANGUINE FERVOR: +5% dmg dealt per stack, permanently until unit dies.</string>
+    <string name="status_effect_soul_harvest_name">Soul Harvest</string>
+    <string name="status_effect_soul_harvest_description">Empowered by harvested souls: +15% Max HP, +10% Damage Dealt, -5% Damage Taken per stack.</string>
+    <string name="passive_soul_tether_name">Soul Tether</string>
+    <string name="passive_soul_tether_description" formatted="false">Redirects %d%% of damage taken distributed across active minions.</string>
+    <string name="log_minion_damage_redirected" formatted="false">%s redirects %s damage to %s.</string>
     <string name="btn_status_effects">STATUS</string>
     <string name="status_effects_title">Status Effects</string>
     <string name="status_allies">Allies</string>
@@ -4209,6 +4242,8 @@ I apologize for the inconvenience."</string>
     <string name="status_effect_terrify_description">terrified</string>
     <string name="log_accelerated_mastery">Accelerated Mastery refunded %s\'s mana!</string>
     <string name="status_immunity_formatted">Status immunity: %d%%</string>
+    <string name="summoned_bone_abomination_description">A hulking horror stitched from countless skeletons.</string>
+    <string name="summoned_bone_abomination_name">Bone Abomination</string>
     <string name="summoned_bone_horror_description">A reanimated bone horror. It feels no pain, so physical damage is less effective.</string>
     <string name="summoned_bone_horror_name">Bone Horror</string>
     <string name="summoned_bone_hydra_description">A reanimated bone hydra. It feels no pain, so physical damage is less effective.</string>

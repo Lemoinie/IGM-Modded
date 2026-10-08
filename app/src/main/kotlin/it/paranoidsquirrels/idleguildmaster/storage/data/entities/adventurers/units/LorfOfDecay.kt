@@ -19,8 +19,11 @@ class LorfOfDecay : Adventurer() {
         imageId = R.drawable.unit_lord_of_decay
         idName = R.string.adventurer_lord_of_decay_name
         idDescription = R.string.adventurer_lord_of_decay_description
-        passiveSkill = Skills.PASSIVE_WITHERING_LINK
+        passiveSkill = Skills.PASSIVE_WITHERING_LINK_III
         activeSkill = Skills.ACTIVE_CURSE_IV
+        maxMinions = 3
+        soulTetherPercent = 0.40
+        minionSummonClass = "BoneAbomination"
         weaponType = R.string.type_staff
         armorType = R.string.type_armor_light
         potionDrinkerType = PotionDrinkerType.MAGE

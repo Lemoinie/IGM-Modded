@@ -81,7 +81,13 @@ abstract class Enemy : Entity() {
     override fun calculateTotalConstitution(): Int = baseConstitution
     override fun calculateTotalIntelligence(): Int = baseIntelligence
     override fun calculateTotalDexterity(): Int = baseDexterity
-    override fun calculateTotalMaxHp(): Int = baseMaxHp
+    override fun calculateTotalMaxHp(): Int {
+        val stacks = getSoulHarvestStacks()
+        if (stacks > 0) {
+            return (baseMaxHp * (1.0 + (stacks * 0.15))).toInt()
+        }
+        return baseMaxHp
+    }
     override fun calculateTotalDefense(): Int = baseDefense
     override fun calculateTotalMagicDefense(): Int = baseMagicDefense
     override fun calculateTotalLifesteal(): Int = baseLifesteal

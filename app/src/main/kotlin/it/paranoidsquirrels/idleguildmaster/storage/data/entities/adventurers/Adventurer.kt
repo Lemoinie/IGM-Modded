@@ -103,6 +103,22 @@ abstract class Adventurer : Entity() {
 
     @JvmField
     @Transient
+    var maxMinions: Int = 1
+
+    @JvmField
+    @Transient
+    val minionsBound: MutableList<Adventurer> = mutableListOf()
+
+    @JvmField
+    @Transient
+    var soulTetherPercent: Double = 0.0
+
+    @JvmField
+    @Transient
+    var minionSummonClass: String? = null
+
+    @JvmField
+    @Transient
     var potionDrinkerType: PotionDrinkerType? = null
 
     @JvmField
@@ -134,6 +150,10 @@ abstract class Adventurer : Entity() {
     @JvmField
     @Transient
     var summonedMinion: Boolean = false
+
+    @JvmField
+    @Transient
+    var minionDecayRate: Double = 0.25
 
     @JvmField
     @Transient
@@ -289,9 +309,13 @@ abstract class Adventurer : Entity() {
         if (a == null) return true
         return a.printType() == armorType
     }
-    open fun getMinionBound(): Adventurer? = minionBound
+    open fun getMinionBound(): Adventurer? = minionsBound.firstOrNull() ?: minionBound
     open fun setMinionBound(adventurer: Adventurer?) {
         minionBound = adventurer
+        minionsBound.clear()
+        if (adventurer != null) {
+            minionsBound.add(adventurer)
+        }
     }
 
     open fun isHealsMinionBound(): Boolean = healsMinionBound
@@ -437,7 +461,26 @@ abstract class Adventurer : Entity() {
     override fun calculateTotalConstitution(): Int = calculateTotalStat(0)
     override fun calculateTotalIntelligence(): Int = calculateTotalStat(1)
     override fun calculateTotalDexterity(): Int = calculateTotalStat(2)
-    override fun calculateTotalMaxHp(): Int = calculateTotalStat(3)
+    override fun calculateTotalMaxHp(): Int {
+        val base = calculateTotalStat(3)
+        val stacks = getSoulHarvestStacks()
+        if (stacks > 0) {
+            return (base * (1.0 + (stacks * 0.15))).toInt()
+        }
+        return base
+    }
+
+    open fun getMaxSoulHarvestStacks(): Int {
+        return when (getTrueClass()) {
+            "Necromancer" -> 1
+            "Demilich" -> 2
+            "Lich" -> 4
+            "AncientLich" -> 6
+            "LorfOfDecay" -> 8
+            "BlackIdol" -> 10
+            else -> 10
+        }
+    }
     override fun calculateTotalDefense(): Int = calculateTotalStat(4)
     override fun calculateTotalMagicDefense(): Int = calculateTotalStat(5)
 
@@ -652,7 +695,7 @@ abstract class Adventurer : Entity() {
         val acc = accessory
         if (acc != null) d += acc.getDecay().toDouble()
         if (summonedMinion) {
-            d = Math.max(1.0, d + (totalMaxHp.toDouble() * 0.25))
+            d = Math.max(1.0, d + (totalMaxHp.toDouble() * minionDecayRate))
         }
         if (traitRare == Trait.CURSED) {
             d = Math.max(1.0, d + (totalMaxHp.toDouble() * 0.02))
